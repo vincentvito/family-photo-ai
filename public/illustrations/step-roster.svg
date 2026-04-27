@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Coral tinted circle backdrop -->
+  <circle cx="60" cy="60" r="54" fill="#FFE3D6"/>
+  <!-- Three family silhouettes -->
+  <circle cx="40" cy="50" r="10" fill="#F26B4A"/>
+  <rect x="28" y="62" width="24" height="28" rx="10" fill="#F26B4A"/>
+
+  <circle cx="60" cy="44" r="12" fill="#D4502F"/>
+  <rect x="46" y="58" width="28" height="34" rx="12" fill="#D4502F"/>
+
+  <circle cx="82" cy="52" r="9" fill="#231C2B"/>
+  <rect x="72" y="63" width="20" height="26" rx="9" fill="#231C2B"/>
+  <!-- Plus accent -->
+  <circle cx="96" cy="28" r="12" fill="#FFD27A"/>
+  <path d="M96 22v12M90 28h12" stroke="#231C2B" stroke-width="2" stroke-linecap="round"/>
+</svg>

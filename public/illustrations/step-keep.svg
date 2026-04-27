@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Butter tinted circle backdrop -->
+  <circle cx="60" cy="60" r="54" fill="#FFF0C9"/>
+  <!-- Framed photo -->
+  <rect x="28" y="28" width="64" height="74" rx="4" fill="#FFFFFF" stroke="#EDE6DB"/>
+  <rect x="34" y="34" width="52" height="52" fill="#F26B4A"/>
+  <circle cx="60" cy="58" r="12" fill="#FFE3D6"/>
+  <path d="M38 80 l10 -12 l8 8 l14 -18 l16 16 v12 h-48 z" fill="#D4502F"/>
+  <!-- Heart badge -->
+  <g transform="translate(86 80)">
+    <circle r="14" fill="#F26B4A"/>
+    <path d="M-6 -2 c0 -3 3 -5 6 -2 c3 -3 6 -1 6 2 c0 3 -6 7 -6 7 s-6 -4 -6 -7 z" fill="#FFFFFF"/>
+  </g>
+  <!-- Small sparkles -->
+  <path d="M22 94 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2 z" fill="#FFD27A"/>
+  <path d="M100 24 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2 z" fill="#8AAE9B"/>
+</svg>

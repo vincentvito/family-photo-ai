@@ -1,0 +1,12 @@
+node_modules
+.next
+.env
+.env.local
+storage/
+storage.sqlite
+storage.sqlite-*
+*.log
+.DS_Store
+next-env.d.ts
+.turbo
+.claude/settings.local.json

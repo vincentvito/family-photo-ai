@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Soft coral background dot -->
+  <circle cx="20" cy="20" r="18" fill="#F26B4A"/>
+  <!-- Tiny flash -->
+  <rect x="26" y="10" width="5" height="3" rx="1" fill="#FFE3D6"/>
+  <!-- Camera body outline -->
+  <rect x="9" y="14" width="22" height="16" rx="3" fill="#FFFFFF"/>
+  <rect x="9" y="14" width="22" height="4.5" rx="2" fill="#FFE3D6"/>
+  <!-- Lens -->
+  <circle cx="20" cy="23" r="5" fill="#231C2B"/>
+  <circle cx="20" cy="23" r="3" fill="#F26B4A"/>
+  <!-- Twinkle -->
+  <circle cx="18" cy="21" r="1" fill="#FFD27A"/>
+</svg>

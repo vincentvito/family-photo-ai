@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Sage tinted circle backdrop -->
+  <circle cx="60" cy="60" r="54" fill="#D6E4DB"/>
+  <!-- Color swatches / palette -->
+  <rect x="26" y="30" width="22" height="60" rx="6" fill="#F26B4A"/>
+  <rect x="52" y="38" width="22" height="52" rx="6" fill="#FFD27A"/>
+  <rect x="78" y="26" width="22" height="64" rx="6" fill="#4A3557"/>
+  <!-- Paint brush -->
+  <g transform="rotate(18 60 96)">
+    <rect x="38" y="92" width="46" height="8" rx="3" fill="#231C2B"/>
+    <rect x="80" y="90" width="14" height="12" rx="2" fill="#F26B4A"/>
+    <rect x="92" y="92" width="10" height="8" rx="1" fill="#FFE3D6"/>
+  </g>
+  <!-- Sparkle -->
+  <path d="M30 20 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2 z" fill="#FFD27A"/>
+</svg>

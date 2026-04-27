@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 200" fill="none">
+  <!-- Polaroid frame -->
+  <rect x="18" y="16" width="124" height="168" rx="4" fill="#FFFFFF" stroke="#EDE6DB"/>
+  <!-- Photo window with developing gradient -->
+  <defs>
+    <linearGradient id="developingGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFE3D6"/>
+      <stop offset="50%" stop-color="#D6E4DB"/>
+      <stop offset="100%" stop-color="#FFF0C9"/>
+    </linearGradient>
+  </defs>
+  <rect x="28" y="26" width="104" height="118" fill="url(#developingGrad)"/>
+  <!-- Faint emerging silhouette -->
+  <g opacity="0.35">
+    <circle cx="80" cy="74" r="14" fill="#F26B4A"/>
+    <rect x="58" y="90" width="44" height="46" rx="10" fill="#F26B4A"/>
+  </g>
+  <!-- Tape at top -->
+  <rect x="56" y="6" width="48" height="14" rx="1" fill="#FFE3D6" stroke="#F26B4A" stroke-opacity="0.2" transform="rotate(-4 80 13)"/>
+  <!-- Sparkle accents -->
+  <path d="M138 30 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2 z" fill="#FFD27A"/>
+  <path d="M16 166 l2 -4 l2 4 l4 2 l-4 2 l-2 4 l-2 -4 l-4 -2 z" fill="#8AAE9B"/>
+</svg>
