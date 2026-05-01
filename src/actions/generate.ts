@@ -5,10 +5,7 @@ import { db, schema } from "@/lib/db";
 import { eq, asc } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
-import {
-  ensureStorageReady,
-  saveGeneratedImage,
-} from "@/lib/storage";
+import { ensureStorageReady, saveGeneratedImage } from "@/lib/storage";
 import { buildCustomTheme, getTheme, resolveTheme } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import { pickGenerationProvider } from "@/lib/providers/router";
@@ -32,14 +29,9 @@ const StartGenerationInput = z
     /** Canned-theme shape override. Ignored when customVibe is set. */
     aspectOverride: AspectSchema.nullable().optional(),
   })
-  .refine(
-    (v) => !!v.themeId || !!v.customVibe,
-    "Pick a vibe or describe your own.",
-  );
+  .refine((v) => !!v.themeId || !!v.customVibe, "Pick a vibe or describe your own.");
 
-export async function startGeneration(
-  input: z.infer<typeof StartGenerationInput>,
-) {
+export async function startGeneration(input: z.infer<typeof StartGenerationInput>) {
   const parsed = StartGenerationInput.parse(input);
 
   let theme: Theme = parsed.customVibe
@@ -56,9 +48,7 @@ export async function startGeneration(
 
   const roster = await loadRosterAsSubjects();
   if (roster.length === 0) {
-    throw new Error(
-      "Your roster is empty. Add at least one person with a reference photo.",
-    );
+    throw new Error("Your roster is empty. Add at least one person with a reference photo.");
   }
   if (roster.every((r) => r.referencePaths.length === 0)) {
     throw new Error("No reference photos uploaded yet.");
@@ -67,12 +57,7 @@ export async function startGeneration(
   await ensureStorageReady();
 
   const provider = pickGenerationProvider();
-  const prompt = buildGenerationPrompt(
-    theme,
-    roster,
-    parsed.wardrobeNote,
-    parsed.cardText ?? null,
-  );
+  const prompt = buildGenerationPrompt(theme, roster, parsed.wardrobeNote, parsed.cardText ?? null);
 
   const [generation] = await db
     .insert(schema.generations)
@@ -180,10 +165,7 @@ export async function getGenerationState(generationId: string) {
 }
 
 async function loadRosterAsSubjects(): Promise<Subject[]> {
-  const people = await db
-    .select()
-    .from(schema.people)
-    .orderBy(asc(schema.people.createdAt));
+  const people = await db.select().from(schema.people).orderBy(asc(schema.people.createdAt));
 
   return Promise.all(
     people.map(async (person) => {
@@ -196,9 +178,7 @@ async function loadRosterAsSubjects(): Promise<Subject[]> {
         name: person.name,
         role: person.role,
         notes: person.notes,
-        referencePaths: photos.map((p) =>
-          path.posix.join("uploads", person.id, p.fileName),
-        ),
+        referencePaths: photos.map((p) => path.posix.join("uploads", person.id, p.fileName)),
       };
     }),
   );

@@ -55,7 +55,8 @@ export default function BeforeAfter() {
               </h2>
             </div>
             <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              Drag the handle to see the difference. Every shoot starts with the messy stuff already on your camera roll.
+              Drag the handle to see the difference. Every shoot starts with the messy stuff already
+              on your camera roll.
             </p>
           </div>
         </Reveal>
@@ -94,7 +95,15 @@ export default function BeforeAfter() {
               aria-hidden
             >
               <div className="absolute -left-6 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[color:var(--color-coral)] text-white shadow-[var(--shadow-lg)] ring-4 ring-[color:rgba(255,255,255,0.72)]">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4"
+                >
                   <path d="M9 6l-4 6 4 6M15 6l4 6-4 6" />
                 </svg>
               </div>

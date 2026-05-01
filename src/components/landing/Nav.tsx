@@ -28,15 +28,17 @@ export default function Nav() {
             : "bg-transparent border border-transparent"
         }`}
       >
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 text-[color:var(--color-ink)]"
-        >
+        <Link href="/" className="flex items-center gap-2.5 text-[color:var(--color-ink)]">
           <span className="relative inline-flex h-8 w-8 items-center justify-center">
-            <span className="absolute inset-0 rounded-full bg-[color:var(--color-coral)]" aria-hidden />
+            <span
+              className="absolute inset-0 rounded-full bg-[color:var(--color-coral)]"
+              aria-hidden
+            />
             <span className="relative text-[10px] font-bold tracking-[0.18em] text-white">FP</span>
           </span>
-          <span className="serif hidden text-lg tracking-tight sm:inline">Family&nbsp;Photoshoot</span>
+          <span className="serif hidden text-lg tracking-tight sm:inline">
+            Family&nbsp;Photoshoot
+          </span>
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
@@ -60,7 +62,7 @@ export default function Nav() {
           </a>
         </div>
 
-        <Link href="/studio/roster" className="btn btn-coral btn-sm hidden md:inline-flex">
+        <Link href="/sign-in" className="btn btn-coral btn-sm hidden md:inline-flex">
           Start a shoot
         </Link>
 
@@ -82,11 +84,7 @@ export default function Nav() {
             strokeLinejoin="round"
             aria-hidden
           >
-            {open ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
+            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
           </svg>
         </button>
 
@@ -102,7 +100,7 @@ export default function Nav() {
               Pricing
             </MobileNavLink>
             <Link
-              href="/studio/roster"
+              href="/sign-in"
               onClick={() => setOpen(false)}
               className="btn btn-coral mt-2 w-full"
             >

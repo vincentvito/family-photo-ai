@@ -70,7 +70,15 @@ function AlbumTile({ item }: { item: Item }) {
             onClick={() => setOpen(true)}
             className="spring-press flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3.5 w-3.5"
+            >
               <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 10l5 5 5-5M12 15V3" />
             </svg>
             Export
@@ -109,7 +117,12 @@ function AlbumTile({ item }: { item: Item }) {
                   className="spring-press inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] hover:bg-[color:var(--color-line)] hover:text-[color:var(--color-ink)]"
                 >
                   <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-                    <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                    <path
+                      d="M2 2L12 12M12 2L2 12"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </button>
               </div>
@@ -185,7 +198,15 @@ function ExportRow({
         </div>
         <span className="flex items-center gap-1 text-xs font-semibold text-[color:var(--color-coral-deep)]">
           Download
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-3.5 w-3.5"
+          >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
         </span>

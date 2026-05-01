@@ -44,28 +44,17 @@ export async function refineImage(input: z.infer<typeof RefineInput>) {
       image: schema.images,
     })
     .from(schema.refinementHistory)
-    .innerJoin(
-      schema.images,
-      eq(schema.refinementHistory.resultImageId, schema.images.id),
-    )
+    .innerJoin(schema.images, eq(schema.refinementHistory.resultImageId, schema.images.id))
     .where(eq(schema.refinementHistory.rootImageId, rootImageId))
     .orderBy(asc(schema.refinementHistory.stepIndex));
 
   const history = historyRows.map((h) => ({
     instruction: h.instruction,
     imageId: h.resultImageId,
-    imageRelativePath: path.posix.join(
-      "generations",
-      h.image.generationId,
-      h.image.fileName,
-    ),
+    imageRelativePath: path.posix.join("generations", h.image.generationId, h.image.fileName),
   }));
 
-  const baseRelative = path.posix.join(
-    "generations",
-    baseImage.generationId,
-    baseImage.fileName,
-  );
+  const baseRelative = path.posix.join("generations", baseImage.generationId, baseImage.fileName);
 
   const provider = pickRefineProvider();
   const result = await provider.refineImage({
@@ -138,11 +127,7 @@ export async function getRefineState(imageId: string) {
   const images = await db
     .select()
     .from(schema.images)
-    .where(
-      and(
-        eq(schema.images.generationId, image.generationId),
-      ),
-    );
+    .where(and(eq(schema.images.generationId, image.generationId)));
 
   const timeline: { imageId: string; instruction: string | null }[] = [];
   const rootCandidate =

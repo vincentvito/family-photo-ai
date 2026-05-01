@@ -8,10 +8,7 @@ const nanoBanana = new NanoBananaProvider();
 const replicate = new ReplicateProvider();
 
 function mockMode() {
-  return (
-    process.env.NEXT_PUBLIC_MOCK_MODE === "1" ||
-    process.env.MOCK_MODE === "1"
-  );
+  return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
 }
 
 export function availableProviders() {

@@ -34,10 +34,7 @@ export async function GET() {
   archive.pipe(pass);
 
   for (const { image } of rows) {
-    const src = path.join(
-      storagePath("generations", image.generationId),
-      image.fileName,
-    );
+    const src = path.join(storagePath("generations", image.generationId), image.fileName);
     if (fs.existsSync(src)) {
       archive.file(src, { name: image.fileName });
     }

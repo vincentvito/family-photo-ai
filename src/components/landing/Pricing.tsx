@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import { motion } from "framer-motion";
 
@@ -46,7 +47,13 @@ function Check({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden>
       <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.14" />
-      <path d="M6 10.5 L9 13 L14 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6 10.5 L9 13 L14 7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -62,7 +69,8 @@ export default function Pricing() {
               Keepsakes, not subscriptions
             </span>
             <h2 className="serif mx-auto mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-              Pick what <em className="serif-italic text-[color:var(--color-coral)]">fits</em> your family.
+              Pick what <em className="serif-italic text-[color:var(--color-coral)]">fits</em> your
+              family.
             </h2>
           </div>
         </Reveal>
@@ -86,18 +94,24 @@ export default function Pricing() {
                     Most loved
                   </span>
                 )}
-                <p className={`small-caps ${t.highlight ? "text-[color:rgba(251,248,243,0.65)]" : "text-[color:var(--color-ink-muted)]"}`}>
+                <p
+                  className={`small-caps ${t.highlight ? "text-[color:rgba(251,248,243,0.65)]" : "text-[color:var(--color-ink-muted)]"}`}
+                >
                   {t.name}
                 </p>
                 <div className="mt-5 flex items-baseline gap-2">
                   <span className="serif text-6xl tracking-[-0.035em]">{t.price}</span>
                   {t.priceSuffix && (
-                    <span className={`text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.65)]" : "text-[color:var(--color-ink-muted)]"}`}>
+                    <span
+                      className={`text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.65)]" : "text-[color:var(--color-ink-muted)]"}`}
+                    >
                       {t.priceSuffix}
                     </span>
                   )}
                 </div>
-                <p className={`mt-2 text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.75)]" : "text-[color:var(--color-ink-muted)]"}`}>
+                <p
+                  className={`mt-2 text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.75)]" : "text-[color:var(--color-ink-muted)]"}`}
+                >
                   {t.sub}
                 </p>
 
@@ -106,7 +120,9 @@ export default function Pricing() {
                     <li key={f} className="flex items-start gap-3">
                       <Check
                         className={`mt-0.5 h-5 w-5 shrink-0 ${
-                          t.highlight ? "text-[color:var(--color-coral)]" : "text-[color:var(--color-coral)]"
+                          t.highlight
+                            ? "text-[color:var(--color-coral)]"
+                            : "text-[color:var(--color-coral)]"
                         }`}
                       />
                       <span>{f}</span>
@@ -115,15 +131,12 @@ export default function Pricing() {
                 </ul>
 
                 <div className="mt-10">
-                  <button
-                    className={`btn w-full ${
-                      t.highlight ? "btn-coral" : "btn-ghost"
-                    } opacity-60`}
-                    disabled
-                    title="Coming soon"
+                  <Link
+                    href="/sign-in"
+                    className={`btn w-full ${t.highlight ? "btn-coral" : "btn-ghost"}`}
                   >
-                    Coming soon
-                  </button>
+                    Start here
+                  </Link>
                 </div>
               </motion.div>
             </Reveal>

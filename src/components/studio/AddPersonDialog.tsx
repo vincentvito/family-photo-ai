@@ -34,7 +34,15 @@ export default function AddPersonDialog() {
   return (
     <>
       <button onClick={() => setOpen(true)} className="btn btn-coral">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-4 w-4"
+        >
           <path d="M12 5v14M5 12h14" />
         </svg>
         Add a person
@@ -74,7 +82,12 @@ export default function AddPersonDialog() {
                   className="spring-press inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] hover:bg-[color:var(--color-line)] hover:text-[color:var(--color-ink)]"
                 >
                   <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-                    <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                    <path
+                      d="M2 2L12 12M12 2L2 12"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </button>
               </div>
@@ -94,7 +107,9 @@ export default function AddPersonDialog() {
                 </div>
 
                 <div>
-                  <label className="small-caps text-[color:var(--color-ink-muted)]">Who are they?</label>
+                  <label className="small-caps text-[color:var(--color-ink-muted)]">
+                    Who are they?
+                  </label>
                   <div className="mt-3 grid grid-cols-3 gap-2">
                     {(["adult", "child", "pet"] as const).map((r) => (
                       <button
@@ -115,7 +130,10 @@ export default function AddPersonDialog() {
 
                 <div>
                   <label className="small-caps text-[color:var(--color-ink-muted)]">
-                    Optional note <span className="opacity-60 normal-case tracking-normal text-[0.7rem]">(age, hair, breed…)</span>
+                    Optional note{" "}
+                    <span className="opacity-60 normal-case tracking-normal text-[0.7rem]">
+                      (age, hair, breed…)
+                    </span>
                   </label>
                   <input
                     value={notes}
@@ -125,9 +143,7 @@ export default function AddPersonDialog() {
                   />
                 </div>
 
-                {error && (
-                  <p className="text-sm text-[color:var(--color-coral-deep)]">{error}</p>
-                )}
+                {error && <p className="text-sm text-[color:var(--color-coral-deep)]">{error}</p>}
               </div>
 
               <div className="mt-8 flex items-center justify-end gap-3">

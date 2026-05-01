@@ -5,12 +5,7 @@ import type {
   RefineArgs,
   RefineResult,
 } from "./types";
-import {
-  getReplicateClient,
-  toDataUrl,
-  resolveUrl,
-  urlToImage,
-} from "./replicate-common";
+import { getReplicateClient, toDataUrl, resolveUrl, urlToImage } from "./replicate-common";
 
 const MODEL_ID = "google/nano-banana-pro" as const;
 type ModelSlug = `${string}/${string}`;
@@ -64,8 +59,9 @@ export class NanoBananaProvider implements ImageProvider {
       return urlToImage(await resolveUrl(output));
     });
 
-    const images = (await Promise.all(calls.map((p) => p.catch(() => null))))
-      .filter(Boolean) as GenerateResult["images"];
+    const images = (await Promise.all(calls.map((p) => p.catch(() => null)))).filter(
+      Boolean,
+    ) as GenerateResult["images"];
     if (images.length === 0) {
       throw new Error("Nano Banana Pro returned no images");
     }
@@ -125,9 +121,7 @@ function buildGeneratePromptText(args: GenerateArgs, variant: number): string {
 function buildRefinePromptText(args: RefineArgs): string {
   const historyLines =
     args.history.length > 0
-      ? args.history
-          .map((h, i) => `  ${i + 1}. ${h.instruction}`)
-          .join("\n")
+      ? args.history.map((h, i) => `  ${i + 1}. ${h.instruction}`).join("\n")
       : "  (none)";
 
   return [

@@ -30,9 +30,7 @@ export function buildGenerationPrompt(
   ];
 
   if (wardrobeNote && wardrobeNote.trim()) {
-    sentences.push(
-      `Wardrobe and mood note from the family: ${wardrobeNote.trim()}.`,
-    );
+    sentences.push(`Wardrobe and mood note from the family: ${wardrobeNote.trim()}.`);
   }
 
   if (cardText && cardText.trim()) {
@@ -83,7 +81,7 @@ export function describeFamily(subjects: Subject[]): string {
 function countPhrase(n: number, singular: string, plural?: string): string {
   const words = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
   const word = n <= 8 ? words[n - 1] : String(n);
-  const form = n === 1 ? singular : plural ?? `${singular}s`;
+  const form = n === 1 ? singular : (plural ?? `${singular}s`);
   return `${word} ${form}`;
 }
 

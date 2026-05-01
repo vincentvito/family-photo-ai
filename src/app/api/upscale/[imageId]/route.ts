@@ -9,10 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ imageId: string }> },
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ imageId: string }> }) {
   const { imageId } = await params;
   const target = (req.nextUrl.searchParams.get("target") ?? "8x10") as UpscaleTarget;
 

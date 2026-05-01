@@ -11,10 +11,7 @@ export function safeRevalidatePath(path: string) {
   try {
     nextRevalidatePath(path);
   } catch (err) {
-    if (
-      err instanceof Error &&
-      err.message.includes("static generation store")
-    ) {
+    if (err instanceof Error && err.message.includes("static generation store")) {
       return;
     }
     throw err;

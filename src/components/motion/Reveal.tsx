@@ -11,13 +11,7 @@ type Props = {
   once?: boolean;
 };
 
-export default function Reveal({
-  children,
-  delay = 0,
-  y = 14,
-  className,
-  once = true,
-}: Props) {
+export default function Reveal({ children, delay = 0, y = 14, className, once = true }: Props) {
   const reduce = useReducedMotion();
 
   const variants: Variants = {

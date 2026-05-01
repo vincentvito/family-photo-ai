@@ -83,8 +83,7 @@ export default function Gallery() {
       id="gallery"
       className="relative px-6 py-20 sm:px-8 sm:py-28"
       style={{
-        background:
-          "linear-gradient(180deg, rgba(235,242,236,0.4) 0%, rgba(251,248,243,1) 100%)",
+        background: "linear-gradient(180deg, rgba(235,242,236,0.4) 0%, rgba(251,248,243,1) 100%)",
       }}
     >
       <div className="mx-auto max-w-6xl">
@@ -98,11 +97,14 @@ export default function Gallery() {
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
                 {THEMES.length} curated vibes,
                 <br />
-                from <em className="serif-italic text-[color:var(--color-sage-deep)]">cabin</em> to <em className="serif-italic text-[color:var(--color-coral)]">cinema</em>.
+                from <em className="serif-italic text-[color:var(--color-sage-deep)]">
+                  cabin
+                </em> to <em className="serif-italic text-[color:var(--color-coral)]">cinema</em>.
               </h2>
             </div>
             <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              Every vibe in the studio, previewed here. Click any to try it on your family — or describe your own from scratch.
+              Every vibe in the studio, previewed here. Click any to try it on your family — or
+              describe your own from scratch.
             </p>
           </div>
         </Reveal>
@@ -138,7 +140,16 @@ export default function Gallery() {
           >
             {expanded ? (
               <>
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
                   <path d="M18 15l-6-6-6 6" />
                 </svg>
                 Show fewer
@@ -146,7 +157,16 @@ export default function Gallery() {
             ) : (
               <>
                 Show all {THEMES.length} vibes
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
                   <path d="M6 9l6 6 6-6" />
                 </svg>
               </>

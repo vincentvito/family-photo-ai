@@ -33,9 +33,7 @@ export async function resolveUrl(output: unknown): Promise<string> {
     }
     if (typeof o.url === "string") return o.url;
   }
-  throw new Error(
-    `Unexpected Replicate output shape: ${JSON.stringify(output)?.slice(0, 200)}`,
-  );
+  throw new Error(`Unexpected Replicate output shape: ${JSON.stringify(output)?.slice(0, 200)}`);
 }
 
 export async function urlToImage(url: string): Promise<{

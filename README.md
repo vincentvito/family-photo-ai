@@ -27,13 +27,13 @@ The prototype uses **Replicate** for every model, so a single
 `REPLICATE_API_TOKEN` unlocks the whole app. Grab one at
 https://replicate.com/account/api-tokens.
 
-| Operation | Model |
-|---|---|
-| Photoreal family generation | [`google/nano-banana-pro`](https://replicate.com/google/nano-banana-pro) (Gemini 3 Pro Image Preview) |
-| Stylized themes (Pixar, Manga, Superhero, Ghibli, Simpson, Lego, Watercolor, Renaissance Oil, Saturday-morning Cartoon) | `google/nano-banana-pro` |
-| Holiday / occasion cards with text | `google/nano-banana-pro` |
-| Refinement ("more smiling", jacket swap) | `google/nano-banana-pro` |
-| Print-ready upscaling (8×10, 16×20) | `philz1337x/clarity-upscaler` → falls back to `nightmareai/real-esrgan` |
+| Operation                                                                                                               | Model                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Photoreal family generation                                                                                             | [`google/nano-banana-pro`](https://replicate.com/google/nano-banana-pro) (Gemini 3 Pro Image Preview) |
+| Stylized themes (Pixar, Manga, Superhero, Ghibli, Simpson, Lego, Watercolor, Renaissance Oil, Saturday-morning Cartoon) | `google/nano-banana-pro`                                                                              |
+| Holiday / occasion cards with text                                                                                      | `google/nano-banana-pro`                                                                              |
+| Refinement ("more smiling", jacket swap)                                                                                | `google/nano-banana-pro`                                                                              |
+| Print-ready upscaling (8×10, 16×20)                                                                                     | `philz1337x/clarity-upscaler` → falls back to `nightmareai/real-esrgan`                               |
 
 ## Flow
 

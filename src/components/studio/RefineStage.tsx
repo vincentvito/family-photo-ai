@@ -17,11 +17,7 @@ const suggestions = [
   { label: "Tidy the background", chip: "plum" as const },
 ];
 
-export default function RefineStage({
-  initialState,
-}: {
-  initialState: State;
-}) {
+export default function RefineStage({ initialState }: { initialState: State }) {
   const [state, setState] = useState(initialState);
   const [instruction, setInstruction] = useState("");
   const [pending, start] = useTransition();
@@ -83,12 +79,19 @@ export default function RefineStage({
                       key={i}
                       className="inline-block h-2 w-2 rounded-full bg-[color:var(--color-plum)]"
                       animate={{ y: [0, -6, 0], opacity: [0.4, 1, 0.4] }}
-                      transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+                      transition={{
+                        duration: 0.9,
+                        repeat: Infinity,
+                        delay: i * 0.15,
+                        ease: "easeInOut",
+                      }}
                     />
                   ))}
                 </div>
                 <span className="chip chip-plum">Making the change</span>
-                <p className="serif mt-3 text-2xl tracking-[-0.02em] text-[color:var(--color-ink)]">One moment…</p>
+                <p className="serif mt-3 text-2xl tracking-[-0.02em] text-[color:var(--color-ink)]">
+                  One moment…
+                </p>
               </div>
             </motion.div>
           )}
@@ -143,7 +146,9 @@ export default function RefineStage({
                     <span className={`chip ${isActive ? "chip-plum" : "chip-ghost"}`}>
                       {i === 0 ? "Original" : `Edit ${i}`}
                     </span>
-                    {isActive && <span className="small-caps text-[color:var(--color-plum)]">current</span>}
+                    {isActive && (
+                      <span className="small-caps text-[color:var(--color-plum)]">current</span>
+                    )}
                   </div>
                   <p className="mt-1.5 line-clamp-2 text-sm text-[color:var(--color-ink)]">
                     {step.instruction ?? "The original frame."}
@@ -155,7 +160,9 @@ export default function RefineStage({
         </ol>
 
         <div className="mt-8 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
-          <label className="small-caps text-[color:var(--color-ink-muted)]">Tell your art director</label>
+          <label className="small-caps text-[color:var(--color-ink-muted)]">
+            Tell your art director
+          </label>
           <textarea
             value={instruction}
             onChange={(e) => setInstruction(e.target.value)}
@@ -181,9 +188,7 @@ export default function RefineStage({
             ))}
           </div>
 
-          {error && (
-            <p className="mt-3 text-sm text-[color:var(--color-coral-deep)]">{error}</p>
-          )}
+          {error && <p className="mt-3 text-sm text-[color:var(--color-coral-deep)]">{error}</p>}
 
           <div className="mt-5 flex items-center justify-between gap-3 flex-wrap">
             <span className="small-caps text-[color:var(--color-ink-faint)]">⌘ + Enter</span>

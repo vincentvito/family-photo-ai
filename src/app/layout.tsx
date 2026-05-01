@@ -21,11 +21,7 @@ export const metadata: Metadata = {
     "Turn scattered iPhone photos into a frame-worthy family portrait — in about two minutes. Pick a vibe, upload a few references, keep what you love.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body className="antialiased">{children}</body>

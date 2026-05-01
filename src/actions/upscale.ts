@@ -8,10 +8,7 @@ import { ensureStorageReady, storagePath } from "@/lib/storage";
 import { upscale } from "@/lib/providers/router";
 import type { UpscaleTarget } from "@/lib/providers/types";
 
-export async function upscaleImage(input: {
-  imageId: string;
-  target: UpscaleTarget;
-}) {
+export async function upscaleImage(input: { imageId: string; target: UpscaleTarget }) {
   const [image] = await db
     .select()
     .from(schema.images)
@@ -19,11 +16,7 @@ export async function upscaleImage(input: {
     .limit(1);
   if (!image) throw new Error("Image not found");
 
-  const sourceRelative = path.posix.join(
-    "generations",
-    image.generationId,
-    image.fileName,
-  );
+  const sourceRelative = path.posix.join("generations", image.generationId, image.fileName);
 
   await ensureStorageReady();
   const outDir = storagePath("cache", "upscales");

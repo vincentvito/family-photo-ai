@@ -19,7 +19,9 @@ function svg(label, hue) {
 }
 
 async function makeJpeg(label, hue) {
-  return sharp(Buffer.from(svg(label, hue))).jpeg({ quality: 88 }).toBuffer();
+  return sharp(Buffer.from(svg(label, hue)))
+    .jpeg({ quality: 88 })
+    .toBuffer();
 }
 
 async function main() {
@@ -71,9 +73,7 @@ async function main() {
   }
 
   // --- 2. Generate
-  const { startGeneration, getGenerationState } = await import(
-    "../src/actions/generate.ts"
-  );
+  const { startGeneration, getGenerationState } = await import("../src/actions/generate.ts");
   const { generationId } = await startGeneration({
     themeId: "golden-hour-beach",
     wardrobeNote: "linen in sandy tones",
@@ -86,7 +86,9 @@ async function main() {
     const state = await getGenerationState(generationId);
     if (!state) throw new Error("Generation vanished");
     if (state.generation.status === "done") {
-      console.log(`  · ${state.images.length} variants produced in ${((Date.now() - started) / 1000).toFixed(1)}s`);
+      console.log(
+        `  · ${state.images.length} variants produced in ${((Date.now() - started) / 1000).toFixed(1)}s`,
+      );
       break;
     }
     if (state.generation.status === "error") {

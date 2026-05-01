@@ -6,11 +6,7 @@ import RefineStage from "@/components/studio/RefineStage";
 
 export const dynamic = "force-dynamic";
 
-export default async function RefinePage({
-  params,
-}: {
-  params: Promise<{ imageId: string }>;
-}) {
+export default async function RefinePage({ params }: { params: Promise<{ imageId: string }> }) {
   const { imageId } = await params;
   const state = await getRefineState(imageId);
   if (!state) notFound();
@@ -26,7 +22,8 @@ export default async function RefinePage({
             Step 04 · Refine
           </span>
           <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-            Anything we should <em className="serif-italic text-[color:var(--color-plum)]">change</em>?
+            Anything we should{" "}
+            <em className="serif-italic text-[color:var(--color-plum)]">change</em>?
           </h1>
           {theme && (
             <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
@@ -36,7 +33,15 @@ export default async function RefinePage({
         </div>
         {state.generation && (
           <Link href={`/studio/generate/${state.generation.id}`} className="btn btn-ghost btn-sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+            >
               <path d="M15 6l-6 6 6 6" />
             </svg>
             Back to shoot

@@ -5,20 +5,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { db, schema } from "@/lib/db";
 import { eq, asc } from "drizzle-orm";
-import {
-  ensureStorageReady,
-  saveReferencePhoto,
-  storagePath,
-} from "@/lib/storage";
+import { ensureStorageReady, saveReferencePhoto, storagePath } from "@/lib/storage";
 import { z } from "zod";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
 
 export async function listRoster() {
-  const people = await db
-    .select()
-    .from(schema.people)
-    .orderBy(asc(schema.people.createdAt));
+  const people = await db.select().from(schema.people).orderBy(asc(schema.people.createdAt));
 
   const roster = await Promise.all(
     people.map(async (person) => {
@@ -88,10 +81,7 @@ export async function updatePerson(input: {
 }
 
 export async function removePerson(personId: string) {
-  const photos = await db
-    .select()
-    .from(schema.photos)
-    .where(eq(schema.photos.personId, personId));
+  const photos = await db.select().from(schema.photos).where(eq(schema.photos.personId, personId));
 
   await db.delete(schema.people).where(eq(schema.people.id, personId));
 
@@ -101,10 +91,7 @@ export async function removePerson(personId: string) {
   return photos.length;
 }
 
-export async function addPhotoToPerson(input: {
-  personId: string;
-  buffer: Buffer;
-}) {
+export async function addPhotoToPerson(input: { personId: string; buffer: Buffer }) {
   await ensureStorageReady();
   const saved = await saveReferencePhoto(input.buffer, input.personId);
 
@@ -130,17 +117,10 @@ export async function addPhotoToPerson(input: {
 }
 
 export async function removePhoto(photoId: string) {
-  const photo = await db
-    .select()
-    .from(schema.photos)
-    .where(eq(schema.photos.id, photoId))
-    .limit(1);
+  const photo = await db.select().from(schema.photos).where(eq(schema.photos.id, photoId)).limit(1);
 
   if (!photo[0]) return;
-  const abs = path.join(
-    storagePath("uploads", photo[0].personId),
-    photo[0].fileName,
-  );
+  const abs = path.join(storagePath("uploads", photo[0].personId), photo[0].fileName);
   await fs.rm(abs, { force: true }).catch(() => {});
   await db.delete(schema.photos).where(eq(schema.photos.id, photoId));
 

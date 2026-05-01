@@ -38,10 +38,7 @@ export type SavedImage = {
  * Normalize an uploaded reference photo: strip EXIF, fit inside 2048px long edge,
  * save as JPEG under storage/uploads/<personId>/<uuid>.jpg.
  */
-export async function saveReferencePhoto(
-  buffer: Buffer,
-  personId: string,
-): Promise<SavedImage> {
+export async function saveReferencePhoto(buffer: Buffer, personId: string): Promise<SavedImage> {
   const dir = storagePath("uploads", personId);
   await ensureDir(dir);
   const fileName = `${nanoid(10)}.jpg`;
@@ -49,8 +46,7 @@ export async function saveReferencePhoto(
 
   const img = sharp(buffer, { failOn: "none" }).rotate();
   const meta = await img.metadata();
-  const needsResize =
-    (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
+  const needsResize = (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
 
   const pipeline = needsResize
     ? img.resize({ width: 2048, height: 2048, fit: "inside", withoutEnlargement: true })
@@ -76,9 +72,7 @@ export async function saveReferencePhoto(
  * Normalize an uploaded location / mood reference photo for a custom vibe.
  * Lives under storage/locations/<uuid>.jpg, independent of any person.
  */
-export async function saveLocationReference(
-  buffer: Buffer,
-): Promise<SavedImage> {
+export async function saveLocationReference(buffer: Buffer): Promise<SavedImage> {
   const dir = storagePath("locations");
   await ensureDir(dir);
   const fileName = `${nanoid(10)}.jpg`;
@@ -86,8 +80,7 @@ export async function saveLocationReference(
 
   const img = sharp(buffer, { failOn: "none" }).rotate();
   const meta = await img.metadata();
-  const needsResize =
-    (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
+  const needsResize = (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
   const pipeline = needsResize
     ? img.resize({
         width: 2048,
@@ -152,10 +145,7 @@ export async function readStoredImage(relativePath: string): Promise<Buffer> {
 /**
  * Produce (and cache) a thumbnail for display in grids.
  */
-export async function getThumbnail(
-  relativePath: string,
-  size = 320,
-): Promise<string> {
+export async function getThumbnail(relativePath: string, size = 320): Promise<string> {
   const hash = relativePath.replace(/[/\\]/g, "_");
   const thumbAbs = storagePath("cache", "thumbs", `${size}_${hash}`);
   try {
@@ -180,8 +170,7 @@ export async function imageToBase64(
   const abs = path.join(STORAGE_ROOT, relativePath);
   const buf = await fs.readFile(abs);
   const ext = path.extname(abs).toLowerCase();
-  const mimeType =
-    ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
+  const mimeType = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
   return { base64: buf.toString("base64"), mimeType };
 }
 

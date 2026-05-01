@@ -19,7 +19,11 @@ export default function ThemeCard({
       onClick={onPick}
       disabled={disabled}
       className="group relative flex h-full flex-col text-left transition-opacity disabled:opacity-60 focus:outline-none"
-      whileHover={disabled ? undefined : { y: -5, transition: { type: "spring", stiffness: 320, damping: 22 } }}
+      whileHover={
+        disabled
+          ? undefined
+          : { y: -5, transition: { type: "spring", stiffness: 320, damping: 22 } }
+      }
       whileTap={disabled ? undefined : { scale: 0.99 }}
     >
       <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-line)] shadow-[var(--shadow-md)] group-hover:shadow-[var(--shadow-lg)] transition-shadow">
@@ -41,14 +45,25 @@ export default function ThemeCard({
 
         {/* Name overlay on bottom */}
         <div className="absolute inset-x-0 bottom-0 p-4">
-          <h3 className="serif text-[1.65rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">{theme.name}</h3>
+          <h3 className="serif text-[1.65rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
+            {theme.name}
+          </h3>
         </div>
 
         {/* Hover CTA chip */}
         <div className="absolute right-3 top-3 opacity-0 translate-y-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
           <span className="chip chip-coral shadow-[var(--shadow-md)]">
             Try this vibe
-            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg
+              className="h-3 w-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </span>
@@ -65,9 +80,7 @@ export default function ThemeCard({
       </div>
 
       <div className="mt-3 px-1">
-        <p className="text-sm text-[color:var(--color-ink-muted)] leading-relaxed">
-          {theme.blurb}
-        </p>
+        <p className="text-sm text-[color:var(--color-ink-muted)] leading-relaxed">{theme.blurb}</p>
       </div>
     </motion.button>
   );

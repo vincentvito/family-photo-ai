@@ -5,12 +5,7 @@ import type {
   UpscaleArgs,
   UpscaleResult,
 } from "./types";
-import {
-  getReplicateClient,
-  toDataUrl,
-  resolveUrl,
-  urlToImage,
-} from "./replicate-common";
+import { getReplicateClient, toDataUrl, resolveUrl, urlToImage } from "./replicate-common";
 
 type ModelSlug = `${string}/${string}`;
 
@@ -34,9 +29,7 @@ export class ReplicateProvider implements ImageProvider {
   }
 
   async refineImage(): Promise<RefineResult> {
-    throw new Error(
-      "Refinement is always routed through Nano Banana Pro.",
-    );
+    throw new Error("Refinement is always routed through Nano Banana Pro.");
   }
 
   async upscale(args: UpscaleArgs): Promise<UpscaleResult> {
@@ -46,30 +39,24 @@ export class ReplicateProvider implements ImageProvider {
 
     let output: unknown;
     try {
-      output = await client.run(
-        "philz1337x/clarity-upscaler" as ModelSlug,
-        {
-          input: {
-            image: imageData,
-            scale_factor: scaleFactor,
-            dynamic: 6,
-            creativity: 0.25,
-            resemblance: 0.6,
-            output_format: "jpg",
-          },
+      output = await client.run("philz1337x/clarity-upscaler" as ModelSlug, {
+        input: {
+          image: imageData,
+          scale_factor: scaleFactor,
+          dynamic: 6,
+          creativity: 0.25,
+          resemblance: 0.6,
+          output_format: "jpg",
         },
-      );
+      });
     } catch {
-      output = await client.run(
-        "nightmareai/real-esrgan" as ModelSlug,
-        {
-          input: {
-            image: imageData,
-            scale: scaleFactor,
-            face_enhance: true,
-          },
+      output = await client.run("nightmareai/real-esrgan" as ModelSlug, {
+        input: {
+          image: imageData,
+          scale: scaleFactor,
+          face_enhance: true,
         },
-      );
+      });
     }
 
     const url = await resolveUrl(output);

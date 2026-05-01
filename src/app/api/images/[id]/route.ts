@@ -7,38 +7,19 @@ import path from "node:path";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const thumb = req.nextUrl.searchParams.get("thumb");
 
-  const photo = await db
-    .select()
-    .from(schema.photos)
-    .where(eq(schema.photos.id, id))
-    .limit(1);
+  const photo = await db.select().from(schema.photos).where(eq(schema.photos.id, id)).limit(1);
 
   let relativePath: string | null = null;
   if (photo[0]) {
-    relativePath = path.posix.join(
-      "uploads",
-      photo[0].personId,
-      photo[0].fileName,
-    );
+    relativePath = path.posix.join("uploads", photo[0].personId, photo[0].fileName);
   } else {
-    const image = await db
-      .select()
-      .from(schema.images)
-      .where(eq(schema.images.id, id))
-      .limit(1);
+    const image = await db.select().from(schema.images).where(eq(schema.images.id, id)).limit(1);
     if (image[0]) {
-      relativePath = path.posix.join(
-        "generations",
-        image[0].generationId,
-        image[0].fileName,
-      );
+      relativePath = path.posix.join("generations", image[0].generationId, image[0].fileName);
     }
   }
 

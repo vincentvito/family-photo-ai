@@ -139,82 +139,146 @@ const jobs = [
       "Wes Anderson inspired family portrait, perfectly symmetrical dead-center composition, pastel butter-yellow and salmon palette, coordinated vintage wardrobe, dollhouse-styled interior with ornate wallpaper, flat even frontal lighting. No text.",
   },
 
-  themeCover("theme-golden-hour-beach",
-    "Cinematic golden hour beach family portrait on soft sand, warm low sun rim-lit family of three in linen, long shadows, subtle film grain, ocean bokeh behind, medium format feel. No text."),
-  themeCover("theme-autumn-cabin",
-    "Documentary family portrait on a cedar cabin porch on a crisp autumn morning, chunky knits, boots, steaming mugs, visible breath, amber rust foliage, overcast daylight, 35mm film. No text."),
-  themeCover("theme-kinfolk-kitchen",
-    "Candid Kinfolk-style family kitchen portrait on Sunday morning, soft window light, pale wood, ceramic bowls, flour dust, gentle activity, airy documentary warmth. No text."),
-  themeCover("theme-vintage-polaroid",
-    "Vintage late-70s Polaroid-style family snapshot, faded warm colors, soft focus, paper border, gentle flash, period correct. No text."),
-  themeCover("theme-leibovitz",
-    "Annie Leibovitz editorial family studio portrait, dramatic single-source Rembrandt side-light, painted Old-Master umber and teal backdrop, tailored wardrobe, theatrical stillness, one unscripted human moment. No text."),
-  themeCover("theme-wes-anderson",
-    "Wes Anderson inspired family portrait, perfectly symmetrical composition, pastel butter-yellow salmon mint palette, coordinated vintage wardrobe, dollhouse interior, ornate wallpaper, flat frontal lighting. No text."),
-  themeCover("theme-natgeo",
-    "National Geographic family expedition portrait on a windswept alpine ridge at dawn, earth-tone technical outerwear, mist, low sun, expansive landscape, documentary realism, 35mm. No text."),
-  themeCover("theme-film-noir",
-    "Film noir family portrait, high-contrast black and white, venetian-blind shadows across scene, 1940s wardrobe — trenchcoats, fedoras, silk — moody single-source lighting, silver-gelatin grain. No text."),
-  themeCover("theme-christmas-morning",
-    "Tender Christmas morning family portrait in a living room with a decorated tree, matching flannel pajamas, warm lamplight, string-light bokeh, mugs of cocoa, dog in frame, candid soft. No text."),
-  themeCover("theme-pixar",
-    "Pixar style 3D animated family portrait, soft stylized faces, expressive eyes, subsurface-scattered skin, warm volumetric cinematic lighting, wholesome mood. No text."),
-  themeCover("theme-manga",
-    "Studio Ghibli style anime family illustration, soft hand-drawn linework, painterly cel shading, gentle summer palette, quiet outdoor scene. No text."),
-  themeCover("theme-superhero",
-    "Cinematic superhero family portrait on a city rooftop at golden hour, coordinated distinct hero costumes, billowing capes, confident heroic poses, sweeping skyline, dramatic lens flare. The family's small dog wears a matching tiny cape. No text."),
-  themeCover("theme-cartoon",
-    "1990s Saturday morning cartoon family portrait, bold ink outlines, bright primary palette, flat cel shading, cheerful expressive faces, kitchen-table setting with cereal. No text."),
-  themeCover("theme-card-christmas",
-    "Christmas card style family portrait in front of a wreath-lit front door, snow on the step, warm interior glow, elegant composition with generous negative space on the left, classic forest-green cranberry cream palette. No text."),
-  themeCover("theme-card-easter",
-    "Springtime Easter family card portrait in a garden of tulips and dogwood blossom, soft pastel palette, linen and cotton pastel wardrobe, low morning light, generous space for text. No text."),
-  themeCover("theme-card-birthday",
-    "Warm birthday invitation family portrait around a lit cake on a wooden table, paper streamers, candlelight on everyone's faces, joyful candid expressions, negative space for text. No text."),
+  themeCover(
+    "theme-golden-hour-beach",
+    "Cinematic golden hour beach family portrait on soft sand, warm low sun rim-lit family of three in linen, long shadows, subtle film grain, ocean bokeh behind, medium format feel. No text.",
+  ),
+  themeCover(
+    "theme-autumn-cabin",
+    "Documentary family portrait on a cedar cabin porch on a crisp autumn morning, chunky knits, boots, steaming mugs, visible breath, amber rust foliage, overcast daylight, 35mm film. No text.",
+  ),
+  themeCover(
+    "theme-kinfolk-kitchen",
+    "Candid Kinfolk-style family kitchen portrait on Sunday morning, soft window light, pale wood, ceramic bowls, flour dust, gentle activity, airy documentary warmth. No text.",
+  ),
+  themeCover(
+    "theme-vintage-polaroid",
+    "Vintage late-70s Polaroid-style family snapshot, faded warm colors, soft focus, paper border, gentle flash, period correct. No text.",
+  ),
+  themeCover(
+    "theme-leibovitz",
+    "Annie Leibovitz editorial family studio portrait, dramatic single-source Rembrandt side-light, painted Old-Master umber and teal backdrop, tailored wardrobe, theatrical stillness, one unscripted human moment. No text.",
+  ),
+  themeCover(
+    "theme-wes-anderson",
+    "Wes Anderson inspired family portrait, perfectly symmetrical composition, pastel butter-yellow salmon mint palette, coordinated vintage wardrobe, dollhouse interior, ornate wallpaper, flat frontal lighting. No text.",
+  ),
+  themeCover(
+    "theme-natgeo",
+    "National Geographic family expedition portrait on a windswept alpine ridge at dawn, earth-tone technical outerwear, mist, low sun, expansive landscape, documentary realism, 35mm. No text.",
+  ),
+  themeCover(
+    "theme-film-noir",
+    "Film noir family portrait, high-contrast black and white, venetian-blind shadows across scene, 1940s wardrobe — trenchcoats, fedoras, silk — moody single-source lighting, silver-gelatin grain. No text.",
+  ),
+  themeCover(
+    "theme-christmas-morning",
+    "Tender Christmas morning family portrait in a living room with a decorated tree, matching flannel pajamas, warm lamplight, string-light bokeh, mugs of cocoa, dog in frame, candid soft. No text.",
+  ),
+  themeCover(
+    "theme-pixar",
+    "Pixar style 3D animated family portrait, soft stylized faces, expressive eyes, subsurface-scattered skin, warm volumetric cinematic lighting, wholesome mood. No text.",
+  ),
+  themeCover(
+    "theme-manga",
+    "Studio Ghibli style anime family illustration, soft hand-drawn linework, painterly cel shading, gentle summer palette, quiet outdoor scene. No text.",
+  ),
+  themeCover(
+    "theme-superhero",
+    "Cinematic superhero family portrait on a city rooftop at golden hour, coordinated distinct hero costumes, billowing capes, confident heroic poses, sweeping skyline, dramatic lens flare. The family's small dog wears a matching tiny cape. No text.",
+  ),
+  themeCover(
+    "theme-cartoon",
+    "1990s Saturday morning cartoon family portrait, bold ink outlines, bright primary palette, flat cel shading, cheerful expressive faces, kitchen-table setting with cereal. No text.",
+  ),
+  themeCover(
+    "theme-card-christmas",
+    "Christmas card style family portrait in front of a wreath-lit front door, snow on the step, warm interior glow, elegant composition with generous negative space on the left, classic forest-green cranberry cream palette. No text.",
+  ),
+  themeCover(
+    "theme-card-easter",
+    "Springtime Easter family card portrait in a garden of tulips and dogwood blossom, soft pastel palette, linen and cotton pastel wardrobe, low morning light, generous space for text. No text.",
+  ),
+  themeCover(
+    "theme-card-birthday",
+    "Warm birthday invitation family portrait around a lit cake on a wooden table, paper streamers, candlelight on everyone's faces, joyful candid expressions, negative space for text. No text.",
+  ),
 
   // ── Photoreal expansion ────────────────────────────────────────
-  themeCover("theme-tuscan-summer",
-    "Warm golden hour family portrait on a Tuscan villa terrace overlooking cypress hills and olive groves, aged limestone walls, terracotta tiles, linen wardrobe, soft Mediterranean side-light, medium format film grain. No text."),
-  themeCover("theme-cherry-blossom",
+  themeCover(
+    "theme-tuscan-summer",
+    "Warm golden hour family portrait on a Tuscan villa terrace overlooking cypress hills and olive groves, aged limestone walls, terracotta tiles, linen wardrobe, soft Mediterranean side-light, medium format film grain. No text.",
+  ),
+  themeCover(
+    "theme-cherry-blossom",
     "Tender family portrait beneath blooming sakura cherry blossom trees in a traditional Japanese garden in early spring, soft pink petals drifting, cotton and muted-neutral wardrobe, tranquil morning light, 35mm film. No text.",
-    { aspect: "2:3" }),
-  themeCover("theme-snowy-hygge",
-    "Warm Nordic family portrait at the doorway of a snow-dusted timber cabin during evening snowfall, chunky wool cable knits, candle lanterns casting amber glow, visible breath in cold air, cozy hygge palette. No text."),
-  themeCover("theme-desert-santa-fe",
+    { aspect: "2:3" },
+  ),
+  themeCover(
+    "theme-snowy-hygge",
+    "Warm Nordic family portrait at the doorway of a snow-dusted timber cabin during evening snowfall, chunky wool cable knits, candle lanterns casting amber glow, visible breath in cold air, cozy hygge palette. No text.",
+  ),
+  themeCover(
+    "theme-desert-santa-fe",
     "Family portrait against adobe walls under a wide Southwest sky in Santa Fe at golden hour, warm terracotta tones, a turquoise detail, linen and chambray wardrobe, dramatic long shadows, cottonwood silhouettes. No text.",
-    { aspect: "3:2" }),
-  themeCover("theme-parisian-cafe",
-    "Editorial family portrait at a sidewalk café on a narrow cobblestone Paris street in the early morning, rattan chairs, small marble table with espresso and croissants, soft overcast Paris light, muted neutrals, 50mm lens feel. No text."),
-  themeCover("theme-lake-house",
+    { aspect: "3:2" },
+  ),
+  themeCover(
+    "theme-parisian-cafe",
+    "Editorial family portrait at a sidewalk café on a narrow cobblestone Paris street in the early morning, rattan chairs, small marble table with espresso and croissants, soft overcast Paris light, muted neutrals, 50mm lens feel. No text.",
+  ),
+  themeCover(
+    "theme-lake-house",
     "Warm summer-evening family portrait on a long weathered wooden dock stretching over a still lake, reflected pines, golden-hour horizon, linen wardrobe, bare feet, golden retriever at the edge, medium-format film warmth. No text.",
-    { aspect: "3:2" }),
+    { aspect: "3:2" },
+  ),
 
   // ── Stylized expansion ─────────────────────────────────────────
-  themeCover("theme-ghibli-countryside",
+  themeCover(
+    "theme-ghibli-countryside",
     "Studio Ghibli style hand-drawn illustration of a family in a rolling green countryside meadow under a wide watercolor sky, wind through tall grass, softly-painted cumulus clouds, Hayao Miyazaki aesthetic, cel shading. No text.",
-    { aspect: "16:9" }),
-  themeCover("theme-renaissance-oil",
-    "Renaissance Dutch-masters oil painting of a family, chiaroscuro candlelight on faces, deep umber and teal background, rich wool and velvet period wardrobe, theatrical stillness, textured canvas brushwork, Vermeer-inflected warmth. No text."),
-  themeCover("theme-yellow-cartoon",
+    { aspect: "16:9" },
+  ),
+  themeCover(
+    "theme-renaissance-oil",
+    "Renaissance Dutch-masters oil painting of a family, chiaroscuro candlelight on faces, deep umber and teal background, rich wool and velvet period wardrobe, theatrical stillness, textured canvas brushwork, Vermeer-inflected warmth. No text.",
+  ),
+  themeCover(
+    "theme-yellow-cartoon",
     "Classic American yellow-skinned cartoon family portrait in the spirit of 90s Springfield prime-time animation, bold black ink outlines, flat bright primary colors, exaggerated simplified features, four-finger hands, family seated on a living-room couch. No text.",
-    { aspect: "16:9" }),
-  themeCover("theme-lego-family",
+    { aspect: "16:9" },
+  ),
+  themeCover(
+    "theme-lego-family",
     "Family portrait rendered as plastic toy-brick minifigures, glossy ABS plastic, cylindrical hair pieces, C-shaped hands, simplified printed faces with tiny smiles, standing on a plastic brick base, warm cinematic studio lighting, detailed brick textures. No text.",
-    { aspect: "1:1" }),
-  themeCover("theme-watercolor-storybook",
-    "Soft watercolor children's-storybook illustration of a family in a whimsical garden with lanterns and wildflowers, gentle paper-grain texture, delicate inked outlines, Beatrix Potter meets Oliver Jeffers sensibility, warm nostalgic palette. No text."),
+    { aspect: "1:1" },
+  ),
+  themeCover(
+    "theme-watercolor-storybook",
+    "Soft watercolor children's-storybook illustration of a family in a whimsical garden with lanterns and wildflowers, gentle paper-grain texture, delicate inked outlines, Beatrix Potter meets Oliver Jeffers sensibility, warm nostalgic palette. No text.",
+  ),
 
   // ── Cards / Occasions expansion ────────────────────────────────
-  themeCover("theme-card-halloween",
-    "Warm Halloween-card family portrait on a wood porch lit by carved jack-o'-lanterns, wisps of ground fog, coordinated not-scary costumes (a little witch, a small vampire, a gentle ghost, a dog dressed as a pumpkin), rich orange and deep purple palette, playful cinematic. No text."),
-  themeCover("theme-card-thanksgiving",
-    "Thanksgiving-card family portrait gathered around a harvest table, warm amber candlelight, pumpkins and autumn florals as centerpiece, a roast turkey, hands lightly holding, soft overcast backlight through a window, cozy plaid and linen wardrobe. No text."),
-  themeCover("theme-card-new-years",
-    "Glamorous New Year's-card family portrait, black-tie and cocktail-dress wardrobe, coupes of champagne, gold confetti mid-air, softly-lit chandelier behind, warm cinematic bokeh. No text."),
-  themeCover("theme-card-graduation",
-    "Warm graduation-card portrait of a family around a graduate in cap and gown, golden afternoon backlight, ivy-covered brick wall, genuine pride and quiet emotion. No text."),
-  themeCover("theme-card-newborn",
-    "Tender newborn-announcement family portrait in a sunlit bedroom, soft white bedding, a swaddled sleeping newborn held at center, parents and siblings gathered around, quiet natural window light, muted pastel palette. No text."),
+  themeCover(
+    "theme-card-halloween",
+    "Warm Halloween-card family portrait on a wood porch lit by carved jack-o'-lanterns, wisps of ground fog, coordinated not-scary costumes (a little witch, a small vampire, a gentle ghost, a dog dressed as a pumpkin), rich orange and deep purple palette, playful cinematic. No text.",
+  ),
+  themeCover(
+    "theme-card-thanksgiving",
+    "Thanksgiving-card family portrait gathered around a harvest table, warm amber candlelight, pumpkins and autumn florals as centerpiece, a roast turkey, hands lightly holding, soft overcast backlight through a window, cozy plaid and linen wardrobe. No text.",
+  ),
+  themeCover(
+    "theme-card-new-years",
+    "Glamorous New Year's-card family portrait, black-tie and cocktail-dress wardrobe, coupes of champagne, gold confetti mid-air, softly-lit chandelier behind, warm cinematic bokeh. No text.",
+  ),
+  themeCover(
+    "theme-card-graduation",
+    "Warm graduation-card portrait of a family around a graduate in cap and gown, golden afternoon backlight, ivy-covered brick wall, genuine pride and quiet emotion. No text.",
+  ),
+  themeCover(
+    "theme-card-newborn",
+    "Tender newborn-announcement family portrait in a sunlit bedroom, soft white bedding, a swaddled sleeping newborn held at center, parents and siblings gathered around, quiet natural window light, muted pastel palette. No text.",
+  ),
 ];
 
 function themeCover(id, prompt, overrides = {}) {
@@ -291,12 +355,8 @@ function runInBatches(items, size, worker) {
   });
 }
 
-console.log(
-  `⋯ generating ${jobs.length} landing samples via ${MODEL}`,
-);
-console.log(
-  `  (1× 4K hero, ${jobs.length - 1}× 2K, ${FORCE ? "forcing regen" : "resumable"})`,
-);
+console.log(`⋯ generating ${jobs.length} landing samples via ${MODEL}`);
+console.log(`  (1× 4K hero, ${jobs.length - 1}× 2K, ${FORCE ? "forcing regen" : "resumable"})`);
 const startedAt = Date.now();
 const results = await runInBatches(jobs, 6, runJob);
 const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
@@ -305,7 +365,5 @@ const skipped = results.filter((r) => r.ok && r.result.skipped).length;
 const generated = results.filter((r) => r.ok && !r.result.skipped).length;
 const failed = results.filter((r) => !r.ok).length;
 
-console.log(
-  `\n✓ ${generated} generated · ${skipped} skipped · ${failed} failed in ${elapsed}s`,
-);
+console.log(`\n✓ ${generated} generated · ${skipped} skipped · ${failed} failed in ${elapsed}s`);
 if (failed) process.exit(1);

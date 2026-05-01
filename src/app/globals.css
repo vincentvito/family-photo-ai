@@ -83,16 +83,25 @@
     color: #fff;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-serif);
     font-weight: 400;
     letter-spacing: var(--tracking-display);
     color: var(--color-ink);
-    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 100,
+      "WONK" 0;
   }
 
   h1 {
-    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 100,
+      "WONK" 1;
   }
 
   .dark-surface {
@@ -132,7 +141,10 @@
   .serif-italic {
     font-family: var(--font-serif);
     font-style: italic;
-    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 100,
+      "WONK" 1;
   }
 
   .small-caps {
@@ -166,8 +178,12 @@
     background-image:
       radial-gradient(rgba(255, 220, 190, 0.6) 1px, transparent 1px),
       radial-gradient(rgba(31, 26, 36, 0.45) 1px, transparent 1.2px);
-    background-size: 4px 4px, 7px 7px;
-    background-position: 0 0, 2px 3px;
+    background-size:
+      4px 4px,
+      7px 7px;
+    background-position:
+      0 0,
+      2px 3px;
   }
 
   /* Legacy alias so any .grain still works during migration */
@@ -186,8 +202,12 @@
     background-image:
       radial-gradient(rgba(255, 220, 190, 0.6) 1px, transparent 1px),
       radial-gradient(rgba(31, 26, 36, 0.45) 1px, transparent 1.2px);
-    background-size: 4px 4px, 7px 7px;
-    background-position: 0 0, 2px 3px;
+    background-size:
+      4px 4px,
+      7px 7px;
+    background-position:
+      0 0,
+      2px 3px;
   }
 
   /* "Developing a polaroid" loading treatment — replaces cold skeletons and the old warm-shimmer. */
@@ -218,13 +238,24 @@
   }
 
   @keyframes developing {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
   }
   @keyframes developing-sheen {
-    0% { transform: translateX(-100%); }
-    70% { transform: translateX(100%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    70% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   /* Back-compat alias for any existing warm-shimmer call sites */
@@ -246,10 +277,14 @@
     column-gap: 1.25rem;
   }
   @media (min-width: 640px) {
-    .masonry-3 { column-count: 2; }
+    .masonry-3 {
+      column-count: 2;
+    }
   }
   @media (min-width: 1024px) {
-    .masonry-3 { column-count: 3; }
+    .masonry-3 {
+      column-count: 3;
+    }
   }
   .masonry-3 > * {
     break-inside: avoid;
@@ -296,10 +331,11 @@
     border-radius: var(--radius-pill);
     font-weight: 500;
     font-size: 0.95rem;
-    transition: transform 160ms var(--ease-spring),
-                background-color 180ms var(--ease-out-soft),
-                box-shadow 180ms var(--ease-out-soft),
-                color 180ms var(--ease-out-soft);
+    transition:
+      transform 160ms var(--ease-spring),
+      background-color 180ms var(--ease-out-soft),
+      box-shadow 180ms var(--ease-out-soft),
+      color 180ms var(--ease-out-soft);
     will-change: transform;
   }
   .btn:active {
@@ -369,12 +405,31 @@
     font-weight: 600;
     letter-spacing: 0.04em;
   }
-  .chip-coral { background-color: var(--color-coral-soft); color: var(--color-coral-deep); }
-  .chip-sage { background-color: var(--color-sage-soft); color: var(--color-sage-deep); }
-  .chip-butter { background-color: var(--color-butter-soft); color: #8a6a1f; }
-  .chip-plum { background-color: #e9defb; color: var(--color-plum); }
-  .chip-ink { background-color: var(--color-ink); color: var(--color-bg); }
-  .chip-ghost { background-color: transparent; color: var(--color-ink-muted); border: 1px solid var(--color-line-strong); }
+  .chip-coral {
+    background-color: var(--color-coral-soft);
+    color: var(--color-coral-deep);
+  }
+  .chip-sage {
+    background-color: var(--color-sage-soft);
+    color: var(--color-sage-deep);
+  }
+  .chip-butter {
+    background-color: var(--color-butter-soft);
+    color: #8a6a1f;
+  }
+  .chip-plum {
+    background-color: #e9defb;
+    color: var(--color-plum);
+  }
+  .chip-ink {
+    background-color: var(--color-ink);
+    color: var(--color-bg);
+  }
+  .chip-ghost {
+    background-color: transparent;
+    color: var(--color-ink-muted);
+    border: 1px solid var(--color-line-strong);
+  }
 
   /* Color dots — for stepper indicators, chips, person cards */
   .dot {
@@ -383,11 +438,21 @@
     height: 0.55rem;
     border-radius: 999px;
   }
-  .dot-coral { background-color: var(--color-coral); }
-  .dot-sage { background-color: var(--color-sage); }
-  .dot-butter { background-color: var(--color-butter); }
-  .dot-plum { background-color: var(--color-plum); }
-  .dot-ink { background-color: var(--color-ink); }
+  .dot-coral {
+    background-color: var(--color-coral);
+  }
+  .dot-sage {
+    background-color: var(--color-sage);
+  }
+  .dot-butter {
+    background-color: var(--color-butter);
+  }
+  .dot-plum {
+    background-color: var(--color-plum);
+  }
+  .dot-ink {
+    background-color: var(--color-ink);
+  }
 
   /* Polaroid frame — used in hero stack, generation tiles, album */
   .polaroid {

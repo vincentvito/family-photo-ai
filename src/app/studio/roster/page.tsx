@@ -20,12 +20,13 @@ export default async function RosterPage() {
             Step 01 · Roster
           </span>
           <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-            Who&apos;s in the <em className="serif-italic text-[color:var(--color-coral)]">shoot</em>?
+            Who&apos;s in the{" "}
+            <em className="serif-italic text-[color:var(--color-coral)]">shoot</em>?
           </h1>
           <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-            Add each person (and pet) who should appear. A few clear photos of
-            each face — close-ups, different angles, good light — help us lock
-            their likeness across every portrait.
+            Add each person (and pet) who should appear. A few clear photos of each face —
+            close-ups, different angles, good light — help us lock their likeness across every
+            portrait.
           </p>
         </div>
         <AddPersonDialog />
@@ -48,7 +49,16 @@ export default async function RosterPage() {
           style={canContinue ? undefined : { opacity: 0.5, pointerEvents: "none" }}
         >
           Choose a vibe
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <svg
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
         </Link>
@@ -65,8 +75,8 @@ function EmptyState() {
       </div>
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">No one on the roster yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
-        Start with yourself — add one person, then add their reference photos.
-        You&apos;ll add the rest of the family after.
+        Start with yourself — add one person, then add their reference photos. You&apos;ll add the
+        rest of the family after.
       </p>
     </div>
   );

@@ -21,13 +21,7 @@ function colorFor(id: string) {
   return palette[h % palette.length];
 }
 
-export default function PersonCard({
-  person,
-  photos,
-}: {
-  person: Person;
-  photos: Photo[];
-}) {
+export default function PersonCard({ person, photos }: { person: Person; photos: Photo[] }) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,9 +64,7 @@ export default function PersonCard({
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
             <span className={`chip ${color.chip}`}>{person.role}</span>
-            {person.notes && (
-              <span className="chip chip-ghost">{person.notes}</span>
-            )}
+            {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
           </div>
         </div>
         <button
@@ -93,7 +85,10 @@ export default function PersonCard({
 
       <div className="grid grid-cols-4 gap-1.5 px-5 pt-3">
         {photos.map((photo) => (
-          <div key={photo.id} className="group relative aspect-square overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line)]">
+          <div
+            key={photo.id}
+            className="group relative aspect-square overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line)]"
+          >
             <Image
               src={`/api/images/${photo.id}?thumb=240`}
               alt={`${person.name} reference`}
@@ -112,7 +107,9 @@ export default function PersonCard({
               className="absolute inset-0 flex items-center justify-center bg-[color:rgba(31,26,36,0.65)] opacity-0 backdrop-blur-[2px] transition-opacity hover:opacity-100"
               aria-label="Remove photo"
             >
-              <span className="chip chip-ghost !bg-white/85 !text-[color:var(--color-ink)]">Remove</span>
+              <span className="chip chip-ghost !bg-white/85 !text-[color:var(--color-ink)]">
+                Remove
+              </span>
             </button>
           </div>
         ))}
@@ -124,7 +121,15 @@ export default function PersonCard({
           className="spring-press flex aspect-square items-center justify-center rounded-[var(--radius-sm)] border-2 border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-muted)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
           aria-label="Add photo"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+          >
             <path d="M12 5v14M5 12h14" />
           </svg>
         </button>
@@ -146,9 +151,7 @@ export default function PersonCard({
             Processing…
           </p>
         )}
-        {error && (
-          <p className="text-xs text-[color:var(--color-coral-deep)]">{error}</p>
-        )}
+        {error && <p className="text-xs text-[color:var(--color-coral-deep)]">{error}</p>}
         {!uploading && !error && photos.length === 0 && (
           <p className="text-xs text-[color:var(--color-ink-muted)]">
             Add 2–5 clear reference photos.

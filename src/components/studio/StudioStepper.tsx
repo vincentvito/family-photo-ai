@@ -4,11 +4,35 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
-const steps: { id: string; label: string; href: string; matches: RegExp; color: "coral" | "sage" | "butter" | "plum" | "ink" }[] = [
-  { id: "roster", label: "Roster", href: "/studio/roster", matches: /^\/studio\/roster/, color: "coral" },
+const steps: {
+  id: string;
+  label: string;
+  href: string;
+  matches: RegExp;
+  color: "coral" | "sage" | "butter" | "plum" | "ink";
+}[] = [
+  {
+    id: "roster",
+    label: "Roster",
+    href: "/studio/roster",
+    matches: /^\/studio\/roster/,
+    color: "coral",
+  },
   { id: "theme", label: "Vibe", href: "/studio/theme", matches: /^\/studio\/theme/, color: "sage" },
-  { id: "create", label: "Create", href: "/studio/theme", matches: /^\/studio\/generate/, color: "butter" },
-  { id: "refine", label: "Refine", href: "/studio/album", matches: /^\/studio\/refine/, color: "plum" },
+  {
+    id: "create",
+    label: "Create",
+    href: "/studio/theme",
+    matches: /^\/studio\/generate/,
+    color: "butter",
+  },
+  {
+    id: "refine",
+    label: "Refine",
+    href: "/studio/album",
+    matches: /^\/studio\/refine/,
+    color: "plum",
+  },
   { id: "keep", label: "Keep", href: "/studio/album", matches: /^\/studio\/album/, color: "ink" },
 ];
 

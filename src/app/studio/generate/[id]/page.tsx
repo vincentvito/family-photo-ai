@@ -5,11 +5,7 @@ import GenerationBoard from "@/components/studio/GenerationBoard";
 
 export const dynamic = "force-dynamic";
 
-export default async function GeneratePage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function GeneratePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const state = await getGenerationState(id);
   if (!state) notFound();
@@ -24,18 +20,15 @@ export default async function GeneratePage({
           Step 03 · Your shoot
         </span>
         <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-          {theme.name}<em className="serif-italic text-[color:var(--color-coral)]">.</em>
+          {theme.name}
+          <em className="serif-italic text-[color:var(--color-coral)]">.</em>
         </h1>
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
           Four variations. Hover any to keep it, refine it, or send it to print.
         </p>
       </div>
 
-      <GenerationBoard
-        generationId={id}
-        aspectRatio={theme.aspectRatio}
-        initialState={state}
-      />
+      <GenerationBoard generationId={id} aspectRatio={theme.aspectRatio} initialState={state} />
     </main>
   );
 }

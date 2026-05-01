@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.vercel
+public
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+db/auth-migrations
+*.svg
+*.min.*
+todo

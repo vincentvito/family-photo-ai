@@ -9,13 +9,7 @@ import { startGeneration } from "@/actions/generate";
 import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
 
-type ShapeId =
-  | "default"
-  | "portrait"
-  | "tall"
-  | "square"
-  | "landscape"
-  | "wide";
+type ShapeId = "default" | "portrait" | "tall" | "square" | "landscape" | "wide";
 
 const shapeOptions: {
   id: ShapeId;
@@ -58,8 +52,7 @@ export default function ThemeBoard({
   const [mode, setMode] = useState<"curated" | "custom">("curated");
   const router = useRouter();
 
-  const selectedShape =
-    shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
+  const selectedShape = shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
 
   const pickFile = (file: File) => {
     setLocationFile(file);
@@ -140,7 +133,9 @@ export default function ThemeBoard({
           <div>
             <label className="small-caps text-[color:var(--color-ink-muted)]">
               Wardrobe & mood
-              <span className="normal-case tracking-normal text-[0.7rem] opacity-70 ml-1">(optional)</span>
+              <span className="normal-case tracking-normal text-[0.7rem] opacity-70 ml-1">
+                (optional)
+              </span>
             </label>
             <input
               value={wardrobe}
@@ -180,11 +175,21 @@ export default function ThemeBoard({
 
       {/* ─── Lane tabs (curated vs custom) ────────────────────────── */}
       <div className="mt-10 flex justify-center">
-        <div role="tablist" aria-label="Vibe source" className="inline-flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 shadow-[var(--shadow-sm)]">
-          {([
-            { id: "curated", label: `Pick a vibe · ${photoreal.length + stylized.length + cards.length} curated`, dot: "dot-sage" },
-            { id: "custom", label: "Design your own", dot: "dot-coral" },
-          ] as const).map((t) => {
+        <div
+          role="tablist"
+          aria-label="Vibe source"
+          className="inline-flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 shadow-[var(--shadow-sm)]"
+        >
+          {(
+            [
+              {
+                id: "curated",
+                label: `Pick a vibe · ${photoreal.length + stylized.length + cards.length} curated`,
+                dot: "dot-sage",
+              },
+              { id: "custom", label: "Design your own", dot: "dot-coral" },
+            ] as const
+          ).map((t) => {
             const active = mode === t.id;
             return (
               <button
@@ -208,7 +213,9 @@ export default function ThemeBoard({
                 )}
                 <span
                   className={`inline-block h-1.5 w-1.5 rounded-full ${
-                    active ? "bg-[color:var(--color-coral)]" : `bg-[color:var(--color-${t.dot === "dot-coral" ? "coral" : "sage"})]`
+                    active
+                      ? "bg-[color:var(--color-coral)]"
+                      : `bg-[color:var(--color-${t.dot === "dot-coral" ? "coral" : "sage"})]`
                   }`}
                   aria-hidden
                 />
@@ -259,11 +266,17 @@ export default function ThemeBoard({
                     For a card or occasion
                   </span>
                   <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
-                    Make it a <em className="serif-italic" style={{ color: "#8a6a1f" }}>keepsake</em>.
+                    Make it a{" "}
+                    <em className="serif-italic" style={{ color: "#8a6a1f" }}>
+                      keepsake
+                    </em>
+                    .
                   </h2>
                 </div>
                 <div className="w-full max-w-md">
-                  <label className="small-caps text-[color:var(--color-ink-muted)]">Greeting / card text</label>
+                  <label className="small-caps text-[color:var(--color-ink-muted)]">
+                    Greeting / card text
+                  </label>
                   <input
                     value={cardText}
                     onChange={(e) => setCardText(e.target.value)}
@@ -312,7 +325,16 @@ export default function ThemeBoard({
                   >
                     {cardsExpanded ? (
                       <>
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <svg
+                          className="h-3.5 w-3.5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
                           <path d="M18 15l-6-6-6 6" />
                         </svg>
                         Show fewer
@@ -320,7 +342,16 @@ export default function ThemeBoard({
                     ) : (
                       <>
                         Show all {cards.length}
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <svg
+                          className="h-3.5 w-3.5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
                           <path d="M6 9l6 6 6-6" />
                         </svg>
                       </>
@@ -340,92 +371,130 @@ export default function ThemeBoard({
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
             <section className="panel-coral mt-10 p-6 sm:p-10">
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div>
-            <span className="chip chip-coral !bg-white/70">
-              <span className="dot dot-coral" />
-              Design your own
-            </span>
-            <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.025em] sm:text-4xl">
-              A vibe <em className="serif-italic text-[color:var(--color-coral-deep)]">only you</em> can describe.
-            </h2>
-            <p className="mt-3 max-w-xl text-sm text-[color:var(--color-ink-muted)]">
-              Write it out in your own words. Drop a photo of a place, a light, a palette — anything the shoot should feel like.
-            </p>
-          </div>
-        </div>
+              <div className="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                  <span className="chip chip-coral !bg-white/70">
+                    <span className="dot dot-coral" />
+                    Design your own
+                  </span>
+                  <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.025em] sm:text-4xl">
+                    A vibe{" "}
+                    <em className="serif-italic text-[color:var(--color-coral-deep)]">only you</em>{" "}
+                    can describe.
+                  </h2>
+                  <p className="mt-3 max-w-xl text-sm text-[color:var(--color-ink-muted)]">
+                    Write it out in your own words. Drop a photo of a place, a light, a palette —
+                    anything the shoot should feel like.
+                  </p>
+                </div>
+              </div>
 
-        <div className="mt-8 grid gap-8 md:grid-cols-[1.25fr_1fr]">
-          <div>
-            <label className="small-caps text-[color:var(--color-ink-muted)]">Describe the moment</label>
-            <textarea
-              value={customDescription}
-              onChange={(e) => setCustomDescription(e.target.value)}
-              rows={6}
-              placeholder={`e.g. "Everyone reading in a sunroom on a rainy afternoon, slate and wool, wet windows, quiet."`}
-              className="serif mt-2 w-full resize-none rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-elevated)] p-4 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)]"
-            />
-          </div>
+              <div className="mt-8 grid gap-8 md:grid-cols-[1.25fr_1fr]">
+                <div>
+                  <label className="small-caps text-[color:var(--color-ink-muted)]">
+                    Describe the moment
+                  </label>
+                  <textarea
+                    value={customDescription}
+                    onChange={(e) => setCustomDescription(e.target.value)}
+                    rows={6}
+                    placeholder={`e.g. "Everyone reading in a sunroom on a rainy afternoon, slate and wool, wet windows, quiet."`}
+                    className="serif mt-2 w-full resize-none rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-elevated)] p-4 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)]"
+                  />
+                </div>
 
-          <div>
-            <label className="small-caps text-[color:var(--color-ink-muted)]">
-              Reference a place <span className="normal-case tracking-normal text-[0.7rem] opacity-70">(optional)</span>
-            </label>
-            <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
-              A photo of a room, a corner, a light, a color palette — we&apos;ll use it as a guide alongside your family.
-            </p>
-            <div className="mt-3">
-              {locationPreview ? (
-                <div className="warm-noise relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={locationPreview} alt="Location reference" className="h-full w-full object-cover" />
-                  <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
-                    <button type="button" onClick={() => fileInputRef.current?.click()} className="btn btn-sm bg-white/90 text-[color:var(--color-ink)] hover:bg-white">
-                      Swap
-                    </button>
-                    <button type="button" onClick={clearFile} className="btn btn-sm bg-[color:rgba(31,26,36,0.72)] text-white hover:bg-[color:var(--color-ink)]">
-                      Remove
-                    </button>
+                <div>
+                  <label className="small-caps text-[color:var(--color-ink-muted)]">
+                    Reference a place{" "}
+                    <span className="normal-case tracking-normal text-[0.7rem] opacity-70">
+                      (optional)
+                    </span>
+                  </label>
+                  <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
+                    A photo of a room, a corner, a light, a color palette — we&apos;ll use it as a
+                    guide alongside your family.
+                  </p>
+                  <div className="mt-3">
+                    {locationPreview ? (
+                      <div className="warm-noise relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={locationPreview}
+                          alt="Location reference"
+                          className="h-full w-full object-cover"
+                        />
+                        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="btn btn-sm bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+                          >
+                            Swap
+                          </button>
+                          <button
+                            type="button"
+                            onClick={clearFile}
+                            className="btn btn-sm bg-[color:rgba(31,26,36,0.72)] text-white hover:bg-[color:var(--color-ink)]"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="spring-press flex aspect-[4/3] w-full items-center justify-center rounded-[var(--radius-lg)] border-2 border-dashed border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-elevated)] text-[color:var(--color-coral-deep)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-coral-soft)]"
+                      >
+                        <span className="flex items-center gap-2 text-sm font-semibold">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-5 w-5"
+                          >
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                          Drop a reference photo
+                        </span>
+                      </button>
+                    )}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                      className="hidden"
+                      onChange={(e) => e.target.files?.[0] && pickFile(e.target.files[0])}
+                    />
                   </div>
                 </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="spring-press flex aspect-[4/3] w-full items-center justify-center rounded-[var(--radius-lg)] border-2 border-dashed border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-elevated)] text-[color:var(--color-coral-deep)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-coral-soft)]"
-                >
-                  <span className="flex items-center gap-2 text-sm font-semibold">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                      <path d="M12 5v14M5 12h14" />
-                    </svg>
-                    Drop a reference photo
-                  </span>
-                </button>
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
-                className="hidden"
-                onChange={(e) => e.target.files?.[0] && pickFile(e.target.files[0])}
-              />
-            </div>
-          </div>
-        </div>
+              </div>
 
-        <div className="mt-8 flex items-center justify-end">
-          <button
-            onClick={launchCustom}
-            disabled={pending || customDescription.trim().length < 4}
-            className="btn btn-coral btn-lg"
-          >
-            {pending && launchingCustom ? "Setting up…" : "Begin this shoot"}
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </button>
-        </div>
-      </section>
+              <div className="mt-8 flex items-center justify-end">
+                <button
+                  onClick={launchCustom}
+                  disabled={pending || customDescription.trim().length < 4}
+                  className="btn btn-coral btn-lg"
+                >
+                  {pending && launchingCustom ? "Setting up…" : "Begin this shoot"}
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+            </section>
           </motion.div>
         )}
       </AnimatePresence>
@@ -456,7 +525,12 @@ export default function ThemeBoard({
                     key={i}
                     className="inline-block h-2 w-2 rounded-full bg-[color:var(--color-coral)]"
                     animate={{ y: [0, -6, 0], opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+                    transition={{
+                      duration: 0.9,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                      ease: "easeInOut",
+                    }}
                   />
                 ))}
               </div>
@@ -474,4 +548,3 @@ export default function ThemeBoard({
     </>
   );
 }
-

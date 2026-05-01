@@ -32,7 +32,7 @@ const steps: Step[] = [
   {
     n: 3,
     title: "Yours to keep",
-    body: "Favorite the ones you love. Nudge anything that isn't quite right (\"more smiling\", \"swap the navy jacket\"). Print, frame, or slip into a card.",
+    body: 'Favorite the ones you love. Nudge anything that isn\'t quite right ("more smiling", "swap the navy jacket"). Print, frame, or slip into a card.',
     panel: "butter",
     chip: "butter",
     visual: "keep",
@@ -50,7 +50,8 @@ export default function HowItWorks() {
               How it works
             </span>
             <h2 className="serif mx-auto mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-              Three steps. About <em className="serif-italic text-[color:var(--color-plum)]">two minutes</em>.
+              Three steps. About{" "}
+              <em className="serif-italic text-[color:var(--color-plum)]">two minutes</em>.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-[color:var(--color-ink-muted)]">
               Simple enough for a toddler&apos;s nap-time. Polished enough to frame.
@@ -66,17 +67,15 @@ export default function HowItWorks() {
                 whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
               >
                 <div className="flex items-center justify-between">
-                  <span className={`chip chip-${s.chip} !bg-white/70`}>Step {String(s.n).padStart(2, "0")}</span>
+                  <span className={`chip chip-${s.chip} !bg-white/70`}>
+                    Step {String(s.n).padStart(2, "0")}
+                  </span>
                   <div className="transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-[1.04]">
                     <StepVisual kind={s.visual} />
                   </div>
                 </div>
-                <h3 className="serif mt-8 text-3xl leading-tight tracking-[-0.02em]">
-                  {s.title}
-                </h3>
-                <p className="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
-                  {s.body}
-                </p>
+                <h3 className="serif mt-8 text-3xl leading-tight tracking-[-0.02em]">{s.title}</h3>
+                <p className="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">{s.body}</p>
               </motion.li>
             </Reveal>
           ))}
@@ -114,7 +113,13 @@ function StepVisual({ kind }: { kind: Step["visual"] }) {
         <rect x="58" y="22" width="13" height="36" rx="4" fill="#4A3557" />
         <circle cx="30" cy="17" r="2" fill="#8AAE9B" />
         <path d="M36 10l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5 1.5-4z" fill="#8AAE9B" />
-        <path d="M66 63l5-2 1 6" stroke="#F26B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M66 63l5-2 1 6"
+          stroke="#F26B4A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
         <circle cx="52" cy="61" r="3" fill="#F26B4A" />
       </svg>
     );

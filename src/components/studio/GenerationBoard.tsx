@@ -136,9 +136,7 @@ export default function GenerationBoard({
             </AnimatePresence>
 
             {/* Confetti overlay on completion */}
-            {celebratedAt && i === 0 && (
-              <Confetti key={celebratedAt} count={22} />
-            )}
+            {celebratedAt && i === 0 && <Confetti key={celebratedAt} count={22} />}
           </div>
         ))}
       </div>
@@ -152,24 +150,32 @@ export default function GenerationBoard({
                   key={i}
                   className="inline-block h-1.5 w-1.5 rounded-full bg-[color:var(--color-coral)]"
                   animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+                  transition={{
+                    duration: 0.9,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: "easeInOut",
+                  }}
                 />
               ))}
             </div>
           )}
           <p className="text-sm text-[color:var(--color-ink-muted)]">
-            {done
-              ? <>All four ready. <span className="text-[color:var(--color-ink)]">Tap the heart</span> on the ones you love.</>
-              : err
-                ? "Shoot ended early."
-                : (
-                  <>
-                    <span className="text-[color:var(--color-ink)]">{loadingMessages[messageIdx]}</span>
-                    <span className="ml-2 text-[color:var(--color-ink-faint)]">
-                      {images.length} of 4 ready
-                    </span>
-                  </>
-                )}
+            {done ? (
+              <>
+                All four ready. <span className="text-[color:var(--color-ink)]">Tap the heart</span>{" "}
+                on the ones you love.
+              </>
+            ) : err ? (
+              "Shoot ended early."
+            ) : (
+              <>
+                <span className="text-[color:var(--color-ink)]">{loadingMessages[messageIdx]}</span>
+                <span className="ml-2 text-[color:var(--color-ink-faint)]">
+                  {images.length} of 4 ready
+                </span>
+              </>
+            )}
           </p>
         </div>
 
@@ -179,7 +185,16 @@ export default function GenerationBoard({
           </Link>
           <Link href="/studio/album" className="btn btn-coral btn-sm">
             Album
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </Link>
@@ -226,7 +241,15 @@ function ImageTile({
           onClick={onRefineClick}
           className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-3.5 w-3.5"
+          >
             <path d="M3 21l3-1 11-11-2-2L4 18l-1 3zM14 7l3 3" />
           </svg>
           Refine
@@ -266,10 +289,7 @@ function Skeleton({ index }: { index: number }) {
   const tilt = useMemo(() => -3 + index * 2, [index]);
   return (
     <div className="developing absolute inset-0 flex items-center justify-center">
-      <div
-        className="relative"
-        style={{ transform: `rotate(${tilt}deg)` }}
-      >
+      <div className="relative" style={{ transform: `rotate(${tilt}deg)` }}>
         {/* Tiny polaroid illustration */}
         <div className="polaroid">
           <div className="h-[120px] w-[96px] sm:h-[140px] sm:w-[112px] bg-[color:rgba(255,255,255,0.55)]" />

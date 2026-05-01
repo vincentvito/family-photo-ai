@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  ensureStorageReady,
-  saveLocationReference,
-} from "@/lib/storage";
+import { ensureStorageReady, saveLocationReference } from "@/lib/storage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,18 +14,12 @@ export async function POST(req: NextRequest) {
 
   const allowed = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
   if (file.type && !allowed.includes(file.type)) {
-    return NextResponse.json(
-      { error: `Unsupported file type: ${file.type}` },
-      { status: 415 },
-    );
+    return NextResponse.json({ error: `Unsupported file type: ${file.type}` }, { status: 415 });
   }
 
   const maxBytes = 20 * 1024 * 1024;
   if (file.size > maxBytes) {
-    return NextResponse.json(
-      { error: "File is larger than 20MB" },
-      { status: 413 },
-    );
+    return NextResponse.json({ error: "File is larger than 20MB" }, { status: 413 });
   }
 
   await ensureStorageReady();

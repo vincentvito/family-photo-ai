@@ -26,13 +26,16 @@ export default function Confetti({ count = 14, trigger = true, className }: Prop
         delay: randomUnit(i, 5) * 0.18,
         shape: i % 3,
       })),
-    [count]
+    [count],
   );
 
   if (!trigger || reduce) return null;
 
   return (
-    <div className={`pointer-events-none absolute inset-0 overflow-visible ${className ?? ""}`} aria-hidden>
+    <div
+      className={`pointer-events-none absolute inset-0 overflow-visible ${className ?? ""}`}
+      aria-hidden
+    >
       <div className="absolute left-1/2 top-1/2">
         {pieces.map((p) => (
           <motion.span

@@ -17,10 +17,10 @@ function Polaroid({
     tinted === "coral"
       ? "bg-[color:var(--color-coral-soft)]"
       : tinted === "sage"
-      ? "bg-[color:var(--color-sage-soft)]"
-      : tinted === "butter"
-      ? "bg-[color:var(--color-butter-soft)]"
-      : "";
+        ? "bg-[color:var(--color-sage-soft)]"
+        : tinted === "butter"
+          ? "bg-[color:var(--color-butter-soft)]"
+          : "";
 
   return (
     <div className="polaroid polaroid-lg relative w-[240px] sm:w-[260px]">
@@ -84,15 +84,28 @@ export default function Hero() {
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
             Family photos
             <br />
-            you&apos;ll <em className="serif-italic text-[color:var(--color-coral)]">actually</em> print.
+            you&apos;ll <em className="serif-italic text-[color:var(--color-coral)]">
+              actually
+            </em>{" "}
+            print.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-            Scattered iPhone photos in, frame-worthy family portrait out — in about two minutes. Pick a vibe, upload a few references, keep what you love.
+            Scattered iPhone photos in, frame-worthy family portrait out — in about two minutes.
+            Pick a vibe, upload a few references, keep what you love.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link href="/studio/roster" className="btn btn-coral btn-lg">
+            <Link href="/sign-in" className="btn btn-coral btn-lg">
               Begin a shoot
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </Link>
@@ -133,7 +146,9 @@ export default function Hero() {
                 offsetY: 6,
                 depth: 22,
                 zIndex: 2,
-                content: <Polaroid src="/samples/g-5.jpg" caption="Leibovitz studio" tinted="sage" />,
+                content: (
+                  <Polaroid src="/samples/g-5.jpg" caption="Leibovitz studio" tinted="sage" />
+                ),
               },
               {
                 rotate: -2,
@@ -141,7 +156,13 @@ export default function Hero() {
                 offsetY: -20,
                 depth: 30,
                 zIndex: 3,
-                content: <Polaroid src="/samples/hero.jpg" caption="Golden hour, back porch" tinted="coral" />,
+                content: (
+                  <Polaroid
+                    src="/samples/hero.jpg"
+                    caption="Golden hour, back porch"
+                    tinted="coral"
+                  />
+                ),
               },
             ]}
           />

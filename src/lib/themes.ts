@@ -194,8 +194,7 @@ export const THEMES: Theme[] = [
   {
     id: "national-geographic",
     name: "National Geographic Expedition",
-    blurb:
-      "On a windswept ridge at dawn. Technical outerwear, real weather, real awe.",
+    blurb: "On a windswept ridge at dawn. Technical outerwear, real weather, real awe.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-natgeo.jpg",
@@ -218,8 +217,7 @@ export const THEMES: Theme[] = [
   {
     id: "film-noir",
     name: "Film Noir",
-    blurb:
-      "Black-and-white, venetian-blind shadows. The family as a moody detective vignette.",
+    blurb: "Black-and-white, venetian-blind shadows. The family as a moody detective vignette.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-film-noir.jpg",
@@ -242,8 +240,7 @@ export const THEMES: Theme[] = [
   {
     id: "christmas-morning",
     name: "Christmas Morning",
-    blurb:
-      "The tree in the background, pajamas, warm lamplight. Somewhere between chaos and calm.",
+    blurb: "The tree in the background, pajamas, warm lamplight. Somewhere between chaos and calm.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-christmas-morning.jpg",
@@ -290,8 +287,7 @@ export const THEMES: Theme[] = [
   {
     id: "cherry-blossom",
     name: "Cherry Blossom",
-    blurb:
-      "Pink petals drifting in a Kyoto garden at spring's first warmth. Cotton, film, quiet.",
+    blurb: "Pink petals drifting in a Kyoto garden at spring's first warmth. Cotton, film, quiet.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-cherry-blossom.jpg",
@@ -338,8 +334,7 @@ export const THEMES: Theme[] = [
   {
     id: "desert-santa-fe",
     name: "Desert · Santa Fe",
-    blurb:
-      "Adobe walls and open sky, the red earth of the American Southwest at dusk.",
+    blurb: "Adobe walls and open sky, the red earth of the American Southwest at dusk.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-desert-santa-fe.jpg",
@@ -386,8 +381,7 @@ export const THEMES: Theme[] = [
   {
     id: "lake-house",
     name: "Lake House",
-    blurb:
-      "The long wooden dock, warm water behind, a retriever at the edge. Summer ease.",
+    blurb: "The long wooden dock, warm water behind, a retriever at the edge. Summer ease.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-lake-house.jpg",
@@ -556,8 +550,7 @@ export const THEMES: Theme[] = [
   {
     id: "manga-family",
     name: "Manga / Anime",
-    blurb:
-      "Hand-drawn lines, cel-shaded color. A quiet Studio Ghibli family moment.",
+    blurb: "Hand-drawn lines, cel-shaded color. A quiet Studio Ghibli family moment.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-manga.jpg",
@@ -580,8 +573,7 @@ export const THEMES: Theme[] = [
   {
     id: "superhero-family",
     name: "Superhero Family",
-    blurb:
-      "Costumes, capes, the whole family on a rooftop at golden hour. The dog has a cape too.",
+    blurb: "Costumes, capes, the whole family on a rooftop at golden hour. The dog has a cape too.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-superhero.jpg",
@@ -604,8 +596,7 @@ export const THEMES: Theme[] = [
   {
     id: "saturday-morning",
     name: "Saturday Morning Cartoon",
-    blurb:
-      "A hand-drawn 90s cartoon frame. Bright primary colors, cheerful chaos.",
+    blurb: "A hand-drawn 90s cartoon frame. Bright primary colors, cheerful chaos.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-cartoon.jpg",
@@ -652,8 +643,7 @@ export const THEMES: Theme[] = [
   {
     id: "renaissance-oil",
     name: "Renaissance Oil",
-    blurb:
-      "The family as a Dutch-master painting. Deep umbers, candlelight, stillness.",
+    blurb: "The family as a Dutch-master painting. Deep umbers, candlelight, stillness.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-renaissance-oil.jpg",
@@ -708,8 +698,7 @@ export const THEMES: Theme[] = [
     aspectRatio: "1:1",
     supportsPets: true,
     spec: {
-      assetType:
-        "A 1:1 photoreal CGI render of plastic toy-brick minifigures",
+      assetType: "A 1:1 photoreal CGI render of plastic toy-brick minifigures",
       subjectAction:
         "a family group of minifigures standing together on a brick base, cylindrical hair pieces, C-shaped hands, tiny printed smiles, a tiny minifigure-scale dog beside them",
       location:
@@ -725,16 +714,14 @@ export const THEMES: Theme[] = [
   {
     id: "watercolor-storybook",
     name: "Watercolor Storybook",
-    blurb:
-      "A children's-book illustration of the family. Soft washes, hand-lettered warmth.",
+    blurb: "A children's-book illustration of the family. Soft washes, hand-lettered warmth.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-watercolor-storybook.jpg",
     aspectRatio: "4:5",
     supportsPets: true,
     spec: {
-      assetType:
-        "A 4:5 hand-painted watercolor children's storybook illustration",
+      assetType: "A 4:5 hand-painted watercolor children's storybook illustration",
       subjectAction:
         "the family walking hand-in-hand through a whimsical garden, one pointing at a lantern tree, a small dog trotting alongside, softened painterly proportions",
       location:
@@ -897,8 +884,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-christmas",
     name: "Holiday Card — Christmas",
-    blurb:
-      "A card-ready portrait with a thoughtful serif greeting laid into the image.",
+    blurb: "A card-ready portrait with a thoughtful serif greeting laid into the image.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-christmas.jpg",
@@ -946,8 +932,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-birthday",
     name: "Birthday Invitation",
-    blurb:
-      "A playful card portrait for a kid's birthday — streamers, cake, candlelight.",
+    blurb: "A playful card portrait for a kid's birthday — streamers, cake, candlelight.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-birthday.jpg",
@@ -996,8 +981,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-thanksgiving",
     name: "Thanksgiving Card",
-    blurb:
-      "A harvest table in amber light. Gratitude, a full spread, hands clasped.",
+    blurb: "A harvest table in amber light. Gratitude, a full spread, hands clasped.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-thanksgiving.jpg",
@@ -1021,8 +1005,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-new-years",
     name: "New Year's Card",
-    blurb:
-      "Confetti, black-tie, a midnight toast. The year ahead looks cinematic.",
+    blurb: "Confetti, black-tie, a midnight toast. The year ahead looks cinematic.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-new-years.jpg",
@@ -1046,8 +1029,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-graduation",
     name: "Graduation Card",
-    blurb:
-      "Caps, gowns, golden afternoon light. A quiet moment before the next chapter.",
+    blurb: "Caps, gowns, golden afternoon light. A quiet moment before the next chapter.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-graduation.jpg",
@@ -1071,8 +1053,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-newborn",
     name: "Newborn Announcement",
-    blurb:
-      "Soft window light, a sleeping newborn, the family gathered. Tender space for a name.",
+    blurb: "Soft window light, a sleeping newborn, the family gathered. Tender space for a name.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-newborn.jpg",
@@ -1146,8 +1127,7 @@ export const THEMES: Theme[] = [
   {
     id: "card-fathers-day",
     name: "Father's Day Card",
-    blurb:
-      "A backyard catch with the kids, golden-afternoon light, room for a warm short note.",
+    blurb: "A backyard catch with the kids, golden-afternoon light, room for a warm short note.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-fathers-day.jpg",
@@ -1242,10 +1222,7 @@ export function themesByCategory() {
  * their own camera / lighting / style notes in the description — those
  * will simply appear alongside the defaults in the composed prompt.
  */
-function buildCustomSpec(opts: {
-  description: string;
-  aspectRatio: AspectRatio;
-}): PromptSpec {
+function buildCustomSpec(opts: { description: string; aspectRatio: AspectRatio }): PromptSpec {
   const description = opts.description.trim().replace(/\s+$/u, "");
   return {
     assetType: `A ${opts.aspectRatio} cinematic color photograph`,
@@ -1265,10 +1242,7 @@ function buildCustomSpec(opts: {
 }
 
 /** A synthetic Theme object built from a custom-vibe generation row. */
-export function buildCustomTheme(opts: {
-  description: string;
-  aspectRatio: AspectRatio;
-}): Theme {
+export function buildCustomTheme(opts: { description: string; aspectRatio: AspectRatio }): Theme {
   return {
     id: "custom",
     name: "Custom vibe",
@@ -1298,19 +1272,13 @@ export function resolveTheme(generation: {
 }): Theme {
   if (generation.themeId === "custom") {
     const description =
-      generation.customVibeDescription?.trim() ||
-      "A warm, honest family portrait.";
-    const aspectRatio =
-      (generation.aspectRatio as AspectRatio | null) ?? "4:5";
+      generation.customVibeDescription?.trim() || "A warm, honest family portrait.";
+    const aspectRatio = (generation.aspectRatio as AspectRatio | null) ?? "4:5";
     return buildCustomTheme({ description, aspectRatio });
   }
   const theme = getTheme(generation.themeId);
-  if (
-    generation.aspectRatio &&
-    generation.aspectRatio !== theme.aspectRatio
-  ) {
+  if (generation.aspectRatio && generation.aspectRatio !== theme.aspectRatio) {
     return { ...theme, aspectRatio: generation.aspectRatio as AspectRatio };
   }
   return theme;
 }
-
