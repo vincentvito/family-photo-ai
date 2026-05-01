@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Hero from "@/components/landing/Hero";
 import BeforeAfter from "@/components/landing/BeforeAfter";
 import Gallery from "@/components/landing/Gallery";

@@ -1,8 +1,6 @@
 import type {
   ImageProvider,
-  GenerateArgs,
   GenerateResult,
-  RefineArgs,
   RefineResult,
   UpscaleArgs,
   UpscaleResult,
@@ -29,13 +27,13 @@ export class ReplicateProvider implements ImageProvider {
   id = "replicate" as const;
   label = "Replicate (upscale only)";
 
-  async generatePortrait(_args: GenerateArgs): Promise<GenerateResult> {
+  async generatePortrait(): Promise<GenerateResult> {
     throw new Error(
       "Replicate is no longer used for generation. All themes run on Nano Banana Pro.",
     );
   }
 
-  async refineImage(_args: RefineArgs): Promise<RefineResult> {
+  async refineImage(): Promise<RefineResult> {
     throw new Error(
       "Refinement is always routed through Nano Banana Pro.",
     );

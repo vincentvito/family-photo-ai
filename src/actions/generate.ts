@@ -66,7 +66,7 @@ export async function startGeneration(
 
   await ensureStorageReady();
 
-  const provider = pickGenerationProvider(theme.id);
+  const provider = pickGenerationProvider();
   const prompt = buildGenerationPrompt(
     theme,
     roster,
@@ -108,7 +108,7 @@ async function runGeneration(generationId: string) {
 
   const theme = resolveTheme(generation);
   const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
-  const provider = pickGenerationProvider(theme.id);
+  const provider = pickGenerationProvider();
 
   try {
     const result = await provider.generatePortrait({

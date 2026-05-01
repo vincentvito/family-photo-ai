@@ -7,6 +7,7 @@ import type { Theme } from "@/lib/themes";
 import type { AspectRatio } from "@/lib/providers/types";
 import { startGeneration } from "@/actions/generate";
 import ThemeCard from "./ThemeCard";
+import ThemeSection from "./ThemeSection";
 
 type ShapeId =
   | "default"
@@ -371,7 +372,7 @@ export default function ThemeBoard({
               Reference a place <span className="normal-case tracking-normal text-[0.7rem] opacity-70">(optional)</span>
             </label>
             <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
-              A photo of a room, a corner, a light, a color palette — we'll use it as a guide alongside your family.
+              A photo of a room, a corner, a light, a color palette — we&apos;ll use it as a guide alongside your family.
             </p>
             <div className="mt-3">
               {locationPreview ? (
@@ -474,102 +475,3 @@ export default function ThemeBoard({
   );
 }
 
-function ThemeSection({
-  label,
-  sublabel,
-  chipColor,
-  themes,
-  pending,
-  activeId,
-  onPick,
-  initialCount = 6,
-}: {
-  label: string;
-  sublabel: string;
-  chipColor: "sage" | "plum" | "butter";
-  themes: Theme[];
-  pending: boolean;
-  activeId: string | null;
-  onPick: (t: Theme) => void;
-  initialCount?: number;
-}) {
-  const [expanded, setExpanded] = useState(false);
-  const head = themes.slice(0, initialCount);
-  const tail = themes.slice(initialCount);
-  const hasMore = tail.length > 0;
-
-  return (
-    <section className="mt-20">
-      <div className="flex items-end justify-between flex-wrap gap-3">
-        <div>
-          <span className={`chip chip-${chipColor}`}>
-            <span className={`dot dot-${chipColor}`} />
-            {label}
-          </span>
-          <p className="mt-3 serif text-2xl tracking-[-0.02em] text-[color:var(--color-ink)]">{sublabel}</p>
-        </div>
-        <p className="text-xs text-[color:var(--color-ink-muted)]">
-          {!hasMore || expanded
-            ? `${themes.length} ${themes.length === 1 ? "vibe" : "vibes"}`
-            : `${initialCount} of ${themes.length}`}
-        </p>
-      </div>
-      <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {head.map((t) => (
-          <ThemeCard
-            key={t.id}
-            theme={t}
-            disabled={pending}
-            loading={activeId === t.id && pending}
-            onPick={() => onPick(t)}
-          />
-        ))}
-        <AnimatePresence initial={false}>
-          {expanded &&
-            tail.map((t, i) => (
-              <motion.div
-                key={t.id}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.4, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <ThemeCard
-                  theme={t}
-                  disabled={pending}
-                  loading={activeId === t.id && pending}
-                  onPick={() => onPick(t)}
-                />
-              </motion.div>
-            ))}
-        </AnimatePresence>
-      </div>
-      {hasMore && (
-        <div className="mt-8 flex items-center justify-center">
-          <button
-            type="button"
-            onClick={() => setExpanded((e) => !e)}
-            className="btn btn-ghost btn-sm"
-            aria-expanded={expanded}
-          >
-            {expanded ? (
-              <>
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M18 15l-6-6-6 6" />
-                </svg>
-                Show fewer
-              </>
-            ) : (
-              <>
-                Show all {themes.length}
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </>
-            )}
-          </button>
-        </div>
-      )}
-    </section>
-  );
-}

@@ -44,7 +44,7 @@ export default async function RefinePage({
         )}
       </div>
 
-      <RefineStage imageId={imageId} initialState={state} />
+      <RefineStage initialState={state} />
     </main>
   );
 }

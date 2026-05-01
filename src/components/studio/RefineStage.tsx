@@ -18,10 +18,8 @@ const suggestions = [
 ];
 
 export default function RefineStage({
-  imageId,
   initialState,
 }: {
-  imageId: string;
   initialState: State;
 }) {
   const [state, setState] = useState(initialState);

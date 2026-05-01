@@ -4,7 +4,7 @@ import path from "node:path";
 import fs from "node:fs";
 import { PassThrough, Readable } from "node:stream";
 import { db, schema } from "@/lib/db";
-import { and, desc, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { storagePath } from "@/lib/storage";
 
 export const runtime = "nodejs";

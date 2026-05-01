@@ -28,8 +28,6 @@ async function main() {
   // --- 1. Seed people via the addPerson server action is awkward to call over HTTP,
   // so we go through the Drizzle client directly.
   const { db, schema } = await import("../src/lib/db.ts");
-  const { eq } = await import("drizzle-orm");
-
   // Clear prior state for a clean run.
   await db.delete(schema.albumImages);
   await db.delete(schema.albums);

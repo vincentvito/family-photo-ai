@@ -56,7 +56,7 @@ function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 }
 
-function svgFor({ w, h, palette, caption, subtitle, id }) {
+function svgFor({ w, h, palette, caption, subtitle }) {
   const [a, b, c] = palette;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
     <defs>

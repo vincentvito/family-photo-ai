@@ -84,7 +84,7 @@ export default function Hero() {
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
             Family photos
             <br />
-            you'll <em className="serif-italic text-[color:var(--color-coral)]">actually</em> print.
+            you&apos;ll <em className="serif-italic text-[color:var(--color-coral)]">actually</em> print.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
             Scattered iPhone photos in, frame-worthy family portrait out — in about two minutes. Pick a vibe, upload a few references, keep what you love.

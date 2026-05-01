@@ -29,12 +29,10 @@ const loadingMessages = [
 
 export default function GenerationBoard({
   generationId,
-  themeId: _themeId,
   aspectRatio,
   initialState,
 }: {
   generationId: string;
-  themeId: string;
   aspectRatio: AspectRatio;
   initialState: State;
 }) {

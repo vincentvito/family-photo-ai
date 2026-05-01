@@ -30,7 +30,7 @@ export function availableProviders() {
  * Nano Banana Pro. Falls back to the mock provider if no Replicate token is
  * available.
  */
-export function pickGenerationProvider(_themeId: string): ImageProvider {
+export function pickGenerationProvider(): ImageProvider {
   if (mockMode()) return mock;
   return availableProviders().nanobanana ? nanoBanana : mock;
 }

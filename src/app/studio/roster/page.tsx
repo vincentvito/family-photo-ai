@@ -20,7 +20,7 @@ export default async function RosterPage() {
             Step 01 · Roster
           </span>
           <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-            Who's in the <em className="serif-italic text-[color:var(--color-coral)]">shoot</em>?
+            Who&apos;s in the <em className="serif-italic text-[color:var(--color-coral)]">shoot</em>?
           </h1>
           <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
             Add each person (and pet) who should appear. A few clear photos of
@@ -66,7 +66,7 @@ function EmptyState() {
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">No one on the roster yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
         Start with yourself — add one person, then add their reference photos.
-        You'll add the rest of the family after.
+        You&apos;ll add the rest of the family after.
       </p>
     </div>
   );

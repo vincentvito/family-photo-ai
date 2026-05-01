@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { toggleFavorite } from "@/actions/album";
 
@@ -34,13 +35,15 @@ export default function AlbumGrid({ items }: { items: Item[] }) {
 function AlbumTile({ item }: { item: Item }) {
   const [open, setOpen] = useState(false);
   const [removing, start] = useTransition();
+  const router = useRouter();
   const chip = chipFor(item.generation.themeId);
 
   const remove = () => {
     if (!confirm("Remove from album?")) return;
     start(async () => {
       await toggleFavorite(item.image.id);
-      window.location.reload();
+      setOpen(false);
+      router.refresh();
     });
   };
 

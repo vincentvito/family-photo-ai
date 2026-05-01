@@ -73,18 +73,13 @@ export default function BeforeAfter() {
               aria-label="After"
             />
             <div
-              className="absolute inset-y-0 left-0 overflow-hidden"
-              style={{ width: `${split}%` }}
-            >
-              <div
-                className="absolute inset-y-0 left-0 bg-cover bg-center"
-                style={{
-                  width: frameRef.current?.clientWidth ?? "100%",
-                  backgroundImage: `url(${pair.before})`,
-                }}
-                aria-label="Before"
-              />
-            </div>
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${pair.before})`,
+                clipPath: `inset(0 ${100 - split}% 0 0)`,
+              }}
+              aria-label="Before"
+            />
 
             {/* Before/after chips */}
             <span className="chip chip-ghost absolute left-4 top-4 bg-[color:rgba(255,255,255,0.92)] backdrop-blur text-[color:var(--color-ink)]">

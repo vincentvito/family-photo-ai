@@ -4,9 +4,7 @@ import path from "node:path";
 import * as schema from "../../db/schema";
 
 declare global {
-  // eslint-disable-next-line no-var
   var __db: ReturnType<typeof drizzle<typeof schema>> | undefined;
-  // eslint-disable-next-line no-var
   var __sqlite: Database.Database | undefined;
 }
 

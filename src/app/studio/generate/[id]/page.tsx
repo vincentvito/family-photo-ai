@@ -33,7 +33,6 @@ export default async function GeneratePage({
 
       <GenerationBoard
         generationId={id}
-        themeId={theme.id}
         aspectRatio={theme.aspectRatio}
         initialState={state}
       />

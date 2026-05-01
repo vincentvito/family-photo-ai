@@ -19,11 +19,11 @@ export default function Confetti({ count = 14, trigger = true, className }: Prop
       Array.from({ length: count }).map((_, i) => ({
         id: i,
         color: colors[i % colors.length],
-        x: (Math.random() - 0.5) * 260,
-        y: -(80 + Math.random() * 180),
-        rotate: (Math.random() - 0.5) * 520,
-        size: 6 + Math.random() * 6,
-        delay: Math.random() * 0.18,
+        x: (randomUnit(i, 1) - 0.5) * 260,
+        y: -(80 + randomUnit(i, 2) * 180),
+        rotate: (randomUnit(i, 3) - 0.5) * 520,
+        size: 6 + randomUnit(i, 4) * 6,
+        delay: randomUnit(i, 5) * 0.18,
         shape: i % 3,
       })),
     [count]
@@ -59,4 +59,9 @@ export default function Confetti({ count = 14, trigger = true, className }: Prop
       </div>
     </div>
   );
+}
+
+function randomUnit(index: number, salt: number) {
+  const value = Math.sin((index + 1) * (salt + 11) * 9301) * 10000;
+  return value - Math.floor(value);
 }

@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import type { Person, Photo } from "@/../db/schema";
 import { removePerson, removePhoto } from "@/actions/roster";
@@ -31,6 +32,7 @@ export default function PersonCard({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  const router = useRouter();
   const color = colorFor(person.id);
 
   const handleFiles = async (files: FileList) => {
@@ -47,7 +49,7 @@ export default function PersonCard({
           throw new Error(data.error ?? `Upload failed (${res.status})`);
         }
       }
-      window.location.reload();
+      router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed.");
     } finally {
@@ -78,6 +80,7 @@ export default function PersonCard({
             if (!confirm(`Remove ${person.name} from the roster?`)) return;
             start(async () => {
               await removePerson(person.id);
+              router.refresh();
             });
           }}
           disabled={pending}
@@ -103,6 +106,7 @@ export default function PersonCard({
               onClick={() =>
                 start(async () => {
                   await removePhoto(photo.id);
+                  router.refresh();
                 })
               }
               className="absolute inset-0 flex items-center justify-center bg-[color:rgba(31,26,36,0.65)] opacity-0 backdrop-blur-[2px] transition-opacity hover:opacity-100"

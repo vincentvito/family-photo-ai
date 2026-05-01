@@ -20,7 +20,7 @@ export default async function AlbumPage() {
             Your family, <em className="serif-italic text-[color:var(--color-coral)]">framed</em>.
           </h1>
           <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-            Everything you've kept. Download the whole album, or export any frame as a print-ready file.
+            Everything you&apos;ve kept. Download the whole album, or export any frame as a print-ready file.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ function EmptyAlbum() {
       </div>
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">Nothing kept yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
-        Favorite a portrait from a shoot and it'll land here, ready to print, share, or slip into a card.
+        Favorite a portrait from a shoot and it&apos;ll land here, ready to print, share, or slip into a card.
       </p>
       <Link href="/studio/roster" className="btn btn-coral mt-7">
         Begin a shoot
