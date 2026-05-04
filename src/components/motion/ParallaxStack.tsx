@@ -37,29 +37,32 @@ function ParallaxItem({
   const x = useTransform(mx, (v) => v * depth);
   const y = useTransform(my, (v) => v * depth);
 
+  // Outer wrapper handles centering only — pure static CSS, correct from SSR.
+  // Inner motion layer owns the entrance fade and parallax so neither can
+  // clobber the -50% centering translate during hydration.
   return (
-    <motion.div
+    <div
       className="absolute"
       style={{
-        x,
-        y,
-        rotate: item.rotate ?? 0,
         left: `${50 + (item.offsetX ?? 0)}%`,
         top: `${50 + (item.offsetY ?? 0)}%`,
         zIndex: item.zIndex ?? 1,
-        translateX: "-50%",
-        translateY: "-50%",
-      }}
-      initial={{ opacity: 0, y: (item.offsetY ?? 0) + 12, rotate: 0 }}
-      animate={{ opacity: 1, y: "-50%", rotate: item.rotate ?? 0 }}
-      transition={{
-        duration: 0.9,
-        delay: 0.1 + (item.zIndex ?? 1) * 0.08,
-        ease: [0.22, 1, 0.36, 1],
+        transform: "translate(-50%, -50%)",
       }}
     >
-      {item.content}
-    </motion.div>
+      <motion.div
+        style={{ x, y, rotate: item.rotate ?? 0 }}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.7,
+          delay: 0.1 + (item.zIndex ?? 1) * 0.08,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+      >
+        {item.content}
+      </motion.div>
+    </div>
   );
 }
 
