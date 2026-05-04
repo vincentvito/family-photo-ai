@@ -930,6 +930,81 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "card-diwali",
+    name: "Holiday Card — Diwali",
+    blurb:
+      "Diyas, marigolds, rangoli and warm gold light. A festive card for the festival of lights.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-diwali.jpg",
+    aspectRatio: "4:5",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 4:5 festive Diwali-card family portrait",
+      subjectAction:
+        "the family gathered close in elegant festive clothing, smiling warmly toward the camera, one child placing a diya near a colorful rangoli pattern",
+      location:
+        "a contemporary home decorated for Diwali with rows of brass diyas, marigold garlands, a bright rangoli pattern on the floor and soft string lights behind",
+      camera:
+        "Leica Q2 with 28mm Summilux f/1.7, eye-level chest-up composition, ample negative space upper-left for a serif greeting",
+      lighting:
+        "warm diya candlelight and soft indoor ambient glow, gentle gold rim light on hair and jewelry, polished holiday-card warmth",
+      style:
+        "Kodak Portra 400, saffron-gold-deep-teal palette, fine grain, elegant editorial-card finish",
+    },
+  },
+  {
+    id: "card-eid",
+    name: "Holiday Card — Eid",
+    blurb:
+      "Morning light, lanterns, sweets and family gathered after prayer. Airy, joyful and refined.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-eid.jpg",
+    aspectRatio: "4:5",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 4:5 festive Eid-al-Fitr family portrait",
+      subjectAction:
+        "the family gathered after morning prayers in modest elegant clothing, children holding small sweets, grandparents seated warmly at the center",
+      location:
+        "a bright home courtyard with patterned textiles, lanterns, dates, sweets and fresh flowers on a small table",
+      camera:
+        "Fuji GFX medium format with 63mm f/2.8, gentle three-quarter composition, upper-left negative space for a greeting",
+      lighting:
+        "soft morning sunlight with warm lantern accents, airy highlight roll-off, calm celebratory mood",
+      style:
+        "Fuji Pro 400H, emerald-cream-gold palette with soft rose accents, fine grain, refined card finish",
+    },
+  },
+  {
+    id: "card-dia-de-muertos",
+    name: "Holiday Card — Día de Muertos",
+    blurb:
+      "Marigolds, candles and a glowing ofrenda. Reverent, colorful and made for family remembrance.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-dia-de-muertos.jpg",
+    aspectRatio: "4:5",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 4:5 Día-de-Muertos family remembrance card portrait",
+      subjectAction:
+        "the family gathered together in front of the ofrenda, smiling with warmth and reverence, one subject holding a candle while a child places marigolds",
+      location:
+        "a home ofrenda decorated with marigolds, candles, papel picado, framed family photos softly out of focus and sugar skulls as respectful decor",
+      camera:
+        "Leica M10 with 50mm Summilux f/1.4, eye-level composition, family foreground right with negative space top-left for a greeting",
+      lighting:
+        "candlelit warmth from the ofrenda with gentle magenta and cobalt accents, soft falloff, cinematic remembrance mood",
+      style:
+        "Kodak Portra 400, marigold-orange-magenta-cobalt palette, fine grain, respectful editorial-card finish",
+    },
+  },
+  {
     id: "card-birthday",
     name: "Birthday Invitation",
     blurb: "A playful card portrait for a kid's birthday — streamers, cake, candlelight.",
@@ -1207,10 +1282,26 @@ export function getTheme(id: string): Theme {
 }
 
 export function themesByCategory() {
+  const cardOrder = new Map(
+    [
+      "card-christmas",
+      "card-easter",
+      "card-hanukkah",
+      "card-diwali",
+      "card-lunar-new-year",
+      "card-eid",
+      "card-dia-de-muertos",
+    ].map((id, index) => [id, index]),
+  );
+
   return {
     photoreal: THEMES.filter((t) => t.category === "photoreal"),
     stylized: THEMES.filter((t) => t.category === "stylized"),
-    card: THEMES.filter((t) => t.category === "card"),
+    card: THEMES.filter((t) => t.category === "card").sort(
+      (a, b) =>
+        (cardOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER) -
+        (cardOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER),
+    ),
   };
 }
 

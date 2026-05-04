@@ -6,38 +6,38 @@ import { motion } from "framer-motion";
 
 const tiers = [
   {
-    name: "A single shoot",
-    price: "$3",
-    sub: "Try it once.",
+    name: "Single keepsake",
+    price: "$5",
+    sub: "One photo or card.",
     features: [
-      "One full shoot (4 variations)",
-      "Unlimited refinement on favorites",
-      "Digital album",
+      "One finished photo or card",
+      "Four starting variations",
+      "Refine your favorite",
+      "Print-ready download",
     ],
     highlight: false,
   },
   {
-    name: "Family pack",
-    price: "$24",
-    sub: "A season of portraits.",
+    name: "Three-pack",
+    price: "$12",
+    sub: "Best for a small set.",
     features: [
-      "Six shoots across any themes",
-      "Unlimited refinement",
+      "Three finished photos or cards",
+      "Mix portraits and occasion cards",
+      "Refine each favorite",
       "Digital album + print-ready files",
-      "One holiday card per year",
     ],
     highlight: true,
   },
   {
-    name: "Unlimited",
-    price: "$120",
-    priceSuffix: "/ yr",
-    sub: "For the archivists.",
+    name: "Eight-pack",
+    price: "$25",
+    sub: "For holidays and family sets.",
     features: [
-      "Unlimited shoots, all themes",
-      "Unlimited refinement + print-ready files",
-      "Unlimited holiday and occasion cards",
-      "Priority rendering",
+      "Eight finished photos or cards",
+      "Great for gifts, seasons and siblings",
+      "Refine each favorite",
+      "Album export for the full set",
     ],
     highlight: false,
   },
@@ -66,10 +66,10 @@ export default function Pricing() {
           <div className="text-center">
             <span className="chip chip-butter">
               <span className="dot dot-butter" />
-              Keepsakes, not subscriptions
+              Simple photo packs
             </span>
             <h2 className="serif mx-auto mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-              Pick what <em className="serif-italic text-[color:var(--color-coral)]">fits</em> your
+              Pay for what <em className="serif-italic text-[color:var(--color-coral)]">fits</em> your
               family.
             </h2>
           </div>
@@ -101,13 +101,6 @@ export default function Pricing() {
                 </p>
                 <div className="mt-5 flex items-baseline gap-2">
                   <span className="serif text-6xl tracking-[-0.035em]">{t.price}</span>
-                  {t.priceSuffix && (
-                    <span
-                      className={`text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.65)]" : "text-[color:var(--color-ink-muted)]"}`}
-                    >
-                      {t.priceSuffix}
-                    </span>
-                  )}
                 </div>
                 <p
                   className={`mt-2 text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.75)]" : "text-[color:var(--color-ink-muted)]"}`}

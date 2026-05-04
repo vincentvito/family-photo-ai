@@ -7,15 +7,15 @@ import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
 const FEATURED_IDS = [
+  "card-diwali",
   "golden-hour-beach",
-  "wes-anderson",
-  "autumn-cabin",
-  "pixar-family",
-  "leibovitz-studio",
-  "ghibli-countryside",
-  "card-christmas",
+  "card-dia-de-muertos",
   "cherry-blossom",
-  "lego-family",
+  "card-lunar-new-year",
+  "card-eid",
+  "coastal-grandmother",
+  "y2k-disposable",
+  "card-hanukkah",
 ];
 
 const featured = FEATURED_IDS.map((id) => THEMES.find((t) => t.id === id)!).filter(Boolean);

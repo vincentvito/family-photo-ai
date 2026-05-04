@@ -1,6 +1,7 @@
 import Hero from "@/components/landing/Hero";
 import BeforeAfter from "@/components/landing/BeforeAfter";
 import Gallery from "@/components/landing/Gallery";
+import OccasionCards from "@/components/landing/OccasionCards";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TrustPrivacy from "@/components/landing/TrustPrivacy";
 import Pricing from "@/components/landing/Pricing";
@@ -15,6 +16,7 @@ export default function HomePage() {
         <Hero />
         <BeforeAfter />
         <Gallery />
+        <OccasionCards />
         <HowItWorks />
         <TrustPrivacy />
         <Pricing />
