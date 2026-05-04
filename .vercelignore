@@ -1,0 +1,6 @@
+storage/
+storage.sqlite
+storage.sqlite-*
+*.log
+.env
+.env.local

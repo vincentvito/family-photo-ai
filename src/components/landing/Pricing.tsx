@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import { motion } from "framer-motion";
+import LaunchGateLink from "./LaunchGateLink";
 
 const tiers = [
   {
@@ -58,7 +58,7 @@ function Check({ className }: { className?: string }) {
   );
 }
 
-export default function Pricing() {
+export default function Pricing({ gated = false }: { gated?: boolean }) {
   return (
     <section id="pricing" className="px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
@@ -124,12 +124,13 @@ export default function Pricing() {
                 </ul>
 
                 <div className="mt-10">
-                  <Link
+                  <LaunchGateLink
                     href="/sign-in"
+                    gated={gated}
                     className={`btn w-full ${t.highlight ? "btn-coral" : "btn-ghost"}`}
                   >
                     Start here
-                  </Link>
+                  </LaunchGateLink>
                 </div>
               </motion.div>
             </Reveal>

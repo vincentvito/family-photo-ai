@@ -1,17 +1,16 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { pgSchema, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
+
+export const familyphotoai = pgSchema("familyphotoai");
 
 const id = () =>
   text("id")
     .primaryKey()
     .$defaultFn(() => nanoid(14));
 
-const createdAt = () =>
-  integer("created_at")
-    .notNull()
-    .$defaultFn(() => Date.now());
+const createdAt = () => timestamp("created_at").notNull().defaultNow();
 
-export const people = sqliteTable("people", {
+export const people = familyphotoai.table("people", {
   id: id(),
   name: text("name").notNull(),
   role: text("role", { enum: ["adult", "child", "pet"] }).notNull(),
@@ -19,7 +18,7 @@ export const people = sqliteTable("people", {
   createdAt: createdAt(),
 });
 
-export const photos = sqliteTable("photos", {
+export const photos = familyphotoai.table("photos", {
   id: id(),
   personId: text("person_id")
     .notNull()
@@ -27,11 +26,11 @@ export const photos = sqliteTable("photos", {
   fileName: text("file_name").notNull(),
   width: integer("width").notNull(),
   height: integer("height").notNull(),
-  isPrimary: integer("is_primary", { mode: "boolean" }).notNull().default(false),
+  isPrimary: boolean("is_primary").notNull().default(false),
   createdAt: createdAt(),
 });
 
-export const generations = sqliteTable("generations", {
+export const generations = familyphotoai.table("generations", {
   id: id(),
   themeId: text("theme_id").notNull(),
   prompt: text("prompt").notNull(),
@@ -43,16 +42,13 @@ export const generations = sqliteTable("generations", {
   subjectSnapshot: text("subject_snapshot").notNull(),
   wardrobeNote: text("wardrobe_note"),
   cardText: text("card_text"),
-  /** Aspect ratio used for this shoot. For canned themes this mirrors theme.aspectRatio; for custom vibes it's the user's choice. */
   aspectRatio: text("aspect_ratio"),
-  /** Optional user-uploaded location / mood reference photo (relative to ./storage). */
   locationReferencePath: text("location_reference_path"),
-  /** Raw user-supplied description when themeId === "custom". */
   customVibeDescription: text("custom_vibe_description"),
   createdAt: createdAt(),
 });
 
-export const images = sqliteTable("images", {
+export const images = familyphotoai.table("images", {
   id: id(),
   generationId: text("generation_id")
     .notNull()
@@ -61,14 +57,14 @@ export const images = sqliteTable("images", {
   width: integer("width").notNull(),
   height: integer("height").notNull(),
   aspectRatio: text("aspect_ratio").notNull(),
-  isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
+  isFavorite: boolean("is_favorite").notNull().default(false),
   parentImageId: text("parent_image_id"),
   rootImageId: text("root_image_id"),
   refineInstruction: text("refine_instruction"),
   createdAt: createdAt(),
 });
 
-export const refinementHistory = sqliteTable("refinement_history", {
+export const refinementHistory = familyphotoai.table("refinement_history", {
   id: id(),
   rootImageId: text("root_image_id").notNull(),
   stepIndex: integer("step_index").notNull(),
@@ -79,13 +75,13 @@ export const refinementHistory = sqliteTable("refinement_history", {
   createdAt: createdAt(),
 });
 
-export const albums = sqliteTable("albums", {
+export const albums = familyphotoai.table("albums", {
   id: id(),
   name: text("name").notNull().default("My Album"),
   createdAt: createdAt(),
 });
 
-export const albumImages = sqliteTable("album_images", {
+export const albumImages = familyphotoai.table("album_images", {
   id: id(),
   albumId: text("album_id")
     .notNull()
@@ -93,9 +89,7 @@ export const albumImages = sqliteTable("album_images", {
   imageId: text("image_id")
     .notNull()
     .references(() => images.id, { onDelete: "cascade" }),
-  addedAt: integer("added_at")
-    .notNull()
-    .$defaultFn(() => Date.now()),
+  addedAt: timestamp("added_at").notNull().defaultNow(),
 });
 
 export type Person = typeof people.$inferSelect;

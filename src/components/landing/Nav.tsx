@@ -3,8 +3,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import LaunchGateLink from "./LaunchGateLink";
 
-export default function Nav() {
+export default function Nav({ gated = false }: { gated?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -62,9 +63,13 @@ export default function Nav() {
           </a>
         </div>
 
-        <Link href="/sign-in" className="btn btn-coral btn-sm hidden md:inline-flex">
+        <LaunchGateLink
+          href="/sign-in"
+          gated={gated}
+          className="btn btn-coral btn-sm hidden md:inline-flex"
+        >
           Start a shoot
-        </Link>
+        </LaunchGateLink>
 
         <button
           type="button"
@@ -99,13 +104,14 @@ export default function Nav() {
             <MobileNavLink href="#pricing" onClick={() => setOpen(false)}>
               Pricing
             </MobileNavLink>
-            <Link
+            <LaunchGateLink
               href="/sign-in"
+              gated={gated}
               onClick={() => setOpen(false)}
               className="btn btn-coral mt-2 w-full"
             >
               Start a shoot
-            </Link>
+            </LaunchGateLink>
           </div>
         )}
       </div>

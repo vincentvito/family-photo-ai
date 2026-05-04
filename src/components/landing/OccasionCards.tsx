@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 import { THEMES } from "@/lib/themes";
+import LaunchGateLink from "./LaunchGateLink";
 
 const OCCASION_IDS = [
   "card-christmas",
@@ -21,7 +21,7 @@ const occasions = OCCASION_IDS.map((id) => THEMES.find((theme) => theme.id === i
   Boolean,
 );
 
-export default function OccasionCards() {
+export default function OccasionCards({ gated = false }: { gated?: boolean }) {
   return (
     <section id="cards" className="px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
@@ -42,21 +42,23 @@ export default function OccasionCards() {
                 Christmas, Easter, Hanukkah, Diwali, Lunar New Year, Eid and family milestones,
                 made as warm cards for the people who should see them first.
               </p>
-              <Link href="/sign-in" className="btn btn-coral mt-5">
-                Make a card
-                <svg
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </Link>
+              <LaunchGateLink href="/sign-in" gated={gated} className="btn btn-coral mt-5">
+                <>
+                  Make a card
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </>
+              </LaunchGateLink>
             </div>
           </div>
         </Reveal>

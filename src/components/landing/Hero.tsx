@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import ParallaxStack from "@/components/motion/ParallaxStack";
+import LaunchGateLink from "./LaunchGateLink";
 
 function Polaroid({
   src,
@@ -38,7 +38,7 @@ function Polaroid({
   );
 }
 
-export default function Hero() {
+export default function Hero({ gated = false }: { gated?: boolean }) {
   const reduce = useReducedMotion();
 
   return (
@@ -94,21 +94,23 @@ export default function Hero() {
             Pick a vibe, upload a few references, keep what you love.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link href="/sign-in" className="btn btn-coral btn-lg">
-              Begin a shoot
-              <svg
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
+            <LaunchGateLink href="/sign-in" gated={gated} className="btn btn-coral btn-lg">
+              <>
+                Begin a shoot
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </>
+            </LaunchGateLink>
             <a href="#gallery" className="btn btn-ghost btn-lg">
               See the gallery
             </a>

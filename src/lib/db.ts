@@ -1,23 +1,39 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
-import path from "node:path";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import * as schema from "../../db/schema";
 
 declare global {
+  var __sql: ReturnType<typeof postgres> | undefined;
   var __db: ReturnType<typeof drizzle<typeof schema>> | undefined;
-  var __sqlite: Database.Database | undefined;
 }
 
 function createClient() {
-  const dbPath = path.join(process.cwd(), "storage.sqlite");
-  const sqlite = new Database(dbPath);
-  sqlite.pragma("journal_mode = WAL");
-  sqlite.pragma("foreign_keys = ON");
-  globalThis.__sqlite = sqlite;
-  return drizzle(sqlite, { schema });
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error("DATABASE_URL is not set");
+  }
+  const sql =
+    globalThis.__sql ??
+    postgres(url, {
+      max: 5,
+      prepare: false,
+    });
+  if (process.env.NODE_ENV !== "production") {
+    globalThis.__sql = sql;
+  }
+  return drizzle(sql, { schema });
 }
 
-export const db = globalThis.__db ?? createClient();
-if (process.env.NODE_ENV !== "production") globalThis.__db = db;
+// Lazy proxy: don't open a connection at module load. The Vercel build's
+// page-data collector imports server modules across worker processes — eager
+// connect-on-import caused races and SQLITE_BUSY in the prior SQLite setup,
+// and would waste pooler slots on Postgres. The connection opens on first
+// query instead.
+export const db = new Proxy({} as ReturnType<typeof createClient>, {
+  get(_t, prop, receiver) {
+    const client = (globalThis.__db ??= createClient());
+    return Reflect.get(client, prop, receiver);
+  },
+});
 
 export { schema };
