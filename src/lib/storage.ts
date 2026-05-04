@@ -3,12 +3,17 @@ import path from "node:path";
 import sharp from "sharp";
 import { nanoid } from "nanoid";
 
-const STORAGE_ROOT = path.join(process.cwd(), "storage");
-
 type Subfolder = "uploads" | "generations" | "locations" | "cache";
 
+// Resolved lazily so module load doesn't call process.cwd(), which Turbopack's
+// NFT tracer treats as "may read anything under the project" and pulls the
+// whole repo into the bundle.
+function storageRoot() {
+  return path.join(process.cwd(), "storage");
+}
+
 export function storagePath(subfolder: Subfolder, ...segments: string[]) {
-  return path.join(STORAGE_ROOT, subfolder, ...segments);
+  return path.join(storageRoot(), subfolder, ...segments);
 }
 
 export async function ensureDir(dir: string) {
@@ -138,7 +143,7 @@ export async function saveGeneratedImage(
  * Read any stored image back as a Buffer, given its relative path.
  */
 export async function readStoredImage(relativePath: string): Promise<Buffer> {
-  const abs = path.join(STORAGE_ROOT, relativePath);
+  const abs = path.join(storageRoot(), relativePath);
   return fs.readFile(abs);
 }
 
@@ -152,7 +157,7 @@ export async function getThumbnail(relativePath: string, size = 320): Promise<st
     await fs.access(thumbAbs);
     return thumbAbs;
   } catch {
-    const src = path.join(STORAGE_ROOT, relativePath);
+    const src = path.join(storageRoot(), relativePath);
     await sharp(src)
       .resize({ width: size, height: size, fit: "cover", position: "attention" })
       .jpeg({ quality: 80, mozjpeg: true })
@@ -167,7 +172,7 @@ export async function getThumbnail(relativePath: string, size = 320): Promise<st
 export async function imageToBase64(
   relativePath: string,
 ): Promise<{ base64: string; mimeType: string }> {
-  const abs = path.join(STORAGE_ROOT, relativePath);
+  const abs = path.join(storageRoot(), relativePath);
   const buf = await fs.readFile(abs);
   const ext = path.extname(abs).toLowerCase();
   const mimeType = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
@@ -178,5 +183,5 @@ export async function imageToBase64(
  * Stream-friendly absolute path resolver, used by the /api/images/[id] route.
  */
 export function resolveStoragePath(relativePath: string) {
-  return path.join(STORAGE_ROOT, relativePath);
+  return path.join(storageRoot(), relativePath);
 }
