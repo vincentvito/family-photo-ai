@@ -1,28 +1,32 @@
 import { NextResponse } from "next/server";
 import archiver from "archiver";
-import path from "node:path";
-import fs from "node:fs";
 import { PassThrough, Readable } from "node:stream";
 import { db, schema } from "@/lib/db";
-import { desc, eq } from "drizzle-orm";
-import { storagePath } from "@/lib/storage";
+import { and, desc, eq, gte } from "drizzle-orm";
+import { getCurrentUser } from "@/lib/auth-helpers";
+import { studioCutoffDate } from "@/lib/retention";
+import { readStoredImage } from "@/lib/storage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  if (!(await getCurrentUser())) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   const [album] = await db.select().from(schema.albums).limit(1);
   if (!album) {
     return NextResponse.json({ error: "No album yet" }, { status: 404 });
   }
 
   const rows = await db
-    .select({
-      image: schema.images,
-    })
+    .select({ image: schema.images })
     .from(schema.albumImages)
     .innerJoin(schema.images, eq(schema.albumImages.imageId, schema.images.id))
-    .where(eq(schema.albumImages.albumId, album.id))
+    .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .where(
+      and(eq(schema.albumImages.albumId, album.id), gte(schema.generations.createdAt, studioCutoffDate())),
+    )
     .orderBy(desc(schema.albumImages.addedAt));
 
   if (rows.length === 0) {
@@ -33,13 +37,21 @@ export async function GET() {
   const pass = new PassThrough();
   archive.pipe(pass);
 
-  for (const { image } of rows) {
-    const src = path.join(storagePath("generations", image.generationId), image.fileName);
-    if (fs.existsSync(src)) {
-      archive.file(src, { name: image.fileName });
+  (async () => {
+    try {
+      for (const { image } of rows) {
+        const key = `generations/${image.generationId}/${image.fileName}`;
+        try {
+          const buf = await readStoredImage(key);
+          archive.append(buf, { name: image.fileName });
+        } catch (err) {
+          console.warn(`album export: missing R2 object ${key}`, err);
+        }
+      }
+    } finally {
+      archive.finalize();
     }
-  }
-  archive.finalize();
+  })();
 
   const webStream = Readable.toWeb(pass) as unknown as ReadableStream;
   return new NextResponse(webStream, {

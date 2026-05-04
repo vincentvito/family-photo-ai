@@ -1,30 +1,26 @@
-"use server";
-
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
-import fs from "node:fs/promises";
-import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { eq, asc } from "drizzle-orm";
-import { ensureStorageReady, saveReferencePhoto, storagePath } from "@/lib/storage";
+import { asc, eq, inArray } from "drizzle-orm";
+import { saveReferencePhoto, deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { z } from "zod";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
 
 export async function listRoster() {
-  const people = await db.select().from(schema.people).orderBy(asc(schema.people.createdAt));
+  const [people, photos] = await Promise.all([
+    db.select().from(schema.people).orderBy(asc(schema.people.createdAt)),
+    db.select().from(schema.photos).orderBy(asc(schema.photos.createdAt)),
+  ]);
+  const photoByPerson = new Map<string, (typeof photos)[number]>();
 
-  const roster = await Promise.all(
-    people.map(async (person) => {
-      const photos = await db
-        .select()
-        .from(schema.photos)
-        .where(eq(schema.photos.personId, person.id))
-        .orderBy(asc(schema.photos.createdAt));
-      return { person, photos };
-    }),
-  );
+  for (const photo of photos) {
+    photoByPerson.set(photo.personId, photo);
+  }
 
-  return roster;
+  return people.map((person) => ({
+    person,
+    photos: photoByPerson.has(person.id) ? [photoByPerson.get(person.id)!] : [],
+  }));
 }
 
 export async function addPerson(input: {
@@ -85,21 +81,31 @@ export async function removePerson(personId: string) {
 
   await db.delete(schema.people).where(eq(schema.people.id, personId));
 
-  const dir = storagePath("uploads", personId);
-  await fs.rm(dir, { recursive: true, force: true }).catch(() => {});
+  await deleteStoredPrefix(`uploads/${personId}/`).catch((err) => {
+    console.warn(`removePerson: R2 prefix delete failed for ${personId}`, err);
+  });
+
   revalidatePath("/studio/roster");
   return photos.length;
 }
 
 export async function addPhotoToPerson(input: { personId: string; buffer: Buffer }) {
-  await ensureStorageReady();
-  const saved = await saveReferencePhoto(input.buffer, input.personId);
+  const person = await db
+    .select({ id: schema.people.id })
+    .from(schema.people)
+    .where(eq(schema.people.id, input.personId))
+    .limit(1);
+
+  if (!person[0]) {
+    throw new Error("Person not found.");
+  }
 
   const existing = await db
     .select()
     .from(schema.photos)
-    .where(eq(schema.photos.personId, input.personId))
-    .limit(1);
+    .where(eq(schema.photos.personId, input.personId));
+
+  const saved = await saveReferencePhoto(input.buffer, input.personId);
 
   const inserted = await db
     .insert(schema.photos)
@@ -108,9 +114,25 @@ export async function addPhotoToPerson(input: { personId: string; buffer: Buffer
       fileName: saved.fileName,
       width: saved.width,
       height: saved.height,
-      isPrimary: existing.length === 0,
+      isPrimary: true,
     })
     .returning();
+
+  if (existing.length > 0) {
+    await db.delete(schema.photos).where(
+      inArray(
+        schema.photos.id,
+        existing.map((photo) => photo.id),
+      ),
+    );
+
+    await Promise.allSettled(
+      existing.map((photo) => {
+        const key = `uploads/${photo.personId}/${photo.fileName}`;
+        return deleteStoredImage(key);
+      }),
+    );
+  }
 
   revalidatePath("/studio/roster");
   return inserted[0];
@@ -120,9 +142,11 @@ export async function removePhoto(photoId: string) {
   const photo = await db.select().from(schema.photos).where(eq(schema.photos.id, photoId)).limit(1);
 
   if (!photo[0]) return;
-  const abs = path.join(storagePath("uploads", photo[0].personId), photo[0].fileName);
-  await fs.rm(abs, { force: true }).catch(() => {});
+  const key = `uploads/${photo[0].personId}/${photo[0].fileName}`;
   await db.delete(schema.photos).where(eq(schema.photos.id, photoId));
+  await deleteStoredImage(key).catch((err) => {
+    console.warn(`removePhoto: R2 delete failed for ${key}`, err);
+  });
 
   revalidatePath("/studio/roster");
 }

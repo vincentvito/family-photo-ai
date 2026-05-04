@@ -2,9 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { addPerson } from "@/actions/roster";
 
-export default function AddPersonDialog() {
+export default function AddPersonDialog({ onChanged }: { onChanged?: () => void }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState<"adult" | "child" | "pet">("adult");
@@ -20,11 +19,20 @@ export default function AddPersonDialog() {
     }
     start(async () => {
       try {
-        await addPerson({ name, role, notes: notes || null });
+        const res = await fetch("/api/roster/people", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ name, role, notes: notes || null }),
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || `HTTP ${res.status}`);
+        }
         setName("");
         setNotes("");
         setRole("adult");
         setOpen(false);
+        onChanged?.();
       } catch (e) {
         setError(e instanceof Error ? e.message : "Something went wrong.");
       }

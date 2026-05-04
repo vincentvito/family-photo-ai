@@ -3,10 +3,27 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { getRefineState, refineImage } from "@/actions/refine";
-import { toggleFavorite } from "@/actions/album";
+import type { getRefineState } from "@/lib/refine-queries";
 
 type State = NonNullable<Awaited<ReturnType<typeof getRefineState>>>;
+
+async function fetchRefineState(id: string): Promise<State | null> {
+  const res = await fetch(`/api/refine/${id}`, { cache: "no-store" });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+async function postRefine(body: { imageId: string; instruction: string }): Promise<{ imageId: string }> {
+  const res = await fetch("/api/refine", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
 
 const suggestions = [
   { label: "Everyone looks at camera", chip: "sage" as const },
@@ -31,12 +48,12 @@ export default function RefineStage({ initialState }: { initialState: State }) {
     setError(null);
     start(async () => {
       try {
-        const { imageId: newId } = await refineImage({
+        const { imageId: newId } = await postRefine({
           imageId: state.image.id,
           instruction: value,
         });
         setInstruction("");
-        const next = await getRefineState(newId);
+        const next = await fetchRefineState(newId);
         if (next) {
           setState(next);
           setFav(next.image.isFavorite);
@@ -50,8 +67,20 @@ export default function RefineStage({ initialState }: { initialState: State }) {
 
   const flipFavorite = () => {
     start(async () => {
-      setFav((f) => !f);
-      await toggleFavorite(state.image.id);
+      const previous = fav;
+      setFav(!previous);
+      try {
+        const res = await fetch("/api/album/favorite", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ imageId: state.image.id }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = (await res.json()) as { isFavorite: boolean };
+        setFav(body.isFavorite);
+      } catch {
+        setFav(previous);
+      }
     });
   };
 

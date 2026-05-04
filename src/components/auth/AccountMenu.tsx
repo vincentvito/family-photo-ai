@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-export default function AccountMenu({ email }: { email: string }) {
+export default function AccountMenu({ email, isAdmin }: { email: string; isAdmin: boolean }) {
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -62,6 +62,15 @@ export default function AccountMenu({ email }: { email: string }) {
           >
             Home
           </Link>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              onClick={() => setOpen(false)}
+              className="block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-coral-deep)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)]"
+            >
+              Admin
+            </Link>
+          )}
 
           <button
             type="button"

@@ -1,14 +1,13 @@
-"use server";
-
 import path from "node:path";
 import { db, schema } from "@/lib/db";
 import { and, eq, asc } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
-import { pickRefineProvider } from "@/lib/providers/router";
+import { runRefine } from "@/lib/providers";
 import { resolveTheme } from "@/lib/themes";
 import type { Subject } from "@/lib/providers/types";
+import { studioCutoffDate } from "@/lib/retention";
 
 const RefineInput = z.object({
   imageId: z.string().min(1),
@@ -31,6 +30,9 @@ export async function refineImage(input: z.infer<typeof RefineInput>) {
     .where(eq(schema.generations.id, baseImage.generationId))
     .limit(1);
   if (!generation) throw new Error("Generation not found");
+  if (generation.createdAt < studioCutoffDate()) {
+    throw new Error("This shoot has expired.");
+  }
 
   const theme = resolveTheme(generation);
   const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
@@ -56,8 +58,7 @@ export async function refineImage(input: z.infer<typeof RefineInput>) {
 
   const baseRelative = path.posix.join("generations", baseImage.generationId, baseImage.fileName);
 
-  const provider = pickRefineProvider();
-  const result = await provider.refineImage({
+  const result = await runRefine({
     baseImage: { imageId: baseImage.id, relativePath: baseRelative },
     originalReferences: subjects.map((s) => ({ subject: s })),
     history,
@@ -111,23 +112,24 @@ export async function getRefineState(imageId: string) {
     .limit(1);
   if (!image) return null;
 
-  const [generation] = await db
-    .select()
-    .from(schema.generations)
-    .where(eq(schema.generations.id, image.generationId))
-    .limit(1);
-
   const rootImageId = image.rootImageId ?? image.id;
-  const history = await db
-    .select()
-    .from(schema.refinementHistory)
-    .where(eq(schema.refinementHistory.rootImageId, rootImageId))
-    .orderBy(asc(schema.refinementHistory.stepIndex));
-
-  const images = await db
-    .select()
-    .from(schema.images)
-    .where(and(eq(schema.images.generationId, image.generationId)));
+  const [[generation], history, images] = await Promise.all([
+    db
+      .select()
+      .from(schema.generations)
+      .where(eq(schema.generations.id, image.generationId))
+      .limit(1),
+    db
+      .select()
+      .from(schema.refinementHistory)
+      .where(eq(schema.refinementHistory.rootImageId, rootImageId))
+      .orderBy(asc(schema.refinementHistory.stepIndex)),
+    db
+      .select()
+      .from(schema.images)
+      .where(and(eq(schema.images.generationId, image.generationId))),
+  ]);
+  if (!generation || generation.createdAt < studioCutoffDate()) return null;
 
   const timeline: { imageId: string; instruction: string | null }[] = [];
   const rootCandidate =

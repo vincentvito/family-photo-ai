@@ -1,6 +1,6 @@
-import LaunchGateLink from "./LaunchGateLink";
+import Link from "next/link";
 
-export default function Footer({ gated = false }: { gated?: boolean }) {
+export default function Footer() {
   return (
     <footer
       className="relative overflow-hidden px-6 py-20 sm:px-8 sm:py-24"
@@ -25,9 +25,9 @@ export default function Footer({ gated = false }: { gated?: boolean }) {
             families, by a small team of two.
           </p>
           <div className="mt-6">
-            <LaunchGateLink href="/studio/roster" gated={gated} className="btn btn-coral btn-sm">
+            <Link href="/studio/roster" className="btn btn-coral btn-sm">
               Start a shoot
-            </LaunchGateLink>
+            </Link>
           </div>
         </div>
 

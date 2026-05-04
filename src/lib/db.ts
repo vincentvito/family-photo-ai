@@ -15,8 +15,10 @@ function createClient() {
   const sql =
     globalThis.__sql ??
     postgres(url, {
-      max: 5,
+      max: 20,
       prepare: false,
+      idle_timeout: 20,
+      connect_timeout: 10,
     });
   if (process.env.NODE_ENV !== "production") {
     globalThis.__sql = sql;
@@ -32,7 +34,8 @@ function createClient() {
 export const db = new Proxy({} as ReturnType<typeof createClient>, {
   get(_t, prop, receiver) {
     const client = (globalThis.__db ??= createClient());
-    return Reflect.get(client, prop, receiver);
+    const value = Reflect.get(client, prop, client);
+    return typeof value === "function" ? value.bind(client) : value;
   },
 });
 

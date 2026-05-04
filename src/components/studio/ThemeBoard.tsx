@@ -5,9 +5,14 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Theme } from "@/lib/themes";
 import type { AspectRatio } from "@/lib/providers/types";
-import { startGeneration } from "@/actions/generate";
 import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import {
+  GENERATION_MODEL_IDS,
+  MODEL_CATALOG,
+  type GenerationModelId,
+} from "@/lib/replicate/models";
 
 type ShapeId = "default" | "portrait" | "tall" | "square" | "landscape" | "wide";
 
@@ -30,15 +35,20 @@ export default function ThemeBoard({
   photoreal,
   stylized,
   cards,
+  isAdmin = false,
+  defaultModel = "nanobanana",
 }: {
   photoreal: Theme[];
   stylized: Theme[];
   cards: Theme[];
+  isAdmin?: boolean;
+  defaultModel?: GenerationModelId;
 }) {
   const [shape, setShape] = useState<ShapeId>("default");
   const [wardrobe, setWardrobe] = useState("");
   const [cardText, setCardText] = useState("");
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
+  const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
 
   const [customDescription, setCustomDescription] = useState("");
   const [locationFile, setLocationFile] = useState<File | null>(null);
@@ -50,6 +60,9 @@ export default function ThemeBoard({
   const [error, setError] = useState<string | null>(null);
   const [cardsExpanded, setCardsExpanded] = useState(false);
   const [mode, setMode] = useState<"curated" | "custom">("curated");
+  const [pendingShoot, setPendingShoot] = useState<
+    { kind: "theme"; theme: Theme } | { kind: "custom" } | null
+  >(null);
   const router = useRouter();
 
   const selectedShape = shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
@@ -69,22 +82,7 @@ export default function ThemeBoard({
 
   const launch = (theme: Theme) => {
     setError(null);
-    setActiveTheme(theme);
-    setLaunchingCustom(false);
-    start(async () => {
-      try {
-        const { generationId } = await startGeneration({
-          themeId: theme.id,
-          wardrobeNote: wardrobe.trim() || null,
-          cardText: theme.acceptsCardText ? cardText.trim() || null : null,
-          aspectOverride: selectedShape.ratio,
-        });
-        router.push(`/studio/generate/${generationId}`);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : "Couldn't start the shoot.");
-        setActiveTheme(null);
-      }
-    });
+    setPendingShoot({ kind: "theme", theme });
   };
 
   const launchCustom = () => {
@@ -94,6 +92,36 @@ export default function ThemeBoard({
       return;
     }
     setError(null);
+    setPendingShoot({ kind: "custom" });
+  };
+
+  const confirmShoot = () => {
+    if (!pendingShoot) return;
+    const shoot = pendingShoot;
+    setPendingShoot(null);
+
+    if (shoot.kind === "theme") {
+      const theme = shoot.theme;
+      setActiveTheme(theme);
+      setLaunchingCustom(false);
+      start(async () => {
+        try {
+          const { generationId } = await postGenerate({
+            themeId: theme.id,
+            wardrobeNote: wardrobe.trim() || null,
+            cardText: theme.acceptsCardText ? cardText.trim() || null : null,
+            aspectOverride: selectedShape.ratio,
+            modelId: isAdmin ? modelId : undefined,
+          });
+          router.push(`/studio/generate/${generationId}`);
+        } catch (e) {
+          setError(e instanceof Error ? e.message : "Couldn't start the shoot.");
+          setActiveTheme(null);
+        }
+      });
+      return;
+    }
+
     setActiveTheme(null);
     setLaunchingCustom(true);
     start(async () => {
@@ -113,9 +141,11 @@ export default function ThemeBoard({
           locationReferencePath = data.path;
         }
         const aspect = selectedShape.ratio ?? CUSTOM_SHAPE_FALLBACK;
-        const { generationId } = await startGeneration({
+        const trimmed = customDescription.trim();
+        const { generationId } = await postGenerate({
           customVibe: { description: trimmed, aspectRatio: aspect },
           locationReferencePath,
+          modelId: isAdmin ? modelId : undefined,
         });
         router.push(`/studio/generate/${generationId}`);
       } catch (e) {
@@ -125,8 +155,70 @@ export default function ThemeBoard({
     });
   };
 
+  async function postGenerate(body: unknown): Promise<{ generationId: string }> {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+  }
+
+  const confirmTitle = (() => {
+    if (!pendingShoot) return "";
+    if (pendingShoot.kind === "theme") return `Start the ${pendingShoot.theme.name} shoot?`;
+    return "Start the custom shoot?";
+  })();
+
+  const confirmDescription = (() => {
+    if (!pendingShoot) return undefined;
+    const shape = selectedShape.ratio ?? "theme default";
+    return `We'll create 4 portrait options at ${shape}. You can favorite, refine, or try another vibe after.`;
+  })();
+
   return (
     <>
+      {isAdmin && (
+        <div className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="chip chip-coral">
+              <span className="dot dot-coral" />
+              Admin · model
+            </span>
+            <span className="text-xs text-[color:var(--color-ink-muted)]">
+              Per-shoot override. Default is set on the admin overview.
+            </span>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {GENERATION_MODEL_IDS.map((id) => {
+              const m = MODEL_CATALOG[id];
+              const active = modelId === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setModelId(id)}
+                  className={`spring-press rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                    active
+                      ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
+                      : "border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] text-[color:var(--color-ink-muted)] hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)]"
+                  }`}
+                >
+                  <span>{m.label}</span>
+                  <span
+                    className={`ml-2 text-[0.7rem] ${active ? "opacity-80" : "opacity-60"}`}
+                  >
+                    {m.priceLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ─── Shared controls ──────────────────────────────────────── */}
       <div className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 sm:p-7 shadow-[var(--shadow-sm)]">
         <div className="grid gap-6 md:grid-cols-2">
@@ -545,6 +637,17 @@ export default function ThemeBoard({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ConfirmDialog
+        open={!!pendingShoot}
+        title={confirmTitle}
+        description={confirmDescription}
+        confirmLabel="Start shoot"
+        tone="coral"
+        pending={pending}
+        onConfirm={confirmShoot}
+        onCancel={() => setPendingShoot(null)}
+      />
     </>
   );
 }

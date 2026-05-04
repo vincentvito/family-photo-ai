@@ -4,12 +4,20 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { getGenerationState } from "@/actions/generate";
-import { toggleFavorite } from "@/actions/album";
+import type { getGenerationState } from "@/lib/generate-queries";
 import type { AspectRatio } from "@/lib/providers/types";
 import Confetti from "@/components/motion/Confetti";
 
 type State = Awaited<ReturnType<typeof getGenerationState>>;
+
+type FavoriteResponse = { isFavorite: boolean };
+
+async function fetchGenerationState(id: string): Promise<State> {
+  const res = await fetch(`/api/generate/${id}`, { cache: "no-store" });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
 
 const aspectStyle: Record<AspectRatio, string> = {
   "1:1": "aspect-square",
@@ -39,22 +47,26 @@ export default function GenerationBoard({
   const [state, setState] = useState(initialState);
   const router = useRouter();
   const [celebratedAt, setCelebratedAt] = useState<number | null>(null);
+  const [lightboxImageId, setLightboxImageId] = useState<string | null>(null);
   const prevCount = useRef(initialState?.images.length ?? 0);
 
+  // Narrow deps: full `state` would tear down the interval on every poll. Only
+  // status and image count drive whether we should still be polling.
+  const status = state?.generation.status;
+  const imagesLength = state?.images.length ?? 0;
   useEffect(() => {
-    if (!state) return;
-    if (state.generation.status === "done" && state.images.length >= 4) {
-      // trigger confetti once when we hit 4
+    if (!status) return;
+    if (status === "done" && imagesLength >= 4) {
       if (prevCount.current < 4) {
         setCelebratedAt(Date.now());
       }
-      prevCount.current = state.images.length;
+      prevCount.current = imagesLength;
       return;
     }
-    if (state.generation.status === "error") return;
+    if (status === "error") return;
 
     const interval = setInterval(async () => {
-      const next = await getGenerationState(generationId);
+      const next = await fetchGenerationState(generationId);
       setState(next);
       if (next?.generation.status === "done" || next?.generation.status === "error") {
         clearInterval(interval);
@@ -62,7 +74,7 @@ export default function GenerationBoard({
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [generationId, state]);
+  }, [generationId, status, imagesLength]);
 
   // Rotating loading message
   const [messageIdx, setMessageIdx] = useState(0);
@@ -114,12 +126,8 @@ export default function GenerationBoard({
                   <ImageTile
                     imageId={img.id}
                     isFavorite={img.isFavorite}
-                    onFavoriteToggled={async () => {
-                      const next = await getGenerationState(generationId);
-                      setState(next);
-                      router.refresh();
-                    }}
                     onRefineClick={() => router.push(`/studio/refine/${img.id}`)}
+                    onOpenLightbox={() => setLightboxImageId(img.id)}
                   />
                 </motion.div>
               ) : (
@@ -130,7 +138,7 @@ export default function GenerationBoard({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <Skeleton index={i} />
+                  <DevelopingTile index={i} />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -200,6 +208,8 @@ export default function GenerationBoard({
           </Link>
         </div>
       </div>
+
+      <ImageLightbox imageId={lightboxImageId} onClose={() => setLightboxImageId(null)} />
     </div>
   );
 }
@@ -207,36 +217,54 @@ export default function GenerationBoard({
 function ImageTile({
   imageId,
   isFavorite,
-  onFavoriteToggled,
   onRefineClick,
+  onOpenLightbox,
 }: {
   imageId: string;
   isFavorite: boolean;
-  onFavoriteToggled: () => Promise<void> | void;
   onRefineClick: () => void;
+  onOpenLightbox: () => void;
 }) {
   const [fav, setFav] = useState(isFavorite);
   const [pending, start] = useTransition();
 
   const flip = () => {
     start(async () => {
-      setFav((f) => !f);
-      await toggleFavorite(imageId);
-      await onFavoriteToggled();
+      const previous = fav;
+      setFav(!previous);
+      try {
+        const res = await fetch("/api/album/favorite", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ imageId }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = (await res.json()) as FavoriteResponse;
+        setFav(body.isFavorite);
+      } catch {
+        setFav(previous);
+      }
     });
   };
 
   return (
     <div className="group relative h-full w-full">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`/api/images/${imageId}`}
-        alt="Family portrait"
-        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-      />
+      <button
+        type="button"
+        onClick={onOpenLightbox}
+        className="block h-full w-full cursor-zoom-in overflow-hidden text-left"
+        aria-label="View portrait larger"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/images/${imageId}`}
+          alt="Family portrait"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+        />
+      </button>
 
       {/* Hover controls */}
-      <div className="pointer-events-none absolute inset-0 flex items-end justify-between bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-between bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
         <button
           onClick={onRefineClick}
           className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
@@ -299,6 +327,92 @@ function Skeleton({ index }: { index: number }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function DevelopingTile({ index }: { index: number }) {
+  const tilt = useMemo(() => -2 + index * 1.35, [index]);
+  return (
+    <div className="developing absolute inset-0 h-full w-full">
+      <div className="absolute inset-0 warm-noise" />
+      <motion.div
+        className="absolute inset-[7%] rounded-[calc(var(--radius-xl)-10px)] border border-white/45 bg-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]"
+        style={{ transform: `rotate(${tilt}deg)` }}
+        animate={{ opacity: [0.46, 0.72, 0.46] }}
+        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div className="absolute inset-x-[12%] top-[12%] h-[58%] rounded-sm bg-white/42" />
+        <div className="absolute inset-x-[18%] bottom-[14%] h-2 rounded-full bg-white/38" />
+      </motion.div>
+      <div className="absolute inset-0 flex items-center justify-center p-5">
+        <div className="rounded-full border border-white/55 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] backdrop-blur-sm">
+          Developing - {index + 1}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!imageId) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [imageId, onClose]);
+
+  return (
+    <AnimatePresence>
+      {imageId && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[color:rgba(31,26,36,0.82)] p-4 backdrop-blur-md sm:p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Portrait preview"
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute inset-0 cursor-zoom-out"
+            aria-label="Close preview"
+          />
+          <motion.div
+            className="relative max-h-[92vh] max-w-[94vw]"
+            initial={{ opacity: 0, scale: 0.96, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: 8 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/api/images/${imageId}`}
+              alt="Family portrait preview"
+              className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
+            />
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              aria-label="Close preview"
+            >
+              <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden>
+                <path
+                  d="M2 2L12 12M12 2L2 12"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

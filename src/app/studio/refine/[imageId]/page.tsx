@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getRefineState } from "@/actions/refine";
+import { getRefineState } from "@/lib/refine-queries";
 import { resolveTheme } from "@/lib/themes";
 import RefineStage from "@/components/studio/RefineStage";
 

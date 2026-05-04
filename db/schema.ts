@@ -45,6 +45,10 @@ export const generations = familyphotoai.table("generations", {
   aspectRatio: text("aspect_ratio"),
   locationReferencePath: text("location_reference_path"),
   customVibeDescription: text("custom_vibe_description"),
+  /** JSON-encoded slot[] of Replicate prediction IDs + retry count, one per variant. */
+  replicatePredictionIds: text("replicate_prediction_ids"),
+  /** Model id from MODEL_CATALOG (e.g. "nanobanana", "gpt-image-2"). */
+  model: text("model").notNull().default("nanobanana"),
   createdAt: createdAt(),
 });
 
@@ -61,6 +65,8 @@ export const images = familyphotoai.table("images", {
   parentImageId: text("parent_image_id"),
   rootImageId: text("root_image_id"),
   refineInstruction: text("refine_instruction"),
+  /** Source Replicate prediction ID for variants from the initial fan-out. */
+  replicatePredictionId: text("replicate_prediction_id").unique(),
   createdAt: createdAt(),
 });
 
@@ -79,6 +85,16 @@ export const albums = familyphotoai.table("albums", {
   id: id(),
   name: text("name").notNull().default("My Album"),
   createdAt: createdAt(),
+});
+
+/**
+ * Singleton row keyed by id="default" holding admin-tunable runtime settings.
+ * Avoids hauling a full settings table; one row, one source of truth.
+ */
+export const appSettings = familyphotoai.table("app_settings", {
+  id: text("id").primaryKey().default("default"),
+  defaultModel: text("default_model").notNull().default("nanobanana"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const albumImages = familyphotoai.table("album_images", {

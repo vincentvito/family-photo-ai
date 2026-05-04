@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addPhotoToPerson } from "@/actions/roster";
+import { getCurrentUser } from "@/lib/auth-helpers";
+import { addPhotoToPerson } from "@/lib/roster-queries";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  if (!(await getCurrentUser())) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   const formData = await req.formData();
   const personId = formData.get("personId");
   const file = formData.get("file");

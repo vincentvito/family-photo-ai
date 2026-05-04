@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { Suspense } from "react";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { getCurrentSession } from "@/lib/auth-helpers";
 import AccountMenu from "@/components/auth/AccountMenu";
 import StudioStepper from "@/components/studio/StudioStepper";
 
 export default async function StudioLayout({ children }: { children: React.ReactNode }) {
+  const session = await getCurrentSession();
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
@@ -26,13 +31,7 @@ export default async function StudioLayout({ children }: { children: React.React
           </Link>
           <StudioStepper />
           <div className="flex items-center gap-3">
-            <Suspense
-              fallback={
-                <div className="h-10 w-10 rounded-full bg-[color:var(--color-bg-tinted-coral)]" />
-              }
-            >
-              <AccountSlot />
-            </Suspense>
+            <AccountSlot session={session} />
             <Link href="/studio/album" className="btn btn-ghost btn-sm">
               Album
             </Link>
@@ -44,18 +43,15 @@ export default async function StudioLayout({ children }: { children: React.React
   );
 }
 
-async function AccountSlot() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (session) {
-    return <AccountMenu email={session.user.email} />;
-  }
-
-  return (
-    <Link href="/sign-in" className="btn btn-coral btn-sm">
-      Sign in
-    </Link>
-  );
+function AccountSlot({
+  session,
+}: {
+  session: NonNullable<Awaited<ReturnType<typeof getCurrentSession>>>;
+}) {
+  const role = (session.user as { role?: string | null }).role ?? "";
+  const admin = role
+    .split(",")
+    .map((r) => r.trim().toLowerCase())
+    .includes("admin");
+  return <AccountMenu email={session.user.email} isAdmin={admin} />;
 }

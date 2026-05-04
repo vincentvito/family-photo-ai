@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { emailOTP } from "better-auth/plugins";
-import { authDb } from "@/lib/auth-db";
+import { admin, emailOTP } from "better-auth/plugins";
+import { db } from "@/lib/db";
 import { sendAuthOtpEmail } from "@/lib/auth-email";
 import * as authSchema from "@/../db/auth-schema";
 
@@ -14,7 +14,7 @@ if (!baseURL) {
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL,
-  database: drizzleAdapter(authDb, {
+  database: drizzleAdapter(db, {
     provider: "pg",
     schema: authSchema,
   }),
@@ -26,17 +26,12 @@ export const auth = betterAuth({
       otpLength: 6,
       expiresIn: 300,
       async sendVerificationOTP({ email, otp, type }) {
-        // Pre-launch gate: when LOGIN_ALLOWLIST is set, only those emails
-        // can request a code. Unset the env var to open sign-in to everyone.
-        const allowlist = (process.env.LOGIN_ALLOWLIST ?? "")
-          .split(",")
-          .map((e) => e.trim().toLowerCase())
-          .filter(Boolean);
-        if (allowlist.length > 0 && !allowlist.includes(email.trim().toLowerCase())) {
-          throw new Error("Sign-in opens soon — we're putting the finishing touches on the studio.");
-        }
         await sendAuthOtpEmail({ email, otp, type });
       },
+    }),
+    admin({
+      defaultRole: "user",
+      adminRoles: ["admin"],
     }),
   ],
   trustedOrigins: [baseURL],

@@ -1,7 +1,7 @@
 import type { Config } from "drizzle-kit";
 
 export default {
-  schema: "./db/schema.ts",
+  schema: ["./db/schema.ts", "./db/auth-schema.ts"],
   out: "./db/migrations",
   dialect: "postgresql",
   schemaFilter: ["familyphotoai"],

@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { toggleFavorite } from "@/actions/album";
 
 type Item = {
   image: {
@@ -40,7 +39,11 @@ function AlbumTile({ item }: { item: Item }) {
   const remove = () => {
     if (!confirm("Remove from album?")) return;
     start(async () => {
-      await toggleFavorite(item.image.id);
+      await fetch("/api/album/favorite", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ imageId: item.image.id }),
+      });
       setOpen(false);
       router.refresh();
     });

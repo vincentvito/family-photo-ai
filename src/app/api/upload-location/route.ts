@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ensureStorageReady, saveLocationReference } from "@/lib/storage";
+import { getCurrentUser } from "@/lib/auth-helpers";
+import { saveLocationReference } from "@/lib/storage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  if (!(await getCurrentUser())) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   const formData = await req.formData();
   const file = formData.get("file");
 
@@ -22,7 +26,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "File is larger than 20MB" }, { status: 413 });
   }
 
-  await ensureStorageReady();
   const buffer = Buffer.from(await file.arrayBuffer());
   try {
     const saved = await saveLocationReference(buffer);

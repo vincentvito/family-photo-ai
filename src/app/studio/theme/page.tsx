@@ -1,12 +1,15 @@
 import { themesByCategory } from "@/lib/themes";
 import ThemeBoard from "@/components/studio/ThemeBoard";
-import { providerStatusLabel } from "@/lib/providers/router";
+import { providerStatusLabel } from "@/lib/providers";
+import { isAdmin } from "@/lib/auth-helpers";
+import { getDefaultModel } from "@/lib/admin-queries";
 
 export const dynamic = "force-dynamic";
 
-export default function ThemePage() {
+export default async function ThemePage() {
   const themes = themesByCategory();
   const status = providerStatusLabel();
+  const [admin, defaultModel] = await Promise.all([isAdmin(), getDefaultModel()]);
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
@@ -26,7 +29,13 @@ export default function ThemePage() {
         <p className="mt-5 text-xs text-[color:var(--color-ink-faint)]">{status}</p>
       </div>
 
-      <ThemeBoard photoreal={themes.photoreal} stylized={themes.stylized} cards={themes.card} />
+      <ThemeBoard
+        photoreal={themes.photoreal}
+        stylized={themes.stylized}
+        cards={themes.card}
+        isAdmin={admin}
+        defaultModel={defaultModel}
+      />
     </main>
   );
 }
