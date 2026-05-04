@@ -11,7 +11,6 @@ type Item = {
     aspectRatio: string;
     refineInstruction: string | null;
   };
-  added: number;
   generation: { themeId: string };
 };
 

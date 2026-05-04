@@ -51,7 +51,6 @@ export async function getAlbum() {
   const rows = await db
     .select({
       image: schema.images,
-      added: schema.albumImages.addedAt,
       generation: schema.generations,
     })
     .from(schema.albumImages)
