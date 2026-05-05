@@ -18,6 +18,8 @@ import {
 import { uploadLocationReference } from "@/lib/upload-client";
 
 type ShapeId = "portrait" | "square" | "wide";
+type ShapePick = "auto" | ShapeId;
+const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
 
 export type RosterMember = {
   id: string;
@@ -37,11 +39,15 @@ const shapeOptions: {
   { id: "wide", label: "Wide", ratio: "3:2" },
 ];
 
-const shapeIdByRatio: Record<AspectRatio, ShapeId> = {
-  "2:3": "portrait",
-  "1:1": "square",
-  "3:2": "wide",
-};
+function ShapeIcon({ id, className = "" }: { id: ShapeId; className?: string }) {
+  const dims = id === "portrait" ? "h-3.5 w-2.5" : id === "square" ? "h-3 w-3" : "h-2.5 w-3.5";
+  return (
+    <span
+      aria-hidden
+      className={`inline-block rounded-[2px] border border-current ${dims} ${className}`}
+    />
+  );
+}
 
 export default function ThemeBoard({
   photoreal,
@@ -60,7 +66,7 @@ export default function ThemeBoard({
   creditBalance: number;
   roster: RosterMember[];
 }) {
-  const [shape, setShape] = useState<ShapeId>("wide");
+  const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
   const [cardText, setCardText] = useState("");
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
@@ -103,7 +109,12 @@ export default function ThemeBoard({
     return roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
   };
 
-  const selectedShape = shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
+  const explicitShape = shape === "auto" ? null : (shapeOptions.find((o) => o.id === shape) ?? null);
+
+  const resolveRatio = (themeRatio: AspectRatio | null): AspectRatio => {
+    if (explicitShape) return explicitShape.ratio;
+    return themeRatio ?? CUSTOM_AUTO_RATIO;
+  };
   const hasCredits = creditBalance > 0;
 
   const pickFile = (file: File) => {
@@ -125,7 +136,6 @@ export default function ThemeBoard({
       return;
     }
     setError(null);
-    setShape(shapeIdByRatio[theme.aspectRatio]);
     setPendingShoot({ kind: "theme", theme });
   };
 
@@ -159,7 +169,7 @@ export default function ThemeBoard({
             themeId: theme.id,
             wardrobeNote: wardrobe.trim() || null,
             cardText: theme.acceptsCardText ? cardText.trim() || null : null,
-            aspectOverride: selectedShape.ratio,
+            aspectOverride: explicitShape?.ratio ?? null,
             modelId: isAdmin ? modelId : undefined,
             subjectIds,
           });
@@ -182,7 +192,7 @@ export default function ThemeBoard({
           const uploaded = await uploadLocationReference(locationFile);
           locationReferencePath = uploaded.path;
         }
-        const aspect = selectedShape.ratio;
+        const aspect = resolveRatio(null);
         const trimmed = customDescription.trim();
         const { generationId } = await postGenerate({
           customVibe: { description: trimmed, aspectRatio: aspect },
@@ -217,7 +227,10 @@ export default function ThemeBoard({
 
   const confirmDescription = (() => {
     if (!pendingShoot) return undefined;
-    return `We'll create 4 ${selectedShape.label} (${selectedShape.ratio}) shots. You can favorite, refine, or try another vibe after.`;
+    const themeRatio = pendingShoot.kind === "theme" ? pendingShoot.theme.aspectRatio : null;
+    const ratio = resolveRatio(themeRatio);
+    const label = shapeOptions.find((o) => o.ratio === ratio)?.label ?? "Wide";
+    return `We'll create 4 ${label} (${ratio}) shots. You can favorite, refine, or try another vibe after.`;
   })();
 
   return (
@@ -292,6 +305,31 @@ export default function ThemeBoard({
           <div>
             <label className="small-caps text-[color:var(--color-ink-muted)]">Shape</label>
             <div className="mt-2 flex flex-wrap gap-1.5">
+              {(() => {
+                const active = shape === "auto";
+                return (
+                  <button
+                    type="button"
+                    onClick={() => setShape("auto")}
+                    title="Use the shape each vibe was designed for"
+                    className={`spring-press inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-[0.02em] transition-all ${
+                      active
+                        ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
+                        : "border border-[color:var(--color-line-strong)] text-[color:var(--color-ink-muted)] hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)]"
+                    }`}
+                  >
+                    <span aria-hidden className="inline-flex items-end gap-[2px]">
+                      <span className="block h-2 w-[3px] rounded-[1px] bg-current opacity-50" />
+                      <span className="block h-2.5 w-[3px] rounded-[1px] bg-current opacity-75" />
+                      <span className="block h-3 w-[3px] rounded-[1px] bg-current" />
+                    </span>
+                    <span>Auto</span>
+                    <span className={`text-[0.65rem] font-medium ${active ? "opacity-70" : "opacity-60"}`}>
+                      vibe default
+                    </span>
+                  </button>
+                );
+              })()}
               {shapeOptions.map((o) => {
                 const active = shape === o.id;
                 return (
@@ -299,13 +337,14 @@ export default function ThemeBoard({
                     key={o.id}
                     type="button"
                     onClick={() => setShape(o.id)}
-                    className={`spring-press rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-[0.02em] transition-all ${
+                    className={`spring-press inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-[0.02em] transition-all ${
                       active
                         ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
                         : "border border-[color:var(--color-line-strong)] text-[color:var(--color-ink-muted)] hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)]"
                     }`}
                   >
-                    {o.label}
+                    <ShapeIcon id={o.id} />
+                    <span>{o.label}</span>
                   </button>
                 );
               })}
