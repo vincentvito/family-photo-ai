@@ -1,7 +1,8 @@
 import { db, schema } from "@/lib/db";
-import { desc, eq, gte, sql } from "drizzle-orm";
+import { and, desc, eq, gte, sql } from "drizzle-orm";
 import { GENERATION_MODEL_IDS, type GenerationModelId } from "@/lib/replicate/models";
 import { PRICING_PACKS, getPricingPack } from "@/lib/pricing-packs";
+import { THEMES } from "@/lib/themes";
 import { user as userTable } from "@/../db/auth-schema";
 
 const SETTINGS_ROW_ID = "default";
@@ -55,6 +56,21 @@ export type PackageSalesStats = {
     creditsSold: number;
     estimatedRevenueCents: number;
   }[];
+};
+
+export type ThemeRankingRow = {
+  themeId: string;
+  name: string;
+  category: "photoreal" | "stylized" | "card" | "custom" | "unknown";
+  count: number;
+  lastUsedAt: Date | null;
+};
+
+export type CustomVibeSample = {
+  id: string;
+  description: string;
+  status: "pending" | "done" | "error";
+  createdAt: Date;
 };
 
 export type CreditGrantStats = {
@@ -230,4 +246,67 @@ export async function getCreditGrantStats(limit = 6): Promise<CreditGrantStats> 
     totalGranted: Number(totalGranted ?? 0),
     recent,
   };
+}
+
+export async function getThemeRanking(limit = 20): Promise<ThemeRankingRow[]> {
+  const rows = await db
+    .select({
+      themeId: schema.generations.themeId,
+      count: sql<number>`count(*)::int`,
+      lastUsedAt: sql<Date>`max(${schema.generations.createdAt})`,
+    })
+    .from(schema.generations)
+    .groupBy(schema.generations.themeId)
+    .orderBy(desc(sql`count(*)`))
+    .limit(limit);
+
+  const themeMap = new Map(THEMES.map((t) => [t.id, t]));
+  return rows.map((row) => {
+    if (row.themeId === "custom") {
+      return {
+        themeId: row.themeId,
+        name: "Custom (user-described)",
+        category: "custom" as const,
+        count: Number(row.count),
+        lastUsedAt: row.lastUsedAt ? new Date(row.lastUsedAt) : null,
+      };
+    }
+    const theme = themeMap.get(row.themeId);
+    return {
+      themeId: row.themeId,
+      name: theme?.name ?? row.themeId,
+      category: theme?.category ?? ("unknown" as const),
+      count: Number(row.count),
+      lastUsedAt: row.lastUsedAt ? new Date(row.lastUsedAt) : null,
+    };
+  });
+}
+
+export async function getCustomVibeSamples(limit = 25): Promise<CustomVibeSample[]> {
+  const rows = await db
+    .select({
+      id: schema.generations.id,
+      description: schema.generations.customVibeDescription,
+      status: schema.generations.status,
+      createdAt: schema.generations.createdAt,
+    })
+    .from(schema.generations)
+    .where(
+      and(
+        eq(schema.generations.themeId, "custom"),
+        sql`${schema.generations.customVibeDescription} is not null`,
+        sql`length(trim(${schema.generations.customVibeDescription})) > 0`,
+      ),
+    )
+    .orderBy(desc(schema.generations.createdAt))
+    .limit(limit);
+
+  return rows
+    .filter((row): row is typeof row & { description: string } => Boolean(row.description))
+    .map((row) => ({
+      id: row.id,
+      description: row.description.trim(),
+      status: row.status,
+      createdAt: row.createdAt,
+    }));
 }

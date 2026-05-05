@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import {
   getCreditGrantStats,
+  getCustomVibeSamples,
   getDefaultModel,
   getPackageSalesStats,
   getPlatformStats,
   getRecentGenerations,
   getRecentSignups,
+  getThemeRanking,
 } from "@/lib/admin-queries";
 import DefaultModelPicker from "./DefaultModelPicker";
 import CreditGrantForm from "./CreditGrantForm";
@@ -90,6 +92,34 @@ export default function AdminOverviewPage() {
           <h2 className="serif text-xl tracking-[-0.02em]">Recent credit grants</h2>
           <Suspense fallback={<ListSkeleton />}>
             <CreditGrantsList />
+          </Suspense>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <h2 className="serif text-xl tracking-[-0.02em]">Vibe ranking</h2>
+              <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+                Most-picked themes across all shoots.
+              </p>
+            </div>
+          </div>
+          <Suspense fallback={<ListSkeleton />}>
+            <ThemeRankingList />
+          </Suspense>
+        </div>
+
+        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+          <div>
+            <h2 className="serif text-xl tracking-[-0.02em]">Custom vibes</h2>
+            <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+              What people describe when no preset fits.
+            </p>
+          </div>
+          <Suspense fallback={<ListSkeleton />}>
+            <CustomVibesList />
           </Suspense>
         </div>
       </section>
@@ -336,6 +366,91 @@ async function ShootsList() {
           <span className="text-xs text-[color:var(--color-ink-faint)]">
             {formatRelative(g.createdAt)}
           </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+async function ThemeRankingList() {
+  const ranking = await getThemeRanking(20);
+  if (ranking.length === 0) {
+    return (
+      <p className="mt-4 text-sm text-[color:var(--color-ink-muted)]">No shoots yet.</p>
+    );
+  }
+  const max = ranking[0].count || 1;
+  return (
+    <ul className="mt-4 space-y-2">
+      {ranking.map((row, idx) => {
+        const pct = Math.max(4, Math.round((row.count / max) * 100));
+        return (
+          <li key={row.themeId} className="space-y-1">
+            <div className="flex items-baseline justify-between gap-3 text-sm">
+              <div className="min-w-0 truncate">
+                <span className="text-[color:var(--color-ink-faint)] tabular-nums">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>{" "}
+                <span className="font-medium">{row.name}</span>
+                {row.category === "custom" && (
+                  <span className="ml-2 chip chip-coral">custom</span>
+                )}
+                {row.category === "card" && <span className="ml-2 chip chip-sage">card</span>}
+                {row.category === "stylized" && (
+                  <span className="ml-2 chip chip-sage">stylized</span>
+                )}
+              </div>
+              <div className="flex shrink-0 items-baseline gap-3 tabular-nums">
+                <span className="font-semibold">{row.count.toLocaleString()}</span>
+                {row.lastUsedAt && (
+                  <span className="text-xs text-[color:var(--color-ink-faint)]">
+                    {formatRelative(row.lastUsedAt)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-[color:var(--color-line)]/50">
+              <div
+                className="h-full bg-[color:var(--color-ink)]/70"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+async function CustomVibesList() {
+  const samples = await getCustomVibeSamples(25);
+  if (samples.length === 0) {
+    return (
+      <p className="mt-4 text-sm text-[color:var(--color-ink-muted)]">
+        No custom vibes submitted yet.
+      </p>
+    );
+  }
+  return (
+    <ul className="mt-4 max-h-[28rem] divide-y divide-[color:var(--color-line)] overflow-y-auto pr-1">
+      {samples.map((s) => (
+        <li key={s.id} className="py-3">
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">{s.description}</p>
+          <div className="mt-1 flex items-center gap-2 text-xs text-[color:var(--color-ink-faint)]">
+            <span>{formatRelative(s.createdAt)}</span>
+            <span>·</span>
+            <span
+              className={
+                s.status === "done"
+                  ? "text-[color:var(--color-sage-deep)]"
+                  : s.status === "error"
+                    ? "text-[color:var(--color-coral-deep)]"
+                    : ""
+              }
+            >
+              {s.status}
+            </span>
+          </div>
         </li>
       ))}
     </ul>
