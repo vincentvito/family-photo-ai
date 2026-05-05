@@ -37,15 +37,7 @@ export type GenerationModel = {
   supportedAspectRatios: readonly AspectRatio[];
 };
 
-const NANO_BANANA_ASPECTS: readonly AspectRatio[] = [
-  "1:1",
-  "4:5",
-  "3:2",
-  "2:3",
-  "16:9",
-];
-
-const GPT_IMAGE_2_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
+const SUPPORTED_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
 
 export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
   nanobanana: {
@@ -55,7 +47,7 @@ export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
     priceUsd: 0.067,
     priceLabel: "$0.067 / image",
     tierLabel: "1K resolution",
-    supportedAspectRatios: NANO_BANANA_ASPECTS,
+    supportedAspectRatios: SUPPORTED_ASPECTS,
   },
   "gpt-image-2": {
     id: "gpt-image-2",
@@ -64,7 +56,7 @@ export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
     priceUsd: 0.047,
     priceLabel: "$0.047 / image",
     tierLabel: "Medium quality",
-    supportedAspectRatios: GPT_IMAGE_2_ASPECTS,
+    supportedAspectRatios: SUPPORTED_ASPECTS,
   },
 };
 

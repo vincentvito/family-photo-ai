@@ -15,29 +15,24 @@ import {
   type GenerationModelId,
 } from "@/lib/replicate/models";
 
-type ShapeId = "default" | "portrait" | "tall" | "square" | "landscape" | "wide";
+type ShapeId = "portrait" | "square" | "wide";
 
 const shapeOptions: {
   id: ShapeId;
   label: string;
-  ratio: AspectRatio | null;
+  ratio: AspectRatio;
 }[] = [
-  { id: "default", label: "Theme default", ratio: null },
-  { id: "portrait", label: "Portrait", ratio: "4:5" },
-  { id: "tall", label: "Tall", ratio: "2:3" },
+  { id: "portrait", label: "Portrait", ratio: "2:3" },
   { id: "square", label: "Square", ratio: "1:1" },
-  { id: "landscape", label: "Landscape", ratio: "3:2" },
-  { id: "wide", label: "Widescreen", ratio: "16:9" },
+  { id: "wide", label: "Wide", ratio: "3:2" },
 ];
-
-const CUSTOM_SHAPE_FALLBACK: AspectRatio = "4:5";
 
 export default function ThemeBoard({
   photoreal,
   stylized,
   cards,
   isAdmin = false,
-  defaultModel = "nanobanana",
+  defaultModel = "gpt-image-2",
   creditBalance,
 }: {
   photoreal: Theme[];
@@ -47,7 +42,7 @@ export default function ThemeBoard({
   defaultModel?: GenerationModelId;
   creditBalance: number;
 }) {
-  const [shape, setShape] = useState<ShapeId>("default");
+  const [shape, setShape] = useState<ShapeId>("wide");
   const [wardrobe, setWardrobe] = useState("");
   const [cardText, setCardText] = useState("");
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
@@ -152,7 +147,7 @@ export default function ThemeBoard({
           }
           locationReferencePath = data.path;
         }
-        const aspect = selectedShape.ratio ?? CUSTOM_SHAPE_FALLBACK;
+        const aspect = selectedShape.ratio;
         const trimmed = customDescription.trim();
         const { generationId } = await postGenerate({
           customVibe: { description: trimmed, aspectRatio: aspect },
@@ -186,8 +181,7 @@ export default function ThemeBoard({
 
   const confirmDescription = (() => {
     if (!pendingShoot) return undefined;
-    const shape = selectedShape.ratio ?? "theme default";
-    return `We'll create 4 portrait options at ${shape}. You can favorite, refine, or try another vibe after.`;
+    return `We'll create 4 ${selectedShape.label} (${selectedShape.ratio}) shots. You can favorite, refine, or try another vibe after.`;
   })();
 
   return (

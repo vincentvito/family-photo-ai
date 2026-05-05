@@ -19,7 +19,7 @@ async function fetchGenerationState(id: string): Promise<State> {
   return res.json();
 }
 
-const aspectStyle: Record<AspectRatio, string> = {
+const aspectStyle: Record<string, string> = {
   "1:1": "aspect-square",
   "4:5": "aspect-[4/5]",
   "3:2": "aspect-[3/2]",
@@ -264,8 +264,9 @@ function ImageTile({
       </button>
 
       {/* Hover controls */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-between bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="tile-action-overlay pointer-events-none absolute inset-0 z-10 flex items-end justify-start bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 transition-opacity">
         <button
+          type="button"
           onClick={onRefineClick}
           className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
         >
@@ -282,33 +283,27 @@ function ImageTile({
           </svg>
           Refine
         </button>
-        <motion.button
-          onClick={flip}
-          disabled={pending}
-          className={`pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full shadow-[var(--shadow-md)] transition-colors ${
-            fav
-              ? "bg-[color:var(--color-coral)] text-white"
-              : "bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
-          }`}
-          whileTap={{ scale: 0.85 }}
-          whileHover={{ scale: 1.06 }}
-          aria-label={fav ? "Remove from album" : "Add to album"}
-        >
-          <HeartIcon filled={fav} />
-        </motion.button>
       </div>
 
-      {/* Favorite badge (always visible when fav) */}
-      {fav && (
-        <motion.div
-          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-coral)] text-white shadow-[var(--shadow-md)]"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 420, damping: 18 }}
-        >
-          <HeartIcon filled small />
-        </motion.div>
-      )}
+      <motion.button
+        type="button"
+        onClick={flip}
+        disabled={pending}
+        className={`absolute right-3 top-3 z-20 flex h-11 w-11 touch-manipulation items-center justify-center rounded-full shadow-[var(--shadow-md)] transition-colors ${
+          fav
+            ? "bg-[color:var(--color-coral)] text-white"
+            : "bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+        }`}
+        initial={false}
+        animate={{ scale: fav ? 1 : 0.96 }}
+        transition={{ type: "spring", stiffness: 420, damping: 18 }}
+        whileTap={{ scale: 0.85 }}
+        whileHover={{ scale: 1.06 }}
+        aria-pressed={fav}
+        aria-label={fav ? "Remove from album" : "Add to album"}
+      >
+        <HeartIcon filled={fav} />
+      </motion.button>
     </div>
   );
 }

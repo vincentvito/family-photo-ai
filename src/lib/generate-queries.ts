@@ -26,7 +26,7 @@ import { getDefaultModel } from "@/lib/admin-queries";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
 
-const AspectSchema = z.enum(["1:1", "4:5", "3:2", "2:3", "16:9"]);
+const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 
 const CustomVibeSchema = z.object({
   description: z.string().trim().min(4).max(800),

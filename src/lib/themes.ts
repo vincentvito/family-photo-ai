@@ -102,10 +102,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-kinfolk-kitchen.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 candid documentary color photograph",
+      assetType: "A 2:3 candid documentary color photograph",
       subjectAction:
         "scattered through the kitchen, each doing something small — kneading dough, pouring coffee, passing fruit, a child peeking up from the counter — no posing, no eye contact with the camera",
       location:
@@ -151,10 +151,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-leibovitz.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 editorial magazine studio portrait",
+      assetType: "A 2:3 editorial magazine studio portrait",
       subjectAction:
         "arranged in a deliberate painterly grouping, tailored and unified, one subject caught in a quieter unscripted glance that anchors the frame",
       location:
@@ -221,10 +221,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-film-noir.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: false,
     spec: {
-      assetType: "A 4:5 high-contrast black-and-white film photograph",
+      assetType: "A 2:3 high-contrast black-and-white film photograph",
       subjectAction:
         "arranged in a close elegant noir vignette, one subject holding a sealed letter or small case file, another glancing over a shoulder, 1940s tailoring and silk, held in thoughtful mystery with protective warmth",
       location:
@@ -244,10 +244,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-christmas-morning.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 candid tender color photograph",
+      assetType: "A 2:3 candid tender color photograph",
       subjectAction:
         "clustered on the floor and couch in mismatched flannel pajamas, holding mugs of cocoa, mid-laugh over a just-opened present, a dog worming into the frame",
       location:
@@ -315,10 +315,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-snowy-hygge.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 warm Nordic documentary photograph",
+      assetType: "A 2:3 warm Nordic documentary photograph",
       subjectAction:
         "gathered in the lit doorway of the cabin, brushing snow off a shoulder, one subject holding a lantern, breath softly visible in the cold air, in chunky wool cable knits and felt boots",
       location:
@@ -362,10 +362,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-parisian-cafe.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 editorial documentary photograph",
+      assetType: "A 2:3 editorial documentary photograph",
       subjectAction:
         "seated around a small round marble café table, one lifting an espresso, another tearing a croissant, unhurried and at ease, in linen and wool in muted neutrals",
       location:
@@ -458,10 +458,10 @@ export const THEMES: Theme[] = [
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-coastal-grandmother.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 lifestyle editorial photograph",
+      assetType: "A 2:3 lifestyle editorial photograph",
       subjectAction:
         "gathered around a sun-bleached marble island, one pouring iced tea from a glass pitcher, another arranging a hydrangea bouquet, a child perched on a stool with a pastry, all in unhurried casual elegance, in linen and chambray with a cream apron",
       location:
@@ -531,10 +531,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-pixar.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 Pixar-quality 3D animated hero frame",
+      assetType: "A 3:2 Pixar-quality 3D animated hero frame",
       subjectAction:
         "stylized as Pixar characters — softened features that still read as the real family, expressive eyes, a shared moment of warmth or laughter",
       location:
@@ -600,10 +600,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-cartoon.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 1990s Saturday-morning hand-drawn cartoon cel",
+      assetType: "A 3:2 1990s Saturday-morning hand-drawn cartoon cel",
       subjectAction:
         "the family sitting around a kitchen table mid-breakfast, cereal flying, wide open-mouth laughter, exaggerated gestures",
       location:
@@ -624,10 +624,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-ghibli-countryside.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 Studio-Ghibli-style hand-painted illustration",
+      assetType: "A 3:2 Studio-Ghibli-style hand-painted illustration",
       subjectAction:
         "the family standing on a rise in a meadow, hair and summer clothing catching the wind, one small gesture of pointing toward the horizon",
       location:
@@ -647,10 +647,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-renaissance-oil.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 Dutch-Golden-Age style oil painting on canvas",
+      assetType: "A 2:3 Dutch-Golden-Age style oil painting on canvas",
       subjectAction:
         "arranged as a 17th-century Dutch family portrait — tailored velvet and wool, one hand resting on another's shoulder, a book held open, all in quiet ceremonial stillness",
       location:
@@ -671,10 +671,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-yellow-cartoon.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 1990s Springfield-style prime-time animated cel",
+      assetType: "A 3:2 1990s Springfield-style prime-time animated cel",
       subjectAction:
         "the family seated on a living-room couch in a broadcast couch-gag pose, exaggerated simplified features, open-mouthed grins, a dog tumbling in from one side",
       location:
@@ -718,10 +718,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-watercolor-storybook.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 hand-painted watercolor children's storybook illustration",
+      assetType: "A 2:3 hand-painted watercolor children's storybook illustration",
       subjectAction:
         "the family walking hand-in-hand through a whimsical garden, one pointing at a lantern tree, a small dog trotting alongside, softened painterly proportions",
       location:
@@ -743,10 +743,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-spirited-away.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 hand-painted Studio-Ghibli illustration in the Spirited-Away tradition",
+      assetType: "A 3:2 hand-painted Studio-Ghibli illustration in the Spirited-Away tradition",
       subjectAction:
         "the family standing together on an ornate wooden bridge, gentle awe on each face, one reaching out toward a paper lantern drifting upward, a small soft spirit-creature trotting alongside",
       location:
@@ -767,10 +767,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-south-park.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 South-Park-style construction-paper cutout animation cel",
+      assetType: "A 3:2 South-Park-style construction-paper cutout animation cel",
       subjectAction:
         "the family lined up along a snowy sidewalk in basic chunky winter coats and beanies, ovoid bodies, perfectly round white eyes with tiny black pupils, mouths slightly open mid-sentence, a small cutout family pet beside them",
       location:
@@ -791,10 +791,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-the-sims.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 in-game render in the style of The Sims 4",
+      assetType: "A 3:2 in-game render in the style of The Sims 4",
       subjectAction:
         "the family in a Sims living room, each with a glowing green plumbob floating just above their head, faces in mid-Sim animation — slightly smiling, gesturing with stiff Sim hands, a Sim pet animated beside them",
       location:
@@ -815,10 +815,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-norman-rockwell.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 4:5 Saturday-Evening-Post cover illustration in oil",
+      assetType: "A 2:3 Saturday-Evening-Post cover illustration in oil",
       subjectAction:
         "the family caught in a tender narrative moment — gathered around a kitchen table mid-grace, or all crowded onto a porch swing, warm earnestness on each face, one slightly idealized but believable gesture anchoring the scene",
       location:
@@ -839,10 +839,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-minecraft.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 in-game render in the style of Minecraft",
+      assetType: "A 3:2 in-game render in the style of Minecraft",
       subjectAction:
         "the family rendered as voxel Minecraft characters with blocky cubic arms and legs, square pixel-grid faces, simple recognizable hair colors, each holding a different signature Minecraft item — a torch, a pickaxe, a flower, a bucket — a small voxel pet ocelot or wolf at their feet",
       location:
@@ -863,10 +863,10 @@ export const THEMES: Theme[] = [
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-aardman.jpg",
-    aspectRatio: "16:9",
+    aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 16:9 stop-motion claymation frame in the Aardman tradition",
+      assetType: "A 3:2 stop-motion claymation frame in the Aardman tradition",
       subjectAction:
         "the family rendered as plasticine claymation characters with visible thumbprint texture across faces and clothing, oversized teeth and warm grins, expressive over-arched eyebrows, mid-gesture holding fresh teacups, a small clay pet at their feet",
       location:
@@ -888,11 +888,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-christmas.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 holiday-card family portrait",
+      assetType: "A 2:3 holiday-card family portrait",
       subjectAction:
         "gathered in the doorway and on the front step, smiling warmly toward the camera, in coordinated-not-matching wool and flannel, a dog at their feet",
       location:
@@ -912,11 +912,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-easter.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 spring holiday-card family portrait",
+      assetType: "A 2:3 spring holiday-card family portrait",
       subjectAction:
         "the family walking through a tulip garden, one child holding a small woven basket, in linen and cotton pastels, gentle smiles",
       location:
@@ -937,11 +937,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-diwali.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 festive Diwali-card family portrait",
+      assetType: "A 2:3 festive Diwali-card family portrait",
       subjectAction:
         "the family gathered close in elegant festive clothing, smiling warmly toward the camera, one child placing a diya near a colorful rangoli pattern",
       location:
@@ -962,11 +962,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-eid.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 festive Eid-al-Fitr family portrait",
+      assetType: "A 2:3 festive Eid-al-Fitr family portrait",
       subjectAction:
         "the family gathered after morning prayers in modest elegant clothing, children holding small sweets, grandparents seated warmly at the center",
       location:
@@ -987,11 +987,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-dia-de-muertos.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 Día-de-Muertos family remembrance card portrait",
+      assetType: "A 2:3 Día-de-Muertos family remembrance card portrait",
       subjectAction:
         "the family gathered together in front of the ofrenda, smiling with warmth and reverence, one subject holding a candle while a child places marigolds",
       location:
@@ -1011,11 +1011,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-birthday.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 warm birthday-invitation family portrait",
+      assetType: "A 2:3 warm birthday-invitation family portrait",
       subjectAction:
         "gathered around a lit birthday cake on a wooden table, the child closest leaning in to blow out the candles, everyone mid-laugh with warm anticipation",
       location:
@@ -1036,11 +1036,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-halloween.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 warm Halloween-card family portrait",
+      assetType: "A 2:3 warm Halloween-card family portrait",
       subjectAction:
         "lined up on the porch steps in coordinated not-scary costumes — a little witch, a small vampire, a gentle ghost, the dog as a pumpkin — playful smiles",
       location:
@@ -1060,11 +1060,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-thanksgiving.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 Thanksgiving-card family portrait",
+      assetType: "A 2:3 Thanksgiving-card family portrait",
       subjectAction:
         "gathered around a harvest table mid-gesture of passing a dish, hands lightly holding, warm honest expressions, in plaid and linen",
       location:
@@ -1084,11 +1084,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-new-years.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 glamorous New-Year's-card family portrait",
+      assetType: "A 2:3 glamorous New-Year's-card family portrait",
       subjectAction:
         "raising champagne coupes in a mid-toast, gold confetti caught mid-air around them, in black-tie and cocktail-dress wardrobe, warm joy",
       location:
@@ -1108,11 +1108,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-graduation.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: false,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 warm graduation-card family portrait",
+      assetType: "A 2:3 warm graduation-card family portrait",
       subjectAction:
         "the family around the graduate in cap and gown, a parent adjusting the tassel or resting a hand on a shoulder, shared quiet pride",
       location:
@@ -1132,11 +1132,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-newborn.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 tender newborn-announcement family portrait",
+      assetType: "A 2:3 tender newborn-announcement family portrait",
       subjectAction:
         "gathered in soft white bedding, parents holding a swaddled sleeping newborn at center, siblings leaning in, quiet gentleness",
       location:
@@ -1157,11 +1157,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-save-the-date.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 romantic save-the-date engagement portrait",
+      assetType: "A 2:3 romantic save-the-date engagement portrait",
       subjectAction:
         "the couple — and immediate family if extended — caught in an intimate unrehearsed moment, a quiet laugh, hand-in-hand or temple-to-temple, in coordinated soft tones with one accent piece",
       location:
@@ -1182,11 +1182,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-mothers-day.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 tender Mother's-Day-card family portrait",
+      assetType: "A 2:3 tender Mother's-Day-card family portrait",
       subjectAction:
         "mother seated on a garden bench with the children leaning in, one small hand passing a hand-tied bouquet of peonies, gentle laughter, in linen and cotton pastels",
       location:
@@ -1206,11 +1206,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-fathers-day.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 warm Father's-Day-card family portrait",
+      assetType: "A 2:3 warm Father's-Day-card family portrait",
       subjectAction:
         "father in mid-action with the children — tossing a baseball, lifting a small one onto his shoulders, mid-laugh together, in chambray, denim and earth tones, the family pet trotting alongside",
       location:
@@ -1231,11 +1231,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-lunar-new-year.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 festive Lunar-New-Year family portrait",
+      assetType: "A 2:3 festive Lunar-New-Year family portrait",
       subjectAction:
         "the family gathered around a round dining table mid-meal, one passing a plate of dumplings, another raising a small tea cup in toast, a child holding a red envelope, all in coordinated red-and-gold wardrobe with one cheongsam-inspired accent",
       location:
@@ -1256,11 +1256,11 @@ export const THEMES: Theme[] = [
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-hanukkah.jpg",
-    aspectRatio: "4:5",
+    aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 4:5 warm Hanukkah-card family portrait",
+      assetType: "A 2:3 warm Hanukkah-card family portrait",
       subjectAction:
         "the family gathered around a glowing nine-branch menorah on a wooden table, one subject lifting the shamash to light a candle, the others leaning in with gentle smiles, a child clutching a wooden dreidel, in coordinated wool sweaters in blue, silver and cream",
       location:
@@ -1364,7 +1364,7 @@ export function resolveTheme(generation: {
   if (generation.themeId === "custom") {
     const description =
       generation.customVibeDescription?.trim() || "A warm, honest family portrait.";
-    const aspectRatio = (generation.aspectRatio as AspectRatio | null) ?? "4:5";
+    const aspectRatio = (generation.aspectRatio as AspectRatio | null) ?? "2:3";
     return buildCustomTheme({ description, aspectRatio });
   }
   const theme = getTheme(generation.themeId);

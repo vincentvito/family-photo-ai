@@ -67,14 +67,10 @@ function aspectToSize(ratio: GenerateArgs["aspectRatio"]) {
   switch (ratio) {
     case "1:1":
       return { width: 1024, height: 1024 };
-    case "4:5":
-      return { width: 1024, height: 1280 };
     case "3:2":
       return { width: 1536, height: 1024 };
     case "2:3":
       return { width: 1024, height: 1536 };
-    case "16:9":
-      return { width: 1792, height: 1024 };
   }
 }
 

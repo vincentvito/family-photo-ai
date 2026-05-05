@@ -2,6 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const ConfirmDialog = dynamic(() => import("@/components/ui/ConfirmDialog"), {
+  ssr: false,
+});
 
 export default function CreditGrantForm() {
   const router = useRouter();
@@ -11,8 +16,17 @@ export default function CreditGrantForm() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  function requestConfirmation() {
+    setMessage(null);
+    setError(null);
+    if (!email.trim() || credits === 0) return;
+    setConfirmOpen(true);
+  }
 
   function grantCredits() {
+    setConfirmOpen(false);
     setMessage(null);
     setError(null);
     start(async () => {
@@ -45,7 +59,7 @@ export default function CreditGrantForm() {
       className="grid gap-4"
       onSubmit={(event) => {
         event.preventDefault();
-        grantCredits();
+        requestConfirmation();
       }}
     >
       <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
@@ -106,9 +120,28 @@ export default function CreditGrantForm() {
         </p>
       )}
 
-      <button type="submit" disabled={pending || !email.trim()} className="btn btn-coral w-full">
+      <button
+        type="submit"
+        disabled={pending || !email.trim() || credits === 0}
+        className="btn btn-coral w-full"
+      >
         {pending ? "Saving adjustment..." : "Save credit adjustment"}
       </button>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title={
+          credits > 0
+            ? `Add ${credits} ${credits === 1 ? "credit" : "credits"} to ${email.trim() || "this user"}?`
+            : `Remove ${Math.abs(credits)} ${Math.abs(credits) === 1 ? "credit" : "credits"} from ${email.trim() || "this user"}?`
+        }
+        description={reason.trim() ? `Note: ${reason.trim()}` : undefined}
+        confirmLabel={credits > 0 ? "Grant credits" : "Remove credits"}
+        tone={credits > 0 ? "coral" : "danger"}
+        pending={pending}
+        onConfirm={grantCredits}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </form>
   );
 }

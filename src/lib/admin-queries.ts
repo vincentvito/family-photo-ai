@@ -16,7 +16,7 @@ export async function getDefaultModel(): Promise<GenerationModelId> {
   if (value && GENERATION_MODEL_IDS.includes(value as GenerationModelId)) {
     return value as GenerationModelId;
   }
-  return "nanobanana";
+  return "gpt-image-2";
 }
 
 export async function setDefaultModel(modelId: GenerationModelId) {

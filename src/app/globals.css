@@ -488,6 +488,19 @@
     transform: scale(0.97);
   }
 
+  .tile-action-overlay {
+    opacity: 1;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tile-action-overlay {
+      opacity: 0;
+    }
+    .group:hover .tile-action-overlay,
+    .group:focus-within .tile-action-overlay {
+      opacity: 1;
+    }
+  }
+
   /* Reduced-motion overrides */
   @media (prefers-reduced-motion: reduce) {
     .developing,
