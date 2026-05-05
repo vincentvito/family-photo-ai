@@ -21,10 +21,7 @@ async function putToR2(uploadUrl: string, file: File): Promise<void> {
   }
 }
 
-export async function uploadRosterPhoto(
-  personId: string,
-  file: File,
-): Promise<unknown> {
+export async function uploadRosterPhoto(personId: string, file: File): Promise<unknown> {
   const signRes = await fetch("/api/upload/sign", {
     method: "POST",
     headers: { "content-type": "application/json" },

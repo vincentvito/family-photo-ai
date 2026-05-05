@@ -59,7 +59,11 @@ export async function toggleFavorite(userId: string, imageId: string) {
 }
 
 export async function getAlbum(userId: string) {
-  const [album] = await db.select().from(schema.albums).where(eq(schema.albums.userId, userId)).limit(1);
+  const [album] = await db
+    .select()
+    .from(schema.albums)
+    .where(eq(schema.albums.userId, userId))
+    .limit(1);
   if (!album) return { album: null, items: [] };
 
   const activeSince = studioCutoffDate();
@@ -92,7 +96,9 @@ export async function getRecentShoots(userId: string, limit = 8) {
   const generations = await db
     .select()
     .from(schema.generations)
-    .where(and(eq(schema.generations.userId, userId), gte(schema.generations.createdAt, activeSince)))
+    .where(
+      and(eq(schema.generations.userId, userId), gte(schema.generations.createdAt, activeSince)),
+    )
     .orderBy(desc(schema.generations.createdAt))
     .limit(limit);
 

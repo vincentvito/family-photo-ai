@@ -261,12 +261,7 @@ export default function EditPersonDialog({
               >
                 Cancel
               </button>
-              <button
-                onClick={submit}
-                disabled={pending}
-                className="btn btn-coral"
-                type="button"
-              >
+              <button onClick={submit} disabled={pending} className="btn btn-coral" type="button">
                 {pending ? "Saving…" : "Save changes"}
               </button>
             </div>

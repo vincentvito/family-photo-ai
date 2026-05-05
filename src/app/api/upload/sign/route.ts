@@ -9,13 +9,7 @@ import { getSignedPutUrl } from "@/lib/storage";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const ALLOWED_CONTENT_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/heic",
-  "image/heif",
-];
+const ALLOWED_CONTENT_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
 
 const Body = z.object({
   personId: z.string().min(1),
@@ -35,10 +29,7 @@ export async function POST(req: NextRequest) {
   const { personId, contentType } = parsed.data;
 
   if (!ALLOWED_CONTENT_TYPES.includes(contentType)) {
-    return NextResponse.json(
-      { error: `Unsupported file type: ${contentType}` },
-      { status: 415 },
-    );
+    return NextResponse.json({ error: `Unsupported file type: ${contentType}` }, { status: 415 });
   }
 
   const [person] = await db

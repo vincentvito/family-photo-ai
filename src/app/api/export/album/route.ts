@@ -15,7 +15,11 @@ export async function GET() {
   if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
-  const [album] = await db.select().from(schema.albums).where(eq(schema.albums.userId, user.id)).limit(1);
+  const [album] = await db
+    .select()
+    .from(schema.albums)
+    .where(eq(schema.albums.userId, user.id))
+    .limit(1);
   if (!album) {
     return NextResponse.json({ error: "No album yet" }, { status: 404 });
   }

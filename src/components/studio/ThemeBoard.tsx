@@ -84,9 +84,7 @@ export default function ThemeBoard({
   );
   const router = useRouter();
 
-  const selectedHasReference = roster.some(
-    (m) => selectedSubjectIds.has(m.id) && m.hasReference,
-  );
+  const selectedHasReference = roster.some((m) => selectedSubjectIds.has(m.id) && m.hasReference);
 
   const toggleSubject = (id: string) => {
     setSelectedSubjectIds((prev) => {
@@ -96,8 +94,7 @@ export default function ThemeBoard({
       return next;
     });
   };
-  const selectAllSubjects = () =>
-    setSelectedSubjectIds(new Set(roster.map((m) => m.id)));
+  const selectAllSubjects = () => setSelectedSubjectIds(new Set(roster.map((m) => m.id)));
   const clearSubjects = () => setSelectedSubjectIds(new Set());
 
   const buildSubjectIdsPayload = (): string[] | undefined => {

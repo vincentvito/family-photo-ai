@@ -26,7 +26,9 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
   const [generation] = await db
     .select()
     .from(schema.generations)
-    .where(and(eq(schema.generations.id, baseImage.generationId), eq(schema.generations.userId, userId)))
+    .where(
+      and(eq(schema.generations.id, baseImage.generationId), eq(schema.generations.userId, userId)),
+    )
     .limit(1);
   if (!generation) throw new Error("Generation not found");
   if (generation.createdAt < studioCutoffDate()) {
@@ -113,7 +115,9 @@ export async function getRefineState(userId: string, imageId: string) {
     db
       .select()
       .from(schema.generations)
-      .where(and(eq(schema.generations.id, image.generationId), eq(schema.generations.userId, userId)))
+      .where(
+        and(eq(schema.generations.id, image.generationId), eq(schema.generations.userId, userId)),
+      )
       .limit(1),
     db
       .select()

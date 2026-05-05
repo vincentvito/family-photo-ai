@@ -39,8 +39,8 @@ export default function OccasionCards() {
             </div>
             <div className="max-w-sm">
               <p className="text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                Christmas, Easter, Hanukkah, Diwali, Lunar New Year, Eid and family milestones,
-                made as warm cards for the people who should see them first.
+                Christmas, Easter, Hanukkah, Diwali, Lunar New Year, Eid and family milestones, made
+                as warm cards for the people who should see them first.
               </p>
               <Link href="/sign-in" className="btn btn-coral mt-5">
                 Make a card

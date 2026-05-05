@@ -8,7 +8,11 @@ function upscaleKey(imageId: string, target: UpscaleTarget) {
   return `cache/upscales/${imageId}-${target}.jpg`;
 }
 
-export async function upscaleImage(input: { userId: string; imageId: string; target: UpscaleTarget }) {
+export async function upscaleImage(input: {
+  userId: string;
+  imageId: string;
+  target: UpscaleTarget;
+}) {
   const [image] = await db
     .select({ image: schema.images })
     .from(schema.images)

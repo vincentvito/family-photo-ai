@@ -225,9 +225,7 @@ export async function deleteStoredPrefix(prefix: string): Promise<void> {
  * Convert an R2-stored image to a base64 data URL (for sending to model APIs
  * that accept inline images, e.g. Replicate / Nano Banana).
  */
-export async function imageToBase64(
-  key: string,
-): Promise<{ base64: string; mimeType: string }> {
+export async function imageToBase64(key: string): Promise<{ base64: string; mimeType: string }> {
   const buf = await readStoredImage(key);
   const ext = path.extname(key).toLowerCase();
   const mimeType = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";

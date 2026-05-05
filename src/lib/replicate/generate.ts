@@ -1,9 +1,5 @@
 import { fetchOutputImage, getReplicateClient } from "./client";
-import {
-  MODEL_CATALOG,
-  type GenerationModelId,
-  isAspectSupported,
-} from "./models";
+import { MODEL_CATALOG, type GenerationModelId, isAspectSupported } from "./models";
 import { publicUrl } from "@/lib/storage";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 

@@ -7,7 +7,12 @@ import { db, schema } from "@/lib/db";
 
 const Body = z.object({
   email: z.string().trim().email(),
-  credits: z.number().int().min(-100).max(100).refine((value) => value !== 0),
+  credits: z
+    .number()
+    .int()
+    .min(-100)
+    .max(100)
+    .refine((value) => value !== 0),
   reason: z.string().trim().max(240).optional(),
 });
 

@@ -117,7 +117,11 @@ export async function removePerson(userId: string, personId: string) {
   return photos.length;
 }
 
-export async function addPhotoToPerson(input: { userId: string; personId: string; buffer: Buffer }) {
+export async function addPhotoToPerson(input: {
+  userId: string;
+  personId: string;
+  buffer: Buffer;
+}) {
   const person = await db
     .select({ id: schema.people.id })
     .from(schema.people)

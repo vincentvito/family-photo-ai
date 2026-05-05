@@ -17,9 +17,7 @@ export default function SubjectPicker({
 }) {
   if (roster.length === 0) return null;
 
-  const selectedWithRef = roster.filter(
-    (m) => selectedIds.has(m.id) && m.hasReference,
-  ).length;
+  const selectedWithRef = roster.filter((m) => selectedIds.has(m.id) && m.hasReference).length;
   const invalid = selectedWithRef === 0;
   const allSelected = selectedIds.size === roster.length;
 

@@ -175,9 +175,7 @@ export default function PersonCard({
           </p>
         )}
         {!uploading && !error && photo && (
-          <p className="text-xs text-[color:var(--color-ink-muted)]">
-            Reference photo ready.
-          </p>
+          <p className="text-xs text-[color:var(--color-ink-muted)]">Reference photo ready.</p>
         )}
 
         <div className="mt-4 flex flex-wrap items-center justify-end gap-2">

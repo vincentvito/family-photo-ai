@@ -113,7 +113,12 @@ export async function startGeneration(
   // surfaces missing-reference state to them.
   const effectiveRoster = parsed.subjectIds ? withReference : roster;
 
-  const prompt = buildGenerationPrompt(theme, effectiveRoster, parsed.wardrobeNote, parsed.cardText ?? null);
+  const prompt = buildGenerationPrompt(
+    theme,
+    effectiveRoster,
+    parsed.wardrobeNote,
+    parsed.cardText ?? null,
+  );
 
   const modelId = await resolveModelId(parsed.modelId, admin);
   if (!isAspectSupported(modelId, theme.aspectRatio)) {
@@ -328,7 +333,10 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
         .set({ status: "done" })
         .where(eq(schema.generations.id, generation.id));
     } else {
-      await markGenerationErrorAndRefundCredit(generation.id, finalErrors[0] ?? "All variants failed");
+      await markGenerationErrorAndRefundCredit(
+        generation.id,
+        finalErrors[0] ?? "All variants failed",
+      );
     }
     revalidatePath(`/studio/generate/${generation.id}`);
   } else if (completedNow > 0 || mutatedSlots) {
@@ -518,10 +526,7 @@ async function createGenerationRecord({
   });
 }
 
-async function loadRosterAsSubjects(
-  userId: string,
-  subjectIds?: string[],
-): Promise<Subject[]> {
+async function loadRosterAsSubjects(userId: string, subjectIds?: string[]): Promise<Subject[]> {
   const filter =
     subjectIds && subjectIds.length > 0
       ? and(eq(schema.people.userId, userId), inArray(schema.people.id, subjectIds))

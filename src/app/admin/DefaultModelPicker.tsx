@@ -62,9 +62,7 @@ export default function DefaultModelPicker({ initial }: { initial: GenerationMod
                     {m.tierLabel} · supports {m.supportedAspectRatios.join(", ")}
                   </div>
                 </div>
-                <span
-                  className={`chip ${active ? "chip-coral" : "chip-ghost"} whitespace-nowrap`}
-                >
+                <span className={`chip ${active ? "chip-coral" : "chip-ghost"} whitespace-nowrap`}>
                   {m.priceLabel}
                 </span>
               </div>
@@ -76,9 +74,7 @@ export default function DefaultModelPicker({ initial }: { initial: GenerationMod
         {pending && "Saving…"}
         {!pending && savedAt && "Saved."}
         {!pending && !savedAt && "Updates apply to all new generations."}
-        {error && (
-          <span className="ml-2 text-[color:var(--color-coral-deep)]">{error}</span>
-        )}
+        {error && <span className="ml-2 text-[color:var(--color-coral-deep)]">{error}</span>}
       </p>
     </div>
   );
