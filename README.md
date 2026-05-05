@@ -61,6 +61,18 @@ The storage folder and SQLite file are gitignored.
 - `npm run db:studio` — browse the DB in Drizzle Studio
 - `npm run samples` — (re)generate landing sample images (passes `--force` if you add it) via Nano Banana Pro. Swap in real photography whenever you have it.
 
+## R2 cleanup
+
+`npm run storage:orphans` checks R2 for image objects under `generations/` that are no longer referenced by `familyphotoai.images`. It is a dry run by default.
+
+Useful variants:
+
+```bash
+npm run storage:orphans -- --json
+npm run storage:orphans -- --prefix=generations/<generationId>/
+npm run storage:orphans -- --delete
+```
+
 ## Tests
 
 A one-shot smoke test exists at `scripts/smoke-test.mjs`. It clears local data, seeds a 4-subject roster, kicks off a mock generation, refines one image, and exports the album — proving the plumbing end-to-end without any API credits.
