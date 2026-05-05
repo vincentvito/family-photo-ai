@@ -1,6 +1,6 @@
 import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { eq, asc, inArray, sql } from "drizzle-orm";
+import { and, eq, asc, inArray, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
@@ -89,7 +89,7 @@ export async function startGeneration(
     theme = { ...theme, aspectRatio: parsed.aspectOverride };
   }
 
-  const roster = await loadRosterAsSubjects();
+  const roster = await loadRosterAsSubjects(actor.userId);
   if (roster.length === 0) {
     throw new Error("Your roster is empty. Add at least one person with a reference photo.");
   }
@@ -127,6 +127,7 @@ export async function startGeneration(
       themeId: theme.id,
       prompt,
       providerId: modelId,
+      userId: actor.userId,
       status: "pending",
       subjectSnapshot: JSON.stringify(roster),
       wardrobeNote: parsed.wardrobeNote ?? null,
@@ -175,11 +176,11 @@ async function resolveModelId(
   return getDefaultModel();
 }
 
-export async function getGenerationState(generationId: string) {
+export async function getGenerationState(generationId: string, userId: string) {
   const [generation] = await db
     .select()
     .from(schema.generations)
-    .where(eq(schema.generations.id, generationId))
+    .where(and(eq(schema.generations.id, generationId), eq(schema.generations.userId, userId)))
     .limit(1);
 
   if (!generation) return null;
@@ -190,7 +191,11 @@ export async function getGenerationState(generationId: string) {
   }
 
   const [[refreshed], images] = await Promise.all([
-    db.select().from(schema.generations).where(eq(schema.generations.id, generationId)).limit(1),
+    db
+      .select()
+      .from(schema.generations)
+      .where(and(eq(schema.generations.id, generationId), eq(schema.generations.userId, userId)))
+      .limit(1),
     db
       .select()
       .from(schema.images)
@@ -364,6 +369,7 @@ async function startMockGeneration({
       themeId: theme.id,
       prompt,
       providerId: "mock",
+      userId: actor.userId,
       status: "pending",
       subjectSnapshot: JSON.stringify(roster),
       wardrobeNote: input.wardrobeNote ?? null,
@@ -477,11 +483,21 @@ async function createGenerationRecord({
   });
 }
 
-async function loadRosterAsSubjects(): Promise<Subject[]> {
-  const [people, photos] = await Promise.all([
-    db.select().from(schema.people).orderBy(asc(schema.people.createdAt)),
-    db.select().from(schema.photos).orderBy(asc(schema.photos.createdAt)),
-  ]);
+async function loadRosterAsSubjects(userId: string): Promise<Subject[]> {
+  const people = await db
+    .select()
+    .from(schema.people)
+    .where(eq(schema.people.userId, userId))
+    .orderBy(asc(schema.people.createdAt));
+  const personIds = people.map((person) => person.id);
+  const photos =
+    personIds.length > 0
+      ? await db
+          .select()
+          .from(schema.photos)
+          .where(inArray(schema.photos.personId, personIds))
+          .orderBy(asc(schema.photos.createdAt))
+      : [];
   const photoByPerson = new Map<string, (typeof photos)[number]>();
 
   for (const photo of photos) {

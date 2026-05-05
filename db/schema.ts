@@ -12,6 +12,7 @@ const createdAt = () => timestamp("created_at").notNull().defaultNow();
 
 export const people = familyphotoai.table("people", {
   id: id(),
+  userId: text("user_id").notNull(),
   name: text("name").notNull(),
   role: text("role", { enum: ["adult", "child", "pet"] }).notNull(),
   notes: text("notes"),
@@ -32,6 +33,7 @@ export const photos = familyphotoai.table("photos", {
 
 export const generations = familyphotoai.table("generations", {
   id: id(),
+  userId: text("user_id").notNull(),
   themeId: text("theme_id").notNull(),
   prompt: text("prompt").notNull(),
   providerId: text("provider_id").notNull(),
@@ -83,6 +85,7 @@ export const refinementHistory = familyphotoai.table("refinement_history", {
 
 export const albums = familyphotoai.table("albums", {
   id: id(),
+  userId: text("user_id").notNull(),
   name: text("name").notNull().default("My Album"),
   createdAt: createdAt(),
 });

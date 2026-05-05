@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { getRefineState } from "@/lib/refine-queries";
 import { resolveTheme } from "@/lib/themes";
 import RefineStage from "@/components/studio/RefineStage";
+import { getCurrentUser } from "@/lib/auth-helpers";
 
 export const dynamic = "force-dynamic";
 
 export default async function RefinePage({ params }: { params: Promise<{ imageId: string }> }) {
   const { imageId } = await params;
-  const state = await getRefineState(imageId);
+  const user = await getCurrentUser();
+  if (!user) notFound();
+  const state = await getRefineState(user.id, imageId);
   if (!state) notFound();
 
   const theme = state.generation ? resolveTheme(state.generation) : null;

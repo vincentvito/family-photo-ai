@@ -3,12 +3,15 @@ import { getGenerationState } from "@/lib/generate-queries";
 import { resolveTheme } from "@/lib/themes";
 import { STUDIO_RETENTION_DAYS, studioDaysRemaining } from "@/lib/retention";
 import GenerationBoard from "@/components/studio/GenerationBoard";
+import { getCurrentUser } from "@/lib/auth-helpers";
 
 export const dynamic = "force-dynamic";
 
 export default async function GeneratePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const state = await getGenerationState(id);
+  const user = await getCurrentUser();
+  if (!user) notFound();
+  const state = await getGenerationState(id, user.id);
   if (!state) notFound();
 
   const theme = resolveTheme(state.generation);

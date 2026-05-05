@@ -14,7 +14,7 @@ const RefineInput = z.object({
   instruction: z.string().trim().min(2).max(400),
 });
 
-export async function refineImage(input: z.infer<typeof RefineInput>) {
+export async function refineImage(userId: string, input: z.infer<typeof RefineInput>) {
   const parsed = RefineInput.parse(input);
 
   const [baseImage] = await db
@@ -27,7 +27,7 @@ export async function refineImage(input: z.infer<typeof RefineInput>) {
   const [generation] = await db
     .select()
     .from(schema.generations)
-    .where(eq(schema.generations.id, baseImage.generationId))
+    .where(and(eq(schema.generations.id, baseImage.generationId), eq(schema.generations.userId, userId)))
     .limit(1);
   if (!generation) throw new Error("Generation not found");
   if (generation.createdAt < studioCutoffDate()) {
@@ -104,7 +104,7 @@ export async function refineImage(input: z.infer<typeof RefineInput>) {
   return { imageId: insertedImage.id };
 }
 
-export async function getRefineState(imageId: string) {
+export async function getRefineState(userId: string, imageId: string) {
   const [image] = await db
     .select()
     .from(schema.images)
@@ -117,7 +117,7 @@ export async function getRefineState(imageId: string) {
     db
       .select()
       .from(schema.generations)
-      .where(eq(schema.generations.id, image.generationId))
+      .where(and(eq(schema.generations.id, image.generationId), eq(schema.generations.userId, userId)))
       .limit(1),
     db
       .select()

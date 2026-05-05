@@ -1,16 +1,27 @@
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { db, schema } from "@/lib/db";
-import { asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { saveReferencePhoto, deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { z } from "zod";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
 
-export async function listRoster() {
-  const [people, photos] = await Promise.all([
-    db.select().from(schema.people).orderBy(asc(schema.people.createdAt)),
-    db.select().from(schema.photos).orderBy(asc(schema.photos.createdAt)),
-  ]);
+export async function listRoster(userId: string) {
+  const people = await db
+    .select()
+    .from(schema.people)
+    .where(eq(schema.people.userId, userId))
+    .orderBy(asc(schema.people.createdAt));
+
+  const personIds = people.map((person) => person.id);
+  const photos =
+    personIds.length > 0
+      ? await db
+          .select()
+          .from(schema.photos)
+          .where(inArray(schema.photos.personId, personIds))
+          .orderBy(asc(schema.photos.createdAt))
+      : [];
   const photoByPerson = new Map<string, (typeof photos)[number]>();
 
   for (const photo of photos) {
@@ -24,6 +35,7 @@ export async function listRoster() {
 }
 
 export async function addPerson(input: {
+  userId: string;
   name: string;
   role: "adult" | "child" | "pet";
   notes?: string | null;
@@ -31,6 +43,7 @@ export async function addPerson(input: {
   const parsed = z
     .object({
       name: z.string().trim().min(1).max(60),
+      userId: z.string().min(1),
       role: RoleSchema,
       notes: z.string().trim().max(200).nullable().optional(),
     })
@@ -39,6 +52,7 @@ export async function addPerson(input: {
   const inserted = await db
     .insert(schema.people)
     .values({
+      userId: parsed.userId,
       name: parsed.name,
       role: parsed.role,
       notes: parsed.notes ?? null,
@@ -50,6 +64,7 @@ export async function addPerson(input: {
 }
 
 export async function updatePerson(input: {
+  userId: string;
   id: string;
   name?: string;
   role?: "adult" | "child" | "pet";
@@ -58,6 +73,7 @@ export async function updatePerson(input: {
   const parsed = z
     .object({
       id: z.string().min(1),
+      userId: z.string().min(1),
       name: z.string().trim().min(1).max(60).optional(),
       role: RoleSchema.optional(),
       notes: z.string().trim().max(200).nullable().optional(),
@@ -71,15 +87,27 @@ export async function updatePerson(input: {
       ...(parsed.role !== undefined ? { role: parsed.role } : {}),
       ...(parsed.notes !== undefined ? { notes: parsed.notes } : {}),
     })
-    .where(eq(schema.people.id, parsed.id));
+    .where(and(eq(schema.people.id, parsed.id), eq(schema.people.userId, parsed.userId)));
 
   revalidatePath("/studio/roster");
 }
 
-export async function removePerson(personId: string) {
+export async function removePerson(userId: string, personId: string) {
+  const [person] = await db
+    .select({ id: schema.people.id })
+    .from(schema.people)
+    .where(and(eq(schema.people.id, personId), eq(schema.people.userId, userId)))
+    .limit(1);
+
+  if (!person) {
+    return 0;
+  }
+
   const photos = await db.select().from(schema.photos).where(eq(schema.photos.personId, personId));
 
-  await db.delete(schema.people).where(eq(schema.people.id, personId));
+  await db
+    .delete(schema.people)
+    .where(and(eq(schema.people.id, personId), eq(schema.people.userId, userId)));
 
   await deleteStoredPrefix(`uploads/${personId}/`).catch((err) => {
     console.warn(`removePerson: R2 prefix delete failed for ${personId}`, err);
@@ -89,11 +117,11 @@ export async function removePerson(personId: string) {
   return photos.length;
 }
 
-export async function addPhotoToPerson(input: { personId: string; buffer: Buffer }) {
+export async function addPhotoToPerson(input: { userId: string; personId: string; buffer: Buffer }) {
   const person = await db
     .select({ id: schema.people.id })
     .from(schema.people)
-    .where(eq(schema.people.id, input.personId))
+    .where(and(eq(schema.people.id, input.personId), eq(schema.people.userId, input.userId)))
     .limit(1);
 
   if (!person[0]) {
@@ -138,11 +166,16 @@ export async function addPhotoToPerson(input: { personId: string; buffer: Buffer
   return inserted[0];
 }
 
-export async function removePhoto(photoId: string) {
-  const photo = await db.select().from(schema.photos).where(eq(schema.photos.id, photoId)).limit(1);
+export async function removePhoto(userId: string, photoId: string) {
+  const [photo] = await db
+    .select({ photo: schema.photos, person: schema.people })
+    .from(schema.photos)
+    .innerJoin(schema.people, eq(schema.photos.personId, schema.people.id))
+    .where(and(eq(schema.photos.id, photoId), eq(schema.people.userId, userId)))
+    .limit(1);
 
-  if (!photo[0]) return;
-  const key = `uploads/${photo[0].personId}/${photo[0].fileName}`;
+  if (!photo) return;
+  const key = `uploads/${photo.photo.personId}/${photo.photo.fileName}`;
   await db.delete(schema.photos).where(eq(schema.photos.id, photoId));
   await deleteStoredImage(key).catch((err) => {
     console.warn(`removePhoto: R2 delete failed for ${key}`, err);

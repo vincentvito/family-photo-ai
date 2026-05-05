@@ -8,15 +8,16 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ imageId: string }> }) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const { imageId } = await params;
   const target = (req.nextUrl.searchParams.get("target") ?? "8x10") as UpscaleTarget;
 
   try {
-    await upscaleImage({ imageId, target });
-    const data = await readUpscaledImage(imageId, target);
+    await upscaleImage({ userId: user.id, imageId, target });
+    const data = await readUpscaledImage(user.id, imageId, target);
     return new NextResponse(data as unknown as BodyInit, {
       headers: {
         "Content-Type": "image/jpeg",

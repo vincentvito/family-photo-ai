@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { readStoredImage } from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
@@ -8,28 +8,35 @@ import { studioCutoffDate } from "@/lib/retention";
 export const dynamic = "force-dynamic";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
   const { id } = await params;
 
-  const photo = await db.select().from(schema.photos).where(eq(schema.photos.id, id)).limit(1);
+  const photo = await db
+    .select({ photo: schema.photos })
+    .from(schema.photos)
+    .innerJoin(schema.people, eq(schema.photos.personId, schema.people.id))
+    .where(and(eq(schema.photos.id, id), eq(schema.people.userId, user.id)))
+    .limit(1);
 
   let key: string | null = null;
   if (photo[0]) {
-    key = `uploads/${photo[0].personId}/${photo[0].fileName}`;
+    key = `uploads/${photo[0].photo.personId}/${photo[0].photo.fileName}`;
   } else {
-    const image = await db.select().from(schema.images).where(eq(schema.images.id, id)).limit(1);
+    const image = await db
+      .select({ image: schema.images, generation: schema.generations })
+      .from(schema.images)
+      .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+      .where(and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)))
+      .limit(1);
     if (image[0]) {
-      const [generation] = await db
-        .select()
-        .from(schema.generations)
-        .where(eq(schema.generations.id, image[0].generationId))
-        .limit(1);
+      const { image: storedImage, generation } = image[0];
       if (!generation || generation.createdAt < studioCutoffDate()) {
         return new NextResponse("Not found", { status: 404 });
       }
-      key = `generations/${image[0].generationId}/${image[0].fileName}`;
+      key = `generations/${storedImage.generationId}/${storedImage.fileName}`;
     }
   }
 

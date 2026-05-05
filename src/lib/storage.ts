@@ -92,9 +92,9 @@ export async function saveReferencePhoto(buffer: Buffer, personId: string): Prom
 /**
  * Normalize an uploaded location / mood reference photo for a custom vibe.
  */
-export async function saveLocationReference(buffer: Buffer): Promise<SavedImage> {
+export async function saveLocationReference(buffer: Buffer, userId: string): Promise<SavedImage> {
   const fileName = `${nanoid(10)}.jpg`;
-  const key = `locations/${fileName}`;
+  const key = `locations/${userId}/${fileName}`;
 
   const img = sharp(buffer, { failOn: "none" }).rotate();
   const meta = await img.metadata();

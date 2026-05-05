@@ -11,10 +11,11 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
-  const [album] = await db.select().from(schema.albums).limit(1);
+  const [album] = await db.select().from(schema.albums).where(eq(schema.albums.userId, user.id)).limit(1);
   if (!album) {
     return NextResponse.json({ error: "No album yet" }, { status: 404 });
   }
@@ -25,7 +26,11 @@ export async function GET() {
     .innerJoin(schema.images, eq(schema.albumImages.imageId, schema.images.id))
     .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
     .where(
-      and(eq(schema.albumImages.albumId, album.id), gte(schema.generations.createdAt, studioCutoffDate())),
+      and(
+        eq(schema.albumImages.albumId, album.id),
+        eq(schema.generations.userId, user.id),
+        gte(schema.generations.createdAt, studioCutoffDate()),
+      ),
     )
     .orderBy(desc(schema.albumImages.addedAt));
 

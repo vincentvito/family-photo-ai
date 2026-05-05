@@ -3,11 +3,15 @@ import Image from "next/image";
 import { getAlbum, getRecentShoots } from "@/lib/album-queries";
 import { STUDIO_RETENTION_DAYS, studioDaysRemaining } from "@/lib/retention";
 import AlbumGrid from "@/components/studio/AlbumGrid";
+import { getCurrentUser } from "@/lib/auth-helpers";
 
 export const dynamic = "force-dynamic";
 
 export default async function AlbumPage() {
-  const [{ items }, recentShoots] = await Promise.all([getAlbum(), getRecentShoots()]);
+  const user = await getCurrentUser();
+  const [{ items }, recentShoots] = user
+    ? await Promise.all([getAlbum(user.id), getRecentShoots(user.id)])
+    : [{ items: [] }, []];
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">

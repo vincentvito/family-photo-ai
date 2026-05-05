@@ -6,7 +6,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const formData = await req.formData();
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
   try {
-    const saved = await saveLocationReference(buffer);
+    const saved = await saveLocationReference(buffer, user.id);
     return NextResponse.json({
       path: saved.relativePath,
       width: saved.width,

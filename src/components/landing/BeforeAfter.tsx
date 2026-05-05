@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 
@@ -24,16 +24,12 @@ const pairs: Pair[] = [
   },
 ];
 
-const AUTO_SWEEP_MS = 5200;
-const MANUAL_RESUME_MS = 2600;
-
 export default function BeforeAfter() {
   const [pairIndex, setPairIndex] = useState(0);
   const [split, setSplit] = useState(52);
-  const [isManual, setIsManual] = useState(false);
   const reduceMotion = useReducedMotion();
   const frameRef = useRef<HTMLDivElement | null>(null);
-  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const draggingRef = useRef(false);
 
   const onMove = useCallback((clientX: number) => {
     const rect = frameRef.current?.getBoundingClientRect();
@@ -43,48 +39,12 @@ export default function BeforeAfter() {
     setSplit(pct);
   }, []);
 
-  const startManual = useCallback(() => {
-    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-    setIsManual(true);
+  const startDrag = useCallback(() => {
+    draggingRef.current = true;
   }, []);
 
-  const resumeAuto = useCallback(() => {
-    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-    resumeTimerRef.current = setTimeout(() => setIsManual(false), MANUAL_RESUME_MS);
-  }, []);
-
-  useEffect(() => {
-    if (isManual) return;
-
-    if (reduceMotion) return;
-
-    let frame = 0;
-    let lastCycle = -1;
-    const startedAt = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - startedAt;
-      const cycle = Math.floor(elapsed / AUTO_SWEEP_MS);
-      const phase = (elapsed % AUTO_SWEEP_MS) / AUTO_SWEEP_MS;
-      const eased = 0.5 - Math.cos(phase * Math.PI * 2) / 2;
-
-      if (cycle !== lastCycle) {
-        lastCycle = cycle;
-        setPairIndex(cycle % pairs.length);
-      }
-
-      setSplit(24 + eased * 52);
-      frame = window.requestAnimationFrame(animate);
-    };
-
-    frame = window.requestAnimationFrame(animate);
-    return () => window.cancelAnimationFrame(frame);
-  }, [isManual, reduceMotion]);
-
-  useEffect(() => {
-    return () => {
-      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-    };
+  const stopDrag = useCallback(() => {
+    draggingRef.current = false;
   }, []);
 
   const pair = pairs[pairIndex];
@@ -116,24 +76,44 @@ export default function BeforeAfter() {
           <div
             ref={frameRef}
             className="warm-noise relative mx-auto mt-8 aspect-[4/3] w-full max-w-[980px] cursor-ew-resize select-none overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] shadow-[var(--shadow-lg)] sm:mt-10"
-            style={{ width: "min(100%, calc(52vh * 4 / 3), 980px)" }}
+            style={{
+              touchAction: "none",
+              width: "min(100%, calc(52vh * 4 / 3), 980px)",
+            }}
             onPointerDown={(e) => {
-              startManual();
-              e.currentTarget.setPointerCapture(e.pointerId);
+              startDrag();
+              e.preventDefault();
+              if (e.currentTarget.hasPointerCapture?.(e.pointerId) === false) {
+                e.currentTarget.setPointerCapture(e.pointerId);
+              }
               onMove(e.clientX);
             }}
             onPointerMove={(e) => {
-              if (isManual) onMove(e.clientX);
+              if (!draggingRef.current) return;
+              e.preventDefault();
+              onMove(e.clientX);
             }}
-            onPointerUp={resumeAuto}
-            onPointerCancel={resumeAuto}
+            onPointerUp={(e) => {
+              if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
+                e.currentTarget.releasePointerCapture(e.pointerId);
+              }
+              stopDrag();
+            }}
+            onPointerCancel={stopDrag}
+            onTouchStart={(e) => {
+              startDrag();
+              onMove(e.touches[0].clientX);
+            }}
+            onTouchMove={(e) => {
+              if (!draggingRef.current) return;
+              onMove(e.touches[0].clientX);
+            }}
+            onTouchEnd={stopDrag}
             onKeyDown={(e) => {
               if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-              startManual();
               setSplit((value) =>
                 Math.max(6, Math.min(94, value + (e.key === "ArrowRight" ? 4 : -4))),
               );
-              resumeAuto();
             }}
             role="slider"
             tabIndex={0}
@@ -172,8 +152,32 @@ export default function BeforeAfter() {
             </span>
             <span className="chip chip-coral absolute right-4 top-4">After</span>
 
+            <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 rounded-full border border-[color:rgba(255,255,255,0.7)] bg-[color:rgba(255,255,255,0.82)] p-1 shadow-[var(--shadow-md)] backdrop-blur">
+              {pairs.map((pairOption, i) => (
+                <button
+                  key={pairOption.label}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPairIndex(i);
+                    setSplit(52);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
+                  className={`spring-press flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all ${
+                    i === pairIndex
+                      ? "bg-[color:var(--color-coral)] text-white shadow-[var(--shadow-sm)]"
+                      : "text-[color:var(--color-ink-muted)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
+                  }`}
+                  aria-label={`Show ${pairOption.label}`}
+                  aria-pressed={i === pairIndex}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+
             <div
-              className="absolute inset-y-0 flex w-[2px] items-center bg-[color:var(--color-bg-elevated)]"
+              className="absolute inset-y-0 z-10 flex w-[2px] items-center bg-[color:var(--color-bg-elevated)]"
               style={{ left: `${split}%` }}
               aria-hidden
             >
@@ -196,24 +200,6 @@ export default function BeforeAfter() {
 
         <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
           <p className="text-sm text-[color:var(--color-ink-muted)]">{pair.label}</p>
-          <div className="flex items-center gap-2">
-            {pairs.map((pairOption, i) => (
-              <button
-                key={pairOption.label}
-                onClick={() => {
-                  startManual();
-                  setPairIndex(i);
-                  resumeAuto();
-                }}
-                className={`spring-press h-2 rounded-full transition-all ${
-                  i === pairIndex
-                    ? "w-10 bg-[color:var(--color-coral)]"
-                    : "w-2 bg-[color:var(--color-line-strong)] hover:bg-[color:var(--color-ink-faint)]"
-                }`}
-                aria-label={`Show ${pairOption.label}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>

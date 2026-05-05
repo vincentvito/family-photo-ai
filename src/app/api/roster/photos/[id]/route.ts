@@ -5,12 +5,13 @@ import { removePhoto } from "@/lib/roster-queries";
 export const runtime = "nodejs";
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const { id } = await params;
   try {
-    await removePhoto(id);
+    await removePhoto(user.id, id);
     return NextResponse.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";

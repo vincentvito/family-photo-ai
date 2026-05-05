@@ -13,11 +13,12 @@ const Body = z.object({
 });
 
 export async function GET() {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   try {
-    const roster = await listRoster();
+    const roster = await listRoster(user.id);
     return NextResponse.json({ roster });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";
@@ -26,7 +27,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const json = await req.json().catch(() => null);
@@ -35,7 +37,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   try {
-    const person = await addPerson(parsed.data);
+    const person = await addPerson({ ...parsed.data, userId: user.id });
     return NextResponse.json({ person });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";

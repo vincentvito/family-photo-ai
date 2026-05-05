@@ -6,7 +6,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const formData = await req.formData();
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
   const buffer = Buffer.from(arrayBuffer);
 
   try {
-    const photo = await addPhotoToPerson({ personId, buffer });
+    const photo = await addPhotoToPerson({ userId: user.id, personId, buffer });
     return NextResponse.json({ photo });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Upload failed";

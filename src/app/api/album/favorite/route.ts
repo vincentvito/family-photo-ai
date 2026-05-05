@@ -8,7 +8,8 @@ export const runtime = "nodejs";
 const Body = z.object({ imageId: z.string().min(1) });
 
 export async function POST(req: Request) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const json = await req.json().catch(() => null);
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   try {
-    const isFavorite = await toggleFavorite(parsed.data.imageId);
+    const isFavorite = await toggleFavorite(user.id, parsed.data.imageId);
     return NextResponse.json({ isFavorite });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";

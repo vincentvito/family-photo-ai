@@ -3,16 +3,16 @@ import { and, desc, eq, gte, inArray } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { studioCutoffDate } from "@/lib/retention";
 
-export async function toggleFavorite(imageId: string) {
+export async function toggleFavorite(userId: string, imageId: string) {
   const [imageRow, [album]] = await Promise.all([
     db
       .select({ image: schema.images, generation: schema.generations })
       .from(schema.images)
       .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
-      .where(eq(schema.images.id, imageId))
+      .where(and(eq(schema.images.id, imageId), eq(schema.generations.userId, userId)))
       .limit(1)
       .then((rows) => rows[0]),
-    db.select().from(schema.albums).limit(1),
+    db.select().from(schema.albums).where(eq(schema.albums.userId, userId)).limit(1),
   ]);
   if (!imageRow) throw new Error("Image not found");
   const { image, generation } = imageRow;
@@ -21,11 +21,14 @@ export async function toggleFavorite(imageId: string) {
   }
 
   const nextFav = !image.isFavorite;
-  const albumRow = album ?? (await db.insert(schema.albums).values({}).returning())[0];
+  const albumRow = album ?? (await db.insert(schema.albums).values({ userId }).returning())[0];
 
   if (nextFav) {
     const [, existing] = await Promise.all([
-      db.update(schema.images).set({ isFavorite: true }).where(eq(schema.images.id, imageId)),
+      db
+        .update(schema.images)
+        .set({ isFavorite: true })
+        .where(and(eq(schema.images.id, imageId), eq(schema.images.generationId, generation.id))),
       db
         .select({ id: schema.albumImages.id })
         .from(schema.albumImages)
@@ -39,7 +42,10 @@ export async function toggleFavorite(imageId: string) {
     }
   } else {
     await Promise.all([
-      db.update(schema.images).set({ isFavorite: false }).where(eq(schema.images.id, imageId)),
+      db
+        .update(schema.images)
+        .set({ isFavorite: false })
+        .where(and(eq(schema.images.id, imageId), eq(schema.images.generationId, generation.id))),
       db
         .delete(schema.albumImages)
         .where(
@@ -52,8 +58,8 @@ export async function toggleFavorite(imageId: string) {
   return nextFav;
 }
 
-export async function getAlbum() {
-  const [album] = await db.select().from(schema.albums).limit(1);
+export async function getAlbum(userId: string) {
+  const [album] = await db.select().from(schema.albums).where(eq(schema.albums.userId, userId)).limit(1);
   if (!album) return { album: null, items: [] };
 
   const activeSince = studioCutoffDate();
@@ -69,18 +75,24 @@ export async function getAlbum() {
     .from(schema.albumImages)
     .innerJoin(schema.images, eq(schema.albumImages.imageId, schema.images.id))
     .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
-    .where(and(eq(schema.albumImages.albumId, album.id), gte(schema.generations.createdAt, activeSince)))
+    .where(
+      and(
+        eq(schema.albumImages.albumId, album.id),
+        eq(schema.generations.userId, userId),
+        gte(schema.generations.createdAt, activeSince),
+      ),
+    )
     .orderBy(desc(schema.albumImages.addedAt));
 
   return { album, items };
 }
 
-export async function getRecentShoots(limit = 8) {
+export async function getRecentShoots(userId: string, limit = 8) {
   const activeSince = studioCutoffDate();
   const generations = await db
     .select()
     .from(schema.generations)
-    .where(gte(schema.generations.createdAt, activeSince))
+    .where(and(eq(schema.generations.userId, userId), gte(schema.generations.createdAt, activeSince)))
     .orderBy(desc(schema.generations.createdAt))
     .limit(limit);
 
