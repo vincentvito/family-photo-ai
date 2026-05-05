@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -14,6 +14,9 @@ export type ConfirmDialogProps = {
   cancelLabel?: string;
   tone?: Tone;
   pending?: boolean;
+  confirmDisabled?: boolean;
+  /** Optional content rendered between the description and the action row. */
+  children?: ReactNode;
   onConfirm: () => void;
   onCancel: () => void;
 };
@@ -51,6 +54,8 @@ export default function ConfirmDialog({
   cancelLabel = "Cancel",
   tone = "neutral",
   pending = false,
+  confirmDisabled = false,
+  children,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
@@ -60,12 +65,12 @@ export default function ConfirmDialog({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCancel();
-      if (e.key === "Enter") onConfirm();
+      if (e.key === "Enter" && !confirmDisabled && !pending) onConfirm();
     };
     window.addEventListener("keydown", onKey);
     confirmRef.current?.focus();
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel, onConfirm]);
+  }, [open, onCancel, onConfirm, confirmDisabled, pending]);
 
   // Client-only — the component is "use client" so this branch only runs after
   // hydration; on the server we render nothing to avoid touching document.
@@ -112,6 +117,8 @@ export default function ConfirmDialog({
               <p className="mt-3 text-[color:var(--color-ink-muted)]">{description}</p>
             )}
 
+            {children && <div className="mt-5">{children}</div>}
+
             <div className="mt-8 flex items-center justify-end gap-3">
               <button
                 onClick={onCancel}
@@ -124,7 +131,7 @@ export default function ConfirmDialog({
               <button
                 ref={confirmRef}
                 onClick={onConfirm}
-                disabled={pending}
+                disabled={pending || confirmDisabled}
                 className={confirmClassByTone[tone]}
                 type="button"
               >

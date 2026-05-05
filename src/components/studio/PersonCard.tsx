@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import type { Person, Photo } from "@/../db/schema";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import EditPersonDialog from "./EditPersonDialog";
+import { uploadRosterPhoto } from "@/lib/upload-client";
 
 const palette = [
   { chip: "chip-coral", dot: "dot-coral" },
@@ -73,14 +74,7 @@ export default function PersonCard({
     setError(null);
     setUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("personId", person.id);
-      fd.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? `Upload failed (${res.status})`);
-      }
+      await uploadRosterPhoto(person.id, file);
       onChanged?.();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed.");

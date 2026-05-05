@@ -9,13 +9,23 @@ import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import CreditPackChooser from "@/components/billing/CreditPackChooser";
+import SubjectPicker from "./SubjectPicker";
 import {
   GENERATION_MODEL_IDS,
   MODEL_CATALOG,
   type GenerationModelId,
 } from "@/lib/replicate/models";
+import { uploadLocationReference } from "@/lib/upload-client";
 
 type ShapeId = "portrait" | "square" | "wide";
+
+export type RosterMember = {
+  id: string;
+  name: string;
+  role: "adult" | "child" | "pet";
+  hasReference: boolean;
+  photoId: string | null;
+};
 
 const shapeOptions: {
   id: ShapeId;
@@ -40,6 +50,7 @@ export default function ThemeBoard({
   isAdmin = false,
   defaultModel = "gpt-image-2",
   creditBalance,
+  roster,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -47,6 +58,7 @@ export default function ThemeBoard({
   isAdmin?: boolean;
   defaultModel?: GenerationModelId;
   creditBalance: number;
+  roster: RosterMember[];
 }) {
   const [shape, setShape] = useState<ShapeId>("wide");
   const [wardrobe, setWardrobe] = useState("");
@@ -67,7 +79,32 @@ export default function ThemeBoard({
   const [pendingShoot, setPendingShoot] = useState<
     { kind: "theme"; theme: Theme } | { kind: "custom" } | null
   >(null);
+  const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(
+    () => new Set(roster.map((m) => m.id)),
+  );
   const router = useRouter();
+
+  const selectedHasReference = roster.some(
+    (m) => selectedSubjectIds.has(m.id) && m.hasReference,
+  );
+
+  const toggleSubject = (id: string) => {
+    setSelectedSubjectIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+  const selectAllSubjects = () =>
+    setSelectedSubjectIds(new Set(roster.map((m) => m.id)));
+  const clearSubjects = () => setSelectedSubjectIds(new Set());
+
+  const buildSubjectIdsPayload = (): string[] | undefined => {
+    if (roster.length === 0) return undefined;
+    if (selectedSubjectIds.size === roster.length) return undefined;
+    return roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
+  };
 
   const selectedShape = shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
   const hasCredits = creditBalance > 0;
@@ -118,6 +155,7 @@ export default function ThemeBoard({
       const theme = shoot.theme;
       setActiveTheme(theme);
       setLaunchingCustom(false);
+      const subjectIds = buildSubjectIdsPayload();
       start(async () => {
         try {
           const { generationId } = await postGenerate({
@@ -126,6 +164,7 @@ export default function ThemeBoard({
             cardText: theme.acceptsCardText ? cardText.trim() || null : null,
             aspectOverride: selectedShape.ratio,
             modelId: isAdmin ? modelId : undefined,
+            subjectIds,
           });
           router.push(`/studio/generate/${generationId}`);
         } catch (e) {
@@ -138,21 +177,13 @@ export default function ThemeBoard({
 
     setActiveTheme(null);
     setLaunchingCustom(true);
+    const subjectIds = buildSubjectIdsPayload();
     start(async () => {
       try {
         let locationReferencePath: string | null = null;
         if (locationFile) {
-          const fd = new FormData();
-          fd.append("file", locationFile);
-          const res = await fetch("/api/upload-location", {
-            method: "POST",
-            body: fd,
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            throw new Error(data.error ?? `Upload failed (${res.status})`);
-          }
-          locationReferencePath = data.path;
+          const uploaded = await uploadLocationReference(locationFile);
+          locationReferencePath = uploaded.path;
         }
         const aspect = selectedShape.ratio;
         const trimmed = customDescription.trim();
@@ -160,6 +191,7 @@ export default function ThemeBoard({
           customVibe: { description: trimmed, aspectRatio: aspect },
           locationReferencePath,
           modelId: isAdmin ? modelId : undefined,
+          subjectIds,
         });
         router.push(`/studio/generate/${generationId}`);
       } catch (e) {
@@ -673,9 +705,20 @@ export default function ThemeBoard({
         confirmLabel="Start shoot"
         tone="coral"
         pending={pending}
+        confirmDisabled={roster.length > 0 && !selectedHasReference}
         onConfirm={confirmShoot}
         onCancel={() => setPendingShoot(null)}
-      />
+      >
+        {roster.length > 0 && (
+          <SubjectPicker
+            roster={roster}
+            selectedIds={selectedSubjectIds}
+            onToggle={toggleSubject}
+            onSelectAll={selectAllSubjects}
+            onClear={clearSubjects}
+          />
+        )}
+      </ConfirmDialog>
     </>
   );
 }

@@ -5,10 +5,12 @@ import {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  HeadObjectCommand,
   DeleteObjectCommand,
   DeleteObjectsCommand,
   ListObjectsV2Command,
 } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 let cachedClient: S3Client | null = null;
 
@@ -55,6 +57,19 @@ async function putObject(key: string, body: Buffer, contentType: string) {
   );
 }
 
+// What sharp formats we'll let through. Anything else (svg, gif, tiff, avif,
+// non-image bytes) is rejected — content-type from the browser is spoofable,
+// so we trust sharp's actual decode to be the source of truth.
+const ALLOWED_DECODED_FORMATS = new Set(["jpeg", "png", "webp", "heif"]);
+
+function assertSupportedFormat(format: string | undefined): void {
+  if (!format || !ALLOWED_DECODED_FORMATS.has(format)) {
+    throw new Error(
+      `Unsupported image format${format ? `: ${format}` : ""}. Use JPEG, PNG, WebP, or HEIC.`,
+    );
+  }
+}
+
 async function streamToBuffer(stream: unknown): Promise<Buffer> {
   const chunks: Buffer[] = [];
   for await (const chunk of stream as AsyncIterable<Buffer | Uint8Array>) {
@@ -73,6 +88,7 @@ export async function saveReferencePhoto(buffer: Buffer, personId: string): Prom
 
   const img = sharp(buffer, { failOn: "none" }).rotate();
   const meta = await img.metadata();
+  assertSupportedFormat(meta.format);
   const needsResize = (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
 
   const pipeline = needsResize
@@ -98,6 +114,7 @@ export async function saveLocationReference(buffer: Buffer, userId: string): Pro
 
   const img = sharp(buffer, { failOn: "none" }).rotate();
   const meta = await img.metadata();
+  assertSupportedFormat(meta.format);
   const needsResize = (meta.width ?? 0) > 2048 || (meta.height ?? 0) > 2048;
   const pipeline = needsResize
     ? img.resize({ width: 2048, height: 2048, fit: "inside", withoutEnlargement: true })
@@ -218,9 +235,31 @@ export async function imageToBase64(
 }
 
 /**
- * Public CDN URL for an R2 object key. Used by /api/images/[id] to redirect
- * the browser to the cached CDN copy.
+ * Presigned PUT URL so the browser can upload bytes directly to R2 without
+ * going through a serverless function (Vercel caps function bodies at 4.5 MB).
  */
+export async function getSignedPutUrl(
+  key: string,
+  contentType: string,
+  expiresInSeconds = 300,
+): Promise<string> {
+  const cmd = new PutObjectCommand({
+    Bucket: bucket(),
+    Key: key,
+    ContentType: contentType,
+  });
+  return getSignedUrl(s3(), cmd, { expiresIn: expiresInSeconds });
+}
+
+/**
+ * HEAD an R2 object to read its size without downloading it. Used at finalize
+ * time to enforce a max upload size before pulling bytes into memory.
+ */
+export async function getStoredObjectSize(key: string): Promise<number> {
+  const res = await s3().send(new HeadObjectCommand({ Bucket: bucket(), Key: key }));
+  return res.ContentLength ?? 0;
+}
+
 export function publicUrl(key: string): string {
   const base = process.env.CLOUDFLARE_PUBLIC_URL;
   if (!base) throw new Error("CLOUDFLARE_PUBLIC_URL not set");

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Person } from "@/../db/schema";
+import { uploadRosterPhoto } from "@/lib/upload-client";
 
 type Role = "adult" | "child" | "pet";
 
@@ -68,14 +69,7 @@ export default function EditPersonDialog({
         }
 
         if (photoFile) {
-          const fd = new FormData();
-          fd.append("personId", person.id);
-          fd.append("file", photoFile);
-          const upload = await fetch("/api/upload", { method: "POST", body: fd });
-          if (!upload.ok) {
-            const body = await upload.json().catch(() => ({}));
-            throw new Error(body.error || `Upload failed (${upload.status})`);
-          }
+          await uploadRosterPhoto(person.id, photoFile);
         }
 
         onChanged?.();

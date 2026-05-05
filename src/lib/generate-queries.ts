@@ -60,6 +60,8 @@ const StartGenerationInput = z
     aspectOverride: AspectSchema.nullable().optional(),
     /** Admin-only override of the runtime default model. Non-admins are ignored. */
     modelId: ModelIdSchema.optional(),
+    /** Optional per-shoot roster filter. When omitted, the full roster is used. */
+    subjectIds: z.array(z.string().min(1)).min(1).optional(),
   })
   .refine((v) => !!v.themeId || !!v.customVibe, "Pick a vibe or describe your own.");
 
@@ -89,18 +91,29 @@ export async function startGeneration(
     theme = { ...theme, aspectRatio: parsed.aspectOverride };
   }
 
-  const roster = await loadRosterAsSubjects(actor.userId);
+  const roster = await loadRosterAsSubjects(actor.userId, parsed.subjectIds);
   if (roster.length === 0) {
+    if (parsed.subjectIds && parsed.subjectIds.length > 0) {
+      throw new Error("Pick at least one person or pet with a reference photo.");
+    }
     throw new Error("Your roster is empty. Add at least one person with a reference photo.");
   }
+  const withReference = roster.filter((subject) => subject.referencePaths.length > 0);
+  if (withReference.length === 0) {
+    throw new Error("Pick at least one person or pet with a reference photo.");
+  }
   const missingReferences = roster.filter((subject) => subject.referencePaths.length === 0);
-  if (missingReferences.length > 0) {
+  if (missingReferences.length > 0 && !parsed.subjectIds) {
     throw new Error(
       `Add one reference photo for ${missingReferences.map((subject) => subject.name).join(", ")} before starting the shoot.`,
     );
   }
+  // When the user picked subjects explicitly, silently drop those without a
+  // reference photo rather than blocking the shoot — the selector already
+  // surfaces missing-reference state to them.
+  const effectiveRoster = parsed.subjectIds ? withReference : roster;
 
-  const prompt = buildGenerationPrompt(theme, roster, parsed.wardrobeNote, parsed.cardText ?? null);
+  const prompt = buildGenerationPrompt(theme, effectiveRoster, parsed.wardrobeNote, parsed.cardText ?? null);
 
   const modelId = await resolveModelId(parsed.modelId, admin);
   if (!isAspectSupported(modelId, theme.aspectRatio)) {
@@ -114,7 +127,7 @@ export async function startGeneration(
     return startMockGeneration({
       theme,
       prompt,
-      roster,
+      roster: effectiveRoster,
       input: parsed,
       actor,
       modelId,
@@ -129,7 +142,7 @@ export async function startGeneration(
       providerId: modelId,
       userId: actor.userId,
       status: "pending",
-      subjectSnapshot: JSON.stringify(roster),
+      subjectSnapshot: JSON.stringify(effectiveRoster),
       wardrobeNote: parsed.wardrobeNote ?? null,
       cardText: parsed.cardText ?? null,
       aspectRatio: theme.aspectRatio,
@@ -144,7 +157,7 @@ export async function startGeneration(
   const { slots } = await createGenerationPredictions({
     prompt,
     aspectRatio: theme.aspectRatio,
-    subjects: roster,
+    subjects: effectiveRoster,
     locationReferencePath: parsed.locationReferencePath ?? null,
     variants: VARIANT_COUNT,
     modelId,
@@ -505,11 +518,18 @@ async function createGenerationRecord({
   });
 }
 
-async function loadRosterAsSubjects(userId: string): Promise<Subject[]> {
+async function loadRosterAsSubjects(
+  userId: string,
+  subjectIds?: string[],
+): Promise<Subject[]> {
+  const filter =
+    subjectIds && subjectIds.length > 0
+      ? and(eq(schema.people.userId, userId), inArray(schema.people.id, subjectIds))
+      : eq(schema.people.userId, userId);
   const people = await db
     .select()
     .from(schema.people)
-    .where(eq(schema.people.userId, userId))
+    .where(filter)
     .orderBy(asc(schema.people.createdAt));
   const personIds = people.map((person) => person.id);
   const photos =
