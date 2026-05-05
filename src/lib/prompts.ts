@@ -1,6 +1,9 @@
 import type { Theme } from "./themes";
 import type { Subject } from "./providers/types";
 
+const FAMILY_POSITIVE_DIRECTIVE =
+  "Family-positive keepsake direction: keep the mood warm, respectful and optimistic. Do not include smoking, cigarettes, cigars, vaping, ashtrays, lighters in use, smoke clouds, weapons, or threatening menace";
+
 /**
  * Compose a framework-ordered prompt for a family portrait:
  *   [Asset Type + Aspect] → [Subject + Action, with family roster woven in]
@@ -27,6 +30,7 @@ export function buildGenerationPrompt(
     `${spec.lighting}.`,
     // Part 6
     `${spec.style}.`,
+    FAMILY_POSITIVE_DIRECTIVE + ".",
   ];
 
   if (wardrobeNote && wardrobeNote.trim()) {

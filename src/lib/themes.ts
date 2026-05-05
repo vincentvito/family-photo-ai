@@ -217,7 +217,7 @@ export const THEMES: Theme[] = [
   {
     id: "film-noir",
     name: "Film Noir",
-    blurb: "Black-and-white, venetian-blind shadows. The family as a moody detective vignette.",
+    blurb: "Black-and-white, venetian-blind shadows. The family as an elegant mystery vignette.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-film-noir.jpg",
@@ -226,9 +226,9 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 4:5 high-contrast black-and-white film photograph",
       subjectAction:
-        "arranged in a tight noir vignette, one subject lighting a cigarette (unlit — just the gesture), another glancing over a shoulder, 1940s tailoring and silk, held in quiet suspense",
+        "arranged in a close elegant noir vignette, one subject holding a sealed letter or small case file, another glancing over a shoulder, 1940s tailoring and silk, held in thoughtful mystery with protective warmth",
       location:
-        "a dim 1940s office interior with a wooden venetian blind casting hard stripes across the scene, heavy wood desk, brass lamp, smoke in the air",
+        "a dim 1940s office interior with a wooden venetian blind casting hard stripes across the scene, heavy wood desk, brass lamp, dust motes in bright window beams, framed family photos and tidy papers",
       camera:
         "Leica Monochrom with a 35mm Summilux f/1.4, three-quarter composition, low-key shadows dominating two thirds of the frame",
       lighting:

@@ -179,6 +179,7 @@ function buildVariantPrompt(
     "Art-director rails:",
     "— Preserve every subject's identity faithfully from the attached reference photos: facial features, age, hair, skin tone; for pets, breed and markings.",
     "— All named subjects must appear together in one coherent composition, interacting naturally, never stiffly posed.",
+    "— Keep the result family-positive and omit smoking, cigarettes, cigars, vaping, ashtrays, lighters in use, smoke clouds, weapons or threatening menace.",
     `— Output one high-resolution image at ${aspectRatio} aspect ratio. Return only the image.`,
     `— Variation ${variant + 1} of ${totalVariants}: subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.`,
   ].join("\n");
