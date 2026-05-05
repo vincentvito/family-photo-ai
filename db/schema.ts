@@ -51,6 +51,12 @@ export const generations = familyphotoai.table("generations", {
   replicatePredictionIds: text("replicate_prediction_ids"),
   /** Model id from MODEL_CATALOG (e.g. "nanobanana", "gpt-image-2"). */
   model: text("model").notNull().default("nanobanana"),
+  /**
+   * Pack tier this shoot's credit was funded by. Drives per-shoot refine cap.
+   * Null on legacy shoots created before tier tracking — treated as the most
+   * generous tier so we don't retroactively penalize existing users.
+   */
+  packTier: text("pack_tier", { enum: ["single", "three", "eight"] }),
   createdAt: createdAt(),
 });
 

@@ -12,7 +12,8 @@
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:studio": "drizzle-kit studio",
-    "samples": "node scripts/generate-samples.mjs"
+    "samples": "node scripts/generate-samples.mjs",
+    "storage:orphans": "node scripts/find-orphaned-generation-images.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1041.0",

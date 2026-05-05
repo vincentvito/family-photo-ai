@@ -25,6 +25,7 @@ import {
 import { getDefaultModel } from "@/lib/admin-queries";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
+import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 
@@ -480,39 +481,16 @@ async function createGenerationRecord({
   spendCredit: boolean;
 }) {
   return db.transaction(async (tx) => {
+    let packTier: PackTier | null = null;
     if (spendCredit) {
       await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
-      const [purchaseRow] = await tx
-        .select({
-          total: sql<number>`coalesce(sum(${schema.creditTransactions.credits}), 0)`,
-        })
-        .from(schema.creditTransactions)
-        .where(
-          sql`${schema.creditTransactions.userId} = ${userId} and ${schema.creditTransactions.status} = 'completed'`,
-        );
-      const [usageRow] = await tx
-        .select({
-          total: sql<number>`coalesce(sum(${schema.creditUsages.credits}), 0)`,
-        })
-        .from(schema.creditUsages)
-        .where(eq(schema.creditUsages.userId, userId));
-      const [grantRow] = await tx
-        .select({
-          total: sql<number>`coalesce(sum(${schema.creditGrants.credits}), 0)`,
-        })
-        .from(schema.creditGrants)
-        .where(eq(schema.creditGrants.userId, userId));
-
-      const balance =
-        Number(purchaseRow?.total ?? 0) +
-        Number(grantRow?.total ?? 0) -
-        Number(usageRow?.total ?? 0);
-      if (balance < 1) {
-        throw new Error("Buy a photo pack before starting a shoot.");
-      }
+      packTier = await resolvePackTierForNextCredit(tx, userId);
     }
 
-    const [generation] = await tx.insert(schema.generations).values(values).returning();
+    const [generation] = await tx
+      .insert(schema.generations)
+      .values({ ...values, packTier })
+      .returning();
 
     if (spendCredit) {
       await tx.insert(schema.creditUsages).values({
@@ -524,6 +502,66 @@ async function createGenerationRecord({
 
     return generation;
   });
+}
+
+/**
+ * FIFO-walk the user's purchases and grants in chronological order to
+ * determine which bucket the next credit will be drawn from. Throws if the
+ * user has no remaining balance. Grants default to "three" tier — admins
+ * granting credits don't pick a tier, so we land in the middle.
+ */
+async function resolvePackTierForNextCredit(
+  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
+  userId: string,
+): Promise<PackTier> {
+  const [usageRow] = await tx
+    .select({
+      total: sql<number>`coalesce(sum(${schema.creditUsages.credits}), 0)`,
+    })
+    .from(schema.creditUsages)
+    .where(eq(schema.creditUsages.userId, userId));
+  const used = Number(usageRow?.total ?? 0);
+
+  const [purchases, grants] = await Promise.all([
+    tx
+      .select({
+        packId: schema.creditTransactions.packId,
+        credits: schema.creditTransactions.credits,
+        createdAt: schema.creditTransactions.createdAt,
+      })
+      .from(schema.creditTransactions)
+      .where(
+        sql`${schema.creditTransactions.userId} = ${userId} and ${schema.creditTransactions.status} = 'completed'`,
+      ),
+    tx
+      .select({
+        credits: schema.creditGrants.credits,
+        createdAt: schema.creditGrants.createdAt,
+      })
+      .from(schema.creditGrants)
+      .where(eq(schema.creditGrants.userId, userId)),
+  ]);
+
+  const buckets: { tier: PackTier; credits: number; createdAt: Date }[] = [
+    ...purchases.map((p) => ({
+      tier: packIdToTier(p.packId),
+      credits: p.credits,
+      createdAt: p.createdAt,
+    })),
+    ...grants.map((g) => ({
+      tier: "three" as const,
+      credits: g.credits,
+      createdAt: g.createdAt,
+    })),
+  ].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+  const nextIndex = used + 1;
+  let allocated = 0;
+  for (const b of buckets) {
+    allocated += b.credits;
+    if (nextIndex <= allocated) return b.tier;
+  }
+  throw new Error("Buy a photo pack before starting a shoot.");
 }
 
 async function loadRosterAsSubjects(userId: string, subjectIds?: string[]): Promise<Subject[]> {

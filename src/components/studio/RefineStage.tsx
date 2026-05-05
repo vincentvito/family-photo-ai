@@ -62,7 +62,11 @@ export default function RefineStage({ initialState }: { initialState: State }) {
   const [fav, setFav] = useState(state.image.isFavorite);
   const router = useRouter();
 
+  const refinesLeft = Math.max(0, state.refinesMax - state.refinesUsed);
+  const atCap = refinesLeft === 0;
+
   const submit = (text?: string) => {
+    if (atCap) return;
     const value = (text ?? instruction).trim();
     if (!value) return;
     setError(null);
@@ -153,10 +157,17 @@ export default function RefineStage({ initialState }: { initialState: State }) {
 
       <div>
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <span className="chip chip-plum">
-            <span className="dot dot-plum" />
-            Your edits
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="chip chip-plum">
+              <span className="dot dot-plum" />
+              Your edits
+            </span>
+            <span
+              className={`small-caps ${atCap ? "text-[color:var(--color-coral-deep)]" : "text-[color:var(--color-ink-muted)]"}`}
+            >
+              {state.refinesUsed} of {state.refinesMax} used · {refinesLeft} left
+            </span>
+          </div>
           <button
             onClick={flipFavorite}
             className={`btn btn-sm ${fav ? "btn-coral" : "btn-ghost"}`}
@@ -220,8 +231,13 @@ export default function RefineStage({ initialState }: { initialState: State }) {
             value={instruction}
             onChange={(e) => setInstruction(e.target.value)}
             rows={3}
-            placeholder={`e.g. "Have everyone look at the camera"`}
-            className="serif mt-2 w-full resize-none rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] p-3.5 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:bg-[color:var(--color-bg-elevated)] focus:shadow-[var(--shadow-ring-coral)]"
+            disabled={atCap}
+            placeholder={
+              atCap
+                ? "No refines left on this shoot."
+                : `e.g. "Have everyone look at the camera"`
+            }
+            className="serif mt-2 w-full resize-none rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] p-3.5 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:bg-[color:var(--color-bg-elevated)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-50"
             onKeyDown={(e) => {
               if ((e.metaKey || e.ctrlKey) && e.key === "Enter") submit();
             }}
@@ -233,7 +249,7 @@ export default function RefineStage({ initialState }: { initialState: State }) {
                 key={s.label}
                 type="button"
                 onClick={() => submit(s.label)}
-                disabled={pending}
+                disabled={pending || atCap}
                 className={`spring-press chip chip-${s.chip} cursor-pointer transition-all hover:-translate-y-0.5 disabled:opacity-40`}
               >
                 {s.label}
@@ -242,12 +258,17 @@ export default function RefineStage({ initialState }: { initialState: State }) {
           </div>
 
           {error && <p className="mt-3 text-sm text-[color:var(--color-coral-deep)]">{error}</p>}
+          {atCap && !error && (
+            <p className="mt-3 text-sm text-[color:var(--color-coral-deep)]">
+              You&apos;ve used all {state.refinesMax} refines on this shoot.
+            </p>
+          )}
 
           <div className="mt-5 flex items-center justify-between gap-3 flex-wrap">
             <span className="small-caps text-[color:var(--color-ink-faint)]">⌘ + Enter</span>
             <button
               onClick={() => submit()}
-              disabled={pending || !instruction.trim()}
+              disabled={pending || atCap || !instruction.trim()}
               className="btn btn-coral"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5" aria-hidden>
