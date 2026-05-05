@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Person, Photo } from "@/../db/schema";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import EditPersonDialog from "./EditPersonDialog";
 
 const palette = [
   { chip: "chip-coral", dot: "dot-coral" },
@@ -37,6 +38,7 @@ export default function PersonCard({
 
   const [removePersonOpen, setRemovePersonOpen] = useState(false);
   const [photoToRemove, setPhotoToRemove] = useState<Photo | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
   const photo = photos[0] ?? null;
 
   const confirmRemovePerson = () => {
@@ -92,25 +94,15 @@ export default function PersonCard({
       className="card overflow-hidden"
       whileHover={{ y: -3, transition: { type: "spring", stiffness: 320, damping: 22 } }}
     >
-      <div className="flex items-start justify-between gap-3 px-5 pb-3 pt-5">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className={`dot ${color.dot}`} aria-hidden />
-            <p className="serif text-2xl leading-none tracking-[-0.02em] truncate">{person.name}</p>
-          </div>
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
-            <span className={`chip ${color.chip}`}>{person.role}</span>
-            {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
-          </div>
+      <div className="px-5 pb-3 pt-5">
+        <div className="flex items-center gap-2">
+          <span className={`dot ${color.dot}`} aria-hidden />
+          <p className="serif text-2xl leading-none tracking-[-0.02em] truncate">{person.name}</p>
         </div>
-        <button
-          onClick={() => setRemovePersonOpen(true)}
-          disabled={pending}
-          className="spring-press inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-ink-faint)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
-          aria-label={`Remove ${person.name}`}
-        >
-          <CloseIcon />
-        </button>
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className={`chip ${color.chip}`}>{person.role}</span>
+          {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
+        </div>
       </div>
 
       <div className="px-5 pt-3">
@@ -189,19 +181,43 @@ export default function PersonCard({
           </p>
         )}
         {!uploading && !error && photo && (
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-[color:var(--color-ink-muted)]">
-              Reference photo ready.
-            </p>
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="text-xs font-semibold text-[color:var(--color-coral-deep)] hover:underline"
-            >
-              Replace
-            </button>
-          </div>
+          <p className="text-xs text-[color:var(--color-ink-muted)]">
+            Reference photo ready.
+          </p>
         )}
+
+        <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setEditOpen(true)}
+            disabled={pending || uploading}
+            className="btn btn-ghost btn-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3.5 w-3.5"
+              aria-hidden
+            >
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
+            </svg>
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={() => setRemovePersonOpen(true)}
+            disabled={pending || uploading}
+            className="spring-press inline-flex items-center gap-1.5 rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-3.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
+          >
+            <CloseIcon />
+            Remove
+          </button>
+        </div>
       </div>
 
       <ConfirmDialog
@@ -223,6 +239,12 @@ export default function PersonCard({
         pending={pending}
         onConfirm={confirmRemovePhoto}
         onCancel={() => setPhotoToRemove(null)}
+      />
+      <EditPersonDialog
+        person={person}
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        onChanged={onChanged}
       />
     </motion.article>
   );
