@@ -4,31 +4,21 @@ import { publicUrl } from "@/lib/storage";
 import type { RefineArgs, RefineResult } from "@/lib/providers/types";
 
 /**
- * Sync refinement on Nano Banana 2. Returns a single edited image. Stays
+ * Sync refinement on GPT Image 2. Returns a single edited image. Stays
  * synchronous because each call is a single image (~10-30s) and runs from a
  * server action where we can bump maxDuration if needed.
  */
 export async function refineImage(args: RefineArgs): Promise<RefineResult> {
   const client = await getReplicateClient();
 
-  const imageInputs: string[] = [];
-  for (const { subject } of args.originalReferences) {
-    for (const ref of subject.referencePaths) {
-      imageInputs.push(publicUrl(ref));
-    }
-  }
-  if (args.locationReferencePath) {
-    imageInputs.push(publicUrl(args.locationReferencePath));
-  }
-  imageInputs.push(publicUrl(args.baseImage.relativePath));
-
-  const output = await client.run(MODELS.nanoBanana, {
+  const output = await client.run(MODELS.gptImage2, {
     input: {
       prompt: buildRefinePrompt(args),
-      image_input: imageInputs,
+      input_images: [publicUrl(args.baseImage.relativePath)],
       aspect_ratio: args.aspectRatio,
-      resolution: "2K",
-      output_format: "jpg",
+      quality: "medium",
+      number_of_images: 1,
+      output_format: "jpeg",
     },
   });
 
@@ -44,7 +34,7 @@ function buildRefinePrompt(args: RefineArgs): string {
       : "  (none)";
 
   return [
-    `Art direction: refine the final image in the inputs (the current family portrait). Apply ONLY this change — "${args.instruction}". Everything else stays identical: every face, wardrobe, pose, framing, light, palette. Identities must match the original reference photos at the start of this input set.`,
+    `Art direction: refine the input image (the current family portrait). Apply ONLY this change — "${args.instruction}". Everything else stays identical: every face, wardrobe, pose, framing, light, palette.`,
     "",
     `Original brief: ${args.themeBlurb}`,
     "",

@@ -114,9 +114,10 @@ export async function getRecentShoots(userId: string, limit = 8) {
 
   return generations.map((generation) => {
     const generationImages = imagesByGeneration.get(generation.id) ?? [];
+    const originals = generationImages.filter((image) => image.parentImageId === null);
     return {
       generation,
-      imageCount: generationImages.length,
+      imageCount: originals.length,
       favoriteCount: generationImages.filter((image) => image.isFavorite).length,
       previewImageId: generationImages[0]?.id ?? null,
     };

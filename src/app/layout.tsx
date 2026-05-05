@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -117,6 +118,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSONLD) }}
+        />
+        <Script
+          src="https://feedbackbasket.com/api/widget/script/cmosomkpt000004jjnork17r2"
+          strategy="afterInteractive"
         />
       </body>
     </html>

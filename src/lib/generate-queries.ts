@@ -203,7 +203,29 @@ export async function getGenerationState(generationId: string, userId: string) {
       .orderBy(asc(schema.images.createdAt)),
   ]);
 
-  return { generation: refreshed ?? generation, images };
+  return { generation: refreshed ?? generation, images: pickChainHeads(images) };
+}
+
+/**
+ * Collapse refinement chains to their latest version. Each original variant
+ * (`parentImageId === null`) becomes one slot in the returned list, occupied
+ * by the most recent descendant in its chain. Order matches the originals'
+ * createdAt so slot positions stay stable across refines.
+ */
+function pickChainHeads(images: schema.Image[]): schema.Image[] {
+  const headByRoot = new Map<string, schema.Image>();
+  const originalOrder = new Map<string, number>();
+  for (const img of images) {
+    if (img.parentImageId === null) originalOrder.set(img.id, img.createdAt.getTime());
+    const key = img.rootImageId ?? img.id;
+    const existing = headByRoot.get(key);
+    if (!existing || existing.createdAt < img.createdAt) headByRoot.set(key, img);
+  }
+  return Array.from(headByRoot.values()).sort((a, b) => {
+    const aRoot = a.rootImageId ?? a.id;
+    const bRoot = b.rootImageId ?? b.id;
+    return (originalOrder.get(aRoot) ?? 0) - (originalOrder.get(bRoot) ?? 0);
+  });
 }
 
 /**

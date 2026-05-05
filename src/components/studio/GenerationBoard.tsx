@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -49,6 +49,12 @@ export default function GenerationBoard({
   const [celebratedAt, setCelebratedAt] = useState<number | null>(null);
   const [lightboxImageId, setLightboxImageId] = useState<string | null>(null);
   const prevCount = useRef(initialState?.images.length ?? 0);
+
+  const openRefine = useCallback(
+    (imageId: string) => router.push(`/studio/refine/${imageId}`),
+    [router],
+  );
+  const openLightbox = useCallback((imageId: string) => setLightboxImageId(imageId), []);
 
   // Narrow deps: full `state` would tear down the interval on every poll. Only
   // status and image count drive whether we should still be polling.
@@ -126,8 +132,8 @@ export default function GenerationBoard({
                   <ImageTile
                     imageId={img.id}
                     isFavorite={img.isFavorite}
-                    onRefineClick={() => router.push(`/studio/refine/${img.id}`)}
-                    onOpenLightbox={() => setLightboxImageId(img.id)}
+                    onRefineClick={openRefine}
+                    onOpenLightbox={openLightbox}
                   />
                 </motion.div>
               ) : (
@@ -214,7 +220,7 @@ export default function GenerationBoard({
   );
 }
 
-function ImageTile({
+const ImageTile = memo(function ImageTile({
   imageId,
   isFavorite,
   onRefineClick,
@@ -222,8 +228,8 @@ function ImageTile({
 }: {
   imageId: string;
   isFavorite: boolean;
-  onRefineClick: () => void;
-  onOpenLightbox: () => void;
+  onRefineClick: (imageId: string) => void;
+  onOpenLightbox: (imageId: string) => void;
 }) {
   const [fav, setFav] = useState(isFavorite);
   const [pending, start] = useTransition();
@@ -251,7 +257,7 @@ function ImageTile({
     <div className="group relative h-full w-full">
       <button
         type="button"
-        onClick={onOpenLightbox}
+        onClick={() => onOpenLightbox(imageId)}
         className="block h-full w-full cursor-zoom-in overflow-hidden text-left"
         aria-label="View portrait larger"
       >
@@ -259,6 +265,7 @@ function ImageTile({
         <img
           src={`/api/images/${imageId}`}
           alt="Family portrait"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
         />
       </button>
@@ -267,7 +274,7 @@ function ImageTile({
       <div className="tile-action-overlay pointer-events-none absolute inset-0 z-10 flex items-end justify-start bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 transition-opacity">
         <button
           type="button"
-          onClick={onRefineClick}
+          onClick={() => onRefineClick(imageId)}
           className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
         >
           <svg
@@ -306,7 +313,7 @@ function ImageTile({
       </motion.button>
     </div>
   );
-}
+});
 
 function Skeleton({ index }: { index: number }) {
   const tilt = useMemo(() => -3 + index * 2, [index]);
@@ -387,6 +394,8 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
             <img
               src={`/api/images/${imageId}`}
               alt="Family portrait preview"
+              loading="lazy"
+              decoding="async"
               className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
             />
             <button

@@ -27,6 +27,12 @@ const shapeOptions: {
   { id: "wide", label: "Wide", ratio: "3:2" },
 ];
 
+const shapeIdByRatio: Record<AspectRatio, ShapeId> = {
+  "2:3": "portrait",
+  "1:1": "square",
+  "3:2": "wide",
+};
+
 export default function ThemeBoard({
   photoreal,
   stylized,
@@ -85,6 +91,7 @@ export default function ThemeBoard({
       return;
     }
     setError(null);
+    setShape(shapeIdByRatio[theme.aspectRatio]);
     setPendingShoot({ kind: "theme", theme });
   };
 

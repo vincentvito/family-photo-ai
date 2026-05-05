@@ -6,7 +6,6 @@ import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
 import { runRefine } from "@/lib/providers";
 import { resolveTheme } from "@/lib/themes";
-import type { Subject } from "@/lib/providers/types";
 import { studioCutoffDate } from "@/lib/retention";
 
 const RefineInput = z.object({
@@ -35,7 +34,6 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
   }
 
   const theme = resolveTheme(generation);
-  const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
   const rootImageId = baseImage.rootImageId ?? baseImage.id;
 
   const historyRows = await db
@@ -60,12 +58,10 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
 
   const result = await runRefine({
     baseImage: { imageId: baseImage.id, relativePath: baseRelative },
-    originalReferences: subjects.map((s) => ({ subject: s })),
     history,
     instruction: parsed.instruction,
     themeBlurb: theme.blurb,
     aspectRatio: theme.aspectRatio as (typeof theme)["aspectRatio"],
-    locationReferencePath: generation.locationReferencePath ?? null,
   });
 
   const [refined] = result.images;

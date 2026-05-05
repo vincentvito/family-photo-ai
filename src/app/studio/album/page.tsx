@@ -101,6 +101,8 @@ function RecentShootCard({ shoot }: { shoot: RecentShoot }) {
           <img
             src={`/api/images/${shoot.previewImageId}`}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
         ) : (

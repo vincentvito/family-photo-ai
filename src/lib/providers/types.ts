@@ -43,13 +43,10 @@ export type GenerateResult = {
 
 export type RefineArgs = {
   baseImage: ImageRef;
-  originalReferences: { subject: Subject }[];
   history: { instruction: string; imageId: string; imageRelativePath: string }[];
   instruction: string;
   themeBlurb: string;
   aspectRatio: AspectRatio;
-  /** Carry the original location reference through every refine so the mood stays anchored. */
-  locationReferencePath?: string | null;
 };
 
 export type RefineResult = GenerateResult;
