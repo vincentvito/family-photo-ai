@@ -2,6 +2,9 @@ export const STUDIO_RETENTION_DAYS = 14;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+// Retention should purge generated files, not generation rows. Credit usage
+// references generation ids as immutable billing history.
+
 export function studioCutoffDate(now = new Date()) {
   return new Date(now.getTime() - STUDIO_RETENTION_DAYS * DAY_MS);
 }

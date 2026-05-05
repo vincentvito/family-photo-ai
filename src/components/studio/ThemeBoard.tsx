@@ -8,6 +8,7 @@ import type { AspectRatio } from "@/lib/providers/types";
 import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import CreditPackChooser from "@/components/billing/CreditPackChooser";
 import {
   GENERATION_MODEL_IDS,
   MODEL_CATALOG,
@@ -37,12 +38,14 @@ export default function ThemeBoard({
   cards,
   isAdmin = false,
   defaultModel = "nanobanana",
+  creditBalance,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
   cards: Theme[];
   isAdmin?: boolean;
   defaultModel?: GenerationModelId;
+  creditBalance: number;
 }) {
   const [shape, setShape] = useState<ShapeId>("default");
   const [wardrobe, setWardrobe] = useState("");
@@ -66,6 +69,7 @@ export default function ThemeBoard({
   const router = useRouter();
 
   const selectedShape = shapeOptions.find((o) => o.id === shape) ?? shapeOptions[0];
+  const hasCredits = creditBalance > 0;
 
   const pickFile = (file: File) => {
     setLocationFile(file);
@@ -81,6 +85,10 @@ export default function ThemeBoard({
   };
 
   const launch = (theme: Theme) => {
+    if (!hasCredits) {
+      setError("Choose a photo pack before starting a shoot.");
+      return;
+    }
     setError(null);
     setPendingShoot({ kind: "theme", theme });
   };
@@ -89,6 +97,10 @@ export default function ThemeBoard({
     const trimmed = customDescription.trim();
     if (trimmed.length < 4) {
       setError("A sentence or two will do.");
+      return;
+    }
+    if (!hasCredits) {
+      setError("Choose a photo pack before starting a shoot.");
       return;
     }
     setError(null);
@@ -207,9 +219,7 @@ export default function ThemeBoard({
                   }`}
                 >
                   <span>{m.label}</span>
-                  <span
-                    className={`ml-2 text-[0.7rem] ${active ? "opacity-80" : "opacity-60"}`}
-                  >
+                  <span className={`ml-2 text-[0.7rem] ${active ? "opacity-80" : "opacity-60"}`}>
                     {m.priceLabel}
                   </span>
                 </button>
@@ -217,6 +227,15 @@ export default function ThemeBoard({
             })}
           </div>
         </div>
+      )}
+
+      {!hasCredits && (
+        <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 shadow-[var(--shadow-md)] sm:p-8">
+          <CreditPackChooser
+            title="Add credits to unlock your next shoot."
+            description="Pick a pack first. After checkout, come back here and choose the vibe you want to generate."
+          />
+        </section>
       )}
 
       {/* ─── Shared controls ──────────────────────────────────────── */}
@@ -335,7 +354,8 @@ export default function ThemeBoard({
               sublabel="Real light, real rooms"
               chipColor="sage"
               themes={photoreal}
-              pending={pending}
+              pending={pending || !hasCredits}
+              disabledLabel={!hasCredits ? "Add credits first" : undefined}
               activeId={activeTheme?.id ?? null}
               onPick={launch}
             />
@@ -345,7 +365,8 @@ export default function ThemeBoard({
               sublabel="Illustration & cinema"
               chipColor="plum"
               themes={stylized}
-              pending={pending}
+              pending={pending || !hasCredits}
+              disabledLabel={!hasCredits ? "Add credits first" : undefined}
               activeId={activeTheme?.id ?? null}
               onPick={launch}
             />
@@ -382,7 +403,8 @@ export default function ThemeBoard({
                   <ThemeCard
                     key={t.id}
                     theme={t}
-                    disabled={pending}
+                    disabled={pending || !hasCredits}
+                    disabledLabel={!hasCredits ? "Add credits first" : undefined}
                     loading={activeTheme?.id === t.id && pending}
                     onPick={() => launch(t)}
                   />
@@ -399,7 +421,8 @@ export default function ThemeBoard({
                       >
                         <ThemeCard
                           theme={t}
-                          disabled={pending}
+                          disabled={pending || !hasCredits}
+                          disabledLabel={!hasCredits ? "Add credits first" : undefined}
                           loading={activeTheme?.id === t.id && pending}
                           onPick={() => launch(t)}
                         />
@@ -568,10 +591,14 @@ export default function ThemeBoard({
               <div className="mt-8 flex items-center justify-end">
                 <button
                   onClick={launchCustom}
-                  disabled={pending || customDescription.trim().length < 4}
-                  className="btn btn-coral btn-lg"
+                  disabled={pending || customDescription.trim().length < 4 || !hasCredits}
+                  className={`btn btn-lg ${hasCredits ? "btn-coral" : "btn-ghost"}`}
                 >
-                  {pending && launchingCustom ? "Setting up…" : "Begin this shoot"}
+                  {!hasCredits
+                    ? "Add credits to begin"
+                    : pending && launchingCustom
+                      ? "Setting up…"
+                      : "Begin this shoot"}
                   <svg
                     className="h-4 w-4"
                     viewBox="0 0 24 24"

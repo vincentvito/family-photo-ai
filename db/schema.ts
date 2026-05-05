@@ -108,6 +108,41 @@ export const albumImages = familyphotoai.table("album_images", {
   addedAt: timestamp("added_at").notNull().defaultNow(),
 });
 
+export const creditTransactions = familyphotoai.table("credit_transactions", {
+  id: id(),
+  userId: text("user_id").notNull(),
+  packId: text("pack_id").notNull(),
+  credits: integer("credits").notNull(),
+  stripeCheckoutSessionId: text("stripe_checkout_session_id").notNull().unique(),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  stripeEventId: text("stripe_event_id").notNull().unique(),
+  stripePriceId: text("stripe_price_id").notNull(),
+  status: text("status", { enum: ["completed", "refunded"] })
+    .notNull()
+    .default("completed"),
+  createdAt: createdAt(),
+});
+
+export const creditUsages = familyphotoai.table("credit_usages", {
+  id: id(),
+  userId: text("user_id").notNull(),
+  generationId: text("generation_id")
+    .notNull()
+    .references(() => generations.id)
+    .unique(),
+  credits: integer("credits").notNull().default(1),
+  createdAt: createdAt(),
+});
+
+export const creditGrants = familyphotoai.table("credit_grants", {
+  id: id(),
+  userId: text("user_id").notNull(),
+  credits: integer("credits").notNull(),
+  reason: text("reason"),
+  grantedByUserId: text("granted_by_user_id").notNull(),
+  createdAt: createdAt(),
+});
+
 export type Person = typeof people.$inferSelect;
 export type Photo = typeof photos.$inferSelect;
 export type Generation = typeof generations.$inferSelect;
@@ -115,3 +150,6 @@ export type Image = typeof images.$inferSelect;
 export type RefinementStep = typeof refinementHistory.$inferSelect;
 export type Album = typeof albums.$inferSelect;
 export type AlbumImage = typeof albumImages.$inferSelect;
+export type CreditTransaction = typeof creditTransactions.$inferSelect;
+export type CreditUsage = typeof creditUsages.$inferSelect;
+export type CreditGrant = typeof creditGrants.$inferSelect;

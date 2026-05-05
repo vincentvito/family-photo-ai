@@ -28,6 +28,7 @@
     "react-dom": "19.2.5",
     "replicate": "^1.0.1",
     "sharp": "^0.33.5",
+    "stripe": "^22.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

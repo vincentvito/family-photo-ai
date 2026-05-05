@@ -8,11 +8,13 @@ export default function ThemeCard({
   disabled,
   loading,
   onPick,
+  disabledLabel = "Add credits first",
 }: {
   theme: Theme;
   disabled: boolean;
   loading: boolean;
   onPick: () => void;
+  disabledLabel?: string;
 }) {
   return (
     <motion.button
@@ -50,10 +52,15 @@ export default function ThemeCard({
           </h3>
         </div>
 
-        {/* Hover CTA chip */}
-        <div className="absolute right-3 top-3 opacity-0 translate-y-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+        <div
+          className={`absolute right-3 top-3 translate-y-[-4px] transition-all duration-300 ${
+            disabled
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 group-hover:opacity-100 group-hover:translate-y-0"
+          }`}
+        >
           <span className="chip chip-coral shadow-[var(--shadow-md)]">
-            Try this vibe
+            {disabled ? disabledLabel : "Try this vibe"}
             <svg
               className="h-3 w-3"
               viewBox="0 0 24 24"

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth-helpers";
+import { getCreditBalance } from "@/lib/billing-queries";
 import AccountMenu from "@/components/auth/AccountMenu";
+import CreditBalanceBadge from "@/components/billing/CreditBalanceBadge";
 import StudioStepper from "@/components/studio/StudioStepper";
 
 export default async function StudioLayout({ children }: { children: React.ReactNode }) {
@@ -10,6 +12,8 @@ export default async function StudioLayout({ children }: { children: React.React
   if (!session) {
     redirect("/sign-in");
   }
+
+  const balance = await getCreditBalance(session.user.id);
 
   return (
     <div className="min-h-screen">
@@ -31,6 +35,7 @@ export default async function StudioLayout({ children }: { children: React.React
           </Link>
           <StudioStepper />
           <div className="flex items-center gap-3">
+            <CreditBalanceBadge balance={balance} />
             <AccountSlot session={session} />
             <Link href="/studio/album" className="btn btn-ghost btn-sm">
               Album
@@ -43,15 +48,19 @@ export default async function StudioLayout({ children }: { children: React.React
   );
 }
 
+function isSessionAdmin(session: NonNullable<Awaited<ReturnType<typeof getCurrentSession>>>) {
+  const role = (session.user as { role?: string | null }).role ?? "";
+  return role
+    .split(",")
+    .map((r) => r.trim().toLowerCase())
+    .includes("admin");
+}
+
 function AccountSlot({
   session,
 }: {
   session: NonNullable<Awaited<ReturnType<typeof getCurrentSession>>>;
 }) {
-  const role = (session.user as { role?: string | null }).role ?? "";
-  const admin = role
-    .split(",")
-    .map((r) => r.trim().toLowerCase())
-    .includes("admin");
+  const admin = isSessionAdmin(session);
   return <AccountMenu email={session.user.email} isAdmin={admin} />;
 }

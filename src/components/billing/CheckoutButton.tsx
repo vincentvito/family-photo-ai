@@ -1,0 +1,51 @@
+"use client";
+
+import { useState } from "react";
+import type { PricingPackId } from "@/lib/pricing-packs";
+
+export default function CheckoutButton({
+  packId,
+  children,
+  className,
+  pendingLabel = "Opening checkout...",
+  onError,
+}: {
+  packId: PricingPackId;
+  children: React.ReactNode;
+  className: string;
+  pendingLabel?: string;
+  onError?: (message: string) => void;
+}) {
+  const [pending, setPending] = useState(false);
+
+  async function startCheckout() {
+    setPending(true);
+    onError?.("");
+
+    const res = await fetch("/api/stripe/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ packId }),
+    });
+
+    if (res.status === 401) {
+      window.location.assign(`/sign-in?next=${encodeURIComponent("/#pricing")}`);
+      return;
+    }
+
+    const data = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
+    if (!res.ok || !data?.url) {
+      onError?.(data?.error ?? "Checkout could not start.");
+      setPending(false);
+      return;
+    }
+
+    window.location.assign(data.url);
+  }
+
+  return (
+    <button type="button" onClick={startCheckout} disabled={pending} className={className}>
+      {pending ? pendingLabel : children}
+    </button>
+  );
+}

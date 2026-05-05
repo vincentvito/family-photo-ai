@@ -10,7 +10,6 @@ export default function OtpSignInForm() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +55,6 @@ export default function OtpSignInForm() {
       const result = await authClient.signIn.emailOtp({
         email: normalizedEmail,
         otp: otp.trim(),
-        name: name.trim() || normalizedEmail.split("@")[0] || "Family Photoshoot Guest",
       });
 
       if (result.error) {
@@ -110,40 +108,22 @@ export default function OtpSignInForm() {
         </div>
 
         {step === "code" && (
-          <>
-            <div>
-              <label className="small-caps text-[color:var(--color-ink-muted)]" htmlFor="auth-name">
-                Name
-              </label>
-              <input
-                id="auth-name"
-                type="text"
-                autoComplete="name"
-                value={name}
-                disabled={pending}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="So we know what to call you"
-                className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-3 outline-none transition-all focus:border-[color:var(--color-sage)] focus:shadow-[var(--shadow-ring-sage)] disabled:opacity-65"
-              />
-            </div>
-
-            <div>
-              <label className="small-caps text-[color:var(--color-ink-muted)]" htmlFor="auth-code">
-                Code
-              </label>
-              <input
-                id="auth-code"
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                value={otp}
-                disabled={pending}
-                onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="000000"
-                className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-3 text-center text-3xl tracking-[0.32em] outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-65"
-              />
-            </div>
-          </>
+          <div>
+            <label className="small-caps text-[color:var(--color-ink-muted)]" htmlFor="auth-code">
+              Code
+            </label>
+            <input
+              id="auth-code"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={otp}
+              disabled={pending}
+              onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="000000"
+              className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-3 text-center text-3xl tracking-[0.32em] outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-65"
+            />
+          </div>
         )}
 
         {message && (

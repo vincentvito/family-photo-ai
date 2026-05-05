@@ -14,6 +14,7 @@ export default function ThemeSection({
   activeId,
   onPick,
   initialCount = 6,
+  disabledLabel,
 }: {
   label: string;
   sublabel: string;
@@ -23,6 +24,7 @@ export default function ThemeSection({
   activeId: string | null;
   onPick: (theme: Theme) => void;
   initialCount?: number;
+  disabledLabel?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
   const head = themes.slice(0, initialCount);
@@ -54,6 +56,7 @@ export default function ThemeSection({
             key={theme.id}
             theme={theme}
             disabled={pending}
+            disabledLabel={disabledLabel}
             loading={activeId === theme.id && pending}
             onPick={() => onPick(theme)}
           />
@@ -75,6 +78,7 @@ export default function ThemeSection({
                 <ThemeCard
                   theme={theme}
                   disabled={pending}
+                  disabledLabel={disabledLabel}
                   loading={activeId === theme.id && pending}
                   onPick={() => onPick(theme)}
                 />

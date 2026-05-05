@@ -1,15 +1,21 @@
 import { themesByCategory } from "@/lib/themes";
 import ThemeBoard from "@/components/studio/ThemeBoard";
 import { providerStatusLabel } from "@/lib/providers";
-import { isAdmin } from "@/lib/auth-helpers";
+import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
 import { getDefaultModel } from "@/lib/admin-queries";
+import { getCreditBalance } from "@/lib/billing-queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function ThemePage() {
   const themes = themesByCategory();
   const status = providerStatusLabel();
-  const [admin, defaultModel] = await Promise.all([isAdmin(), getDefaultModel()]);
+  const user = await getCurrentUser();
+  const [admin, defaultModel, creditBalance] = await Promise.all([
+    isAdmin(),
+    getDefaultModel(),
+    user ? getCreditBalance(user.id) : Promise.resolve(0),
+  ]);
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
@@ -35,6 +41,7 @@ export default async function ThemePage() {
         cards={themes.card}
         isAdmin={admin}
         defaultModel={defaultModel}
+        creditBalance={creditBalance}
       />
     </main>
   );

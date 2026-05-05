@@ -37,18 +37,13 @@ export async function cleanupExpiredStudio() {
     ),
   ]);
 
-  await Promise.all([
-    expiredGenerations.length > 0
-      ? db.delete(schema.generations).where(lt(schema.generations.createdAt, cutoff))
-      : Promise.resolve(),
-    expiredPeople.length > 0
-      ? db.delete(schema.people).where(lt(schema.people.createdAt, cutoff))
-      : Promise.resolve(),
-  ]);
+  if (expiredPeople.length > 0) {
+    await db.delete(schema.people).where(lt(schema.people.createdAt, cutoff));
+  }
 
   return {
     cutoff,
-    generationsDeleted: expiredGenerations.length,
+    generationsStoragePurged: expiredGenerations.length,
     peopleDeleted: expiredPeople.length,
   };
 }

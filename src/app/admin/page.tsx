@@ -1,11 +1,14 @@
 import { Suspense } from "react";
 import {
+  getCreditGrantStats,
   getDefaultModel,
+  getPackageSalesStats,
   getPlatformStats,
   getRecentGenerations,
   getRecentSignups,
 } from "@/lib/admin-queries";
 import DefaultModelPicker from "./DefaultModelPicker";
+import CreditGrantForm from "./CreditGrantForm";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +21,14 @@ function formatRelative(date: Date) {
   if (hr < 24) return `${hr}h ago`;
   const day = Math.round(hr / 24);
   return `${day}d ago`;
+}
+
+function formatMoney(cents: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: cents % 100 === 0 ? 0 : 2,
+  }).format(cents / 100);
 }
 
 export default function AdminOverviewPage() {
@@ -35,6 +46,24 @@ export default function AdminOverviewPage() {
       </section>
 
       <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="serif text-xl tracking-[-0.02em]">Package sales</h2>
+            <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+              Completed Stripe checkouts, grouped by pack.
+            </p>
+          </div>
+          <span className="chip chip-sage">
+            <span className="dot dot-sage" />
+            Live billing
+          </span>
+        </div>
+        <Suspense fallback={<PackageSalesSkeleton />}>
+          <PackageSalesSection />
+        </Suspense>
+      </section>
+
+      <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
         <h2 className="serif text-xl tracking-[-0.02em]">Default model</h2>
         <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
           What everyone runs on unless an admin overrides per-shoot.
@@ -42,6 +71,25 @@ export default function AdminOverviewPage() {
         <div className="mt-5">
           <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
             <DefaultModelSection />
+          </Suspense>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+          <h2 className="serif text-xl tracking-[-0.02em]">Complimentary credits</h2>
+          <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+            Add test or support credits to an existing account by email.
+          </p>
+          <div className="mt-5">
+            <CreditGrantForm />
+          </div>
+        </div>
+
+        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+          <h2 className="serif text-xl tracking-[-0.02em]">Recent credit grants</h2>
+          <Suspense fallback={<ListSkeleton />}>
+            <CreditGrantsList />
           </Suspense>
         </div>
       </section>
@@ -65,6 +113,81 @@ export default function AdminOverviewPage() {
   );
 }
 
+async function PackageSalesSection() {
+  const sales = await getPackageSalesStats();
+  const totals = [
+    {
+      label: "Estimated revenue",
+      value: formatMoney(sales.totals.estimatedRevenueCents),
+      sub: "before Stripe fees",
+    },
+    {
+      label: "Packages sold",
+      value: sales.totals.packagesSold.toLocaleString(),
+      sub:
+        sales.totals.refundedPackages > 0
+          ? `${sales.totals.refundedPackages} refunded`
+          : "no refunds",
+    },
+    {
+      label: "Credits sold",
+      value: sales.totals.creditsSold.toLocaleString(),
+      sub: "available shoots purchased",
+    },
+  ];
+
+  return (
+    <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+        {totals.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-4"
+          >
+            <div className="small-caps text-[color:var(--color-ink-muted)]">{item.label}</div>
+            <div className="mt-2 text-2xl font-semibold tabular-nums tracking-tight">
+              {item.value}
+            </div>
+            <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{item.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)]">
+        <table className="w-full text-left text-sm">
+          <thead className="border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)] text-xs text-[color:var(--color-ink-muted)]">
+            <tr>
+              <th className="px-4 py-3 font-semibold">Pack</th>
+              <th className="px-4 py-3 text-right font-semibold">Sold</th>
+              <th className="px-4 py-3 text-right font-semibold">Credits</th>
+              <th className="px-4 py-3 text-right font-semibold">Revenue</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[color:var(--color-line)]">
+            {sales.packs.map((pack) => (
+              <tr key={pack.packId}>
+                <td className="px-4 py-3">
+                  <div className="font-medium">{pack.name}</div>
+                  <div className="text-xs text-[color:var(--color-ink-muted)]">{pack.packId}</div>
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {pack.packagesSold.toLocaleString()}
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {pack.creditsSold.toLocaleString()}
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {formatMoney(pack.estimatedRevenueCents)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 async function StatsCards() {
   const stats = await getPlatformStats();
   const cards = [
@@ -82,10 +205,7 @@ async function StatsCards() {
     {
       label: "Total shoots",
       value: stats.generations.total,
-      sub:
-        stats.generations.error > 0
-          ? `${stats.generations.error} errored`
-          : "all healthy",
+      sub: stats.generations.error > 0 ? `${stats.generations.error} errored` : "all healthy",
     },
     {
       label: "In progress",
@@ -106,9 +226,7 @@ async function StatsCards() {
           <div className="mt-3 text-3xl font-semibold tabular-nums tracking-tight">
             {c.value.toLocaleString()}
           </div>
-          {c.sub && (
-            <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{c.sub}</p>
-          )}
+          {c.sub && <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{c.sub}</p>}
         </div>
       ))}
     </div>
@@ -118,6 +236,41 @@ async function StatsCards() {
 async function DefaultModelSection() {
   const defaultModel = await getDefaultModel();
   return <DefaultModelPicker initial={defaultModel} />;
+}
+
+async function CreditGrantsList() {
+  const grants = await getCreditGrantStats(8);
+  return (
+    <div className="mt-4">
+      <div className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-4">
+        <div className="small-caps text-[color:var(--color-ink-muted)]">Total granted</div>
+        <div className="mt-2 text-2xl font-semibold tabular-nums">
+          {grants.totalGranted.toLocaleString()} credits
+        </div>
+      </div>
+      <ul className="mt-4 divide-y divide-[color:var(--color-line)]">
+        {grants.recent.length === 0 && (
+          <li className="py-3 text-sm text-[color:var(--color-ink-muted)]">
+            No complimentary credits yet.
+          </li>
+        )}
+        {grants.recent.map((grant) => (
+          <li key={grant.id} className="flex items-center justify-between gap-4 py-3">
+            <div className="min-w-0">
+              <div className="truncate text-sm font-medium">{grant.email ?? "Unknown user"}</div>
+              <div className="text-xs text-[color:var(--color-ink-muted)]">
+                +{grant.credits} {grant.credits === 1 ? "credit" : "credits"}
+                {grant.reason ? ` · ${grant.reason}` : ""}
+              </div>
+            </div>
+            <span className="text-xs text-[color:var(--color-ink-faint)]">
+              {formatRelative(grant.createdAt)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 async function SignupsList() {
@@ -198,6 +351,22 @@ function StatsSkeleton() {
           className="h-28 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/40"
         />
       ))}
+    </div>
+  );
+}
+
+function PackageSalesSkeleton() {
+  return (
+    <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-24 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40"
+          />
+        ))}
+      </div>
+      <div className="h-56 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40" />
     </div>
   );
 }

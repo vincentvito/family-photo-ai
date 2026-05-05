@@ -6,7 +6,8 @@ export const runtime = "nodejs";
 export const maxDuration = 300;
 
 export async function POST(req: Request) {
-  if (!(await getCurrentUser())) {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const json = await req.json().catch(() => null);
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   try {
-    const result = await startGeneration(json);
+    const result = await startGeneration(json, { userId: user.id });
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";

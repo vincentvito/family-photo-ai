@@ -9,6 +9,7 @@ export const user = familyphotoai.table("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  stripeCustomerId: text("stripe_customer_id").unique(),
   /** Better Auth admin plugin: comma-separated role list, e.g. "admin" or "user". */
   role: text("role"),
   banned: boolean("banned").default(false).notNull(),

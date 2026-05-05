@@ -1,11 +1,14 @@
 "use client";
 
 import Reveal from "@/components/motion/Reveal";
+import CheckoutButton from "@/components/billing/CheckoutButton";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useState } from "react";
+import type { PricingPackId } from "@/lib/pricing-packs";
 
 const tiers = [
   {
+    packId: "single_keepsake",
     name: "Single keepsake",
     price: "$5",
     sub: "One photo or card.",
@@ -18,6 +21,7 @@ const tiers = [
     highlight: false,
   },
   {
+    packId: "three_pack",
     name: "Three-pack",
     price: "$12",
     sub: "Best for a small set.",
@@ -30,6 +34,7 @@ const tiers = [
     highlight: true,
   },
   {
+    packId: "eight_pack",
     name: "Eight-pack",
     price: "$25",
     sub: "For holidays and family sets.",
@@ -41,7 +46,14 @@ const tiers = [
     ],
     highlight: false,
   },
-];
+] satisfies {
+  packId: PricingPackId;
+  name: string;
+  price: string;
+  sub: string;
+  features: string[];
+  highlight: boolean;
+}[];
 
 function Check({ className }: { className?: string }) {
   return (
@@ -59,6 +71,8 @@ function Check({ className }: { className?: string }) {
 }
 
 export default function Pricing() {
+  const [error, setError] = useState<string | null>(null);
+
   return (
     <section id="pricing" className="px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
@@ -69,8 +83,8 @@ export default function Pricing() {
               Simple photo packs
             </span>
             <h2 className="serif mx-auto mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-              Pay for what <em className="serif-italic text-[color:var(--color-coral)]">fits</em> your
-              family.
+              Pay for what <em className="serif-italic text-[color:var(--color-coral)]">fits</em>{" "}
+              your family.
             </h2>
           </div>
         </Reveal>
@@ -124,17 +138,23 @@ export default function Pricing() {
                 </ul>
 
                 <div className="mt-10">
-                  <Link
-                    href="/sign-in"
+                  <CheckoutButton
+                    packId={t.packId}
+                    onError={(message) => setError(message || null)}
                     className={`btn w-full ${t.highlight ? "btn-coral" : "btn-ghost"}`}
                   >
                     Start here
-                  </Link>
+                  </CheckoutButton>
                 </div>
               </motion.div>
             </Reveal>
           ))}
         </div>
+        {error && (
+          <p className="mx-auto mt-5 max-w-xl text-center text-sm text-[color:var(--color-coral-deep)]">
+            {error}
+          </p>
+        )}
       </div>
     </section>
   );

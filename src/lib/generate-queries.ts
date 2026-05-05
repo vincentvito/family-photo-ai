@@ -1,6 +1,6 @@
 import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { eq, asc, inArray } from "drizzle-orm";
+import { eq, asc, inArray, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
@@ -33,9 +33,21 @@ const CustomVibeSchema = z.object({
   aspectRatio: AspectSchema,
 });
 
-const ModelIdSchema = z.enum(
-  GENERATION_MODEL_IDS as [GenerationModelId, ...GenerationModelId[]],
-);
+const ModelIdSchema = z.enum(GENERATION_MODEL_IDS as [GenerationModelId, ...GenerationModelId[]]);
+
+async function markGenerationErrorAndRefundCredit(generationId: string, errorMessage: string) {
+  await db.transaction(async (tx) => {
+    await tx
+      .update(schema.generations)
+      .set({
+        status: "error",
+        errorMessage,
+      })
+      .where(eq(schema.generations.id, generationId));
+
+    await tx.delete(schema.creditUsages).where(eq(schema.creditUsages.generationId, generationId));
+  });
+}
 
 const StartGenerationInput = z
   .object({
@@ -58,8 +70,13 @@ function isMockMode() {
   return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
 }
 
-export async function startGeneration(input: z.infer<typeof StartGenerationInput>) {
+export async function startGeneration(
+  input: z.infer<typeof StartGenerationInput>,
+  actor: { userId: string },
+) {
   const parsed = StartGenerationInput.parse(input);
+  const admin = await isAdmin();
+  const spendCredit = true;
 
   let theme: Theme = parsed.customVibe
     ? buildCustomTheme({
@@ -85,11 +102,7 @@ export async function startGeneration(input: z.infer<typeof StartGenerationInput
 
   const prompt = buildGenerationPrompt(theme, roster, parsed.wardrobeNote, parsed.cardText ?? null);
 
-  if (isMockMode()) {
-    return startMockGeneration({ theme, prompt, roster, input: parsed });
-  }
-
-  const modelId = await resolveModelId(parsed.modelId);
+  const modelId = await resolveModelId(parsed.modelId, admin);
   if (!isAspectSupported(modelId, theme.aspectRatio)) {
     const supported = MODEL_CATALOG[modelId].supportedAspectRatios.join(", ");
     throw new Error(
@@ -97,18 +110,20 @@ export async function startGeneration(input: z.infer<typeof StartGenerationInput
     );
   }
 
-  const { slots } = await createGenerationPredictions({
-    prompt,
-    aspectRatio: theme.aspectRatio,
-    subjects: roster,
-    locationReferencePath: parsed.locationReferencePath ?? null,
-    variants: VARIANT_COUNT,
-    modelId,
-  });
+  if (isMockMode()) {
+    return startMockGeneration({
+      theme,
+      prompt,
+      roster,
+      input: parsed,
+      actor,
+      modelId,
+      spendCredit,
+    });
+  }
 
-  const [generation] = await db
-    .insert(schema.generations)
-    .values({
+  const generation = await createGenerationRecord({
+    values: {
       themeId: theme.id,
       prompt,
       providerId: modelId,
@@ -119,10 +134,31 @@ export async function startGeneration(input: z.infer<typeof StartGenerationInput
       aspectRatio: theme.aspectRatio,
       locationReferencePath: parsed.locationReferencePath ?? null,
       customVibeDescription: parsed.customVibe?.description ?? null,
-      replicatePredictionIds: JSON.stringify(slots),
       model: modelId,
-    })
-    .returning();
+    },
+    userId: actor.userId,
+    spendCredit,
+  });
+
+  const { slots } = await createGenerationPredictions({
+    prompt,
+    aspectRatio: theme.aspectRatio,
+    subjects: roster,
+    locationReferencePath: parsed.locationReferencePath ?? null,
+    variants: VARIANT_COUNT,
+    modelId,
+  }).catch(async (err) => {
+    await markGenerationErrorAndRefundCredit(
+      generation.id,
+      err instanceof Error ? err.message : "Failed to start predictions",
+    );
+    throw err;
+  });
+
+  await db
+    .update(schema.generations)
+    .set({ replicatePredictionIds: JSON.stringify(slots) })
+    .where(eq(schema.generations.id, generation.id));
 
   return { generationId: generation.id };
 }
@@ -131,8 +167,11 @@ export async function startGeneration(input: z.infer<typeof StartGenerationInput
  * Pick the model for this shoot. Admins may override per-shoot via the input;
  * everyone else falls back to the admin-configured default.
  */
-async function resolveModelId(requested?: GenerationModelId): Promise<GenerationModelId> {
-  if (requested && (await isAdmin())) return requested;
+async function resolveModelId(
+  requested: GenerationModelId | undefined,
+  admin: boolean,
+): Promise<GenerationModelId> {
+  if (requested && admin) return requested;
   return getDefaultModel();
 }
 
@@ -151,11 +190,7 @@ export async function getGenerationState(generationId: string) {
   }
 
   const [[refreshed], images] = await Promise.all([
-    db
-      .select()
-      .from(schema.generations)
-      .where(eq(schema.generations.id, generationId))
-      .limit(1),
+    db.select().from(schema.generations).where(eq(schema.generations.id, generationId)).limit(1),
     db
       .select()
       .from(schema.images)
@@ -232,10 +267,7 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
         // status === "starting" | "processing": leave for next poll
       } catch (err) {
         // Network / R2 / db errors don't burn the retry budget — try again next poll.
-        console.warn(
-          `reconcileGeneration: slot ${slot.id} threw, will retry next poll`,
-          err,
-        );
+        console.warn(`reconcileGeneration: slot ${slot.id} threw, will retry next poll`, err);
       }
     }),
   );
@@ -256,13 +288,7 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
         .set({ status: "done" })
         .where(eq(schema.generations.id, generation.id));
     } else {
-      await db
-        .update(schema.generations)
-        .set({
-          status: "error",
-          errorMessage: finalErrors[0] ?? "All variants failed",
-        })
-        .where(eq(schema.generations.id, generation.id));
+      await markGenerationErrorAndRefundCredit(generation.id, finalErrors[0] ?? "All variants failed");
     }
     revalidatePath(`/studio/generate/${generation.id}`);
   } else if (completedNow > 0 || mutatedSlots) {
@@ -318,18 +344,23 @@ async function startMockGeneration({
   prompt,
   roster,
   input,
+  actor,
+  modelId,
+  spendCredit,
 }: {
   theme: Theme;
   prompt: string;
   roster: Subject[];
   input: z.infer<typeof StartGenerationInput>;
+  actor: { userId: string };
+  modelId: GenerationModelId;
+  spendCredit: boolean;
 }) {
   const { MockProvider } = await import("@/lib/providers/mock");
   const mock = new MockProvider();
 
-  const [generation] = await db
-    .insert(schema.generations)
-    .values({
+  const generation = await createGenerationRecord({
+    values: {
       themeId: theme.id,
       prompt,
       providerId: "mock",
@@ -340,43 +371,110 @@ async function startMockGeneration({
       aspectRatio: theme.aspectRatio,
       locationReferencePath: input.locationReferencePath ?? null,
       customVibeDescription: input.customVibe?.description ?? null,
-    })
-    .returning();
-
-  const result = await mock.generatePortrait({
-    themeId: theme.id,
-    themeBlurb: theme.blurb,
-    prompt,
-    aspectRatio: theme.aspectRatio,
-    subjects: roster,
-    wardrobeNote: input.wardrobeNote,
-    cardText: input.cardText,
-    generationId: generation.id,
-    seedImagePath: null,
-    locationReferencePath: input.locationReferencePath ?? null,
+      model: modelId,
+    },
+    userId: actor.userId,
+    spendCredit,
   });
 
-  for (const img of result.images) {
-    const saved = await saveGeneratedImage(
-      img.buffer,
-      generation.id,
-      img.mimeType === "image/png" ? "png" : "jpg",
-    );
-    await db.insert(schema.images).values({
-      generationId: generation.id,
-      fileName: saved.fileName,
-      width: img.width ?? saved.width,
-      height: img.height ?? saved.height,
+  try {
+    const result = await mock.generatePortrait({
+      themeId: theme.id,
+      themeBlurb: theme.blurb,
+      prompt,
       aspectRatio: theme.aspectRatio,
+      subjects: roster,
+      wardrobeNote: input.wardrobeNote,
+      cardText: input.cardText,
+      generationId: generation.id,
+      seedImagePath: null,
+      locationReferencePath: input.locationReferencePath ?? null,
     });
+
+    for (const img of result.images) {
+      const saved = await saveGeneratedImage(
+        img.buffer,
+        generation.id,
+        img.mimeType === "image/png" ? "png" : "jpg",
+      );
+      await db.insert(schema.images).values({
+        generationId: generation.id,
+        fileName: saved.fileName,
+        width: img.width ?? saved.width,
+        height: img.height ?? saved.height,
+        aspectRatio: theme.aspectRatio,
+      });
+    }
+
+    await db
+      .update(schema.generations)
+      .set({ status: "done" })
+      .where(eq(schema.generations.id, generation.id));
+  } catch (err) {
+    await markGenerationErrorAndRefundCredit(
+      generation.id,
+      err instanceof Error ? err.message : "Mock generation failed",
+    );
+    throw err;
   }
 
-  await db
-    .update(schema.generations)
-    .set({ status: "done" })
-    .where(eq(schema.generations.id, generation.id));
-
   return { generationId: generation.id };
+}
+
+async function createGenerationRecord({
+  values,
+  userId,
+  spendCredit,
+}: {
+  values: typeof schema.generations.$inferInsert;
+  userId: string;
+  spendCredit: boolean;
+}) {
+  return db.transaction(async (tx) => {
+    if (spendCredit) {
+      await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
+      const [purchaseRow] = await tx
+        .select({
+          total: sql<number>`coalesce(sum(${schema.creditTransactions.credits}), 0)`,
+        })
+        .from(schema.creditTransactions)
+        .where(
+          sql`${schema.creditTransactions.userId} = ${userId} and ${schema.creditTransactions.status} = 'completed'`,
+        );
+      const [usageRow] = await tx
+        .select({
+          total: sql<number>`coalesce(sum(${schema.creditUsages.credits}), 0)`,
+        })
+        .from(schema.creditUsages)
+        .where(eq(schema.creditUsages.userId, userId));
+      const [grantRow] = await tx
+        .select({
+          total: sql<number>`coalesce(sum(${schema.creditGrants.credits}), 0)`,
+        })
+        .from(schema.creditGrants)
+        .where(eq(schema.creditGrants.userId, userId));
+
+      const balance =
+        Number(purchaseRow?.total ?? 0) +
+        Number(grantRow?.total ?? 0) -
+        Number(usageRow?.total ?? 0);
+      if (balance < 1) {
+        throw new Error("Buy a photo pack before starting a shoot.");
+      }
+    }
+
+    const [generation] = await tx.insert(schema.generations).values(values).returning();
+
+    if (spendCredit) {
+      await tx.insert(schema.creditUsages).values({
+        userId,
+        generationId: generation.id,
+        credits: 1,
+      });
+    }
+
+    return generation;
+  });
 }
 
 async function loadRosterAsSubjects(): Promise<Subject[]> {

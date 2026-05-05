@@ -1,6 +1,7 @@
 import { db, schema } from "@/lib/db";
 import { desc, eq, gte, sql } from "drizzle-orm";
 import { GENERATION_MODEL_IDS, type GenerationModelId } from "@/lib/replicate/models";
+import { PRICING_PACKS, getPricingPack } from "@/lib/pricing-packs";
 import { user as userTable } from "@/../db/auth-schema";
 
 const SETTINGS_ROW_ID = "default";
@@ -38,6 +39,33 @@ export type PlatformStats = {
     error: number;
   };
   images: { total: number };
+};
+
+export type PackageSalesStats = {
+  totals: {
+    packagesSold: number;
+    creditsSold: number;
+    estimatedRevenueCents: number;
+    refundedPackages: number;
+  };
+  packs: {
+    packId: string;
+    name: string;
+    packagesSold: number;
+    creditsSold: number;
+    estimatedRevenueCents: number;
+  }[];
+};
+
+export type CreditGrantStats = {
+  totalGranted: number;
+  recent: {
+    id: string;
+    email: string | null;
+    credits: number;
+    reason: string | null;
+    createdAt: Date;
+  }[];
 };
 
 export async function getPlatformStats(): Promise<PlatformStats> {
@@ -125,4 +153,81 @@ export async function getRecentGenerations(limit = 10) {
     .from(schema.generations)
     .orderBy(desc(schema.generations.createdAt))
     .limit(limit);
+}
+
+export async function getPackageSalesStats(): Promise<PackageSalesStats> {
+  const completedRows = await db
+    .select({
+      packId: schema.creditTransactions.packId,
+      packagesSold: sql<number>`count(*)::int`,
+      creditsSold: sql<number>`coalesce(sum(${schema.creditTransactions.credits}), 0)::int`,
+    })
+    .from(schema.creditTransactions)
+    .where(eq(schema.creditTransactions.status, "completed"))
+    .groupBy(schema.creditTransactions.packId);
+
+  const [{ count: refundedPackages }] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(schema.creditTransactions)
+    .where(eq(schema.creditTransactions.status, "refunded"));
+
+  const completedByPack = new Map(completedRows.map((row) => [row.packId, row]));
+  const packs: PackageSalesStats["packs"] = Object.values(PRICING_PACKS).map((pack) => {
+    const row = completedByPack.get(pack.id);
+    const packagesSold = Number(row?.packagesSold ?? 0);
+    const creditsSold = Number(row?.creditsSold ?? 0);
+    return {
+      packId: pack.id,
+      name: pack.name,
+      packagesSold,
+      creditsSold,
+      estimatedRevenueCents: packagesSold * pack.unitAmount,
+    };
+  });
+
+  for (const row of completedRows) {
+    if (getPricingPack(row.packId)) continue;
+    packs.push({
+      packId: row.packId,
+      name: row.packId,
+      packagesSold: Number(row.packagesSold ?? 0),
+      creditsSold: Number(row.creditsSold ?? 0),
+      estimatedRevenueCents: 0,
+    });
+  }
+
+  return {
+    totals: {
+      packagesSold: packs.reduce((sum, pack) => sum + pack.packagesSold, 0),
+      creditsSold: packs.reduce((sum, pack) => sum + pack.creditsSold, 0),
+      estimatedRevenueCents: packs.reduce((sum, pack) => sum + pack.estimatedRevenueCents, 0),
+      refundedPackages: Number(refundedPackages ?? 0),
+    },
+    packs,
+  };
+}
+
+export async function getCreditGrantStats(limit = 6): Promise<CreditGrantStats> {
+  const [[{ totalGranted }], recent] = await Promise.all([
+    db
+      .select({ totalGranted: sql<number>`coalesce(sum(${schema.creditGrants.credits}), 0)::int` })
+      .from(schema.creditGrants),
+    db
+      .select({
+        id: schema.creditGrants.id,
+        email: userTable.email,
+        credits: schema.creditGrants.credits,
+        reason: schema.creditGrants.reason,
+        createdAt: schema.creditGrants.createdAt,
+      })
+      .from(schema.creditGrants)
+      .leftJoin(userTable, eq(schema.creditGrants.userId, userTable.id))
+      .orderBy(desc(schema.creditGrants.createdAt))
+      .limit(limit),
+  ]);
+
+  return {
+    totalGranted: Number(totalGranted ?? 0),
+    recent,
+  };
 }

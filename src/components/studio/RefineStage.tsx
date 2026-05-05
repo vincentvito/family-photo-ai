@@ -14,7 +14,10 @@ async function fetchRefineState(id: string): Promise<State | null> {
   return res.json();
 }
 
-async function postRefine(body: { imageId: string; instruction: string }): Promise<{ imageId: string }> {
+async function postRefine(body: {
+  imageId: string;
+  instruction: string;
+}): Promise<{ imageId: string }> {
   const res = await fetch("/api/refine", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -33,6 +36,23 @@ const suggestions = [
   { label: "Less saturation", chip: "sage" as const },
   { label: "Tidy the background", chip: "plum" as const },
 ];
+
+function aspectClass(aspectRatio: string) {
+  switch (aspectRatio) {
+    case "16:9":
+      return "aspect-video";
+    case "4:5":
+      return "aspect-[4/5]";
+    case "3:2":
+      return "aspect-[3/2]";
+    case "2:3":
+      return "aspect-[2/3]";
+    case "1:1":
+      return "aspect-square";
+    default:
+      return "aspect-[4/5]";
+  }
+}
 
 export default function RefineStage({ initialState }: { initialState: State }) {
   const [state, setState] = useState(initialState);
@@ -86,12 +106,16 @@ export default function RefineStage({ initialState }: { initialState: State }) {
 
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-10">
-      <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]">
+      <div
+        className={`relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)] ${aspectClass(
+          state.image.aspectRatio,
+        )}`}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`/api/images/${state.image.id}`}
           alt="Current portrait"
-          className="h-auto w-full object-cover"
+          className="h-full w-full object-cover"
         />
         <AnimatePresence>
           {pending && (
