@@ -34,7 +34,7 @@ await fs.mkdir(OUT, { recursive: true });
 const MODEL = "google/nano-banana-pro";
 
 /**
- * @typedef {{ id: string, aspect: "1:1"|"4:5"|"3:2"|"2:3"|"16:9", prompt: string, resolution?: "1K"|"2K"|"4K" }} Job
+ * @typedef {{ id: string, aspect: "1:1"|"4:5"|"3:2"|"2:3"|"16:9", prompt: string, resolution?: "1K"|"2K"|"4K", ext?: "jpg"|"png" }} Job
  */
 
 /** @type {Job[]} */
@@ -228,6 +228,31 @@ const jobs = [
     "Editorial family portrait at a sidewalk café on a narrow cobblestone Paris street in the early morning, rattan chairs, small marble table with espresso and croissants, soft overcast Paris light, muted neutrals, 50mm lens feel. No text.",
   ),
   themeCover(
+    "theme-new-york-city",
+    "Iconic New York City family portrait on the Brooklyn Bridge pedestrian walkway, family walking together with candid smiles, stone bridge tower and suspension cables clearly recognizable, Manhattan skyline and One World Trade Center visible behind, late-afternoon golden city light, Kodak Portra 400 film grain. No text.",
+    { aspect: "2:3", ext: "png" },
+  ),
+  themeCover(
+    "theme-paris-family-stroll",
+    "Iconic Paris family portrait at Trocadéro or Champ de Mars, Eiffel Tower large, close and clearly visible behind the family, flowers and a baguette in hand, elegant neutral coats, soft golden Paris morning light, Kodak Portra 400 film grain. No text.",
+    { aspect: "2:3", ext: "png" },
+  ),
+  themeCover(
+    "theme-backyard-picnic",
+    "Bright family lifestyle portrait during a backyard picnic under a leafy shade tree, family seated on a plaid blanket passing strawberries and lemonade, family pet lounging nearby, dappled late-spring afternoon light, fresh greens with coral and denim accents, candid Portra 400 warmth. No text.",
+    { aspect: "3:2", ext: "png" },
+  ),
+  themeCover(
+    "theme-sunday-sofa",
+    "Cozy documentary family portrait piled together on a living-room sofa on a rainy Sunday, picture book open in someone's lap, blankets, mugs, warm lamp glow mixed with cool rainy window light, shelves and plants behind, soft Portra 800 intimacy. No text.",
+    { aspect: "2:3", ext: "png" },
+  ),
+  themeCover(
+    "theme-orchard-picking",
+    "Joyful early-fall family portrait between rows of apple trees, one adult lifting a child to pick an apple, another holding a wooden basket, flannel and denim layers, golden afternoon light filtering through orchard branches, crisp autumn Portra 400 palette. No text.",
+    { aspect: "3:2", ext: "png" },
+  ),
+  themeCover(
     "theme-lake-house",
     "Warm summer-evening family portrait on a long weathered wooden dock stretching over a still lake, reflected pines, golden-hour horizon, linen wardrobe, bare feet, golden retriever at the edge, medium-format film warmth. No text.",
     { aspect: "3:2" },
@@ -299,7 +324,8 @@ async function urlFromOutput(output) {
 }
 
 async function runJob(job) {
-  const outPath = path.join(OUT, `${job.id}.jpg`);
+  const ext = job.ext ?? "jpg";
+  const outPath = path.join(OUT, `${job.id}.${ext}`);
   if (!FORCE) {
     try {
       await fs.access(outPath);
@@ -314,7 +340,7 @@ async function runJob(job) {
       prompt: job.prompt,
       aspect_ratio: job.aspect,
       resolution: job.resolution ?? "2K",
-      output_format: "jpg",
+      output_format: ext,
       safety_filter_level: "block_only_high",
     },
   });
@@ -323,7 +349,12 @@ async function runJob(job) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${url}`);
   const buf = Buffer.from(await res.arrayBuffer());
-  await sharp(buf).jpeg({ quality: 90, mozjpeg: true }).toFile(outPath);
+  const image = sharp(buf);
+  if (ext === "png") {
+    await image.png({ compressionLevel: 9 }).toFile(outPath);
+  } else {
+    await image.jpeg({ quality: 90, mozjpeg: true }).toFile(outPath);
+  }
   return { job, skipped: false };
 }
 

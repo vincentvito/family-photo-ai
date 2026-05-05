@@ -379,6 +379,126 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "new-york-city",
+    name: "New York City",
+    blurb:
+      "Brooklyn Bridge underfoot, Manhattan behind them. Instantly New York, casual and cinematic.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-new-york-city.png",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 editorial documentary city photograph",
+      subjectAction:
+        "walking together on the Brooklyn Bridge pedestrian walkway, one subject holding a paper coffee cup, a child leaning into the group, everyone caught mid-conversation with easy city energy",
+      location:
+        "the Brooklyn Bridge with its stone towers and suspension cables clearly recognizable, the Manhattan skyline and One World Trade Center visible behind, a yellow taxi hinted below in the city background",
+      camera:
+        "Leica M10 with a 35mm Summilux f/1.4, eye-level walking composition, bridge cables as leading lines, skyline held soft but unmistakable behind the family",
+      lighting:
+        "late-afternoon golden city light from camera-left, warm bounce from the bridge deck, soft open shade on faces and a mild breeze in coats and hair",
+      style:
+        "Kodak Portra 400, fine film grain, warm city-neutral palette with denim and coffee-brown accents, polished documentary finish",
+    },
+  },
+  {
+    id: "paris-family-stroll",
+    name: "Paris Family Stroll",
+    blurb:
+      "The Eiffel Tower close behind them, flowers and a baguette in hand. Elegant without feeling staged.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-paris-family-stroll.png",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 refined travel-documentary photograph",
+      subjectAction:
+        "walking together along the river, one subject carrying flowers wrapped in kraft paper, a child holding a baguette, the family glancing at each other with quiet delight",
+      location:
+        "the Trocadéro terrace or Champ de Mars in Paris with the Eiffel Tower large, close and clearly visible behind the family, classic limestone and city gardens framing the scene",
+      camera:
+        "Leica Q2 with its 28mm Summilux f/1.7, waist-level walking composition, gentle motion in coats and scarves, Eiffel Tower filling much of the background while the family remains the focus",
+      lighting:
+        "soft golden Paris morning light with warm limestone bounce, gentle rim highlights, soft highlight roll-off and no harsh shadows",
+      style:
+        "Kodak Portra 400 with a cool cream-and-charcoal Paris palette, fine grain, understated editorial-travel polish",
+    },
+  },
+  {
+    id: "backyard-picnic",
+    name: "Backyard Picnic",
+    blurb:
+      "A plaid blanket under the tree, lemonade, strawberries and the kind of laughter that needs no pose.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-backyard-picnic.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 bright family lifestyle photograph",
+      subjectAction:
+        "seated on a plaid picnic blanket, passing strawberries and lemonade, a child reaching across the blanket mid-laugh, the family pet lounging at the edge",
+      location:
+        "a lived-in suburban backyard in late spring, leafy shade tree overhead, wooden fence, raised garden beds and soft flowers in the background",
+      camera:
+        "Canon R5 with a 50mm f/1.8 lens, low blanket-level composition, family arranged in a loose circle with food in the foreground",
+      lighting:
+        "warm dappled afternoon light through leaves, soft grass-bounced fill, lively highlights on glass and fruit",
+      style:
+        "Kodak Portra 400, fresh green palette with coral, denim and picnic-red accents, fine grain, candid lifestyle warmth",
+    },
+  },
+  {
+    id: "sunday-sofa",
+    name: "Sunday Sofa",
+    blurb:
+      "Rain on the window, blankets on the couch, a book open in someone's lap. Soft and close.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-sunday-sofa.png",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 cozy documentary interior photograph",
+      subjectAction:
+        "piled comfortably together on a soft sofa with blankets, one subject reading a picture book, children leaning in close, mugs and a small candle on the table nearby",
+      location:
+        "a warm lived-in living room on a rainy Sunday, bookshelf and plants behind, rain droplets on the window, layered throws and soft cushions",
+      camera:
+        "Fuji GFX medium format with a 63mm f/2.8 lens, close chest-level composition from the coffee table, intimate framing with faces gathered around the book",
+      lighting:
+        "warm tungsten lamp glow mixed with cool rainy window light, gentle falloff into the shelves, soft shadows and a calm indoor mood",
+      style:
+        "Kodak Portra 800 emulation, cozy neutral palette with sage, rust and cream accents, visible fine grain, soft editorial intimacy",
+    },
+  },
+  {
+    id: "orchard-picking",
+    name: "Orchard Picking",
+    blurb:
+      "Rows of apple trees, flannel layers, a wooden basket and one kid reaching for the best apple.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-orchard-picking.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 joyful early-fall documentary photograph",
+      subjectAction:
+        "standing between rows of apple trees, one adult lifting a child to pick an apple, another holding a wooden basket, everyone relaxed in flannel, denim and soft knit layers",
+      location:
+        "a family apple orchard in early fall, red apples on branches, leaves just starting to turn, grass path between rows and a soft tree line beyond",
+      camera:
+        "Nikon Z8 with a 50mm f/1.8 lens, low eye-level composition down the orchard row, subjects on the right third with apples framing the foreground",
+      lighting:
+        "late-afternoon golden light filtering through branches, warm hair rim, gentle leaf-bounced fill and soft autumn haze",
+      style:
+        "Kodak Portra 400, crisp autumn palette of apple red, moss green, denim blue and warm amber, fine grain, joyful keepsake finish",
+    },
+  },
+  {
     id: "lake-house",
     name: "Lake House",
     blurb: "The long wooden dock, warm water behind, a retriever at the edge. Summer ease.",
