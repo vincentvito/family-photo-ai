@@ -180,7 +180,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 cinematic film still at a 1.85:1 aspect",
       subjectAction:
-        "lined up dead-center, facing camera with flat deadpan expressions, each holding a small coordinated prop, frozen mid-moment",
+        "dead-center in the frame, facing camera with flat deadpan expressions, frozen mid-moment with precise theatrical stillness",
       location:
         "a storybook dollhouse-styled interior with ornate pastel wallpaper, wainscoting, a patterned rug centered to the frame, symmetric decor on both walls",
       camera:

@@ -9,6 +9,7 @@ export type StartPredictionsArgs = {
   subjects: Subject[];
   locationReferencePath?: string | null;
   variants?: number;
+  variationPrompts?: readonly string[];
   modelId: GenerationModelId;
 };
 
@@ -46,6 +47,8 @@ export async function createGenerationPredictions(
         variantIndex: i,
         totalVariants: variants,
         aspectRatio: args.aspectRatio,
+        variationPrompts: args.variationPrompts,
+        subjects: args.subjects,
         imageUrls,
       }),
     ),
@@ -66,6 +69,8 @@ export async function createSinglePrediction(args: {
   variantIndex: number;
   totalVariants: number;
   aspectRatio: AspectRatio;
+  variationPrompts?: readonly string[];
+  subjects: Subject[];
   imageUrls: string[];
 }): Promise<string> {
   const client = await getReplicateClient();
@@ -75,6 +80,8 @@ export async function createSinglePrediction(args: {
     args.variantIndex,
     args.totalVariants,
     args.aspectRatio,
+    args.variationPrompts,
+    args.subjects,
   );
 
   const input =
@@ -168,15 +175,49 @@ function buildVariantPrompt(
   variant: number,
   totalVariants: number,
   aspectRatio: AspectRatio,
+  variationPrompts?: readonly string[],
+  subjects?: Subject[],
 ): string {
+  const variationPrompt =
+    variationPrompts && variationPrompts.length > 0
+      ? variationPrompts[variant % variationPrompts.length]
+      : "Subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.";
+
   return [
     basePrompt,
     "",
     "Art-director rails:",
+    buildCastRail(subjects),
     "— Preserve every subject's identity faithfully from the attached reference photos: facial features, age, hair, skin tone; for pets, breed and markings.",
-    "— All named subjects must appear together in one coherent composition, interacting naturally, never stiffly posed.",
+    "— The selected cast must appear together in one coherent composition, interacting naturally, never stiffly posed; do not add any unselected cast members.",
     "— Keep the result family-positive and omit smoking, cigarettes, cigars, vaping, ashtrays, lighters in use, smoke clouds, weapons or threatening menace.",
     `— Output one high-resolution image at ${aspectRatio} aspect ratio. Return only the image.`,
-    `— Variation ${variant + 1} of ${totalVariants}: subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.`,
+    `— Variation ${variant + 1} of ${totalVariants}: ${variationPrompt}`,
+    "— The variation brief is authoritative for pose, seated-versus-standing state, handheld props, crop, camera distance, foreground detail and composition.",
+    "— Keep the base prompt authoritative for selected cast, identity, location type, named vibe, visual style, season or holiday, era, lighting quality, wardrobe logic, card-text requirements and overall mood.",
+    "— Do not repeat the same seated/standing state, handheld prop or framing from another variation unless the variation brief explicitly asks for it.",
+    subjects?.length === 1
+      ? "— Because this is a solo shoot, make the pose and prop choice visibly different from the other variations while keeping the same person and vibe."
+      : "— Because this is a group shoot, vary spacing, body angles and interaction patterns while keeping everyone visible.",
+    "— Make this feel like one image from a premium four-photo proof set: distinct from the other slots without changing the shoot concept.",
   ].join("\n");
+}
+
+function buildCastRail(subjects?: Subject[]): string {
+  if (!subjects || subjects.length === 0) {
+    return "— Cast lock: use only the named subjects from the base prompt; no extras, duplicates or background people.";
+  }
+
+  const humans = subjects.filter((subject) => subject.role !== "pet");
+  const pets = subjects.filter((subject) => subject.role === "pet");
+  const humanNames = humans.map((subject) => subject.name).filter(Boolean).join(", ");
+  const petNames = pets.map((subject) => subject.name).filter(Boolean).join(", ");
+
+  return [
+    `— Cast lock: exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames ? ` (${humanNames})` : ""}; exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames ? ` (${petNames})` : ""}.`,
+    subjects.length === 1
+      ? "This is a solo portrait; reinterpret words like family, everyone, each, all or together as the single selected subject only."
+      : "This is a closed group portrait containing only the selected cast.",
+    "No unselected people, no background people, no extra relatives, no strangers, no duplicate versions of a subject, no wall portraits or reflections that introduce extra faces.",
+  ].join(" ");
 }

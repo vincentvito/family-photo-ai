@@ -27,21 +27,20 @@ export default function SubjectPicker({
         <p className="text-xs font-medium uppercase tracking-[0.08em] text-[color:var(--color-ink-faint)]">
           Who&apos;s in this shoot
         </p>
-        <div className="flex items-center gap-3 text-xs">
+        <div className="flex items-center gap-1.5 text-xs">
           <button
             type="button"
             onClick={onSelectAll}
             disabled={allSelected}
-            className="font-medium text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] disabled:opacity-40"
+            className="spring-press rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-3 py-1.5 font-semibold text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] transition-all hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:bg-[color:var(--color-bg)] disabled:opacity-45"
           >
             All
           </button>
-          <span className="text-[color:var(--color-line-strong)]">·</span>
           <button
             type="button"
             onClick={onClear}
             disabled={selectedIds.size === 0}
-            className="font-medium text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] disabled:opacity-40"
+            className="spring-press rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-3 py-1.5 font-semibold text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] transition-all hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:bg-[color:var(--color-bg)] disabled:opacity-45"
           >
             None
           </button>

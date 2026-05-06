@@ -19,6 +19,7 @@ export function buildGenerationPrompt(
   const { spec } = theme;
   const familyClause = describeFamily(subjects);
   const hasPets = subjects.some((subject) => subject.role === "pet");
+  const rosterDirective = buildRosterDirective(subjects);
 
   const sentences: string[] = [
     // Part 1
@@ -31,9 +32,10 @@ export function buildGenerationPrompt(
     `${spec.lighting}.`,
     // Part 6
     `${spec.style}.`,
+    rosterDirective,
     hasPets
-      ? "Include only the selected pet subjects listed in the family roster; do not invent additional animals or background pets."
-      : "No pets or animals should appear anywhere in the image; include only the selected human family members.",
+      ? "Include only the selected pet subjects listed in the cast lock; do not invent additional animals or background pets."
+      : "No pets or animals should appear anywhere in the image.",
     FAMILY_POSITIVE_DIRECTIVE + ".",
   ];
 
@@ -70,6 +72,12 @@ export function buildCardTextDirective(cardText: string): string {
 export function describeFamily(subjects: Subject[]): string {
   if (subjects.length === 0) return "A family";
 
+  if (subjects.length === 1) {
+    const subject = subjects[0];
+    const nameTag = subject.name ? ` (${subject.name})` : "";
+    return subject.role === "pet" ? `The selected pet${nameTag}` : `The selected person${nameTag}`;
+  }
+
   const adults = subjects.filter((s) => s.role === "adult");
   const kids = subjects.filter((s) => s.role === "child");
   const pets = subjects.filter((s) => s.role === "pet");
@@ -84,6 +92,36 @@ export function describeFamily(subjects: Subject[]): string {
   const nameTag = names.length > 0 ? ` (${names.join(", ")})` : "";
 
   return `A family of ${composition}${nameTag}`;
+}
+
+function buildRosterDirective(subjects: Subject[]): string {
+  const humans = subjects.filter((subject) => subject.role !== "pet");
+  const pets = subjects.filter((subject) => subject.role === "pet");
+  const humanNames = listNames(humans);
+  const petNames = listNames(pets);
+
+  const humanRule =
+    humans.length === 0
+      ? "exactly zero visible humans"
+      : `exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames}`;
+  const petRule =
+    pets.length === 0
+      ? "exactly zero visible pets or animals"
+      : `exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames}`;
+
+  return [
+    `Cast lock: ${humanRule}; ${petRule}.`,
+    subjects.length === 1
+      ? "This is a solo portrait; reinterpret any plural or group staging in the theme as one selected subject only."
+      : "This is a closed group portrait containing only the selected cast.",
+    "Do not add unselected spouses, children, relatives, friends, strangers, background people, extra faces, duplicate versions of the same subject, silhouettes, reflections, wall portraits or implied family members.",
+    "If the theme text uses group words like family, everyone, each, all or together, adapt that phrasing to this exact selected cast.",
+  ].join(" ");
+}
+
+function listNames(subjects: Subject[]): string {
+  const names = subjects.map((subject) => subject.name).filter(Boolean);
+  return names.length > 0 ? `: ${names.join(", ")}` : "";
 }
 
 function countPhrase(n: number, singular: string, plural?: string): string {

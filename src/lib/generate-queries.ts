@@ -6,6 +6,7 @@ import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
 import { buildCustomTheme, getTheme } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
+import { getThemeVariationPrompts } from "@/lib/theme-variations";
 import { buildGenerationPrompt } from "@/lib/prompts";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 import {
@@ -175,6 +176,7 @@ export async function startGeneration(
     subjects: effectiveRoster,
     locationReferencePath: parsed.locationReferencePath ?? null,
     variants: VARIANT_COUNT,
+    variationPrompts: getThemeVariationPrompts(theme.id, theme.category),
     modelId,
   }).catch(async (err) => {
     await markGenerationErrorAndRefundCredit(
@@ -372,8 +374,19 @@ async function retrySlot(
     variantIndex: slotIndex,
     totalVariants: totalSlots,
     aspectRatio: (generation.aspectRatio ?? "3:2") as AspectRatio,
+    variationPrompts: getRetryVariationPrompts(generation.themeId),
+    subjects,
     imageUrls,
   });
+}
+
+function getRetryVariationPrompts(themeId: string) {
+  try {
+    const theme = getTheme(themeId);
+    return getThemeVariationPrompts(theme.id, theme.category);
+  } catch {
+    return undefined;
+  }
 }
 
 /**
