@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Theme } from "@/lib/themes";
 import type { AspectRatio } from "@/lib/providers/types";
@@ -10,6 +10,13 @@ import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import CreditPackChooser from "@/components/billing/CreditPackChooser";
 import SubjectPicker from "./SubjectPicker";
+import CardArtStylePicker from "./CardArtStylePicker";
+import {
+  CARD_STYLE_SLOT_COUNT,
+  DEFAULT_CARD_ART_STYLE_ID,
+  type CardArtStyleId,
+  type CardSlotStyleSelection,
+} from "@/lib/card-art-styles";
 import {
   GENERATION_MODEL_IDS,
   MODEL_CATALOG,
@@ -72,6 +79,11 @@ export default function ThemeBoard({
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
   const [cardText, setCardText] = useState("");
+  const [cardDefaultStyleId, setCardDefaultStyleId] =
+    useState<CardArtStyleId>(DEFAULT_CARD_ART_STYLE_ID);
+  const [cardSlotStyleIds, setCardSlotStyleIds] = useState<CardSlotStyleSelection[]>(() =>
+    Array.from({ length: CARD_STYLE_SLOT_COUNT }, () => "default"),
+  );
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
 
@@ -92,6 +104,11 @@ export default function ThemeBoard({
     () => new Set(roster.map((m) => m.id)),
   );
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedCardId = outputMode === "card" ? searchParams.get("card") : null;
+  const selectedCardTheme = selectedCardId
+    ? (cards.find((theme) => theme.id === selectedCardId) ?? null)
+    : null;
 
   const selectedHasReference = roster.some((m) => selectedSubjectIds.has(m.id) && m.hasReference);
 
@@ -105,6 +122,11 @@ export default function ThemeBoard({
   };
   const selectAllSubjects = () => setSelectedSubjectIds(new Set(roster.map((m) => m.id)));
   const clearSubjects = () => setSelectedSubjectIds(new Set());
+  const setCardSlotStyle = (slotIndex: number, styleId: CardSlotStyleSelection) => {
+    setCardSlotStyleIds((prev) =>
+      prev.map((current, index) => (index === slotIndex ? styleId : current)),
+    );
+  };
 
   const buildSubjectIdsPayload = (): string[] | undefined => {
     if (roster.length === 0) return undefined;
@@ -140,7 +162,16 @@ export default function ThemeBoard({
       return;
     }
     setError(null);
+    if (outputMode === "card") {
+      router.push(`/studio/theme?output=card&card=${encodeURIComponent(theme.id)}`);
+      return;
+    }
     setPendingShoot({ kind: "theme", theme });
+  };
+
+  const backToCards = () => {
+    setError(null);
+    router.push("/studio/theme?output=card");
   };
 
   const launchCustom = () => {
@@ -177,6 +208,13 @@ export default function ThemeBoard({
             aspectOverride: explicitShape?.ratio ?? null,
             modelId: isAdmin ? modelId : undefined,
             subjectIds,
+            cardArtStyles:
+              outputMode === "card"
+                ? {
+                    defaultStyleId: cardDefaultStyleId,
+                    slotStyleIds: cardSlotStyleIds,
+                  }
+                : undefined,
           });
           router.push(`/studio/generate/${generationId}`);
         } catch (e) {
@@ -214,6 +252,45 @@ export default function ThemeBoard({
     });
   };
 
+  const beginCardShoot = () => {
+    if (!selectedCardTheme) return;
+    if (!hasCredits) {
+      setError("Choose a photo pack before starting a shoot.");
+      return;
+    }
+    if (roster.length > 0 && !selectedHasReference) {
+      setError("Select at least one person or pet with a reference photo to start the shoot.");
+      return;
+    }
+
+    const theme = selectedCardTheme;
+    setError(null);
+    setActiveTheme(theme);
+    setLaunchingCustom(false);
+    const subjectIds = buildSubjectIdsPayload();
+    start(async () => {
+      try {
+        const { generationId } = await postGenerate({
+          themeId: theme.id,
+          outputType: "card",
+          wardrobeNote: wardrobe.trim() || null,
+          cardText: theme.acceptsCardText ? cardText.trim() || null : null,
+          aspectOverride: explicitShape?.ratio ?? null,
+          modelId: isAdmin ? modelId : undefined,
+          subjectIds,
+          cardArtStyles: {
+            defaultStyleId: cardDefaultStyleId,
+            slotStyleIds: cardSlotStyleIds,
+          },
+        });
+        router.push(`/studio/generate/${generationId}`);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Couldn't start the card.");
+        setActiveTheme(null);
+      }
+    });
+  };
+
   async function postGenerate(body: unknown): Promise<{ generationId: string }> {
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -237,7 +314,11 @@ export default function ThemeBoard({
     const ratio = resolveRatio(themeRatio);
     const label = shapeOptions.find((o) => o.ratio === ratio)?.label ?? "Wide";
     const noun = outputMode === "card" ? "card designs" : "shots";
-    return `We'll create 4 ${label} (${ratio}) ${noun}. You can favorite, refine, or try another vibe after.`;
+    const styleNote =
+      outputMode === "card" && pendingShoot.kind === "theme"
+        ? " The selected card art style is added on top of the layout prompt."
+        : "";
+    return `We'll create 4 ${label} (${ratio}) ${noun}. You can favorite, regenerate, or try another vibe after.${styleNote}`;
   })();
 
   return (
@@ -423,7 +504,7 @@ export default function ThemeBoard({
       <AnimatePresence mode="wait" initial={false}>
         {outputMode === "card" || mode === "curated" ? (
           <motion.div
-            key="curated"
+            key={selectedCardTheme ? `card-${selectedCardTheme.id}` : "curated"}
             role="tabpanel"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -457,9 +538,128 @@ export default function ThemeBoard({
               </>
             )}
 
-            {outputMode === "card" && (
-              <section className="mt-12">
-                <div className="flex items-end justify-between flex-wrap gap-4">
+            {outputMode === "card" &&
+              (selectedCardTheme ? (
+                <section className="mt-12">
+                  <button type="button" onClick={backToCards} className="btn btn-ghost btn-sm">
+                    <svg
+                      className="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M19 12H5M11 18l-6-6 6-6" />
+                    </svg>
+                    Back to layouts
+                  </button>
+
+                  <div className="mt-6 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+                    <aside className="lg:sticky lg:top-8">
+                      <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]">
+                        <div className="relative aspect-[4/5] bg-[color:var(--color-bg-tinted-butter)]">
+                          <div
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${selectedCardTheme.coverImage})` }}
+                            aria-hidden
+                          />
+                          <div
+                            className="absolute inset-0 bg-gradient-to-t from-[color:rgba(31,26,36,0.66)] via-transparent to-transparent"
+                            aria-hidden
+                          />
+                          <div className="absolute inset-x-0 bottom-0 p-4">
+                            <span className="chip chip-butter shadow-[var(--shadow-sm)]">
+                              Selected layout
+                            </span>
+                            <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
+                              {selectedCardTheme.name}
+                            </h2>
+                          </div>
+                        </div>
+                        <p className="p-4 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                          {selectedCardTheme.blurb}
+                        </p>
+                      </div>
+                    </aside>
+
+                    <div className="min-w-0">
+                      <div>
+                        <label className="small-caps text-[color:var(--color-ink-muted)]">
+                          Greeting / card text
+                          <span className="ml-1 text-[0.7rem] normal-case tracking-normal opacity-70">
+                            (optional)
+                          </span>
+                        </label>
+                        <input
+                          value={cardText}
+                          onChange={(e) => setCardText(e.target.value)}
+                          placeholder={`e.g. "The Vitali Family - 2026"`}
+                          className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
+                        />
+                      </div>
+
+                      <div className="mt-8 border-t border-[color:var(--color-line)] pt-8">
+                        <CardArtStylePicker
+                          defaultStyleId={cardDefaultStyleId}
+                          slotStyleIds={cardSlotStyleIds}
+                          onDefaultStyleChange={setCardDefaultStyleId}
+                          onSlotStyleChange={setCardSlotStyle}
+                        />
+                      </div>
+
+                      {roster.length > 0 && (
+                        <div className="mt-8 border-t border-[color:var(--color-line)] pt-8">
+                          <SubjectPicker
+                            roster={roster}
+                            selectedIds={selectedSubjectIds}
+                            onToggle={toggleSubject}
+                            onSelectAll={selectAllSubjects}
+                            onClear={clearSubjects}
+                          />
+                        </div>
+                      )}
+
+                      <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[color:var(--color-line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-[color:var(--color-ink-muted)]">
+                          Creates 4 card designs. Each slot uses its selected style additively.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={beginCardShoot}
+                          disabled={
+                            pending || !hasCredits || (roster.length > 0 && !selectedHasReference)
+                          }
+                          className={`btn btn-lg ${
+                            hasCredits && selectedHasReference ? "btn-coral" : "btn-ghost"
+                          }`}
+                        >
+                          {!hasCredits
+                            ? "Add credits to begin"
+                            : pending && activeTheme?.id === selectedCardTheme.id
+                              ? "Setting up..."
+                              : "Generate card"}
+                          <svg
+                            className="h-4 w-4"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              ) : (
+                <section className="mt-12">
                   <div>
                     <span className="chip chip-butter">
                       <span className="dot dot-butter" />
@@ -473,96 +673,93 @@ export default function ThemeBoard({
                       .
                     </h2>
                   </div>
-                  <div className="w-full max-w-md">
-                    <label className="small-caps text-[color:var(--color-ink-muted)]">
-                      Greeting / card text
-                    </label>
-                    <input
-                      value={cardText}
-                      onChange={(e) => setCardText(e.target.value)}
-                      placeholder={`e.g. "The Vitali Family - 2026"`}
-                      className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
-                    />
-                  </div>
-                </div>
-                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {cards.slice(0, 6).map((t) => (
-                    <ThemeCard
-                      key={t.id}
-                      theme={t}
-                      disabled={pending || !hasCredits}
-                      disabledLabel={!hasCredits ? "Add credits first" : undefined}
-                      loading={activeTheme?.id === t.id && pending}
-                      onPick={() => launch(t)}
-                    />
-                  ))}
-                  <AnimatePresence initial={false}>
-                    {cardsExpanded &&
-                      cards.slice(6).map((t, i) => (
-                        <motion.div
-                          key={t.id}
-                          initial={{ opacity: 0, y: 14 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.4, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                          <ThemeCard
-                            theme={t}
-                            disabled={pending || !hasCredits}
-                            disabledLabel={!hasCredits ? "Add credits first" : undefined}
-                            loading={activeTheme?.id === t.id && pending}
-                            onPick={() => launch(t)}
-                          />
-                        </motion.div>
-                      ))}
-                  </AnimatePresence>
-                </div>
-                {cards.length > 6 && (
-                  <div className="mt-8 flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={() => setCardsExpanded((e) => !e)}
-                      className="btn btn-ghost btn-sm"
-                      aria-expanded={cardsExpanded}
-                    >
-                      {cardsExpanded ? (
-                        <>
-                          <svg
-                            className="h-3.5 w-3.5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden
+                  {selectedCardId && (
+                    <p className="mt-4 rounded-[var(--radius-md)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] px-4 py-3 text-sm text-[color:var(--color-coral-deep)]">
+                      That card layout is no longer available. Pick another layout below.
+                    </p>
+                  )}
+                  <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {cards.slice(0, 6).map((t) => (
+                      <ThemeCard
+                        key={t.id}
+                        theme={t}
+                        disabled={pending || !hasCredits}
+                        disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                        loading={activeTheme?.id === t.id && pending}
+                        onPick={() => launch(t)}
+                      />
+                    ))}
+                    <AnimatePresence initial={false}>
+                      {cardsExpanded &&
+                        cards.slice(6).map((t, i) => (
+                          <motion.div
+                            key={t.id}
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{
+                              duration: 0.4,
+                              delay: i * 0.025,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
                           >
-                            <path d="M18 15l-6-6-6 6" />
-                          </svg>
-                          Show fewer
-                        </>
-                      ) : (
-                        <>
-                          Show all {cards.length}
-                          <svg
-                            className="h-3.5 w-3.5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden
-                          >
-                            <path d="M6 9l6 6 6-6" />
-                          </svg>
-                        </>
-                      )}
-                    </button>
+                            <ThemeCard
+                              theme={t}
+                              disabled={pending || !hasCredits}
+                              disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                              loading={activeTheme?.id === t.id && pending}
+                              onPick={() => launch(t)}
+                            />
+                          </motion.div>
+                        ))}
+                    </AnimatePresence>
                   </div>
-                )}
-              </section>
-            )}
+                  {cards.length > 6 && (
+                    <div className="mt-8 flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setCardsExpanded((e) => !e)}
+                        className="btn btn-ghost btn-sm"
+                        aria-expanded={cardsExpanded}
+                      >
+                        {cardsExpanded ? (
+                          <>
+                            <svg
+                              className="h-3.5 w-3.5"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden
+                            >
+                              <path d="M18 15l-6-6-6 6" />
+                            </svg>
+                            Show fewer
+                          </>
+                        ) : (
+                          <>
+                            Show all {cards.length}
+                            <svg
+                              className="h-3.5 w-3.5"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden
+                            >
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </section>
+              ))}
           </motion.div>
         ) : (
           <motion.div

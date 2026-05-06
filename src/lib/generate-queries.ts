@@ -8,6 +8,15 @@ import { buildCustomTheme, getTheme } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import { getThemeVariationPrompts } from "@/lib/theme-variations";
 import { buildGenerationPrompt } from "@/lib/prompts";
+import {
+  CARD_ART_STYLE_IDS,
+  CARD_STYLE_SLOT_COUNT,
+  DEFAULT_CARD_ART_STYLE_ID,
+  buildCardArtStyleDirective,
+  getCardArtStyle,
+  resolveCardArtStyleSelections,
+  type CardArtStyleId,
+} from "@/lib/card-art-styles";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 import {
   buildReferenceUrls,
@@ -29,6 +38,8 @@ import { studioCutoffDate } from "@/lib/retention";
 import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
+const VARIANT_COUNT = 4;
+const MAX_RETRIES_PER_SLOT = 1;
 
 const CustomVibeSchema = z.object({
   description: z.string().trim().min(4).max(800),
@@ -37,6 +48,11 @@ const CustomVibeSchema = z.object({
 
 const ModelIdSchema = z.enum(GENERATION_MODEL_IDS as [GenerationModelId, ...GenerationModelId[]]);
 const OutputTypeSchema = z.enum(["photoshoot", "card"]);
+const CardArtStyleIdSchema = z.enum([...CARD_ART_STYLE_IDS] as [
+  CardArtStyleId,
+  ...CardArtStyleId[],
+]);
+const CardSlotStyleSchema = z.union([CardArtStyleIdSchema, z.literal("default")]);
 
 async function markGenerationErrorAndRefundCredit(generationId: string, errorMessage: string) {
   await db.transaction(async (tx) => {
@@ -66,11 +82,15 @@ const StartGenerationInput = z
     modelId: ModelIdSchema.optional(),
     /** Optional per-shoot roster filter. When omitted, the full roster is used. */
     subjectIds: z.array(z.string().min(1)).min(1).optional(),
+    /** Card-only art treatment: one default plus optional per-output overrides. */
+    cardArtStyles: z
+      .object({
+        defaultStyleId: CardArtStyleIdSchema.default(DEFAULT_CARD_ART_STYLE_ID),
+        slotStyleIds: z.array(CardSlotStyleSchema).length(CARD_STYLE_SLOT_COUNT).optional(),
+      })
+      .optional(),
   })
   .refine((v) => !!v.themeId || !!v.customVibe, "Pick a vibe or describe your own.");
-
-const VARIANT_COUNT = 4;
-const MAX_RETRIES_PER_SLOT = 1;
 
 function isMockMode() {
   return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
@@ -130,6 +150,17 @@ export async function startGeneration(
     parsed.wardrobeNote,
     parsed.cardText ?? null,
   );
+  const variationPrompts = buildLaunchVariationPrompts({
+    theme,
+    cardArtStyleIds:
+      outputType === "card"
+        ? resolveCardArtStyleSelections(
+            parsed.cardArtStyles?.defaultStyleId ?? DEFAULT_CARD_ART_STYLE_ID,
+            parsed.cardArtStyles?.slotStyleIds,
+            VARIANT_COUNT,
+          )
+        : null,
+  });
 
   const modelId = await resolveModelId(parsed.modelId, admin);
   if (!isAspectSupported(modelId, theme.aspectRatio)) {
@@ -176,7 +207,7 @@ export async function startGeneration(
     subjects: effectiveRoster,
     locationReferencePath: parsed.locationReferencePath ?? null,
     variants: VARIANT_COUNT,
-    variationPrompts: getThemeVariationPrompts(theme.id, theme.category),
+    variationPrompts,
     modelId,
   }).catch(async (err) => {
     await markGenerationErrorAndRefundCredit(
@@ -204,6 +235,50 @@ async function resolveModelId(
 ): Promise<GenerationModelId> {
   if (requested && admin) return requested;
   return getDefaultModel();
+}
+
+function buildLaunchVariationPrompts({
+  theme,
+  cardArtStyleIds,
+}: {
+  theme: Theme;
+  cardArtStyleIds: readonly CardArtStyleId[] | null;
+}): string[] {
+  const baseVariations = getThemeVariationPrompts(theme.id, theme.category);
+  if (!cardArtStyleIds) return [...baseVariations];
+
+  return Array.from({ length: VARIANT_COUNT }, (_, index) => {
+    const style = getCardArtStyle(cardArtStyleIds[index] ?? DEFAULT_CARD_ART_STYLE_ID);
+    return buildCardVariationPrompt({
+      slotIndex: index,
+      layoutPrompt: baseVariations[index % baseVariations.length],
+      styleDirective: buildCardArtStyleDirective(style),
+    });
+  });
+}
+
+function buildCardVariationPrompt({
+  slotIndex,
+  layoutPrompt,
+  styleDirective,
+}: {
+  slotIndex: number;
+  layoutPrompt: string;
+  styleDirective: string;
+}) {
+  const slotCommands = [
+    "Slot 1 composition: make a close portrait card. Subject occupies the lower-left or lower-center area, face prominent, greeting text in a large clean upper area.",
+    "Slot 2 composition: make a standing or walking card. Show more body and garden environment, different pose from slot 1, greeting text on the opposite side.",
+    "Slot 3 composition: make a seated or leaning card. Use bench, railing, doorway or foreground flowers as structure, different crop and prop placement from slots 1 and 2.",
+    "Slot 4 composition: make a wide environmental card. Subject is smaller in the lower third, more occasion setting is visible, large calm negative space for the greeting.",
+  ];
+
+  return [
+    slotCommands[slotIndex] ?? slotCommands[0],
+    `Theme-specific layout: ${layoutPrompt}`,
+    styleDirective,
+    "This slot must not reuse the same pose, crop, prop placement or subject scale as the other card slots.",
+  ].join(" ");
 }
 
 export async function getGenerationState(generationId: string, userId: string) {
@@ -314,8 +389,8 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
 
         if (result.status === "failed" || result.status === "canceled") {
           if (slot.retries < MAX_RETRIES_PER_SLOT) {
-            const newId = await retrySlot(generation, slotIndex, slots.length);
-            slots[slotIndex] = { id: newId, retries: slot.retries + 1 };
+            const newId = await retrySlot(generation, slotIndex, slots.length, slot);
+            slots[slotIndex] = { ...slot, id: newId, retries: slot.retries + 1 };
             mutatedSlots = true;
           } else {
             finalErrors.push(result.error);
@@ -360,6 +435,7 @@ async function retrySlot(
   generation: typeof schema.generations.$inferSelect,
   slotIndex: number,
   totalSlots: number,
+  slot: PredictionSlot,
 ): Promise<string> {
   const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
   const imageUrls = buildReferenceUrls(subjects, generation.locationReferencePath);
@@ -374,6 +450,7 @@ async function retrySlot(
     variantIndex: slotIndex,
     totalVariants: totalSlots,
     aspectRatio: (generation.aspectRatio ?? "3:2") as AspectRatio,
+    variationPrompt: slot.variationPrompt,
     variationPrompts: getRetryVariationPrompts(generation.themeId),
     subjects,
     imageUrls,
@@ -401,7 +478,14 @@ function parseSlots(raw: string | null): PredictionSlot[] {
     return parsed.flatMap((entry): PredictionSlot[] => {
       if (typeof entry === "string") return [{ id: entry, retries: 0 }];
       if (entry && typeof entry === "object" && typeof entry.id === "string") {
-        return [{ id: entry.id, retries: typeof entry.retries === "number" ? entry.retries : 0 }];
+        const slot: PredictionSlot = {
+          id: entry.id,
+          retries: typeof entry.retries === "number" ? entry.retries : 0,
+        };
+        if (typeof entry.variationPrompt === "string") {
+          slot.variationPrompt = entry.variationPrompt;
+        }
+        return [slot];
       }
       return [];
     });

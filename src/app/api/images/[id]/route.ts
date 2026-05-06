@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth-helpers";
-import { readStoredImage } from "@/lib/storage";
+import { deleteStoredImage, readStoredImage } from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
+import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
@@ -51,4 +53,52 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       "Cache-Control": "private, no-store",
     },
   });
+}
+
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+  const { id } = await params;
+
+  try {
+    const [row] = await db
+      .select({ image: schema.images, generation: schema.generations })
+      .from(schema.images)
+      .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+      .where(and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)))
+      .limit(1);
+
+    if (!row || row.generation.createdAt < studioCutoffDate()) {
+      return NextResponse.json({ error: "not found" }, { status: 404 });
+    }
+    if (row.image.parentImageId === null) {
+      return NextResponse.json(
+        { error: "Original takes cannot be deleted from this view." },
+        { status: 400 },
+      );
+    }
+
+    const key = `generations/${row.image.generationId}/${row.image.fileName}`;
+    await deleteStoredImage(key);
+
+    await db.transaction(async (tx) => {
+      await tx.delete(schema.albumImages).where(eq(schema.albumImages.imageId, row.image.id));
+      await tx
+        .delete(schema.refinementHistory)
+        .where(eq(schema.refinementHistory.resultImageId, row.image.id));
+      await tx.delete(schema.images).where(eq(schema.images.id, row.image.id));
+    });
+
+    const fallbackImageId = row.image.rootImageId ?? row.image.parentImageId ?? null;
+    revalidatePath(`/studio/generate/${row.generation.id}`);
+    revalidatePath("/studio/album");
+    if (fallbackImageId) revalidatePath(`/studio/refine/${fallbackImageId}`);
+
+    return NextResponse.json({ ok: true, fallbackImageId });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

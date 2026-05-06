@@ -693,7 +693,8 @@ export const THEMES: Theme[] = [
   {
     id: "superhero-family",
     name: "Superhero Family",
-    blurb: "Costumes, capes, the whole family on a rooftop at golden hour. Everyone gets a hero moment.",
+    blurb:
+      "Costumes, capes, the whole family on a rooftop at golden hour. Everyone gets a hero moment.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-superhero.jpg",
@@ -1007,7 +1008,7 @@ export const THEMES: Theme[] = [
     blurb: "A card-ready portrait with a thoughtful serif greeting laid into the image.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-christmas.jpg",
+    coverImage: "/samples/theme-card-christmas-photo.jpg",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
@@ -1126,8 +1127,8 @@ export const THEMES: Theme[] = [
   },
   {
     id: "card-birthday",
-    name: "Birthday Invitation",
-    blurb: "A playful card portrait for a kid's birthday — streamers, cake, candlelight.",
+    name: "Happy Birthday Card",
+    blurb: "A joyful birthday card with cake, streamers, warm candlelight and room for a greeting.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-birthday.jpg",
@@ -1135,13 +1136,13 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 2:3 warm birthday-invitation family portrait",
+      assetType: "A 2:3 warm happy-birthday card portrait",
       subjectAction:
-        "gathered around a lit birthday cake on a wooden table, the child closest leaning in to blow out the candles, everyone mid-laugh with warm anticipation",
+        "the selected cast gathered around or near a lit birthday cake, warm anticipation, joyful expressions, festive but not cluttered",
       location:
         "a cozy dining room with paper streamers and tissue pompoms in pastel colors, wooden table, gift wrap and party plates near the table's edge",
       camera:
-        "Fuji GFX medium format with a 63mm f/2.8, slightly low eye-level from across the table, composition with deliberate negative space upper-left for invitation text",
+        "Fuji GFX medium format with a 63mm f/2.8, slightly low eye-level from across the table, composition with deliberate negative space upper-left for birthday greeting text",
       lighting:
         "warm candlelight as the dominant source on faces, soft warm practical lamp fill from above, gentle highlight roll on the cake icing",
       style:
@@ -1295,10 +1296,35 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "card-anniversary",
+    name: "Happy Anniversary Card",
+    blurb:
+      "A romantic anniversary portrait with soft flowers, candlelight and elegant space for a message.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-save-the-date.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 romantic happy-anniversary card portrait",
+      subjectAction:
+        "the selected cast sharing a tender anniversary moment, close and affectionate, with a small bouquet or champagne-glass detail nearby, elegant and sincere",
+      location:
+        "a softly lit garden terrace or intimate dining nook with cream florals, candles, linen textures and warm evening ambience",
+      camera:
+        "Contax 645 medium format with 80mm f/2 Zeiss Planar, gentle chest-up composition, deliberate negative space upper-right for anniversary greeting text",
+      lighting:
+        "soft golden-hour or candlelit glow with warm rim light, gentle floral bounce and creamy highlight roll-off",
+      style:
+        "Kodak Portra 400 medium format, romantic cream-blush-gold palette, fine grain, elegant editorial-card finish",
+    },
+  },
+  {
     id: "card-mothers-day",
     name: "Mother's Day Card",
     blurb:
-      "A garden in full bloom, mother and children in soft pastels. Tender, airy, room for a sweet note.",
+      "A garden in full bloom, soft pastels and a tender airy portrait with room for a sweet note.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-card-mothers-day.jpg",
@@ -1308,7 +1334,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 tender Mother's-Day-card family portrait",
       subjectAction:
-        "mother seated on a garden bench with the children leaning in, one small hand passing a hand-tied bouquet of peonies, gentle laughter, in linen and cotton pastels",
+        "the selected cast posed tenderly in the spring garden, surrounded by peonies and soft blooms, gentle warmth, in linen and cotton pastels",
       location:
         "a sunlit spring garden in full bloom — peonies, ranunculus and roses in pinks and creams — a wisteria-draped trellis behind, dewy grass underfoot",
       camera:
@@ -1411,6 +1437,11 @@ export function themesByCategory() {
       "card-lunar-new-year",
       "card-eid",
       "card-dia-de-muertos",
+      "card-birthday",
+      "card-anniversary",
+      "card-save-the-date",
+      "card-mothers-day",
+      "card-fathers-day",
     ].map((id, index) => [id, index]),
   );
 

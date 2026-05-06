@@ -13,11 +13,13 @@ type OutputMode = "photoshoot" | "card";
 export default async function ThemePage({
   searchParams,
 }: {
-  searchParams: Promise<{ output?: string }>;
+  searchParams: Promise<{ output?: string; card?: string }>;
 }) {
-  const { output } = await searchParams;
+  const { output, card } = await searchParams;
   const outputMode: OutputMode = output === "card" ? "card" : "photoshoot";
   const themes = themesByCategory();
+  const selectedCard =
+    outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
   const status = providerStatusLabel();
   const user = await getCurrentUser();
   const [admin, defaultModel, creditBalance, rosterRows] = await Promise.all([
@@ -40,10 +42,18 @@ export default async function ThemePage({
       <div>
         <span className="chip chip-sage">
           <span className="dot dot-sage" />
-          Step 03 - Vibe
+          {selectedCard ? "Step 04 - Card style" : "Step 03 - Vibe"}
         </span>
         <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-          {outputMode === "card" ? (
+          {selectedCard ? (
+            <>
+              Finish{" "}
+              <em className="serif-italic text-[color:var(--color-sage-deep)]">
+                {selectedCard.name}
+              </em>
+              .
+            </>
+          ) : outputMode === "card" ? (
             <>
               Pick an occasion{" "}
               <em className="serif-italic text-[color:var(--color-sage-deep)]">layout</em>.
@@ -56,9 +66,11 @@ export default async function ThemePage({
           )}
         </h1>
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-          {outputMode === "card"
-            ? "Cards use occasion-ready compositions with space for optional greeting text."
-            : "Start from a curated look, or design your own. One shape picker, one wardrobe note - they apply to whichever vibe you launch."}
+          {selectedCard
+            ? "Choose the art treatment, optional greeting, and who appears before generating the four card designs."
+            : outputMode === "card"
+              ? "Cards use occasion-ready compositions with space for optional greeting text."
+              : "Start from a curated look, or design your own. One shape picker, one wardrobe note - they apply to whichever vibe you launch."}
         </p>
         <p className="mt-5 text-xs text-[color:var(--color-ink-faint)]">{status}</p>
       </div>

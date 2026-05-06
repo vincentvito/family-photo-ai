@@ -21,6 +21,7 @@ export type StartPredictionsArgs = {
 export type PredictionSlot = {
   id: string;
   retries: number;
+  variationPrompt?: string;
 };
 
 /**
@@ -39,22 +40,37 @@ export async function createGenerationPredictions(
   const variants = args.variants ?? 4;
   const imageUrls = buildReferenceUrls(args.subjects, args.locationReferencePath);
 
+  const slotInputs = Array.from({ length: variants }, (_, i) => ({
+    variationPrompt:
+      args.variationPrompts && args.variationPrompts.length > 0
+        ? args.variationPrompts[i % args.variationPrompts.length]
+        : undefined,
+  }));
+
   const ids = await Promise.all(
-    Array.from({ length: variants }, (_, i) =>
+    slotInputs.map((slot, i) =>
       createSinglePrediction({
         modelId: args.modelId,
         basePrompt: args.prompt,
         variantIndex: i,
         totalVariants: variants,
         aspectRatio: args.aspectRatio,
-        variationPrompts: args.variationPrompts,
+        variationPrompt: slot.variationPrompt,
         subjects: args.subjects,
         imageUrls,
       }),
     ),
   );
 
-  return { slots: ids.map((id) => ({ id, retries: 0 })) };
+  return {
+    slots: ids.map((id, index) => ({
+      id,
+      retries: 0,
+      ...(slotInputs[index].variationPrompt
+        ? { variationPrompt: slotInputs[index].variationPrompt }
+        : {}),
+    })),
+  };
 }
 
 /**
@@ -69,6 +85,7 @@ export async function createSinglePrediction(args: {
   variantIndex: number;
   totalVariants: number;
   aspectRatio: AspectRatio;
+  variationPrompt?: string;
   variationPrompts?: readonly string[];
   subjects: Subject[];
   imageUrls: string[];
@@ -80,6 +97,7 @@ export async function createSinglePrediction(args: {
     args.variantIndex,
     args.totalVariants,
     args.aspectRatio,
+    args.variationPrompt,
     args.variationPrompts,
     args.subjects,
   );
@@ -175,46 +193,49 @@ function buildVariantPrompt(
   variant: number,
   totalVariants: number,
   aspectRatio: AspectRatio,
+  variationPromptOverride?: string,
   variationPrompts?: readonly string[],
   subjects?: Subject[],
 ): string {
   const variationPrompt =
-    variationPrompts && variationPrompts.length > 0
+    variationPromptOverride ??
+    (variationPrompts && variationPrompts.length > 0
       ? variationPrompts[variant % variationPrompts.length]
-      : "Subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.";
+      : "Subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.");
 
   return [
     basePrompt,
     "",
-    "Art-director rails:",
+    "Final generation instructions:",
     buildCastRail(subjects),
-    "— Preserve every subject's identity faithfully from the attached reference photos: facial features, age, hair, skin tone; for pets, breed and markings.",
-    "— The selected cast must appear together in one coherent composition, interacting naturally, never stiffly posed; do not add any unselected cast members.",
-    "— Keep the result family-positive and omit smoking, cigarettes, cigars, vaping, ashtrays, lighters in use, smoke clouds, weapons or threatening menace.",
+    "- Preserve the selected subject identities from the attached reference photos.",
+    "- Do not add unselected people, duplicate subjects, background people, extra faces, pets or animals unless they are selected in the cast.",
     `— Output one high-resolution image at ${aspectRatio} aspect ratio. Return only the image.`,
     `— Variation ${variant + 1} of ${totalVariants}: ${variationPrompt}`,
-    "— The variation brief is authoritative for pose, seated-versus-standing state, handheld props, crop, camera distance, foreground detail and composition.",
-    "— Keep the base prompt authoritative for selected cast, identity, location type, named vibe, visual style, season or holiday, era, lighting quality, wardrobe logic, card-text requirements and overall mood.",
-    "— Do not repeat the same seated/standing state, handheld prop or framing from another variation unless the variation brief explicitly asks for it.",
-    subjects?.length === 1
-      ? "— Because this is a solo shoot, make the pose and prop choice visibly different from the other variations while keeping the same person and vibe."
-      : "— Because this is a group shoot, vary spacing, body angles and interaction patterns while keeping everyone visible.",
-    "— Make this feel like one image from a premium four-photo proof set: distinct from the other slots without changing the shoot concept.",
-  ].join("\n");
+    "- The variation composition is mandatory: follow its pose, seated-or-standing state, crop, subject scale, prop placement, foreground detail and text-space placement.",
+    "- If a card art style is specified, apply that style to the entire card including the selected subject, face, skin, hair, clothes, background, foreground and greeting area.",
+    "- Preserve the card greeting text requirements exactly.",
+  ].join("\n").replace(/—|â€”/g, "-");
 }
 
 function buildCastRail(subjects?: Subject[]): string {
   if (!subjects || subjects.length === 0) {
-    return "— Cast lock: use only the named subjects from the base prompt; no extras, duplicates or background people.";
+    return "- Cast lock: use only the named subjects from the base prompt; no extras, duplicates or background people.";
   }
 
   const humans = subjects.filter((subject) => subject.role !== "pet");
   const pets = subjects.filter((subject) => subject.role === "pet");
-  const humanNames = humans.map((subject) => subject.name).filter(Boolean).join(", ");
-  const petNames = pets.map((subject) => subject.name).filter(Boolean).join(", ");
+  const humanNames = humans
+    .map((subject) => subject.name)
+    .filter(Boolean)
+    .join(", ");
+  const petNames = pets
+    .map((subject) => subject.name)
+    .filter(Boolean)
+    .join(", ");
 
   return [
-    `— Cast lock: exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames ? ` (${humanNames})` : ""}; exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames ? ` (${petNames})` : ""}.`,
+    `- Cast lock: exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames ? ` (${humanNames})` : ""}; exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames ? ` (${petNames})` : ""}.`,
     subjects.length === 1
       ? "This is a solo portrait; reinterpret words like family, everyone, each, all or together as the single selected subject only."
       : "This is a closed group portrait containing only the selected cast.",

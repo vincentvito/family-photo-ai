@@ -50,11 +50,12 @@ export default function GenerationBoard({
   const [lightboxImageId, setLightboxImageId] = useState<string | null>(null);
   const prevCount = useRef(initialState?.images.length ?? 0);
 
-  const openRefine = useCallback(
+  const openRegenerate = useCallback(
     (imageId: string) => router.push(`/studio/refine/${imageId}`),
     [router],
   );
   const openLightbox = useCallback((imageId: string) => setLightboxImageId(imageId), []);
+  const closeLightbox = useCallback(() => setLightboxImageId(null), []);
 
   // Narrow deps: full `state` would tear down the interval on every poll. Only
   // status and image count drive whether we should still be polling.
@@ -132,7 +133,7 @@ export default function GenerationBoard({
                   <ImageTile
                     imageId={img.id}
                     isFavorite={img.isFavorite}
-                    onRefineClick={openRefine}
+                    onRegenerateClick={openRegenerate}
                     onOpenLightbox={openLightbox}
                   />
                 </motion.div>
@@ -215,7 +216,7 @@ export default function GenerationBoard({
         </div>
       </div>
 
-      <ImageLightbox imageId={lightboxImageId} onClose={() => setLightboxImageId(null)} />
+      <ImageLightbox imageId={lightboxImageId} onClose={closeLightbox} />
     </div>
   );
 }
@@ -223,12 +224,12 @@ export default function GenerationBoard({
 const ImageTile = memo(function ImageTile({
   imageId,
   isFavorite,
-  onRefineClick,
+  onRegenerateClick,
   onOpenLightbox,
 }: {
   imageId: string;
   isFavorite: boolean;
-  onRefineClick: (imageId: string) => void;
+  onRegenerateClick: (imageId: string) => void;
   onOpenLightbox: (imageId: string) => void;
 }) {
   const [fav, setFav] = useState(isFavorite);
@@ -274,21 +275,24 @@ const ImageTile = memo(function ImageTile({
       <div className="tile-action-overlay pointer-events-none absolute inset-0 z-10 flex items-end justify-start bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 transition-opacity">
         <button
           type="button"
-          onClick={() => onRefineClick(imageId)}
+          onClick={() => onRegenerateClick(imageId)}
           className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
         >
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.2"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="h-3.5 w-3.5"
           >
-            <path d="M3 21l3-1 11-11-2-2L4 18l-1 3zM14 7l3 3" />
+            <path d="M21 12a9 9 0 0 1-15.2 6.5" />
+            <path d="M3 12A9 9 0 0 1 18.2 5.5" />
+            <path d="M18 2v4h-4" />
+            <path d="M6 22v-4h4" />
           </svg>
-          Refine
+          Regenerate
         </button>
       </div>
 
@@ -307,7 +311,7 @@ const ImageTile = memo(function ImageTile({
         whileTap={{ scale: 0.85 }}
         whileHover={{ scale: 1.06 }}
         aria-pressed={fav}
-        aria-label={fav ? "Remove from album" : "Add to album"}
+        aria-label={fav ? "Remove from favorites" : "Love this image"}
       >
         <HeartIcon filled={fav} />
       </motion.button>
@@ -381,21 +385,44 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
               decoding="async"
               className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
             />
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
-              aria-label="Close preview"
-            >
-              <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden>
-                <path
-                  d="M2 2L12 12M12 2L2 12"
+            <div className="absolute right-3 top-3 flex gap-2">
+              <a
+                href={`/api/images/${imageId}`}
+                download={`family-photo-${imageId}.jpg`}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+                aria-label="Download portrait"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2.2"
                   strokeLinecap="round"
-                />
-              </svg>
-            </button>
+                  strokeLinejoin="round"
+                  className="h-3.5 w-3.5"
+                  aria-hidden
+                >
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+              </a>
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+                aria-label="Close preview"
+              >
+                <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden>
+                  <path
+                    d="M2 2L12 12M12 2L2 12"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       )}

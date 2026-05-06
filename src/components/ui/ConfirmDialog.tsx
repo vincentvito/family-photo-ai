@@ -97,7 +97,7 @@ export default function ConfirmDialog({
             exit={{ opacity: 0 }}
           />
           <motion.div
-            className="relative w-full max-w-md rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]"
+            className="relative max-h-[min(90vh,820px)] w-full max-w-md overflow-y-auto rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]"
             initial={{ y: 16, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 10, opacity: 0, scale: 0.98 }}

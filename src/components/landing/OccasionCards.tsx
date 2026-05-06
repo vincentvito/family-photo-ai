@@ -14,6 +14,8 @@ const OCCASION_IDS = [
   "card-eid",
   "card-dia-de-muertos",
   "card-new-years",
+  "card-birthday",
+  "card-anniversary",
   "card-mothers-day",
 ];
 

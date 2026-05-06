@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 type Item = {
   image: {
@@ -32,18 +33,19 @@ export default function AlbumGrid({ items }: { items: Item[] }) {
 
 function AlbumTile({ item }: { item: Item }) {
   const [open, setOpen] = useState(false);
+  const [removeOpen, setRemoveOpen] = useState(false);
   const [removing, start] = useTransition();
   const router = useRouter();
   const chip = chipFor(item.generation.themeId);
 
   const remove = () => {
-    if (!confirm("Remove from album?")) return;
     start(async () => {
       await fetch("/api/album/favorite", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ imageId: item.image.id }),
       });
+      setRemoveOpen(false);
       setOpen(false);
       router.refresh();
     });
@@ -140,27 +142,27 @@ function AlbumTile({ item }: { item: Item }) {
                 />
                 <ExportRow
                   imageId={item.image.id}
-                  label="8×10 print"
-                  sub="2400 × 3000 px · 300 dpi"
+                  label="8x10 print"
+                  sub="2400 x 3000 px - 300 dpi"
                   query="?target=8x10"
                   basePath="/api/upscale"
                 />
                 <ExportRow
                   imageId={item.image.id}
-                  label="16×20 print"
-                  sub="4800 × 6000 px · 300 dpi"
+                  label="16x20 print"
+                  sub="4800 x 6000 px - 300 dpi"
                   query="?target=16x20"
                   basePath="/api/upscale"
                 />
               </ul>
 
-              <div className="mt-6 flex items-center justify-between gap-3 pt-5 border-t border-[color:var(--color-line)]">
+              <div className="mt-6 flex items-center justify-between gap-3 border-t border-[color:var(--color-line)] pt-5">
                 <button
-                  onClick={remove}
+                  onClick={() => setRemoveOpen(true)}
                   disabled={removing}
                   className="text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-coral-deep)]"
                 >
-                  {removing ? "Removing…" : "Remove from album"}
+                  {removing ? "Removing..." : "Remove from favorites"}
                 </button>
                 <button onClick={() => setOpen(false)} className="btn btn-ghost btn-sm">
                   Close
@@ -170,6 +172,20 @@ function AlbumTile({ item }: { item: Item }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ConfirmDialog
+        open={removeOpen}
+        title="Remove from favorites?"
+        description="This only removes the image from your favorites. The generated image stays in the shoot."
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        tone="danger"
+        pending={removing}
+        onConfirm={remove}
+        onCancel={() => {
+          if (!removing) setRemoveOpen(false);
+        }}
+      />
     </>
   );
 }

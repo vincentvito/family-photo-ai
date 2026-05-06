@@ -15,7 +15,7 @@ const tiers = [
     features: [
       "One finished photo or card",
       "Four starting variations",
-      "2 refines per shoot",
+      "2 regenerations per shoot",
       "Print-ready download",
     ],
     highlight: false,
@@ -28,7 +28,7 @@ const tiers = [
     features: [
       "Three finished photos or cards",
       "Mix portraits and occasion cards",
-      "4 refines per shoot",
+      "4 regenerations per shoot",
       "Digital album + print-ready files",
     ],
     highlight: true,
@@ -41,7 +41,7 @@ const tiers = [
     features: [
       "Eight finished photos or cards",
       "Great for gifts, seasons and siblings",
-      "6 refines per shoot",
+      "6 regenerations per shoot",
       "Album export for the full set",
     ],
     highlight: false,

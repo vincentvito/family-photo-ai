@@ -47,7 +47,7 @@ export function buildGenerationPrompt(
     sentences.push(buildCardTextDirective(cardText.trim()));
   }
 
-  return sentences.join(" ");
+  return sentences.join(" ").replace(/—/g, "-");
 }
 
 /** Framework part 7 — explicit text directive, used for card themes. */

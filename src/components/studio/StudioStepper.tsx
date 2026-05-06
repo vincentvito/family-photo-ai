@@ -41,7 +41,7 @@ const steps: {
   },
   {
     id: "refine",
-    label: "Refine",
+    label: "Regenerate",
     href: "/studio/album",
     matches: /^\/studio\/refine/,
     color: "plum",
