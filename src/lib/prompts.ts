@@ -18,6 +18,7 @@ export function buildGenerationPrompt(
 ): string {
   const { spec } = theme;
   const familyClause = describeFamily(subjects);
+  const hasPets = subjects.some((subject) => subject.role === "pet");
 
   const sentences: string[] = [
     // Part 1
@@ -30,6 +31,9 @@ export function buildGenerationPrompt(
     `${spec.lighting}.`,
     // Part 6
     `${spec.style}.`,
+    hasPets
+      ? "Include only the selected pet subjects listed in the family roster; do not invent additional animals or background pets."
+      : "No pets or animals should appear anywhere in the image; include only the selected human family members.",
     FAMILY_POSITIVE_DIRECTIVE + ".",
   ];
 
@@ -58,7 +62,7 @@ export function buildCardTextDirective(cardText: string): string {
 
 /**
  * Produce a natural noun phrase describing the family, suitable to start a
- * sentence — e.g. "A family of two adults, one child and a dog (Elena,
+ * sentence — e.g. "A family of two adults, one child and one pet (Elena,
  * Matteo, Luca, Biscotto) together". The phrase is designed to weave directly
  * into the spec's subjectAction ("gathered close…", "walking toward the
  * tide…") without awkward glue.

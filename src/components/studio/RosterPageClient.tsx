@@ -53,7 +53,7 @@ export default function RosterPageClient({ initialRoster }: { initialRoster: Ros
         <AddPersonDialog onChanged={loadRoster} />
       </div>
 
-      <div className="mt-12">
+      <div className="mt-8">
         {error ? (
           <div className="panel-coral px-8 py-12 text-center">
             <p className="text-sm font-semibold text-[color:var(--color-coral-deep)]">{error}</p>
@@ -68,7 +68,7 @@ export default function RosterPageClient({ initialRoster }: { initialRoster: Ros
         )}
       </div>
 
-      <div className="mt-16 flex flex-col items-center gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-6 text-center shadow-[var(--shadow-sm)]">
+      <div className="mt-10 flex flex-col items-center gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-6 text-center shadow-[var(--shadow-sm)]">
         <p className="text-sm text-[color:var(--color-ink-muted)]">
           {roster.length === 0
             ? "Add at least one person to continue."

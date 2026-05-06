@@ -619,12 +619,12 @@ export default function ThemeBoard({
                   </p>
                   <div className="mt-3">
                     {locationPreview ? (
-                      <div className="warm-noise relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]">
+                      <div className="warm-noise relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] bg-[color:var(--color-bg-tinted-butter)] shadow-[var(--shadow-md)]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={locationPreview}
                           alt="Location reference"
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-contain"
                         />
                         <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
                           <button

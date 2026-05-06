@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Person } from "@/../db/schema";
@@ -27,17 +27,6 @@ export default function EditPersonDialog({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-
-  // Reset state whenever the dialog opens for a (possibly different) person
-  useEffect(() => {
-    if (!open) return;
-    setName(person.name);
-    setRole(person.role as Role);
-    setNotes(person.notes ?? "");
-    setPhotoFile(null);
-    setPhotoPreview(null);
-    setError(null);
-  }, [open, person]);
 
   const pickFile = (file: File) => {
     setPhotoFile(file);
@@ -189,12 +178,12 @@ export default function EditPersonDialog({
                 </label>
                 <div className="mt-3 flex items-center gap-3">
                   {photoPreview ? (
-                    <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)]">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={photoPreview}
                         alt="New reference preview"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain"
                       />
                     </div>
                   ) : (

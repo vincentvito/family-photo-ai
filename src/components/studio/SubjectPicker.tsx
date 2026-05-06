@@ -25,7 +25,7 @@ export default function SubjectPicker({
     <div>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium uppercase tracking-[0.08em] text-[color:var(--color-ink-faint)]">
-          Who's in this shoot
+          Who&apos;s in this shoot
         </p>
         <div className="flex items-center gap-3 text-xs">
           <button
@@ -67,7 +67,7 @@ export default function SubjectPicker({
                 className={`group flex w-[68px] flex-col items-center gap-1.5 rounded-[var(--radius-md)] p-1 outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--color-coral-deep)]`}
               >
                 <span
-                  className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[color:var(--color-bg-tinted-butter)] text-sm font-semibold text-[color:var(--color-ink-muted)] ring-2 transition ${
+                  className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[var(--radius-sm)] bg-[color:var(--color-bg-tinted-butter)] text-sm font-semibold text-[color:var(--color-ink-muted)] ring-2 transition ${
                     selected
                       ? "ring-[color:var(--color-coral-deep)]"
                       : "opacity-50 ring-transparent group-hover:opacity-80"
@@ -78,7 +78,7 @@ export default function SubjectPicker({
                     <img
                       src={`/api/images/${member.photoId}?thumb=240`}
                       alt={member.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain"
                     />
                   ) : (
                     <span aria-hidden>{initials || "?"}</span>

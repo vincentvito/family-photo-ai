@@ -132,7 +132,7 @@ export const THEMES: Theme[] = [
       assetType:
         "A 1:1 square vintage instant-film snapshot with a distinctive thick white paper border on the bottom",
       subjectAction:
-        "squeezed close on a living-room couch for a snapshot, imperfect expressions, one person blinking, the family dog squirming — captured in a single Polaroid frame",
+        "squeezed close on a living-room couch for a snapshot, imperfect expressions, one person blinking, one candid bit of motion — captured in a single Polaroid frame",
       location:
         "a late-1970s home interior with period-correct wood paneling, earthtone carpet, a macramé wall hanging and a pendant lamp",
       camera:
@@ -249,7 +249,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 candid tender color photograph",
       subjectAction:
-        "clustered on the floor and couch in mismatched flannel pajamas, holding mugs of cocoa, mid-laugh over a just-opened present, a dog worming into the frame",
+        "clustered on the floor and couch in mismatched flannel pajamas, holding mugs of cocoa, mid-laugh over a just-opened present, loose wrapping paper sliding into the frame",
       location:
         "a lived-in living room on Christmas morning, a decorated tree glowing with warm string lights behind, scattered ribbon and paper on the rug, a stocking on the mantel",
       camera:
@@ -439,7 +439,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 bright family lifestyle photograph",
       subjectAction:
-        "seated on a plaid picnic blanket, passing strawberries and lemonade, a child reaching across the blanket mid-laugh, the family pet lounging at the edge",
+        "seated on a plaid picnic blanket, passing strawberries and lemonade, a child reaching across the blanket mid-laugh, picnic details gathered at the edge",
       location:
         "a lived-in suburban backyard in late spring, leafy shade tree overhead, wooden fence, raised garden beds and soft flowers in the background",
       camera:
@@ -693,7 +693,7 @@ export const THEMES: Theme[] = [
   {
     id: "superhero-family",
     name: "Superhero Family",
-    blurb: "Costumes, capes, the whole family on a rooftop at golden hour. The dog has a cape too.",
+    blurb: "Costumes, capes, the whole family on a rooftop at golden hour. Everyone gets a hero moment.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-superhero.jpg",
@@ -702,7 +702,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 blockbuster superhero movie promotional still",
       subjectAction:
-        "arranged in a confident hero group pose, capes billowing in wind, each subject with a distinct coordinated costume, a pet in a matching tiny cape at the front",
+        "arranged in a confident hero group pose, capes billowing in wind, each subject with a distinct coordinated costume and heroic stance",
       location:
         "a city rooftop at golden hour, sweeping skyline behind with distant skyscrapers catching the sun, antennas and water tanks, low wind kicking up dust",
       camera:
@@ -727,7 +727,7 @@ export const THEMES: Theme[] = [
       subjectAction:
         "the family sitting around a kitchen table mid-breakfast, cereal flying, wide open-mouth laughter, exaggerated gestures",
       location:
-        "a sunny 1990s cartoon kitchen with a yellow fridge, gingham curtains, a cereal box on the table, a dog under the chair",
+        "a sunny 1990s cartoon kitchen with a yellow fridge, gingham curtains, a cereal box on the table, chairs slightly askew",
       camera:
         "flat head-on cartoon framing with a slight tilt-down, characters occupying the full width, broad cartoon proportions",
       lighting:
@@ -796,7 +796,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 1990s Springfield-style prime-time animated cel",
       subjectAction:
-        "the family seated on a living-room couch in a broadcast couch-gag pose, exaggerated simplified features, open-mouthed grins, a dog tumbling in from one side",
+        "the family seated on a living-room couch in a broadcast couch-gag pose, exaggerated simplified features, open-mouthed grins, cushions tumbling in from one side",
       location:
         "a Springfield-ish living room with a floor lamp, a cheap framed painting on the wall, a patterned rug and a television out of frame",
       camera:
@@ -820,7 +820,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 1:1 photoreal CGI render of plastic toy-brick minifigures",
       subjectAction:
-        "a family group of minifigures standing together on a brick base, cylindrical hair pieces, C-shaped hands, tiny printed smiles, a tiny minifigure-scale dog beside them",
+        "a family group of minifigures standing together on a brick base, cylindrical hair pieces, C-shaped hands, tiny printed smiles, tiny minifigure-scale accessories beside them",
       location:
         "a brick-built domestic set — a miniature porch, a little tree, a picket fence — assembled from visible studded toy bricks, a smooth brick floor",
       camera:
@@ -843,7 +843,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 hand-painted watercolor children's storybook illustration",
       subjectAction:
-        "the family walking hand-in-hand through a whimsical garden, one pointing at a lantern tree, a small dog trotting alongside, softened painterly proportions",
+        "the family walking hand-in-hand through a whimsical garden, one pointing at a lantern tree, softened painterly proportions",
       location:
         "a magical garden at dusk with paper-lantern-like flowers, tall wildflowers, a curving cobbled path and a distant cottage with warm lit windows",
       camera:
@@ -859,7 +859,7 @@ export const THEMES: Theme[] = [
     id: "spirited-away",
     name: "Spirited Away",
     blurb:
-      "A bridge in a lantern-lit bath-house town. Steam rising, paper lanterns warm, a small spirit beside the family.",
+      "A bridge in a lantern-lit bath-house town. Steam rising, paper lanterns warm, wonder gathered around the family.",
     category: "stylized",
     provider: "nanobanana",
     coverImage: "/samples/theme-spirited-away.jpg",
@@ -868,7 +868,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 hand-painted Studio-Ghibli illustration in the Spirited-Away tradition",
       subjectAction:
-        "the family standing together on an ornate wooden bridge, gentle awe on each face, one reaching out toward a paper lantern drifting upward, a small soft spirit-creature trotting alongside",
+        "the family standing together on an ornate wooden bridge, gentle awe on each face, one reaching out toward a paper lantern drifting upward",
       location:
         "a mystical bath-house town at twilight, glowing red paper lanterns lining the eaves, soft steam rising from a bath-house entrance, distant train tracks running across still water, indigo dusk above",
       camera:
@@ -892,7 +892,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 South-Park-style construction-paper cutout animation cel",
       subjectAction:
-        "the family lined up along a snowy sidewalk in basic chunky winter coats and beanies, ovoid bodies, perfectly round white eyes with tiny black pupils, mouths slightly open mid-sentence, a small cutout family pet beside them",
+        "the family lined up along a snowy sidewalk in basic chunky winter coats and beanies, ovoid bodies, perfectly round white eyes with tiny black pupils, mouths slightly open mid-sentence",
       location:
         "a small Colorado mountain-town main street under flat snowfall, simple flat A-frame houses with smoke chimneys, a yellow school bus parked in the background, a wooden 'Welcome' sign",
       camera:
@@ -916,7 +916,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 in-game render in the style of The Sims 4",
       subjectAction:
-        "the family in a Sims living room, each with a glowing green plumbob floating just above their head, faces in mid-Sim animation — slightly smiling, gesturing with stiff Sim hands, a Sim pet animated beside them",
+        "the family in a Sims living room, each with a glowing green plumbob floating just above their head, faces in mid-Sim animation — slightly smiling, gesturing with stiff Sim hands",
       location:
         "a customized Sims build interior — modern furniture, a fireplace with a framed family painting above it, a window looking out onto a Sims neighborhood, a fully-furnished kitchen visible through an arch",
       camera:
@@ -964,7 +964,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 in-game render in the style of Minecraft",
       subjectAction:
-        "the family rendered as voxel Minecraft characters with blocky cubic arms and legs, square pixel-grid faces, simple recognizable hair colors, each holding a different signature Minecraft item — a torch, a pickaxe, a flower, a bucket — a small voxel pet ocelot or wolf at their feet",
+        "the family rendered as voxel Minecraft characters with blocky cubic arms and legs, square pixel-grid faces, simple recognizable hair colors, each holding a different signature Minecraft item — a torch, a pickaxe, a flower, a bucket",
       location:
         "a sunlit Minecraft overworld biome — a grassy plains hill with cubic oak trees, a small player-built cobblestone-and-oak house in the background, a creeper peeking from behind a tree, a few floating voxel clouds in a light-blue sky",
       camera:
@@ -988,7 +988,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 3:2 stop-motion claymation frame in the Aardman tradition",
       subjectAction:
-        "the family rendered as plasticine claymation characters with visible thumbprint texture across faces and clothing, oversized teeth and warm grins, expressive over-arched eyebrows, mid-gesture holding fresh teacups, a small clay pet at their feet",
+        "the family rendered as plasticine claymation characters with visible thumbprint texture across faces and clothing, oversized teeth and warm grins, expressive over-arched eyebrows, mid-gesture holding fresh teacups",
       location:
         "a cozy English cottage interior with sloped wooden ceilings, a copper kettle steaming on a vintage stove, a tiny model train running along a shelf, comically detailed clutter on every surface",
       camera:
@@ -1014,7 +1014,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 holiday-card family portrait",
       subjectAction:
-        "gathered in the doorway and on the front step, smiling warmly toward the camera, in coordinated-not-matching wool and flannel, a dog at their feet",
+        "gathered in the doorway and on the front step, smiling warmly toward the camera, in coordinated-not-matching wool and flannel, with only the selected family members present",
       location:
         "a snow-dusted front porch of a traditional home, a lit wreath on the door behind the family, warm interior glow through the glass, pines dusted with snow",
       camera:
@@ -1040,7 +1040,7 @@ export const THEMES: Theme[] = [
       subjectAction:
         "the family walking through a tulip garden, one child holding a small woven basket, in linen and cotton pastels, gentle smiles",
       location:
-        "a dogwood-blossom and tulip garden at early morning, white picket fence behind, a wooden bench just visible, bright pastel ground carpet",
+        "a flowering-tree and tulip garden at early morning, white picket fence behind, a wooden bench just visible, bright pastel ground carpet",
       camera:
         "Contax 645 medium format with 80mm f/2, waist-up composition with deliberate negative space low-right for a greeting",
       lighting:
@@ -1139,7 +1139,7 @@ export const THEMES: Theme[] = [
       subjectAction:
         "gathered around a lit birthday cake on a wooden table, the child closest leaning in to blow out the candles, everyone mid-laugh with warm anticipation",
       location:
-        "a cozy dining room with paper streamers and tissue pompoms in pastel colors, wooden table, a dog sitting up at the table's edge",
+        "a cozy dining room with paper streamers and tissue pompoms in pastel colors, wooden table, gift wrap and party plates near the table's edge",
       camera:
         "Fuji GFX medium format with a 63mm f/2.8, slightly low eye-level from across the table, composition with deliberate negative space upper-left for invitation text",
       lighting:
@@ -1162,7 +1162,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 warm Halloween-card family portrait",
       subjectAction:
-        "lined up on the porch steps in coordinated not-scary costumes — a little witch, a small vampire, a gentle ghost, the dog as a pumpkin — playful smiles",
+        "lined up on the porch steps in coordinated not-scary costumes — a little witch, a small vampire, a gentle ghost — playful smiles",
       location:
         "a wooden porch at dusk with carved jack-o'-lanterns lining the steps, wisps of low ground fog, a wreath of dry wheat on the door",
       camera:
@@ -1332,7 +1332,7 @@ export const THEMES: Theme[] = [
     spec: {
       assetType: "A 2:3 warm Father's-Day-card family portrait",
       subjectAction:
-        "father in mid-action with the children — tossing a baseball, lifting a small one onto his shoulders, mid-laugh together, in chambray, denim and earth tones, the family pet trotting alongside",
+        "father in mid-action with the children — tossing a baseball, lifting a small one onto his shoulders, mid-laugh together, in chambray, denim and earth tones",
       location:
         "a sunlit suburban backyard at late afternoon, a wooden fence and a leaning bicycle in the background, oak tree casting dappled light",
       camera:

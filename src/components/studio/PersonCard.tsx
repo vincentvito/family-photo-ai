@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import type { Person, Photo } from "@/../db/schema";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
@@ -39,6 +40,8 @@ export default function PersonCard({
 
   const [removePersonOpen, setRemovePersonOpen] = useState(false);
   const [photoToRemove, setPhotoToRemove] = useState<Photo | null>(null);
+  const [lightboxPhoto, setLightboxPhoto] = useState<Photo | null>(null);
+  const closeLightbox = useCallback(() => setLightboxPhoto(null), []);
   const [editOpen, setEditOpen] = useState(false);
   const photo = photos[0] ?? null;
 
@@ -88,47 +91,41 @@ export default function PersonCard({
       className="card overflow-hidden"
       whileHover={{ y: -3, transition: { type: "spring", stiffness: 320, damping: 22 } }}
     >
-      <div className="px-5 pb-3 pt-5">
+      <div className="px-4 pb-2.5 pt-4">
         <div className="flex items-center gap-2">
           <span className={`dot ${color.dot}`} aria-hidden />
-          <p className="serif text-2xl leading-none tracking-[-0.02em] truncate">{person.name}</p>
+          <p className="serif truncate text-xl leading-none tracking-[-0.02em]">{person.name}</p>
         </div>
-        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <span className={`chip ${color.chip}`}>{person.role}</span>
           {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
         </div>
       </div>
 
-      <div className="px-5 pt-3">
+      <div className="px-4 pt-2">
         {photo ? (
-          <div
+          <button
+            type="button"
             key={photo.id}
-            className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line)]"
+            onClick={() => setLightboxPhoto(photo)}
+            className="group relative aspect-[3/2] w-full overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-butter)]"
+            aria-label={`Preview ${person.name} reference photo`}
           >
             <Image
               src={`/api/images/${photo.id}?thumb=240`}
               alt={`${person.name} reference`}
               fill
               sizes="120px"
-              className="object-cover"
+              className="object-contain"
               unoptimized
             />
-            <button
-              onClick={() => setPhotoToRemove(photo)}
-              className="absolute inset-0 flex items-center justify-center bg-[color:rgba(31,26,36,0.65)] opacity-0 backdrop-blur-[2px] transition-opacity hover:opacity-100"
-              aria-label="Remove photo"
-            >
-              <span className="chip chip-ghost !bg-white/85 !text-[color:var(--color-ink)]">
-                Remove
-              </span>
-            </button>
-          </div>
+          </button>
         ) : (
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="spring-press flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-[var(--radius-sm)] border-2 border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-muted)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
+            className="spring-press flex aspect-[3/2] w-full flex-col items-center justify-center gap-2 rounded-[var(--radius-sm)] border-2 border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-muted)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
             aria-label="Add reference photo"
           >
             <svg
@@ -142,7 +139,7 @@ export default function PersonCard({
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
-            <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+            <span className="text-center text-xs font-semibold uppercase tracking-[0.12em]">
               Add reference photo
             </span>
           </button>
@@ -161,7 +158,7 @@ export default function PersonCard({
         }}
       />
 
-      <div className="px-5 pb-5 pt-4">
+      <div className="px-4 pb-4 pt-4">
         {uploading && (
           <p className="flex items-center gap-2 text-xs text-[color:var(--color-ink-muted)]">
             <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[color:var(--color-coral)]" />
@@ -174,11 +171,9 @@ export default function PersonCard({
             Add one clear, well-lit face photo.
           </p>
         )}
-        {!uploading && !error && photo && (
-          <p className="text-xs text-[color:var(--color-ink-muted)]">Reference photo ready.</p>
-        )}
-
-        <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+        <div
+          className={`${!uploading && !error && photo ? "" : "mt-3"} flex items-center justify-end gap-2`}
+        >
           <button
             type="button"
             onClick={() => setEditOpen(true)}
@@ -233,12 +228,70 @@ export default function PersonCard({
         onCancel={() => setPhotoToRemove(null)}
       />
       <EditPersonDialog
+        key={`${person.id}-${editOpen ? "open" : "closed"}`}
         person={person}
         open={editOpen}
         onClose={() => setEditOpen(false)}
         onChanged={onChanged}
       />
+      <ReferencePhotoLightbox
+        photo={lightboxPhoto}
+        name={person.name}
+        onClose={closeLightbox}
+      />
     </motion.article>
+  );
+}
+
+function ReferencePhotoLightbox({
+  photo,
+  name,
+  onClose,
+}: {
+  photo: Photo | null;
+  name: string;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!photo) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [photo, onClose]);
+
+  if (!photo) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[color:rgba(31,26,36,0.72)] p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${name} reference photo preview`}
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] hover:bg-white"
+        aria-label="Close preview"
+      >
+        <CloseIcon />
+      </button>
+      <div
+        className="relative h-full max-h-[82vh] w-full max-w-3xl overflow-hidden rounded-[var(--radius-lg)] bg-[color:var(--color-bg-tinted-butter)] shadow-[var(--shadow-xl)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/images/${photo.id}`}
+          alt={`${name} reference`}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    </div>,
+    document.body,
   );
 }
 
