@@ -375,9 +375,7 @@ async function ShootsList() {
 async function ThemeRankingList() {
   const ranking = await getThemeRanking(20);
   if (ranking.length === 0) {
-    return (
-      <p className="mt-4 text-sm text-[color:var(--color-ink-muted)]">No shoots yet.</p>
-    );
+    return <p className="mt-4 text-sm text-[color:var(--color-ink-muted)]">No shoots yet.</p>;
   }
   const max = ranking[0].count || 1;
   return (
@@ -392,9 +390,7 @@ async function ThemeRankingList() {
                   {String(idx + 1).padStart(2, "0")}
                 </span>{" "}
                 <span className="font-medium">{row.name}</span>
-                {row.category === "custom" && (
-                  <span className="ml-2 chip chip-coral">custom</span>
-                )}
+                {row.category === "custom" && <span className="ml-2 chip chip-coral">custom</span>}
                 {row.category === "card" && <span className="ml-2 chip chip-sage">card</span>}
                 {row.category === "stylized" && (
                   <span className="ml-2 chip chip-sage">stylized</span>
@@ -410,10 +406,7 @@ async function ThemeRankingList() {
               </div>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-[color:var(--color-line)]/50">
-              <div
-                className="h-full bg-[color:var(--color-ink)]/70"
-                style={{ width: `${pct}%` }}
-              />
+              <div className="h-full bg-[color:var(--color-ink)]/70" style={{ width: `${pct}%` }} />
             </div>
           </li>
         );

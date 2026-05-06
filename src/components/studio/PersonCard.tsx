@@ -234,11 +234,7 @@ export default function PersonCard({
         onClose={() => setEditOpen(false)}
         onChanged={onChanged}
       />
-      <ReferencePhotoLightbox
-        photo={lightboxPhoto}
-        name={person.name}
-        onClose={closeLightbox}
-      />
+      <ReferencePhotoLightbox photo={lightboxPhoto} name={person.name} onClose={closeLightbox} />
     </motion.article>
   );
 }

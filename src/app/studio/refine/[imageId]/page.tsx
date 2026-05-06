@@ -25,8 +25,7 @@ export default async function RefinePage({ params }: { params: Promise<{ imageId
             Step 04 - Regenerate
           </span>
           <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-            Want another{" "}
-            <em className="serif-italic text-[color:var(--color-plum)]">take</em>?
+            Want another <em className="serif-italic text-[color:var(--color-plum)]">take</em>?
           </h1>
           {theme && (
             <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">

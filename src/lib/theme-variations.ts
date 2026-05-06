@@ -235,7 +235,7 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Holiday-prep candid: family caught in a small domestic task, idealized gesture and warm oil texture.",
     "Cover-style portrait: vertical-feeling centered composition with foreground prop and Saturday-cover polish.",
   ],
-  "minecraft": [
+  minecraft: [
     "Voxel lineup: family as blocky characters on grassy plains, items held clearly and village behind.",
     "House-front frame: family outside a player-built house, cubic trees and bright overworld sky.",
     "Adventure pose: family staggered as if starting a quest, tools and blocks creating foreground interest.",

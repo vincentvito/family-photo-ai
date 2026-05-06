@@ -215,7 +215,9 @@ function buildVariantPrompt(
     "- The variation composition is mandatory: follow its pose, seated-or-standing state, crop, subject scale, prop placement, foreground detail and text-space placement.",
     "- If a card art style is specified, apply that style to the entire card including the selected subject, face, skin, hair, clothes, background, foreground and greeting area.",
     "- Preserve the card greeting text requirements exactly.",
-  ].join("\n").replace(/—|â€”/g, "-");
+  ]
+    .join("\n")
+    .replace(/—|â€”/g, "-");
 }
 
 function buildCastRail(subjects?: Subject[]): string {
