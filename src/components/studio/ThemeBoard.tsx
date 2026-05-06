@@ -19,6 +19,7 @@ import { uploadLocationReference } from "@/lib/upload-client";
 
 type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
+type OutputMode = "photoshoot" | "card";
 const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
 
 export type RosterMember = {
@@ -57,6 +58,7 @@ export default function ThemeBoard({
   defaultModel = "gpt-image-2",
   creditBalance,
   roster,
+  outputMode,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -65,6 +67,7 @@ export default function ThemeBoard({
   defaultModel?: GenerationModelId;
   creditBalance: number;
   roster: RosterMember[];
+  outputMode: OutputMode;
 }) {
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
@@ -109,7 +112,8 @@ export default function ThemeBoard({
     return roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
   };
 
-  const explicitShape = shape === "auto" ? null : (shapeOptions.find((o) => o.id === shape) ?? null);
+  const explicitShape =
+    shape === "auto" ? null : (shapeOptions.find((o) => o.id === shape) ?? null);
 
   const resolveRatio = (themeRatio: AspectRatio | null): AspectRatio => {
     if (explicitShape) return explicitShape.ratio;
@@ -167,6 +171,7 @@ export default function ThemeBoard({
         try {
           const { generationId } = await postGenerate({
             themeId: theme.id,
+            outputType: outputMode,
             wardrobeNote: wardrobe.trim() || null,
             cardText: theme.acceptsCardText ? cardText.trim() || null : null,
             aspectOverride: explicitShape?.ratio ?? null,
@@ -196,6 +201,7 @@ export default function ThemeBoard({
         const trimmed = customDescription.trim();
         const { generationId } = await postGenerate({
           customVibe: { description: trimmed, aspectRatio: aspect },
+          outputType: "photoshoot",
           locationReferencePath,
           modelId: isAdmin ? modelId : undefined,
           subjectIds,
@@ -230,7 +236,8 @@ export default function ThemeBoard({
     const themeRatio = pendingShoot.kind === "theme" ? pendingShoot.theme.aspectRatio : null;
     const ratio = resolveRatio(themeRatio);
     const label = shapeOptions.find((o) => o.ratio === ratio)?.label ?? "Wide";
-    return `We'll create 4 ${label} (${ratio}) shots. You can favorite, refine, or try another vibe after.`;
+    const noun = outputMode === "card" ? "card designs" : "shots";
+    return `We'll create 4 ${label} (${ratio}) ${noun}. You can favorite, refine, or try another vibe after.`;
   })();
 
   return (
@@ -298,7 +305,9 @@ export default function ThemeBoard({
               className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-2.5 outline-none transition-all focus:border-[color:var(--color-sage)] focus:bg-[color:var(--color-bg-elevated)] focus:shadow-[var(--shadow-ring-sage)]"
             />
             <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
-              Applied to any curated vibe.
+              {outputMode === "card"
+                ? "Applied to whichever card layout you launch."
+                : "Applied to any curated vibe."}
             </p>
           </div>
 
@@ -324,7 +333,9 @@ export default function ThemeBoard({
                       <span className="block h-3 w-[3px] rounded-[1px] bg-current" />
                     </span>
                     <span>Auto</span>
-                    <span className={`text-[0.65rem] font-medium ${active ? "opacity-70" : "opacity-60"}`}>
+                    <span
+                      className={`text-[0.65rem] font-medium ${active ? "opacity-70" : "opacity-60"}`}
+                    >
                       vibe default
                     </span>
                   </button>
@@ -354,61 +365,63 @@ export default function ThemeBoard({
       </div>
 
       {/* ─── Lane tabs (curated vs custom) ────────────────────────── */}
-      <div className="mt-10 flex justify-center">
-        <div
-          role="tablist"
-          aria-label="Vibe source"
-          className="inline-flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 shadow-[var(--shadow-sm)]"
-        >
-          {(
-            [
-              {
-                id: "curated",
-                label: `Pick a vibe · ${photoreal.length + stylized.length + cards.length} curated`,
-                dot: "dot-sage",
-              },
-              { id: "custom", label: "Design your own", dot: "dot-coral" },
-            ] as const
-          ).map((t) => {
-            const active = mode === t.id;
-            return (
-              <button
-                key={t.id}
-                role="tab"
-                aria-selected={active}
-                type="button"
-                onClick={() => setMode(t.id)}
-                className={`relative z-10 flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-[0.04em] transition-colors sm:px-5 sm:text-sm ${
-                  active
-                    ? "text-white"
-                    : "text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
-                }`}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="vibe-tab-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-[color:var(--color-ink)]"
-                    transition={{ type: "spring", stiffness: 340, damping: 32 }}
-                  />
-                )}
-                <span
-                  className={`inline-block h-1.5 w-1.5 rounded-full ${
+      {outputMode === "photoshoot" && (
+        <div className="mt-10 flex justify-center">
+          <div
+            role="tablist"
+            aria-label="Vibe source"
+            className="inline-flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 shadow-[var(--shadow-sm)]"
+          >
+            {(
+              [
+                {
+                  id: "curated",
+                  label: `Pick a vibe - ${photoreal.length + stylized.length} curated`,
+                  dot: "dot-sage",
+                },
+                { id: "custom", label: "Design your own", dot: "dot-coral" },
+              ] as const
+            ).map((t) => {
+              const active = mode === t.id;
+              return (
+                <button
+                  key={t.id}
+                  role="tab"
+                  aria-selected={active}
+                  type="button"
+                  onClick={() => setMode(t.id)}
+                  className={`relative z-10 flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-[0.04em] transition-colors sm:px-5 sm:text-sm ${
                     active
-                      ? "bg-[color:var(--color-coral)]"
-                      : `bg-[color:var(--color-${t.dot === "dot-coral" ? "coral" : "sage"})]`
+                      ? "text-white"
+                      : "text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
                   }`}
-                  aria-hidden
-                />
-                {t.label}
-              </button>
-            );
-          })}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="vibe-tab-pill"
+                      className="absolute inset-0 -z-10 rounded-full bg-[color:var(--color-ink)]"
+                      transition={{ type: "spring", stiffness: 340, damping: 32 }}
+                    />
+                  )}
+                  <span
+                    className={`inline-block h-1.5 w-1.5 rounded-full ${
+                      active
+                        ? "bg-[color:var(--color-coral)]"
+                        : `bg-[color:var(--color-${t.dot === "dot-coral" ? "coral" : "sage"})]`
+                    }`}
+                    aria-hidden
+                  />
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ─── Lane content (curated or custom) ─────────────────────── */}
       <AnimatePresence mode="wait" initial={false}>
-        {mode === "curated" ? (
+        {outputMode === "card" || mode === "curated" ? (
           <motion.div
             key="curated"
             role="tabpanel"
@@ -418,132 +431,138 @@ export default function ThemeBoard({
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Curated themes — Photographic */}
-            <ThemeSection
-              label="Photographic"
-              sublabel="Real light, real rooms"
-              chipColor="sage"
-              themes={photoreal}
-              pending={pending || !hasCredits}
-              disabledLabel={!hasCredits ? "Add credits first" : undefined}
-              activeId={activeTheme?.id ?? null}
-              onPick={launch}
-            />
+            {outputMode === "photoshoot" && (
+              <>
+                <ThemeSection
+                  label="Photographic"
+                  sublabel="Real light, real rooms"
+                  chipColor="sage"
+                  themes={photoreal}
+                  pending={pending || !hasCredits}
+                  disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                  activeId={activeTheme?.id ?? null}
+                  onPick={launch}
+                />
 
-            <ThemeSection
-              label="Stylized"
-              sublabel="Illustration & cinema"
-              chipColor="plum"
-              themes={stylized}
-              pending={pending || !hasCredits}
-              disabledLabel={!hasCredits ? "Add credits first" : undefined}
-              activeId={activeTheme?.id ?? null}
-              onPick={launch}
-            />
+                <ThemeSection
+                  label="Stylized"
+                  sublabel="Illustration & cinema"
+                  chipColor="plum"
+                  themes={stylized}
+                  pending={pending || !hasCredits}
+                  disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                  activeId={activeTheme?.id ?? null}
+                  onPick={launch}
+                />
+              </>
+            )}
 
-            <section className="mt-20">
-              <div className="flex items-end justify-between flex-wrap gap-4">
-                <div>
-                  <span className="chip chip-butter">
-                    <span className="dot dot-butter" />
-                    For a card or occasion
-                  </span>
-                  <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
-                    Make it a{" "}
-                    <em className="serif-italic" style={{ color: "#8a6a1f" }}>
-                      keepsake
-                    </em>
-                    .
-                  </h2>
+            {outputMode === "card" && (
+              <section className="mt-12">
+                <div className="flex items-end justify-between flex-wrap gap-4">
+                  <div>
+                    <span className="chip chip-butter">
+                      <span className="dot dot-butter" />
+                      Card layouts
+                    </span>
+                    <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
+                      Occasion-ready, with room for{" "}
+                      <em className="serif-italic" style={{ color: "#8a6a1f" }}>
+                        words
+                      </em>
+                      .
+                    </h2>
+                  </div>
+                  <div className="w-full max-w-md">
+                    <label className="small-caps text-[color:var(--color-ink-muted)]">
+                      Greeting / card text
+                    </label>
+                    <input
+                      value={cardText}
+                      onChange={(e) => setCardText(e.target.value)}
+                      placeholder={`e.g. "The Vitali Family - 2026"`}
+                      className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
+                    />
+                  </div>
                 </div>
-                <div className="w-full max-w-md">
-                  <label className="small-caps text-[color:var(--color-ink-muted)]">
-                    Greeting / card text
-                  </label>
-                  <input
-                    value={cardText}
-                    onChange={(e) => setCardText(e.target.value)}
-                    placeholder={`e.g. "The Vitali Family — 2026"`}
-                    className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
-                  />
-                </div>
-              </div>
-              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {cards.slice(0, 6).map((t) => (
-                  <ThemeCard
-                    key={t.id}
-                    theme={t}
-                    disabled={pending || !hasCredits}
-                    disabledLabel={!hasCredits ? "Add credits first" : undefined}
-                    loading={activeTheme?.id === t.id && pending}
-                    onPick={() => launch(t)}
-                  />
-                ))}
-                <AnimatePresence initial={false}>
-                  {cardsExpanded &&
-                    cards.slice(6).map((t, i) => (
-                      <motion.div
-                        key={t.id}
-                        initial={{ opacity: 0, y: 14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.4, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
-                      >
-                        <ThemeCard
-                          theme={t}
-                          disabled={pending || !hasCredits}
-                          disabledLabel={!hasCredits ? "Add credits first" : undefined}
-                          loading={activeTheme?.id === t.id && pending}
-                          onPick={() => launch(t)}
-                        />
-                      </motion.div>
-                    ))}
-                </AnimatePresence>
-              </div>
-              {cards.length > 6 && (
-                <div className="mt-8 flex items-center justify-center">
-                  <button
-                    type="button"
-                    onClick={() => setCardsExpanded((e) => !e)}
-                    className="btn btn-ghost btn-sm"
-                    aria-expanded={cardsExpanded}
-                  >
-                    {cardsExpanded ? (
-                      <>
-                        <svg
-                          className="h-3.5 w-3.5"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden
+                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {cards.slice(0, 6).map((t) => (
+                    <ThemeCard
+                      key={t.id}
+                      theme={t}
+                      disabled={pending || !hasCredits}
+                      disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                      loading={activeTheme?.id === t.id && pending}
+                      onPick={() => launch(t)}
+                    />
+                  ))}
+                  <AnimatePresence initial={false}>
+                    {cardsExpanded &&
+                      cards.slice(6).map((t, i) => (
+                        <motion.div
+                          key={t.id}
+                          initial={{ opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.4, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
                         >
-                          <path d="M18 15l-6-6-6 6" />
-                        </svg>
-                        Show fewer
-                      </>
-                    ) : (
-                      <>
-                        Show all {cards.length}
-                        <svg
-                          className="h-3.5 w-3.5"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden
-                        >
-                          <path d="M6 9l6 6 6-6" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
+                          <ThemeCard
+                            theme={t}
+                            disabled={pending || !hasCredits}
+                            disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                            loading={activeTheme?.id === t.id && pending}
+                            onPick={() => launch(t)}
+                          />
+                        </motion.div>
+                      ))}
+                  </AnimatePresence>
                 </div>
-              )}
-            </section>
+                {cards.length > 6 && (
+                  <div className="mt-8 flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setCardsExpanded((e) => !e)}
+                      className="btn btn-ghost btn-sm"
+                      aria-expanded={cardsExpanded}
+                    >
+                      {cardsExpanded ? (
+                        <>
+                          <svg
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="M18 15l-6-6-6 6" />
+                          </svg>
+                          Show fewer
+                        </>
+                      ) : (
+                        <>
+                          Show all {cards.length}
+                          <svg
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </section>
+            )}
           </motion.div>
         ) : (
           <motion.div

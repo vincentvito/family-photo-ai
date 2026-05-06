@@ -35,6 +35,7 @@ const CustomVibeSchema = z.object({
 });
 
 const ModelIdSchema = z.enum(GENERATION_MODEL_IDS as [GenerationModelId, ...GenerationModelId[]]);
+const OutputTypeSchema = z.enum(["photoshoot", "card"]);
 
 async function markGenerationErrorAndRefundCredit(generationId: string, errorMessage: string) {
   await db.transaction(async (tx) => {
@@ -54,6 +55,7 @@ const StartGenerationInput = z
   .object({
     themeId: z.string().min(1).optional(),
     customVibe: CustomVibeSchema.optional(),
+    outputType: OutputTypeSchema.optional(),
     wardrobeNote: z.string().trim().max(240).nullable().optional(),
     cardText: z.string().trim().max(120).nullable().optional(),
     locationReferencePath: z.string().trim().min(1).nullable().optional(),
@@ -90,6 +92,13 @@ export async function startGeneration(
 
   if (!parsed.customVibe && parsed.aspectOverride) {
     theme = { ...theme, aspectRatio: parsed.aspectOverride };
+  }
+  const outputType = parsed.outputType ?? (theme.category === "card" ? "card" : "photoshoot");
+  if (outputType === "card" && (parsed.customVibe || theme.category !== "card")) {
+    throw new Error("Choose a card layout to create a card.");
+  }
+  if (outputType === "photoshoot" && theme.category === "card") {
+    throw new Error("Choose card output before using a card layout.");
   }
 
   const roster = await loadRosterAsSubjects(actor.userId, parsed.subjectIds);

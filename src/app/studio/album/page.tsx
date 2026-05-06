@@ -65,7 +65,7 @@ export default async function AlbumPage() {
               download before it expires.
             </p>
           </div>
-          <Link href="/studio/theme" className="btn btn-ghost btn-sm">
+          <Link href="/studio/output" className="btn btn-ghost btn-sm">
             New shoot
           </Link>
         </div>

@@ -68,19 +68,19 @@ export default function RosterPageClient({ initialRoster }: { initialRoster: Ros
         )}
       </div>
 
-      <div className="mt-16 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-5 shadow-[var(--shadow-sm)]">
+      <div className="mt-16 flex flex-col items-center gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-6 text-center shadow-[var(--shadow-sm)]">
         <p className="text-sm text-[color:var(--color-ink-muted)]">
           {roster.length === 0
             ? "Add at least one person to continue."
             : `${roster.length} ${roster.length === 1 ? "person" : "people"} · ${peopleWithPhotos}/${roster.length} reference photos`}
         </p>
         <Link
-          href="/studio/theme"
+          href="/studio/output"
           aria-disabled={!canContinue}
-          className={`btn ${canContinue ? "btn-coral" : "btn-ghost"}`}
+          className={`btn btn-lg ${canContinue ? "btn-coral" : "btn-ghost"}`}
           style={canContinue ? undefined : { opacity: 0.5, pointerEvents: "none" }}
         >
-          Choose a vibe
+          Start photoshoot
           <svg
             className="h-4 w-4"
             viewBox="0 0 24 24"

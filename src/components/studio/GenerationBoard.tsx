@@ -107,8 +107,8 @@ export default function GenerationBoard({
           <p className="font-semibold">Shoot ended early</p>
           <p className="mt-1">{generation.errorMessage ?? "Unknown error."}</p>
           <div className="mt-3">
-            <Link href="/studio/theme" className="btn btn-sm btn-coral">
-              Try another vibe
+            <Link href="/studio/output" className="btn btn-sm btn-coral">
+              Try another format
             </Link>
           </div>
         </div>
@@ -194,8 +194,8 @@ export default function GenerationBoard({
         </div>
 
         <div className="flex items-center gap-3">
-          <Link href="/studio/theme" className="btn btn-ghost btn-sm">
-            Try another vibe
+          <Link href="/studio/output" className="btn btn-ghost btn-sm">
+            Try another format
           </Link>
           <Link href="/studio/album" className="btn btn-coral btn-sm">
             Album
@@ -314,23 +314,6 @@ const ImageTile = memo(function ImageTile({
     </div>
   );
 });
-
-function Skeleton({ index }: { index: number }) {
-  const tilt = useMemo(() => -3 + index * 2, [index]);
-  return (
-    <div className="developing absolute inset-0 flex items-center justify-center">
-      <div className="relative" style={{ transform: `rotate(${tilt}deg)` }}>
-        {/* Tiny polaroid illustration */}
-        <div className="polaroid">
-          <div className="h-[120px] w-[96px] sm:h-[140px] sm:w-[112px] bg-[color:rgba(255,255,255,0.55)]" />
-          <div className="absolute inset-x-0 bottom-2 text-center text-[10px] font-semibold tracking-[0.12em] text-[color:var(--color-ink-muted)] uppercase">
-            Developing · {index + 1}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function DevelopingTile({ index }: { index: number }) {
   const tilt = useMemo(() => -2 + index * 1.35, [index]);
