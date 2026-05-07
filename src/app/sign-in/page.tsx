@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import BrandLogo from "@/components/brand/BrandLogo";
 import OtpSignInForm from "@/components/auth/OtpSignInForm";
 import { auth } from "@/lib/auth";
 
@@ -40,18 +41,7 @@ export default async function SignInPage() {
       />
 
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 sm:px-8">
-        <Link href="/" className="flex items-center gap-2.5 text-[color:var(--color-ink)]">
-          <span className="relative inline-flex h-9 w-9 items-center justify-center">
-            <span
-              className="absolute inset-0 rounded-full bg-[color:var(--color-coral)]"
-              aria-hidden
-            />
-            <span className="relative text-[10px] font-bold tracking-[0.18em] text-white">FP</span>
-          </span>
-          <span className="serif hidden text-lg tracking-tight sm:inline">
-            Family&nbsp;Photoshoot
-          </span>
-        </Link>
+        <BrandLogo href="/" size="md" />
 
         <Link href="/" className="btn btn-ghost btn-sm">
           Back home

@@ -18,9 +18,9 @@ const fraunces = Fraunces({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 const SITE_NAME = "FamilyShoot";
-const TITLE = "FamilyShoot — Family photos you'll actually print.";
+const TITLE = "AI Family Photo Generator | FamilyShoot";
 const DESCRIPTION =
-  "Turn scattered iPhone photos into a frame-worthy family portrait — in about two minutes. Pick a vibe, upload a few references, keep what you love.";
+  "Turn scattered iPhone photos into a frame-worthy family portrait or holiday card in about two minutes. Pick a vibe, upload references, and keep what you love.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -32,14 +32,24 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   generator: "Next.js",
   keywords: [
-    "family photos",
-    "AI family portrait",
-    "family photoshoot",
-    "AI photoshoot",
+    "AI family photo generator",
+    "AI family portrait generator",
+    "family photo generator",
+    "AI family photos",
+    "AI family portraits",
     "family portrait generator",
-    "holiday card photo",
-    "family photo AI",
-    "printable family photos",
+    "AI family photo maker",
+    "AI family photo app",
+    "AI photoshoot family portraits",
+    "family portrait from separate photos",
+    "combine family photos into one portrait",
+    "create family portrait from individual photos",
+    "AI family photo combiner",
+    "merge family photos into one",
+    "AI family holiday card generator",
+    "AI Christmas card generator",
+    "family photoshoot ideas",
+    "print-ready family portraits",
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
@@ -47,6 +57,10 @@ export const metadata: Metadata = {
   category: "photography",
   alternates: {
     canonical: "/",
+  },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
@@ -106,6 +120,45 @@ const SITE_JSONLD = {
   description: DESCRIPTION,
 };
 
+const FAQ_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is an AI family photo generator?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It is a way to create a finished family portrait from everyday photos you already have. FamilyShoot uses your uploads as visual references, then turns them into a polished portrait, illustration, or card.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I make a family portrait from separate photos?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Upload separate photos of each person, child, or selected pet, and FamilyShoot combines them into one natural family portrait.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I make AI holiday cards or Christmas cards?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. FamilyShoot includes holiday and occasion card styles for Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, birthdays, new babies, graduations, and more.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How long are my photos stored?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Generated photos and reference uploads are kept for 14 days so customers have time to review, refine, and download their finished images. After that, they are deleted from storage.",
+      },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
@@ -118,6 +171,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSONLD) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSONLD) }}
         />
         <Script
           src="https://feedbackbasket.com/api/widget/script/cmosomkpt000004jjnork17r2"

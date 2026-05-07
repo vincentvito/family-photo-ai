@@ -57,17 +57,20 @@ export default function BeforeAfter() {
             <div>
               <span className="chip chip-coral">
                 <span className="dot dot-coral" />
-                The transformation
+                Family portrait from separate photos
               </span>
               <h2 className="serif mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                From phone-camera chaos,
+                Upload everyone separately,
                 <br />
-                to a <em className="serif-italic text-[color:var(--color-coral)]">keeper</em>.
+                get one <em className="serif-italic text-[color:var(--color-coral)]">
+                  natural
+                </em>{" "}
+                portrait.
               </h2>
             </div>
             <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              Separate reference uploads become one finished family portrait, keeping the people
-              consistent while the vibe changes.
+              A practical AI family photo combiner for the real-life problem: one parent has the
+              kids, another has the pet, and nobody is looking at the same camera.
             </p>
           </div>
         </Reveal>

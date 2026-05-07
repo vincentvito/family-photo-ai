@@ -92,7 +92,7 @@ export default function Gallery() {
             <div>
               <span className="chip chip-sage">
                 <span className="dot dot-sage" />
-                The gallery
+                Family photoshoot ideas
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
                 {THEMES.length} curated vibes,
@@ -103,8 +103,8 @@ export default function Gallery() {
               </h2>
             </div>
             <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              Every vibe in the studio, previewed here. Click any to try it on your family — or
-              describe your own from scratch.
+              Browse family photo ideas for holidays, cards, studio portraits, beach sessions,
+              storybook art, and everything between. Click any to try it on your family.
             </p>
           </div>
         </Reveal>

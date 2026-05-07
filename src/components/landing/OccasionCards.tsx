@@ -32,17 +32,17 @@ export default function OccasionCards() {
             <div>
               <span className="chip chip-butter">
                 <span className="dot dot-butter" />
-                Holiday and occasion cards
+                AI family holiday card generator
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                Turn a portrait into something{" "}
-                <em className="serif-italic text-[color:var(--color-coral)]">sendable</em>.
+                Make a card from the photos you{" "}
+                <em className="serif-italic text-[color:var(--color-coral)]">already have</em>.
               </h2>
             </div>
             <div className="max-w-sm">
               <p className="text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                Christmas, Easter, Hanukkah, Diwali, Lunar New Year, Eid and family milestones, made
-                as warm cards for the people who should see them first.
+                Create a family holiday card, Christmas card photo, or greeting card from the photos
+                you already have. No studio date, matching outfits, or perfect group shot required.
               </p>
               <Link href="/sign-in" className="btn btn-coral mt-5">
                 Make a card

@@ -10,18 +10,18 @@ type Pillar = {
 
 const pillars: Pillar[] = [
   {
-    title: "Your photos, yours alone",
-    body: "Reference photos live only on your account. They are never used to train public models, ever.",
+    title: "Only for your shoot",
+    body: "Your uploads are used to create the portraits, cards, refinements, and downloads you ask for. We do not use them to train FamilyShoot.",
     icon: "lock",
   },
   {
-    title: "Deleted means gone",
-    body: "Delete any face, any shoot, any album at any time. Purged from our systems within minutes — not months.",
+    title: "Easy to remove",
+    body: "You can delete reference photos and finished images from your studio wherever the app offers a delete action.",
     icon: "trash",
   },
   {
-    title: "Extra care for kids",
-    body: "Children's faces are encrypted at rest, accessed only to produce your portraits, and purged on request.",
+    title: "Not stored forever",
+    body: "Finished images stay available for 14 days, and inactive accounts with no credits may be cleared after a reminder email and about 30 days.",
     icon: "shield",
   },
 ];

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,18 +29,7 @@ export default function Nav() {
             : "bg-transparent border border-transparent"
         }`}
       >
-        <Link href="/" className="flex items-center gap-2.5 text-[color:var(--color-ink)]">
-          <span className="relative inline-flex h-8 w-8 items-center justify-center">
-            <span
-              className="absolute inset-0 rounded-full bg-[color:var(--color-coral)]"
-              aria-hidden
-            />
-            <span className="relative text-[10px] font-bold tracking-[0.18em] text-white">FP</span>
-          </span>
-          <span className="serif hidden text-lg tracking-tight sm:inline">
-            Family&nbsp;Photoshoot
-          </span>
-        </Link>
+        <BrandLogo href="/" />
 
         <div className="hidden items-center gap-6 md:flex">
           <a

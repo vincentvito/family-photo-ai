@@ -16,7 +16,7 @@ const steps: Step[] = [
   {
     n: 1,
     title: "Your roster",
-    body: "Upload a handful of reference photos of everyone — adults, little ones, and any selected family pets. We lock in their faces so every portrait looks like them.",
+    body: "Upload a handful of reference photos of everyone — adults, little ones, and any selected family pets. We use them as visual guides so each portrait stays close to the people you love.",
     panel: "coral",
     chip: "coral",
     visual: "roster",

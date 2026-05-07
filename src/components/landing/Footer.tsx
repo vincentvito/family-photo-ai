@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export default function Footer() {
   return (
@@ -8,21 +9,10 @@ export default function Footer() {
     >
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <span className="relative inline-flex h-9 w-9 items-center justify-center">
-              <span
-                className="absolute inset-0 rounded-full bg-[color:var(--color-coral)]"
-                aria-hidden
-              />
-              <span className="relative text-[10px] font-bold tracking-[0.18em] text-white">
-                FP
-              </span>
-            </span>
-            <p className="serif text-2xl text-[color:var(--color-bg)]">Family Photoshoot</p>
-          </div>
+          <BrandLogo size="md" tone="light" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-[color:rgba(251,248,243,0.7)]">
-            Frame-worthy family portraits from the photos you already have. Made with care for
-            families, by a small team of two.
+            An AI family photo generator for frame-worthy portraits and holiday cards from the
+            photos you already have.
           </p>
           <div className="mt-6">
             <Link href="/studio/roster" className="btn btn-coral btn-sm">
@@ -47,6 +37,11 @@ export default function Footer() {
             <li>
               <a href="#pricing" className="hover:text-white transition-colors">
                 Pricing
+              </a>
+            </li>
+            <li>
+              <a href="#faq" className="hover:text-white transition-colors">
+                FAQ
               </a>
             </li>
           </ul>
@@ -81,7 +76,7 @@ export default function Footer() {
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">
           © {new Date().getFullYear()} Family Photoshoot — Made with care for families.
         </p>
-        <p className="text-xs text-[color:rgba(251,248,243,0.5)]">A private, paid-only studio.</p>
+        <p className="text-xs text-[color:rgba(251,248,243,0.5)]">A paid-only family studio.</p>
       </div>
     </footer>
   );

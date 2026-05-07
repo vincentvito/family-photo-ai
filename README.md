@@ -43,6 +43,12 @@ https://replicate.com/account/api-tokens.
 4. **Refine** — tell your art director what to change ("more smiling", "swap the navy jacket for a camel one"). Each edit keeps identity anchored to the original references.
 5. **Keep** — download a zipped album, or export any frame as an 8×10 or 16×20 print-ready file.
 
+## Retention and account cleanup
+
+- Generated photos and reference uploads are stored for 14 days. This gives customers enough time to review, refine, and download their finished images before the files are removed from storage.
+- The landing FAQ also explains the planned inactive-account policy: accounts with no remaining credits may be deleted after 30 days of inactivity, following a reminder email.
+- Manual deletes should be honored sooner wherever the product exposes them.
+
 ## Reset
 
 ```bash

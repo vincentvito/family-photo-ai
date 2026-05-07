@@ -79,7 +79,7 @@ export default function Hero() {
         >
           <span className="chip chip-coral">
             <span className="dot dot-coral" />
-            New · Family portraits, in minutes
+            AI family photo generator
           </span>
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
             Family photos
@@ -90,8 +90,8 @@ export default function Hero() {
             print.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-            Scattered iPhone photos in, frame-worthy family portrait out — in about two minutes.
-            Pick a vibe, upload a few references, keep what you love.
+            Scattered iPhone photos in, one frame-worthy family portrait out. Upload separate photos
+            of everyone, pick a vibe, and keep the AI family photos you love in about two minutes.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/sign-in" className="btn btn-coral btn-lg">
@@ -123,7 +123,7 @@ export default function Hero() {
                 />
               ))}
             </div>
-            <span>Loved by 2,400+ families this season</span>
+            <span>Paid-only, account-based, print-ready keepsakes</span>
           </div>
         </motion.div>
 
