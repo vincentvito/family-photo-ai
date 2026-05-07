@@ -291,6 +291,25 @@
     margin-bottom: 1.25rem;
   }
 
+  .masonry-4 {
+    column-count: 1;
+    column-gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .masonry-4 {
+      column-count: 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .masonry-4 {
+      column-count: 4;
+    }
+  }
+  .masonry-4 > * {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
   /* Surface primitives */
   .card {
     background-color: var(--color-bg-elevated);

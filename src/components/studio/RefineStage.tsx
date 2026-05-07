@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { getRefineState } from "@/lib/refine-queries";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import ExportMenu from "@/components/studio/ExportMenu";
 
 type State = NonNullable<Awaited<ReturnType<typeof getRefineState>>>;
 type TimelineStep = State["timeline"][number];
@@ -61,10 +62,6 @@ function aspectClass(aspectRatio: string) {
     default:
       return "aspect-[4/5]";
   }
-}
-
-function downloadName(imageId: string) {
-  return `family-photo-${imageId}.jpg`;
 }
 
 export default function RefineStage({ initialState }: { initialState: State }) {
@@ -183,15 +180,10 @@ export default function RefineStage({ initialState }: { initialState: State }) {
             <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--color-ink)]">
               Original
             </span>
-            <a
-              href={`/api/images/${sourceImageId}`}
-              download={downloadName(sourceImageId)}
-              className="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <DownloadIcon />
-              Download
-            </a>
+            <ExportMenu
+              imageId={sourceImageId}
+              triggerClassName="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
+            />
           </div>
         </div>
 
@@ -405,15 +397,10 @@ function GalleryTile({
             <TrashIcon />
             {deleting ? "Deleting" : "Delete"}
           </button>
-          <a
-            href={`/api/images/${step.imageId}`}
-            download={downloadName(step.imageId)}
-            className="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <DownloadIcon />
-            Download
-          </a>
+          <ExportMenu
+            imageId={step.imageId}
+            triggerClassName="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
+          />
         </div>
       </figcaption>
     </motion.figure>
@@ -500,14 +487,11 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
               className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
             />
             <div className="absolute right-3 top-3 flex gap-2">
-              <a
-                href={`/api/images/${imageId}`}
-                download={downloadName(imageId)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
-                aria-label="Download portrait"
-              >
-                <DownloadIcon />
-              </a>
+              <ExportMenu
+                imageId={imageId}
+                triggerVariant="icon"
+                triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
               <button
                 type="button"
                 onClick={onClose}
@@ -555,25 +539,6 @@ function RegenerateIcon() {
       <path d="M3 12A9 9 0 0 1 18.2 5.5" />
       <path d="M18 2v4h-4" />
       <path d="M6 22v-4h4" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-3.5 w-3.5"
-      aria-hidden
-    >
-      <path d="M12 3v12" />
-      <path d="m7 10 5 5 5-5" />
-      <path d="M5 21h14" />
     </svg>
   );
 }

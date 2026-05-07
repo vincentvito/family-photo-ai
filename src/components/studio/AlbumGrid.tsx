@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import ExportMenu from "@/components/studio/ExportMenu";
 
 type Item = {
   image: {
@@ -23,7 +24,7 @@ function chipFor(id: string) {
 
 export default function AlbumGrid({ items }: { items: Item[] }) {
   return (
-    <div className="masonry-3">
+    <div className="masonry-4">
       {items.map((item) => (
         <AlbumTile key={item.image.id} item={item} />
       ))}
@@ -32,7 +33,6 @@ export default function AlbumGrid({ items }: { items: Item[] }) {
 }
 
 function AlbumTile({ item }: { item: Item }) {
-  const [open, setOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
   const [removing, start] = useTransition();
   const router = useRouter();
@@ -46,7 +46,6 @@ function AlbumTile({ item }: { item: Item }) {
         body: JSON.stringify({ imageId: item.image.id }),
       });
       setRemoveOpen(false);
-      setOpen(false);
       router.refresh();
     });
   };
@@ -65,113 +64,27 @@ function AlbumTile({ item }: { item: Item }) {
             className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
           />
         </div>
-        <figcaption className="flex items-center justify-between gap-3 px-4 py-3">
-          <span className={`chip chip-${chip}`}>
+        <figcaption className="flex flex-col gap-2.5 px-4 py-3">
+          <span className={`chip chip-${chip} max-w-full self-start whitespace-normal leading-tight`}>
             <span className={`dot dot-${chip}`} />
             {labelFor(item.generation.themeId)}
           </span>
-          <button
-            onClick={() => setOpen(true)}
-            className="spring-press flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-3.5 w-3.5"
+          <span className="flex w-full items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={() => setRemoveOpen(true)}
+              disabled={removing}
+              className="spring-press rounded-full px-2.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-line)] hover:text-[color:var(--color-ink)] disabled:opacity-55"
             >
-              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            Export
-          </button>
+              {removing ? "Removing..." : "Remove"}
+            </button>
+            <ExportMenu
+              imageId={item.image.id}
+              triggerClassName="spring-press flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
+            />
+          </span>
         </figcaption>
       </motion.figure>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-[color:rgba(31,26,36,0.45)] backdrop-blur-[2px]"
-              onClick={() => setOpen(false)}
-            />
-            <motion.div
-              className="relative w-full max-w-md rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-7 shadow-[var(--shadow-xl)]"
-              initial={{ y: 16, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 10, opacity: 0, scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 320, damping: 28 }}
-            >
-              <div className="flex items-center justify-between">
-                <span className="chip chip-coral">
-                  <span className="dot dot-coral" />
-                  Export
-                </span>
-                <button
-                  onClick={() => setOpen(false)}
-                  aria-label="Close"
-                  className="spring-press inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] hover:bg-[color:var(--color-line)] hover:text-[color:var(--color-ink)]"
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-                    <path
-                      d="M2 2L12 12M12 2L2 12"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Pick a size.</h2>
-
-              <ul className="mt-6 space-y-2.5">
-                <ExportRow
-                  imageId={item.image.id}
-                  label="Web resolution"
-                  sub="For sharing, screens, and phones"
-                  query=""
-                  basePath="/api/images"
-                />
-                <ExportRow
-                  imageId={item.image.id}
-                  label="8x10 print"
-                  sub="2400 x 3000 px - 300 dpi"
-                  query="?target=8x10"
-                  basePath="/api/upscale"
-                />
-                <ExportRow
-                  imageId={item.image.id}
-                  label="16x20 print"
-                  sub="4800 x 6000 px - 300 dpi"
-                  query="?target=16x20"
-                  basePath="/api/upscale"
-                />
-              </ul>
-
-              <div className="mt-6 flex items-center justify-between gap-3 border-t border-[color:var(--color-line)] pt-5">
-                <button
-                  onClick={() => setRemoveOpen(true)}
-                  disabled={removing}
-                  className="text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-coral-deep)]"
-                >
-                  {removing ? "Removing..." : "Remove from favorites"}
-                </button>
-                <button onClick={() => setOpen(false)} className="btn btn-ghost btn-sm">
-                  Close
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <ConfirmDialog
         open={removeOpen}
@@ -187,49 +100,6 @@ function AlbumTile({ item }: { item: Item }) {
         }}
       />
     </>
-  );
-}
-
-function ExportRow({
-  imageId,
-  label,
-  sub,
-  query,
-  basePath,
-}: {
-  imageId: string;
-  label: string;
-  sub: string;
-  query: string;
-  basePath: string;
-}) {
-  return (
-    <li>
-      <a
-        href={`${basePath}/${imageId}${query}`}
-        download
-        className="spring-press flex items-center justify-between gap-4 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3.5 transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:shadow-[var(--shadow-sm)]"
-      >
-        <div className="min-w-0">
-          <p className="serif text-lg leading-tight">{label}</p>
-          <p className="mt-0.5 text-xs text-[color:var(--color-ink-muted)]">{sub}</p>
-        </div>
-        <span className="flex items-center gap-1 text-xs font-semibold text-[color:var(--color-coral-deep)]">
-          Download
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-3.5 w-3.5"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </span>
-      </a>
-    </li>
   );
 }
 

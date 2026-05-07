@@ -7,13 +7,22 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
+function parsePrintTarget(value: string | null): Extract<UpscaleTarget, "8x10" | "16x20"> | null {
+  if (value === null) return "8x10";
+  if (value === "8x10" || value === "16x20") return value;
+  return null;
+}
+
 export async function GET(req: NextRequest, { params }: { params: Promise<{ imageId: string }> }) {
   const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const { imageId } = await params;
-  const target = (req.nextUrl.searchParams.get("target") ?? "8x10") as UpscaleTarget;
+  const target = parsePrintTarget(req.nextUrl.searchParams.get("target"));
+  if (!target) {
+    return NextResponse.json({ error: "invalid target" }, { status: 400 });
+  }
 
   try {
     await upscaleImage({ userId: user.id, imageId, target });

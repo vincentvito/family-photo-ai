@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { getGenerationState } from "@/lib/generate-queries";
 import type { AspectRatio } from "@/lib/providers/types";
 import Confetti from "@/components/motion/Confetti";
+import ExportMenu from "@/components/studio/ExportMenu";
 
 type State = Awaited<ReturnType<typeof getGenerationState>>;
 
@@ -271,29 +272,34 @@ const ImageTile = memo(function ImageTile({
         />
       </button>
 
-      {/* Hover controls */}
       <div className="tile-action-overlay pointer-events-none absolute inset-0 z-10 flex items-end justify-start bg-gradient-to-t from-[color:rgba(31,26,36,0.75)] via-transparent to-transparent p-4 transition-opacity">
-        <button
-          type="button"
-          onClick={() => onRegenerateClick(imageId)}
-          className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-3.5 w-3.5"
+        <div className="flex max-w-full flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => onRegenerateClick(imageId)}
+            className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
           >
-            <path d="M21 12a9 9 0 0 1-15.2 6.5" />
-            <path d="M3 12A9 9 0 0 1 18.2 5.5" />
-            <path d="M18 2v4h-4" />
-            <path d="M6 22v-4h4" />
-          </svg>
-          Regenerate
-        </button>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3.5 w-3.5"
+            >
+              <path d="M21 12a9 9 0 0 1-15.2 6.5" />
+              <path d="M3 12A9 9 0 0 1 18.2 5.5" />
+              <path d="M18 2v4h-4" />
+              <path d="M6 22v-4h4" />
+            </svg>
+            Regenerate
+          </button>
+          <ExportMenu
+            imageId={imageId}
+            triggerClassName="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+          />
+        </div>
       </div>
 
       <motion.button
@@ -386,27 +392,11 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
               className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
             />
             <div className="absolute right-3 top-3 flex gap-2">
-              <a
-                href={`/api/images/${imageId}`}
-                download={`family-photo-${imageId}.jpg`}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
-                aria-label="Download portrait"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-3.5 w-3.5"
-                  aria-hidden
-                >
-                  <path d="M12 3v12" />
-                  <path d="m7 10 5 5 5-5" />
-                  <path d="M5 21h14" />
-                </svg>
-              </a>
+              <ExportMenu
+                imageId={imageId}
+                triggerVariant="icon"
+                triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
               <button
                 type="button"
                 onClick={onClose}

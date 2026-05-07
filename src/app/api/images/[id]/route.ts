@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db, schema } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth-helpers";
-import { deleteStoredImage, readStoredImage } from "@/lib/storage";
+import { deleteStoredImage, deleteStoredPrefix, readStoredImage } from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 
@@ -81,7 +81,10 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
     }
 
     const key = `generations/${row.image.generationId}/${row.image.fileName}`;
-    await deleteStoredImage(key);
+    await Promise.all([
+      deleteStoredImage(key),
+      deleteStoredPrefix(`cache/upscales/${row.image.id}-`),
+    ]);
 
     await db.transaction(async (tx) => {
       await tx.delete(schema.albumImages).where(eq(schema.albumImages.imageId, row.image.id));

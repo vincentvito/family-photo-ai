@@ -1,7 +1,7 @@
 import { db, schema } from "@/lib/db";
 import { studioCutoffDate } from "@/lib/retention";
 import { deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
-import { lt } from "drizzle-orm";
+import { inArray, lt } from "drizzle-orm";
 
 export async function cleanupExpiredStudio() {
   const cutoff = studioCutoffDate();
@@ -10,6 +10,14 @@ export async function cleanupExpiredStudio() {
     db.select().from(schema.generations).where(lt(schema.generations.createdAt, cutoff)),
     db.select().from(schema.people).where(lt(schema.people.createdAt, cutoff)),
   ]);
+  const expiredGenerationIds = expiredGenerations.map((generation) => generation.id);
+  const expiredImages =
+    expiredGenerationIds.length > 0
+      ? await db
+          .select({ id: schema.images.id })
+          .from(schema.images)
+          .where(inArray(schema.images.generationId, expiredGenerationIds))
+      : [];
 
   await Promise.all([
     ...expiredGenerations.flatMap((generation) => {
@@ -30,6 +38,11 @@ export async function cleanupExpiredStudio() {
       }
       return tasks;
     }),
+    ...expiredImages.map((image) =>
+      deleteStoredPrefix(`cache/upscales/${image.id}-`).catch((err) => {
+        console.warn(`cleanupExpiredStudio: failed to delete upscales for ${image.id}`, err);
+      }),
+    ),
     ...expiredPeople.map((person) =>
       deleteStoredPrefix(`uploads/${person.id}/`).catch((err) => {
         console.warn(`cleanupExpiredStudio: failed to delete uploads for ${person.id}`, err);
@@ -44,6 +57,7 @@ export async function cleanupExpiredStudio() {
   return {
     cutoff,
     generationsStoragePurged: expiredGenerations.length,
+    upscaleCachesPurged: expiredImages.length,
     peopleDeleted: expiredPeople.length,
   };
 }

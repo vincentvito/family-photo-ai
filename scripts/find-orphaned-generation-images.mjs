@@ -1,5 +1,5 @@
 /**
- * Find R2 objects under generations/ that are not referenced by db.images.
+ * Find R2 generation images and cached upscales that are not referenced by db.images.
  *
  * Dry run:
  *   node scripts/find-orphaned-generation-images.mjs
@@ -9,6 +9,7 @@
  *
  * Optional flags:
  *   --prefix=generations/<generationId>/
+ *   --prefix=cache/upscales/
  *   --json
  */
 import { existsSync, readFileSync } from "node:fs";
@@ -26,10 +27,10 @@ const args = new Set(process.argv.slice(2).filter((arg) => !arg.startsWith("--pr
 const prefixArg = process.argv.slice(2).find((arg) => arg.startsWith("--prefix="));
 const deleteMode = args.has("--delete");
 const jsonMode = args.has("--json");
-const prefix = prefixArg?.slice("--prefix=".length) || "generations/";
+const prefix = prefixArg?.slice("--prefix=".length);
 
-if (!prefix.startsWith("generations/")) {
-  throw new Error(`Refusing to scan outside generations/: ${prefix}`);
+if (prefix && !prefix.startsWith("generations/") && !prefix.startsWith("cache/upscales/")) {
+  throw new Error(`Refusing to scan outside generations/ or cache/upscales/: ${prefix}`);
 }
 
 const databaseUrl = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
@@ -39,29 +40,42 @@ const sql = postgres(databaseUrl, { max: 1, prepare: false });
 
 try {
   const rows = await sql`
-    select generation_id as "generationId", file_name as "fileName"
+    select id, generation_id as "generationId", file_name as "fileName"
     from familyphotoai.images
   `;
 
   const referencedKeys = new Set(
     rows.map((row) => `generations/${row.generationId}/${row.fileName}`),
   );
-  const storedKeys = await listStoredKeys(prefix);
+  const referencedImageIds = new Set(rows.map((row) => row.id));
+  const prefixes = prefix ? [prefix] : ["generations/", "cache/upscales/"];
+  const storedKeys = (await Promise.all(prefixes.map(listStoredKeys))).flat();
   const imageKeys = storedKeys.filter(isGenerationImageKey);
+  const upscaleKeys = storedKeys.filter(isUpscaleCacheKey);
   const orphanedKeys = imageKeys.filter((key) => !referencedKeys.has(key));
+  const orphanedUpscaleKeys = upscaleKeys.filter((key) => {
+    const imageId = parseUpscaleImageId(key);
+    return !imageId || !referencedImageIds.has(imageId);
+  });
+  const allOrphanedKeys = [...orphanedKeys, ...orphanedUpscaleKeys];
 
   const result = {
     mode: deleteMode ? "delete" : "dry-run",
-    prefix,
+    prefixes,
     storedGenerationImages: imageKeys.length,
+    storedUpscaleImages: upscaleKeys.length,
     referencedGenerationImages: referencedKeys.size,
+    referencedImages: referencedImageIds.size,
     orphanedImages: orphanedKeys.length,
+    orphanedUpscales: orphanedUpscaleKeys.length,
+    totalOrphanedObjects: allOrphanedKeys.length,
     orphanedKeys,
+    orphanedUpscaleKeys,
     deletedKeys: [],
   };
 
   if (deleteMode) {
-    for (const key of orphanedKeys) {
+    for (const key of allOrphanedKeys) {
       await deleteStoredImage(key);
       result.deletedKeys.push(key);
     }
@@ -71,14 +85,16 @@ try {
     console.log(JSON.stringify(result, null, 2));
   } else {
     console.log(
-      `${deleteMode ? "Deleted" : "Found"} ${orphanedKeys.length} orphaned generation image${orphanedKeys.length === 1 ? "" : "s"} under ${prefix}`,
+      `${deleteMode ? "Deleted" : "Found"} ${allOrphanedKeys.length} orphaned storage object${allOrphanedKeys.length === 1 ? "" : "s"} under ${prefixes.join(", ")}`,
     );
-    console.log(`Stored image objects: ${imageKeys.length}`);
+    console.log(`Stored generation image objects: ${imageKeys.length}`);
+    console.log(`Stored upscale cache objects: ${upscaleKeys.length}`);
     console.log(`Referenced DB image objects: ${referencedKeys.size}`);
-    if (!deleteMode && orphanedKeys.length > 0) {
+    if (!deleteMode && allOrphanedKeys.length > 0) {
       console.log("Dry run only. Re-run with --delete to remove these objects.");
     }
     for (const key of orphanedKeys) console.log(`- ${key}`);
+    for (const key of orphanedUpscaleKeys) console.log(`- ${key}`);
   }
 } finally {
   await sql.end();
@@ -110,6 +126,15 @@ function unquoteEnv(value) {
 
 function isGenerationImageKey(key) {
   return /^generations\/[^/]+\/[^/]+\.(jpe?g|png|webp)$/i.test(key);
+}
+
+function isUpscaleCacheKey(key) {
+  return /^cache\/upscales\/[^/]+-(8x10|16x20)\.jpg$/i.test(key);
+}
+
+function parseUpscaleImageId(key) {
+  const match = key.match(/^cache\/upscales\/(.+)-(8x10|16x20)\.jpg$/i);
+  return match?.[1] ?? null;
 }
 
 function bucket() {

@@ -178,7 +178,7 @@ export async function readStoredImage(key: string): Promise<Buffer> {
  */
 export async function storedImageExists(key: string): Promise<boolean> {
   try {
-    await s3().send(new GetObjectCommand({ Bucket: bucket(), Key: key }));
+    await s3().send(new HeadObjectCommand({ Bucket: bucket(), Key: key }));
     return true;
   } catch {
     return false;
