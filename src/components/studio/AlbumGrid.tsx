@@ -65,7 +65,9 @@ function AlbumTile({ item }: { item: Item }) {
           />
         </div>
         <figcaption className="flex flex-col gap-2.5 px-4 py-3">
-          <span className={`chip chip-${chip} max-w-full self-start whitespace-normal leading-tight`}>
+          <span
+            className={`chip chip-${chip} max-w-full self-start whitespace-normal leading-tight`}
+          >
             <span className={`dot dot-${chip}`} />
             {labelFor(item.generation.themeId)}
           </span>
