@@ -22,10 +22,7 @@ const projectId = process.env.VERCEL_PROJECT_ID;
 const teamId = process.env.VERCEL_ORG_ID ?? process.env.VERCEL_TEAM_ID;
 const targets = parseTargets();
 
-const requiredKeys = [
-  "STRIPE_PRICE_FAMILYSHOOT_PRO_MONTHLY",
-  "STRIPE_WEBHOOK_SECRET",
-];
+const requiredKeys = ["STRIPE_PRICE_FAMILYSHOOT_PRO_MONTHLY", "STRIPE_WEBHOOK_SECRET"];
 
 const optionalKeys = ["STRIPE_PORTAL_CONFIGURATION_ID"];
 const keys = [...requiredKeys, ...optionalKeys].filter((key) => process.env[key]);

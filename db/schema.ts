@@ -49,8 +49,8 @@ export const generations = familyphotoai.table("generations", {
   customVibeDescription: text("custom_vibe_description"),
   /** JSON-encoded slot[] of Replicate prediction IDs + retry count, one per variant. */
   replicatePredictionIds: text("replicate_prediction_ids"),
-  /** Model id from MODEL_CATALOG (e.g. "nanobanana", "gpt-image-2"). */
-  model: text("model").notNull().default("nanobanana"),
+  /** Model id from MODEL_CATALOG (e.g. "nanobanana", "nano-banana-pro", "gpt-image-2"). */
+  model: text("model").notNull().default("gpt-image-2"),
   /**
    * Pack tier this shoot's credit was funded by. Drives per-shoot refine cap.
    * Null on legacy shoots created before tier tracking — treated as the most
@@ -102,7 +102,7 @@ export const albums = familyphotoai.table("albums", {
  */
 export const appSettings = familyphotoai.table("app_settings", {
   id: text("id").primaryKey().default("default"),
-  defaultModel: text("default_model").notNull().default("nanobanana"),
+  defaultModel: text("default_model").notNull().default("gpt-image-2"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 

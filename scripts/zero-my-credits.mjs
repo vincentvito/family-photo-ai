@@ -161,7 +161,9 @@ async function runSubscriptionMode(userId) {
       return;
     }
     if (delta > remaining) {
-      console.log(`Note: requested ${delta} but only ${remaining} remaining; clamping to ${remaining}.`);
+      console.log(
+        `Note: requested ${delta} but only ${remaining} remaining; clamping to ${remaining}.`,
+      );
     }
     const applied = Math.min(delta, remaining);
     await sql`
@@ -182,7 +184,9 @@ async function runSubscriptionMode(userId) {
       SET credits = ${newCredits}
       WHERE id = ${target.id}
     `;
-    console.log(`Reduced credit_usages ${target.id} by -${applied} (was ${target.credits}, now ${newCredits}).`);
+    console.log(
+      `Reduced credit_usages ${target.id} by -${applied} (was ${target.credits}, now ${newCredits}).`,
+    );
   }
 
   const finalUsed = await getPeriodUsage(userId, sub.current_period_start, sub.current_period_end);

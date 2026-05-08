@@ -385,7 +385,7 @@ export const THEMES: Theme[] = [
       "Brooklyn Bridge underfoot, Manhattan behind them. Instantly New York, casual and cinematic.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-new-york-city.png",
+    coverImage: "/samples/theme-new-york-city.jpg",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -409,7 +409,7 @@ export const THEMES: Theme[] = [
       "The Eiffel Tower close behind them, flowers and a baguette in hand. Elegant without feeling staged.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-paris-family-stroll.png",
+    coverImage: "/samples/theme-paris-family-stroll.jpg",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -433,7 +433,7 @@ export const THEMES: Theme[] = [
       "A plaid blanket under the tree, lemonade, strawberries and the kind of laughter that needs no pose.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-backyard-picnic.png",
+    coverImage: "/samples/theme-backyard-picnic.jpg",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -457,7 +457,7 @@ export const THEMES: Theme[] = [
       "Rain on the window, blankets on the couch, a book open in someone's lap. Soft and close.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-sunday-sofa.png",
+    coverImage: "/samples/theme-sunday-sofa.jpg",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -481,7 +481,7 @@ export const THEMES: Theme[] = [
       "Rows of apple trees, flannel layers, a wooden basket and one kid reaching for the best apple.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-orchard-picking.png",
+    coverImage: "/samples/theme-orchard-picking.jpg",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {

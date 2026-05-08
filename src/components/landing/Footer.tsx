@@ -51,14 +51,14 @@ export default function Footer() {
           <p className="small-caps text-[color:rgba(251,248,243,0.55)]">Care</p>
           <ul className="mt-4 space-y-2.5 text-sm text-[color:rgba(251,248,243,0.85)]">
             <li>
-              <a href="#" className="hover:text-white transition-colors">
+              <Link href="/privacy" className="hover:text-white transition-colors">
                 Privacy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-white transition-colors">
+              <Link href="/terms" className="hover:text-white transition-colors">
                 Terms
-              </a>
+              </Link>
             </li>
             <li>
               <a

@@ -8,18 +8,18 @@ type Pair = { before: string; after: string; label: string };
 
 const pairs: Pair[] = [
   {
-    before: "/samples/before-wes-anderson-family.png",
-    after: "/samples/after-wes-anderson-family.png",
+    before: "/samples/before-wes-anderson-family.jpg",
+    after: "/samples/after-wes-anderson-family.jpg",
     label: "Wes Anderson Symmetry - 4 uploads to one portrait",
   },
   {
-    before: "/samples/before-watercolor-family.png",
-    after: "/samples/after-watercolor-family.png",
+    before: "/samples/before-watercolor-family.jpg",
+    after: "/samples/after-watercolor-family.jpg",
     label: "Watercolor Storybook - 3 uploads to one illustration",
   },
   {
-    before: "/samples/before-pixar-family.png",
-    after: "/samples/after-pixar-family.png",
+    before: "/samples/before-pixar-family.jpg",
+    after: "/samples/after-pixar-family.jpg",
     label: "Pixar Family - 4 uploads to one animated portrait",
   },
 ];

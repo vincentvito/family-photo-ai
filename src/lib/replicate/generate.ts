@@ -111,14 +111,23 @@ export async function createSinglePrediction(args: {
           resolution: "1K",
           output_format: "jpg",
         }
-      : {
-          prompt,
-          input_images: args.imageUrls,
-          aspect_ratio: args.aspectRatio,
-          quality: "medium",
-          number_of_images: 1,
-          output_format: "jpeg",
-        };
+      : args.modelId === "nano-banana-pro"
+        ? {
+            prompt,
+            image_input: args.imageUrls,
+            aspect_ratio: args.aspectRatio,
+            resolution: "2K",
+            output_format: "jpg",
+            safety_filter_level: "block_only_high",
+          }
+        : {
+            prompt,
+            input_images: args.imageUrls,
+            aspect_ratio: args.aspectRatio,
+            quality: "medium",
+            number_of_images: 1,
+            output_format: "jpeg",
+          };
 
   const prediction = await client.predictions.create({
     model: model.slug,

@@ -23,6 +23,7 @@ import {
   type GenerationModelId,
 } from "@/lib/replicate/models";
 import { uploadLocationReference } from "@/lib/upload-client";
+import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 
 type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
@@ -105,7 +106,7 @@ export default function ThemeBoard({
     { kind: "theme"; theme: Theme } | { kind: "custom" } | null
   >(null);
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(
-    () => new Set(roster.map((m) => m.id)),
+    () => new Set(roster.slice(0, MAX_SHOT_SUBJECTS).map((m) => m.id)),
   );
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,6 +118,11 @@ export default function ThemeBoard({
   const selectedHasReference = roster.some((m) => selectedSubjectIds.has(m.id) && m.hasReference);
 
   const toggleSubject = (id: string) => {
+    if (!selectedSubjectIds.has(id) && selectedSubjectIds.size >= MAX_SHOT_SUBJECTS) {
+      setError(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
+      return;
+    }
+    setError(null);
     setSelectedSubjectIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -124,8 +130,14 @@ export default function ThemeBoard({
       return next;
     });
   };
-  const selectAllSubjects = () => setSelectedSubjectIds(new Set(roster.map((m) => m.id)));
-  const clearSubjects = () => setSelectedSubjectIds(new Set());
+  const selectAllSubjects = () => {
+    setError(null);
+    setSelectedSubjectIds(new Set(roster.slice(0, MAX_SHOT_SUBJECTS).map((m) => m.id)));
+  };
+  const clearSubjects = () => {
+    setError(null);
+    setSelectedSubjectIds(new Set());
+  };
   const setCardSlotStyle = (slotIndex: number, styleId: CardSlotStyleSelection) => {
     setCardSlotStyleIds((prev) =>
       prev.map((current, index) => (index === slotIndex ? styleId : current)),
@@ -134,8 +146,9 @@ export default function ThemeBoard({
 
   const buildSubjectIdsPayload = (): string[] | undefined => {
     if (roster.length === 0) return undefined;
-    if (selectedSubjectIds.size === roster.length) return undefined;
-    return roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
+    const selected = roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
+    if (selected.length === roster.length && selected.length <= MAX_SHOT_SUBJECTS) return undefined;
+    return selected;
   };
 
   const explicitShape =

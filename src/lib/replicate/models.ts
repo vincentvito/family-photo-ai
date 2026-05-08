@@ -5,9 +5,11 @@ import type { AspectRatio } from "@/lib/providers/types";
  * value here and the change propagates to generation, refinement, and upscale.
  */
 export const MODELS = {
-  /** Google Nano Banana 2 — used for both initial generation and refinement. */
+  /** Google Nano Banana 2 - used for both initial generation and refinement. */
   nanoBanana: "google/nano-banana-2",
-  /** OpenAI GPT Image 2 — alternative photoreal model for admin testing. */
+  /** Google Nano Banana Pro - higher-resolution image generation/editing model. */
+  nanoBananaPro: "google/nano-banana-pro",
+  /** OpenAI GPT Image 2 - default photoreal model. */
   gptImage2: "openai/gpt-image-2",
   /** Print-ready upscaler (preferred). */
   clarityUpscaler: "philz1337x/clarity-upscaler",
@@ -23,7 +25,7 @@ export type ModelSlug = (typeof MODELS)[keyof typeof MODELS];
  * model identifier. Pricing is per output image at the configured tier so the
  * admin can see cost before kicking off a shoot.
  */
-export type GenerationModelId = "nanobanana" | "gpt-image-2";
+export type GenerationModelId = "nanobanana" | "nano-banana-pro" | "gpt-image-2";
 
 export type GenerationModel = {
   id: GenerationModelId;
@@ -32,7 +34,7 @@ export type GenerationModel = {
   /** Roughly USD per output image at the tier we use. */
   priceUsd: number;
   priceLabel: string;
-  /** Configuration tier shown in the UI ("1K resolution", "Medium quality"…). */
+  /** Configuration tier shown in the UI, such as "1K resolution" or "Medium quality". */
   tierLabel: string;
   supportedAspectRatios: readonly AspectRatio[];
 };
@@ -47,6 +49,15 @@ export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
     priceUsd: 0.067,
     priceLabel: "$0.067 / image",
     tierLabel: "1K resolution",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+  },
+  "nano-banana-pro": {
+    id: "nano-banana-pro",
+    slug: MODELS.nanoBananaPro,
+    label: "Nano Banana Pro",
+    priceUsd: 0.15,
+    priceLabel: "$0.15 / image",
+    tierLabel: "2K resolution",
     supportedAspectRatios: SUPPORTED_ASPECTS,
   },
   "gpt-image-2": {

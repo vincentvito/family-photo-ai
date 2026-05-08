@@ -99,7 +99,7 @@ function parsePredictionSlots(raw: string | null): PredictionSlot[] {
 function resolveModelId(model: string): GenerationModelId {
   return GENERATION_MODEL_IDS.includes(model as GenerationModelId)
     ? (model as GenerationModelId)
-    : "nanobanana";
+    : "gpt-image-2";
 }
 
 function resolveOriginalSlot(
