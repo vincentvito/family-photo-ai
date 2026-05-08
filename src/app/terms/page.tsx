@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BrandLogo from "@/components/brand/BrandLogo";
-import Footer from "@/components/landing/Footer";
+import LegalPage, { type LegalSection } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 
 const lastUpdated = "May 8, 2026";
 
-const sections = [
+const sections: LegalSection[] = [
   {
     title: "1. Agreement to these terms",
     body: [
@@ -133,98 +132,47 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <>
-      <main className="bg-[color:var(--color-bg)]">
-        <header className="px-6 py-6 sm:px-8">
-          <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
-            <BrandLogo href="/" />
-            <Link href="/studio/roster" className="btn btn-coral btn-sm">
-              Start a shoot
-            </Link>
-          </div>
-        </header>
-
-        <section className="px-6 pb-16 pt-10 sm:px-8 sm:pb-24 sm:pt-16">
-          <div className="mx-auto max-w-5xl">
-            <div className="max-w-3xl">
-              <span className="chip chip-coral">
-                <span className="dot dot-coral" />
-                Terms
-              </span>
-              <h1 className="serif mt-5 text-5xl leading-[1.02] sm:text-6xl">
-                Terms and Conditions
-              </h1>
-              <p className="mt-5 text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-                These terms explain the rules for using FamilyShoot, including photo uploads,
-                consent, AI-generated images, purchases, subscriptions, storage, and acceptable use.
-              </p>
-              <p className="mt-4 text-sm font-medium text-[color:var(--color-ink-muted)]">
-                Last updated: {lastUpdated}
-              </p>
-            </div>
-
-            <div className="mt-12 grid gap-10 lg:grid-cols-[220px_1fr]">
-              <aside className="hidden lg:block">
-                <div className="sticky top-8 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
-                  <p className="small-caps text-[color:var(--color-ink-muted)]">Related</p>
-                  <Link
-                    href="/privacy"
-                    className="mt-3 block text-sm font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
-                  >
-                    Privacy Policy
-                  </Link>
-                  <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                    Questions can be sent to{" "}
-                    <a
-                      href="mailto:hello@familyshoot.com"
-                      className="font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
-                    >
-                      hello@familyshoot.com
-                    </a>
-                    .
-                  </p>
-                </div>
-              </aside>
-
-              <div className="space-y-5">
-                {sections.map((section) => (
-                  <section
-                    key={section.title}
-                    className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8"
-                  >
-                    <h2 className="serif text-2xl leading-tight">{section.title}</h2>
-                    <div className="mt-4 space-y-4">
-                      {section.body.map((paragraph) => (
-                        <p
-                          key={paragraph}
-                          className="text-[0.98rem] leading-relaxed text-[color:var(--color-ink-muted)]"
-                        >
-                          {paragraph}
-                        </p>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-
-                <section className="rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 sm:p-8">
-                  <h2 className="serif text-2xl leading-tight">Contact us</h2>
-                  <p className="mt-4 text-[0.98rem] leading-relaxed text-[color:var(--color-ink-muted)]">
-                    For questions about these terms, email{" "}
-                    <a
-                      href="mailto:hello@familyshoot.com"
-                      className="font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
-                    >
-                      hello@familyshoot.com
-                    </a>
-                    .
-                  </p>
-                </section>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+    <LegalPage
+      label="Terms"
+      tone="coral"
+      title="Terms and Conditions"
+      intro="These terms explain the rules for using FamilyShoot, including photo uploads, consent, AI-generated images, purchases, subscriptions, storage, and acceptable use."
+      lastUpdated={lastUpdated}
+      sections={sections}
+      sidebarTitle="Related"
+      sidebar={
+        <>
+          <Link
+            href="/privacy"
+            className="mt-3 block text-sm font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
+          >
+            Privacy Policy
+          </Link>
+          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+            Questions can be sent to{" "}
+            <a
+              href="mailto:hello@familyshoot.com"
+              className="font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
+            >
+              hello@familyshoot.com
+            </a>
+            .
+          </p>
+        </>
+      }
+      contactTitle="Contact us"
+      contactBody={
+        <>
+          For questions about these terms, email{" "}
+          <a
+            href="mailto:hello@familyshoot.com"
+            className="font-medium text-[color:var(--color-coral-deep)] hover:text-[color:var(--color-ink)]"
+          >
+            hello@familyshoot.com
+          </a>
+          .
+        </>
+      }
+    />
   );
 }

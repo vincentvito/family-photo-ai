@@ -105,8 +105,9 @@ export default function ThemeBoard({
   const [pendingShoot, setPendingShoot] = useState<
     { kind: "theme"; theme: Theme } | { kind: "custom" } | null
   >(null);
+  const subjectLimit = isAdmin ? null : MAX_SHOT_SUBJECTS;
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(
-    () => new Set(roster.slice(0, MAX_SHOT_SUBJECTS).map((m) => m.id)),
+    () => new Set((subjectLimit ? roster.slice(0, subjectLimit) : roster).map((m) => m.id)),
   );
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -118,8 +119,8 @@ export default function ThemeBoard({
   const selectedHasReference = roster.some((m) => selectedSubjectIds.has(m.id) && m.hasReference);
 
   const toggleSubject = (id: string) => {
-    if (!selectedSubjectIds.has(id) && selectedSubjectIds.size >= MAX_SHOT_SUBJECTS) {
-      setError(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
+    if (subjectLimit && !selectedSubjectIds.has(id) && selectedSubjectIds.size >= subjectLimit) {
+      setError(`Choose up to ${subjectLimit} people or pets for one shot.`);
       return;
     }
     setError(null);
@@ -132,7 +133,9 @@ export default function ThemeBoard({
   };
   const selectAllSubjects = () => {
     setError(null);
-    setSelectedSubjectIds(new Set(roster.slice(0, MAX_SHOT_SUBJECTS).map((m) => m.id)));
+    setSelectedSubjectIds(
+      new Set((subjectLimit ? roster.slice(0, subjectLimit) : roster).map((m) => m.id)),
+    );
   };
   const clearSubjects = () => {
     setError(null);
@@ -147,7 +150,7 @@ export default function ThemeBoard({
   const buildSubjectIdsPayload = (): string[] | undefined => {
     if (roster.length === 0) return undefined;
     const selected = roster.filter((m) => selectedSubjectIds.has(m.id)).map((m) => m.id);
-    if (selected.length === roster.length && selected.length <= MAX_SHOT_SUBJECTS) return undefined;
+    if (selected.length === roster.length) return undefined;
     return selected;
   };
 
@@ -638,6 +641,7 @@ export default function ThemeBoard({
                             onToggle={toggleSubject}
                             onSelectAll={selectAllSubjects}
                             onClear={clearSubjects}
+                            maxSubjects={subjectLimit}
                           />
                         </div>
                       )}
@@ -988,6 +992,7 @@ export default function ThemeBoard({
             onToggle={toggleSubject}
             onSelectAll={selectAllSubjects}
             onClear={clearSubjects}
+            maxSubjects={subjectLimit}
           />
         )}
       </ConfirmDialog>

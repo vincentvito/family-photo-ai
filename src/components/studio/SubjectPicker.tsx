@@ -9,29 +9,31 @@ export default function SubjectPicker({
   onToggle,
   onSelectAll,
   onClear,
+  maxSubjects = MAX_SHOT_SUBJECTS,
 }: {
   roster: RosterMember[];
   selectedIds: Set<string>;
   onToggle: (id: string) => void;
   onSelectAll: () => void;
   onClear: () => void;
+  maxSubjects?: number | null;
 }) {
   if (roster.length === 0) return null;
 
   const selectedWithRef = roster.filter((m) => selectedIds.has(m.id) && m.hasReference).length;
   const selectedCount = selectedIds.size;
   const invalid = selectedWithRef === 0;
-  const cappedRoster = roster.slice(0, MAX_SHOT_SUBJECTS);
-  const maxSelectable = Math.min(roster.length, MAX_SHOT_SUBJECTS);
+  const cappedRoster = maxSubjects ? roster.slice(0, maxSubjects) : roster;
+  const maxSelectable = maxSubjects ? Math.min(roster.length, maxSubjects) : roster.length;
   const allSelected =
     selectedIds.size === maxSelectable && cappedRoster.every((m) => selectedIds.has(m.id));
-  const atLimit = selectedIds.size >= MAX_SHOT_SUBJECTS;
+  const atLimit = maxSubjects ? selectedIds.size >= maxSubjects : false;
 
   return (
     <div>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium uppercase tracking-[0.08em] text-[color:var(--color-ink-faint)]">
-          Who&apos;s in this shoot ({selectedCount}/{MAX_SHOT_SUBJECTS})
+          Who&apos;s in this shoot {maxSubjects ? `(${selectedCount}/${maxSubjects})` : `(${selectedCount})`}
         </p>
         <div className="flex items-center gap-1.5 text-xs">
           <button
@@ -40,7 +42,7 @@ export default function SubjectPicker({
             disabled={allSelected}
             className="spring-press rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-3 py-1.5 font-semibold text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] transition-all hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:bg-[color:var(--color-bg)] disabled:opacity-45"
           >
-            {roster.length > MAX_SHOT_SUBJECTS ? `Max ${MAX_SHOT_SUBJECTS}` : "All"}
+            {maxSubjects && roster.length > maxSubjects ? `Max ${maxSubjects}` : "All"}
           </button>
           <button
             type="button"
@@ -117,9 +119,9 @@ export default function SubjectPicker({
           Select at least one person or pet with a reference photo to start the shoot.
         </p>
       )}
-      {!invalid && atLimit && roster.length > MAX_SHOT_SUBJECTS && (
+      {!invalid && atLimit && maxSubjects && roster.length > maxSubjects && (
         <p className="mt-3 rounded-[var(--radius-sm)] bg-[color:var(--color-bg-tinted-butter)] px-3 py-2 text-center text-xs text-[color:var(--color-ink-muted)]">
-          Max {MAX_SHOT_SUBJECTS} people or pets per shot.
+          Max {maxSubjects} people or pets per shot.
         </p>
       )}
     </div>

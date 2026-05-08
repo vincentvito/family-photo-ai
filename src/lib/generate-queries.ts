@@ -136,7 +136,7 @@ export async function startGeneration(
   if (withReference.length === 0) {
     throw new Error("Pick at least one person or pet with a reference photo.");
   }
-  if (!parsed.subjectIds && roster.length > MAX_SHOT_SUBJECTS) {
+  if (!admin && !parsed.subjectIds && roster.length > MAX_SHOT_SUBJECTS) {
     throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
   }
   const missingReferences = roster.filter((subject) => subject.referencePaths.length === 0);
@@ -149,7 +149,7 @@ export async function startGeneration(
   // reference photo rather than blocking the shoot — the selector already
   // surfaces missing-reference state to them.
   const effectiveRoster = parsed.subjectIds ? withReference : roster;
-  if (effectiveRoster.length > MAX_SHOT_SUBJECTS) {
+  if (!admin && effectiveRoster.length > MAX_SHOT_SUBJECTS) {
     throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
   }
 
