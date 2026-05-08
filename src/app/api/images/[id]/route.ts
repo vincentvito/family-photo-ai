@@ -35,7 +35,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       .limit(1);
     if (image[0]) {
       const { image: storedImage, generation } = image[0];
-      if (!generation || generation.createdAt < studioCutoffDate()) {
+      if (!generation || generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
         return new NextResponse("Not found", { status: 404 });
       }
       key = `generations/${storedImage.generationId}/${storedImage.fileName}`;
@@ -70,7 +70,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
       .where(and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)))
       .limit(1);
 
-    if (!row || row.generation.createdAt < studioCutoffDate()) {
+    if (!row || row.generation.createdAt < studioCutoffDate(new Date(), row.generation.packTier)) {
       return NextResponse.json({ error: "not found" }, { status: 404 });
     }
     if (row.image.parentImageId === null) {

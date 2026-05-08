@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getGenerationState } from "@/lib/generate-queries";
 import { resolveTheme } from "@/lib/themes";
-import { STUDIO_RETENTION_DAYS, studioDaysRemaining } from "@/lib/retention";
+import { studioDaysRemaining, studioRetentionDays } from "@/lib/retention";
 import GenerationBoard from "@/components/studio/GenerationBoard";
 import { getCurrentUser } from "@/lib/auth-helpers";
 
@@ -15,7 +15,8 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
   if (!state) notFound();
 
   const theme = resolveTheme(state.generation);
-  const daysLeft = studioDaysRemaining(state.generation.createdAt);
+  const retentionDays = studioRetentionDays(state.generation.packTier);
+  const daysLeft = studioDaysRemaining(state.generation.createdAt, state.generation.packTier);
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
@@ -29,9 +30,9 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
           <em className="serif-italic text-[color:var(--color-coral)]">.</em>
         </h1>
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-          Four variations. Click any portrait to view it larger, or heart your keepers for the
+          Four starting images. Open any image to view it larger, or heart your keepers for the
           album. This shoot stays available for{" "}
-          {daysLeft === 1 ? "1 more day" : `${Math.min(daysLeft, STUDIO_RETENTION_DAYS)} days`}.
+          {daysLeft === 1 ? "1 more day" : `${Math.min(daysLeft, retentionDays)} days`}.
         </p>
       </div>
 

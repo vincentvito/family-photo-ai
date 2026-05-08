@@ -21,7 +21,7 @@ const pillars: Pillar[] = [
   },
   {
     title: "Not stored forever",
-    body: "Finished images stay available for 14 days, and inactive accounts with no credits may be cleared after a reminder email and about 30 days.",
+    body: "Images stay available for 14 days on one-time packs or 90 days on Pro, and inactive accounts with no shoots left may be cleared after a reminder email.",
     icon: "shield",
   },
 ];

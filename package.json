@@ -12,6 +12,11 @@
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:studio": "drizzle-kit studio",
+    "db:apply-subscriptions": "node scripts/apply-subscription-migration.mjs",
+    "stripe:setup": "node scripts/setup-stripe-subscriptions.mjs",
+    "vercel:env:subscriptions": "node scripts/sync-vercel-subscription-env.mjs",
+    "subscriptions:readiness": "node scripts/verify-subscription-readiness.mjs",
+    "subscriptions:verify-flow": "node scripts/verify-subscription-flow.mjs",
     "samples": "node scripts/generate-samples.mjs",
     "storage:orphans": "node scripts/find-orphaned-generation-images.mjs"
   },

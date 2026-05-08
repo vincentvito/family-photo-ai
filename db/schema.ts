@@ -1,4 +1,4 @@
-import { pgSchema, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgSchema, text, integer, boolean, timestamp, index } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
 export const familyphotoai = pgSchema("familyphotoai");
@@ -56,7 +56,7 @@ export const generations = familyphotoai.table("generations", {
    * Null on legacy shoots created before tier tracking — treated as the most
    * generous tier so we don't retroactively penalize existing users.
    */
-  packTier: text("pack_tier", { enum: ["single", "three", "eight"] }),
+  packTier: text("pack_tier", { enum: ["single", "three", "eight", "pro"] }),
   createdAt: createdAt(),
 });
 
@@ -122,7 +122,11 @@ export const creditTransactions = familyphotoai.table("credit_transactions", {
   userId: text("user_id").notNull(),
   packId: text("pack_id").notNull(),
   credits: integer("credits").notNull(),
+  /** Fulfillment reference. Legacy column name remains for migration compatibility. */
   stripeCheckoutSessionId: text("stripe_checkout_session_id").notNull().unique(),
+  stripeFulfillmentKind: text("stripe_fulfillment_kind", { enum: ["checkout", "invoice"] })
+    .notNull()
+    .default("checkout"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
   stripeEventId: text("stripe_event_id").notNull().unique(),
   stripePriceId: text("stripe_price_id").notNull(),
@@ -131,6 +135,25 @@ export const creditTransactions = familyphotoai.table("credit_transactions", {
     .default("completed"),
   createdAt: createdAt(),
 });
+
+export const subscriptions = familyphotoai.table(
+  "subscriptions",
+  {
+    id: id(),
+    userId: text("user_id").notNull(),
+    stripeCustomerId: text("stripe_customer_id").notNull(),
+    stripeSubscriptionId: text("stripe_subscription_id").notNull().unique(),
+    stripePriceId: text("stripe_price_id").notNull(),
+    planId: text("plan_id").notNull().default("familyshoot_pro_monthly"),
+    status: text("status").notNull(),
+    currentPeriodStart: timestamp("current_period_start"),
+    currentPeriodEnd: timestamp("current_period_end"),
+    cancelAtPeriodEnd: boolean("cancel_at_period_end").notNull().default(false),
+    createdAt: createdAt(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => [index("subscriptions_user_id_updated_at_idx").on(table.userId, table.updatedAt)],
+);
 
 export const creditUsages = familyphotoai.table("credit_usages", {
   id: id(),
@@ -162,3 +185,4 @@ export type AlbumImage = typeof albumImages.$inferSelect;
 export type CreditTransaction = typeof creditTransactions.$inferSelect;
 export type CreditUsage = typeof creditUsages.$inferSelect;
 export type CreditGrant = typeof creditGrants.$inferSelect;
+export type Subscription = typeof subscriptions.$inferSelect;

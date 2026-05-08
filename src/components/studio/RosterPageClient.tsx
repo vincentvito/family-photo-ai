@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +10,16 @@ import AddPersonDialog from "@/components/studio/AddPersonDialog";
 
 type RosterEntry = { person: Person; photos: Photo[] };
 
-export default function RosterPageClient({ initialRoster }: { initialRoster: RosterEntry[] }) {
+export default function RosterPageClient({
+  initialRoster,
+  checkoutStatus,
+}: {
+  initialRoster: RosterEntry[];
+  checkoutStatus?: string;
+}) {
   const [roster, setRoster] = useState<RosterEntry[]>(initialRoster);
   const [error, setError] = useState<string | null>(null);
+  const showCheckoutSuccess = checkoutStatus === "success" || checkoutStatus === "pro-success";
 
   const loadRoster = useCallback(async () => {
     setError(null);
@@ -35,6 +43,8 @@ export default function RosterPageClient({ initialRoster }: { initialRoster: Ros
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
+      {showCheckoutSuccess && <CheckoutSuccessBanner pro={checkoutStatus === "pro-success"} />}
+
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <span className="chip chip-coral">
@@ -96,6 +106,58 @@ export default function RosterPageClient({ initialRoster }: { initialRoster: Ros
         </Link>
       </div>
     </main>
+  );
+}
+
+function CheckoutSuccessBanner({ pro }: { pro: boolean }) {
+  return (
+    <section className="relative mb-8 overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-sage)] bg-[color:var(--color-bg-tinted-sage)] px-6 py-5 shadow-[var(--shadow-md)]">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        {Array.from({ length: 24 }).map((_, index) => (
+          <span
+            key={index}
+            className={`success-confetti absolute ${
+              index % 4 === 0
+                ? "h-2 w-2 rounded-full"
+                : index % 4 === 1
+                  ? "h-1.5 w-3 rounded-[2px]"
+                  : "h-3 w-1.5 rounded-[2px]"
+            } ${
+              index % 3 === 0
+                ? "bg-[color:var(--color-coral)]"
+                : index % 3 === 1
+                  ? "bg-[color:var(--color-sage)]"
+                  : "bg-[color:var(--color-butter)]"
+            }`}
+            style={
+              {
+                left: `${4 + ((index * 13) % 92)}%`,
+                animationDelay: `${index * 0.045}s`,
+                "--confetti-drift": `${(index % 2 === 0 ? 1 : -1) * (18 + (index % 5) * 7)}px`,
+                "--confetti-spin": `${180 + index * 37}deg`,
+                "--confetti-duration": `${1200 + (index % 6) * 130}ms`,
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
+      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="small-caps text-[color:var(--color-sage-deep)]">
+            {pro ? "Pro is active" : "Shoots added"}
+          </p>
+          <p className="serif mt-1 text-2xl leading-tight tracking-[-0.02em] text-[color:var(--color-ink)]">
+            {pro ? "Your monthly shoots are ready." : "Your new shoots are ready."}
+          </p>
+          <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+            Add or review your roster, then start the next photoshoot.
+          </p>
+        </div>
+        <Link href="/studio/output" className="btn btn-sage shrink-0">
+          Continue
+        </Link>
+      </div>
+    </section>
   );
 }
 

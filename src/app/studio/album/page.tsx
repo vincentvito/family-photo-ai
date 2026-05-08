@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAlbum, getRecentShoots } from "@/lib/album-queries";
-import { STUDIO_RETENTION_DAYS, studioDaysRemaining } from "@/lib/retention";
+import {
+  STUDIO_RETENTION_DAYS,
+  PRO_STUDIO_RETENTION_DAYS,
+  studioDaysRemaining,
+} from "@/lib/retention";
 import AlbumGrid from "@/components/studio/AlbumGrid";
 import { getCurrentUser } from "@/lib/auth-helpers";
 
@@ -26,7 +30,7 @@ export default async function AlbumPage() {
           </h1>
           <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
             Everything you&apos;ve kept, plus every shoot still available. Your studio stays open
-            for {STUDIO_RETENTION_DAYS} days.
+            for {STUDIO_RETENTION_DAYS} days, or {PRO_STUDIO_RETENTION_DAYS} days for Pro shoots.
           </p>
         </div>
 
@@ -61,8 +65,7 @@ export default async function AlbumPage() {
             </span>
             <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Still in the studio.</h2>
             <p className="mt-2 max-w-xl text-sm text-[color:var(--color-ink-muted)]">
-              Open any shoot from the last {STUDIO_RETENTION_DAYS} days to favorite, refine, or
-              download before it expires.
+              Open any active shoot to favorite, refine, or download before it expires.
             </p>
           </div>
           <Link href="/studio/output" className="btn btn-ghost btn-sm">
@@ -91,7 +94,7 @@ export default async function AlbumPage() {
 type RecentShoot = Awaited<ReturnType<typeof getRecentShoots>>[number];
 
 function RecentShootCard({ shoot }: { shoot: RecentShoot }) {
-  const daysLeft = studioDaysRemaining(shoot.generation.createdAt);
+  const daysLeft = studioDaysRemaining(shoot.generation.createdAt, shoot.generation.packTier);
   const name = labelFor(shoot.generation.customVibeDescription || shoot.generation.themeId);
   return (
     <div className="flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-4 shadow-[var(--shadow-sm)] sm:flex-row sm:items-center">
@@ -135,7 +138,7 @@ function EmptyAlbum() {
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">Nothing kept yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
         Heart portraits from any shoot to build your album. Shoots stay available for{" "}
-        {STUDIO_RETENTION_DAYS} days.
+        {STUDIO_RETENTION_DAYS} days, or {PRO_STUDIO_RETENTION_DAYS} days for Pro shoots.
       </p>
       <Link href="/studio/roster" className="btn btn-coral mt-7">
         Begin a shoot

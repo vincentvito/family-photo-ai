@@ -7,6 +7,9 @@ export const CARD_ART_STYLE_IDS = [
   "storybook",
   "oil-painting",
   "clay-3d",
+  "editorial-luxe",
+  "colored-pencil",
+  "cinematic-noir",
 ] as const;
 
 export type CardArtStyleId = (typeof CARD_ART_STYLE_IDS)[number];
@@ -19,6 +22,7 @@ export type CardArtStyle = {
   blurb: string;
   previewImage: string;
   promptDirective: string;
+  proOnly?: boolean;
 };
 
 export const DEFAULT_CARD_ART_STYLE_ID: CardArtStyleId = "photoshoot";
@@ -78,12 +82,48 @@ export const CARD_ART_STYLES: readonly CardArtStyle[] = [
     promptDirective:
       "Apply a tactile handmade clay / 3D character treatment: matte clay texture, rounded sculpted forms, soft studio lighting, and handcrafted keepsake charm.",
   },
+  {
+    id: "editorial-luxe",
+    name: "Editorial Luxe",
+    shortName: "Luxe",
+    blurb: "Magazine-grade portrait polish, refined wardrobe color, and elevated lighting.",
+    previewImage: "/samples/theme-leibovitz.jpg",
+    promptDirective:
+      "Apply a premium editorial portrait treatment: magazine-grade lighting, refined wardrobe color harmony, subtle luxury styling, clean professional retouch restraint, crisp faces, and polished commercial portrait finish.",
+    proOnly: true,
+  },
+  {
+    id: "colored-pencil",
+    name: "Colored Pencil",
+    shortName: "Pencil",
+    blurb: "Layered pencil texture, warm paper tone, and handmade keepsake detail.",
+    previewImage: "/samples/card-art-styles/colored-pencil.jpg",
+    promptDirective:
+      "Apply a premium colored-pencil illustration treatment: layered pencil strokes, warm toothy paper, precise hand-drawn facial detail, gentle tonal blending, and refined keepsake-card craft.",
+    proOnly: true,
+  },
+  {
+    id: "cinematic-noir",
+    name: "Cinematic Noir",
+    shortName: "Noir",
+    blurb: "Elegant contrast, dramatic window light, and classic studio atmosphere.",
+    previewImage: "/samples/theme-film-noir.jpg",
+    promptDirective:
+      "Apply a premium cinematic noir portrait treatment: elegant black-and-white contrast, dramatic window-shaped light, refined 1940s studio atmosphere, luminous skin tones in monochrome, and polished film-still composition.",
+    proOnly: true,
+  },
 ];
+
+export const PRO_CARD_ART_STYLES = CARD_ART_STYLES.filter((style) => style.proOnly);
 
 export function getCardArtStyle(id: CardArtStyleId): CardArtStyle {
   const style = CARD_ART_STYLES.find((item) => item.id === id);
   if (!style) throw new Error(`Unknown card art style: ${id}`);
   return style;
+}
+
+export function isProCardArtStyle(id: CardArtStyleId): boolean {
+  return getCardArtStyle(id).proOnly === true;
 }
 
 export function resolveCardArtStyleSelections(

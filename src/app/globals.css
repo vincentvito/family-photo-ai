@@ -258,6 +258,38 @@
     }
   }
 
+  .success-confetti {
+    top: -18px;
+    animation: success-confetti var(--confetti-duration, 1400ms) cubic-bezier(0.18, 0.8, 0.28, 1)
+      both;
+  }
+
+  @keyframes success-confetti {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -18px, 0) scale(0.75) rotate(0deg);
+    }
+    12% {
+      opacity: 0.95;
+    }
+    72% {
+      opacity: 0.85;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(var(--confetti-drift, 32px), 170px, 0) scale(1)
+        rotate(var(--confetti-spin, 220deg));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .success-confetti {
+      animation: none;
+      opacity: 0.25;
+      top: 1rem;
+    }
+  }
+
   /* Back-compat alias for any existing warm-shimmer call sites */
   .warm-shimmer {
     position: relative;

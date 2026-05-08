@@ -158,7 +158,7 @@ const FAQ_JSONLD = {
       name: "How long are my photos stored?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Generated photos and reference uploads are kept for 14 days so customers have time to review, refine, and download their finished images. After that, they are deleted from storage.",
+        text: "Generated photos and reference uploads are kept for 14 days for one-time packs. FamilyShoot Pro shoots are kept for 90 days.",
       },
     },
   ],

@@ -66,6 +66,8 @@ export default function ThemeBoard({
   creditBalance,
   roster,
   outputMode,
+  isProSubscriber,
+  subscriptionRenewalDate,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -75,6 +77,8 @@ export default function ThemeBoard({
   creditBalance: number;
   roster: RosterMember[];
   outputMode: OutputMode;
+  isProSubscriber: boolean;
+  subscriptionRenewalDate: string | null;
 }) {
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
@@ -363,8 +367,10 @@ export default function ThemeBoard({
       {!hasCredits && (
         <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 shadow-[var(--shadow-md)] sm:p-8">
           <CreditPackChooser
-            title="Add credits to unlock your next shoot."
-            description="Pick a pack first. After checkout, come back here and choose the vibe you want to generate."
+            title="Add shoots to keep creating."
+            description="Pick a pack first. After checkout, come back here and choose the vibe for your next shoot."
+            isProSubscriber={isProSubscriber}
+            currentPeriodEnd={subscriptionRenewalDate}
           />
         </section>
       )}
@@ -520,7 +526,7 @@ export default function ThemeBoard({
                   chipColor="sage"
                   themes={photoreal}
                   pending={pending || !hasCredits}
-                  disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                  disabledLabel={!hasCredits ? "Add shoots first" : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -531,7 +537,7 @@ export default function ThemeBoard({
                   chipColor="plum"
                   themes={stylized}
                   pending={pending || !hasCredits}
-                  disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                  disabledLabel={!hasCredits ? "Add shoots first" : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -605,6 +611,7 @@ export default function ThemeBoard({
                         <CardArtStylePicker
                           defaultStyleId={cardDefaultStyleId}
                           slotStyleIds={cardSlotStyleIds}
+                          canUseProStyles={isProSubscriber}
                           onDefaultStyleChange={setCardDefaultStyleId}
                           onSlotStyleChange={setCardSlotStyle}
                         />
@@ -637,7 +644,7 @@ export default function ThemeBoard({
                           }`}
                         >
                           {!hasCredits
-                            ? "Add credits to begin"
+                            ? "Add shoots to begin"
                             : pending && activeTheme?.id === selectedCardTheme.id
                               ? "Setting up..."
                               : "Generate card"}
@@ -684,7 +691,7 @@ export default function ThemeBoard({
                         key={t.id}
                         theme={t}
                         disabled={pending || !hasCredits}
-                        disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                        disabledLabel={!hasCredits ? "Add shoots first" : undefined}
                         loading={activeTheme?.id === t.id && pending}
                         onPick={() => launch(t)}
                       />
@@ -706,7 +713,7 @@ export default function ThemeBoard({
                             <ThemeCard
                               theme={t}
                               disabled={pending || !hasCredits}
-                              disabledLabel={!hasCredits ? "Add credits first" : undefined}
+                              disabledLabel={!hasCredits ? "Add shoots first" : undefined}
                               loading={activeTheme?.id === t.id && pending}
                               onPick={() => launch(t)}
                             />
@@ -880,7 +887,7 @@ export default function ThemeBoard({
                   className={`btn btn-lg ${hasCredits ? "btn-coral" : "btn-ghost"}`}
                 >
                   {!hasCredits
-                    ? "Add credits to begin"
+                    ? "Add shoots to begin"
                     : pending && launchingCustom
                       ? "Setting up…"
                       : "Begin this shoot"}

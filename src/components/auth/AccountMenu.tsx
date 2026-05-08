@@ -49,11 +49,25 @@ export default function AccountMenu({ email, isAdmin }: { email: string; isAdmin
           <div className="h-px bg-[color:var(--color-line)]" />
 
           <Link
-            href="/studio/album"
+            href="/studio/roster"
             onClick={() => setOpen(false)}
             className="mt-2 block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"
           >
+            Roster
+          </Link>
+          <Link
+            href="/studio/album"
+            onClick={() => setOpen(false)}
+            className="block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"
+          >
             Album
+          </Link>
+          <Link
+            href="/studio/account"
+            onClick={() => setOpen(false)}
+            className="block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"
+          >
+            Billing
           </Link>
           <Link
             href="/"

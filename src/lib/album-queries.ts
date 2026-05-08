@@ -1,7 +1,8 @@
 import { db, schema } from "@/lib/db";
-import { and, desc, eq, gte, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { studioCutoffDate } from "@/lib/retention";
+import { retainedGenerationCondition } from "@/lib/retention-queries";
 
 export async function toggleFavorite(userId: string, imageId: string) {
   const [imageRow, [album]] = await Promise.all([
@@ -16,7 +17,7 @@ export async function toggleFavorite(userId: string, imageId: string) {
   ]);
   if (!imageRow) throw new Error("Image not found");
   const { image, generation } = imageRow;
-  if (generation.createdAt < studioCutoffDate()) {
+  if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
     throw new Error("This shoot has expired.");
   }
 
@@ -66,7 +67,6 @@ export async function getAlbum(userId: string) {
     .limit(1);
   if (!album) return { album: null, items: [] };
 
-  const activeSince = studioCutoffDate();
   const items = await db
     .select({
       image: {
@@ -83,7 +83,7 @@ export async function getAlbum(userId: string) {
       and(
         eq(schema.albumImages.albumId, album.id),
         eq(schema.generations.userId, userId),
-        gte(schema.generations.createdAt, activeSince),
+        retainedGenerationCondition(),
       ),
     )
     .orderBy(desc(schema.albumImages.addedAt));
@@ -92,13 +92,10 @@ export async function getAlbum(userId: string) {
 }
 
 export async function getRecentShoots(userId: string, limit = 8) {
-  const activeSince = studioCutoffDate();
   const generations = await db
     .select()
     .from(schema.generations)
-    .where(
-      and(eq(schema.generations.userId, userId), gte(schema.generations.createdAt, activeSince)),
-    )
+    .where(and(eq(schema.generations.userId, userId), retainedGenerationCondition()))
     .orderBy(desc(schema.generations.createdAt))
     .limit(limit);
 

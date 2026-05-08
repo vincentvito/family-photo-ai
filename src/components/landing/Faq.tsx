@@ -36,12 +36,12 @@ const faqs = [
   {
     question: "How long are my photos stored?",
     answer:
-      "Generated photos and reference uploads are kept for 14 days. That gives you a comfortable window to review, refine, and download your finished images. After that, they are deleted from our storage.",
+      "Generated photos and reference uploads are kept for 14 days on one-time packs. FamilyShoot Pro shoots stay available for 90 days.",
   },
   {
     question: "What happens to inactive accounts?",
     answer:
-      "Accounts with no remaining credits may be removed after 30 days of inactivity. We send a reminder email first, so you have a chance to come back, download anything you still need, or add credits before the account is cleared.",
+      "Accounts with no shoots left may be removed after 30 days of inactivity. We send a reminder email first, so you have a chance to come back, download anything you still need, or add a pack before the account is cleared.",
   },
   {
     question: "Do you use my family photos to train AI models?",

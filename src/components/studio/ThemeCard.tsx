@@ -8,7 +8,7 @@ export default function ThemeCard({
   disabled,
   loading,
   onPick,
-  disabledLabel = "Add credits first",
+  disabledLabel = "Add shoots first",
 }: {
   theme: Theme;
   disabled: boolean;

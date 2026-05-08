@@ -3,7 +3,11 @@ import ThemeBoard, { type RosterMember } from "@/components/studio/ThemeBoard";
 import { providerStatusLabel } from "@/lib/providers";
 import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
 import { getDefaultModel } from "@/lib/admin-queries";
-import { getCreditBalance } from "@/lib/billing-queries";
+import {
+  getCreditBalance,
+  getCurrentSubscription,
+  isActiveSubscriptionStatus,
+} from "@/lib/billing-queries";
 import { listRoster } from "@/lib/roster-queries";
 
 export const dynamic = "force-dynamic";
@@ -22,12 +26,14 @@ export default async function ThemePage({
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
   const status = providerStatusLabel();
   const user = await getCurrentUser();
-  const [admin, defaultModel, creditBalance, rosterRows] = await Promise.all([
+  const [admin, defaultModel, creditBalance, rosterRows, subscription] = await Promise.all([
     isAdmin(),
     getDefaultModel(),
     user ? getCreditBalance(user.id) : Promise.resolve(0),
     user ? listRoster(user.id) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
+    user ? getCurrentSubscription(user.id) : Promise.resolve(null),
   ]);
+  const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
 
   const roster: RosterMember[] = rosterRows.map(({ person, photos }) => ({
     id: person.id,
@@ -84,6 +90,8 @@ export default async function ThemePage({
         creditBalance={creditBalance}
         roster={roster}
         outputMode={outputMode}
+        isProSubscriber={isProSubscriber}
+        subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
       />
     </main>
   );

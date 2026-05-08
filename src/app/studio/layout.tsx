@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth-helpers";
-import { getCreditBalance } from "@/lib/billing-queries";
+import {
+  getCreditBalance,
+  getCurrentSubscription,
+  isActiveSubscriptionStatus,
+} from "@/lib/billing-queries";
 import AccountMenu from "@/components/auth/AccountMenu";
 import BrandLogo from "@/components/brand/BrandLogo";
 import CreditBalanceBadge from "@/components/billing/CreditBalanceBadge";
@@ -14,16 +18,23 @@ export default async function StudioLayout({ children }: { children: React.React
     redirect("/sign-in");
   }
 
-  const balance = await getCreditBalance(session.user.id);
+  const [balance, subscription] = await Promise.all([
+    getCreditBalance(session.user.id),
+    getCurrentSubscription(session.user.id),
+  ]);
 
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 sm:px-8">
-          <BrandLogo href="/" />
+          <BrandLogo href="/" className="shrink-0 pr-4 md:pr-6 lg:pr-8" />
           <StudioStepper />
           <div className="flex items-center gap-3">
-            <CreditBalanceBadge balance={balance} />
+            <CreditBalanceBadge
+              balance={balance}
+              isProSubscriber={isActiveSubscriptionStatus(subscription?.status)}
+              currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
+            />
             <AccountSlot session={session} />
             <Link href="/studio/album" className="btn btn-ghost btn-sm">
               Album

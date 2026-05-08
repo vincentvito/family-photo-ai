@@ -5,12 +5,14 @@ import type { PricingPackId } from "@/lib/pricing-packs";
 
 export default function CheckoutButton({
   packId,
+  planId,
   children,
   className,
   pendingLabel = "Opening checkout...",
   onError,
 }: {
-  packId: PricingPackId;
+  packId?: PricingPackId;
+  planId?: string;
   children: React.ReactNode;
   className: string;
   pendingLabel?: string;
@@ -25,10 +27,11 @@ export default function CheckoutButton({
     const res = await fetch("/api/stripe/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ packId }),
+      body: JSON.stringify(planId ? { planId } : { packId }),
     });
 
     if (res.status === 401) {
+      setPending(false);
       window.location.assign(`/sign-in?next=${encodeURIComponent("/#pricing")}`);
       return;
     }
@@ -41,6 +44,7 @@ export default function CheckoutButton({
     }
 
     window.location.assign(data.url);
+    window.setTimeout(() => setPending(false), 1000);
   }
 
   return (

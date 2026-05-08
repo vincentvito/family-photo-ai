@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth-helpers";
-import { getCreditBalance } from "@/lib/billing-queries";
+import {
+  getCreditBalance,
+  getCurrentSubscription,
+  isActiveSubscriptionStatus,
+} from "@/lib/billing-queries";
 
 export const runtime = "nodejs";
 
@@ -10,6 +14,15 @@ export async function GET() {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const balance = await getCreditBalance(user.id);
-  return NextResponse.json({ balance });
+  const [balance, subscription] = await Promise.all([
+    getCreditBalance(user.id),
+    getCurrentSubscription(user.id),
+  ]);
+  return NextResponse.json({
+    balance,
+    subscription: {
+      active: isActiveSubscriptionStatus(subscription?.status),
+      currentPeriodEnd: subscription?.currentPeriodEnd?.toISOString() ?? null,
+    },
+  });
 }

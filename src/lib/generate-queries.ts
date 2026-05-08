@@ -14,6 +14,7 @@ import {
   DEFAULT_CARD_ART_STYLE_ID,
   buildCardArtStyleDirective,
   getCardArtStyle,
+  isProCardArtStyle,
   resolveCardArtStyleSelections,
   type CardArtStyleId,
 } from "@/lib/card-art-styles";
@@ -36,6 +37,7 @@ import { getDefaultModel } from "@/lib/admin-queries";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
 import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
+import { getCurrentSubscription, isActiveSubscriptionStatus } from "@/lib/billing-queries";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
@@ -144,6 +146,22 @@ export async function startGeneration(
   // surfaces missing-reference state to them.
   const effectiveRoster = parsed.subjectIds ? withReference : roster;
 
+  const cardArtStyleIds =
+    outputType === "card"
+      ? resolveCardArtStyleSelections(
+          parsed.cardArtStyles?.defaultStyleId ?? DEFAULT_CARD_ART_STYLE_ID,
+          parsed.cardArtStyles?.slotStyleIds,
+          VARIANT_COUNT,
+        )
+      : null;
+
+  if (cardArtStyleIds?.some(isProCardArtStyle)) {
+    const subscription = await getCurrentSubscription(actor.userId);
+    if (!isActiveSubscriptionStatus(subscription?.status)) {
+      throw new Error("Subscribe to FamilyShoot Pro to use premium card style presets.");
+    }
+  }
+
   const prompt = buildGenerationPrompt(
     theme,
     effectiveRoster,
@@ -152,14 +170,7 @@ export async function startGeneration(
   );
   const variationPrompts = buildLaunchVariationPrompts({
     theme,
-    cardArtStyleIds:
-      outputType === "card"
-        ? resolveCardArtStyleSelections(
-            parsed.cardArtStyles?.defaultStyleId ?? DEFAULT_CARD_ART_STYLE_ID,
-            parsed.cardArtStyles?.slotStyleIds,
-            VARIANT_COUNT,
-          )
-        : null,
+    cardArtStyleIds,
   });
 
   const modelId = await resolveModelId(parsed.modelId, admin);
@@ -289,7 +300,7 @@ export async function getGenerationState(generationId: string, userId: string) {
     .limit(1);
 
   if (!generation) return null;
-  if (generation.createdAt < studioCutoffDate()) return null;
+  if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) return null;
 
   if (generation.status === "pending") {
     await reconcileGeneration(generation);

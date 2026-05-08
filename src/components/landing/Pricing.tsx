@@ -4,18 +4,18 @@ import Reveal from "@/components/motion/Reveal";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import type { PricingPackId } from "@/lib/pricing-packs";
+import { PRO_PLAN, type PricingPackId } from "@/lib/pricing-packs";
 
 const tiers = [
   {
     packId: "single_keepsake",
     name: "Single keepsake",
     price: "$5",
-    sub: "One photo or card.",
+    sub: "One photo or card shoot.",
     features: [
-      "One finished photo or card",
-      "Four starting variations",
-      "2 regenerations per shoot",
+      "1 shoot",
+      "4 downloadable starting images",
+      "2 total regenerations per shoot",
       "Print-ready download",
     ],
     highlight: false,
@@ -26,9 +26,10 @@ const tiers = [
     price: "$12",
     sub: "Best for a small set.",
     features: [
-      "Three finished photos or cards",
+      "3 shoots",
+      "4 downloadable starting images per shoot",
       "Mix portraits and occasion cards",
-      "4 regenerations per shoot",
+      "4 total regenerations per shoot",
       "Digital album + print-ready files",
     ],
     highlight: true,
@@ -39,9 +40,10 @@ const tiers = [
     price: "$25",
     sub: "For holidays and family sets.",
     features: [
-      "Eight finished photos or cards",
+      "8 shoots",
+      "4 downloadable starting images per shoot",
       "Great for gifts, seasons and siblings",
-      "6 regenerations per shoot",
+      "6 total regenerations per shoot",
       "Album export for the full set",
     ],
     highlight: false,
@@ -89,7 +91,7 @@ export default function Pricing() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3 items-stretch">
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1fr_1fr_1.18fr] items-stretch">
           {tiers.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.06}>
               <motion.div
@@ -149,6 +151,55 @@ export default function Pricing() {
               </motion.div>
             </Reveal>
           ))}
+          <Reveal delay={tiers.length * 0.06}>
+            <motion.div
+              className="relative flex h-full flex-col rounded-[var(--radius-xl)] border border-[color:var(--color-sage)] bg-[color:var(--color-bg-tinted-sage)] p-8 shadow-[var(--shadow-lg)]"
+              whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
+            >
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 chip chip-sage shadow-[var(--shadow-md)]">
+                Pro
+              </span>
+              <p className="small-caps text-[color:var(--color-ink-muted)]">{PRO_PLAN.name}</p>
+              <div className="mt-5 flex items-baseline gap-2">
+                <span className="serif text-6xl tracking-[-0.035em]">{PRO_PLAN.price}</span>
+                <span className="text-sm font-semibold text-[color:var(--color-ink-muted)]">
+                  /month
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+                For photographers, creators, and families making portraits regularly.
+              </p>
+
+              <ul className="mt-8 space-y-3 text-[0.95rem]">
+                {[
+                  "25 shoots monthly",
+                  "4 downloadable starting images per shoot",
+                  "8 total regenerations per shoot",
+                  "Commercial usage rights",
+                  "90-day image storage",
+                  "Saved family and client profiles",
+                  "Premium Pro card style presets",
+                  "Print-ready downloads",
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-3">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--color-sage)]" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10">
+                <CheckoutButton
+                  planId={PRO_PLAN.id}
+                  onError={(message) => setError(message || null)}
+                  className="btn btn-sage w-full"
+                  pendingLabel="Opening subscription..."
+                >
+                  Subscribe monthly
+                </CheckoutButton>
+              </div>
+            </motion.div>
+          </Reveal>
         </div>
         {error && (
           <p className="mx-auto mt-5 max-w-xl text-center text-sm text-[color:var(--color-coral-deep)]">

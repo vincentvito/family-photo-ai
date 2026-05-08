@@ -251,7 +251,7 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
     )
     .limit(1);
   if (!generation) throw new Error("Generation not found");
-  if (generation.createdAt < studioCutoffDate()) {
+  if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
     throw new Error("This shoot has expired.");
   }
 
@@ -399,7 +399,9 @@ export async function getRefineState(userId: string, imageId: string) {
       .from(schema.images)
       .where(and(eq(schema.images.generationId, image.generationId))),
   ]);
-  if (!generation || generation.createdAt < studioCutoffDate()) return null;
+  if (!generation || generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
+    return null;
+  }
 
   const timeline: { imageId: string; instruction: string | null }[] = [];
   const rootCandidate =

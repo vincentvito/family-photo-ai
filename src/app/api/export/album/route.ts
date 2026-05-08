@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import archiver from "archiver";
 import { PassThrough, Readable } from "node:stream";
 import { db, schema } from "@/lib/db";
-import { and, desc, eq, gte } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth-helpers";
-import { studioCutoffDate } from "@/lib/retention";
+import { retainedGenerationCondition } from "@/lib/retention-queries";
 import { readStoredImage } from "@/lib/storage";
 
 export const runtime = "nodejs";
@@ -33,7 +33,7 @@ export async function GET() {
       and(
         eq(schema.albumImages.albumId, album.id),
         eq(schema.generations.userId, user.id),
-        gte(schema.generations.createdAt, studioCutoffDate()),
+        retainedGenerationCondition(),
       ),
     )
     .orderBy(desc(schema.albumImages.addedAt));

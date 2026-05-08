@@ -10,11 +10,13 @@ import {
 export default function CardArtStylePicker({
   defaultStyleId,
   slotStyleIds,
+  canUseProStyles,
   onDefaultStyleChange,
   onSlotStyleChange,
 }: {
   defaultStyleId: CardArtStyleId;
   slotStyleIds: CardSlotStyleSelection[];
+  canUseProStyles: boolean;
   onDefaultStyleChange: (styleId: CardArtStyleId) => void;
   onSlotStyleChange: (slotIndex: number, styleId: CardSlotStyleSelection) => void;
 }) {
@@ -36,17 +38,21 @@ export default function CardArtStylePicker({
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {CARD_ART_STYLES.map((style) => {
           const active = style.id === defaultStyleId;
+          const locked = style.proOnly && !canUseProStyles;
           return (
             <button
               key={style.id}
               type="button"
-              onClick={() => onDefaultStyleChange(style.id)}
+              onClick={() => {
+                if (!locked) onDefaultStyleChange(style.id);
+              }}
+              disabled={locked}
               aria-pressed={active}
               className={`group overflow-hidden rounded-[var(--radius-md)] border bg-[color:var(--color-bg-elevated)] text-left shadow-[var(--shadow-sm)] outline-none transition-all focus-visible:ring-2 focus-visible:ring-[color:var(--color-coral-deep)] ${
                 active
                   ? "border-[color:var(--color-coral-deep)] ring-2 ring-[color:rgba(242,107,74,0.28)]"
                   : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink)]"
-              }`}
+              } ${locked ? "cursor-not-allowed opacity-55 hover:border-[color:var(--color-line)]" : ""}`}
             >
               <span className="relative block aspect-[4/3] overflow-hidden bg-[color:var(--color-bg-tinted-butter)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -75,13 +81,18 @@ export default function CardArtStylePicker({
                     <path d="M20 6 9 17l-5-5" />
                   </svg>
                 </span>
+                {style.proOnly && (
+                  <span className="absolute left-2 top-2 rounded-full bg-[color:var(--color-ink)]/82 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-[var(--shadow-sm)]">
+                    Pro
+                  </span>
+                )}
               </span>
               <span className="block p-3">
                 <span className="block truncate text-sm font-semibold text-[color:var(--color-ink)]">
                   {style.name}
                 </span>
                 <span className="mt-1 block max-h-8 overflow-hidden text-xs leading-snug text-[color:var(--color-ink-muted)]">
-                  {style.blurb}
+                  {locked ? "Subscribe to Pro to use this preset." : style.blurb}
                 </span>
               </span>
             </button>
@@ -121,8 +132,13 @@ export default function CardArtStylePicker({
               >
                 <option value="default">Default: {defaultStyle.name}</option>
                 {CARD_ART_STYLES.map((style) => (
-                  <option key={style.id} value={style.id}>
+                  <option
+                    key={style.id}
+                    value={style.id}
+                    disabled={style.proOnly && !canUseProStyles}
+                  >
                     {style.name}
+                    {style.proOnly ? " · Pro" : ""}
                   </option>
                 ))}
               </select>
