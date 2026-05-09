@@ -21,6 +21,9 @@ const SITE_NAME = "FamilyShoot";
 const TITLE = "AI Family Photo Generator | FamilyShoot";
 const DESCRIPTION =
   "Turn scattered iPhone photos into a frame-worthy family portrait or holiday card in about two minutes. Pick a vibe, upload references, and keep what you love.";
+const OG_IMAGE_URL =
+  process.env.NEXT_PUBLIC_OG_IMAGE_URL ??
+  "https://deifos.github.io/images/familyphoto-og-banner.webp";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -74,11 +77,20 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     url: SITE_URL,
     locale: "en_US",
+    images: [
+      {
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: "FamilyShoot - turn everyday family selfies into polished portraits and cards.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
+    images: [OG_IMAGE_URL],
   },
   robots: {
     index: true,
