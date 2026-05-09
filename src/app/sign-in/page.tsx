@@ -23,11 +23,17 @@ const frames = [
   },
 ];
 
-export default async function SignInPage() {
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ next?: string }>;
+}) {
+  const params = await searchParams;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  if (session) redirect("/studio/roster");
+  const nextPath = getSafeNextPath(params?.next);
+  if (session) redirect(nextPath);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[color:var(--color-bg)]">
@@ -90,8 +96,13 @@ export default async function SignInPage() {
           </div>
         </div>
 
-        <OtpSignInForm />
+        <OtpSignInForm nextPath={nextPath} />
       </section>
     </main>
   );
+}
+
+function getSafeNextPath(value: string | undefined) {
+  if (!value?.startsWith("/") || value.startsWith("//")) return "/studio/roster";
+  return value;
 }

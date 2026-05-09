@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import { PRO_PLAN, PRICING_PACKS, type PricingPackId } from "@/lib/pricing-packs";
@@ -84,6 +85,13 @@ export default function CreditPackChooser({
             <ProPlanCardContent action="Subscribe" detail="25 shoots monthly" />
           </CheckoutButton>
         )}
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-white/55 px-4 py-3 text-sm text-[color:var(--color-ink-muted)]">
+        <span>Have a gift code, or buying credits for someone else?</span>
+        <Link href="/studio/gifts" className="font-semibold text-[color:var(--color-coral-deep)]">
+          Open Gift credits
+        </Link>
       </div>
 
       {error && (

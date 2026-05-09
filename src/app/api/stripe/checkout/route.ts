@@ -16,6 +16,7 @@ export const runtime = "nodejs";
 
 const CHECKOUT_RATE_LIMIT_WINDOW_MS = 60_000;
 const CHECKOUT_RATE_LIMIT_MAX = 5;
+// Best-effort, single-instance throttle. Use shared KV/Redis for a real Vercel-wide limit.
 const checkoutAttempts = new Map<string, number[]>();
 
 export async function POST(req: Request) {
@@ -35,7 +36,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "app url is not configured" }, { status: 500 });
   }
 
-  const body = (await req.json().catch(() => null)) as { packId?: string; planId?: string } | null;
+  const body = (await req.json().catch(() => null)) as {
+    packId?: string;
+    planId?: string;
+    gift?: {
+      recipientEmail?: string;
+      recipientName?: string;
+      message?: string;
+    };
+  } | null;
   if (body?.planId === PRO_PLAN.id) {
     return createProCheckout({
       appUrl,
@@ -58,18 +67,29 @@ export async function POST(req: Request) {
     mode: "payment",
     customer: customerId,
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${appUrl}/studio/roster?checkout=success`,
+    success_url: body?.gift
+      ? `${appUrl}/studio/gifts?gift=success`
+      : `${appUrl}/studio/roster?checkout=success`,
     cancel_url: `${appUrl}/?checkout=cancelled#pricing`,
     metadata: {
       userId: session.user.id,
       packId: pack.id,
       credits: String(pack.credits),
       priceId,
+      ...(body?.gift
+        ? {
+            fulfillment: "gift",
+            recipientEmail: sanitizeMetadata(body.gift.recipientEmail, 120),
+            recipientName: sanitizeMetadata(body.gift.recipientName, 80),
+            giftMessage: sanitizeMetadata(body.gift.message, 400),
+          }
+        : {}),
     },
     payment_intent_data: {
       metadata: {
         userId: session.user.id,
         packId: pack.id,
+        ...(body?.gift ? { fulfillment: "gift" } : {}),
       },
     },
     allow_promotion_codes: true,
@@ -80,6 +100,10 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ url: checkout.url });
+}
+
+function sanitizeMetadata(value: string | undefined, maxLength: number) {
+  return value?.trim().slice(0, maxLength) ?? "";
 }
 
 function isCheckoutRateLimited(userId: string) {

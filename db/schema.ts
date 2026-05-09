@@ -155,6 +155,36 @@ export const subscriptions = familyphotoai.table(
   (table) => [index("subscriptions_user_id_updated_at_idx").on(table.userId, table.updatedAt)],
 );
 
+export const giftCodes = familyphotoai.table(
+  "gift_codes",
+  {
+    id: id(),
+    buyerUserId: text("buyer_user_id").notNull(),
+    packId: text("pack_id").notNull(),
+    credits: integer("credits").notNull(),
+    code: text("code").notNull().unique(),
+    recipientEmail: text("recipient_email"),
+    recipientName: text("recipient_name"),
+    message: text("message"),
+    stripeCheckoutSessionId: text("stripe_checkout_session_id").notNull().unique(),
+    stripePaymentIntentId: text("stripe_payment_intent_id"),
+    stripeEventId: text("stripe_event_id").notNull().unique(),
+    stripePriceId: text("stripe_price_id").notNull(),
+    status: text("status", {
+      enum: ["available", "redeemed", "refunded", "voided"],
+    })
+      .notNull()
+      .default("available"),
+    redeemedByUserId: text("redeemed_by_user_id"),
+    redeemedAt: timestamp("redeemed_at"),
+    createdAt: createdAt(),
+  },
+  (table) => [
+    index("gift_codes_buyer_created_at_idx").on(table.buyerUserId, table.createdAt),
+    index("gift_codes_redeemed_by_idx").on(table.redeemedByUserId),
+  ],
+);
+
 export const creditUsages = familyphotoai.table("credit_usages", {
   id: id(),
   userId: text("user_id").notNull(),
@@ -186,3 +216,4 @@ export type CreditTransaction = typeof creditTransactions.$inferSelect;
 export type CreditUsage = typeof creditUsages.$inferSelect;
 export type CreditGrant = typeof creditGrants.$inferSelect;
 export type Subscription = typeof subscriptions.$inferSelect;
+export type GiftCode = typeof giftCodes.$inferSelect;

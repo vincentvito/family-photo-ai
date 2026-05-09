@@ -1,6 +1,5 @@
 import { themesByCategory } from "@/lib/themes";
 import ThemeBoard, { type RosterMember } from "@/components/studio/ThemeBoard";
-import { providerStatusLabel } from "@/lib/providers";
 import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
 import { getDefaultModel } from "@/lib/admin-queries";
 import {
@@ -24,7 +23,6 @@ export default async function ThemePage({
   const themes = themesByCategory();
   const selectedCard =
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
-  const status = providerStatusLabel();
   const user = await getCurrentUser();
   const [admin, defaultModel, creditBalance, rosterRows, subscription] = await Promise.all([
     isAdmin(),
@@ -78,7 +76,6 @@ export default async function ThemePage({
               ? "Cards use occasion-ready compositions with space for optional greeting text."
               : "Start from a curated look, or design your own. One shape picker, one wardrobe note - they apply to whichever vibe you launch."}
         </p>
-        <p className="mt-5 text-xs text-[color:var(--color-ink-faint)]">{status}</p>
       </div>
 
       <ThemeBoard

@@ -102,7 +102,7 @@ export default async function AccountPage() {
                   Subscribe monthly
                 </CheckoutButton>
               )}
-              <Link href="/#pricing" className="btn btn-ghost">
+              <Link href="/studio/roster" className="btn btn-ghost">
                 Buy one-time pack
               </Link>
             </div>

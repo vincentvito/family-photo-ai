@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
+import { createGiftFromCheckout, markGiftRefundedByPaymentIntent } from "@/lib/gift-queries";
 import { PRO_PLAN, getCheckoutCreditPack } from "@/lib/pricing-packs";
 import { stripe } from "@/lib/stripe";
 
@@ -31,18 +32,15 @@ export async function POST(req: Request) {
     event.type === "checkout.session.async_payment_succeeded"
   ) {
     await handleCheckoutCompleted(event);
-  }
-  if (event.type === "invoice.payment_succeeded") {
+  } else if (event.type === "invoice.payment_succeeded") {
     await handleInvoicePaymentSucceeded(event);
-  }
-  if (
+  } else if (
     event.type === "customer.subscription.created" ||
     event.type === "customer.subscription.updated" ||
     event.type === "customer.subscription.deleted"
   ) {
     await upsertSubscription(event.data.object as Stripe.Subscription);
-  }
-  if (event.type === "charge.refunded") {
+  } else if (event.type === "charge.refunded") {
     await handleChargeRefunded(event);
   }
 
@@ -61,6 +59,7 @@ async function handleChargeRefunded(event: Stripe.Event) {
     .update(schema.creditTransactions)
     .set({ status: "refunded" })
     .where(eq(schema.creditTransactions.stripePaymentIntentId, paymentIntentId));
+  await markGiftRefundedByPaymentIntent(paymentIntentId);
 }
 
 async function handleCheckoutCompleted(event: Stripe.Event) {
@@ -69,6 +68,7 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
   const planId = checkout.metadata?.planId;
   const packId = checkout.metadata?.packId;
   const priceId = checkout.metadata?.priceId;
+  const fulfillment = checkout.metadata?.fulfillment;
 
   if (planId === PRO_PLAN.id) {
     if (checkout.payment_status !== "paid" && checkout.payment_status !== "no_payment_required") {
@@ -104,6 +104,22 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
 
   if (!userId || !pack || !priceId) {
     console.warn(`Stripe webhook: checkout session ${checkout.id} is missing pack metadata`);
+    return;
+  }
+
+  if (fulfillment === "gift") {
+    await createGiftFromCheckout({
+      buyerUserId: userId,
+      packId: pack.id,
+      recipientEmail: checkout.metadata?.recipientEmail || null,
+      recipientName: checkout.metadata?.recipientName || null,
+      message: checkout.metadata?.giftMessage || null,
+      stripeCheckoutSessionId: checkout.id,
+      stripePaymentIntentId:
+        typeof checkout.payment_intent === "string" ? checkout.payment_intent : null,
+      stripeEventId: event.id,
+      stripePriceId: priceId,
+    });
     return;
   }
 

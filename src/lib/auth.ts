@@ -6,9 +6,15 @@ import { sendAuthOtpEmail } from "@/lib/auth-email";
 import * as authSchema from "@/../db/auth-schema";
 
 const baseURL = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 if (!baseURL) {
   throw new Error("BETTER_AUTH_URL or NEXT_PUBLIC_APP_URL is required");
+}
+
+if ((googleClientId && !googleClientSecret) || (!googleClientId && googleClientSecret)) {
+  throw new Error("Both GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required for Google sign-in");
 }
 
 export const auth = betterAuth({
@@ -21,6 +27,16 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: false,
   },
+  socialProviders:
+    googleClientId && googleClientSecret
+      ? {
+          google: {
+            clientId: googleClientId,
+            clientSecret: googleClientSecret,
+            prompt: "select_account",
+          },
+        }
+      : undefined,
   plugins: [
     emailOTP({
       otpLength: 6,

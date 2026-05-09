@@ -70,6 +70,13 @@ export default function AccountMenu({ email, isAdmin }: { email: string; isAdmin
             Billing
           </Link>
           <Link
+            href="/studio/gifts"
+            onClick={() => setOpen(false)}
+            className="block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"
+          >
+            Gift credits
+          </Link>
+          <Link
             href="/"
             onClick={() => setOpen(false)}
             className="block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"

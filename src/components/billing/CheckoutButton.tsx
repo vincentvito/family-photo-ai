@@ -6,6 +6,7 @@ import type { PricingPackId } from "@/lib/pricing-packs";
 export default function CheckoutButton({
   packId,
   planId,
+  gift = false,
   children,
   className,
   pendingLabel = "Opening checkout...",
@@ -13,6 +14,7 @@ export default function CheckoutButton({
 }: {
   packId?: PricingPackId;
   planId?: string;
+  gift?: boolean;
   children: React.ReactNode;
   className: string;
   pendingLabel?: string;
@@ -27,7 +29,7 @@ export default function CheckoutButton({
     const res = await fetch("/api/stripe/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(planId ? { planId } : { packId }),
+      body: JSON.stringify(planId ? { planId } : { packId, ...(gift ? { gift: {} } : {}) }),
     });
 
     if (res.status === 401) {

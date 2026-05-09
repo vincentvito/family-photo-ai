@@ -36,6 +36,9 @@ export default async function StudioLayout({ children }: { children: React.React
               currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
             />
             <AccountSlot session={session} />
+            <Link href="/studio/gifts" className="btn btn-ghost btn-sm">
+              Gifts
+            </Link>
             <Link href="/studio/album" className="btn btn-ghost btn-sm">
               Album
             </Link>

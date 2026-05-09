@@ -124,7 +124,7 @@ export default function Pricing() {
                   {t.sub}
                 </p>
 
-                <ul className="mt-8 space-y-3 text-[0.95rem]">
+                <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                   {t.features.map((f) => (
                     <li key={f} className="flex items-start gap-3">
                       <Check
@@ -139,13 +139,26 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <div className="mt-10">
+                <div className="mt-auto grid gap-2 pt-10">
                   <CheckoutButton
                     packId={t.packId}
                     onError={(message) => setError(message || null)}
-                    className={`btn w-full ${t.highlight ? "btn-coral" : "btn-ghost"}`}
+                    className={`btn w-full ${
+                      t.highlight
+                        ? "border border-[color:rgba(251,248,243,0.75)] bg-transparent text-[color:var(--color-bg)] hover:bg-[color:rgba(251,248,243,0.08)]"
+                        : "btn-ghost"
+                    }`}
                   >
                     Start here
+                  </CheckoutButton>
+                  <CheckoutButton
+                    packId={t.packId}
+                    gift
+                    onError={(message) => setError(message || null)}
+                    className="btn btn-coral w-full"
+                    pendingLabel="Opening gift checkout..."
+                  >
+                    Buy as gift
                   </CheckoutButton>
                 </div>
               </motion.div>
@@ -170,7 +183,7 @@ export default function Pricing() {
                 For photographers, creators, and families making portraits regularly.
               </p>
 
-              <ul className="mt-8 space-y-3 text-[0.95rem]">
+              <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                 {[
                   "25 shoots monthly",
                   "4 downloadable starting images per shoot",
@@ -188,7 +201,7 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <div className="mt-10">
+              <div className="mt-auto pt-10">
                 <CheckoutButton
                   planId={PRO_PLAN.id}
                   onError={(message) => setError(message || null)}
