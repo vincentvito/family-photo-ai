@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -108,6 +109,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  verification: {
+    google: "sZct6DPyVgYbhSAhs4cFZ7wY7nduBpNgsB36CZk_WZk",
+  },
 };
 
 export const viewport: Viewport = {
@@ -197,6 +201,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://feedbackbasket.com/api/widget/script/cmosomkpt000004jjnork17r2"
           strategy="afterInteractive"
         />
+        <GoogleAnalytics measurementId="G-2QKFPB9239" />
       </body>
     </html>
   );
