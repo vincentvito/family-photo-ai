@@ -7,6 +7,7 @@ type BrandLogoProps = {
   size?: "sm" | "md";
   tone?: "light" | "dark";
   className?: string;
+  showLabelOnMobile?: boolean;
 };
 
 const markSizes = {
@@ -25,6 +26,7 @@ export default function BrandLogo({
   size = "sm",
   tone = "dark",
   className = "",
+  showLabelOnMobile = false,
 }: BrandLogoProps) {
   const familyColor =
     tone === "light" ? "text-[color:var(--color-bg)]" : "text-[color:var(--color-plum)]";
@@ -33,7 +35,11 @@ export default function BrandLogo({
   const content = (
     <>
       <BrandMark className={markSizes[size]} />
-      <span className={`serif hidden tracking-tight sm:inline ${textSizes[size]}`}>
+      <span
+        className={`serif tracking-tight ${showLabelOnMobile ? "inline" : "hidden sm:inline"} ${
+          textSizes[size]
+        }`}
+      >
         {label === "FamilyShoot" ? (
           <>
             <span className={familyColor}>Family</span>

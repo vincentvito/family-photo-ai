@@ -91,13 +91,15 @@ export async function getAlbum(userId: string) {
   return { album, items };
 }
 
-export async function getRecentShoots(userId: string, limit = 8) {
-  const generations = await db
+export async function getRecentShoots(userId: string, limit?: number) {
+  const generationsQuery = db
     .select()
     .from(schema.generations)
     .where(and(eq(schema.generations.userId, userId), retainedGenerationCondition()))
-    .orderBy(desc(schema.generations.createdAt))
-    .limit(limit);
+    .orderBy(desc(schema.generations.createdAt));
+
+  const generations =
+    typeof limit === "number" ? await generationsQuery.limit(limit) : await generationsQuery;
 
   if (generations.length === 0) return [];
 

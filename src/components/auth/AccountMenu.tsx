@@ -38,7 +38,7 @@ export default function AccountMenu({ email, isAdmin }: { email: string; isAdmin
       </button>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+0.55rem)] w-64 overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-2 shadow-[var(--shadow-lg)]">
+        <div className="absolute right-0 top-[calc(100%+0.55rem)] z-50 w-64 overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-2 shadow-[var(--shadow-lg)]">
           <div className="px-3 py-3">
             <p className="small-caps text-[color:var(--color-ink-muted)]">Signed in</p>
             <p className="mt-1 truncate text-sm font-medium text-[color:var(--color-ink)]">

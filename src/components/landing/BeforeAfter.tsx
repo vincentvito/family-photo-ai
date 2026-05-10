@@ -150,10 +150,12 @@ export default function BeforeAfter() {
               </motion.div>
             </AnimatePresence>
 
-            <span className="chip chip-ghost absolute left-4 top-4 bg-[color:rgba(255,255,255,0.92)] backdrop-blur text-[color:var(--color-ink)]">
+            <span className="chip absolute left-4 top-4 z-20 border border-[color:rgba(255,255,255,0.72)] bg-[color:rgba(31,26,36,0.82)] text-[color:var(--color-bg)] shadow-[var(--shadow-md)] backdrop-blur">
               Before
             </span>
-            <span className="chip chip-coral absolute right-4 top-4">After</span>
+            <span className="chip chip-coral absolute right-4 top-4 z-20 shadow-[var(--shadow-sm)]">
+              After
+            </span>
 
             <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 rounded-full border border-[color:rgba(255,255,255,0.7)] bg-[color:rgba(255,255,255,0.82)] p-1 shadow-[var(--shadow-md)] backdrop-blur">
               {pairs.map((pairOption, i) => (

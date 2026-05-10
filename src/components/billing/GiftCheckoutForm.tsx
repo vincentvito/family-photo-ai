@@ -51,7 +51,7 @@ export default function GiftCheckoutForm() {
         {Object.values(PRICING_PACKS).map((pack) => (
           <label
             key={pack.id}
-            className={`cursor-pointer rounded-[var(--radius-lg)] border p-4 transition-colors ${
+            className={`flex min-h-32 cursor-pointer flex-col rounded-[var(--radius-lg)] border p-4 transition-colors ${
               packId === pack.id
                 ? "border-[color:var(--color-coral)] bg-[color:var(--color-bg-tinted-coral)]"
                 : "border-[color:var(--color-line)] bg-white/60 hover:border-[color:var(--color-coral-soft)]"
@@ -68,11 +68,13 @@ export default function GiftCheckoutForm() {
             <span className="small-caps block text-[color:var(--color-ink-muted)]">
               {pack.name}
             </span>
-            <span className="mt-2 block text-2xl font-semibold text-[color:var(--color-ink)]">
-              {pack.price}
-            </span>
-            <span className="mt-1 block text-sm text-[color:var(--color-ink-muted)]">
-              {pack.credits} {pack.credits === 1 ? "shoot" : "shoots"}
+            <span className="mt-auto block pt-4">
+              <span className="block text-2xl font-semibold text-[color:var(--color-ink)]">
+                {pack.price}
+              </span>
+              <span className="mt-1 block text-sm text-[color:var(--color-ink-muted)]">
+                {pack.credits} {pack.credits === 1 ? "shoot" : "shoots"}
+              </span>
             </span>
           </label>
         ))}

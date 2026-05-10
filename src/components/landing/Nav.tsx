@@ -5,7 +5,18 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import BrandLogo from "@/components/brand/BrandLogo";
 
-export default function Nav() {
+type NavLink = {
+  href: string;
+  label: string;
+};
+
+const defaultLinks: NavLink[] = [
+  { href: "#gallery", label: "Gallery" },
+  { href: "#how", label: "How it works" },
+  { href: "#pricing", label: "Pricing" },
+];
+
+export default function Nav({ links = defaultLinks }: { links?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -32,24 +43,11 @@ export default function Nav() {
         <BrandLogo href="/" />
 
         <div className="hidden items-center gap-6 md:flex">
-          <a
-            href="#gallery"
-            className="text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
-          >
-            Gallery
-          </a>
-          <a
-            href="#how"
-            className="text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
-          >
-            How it works
-          </a>
-          <a
-            href="#pricing"
-            className="text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
-          >
-            Pricing
-          </a>
+          {links.map((link) => (
+            <NavAnchor key={link.href} href={link.href}>
+              {link.label}
+            </NavAnchor>
+          ))}
         </div>
 
         <Link href="/sign-in" className="btn btn-coral btn-sm hidden md:inline-flex">
@@ -80,15 +78,11 @@ export default function Nav() {
 
         {open && (
           <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-2 shadow-[var(--shadow-lg)] md:hidden">
-            <MobileNavLink href="#gallery" onClick={() => setOpen(false)}>
-              Gallery
-            </MobileNavLink>
-            <MobileNavLink href="#how" onClick={() => setOpen(false)}>
-              How it works
-            </MobileNavLink>
-            <MobileNavLink href="#pricing" onClick={() => setOpen(false)}>
-              Pricing
-            </MobileNavLink>
+            {links.map((link) => (
+              <MobileNavLink key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                {link.label}
+              </MobileNavLink>
+            ))}
             <Link
               href="/sign-in"
               onClick={() => setOpen(false)}
@@ -103,6 +97,25 @@ export default function Nav() {
   );
 }
 
+function NavAnchor({ href, children }: { href: string; children: ReactNode }) {
+  const className =
+    "text-sm text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]";
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  );
+}
+
 function MobileNavLink({
   href,
   children,
@@ -112,11 +125,22 @@ function MobileNavLink({
   children: ReactNode;
   onClick: () => void;
 }) {
+  const className =
+    "block rounded-[var(--radius-md)] px-4 py-3 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)]";
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} onClick={onClick} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <a
       href={href}
       onClick={onClick}
-      className="block rounded-[var(--radius-md)] px-4 py-3 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)]"
+      className={className}
     >
       {children}
     </a>

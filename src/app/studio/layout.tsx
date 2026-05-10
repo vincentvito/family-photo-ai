@@ -26,8 +26,8 @@ export default async function StudioLayout({ children }: { children: React.React
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 sm:px-8">
-          <BrandLogo href="/" className="shrink-0 pr-4 md:pr-6 lg:pr-8" />
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 sm:gap-6 sm:px-8">
+          <BrandLogo href="/" showLabelOnMobile className="shrink-0 pr-4 md:pr-6 lg:pr-8" />
           <StudioStepper />
           <div className="flex items-center gap-3">
             <CreditBalanceBadge
@@ -36,11 +36,12 @@ export default async function StudioLayout({ children }: { children: React.React
               currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
             />
             <AccountSlot session={session} />
+          </div>
+        </div>
+        <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/55">
+          <div className="mx-auto flex max-w-6xl justify-end px-6 py-2 sm:px-8">
             <Link href="/studio/gifts" className="btn btn-ghost btn-sm">
-              Gifts
-            </Link>
-            <Link href="/studio/album" className="btn btn-ghost btn-sm">
-              Album
+              Gift credits
             </Link>
           </div>
         </div>
