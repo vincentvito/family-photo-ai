@@ -188,7 +188,9 @@ function SelfieUpload({
   position: string;
 }) {
   return (
-    <div className={`overflow-hidden rounded-[22px] border-[6px] border-white bg-white ${className}`}>
+    <div
+      className={`overflow-hidden rounded-[22px] border-[6px] border-white bg-white ${className}`}
+    >
       <div
         className="h-[calc(100%-34px)] bg-cover"
         style={{

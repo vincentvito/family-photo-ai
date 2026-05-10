@@ -28,9 +28,10 @@ export default function GiftRedeemForm({ initialCode = "" }: { initialCode?: str
       return;
     }
 
-    const data = (await res.json().catch(() => null)) as
-      | { credits?: number; error?: string }
-      | null;
+    const data = (await res.json().catch(() => null)) as {
+      credits?: number;
+      error?: string;
+    } | null;
 
     if (!res.ok) {
       setError(data?.error ?? "Gift code could not be redeemed.");

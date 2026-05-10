@@ -7,11 +7,7 @@ import { getGiftCodePreview } from "@/lib/gift-queries";
 
 export const dynamic = "force-dynamic";
 
-export default async function RedeemGiftPage({
-  params,
-}: {
-  params: Promise<{ code: string }>;
-}) {
+export default async function RedeemGiftPage({ params }: { params: Promise<{ code: string }> }) {
   const [session, { code }] = await Promise.all([getCurrentSession(), params]);
   const normalizedCode = normalizeGiftCode(code);
 

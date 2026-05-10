@@ -39,7 +39,14 @@ const images = [
     height: 164,
     rotate: -2,
   },
-  { src: sample("after-1.jpg"), x: 548, y: 56, width: 274, height: 206, label: "Kitchen editorial" },
+  {
+    src: sample("after-1.jpg"),
+    x: 548,
+    y: 56,
+    width: 274,
+    height: 206,
+    label: "Kitchen editorial",
+  },
   { src: sample("after-2.jpg"), x: 854, y: 92, width: 282, height: 212, label: "Autumn portrait" },
   { src: sample("after-3.jpg"), x: 650, y: 334, width: 352, height: 228, label: "Holiday card" },
 ];

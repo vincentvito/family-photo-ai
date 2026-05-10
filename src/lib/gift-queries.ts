@@ -44,13 +44,7 @@ export const getGiftCodePreview = cache(async function getGiftCodePreview(code: 
   return gift ?? null;
 });
 
-export async function redeemGiftCode({
-  code,
-  userId,
-}: {
-  code: string;
-  userId: string;
-}) {
+export async function redeemGiftCode({ code, userId }: { code: string; userId: string }) {
   const normalized = normalizeGiftCode(code);
   if (!normalized) {
     return { ok: false as const, error: "Enter a gift code." };

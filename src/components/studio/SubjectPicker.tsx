@@ -33,7 +33,8 @@ export default function SubjectPicker({
     <div>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium uppercase tracking-[0.08em] text-[color:var(--color-ink-faint)]">
-          Who&apos;s in this shoot {maxSubjects ? `(${selectedCount}/${maxSubjects})` : `(${selectedCount})`}
+          Who&apos;s in this shoot{" "}
+          {maxSubjects ? `(${selectedCount}/${maxSubjects})` : `(${selectedCount})`}
         </p>
         <div className="flex items-center gap-1.5 text-xs">
           <button
