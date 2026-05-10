@@ -89,10 +89,6 @@ export default async function SignInPage({
                 </figcaption>
               </figure>
             ))}
-
-            <div className="absolute bottom-4 right-2 hidden rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-4 py-2 text-sm text-[color:var(--color-ink-muted)] shadow-[var(--shadow-md)] sm:block">
-              OTP only. No password drawer.
-            </div>
           </div>
         </div>
 

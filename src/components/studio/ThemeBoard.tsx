@@ -15,7 +15,6 @@ import {
   CARD_STYLE_SLOT_COUNT,
   DEFAULT_CARD_ART_STYLE_ID,
   type CardArtStyleId,
-  type CardSlotStyleSelection,
 } from "@/lib/card-art-styles";
 import {
   GENERATION_MODEL_IDS,
@@ -84,10 +83,8 @@ export default function ThemeBoard({
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
   const [cardText, setCardText] = useState("");
-  const [cardDefaultStyleId, setCardDefaultStyleId] =
-    useState<CardArtStyleId>(DEFAULT_CARD_ART_STYLE_ID);
-  const [cardSlotStyleIds, setCardSlotStyleIds] = useState<CardSlotStyleSelection[]>(() =>
-    Array.from({ length: CARD_STYLE_SLOT_COUNT }, () => "default"),
+  const [cardSlotStyleIds, setCardSlotStyleIds] = useState<CardArtStyleId[]>(() =>
+    Array.from({ length: CARD_STYLE_SLOT_COUNT }, () => DEFAULT_CARD_ART_STYLE_ID),
   );
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
@@ -141,7 +138,7 @@ export default function ThemeBoard({
     setError(null);
     setSelectedSubjectIds(new Set());
   };
-  const setCardSlotStyle = (slotIndex: number, styleId: CardSlotStyleSelection) => {
+  const setCardSlotStyle = (slotIndex: number, styleId: CardArtStyleId) => {
     setCardSlotStyleIds((prev) =>
       prev.map((current, index) => (index === slotIndex ? styleId : current)),
     );
@@ -231,7 +228,7 @@ export default function ThemeBoard({
             cardArtStyles:
               outputMode === "card"
                 ? {
-                    defaultStyleId: cardDefaultStyleId,
+                    defaultStyleId: DEFAULT_CARD_ART_STYLE_ID,
                     slotStyleIds: cardSlotStyleIds,
                   }
                 : undefined,
@@ -299,7 +296,7 @@ export default function ThemeBoard({
           modelId: isAdmin ? modelId : undefined,
           subjectIds,
           cardArtStyles: {
-            defaultStyleId: cardDefaultStyleId,
+            defaultStyleId: DEFAULT_CARD_ART_STYLE_ID,
             slotStyleIds: cardSlotStyleIds,
           },
         });
@@ -609,6 +606,14 @@ export default function ThemeBoard({
 
                     <div className="min-w-0">
                       <div>
+                        <CardArtStylePicker
+                          slotStyleIds={cardSlotStyleIds}
+                          canUseProStyles={isProSubscriber}
+                          onSlotStyleChange={setCardSlotStyle}
+                        />
+                      </div>
+
+                      <div className="mt-8 border-t border-[color:var(--color-line)] pt-8">
                         <label className="small-caps text-[color:var(--color-ink-muted)]">
                           Greeting / card text
                           <span className="ml-1 text-[0.7rem] normal-case tracking-normal opacity-70">
@@ -620,16 +625,6 @@ export default function ThemeBoard({
                           onChange={(e) => setCardText(e.target.value)}
                           placeholder={`e.g. "The Vitali Family - 2026"`}
                           className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
-                        />
-                      </div>
-
-                      <div className="mt-8 border-t border-[color:var(--color-line)] pt-8">
-                        <CardArtStylePicker
-                          defaultStyleId={cardDefaultStyleId}
-                          slotStyleIds={cardSlotStyleIds}
-                          canUseProStyles={isProSubscriber}
-                          onDefaultStyleChange={setCardDefaultStyleId}
-                          onSlotStyleChange={setCardSlotStyle}
                         />
                       </div>
 
@@ -648,7 +643,7 @@ export default function ThemeBoard({
 
                       <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[color:var(--color-line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-xs text-[color:var(--color-ink-muted)]">
-                          Creates 4 card designs. Each slot uses its selected style additively.
+                          Creates 4 card designs, one for each selected slot style.
                         </p>
                         <button
                           type="button"
