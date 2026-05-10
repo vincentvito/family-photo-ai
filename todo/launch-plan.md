@@ -167,3 +167,10 @@ Single product, single price, credits model. Multi-tier and subscription can lan
 - [ ] Test export/download
 - [ ] Test payment flow in Stripe test mode
 - [ ] Final customer handoff notes
+
+## Future: Gift Credits
+
+- [ ] Do not send recipient gift emails from the app until abuse controls are designed; buyer should copy/share the gift link manually.
+- [ ] Build a polished shareable gift page, likely `/gift/[code]`, that presents the gift message, credit amount, and redeem CTA before sign-in.
+- [ ] Keep `/redeem/[code]` focused on redemption mechanics, or redirect it through the gift presentation page when the design is ready.
+- [ ] Consider sender display, printable card view, and copy/share controls for the buyer dashboard.
