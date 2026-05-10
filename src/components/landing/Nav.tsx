@@ -137,11 +137,7 @@ function MobileNavLink({
   }
 
   return (
-    <a
-      href={href}
-      onClick={onClick}
-      className={className}
-    >
+    <a href={href} onClick={onClick} className={className}>
       {children}
     </a>
   );

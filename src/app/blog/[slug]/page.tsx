@@ -141,7 +141,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           <div className="mt-12 rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 sm:p-8">
             <p className="small-caps text-[color:var(--color-coral-deep)]">Make one now</p>
-            <h2 className="mt-3 text-3xl leading-tight">Turn your photos into a family portrait.</h2>
+            <h2 className="mt-3 text-3xl leading-tight">
+              Turn your photos into a family portrait.
+            </h2>
             <p className="mt-3 text-sm leading-6 text-[color:var(--color-ink-muted)]">
               Upload one clear photo per person, choose a portrait or card style, and keep the
               version that feels most like your family.

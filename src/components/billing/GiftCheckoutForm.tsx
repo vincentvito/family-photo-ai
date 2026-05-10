@@ -17,32 +17,37 @@ export default function GiftCheckoutForm() {
     setPending(true);
     setError(null);
 
-    const res = await fetch("/api/stripe/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        packId,
-        gift: {
-          recipientEmail,
-          recipientName,
-          message,
-        },
-      }),
-    });
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          packId,
+          gift: {
+            recipientEmail,
+            recipientName,
+            message,
+          },
+        }),
+      });
 
-    if (res.status === 401) {
-      window.location.assign(`/sign-in?next=${encodeURIComponent("/studio/account")}`);
-      return;
-    }
+      if (res.status === 401) {
+        window.location.assign(`/sign-in?next=${encodeURIComponent("/studio/gifts")}`);
+        return;
+      }
 
-    const data = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
-    if (!res.ok || !data?.url) {
-      setError(data?.error ?? "Gift checkout could not start.");
+      const data = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
+      if (!res.ok || !data?.url) {
+        setError(data?.error ?? "Gift checkout could not start.");
+        setPending(false);
+        return;
+      }
+
+      window.location.assign(data.url);
+    } catch {
+      setError("Network error. Please try again.");
       setPending(false);
-      return;
     }
-
-    window.location.assign(data.url);
   }
 
   return (

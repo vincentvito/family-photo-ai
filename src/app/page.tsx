@@ -4,6 +4,7 @@ import Gallery from "@/components/landing/Gallery";
 import OccasionCards from "@/components/landing/OccasionCards";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TrustPrivacy from "@/components/landing/TrustPrivacy";
+import GiftCredits from "@/components/landing/GiftCredits";
 import Pricing from "@/components/landing/Pricing";
 import Faq from "@/components/landing/Faq";
 import Footer from "@/components/landing/Footer";
@@ -22,6 +23,7 @@ export default function HomePage() {
         <OccasionCards />
         <HowItWorks />
         <TrustPrivacy />
+        <GiftCredits />
         <Pricing />
         <Faq />
       </main>

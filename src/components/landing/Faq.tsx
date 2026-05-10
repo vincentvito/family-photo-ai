@@ -29,6 +29,21 @@ const faqs = [
       "No. FamilyShoot is a paid studio. Charging for finished shoots helps us keep the product focused on keepsakes, clear retention, and print-ready downloads instead of ads.",
   },
   {
+    question: "Can I buy FamilyShoot credits as a gift?",
+    answer:
+      "Yes. Choose Buy as gift on a one-time pack. After checkout, you get a private gift code and redeem link that stay available in your Gifts page.",
+  },
+  {
+    question: "Do you email the gift code to the recipient?",
+    answer:
+      "Not automatically. To avoid unwanted or abusive email sending, the buyer copies the gift code or redeem link and shares it directly by text, email, or card.",
+  },
+  {
+    question: "How does someone redeem a gift code?",
+    answer:
+      "They sign in or create an account, open the redeem link, or paste the code on the Gift credits page. The shoots are added to their account once the code is redeemed.",
+  },
+  {
     question: "Can I get a refund after a shoot is created?",
     answer:
       "Once a shoot has been created, refunds are not available because the image generation work has already run and compute costs have been paid. If something breaks or your shoot fails, contact us and we will help make it right.",
