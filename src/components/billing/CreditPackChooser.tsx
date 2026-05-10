@@ -6,9 +6,9 @@ import CheckoutButton from "@/components/billing/CheckoutButton";
 import { PRO_PLAN, PRICING_PACKS, type PricingPackId } from "@/lib/pricing-packs";
 
 const packFeatures: Record<PricingPackId, string> = {
-  single_keepsake: "1 shoot, 4 starting images",
-  three_pack: "3 shoots, 12 starting images",
-  eight_pack: "8 shoots, 32 starting images",
+  single_keepsake: "4 high-res photos or cards",
+  three_pack: "24 high-res photos",
+  eight_pack: "60 high-res photos or cards",
 };
 
 export default function CreditPackChooser({
@@ -82,7 +82,7 @@ export default function CreditPackChooser({
             className="spring-press flex min-h-28 flex-col justify-between rounded-[var(--radius-lg)] border border-[color:var(--color-sage)] bg-[color:var(--color-bg-tinted-sage)] p-4 text-left shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] disabled:opacity-70"
             pendingLabel="Opening..."
           >
-            <ProPlanCardContent action="Subscribe" detail="25 shoots monthly" />
+            <ProPlanCardContent action="Subscribe" detail="Monthly photo credits" />
           </CheckoutButton>
         )}
       </div>

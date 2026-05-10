@@ -1,7 +1,7 @@
 export type PackTier = "single" | "three" | "eight" | "pro";
 
 /**
- * Per-shoot refine cap by pack tier. Legacy shoots (packTier null) and
+ * Per-image refine cap by pack tier. Legacy shoots (packTier null) and
  * grant-funded shoots default to "three" — see resolvePackTierForNextCredit.
  */
 export const REFINE_CAP: Record<PackTier, number> = {
@@ -16,7 +16,7 @@ export const LEGACY_REFINE_CAP = 6;
 export const PRICING_PACKS = {
   single_keepsake: {
     id: "single_keepsake",
-    name: "Single keepsake",
+    name: "Family Snap",
     price: "$5",
     unitAmount: 500,
     credits: 1,
@@ -25,7 +25,7 @@ export const PRICING_PACKS = {
   },
   three_pack: {
     id: "three_pack",
-    name: "Three-pack",
+    name: "Family Album",
     price: "$12",
     unitAmount: 1200,
     credits: 3,
@@ -34,7 +34,7 @@ export const PRICING_PACKS = {
   },
   eight_pack: {
     id: "eight_pack",
-    name: "Eight-pack",
+    name: "Family Collection",
     price: "$25",
     unitAmount: 2500,
     credits: 8,
@@ -56,7 +56,7 @@ export const PRICING_PACKS = {
 
 export const PRO_PLAN = {
   id: "familyshoot_pro_monthly",
-  name: "FamilyShoot Pro",
+  name: "Family Shoot Pro",
   price: "$39",
   interval: "month",
   unitAmount: 3900,

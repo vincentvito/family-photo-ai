@@ -112,13 +112,9 @@ export default async function AccountPage() {
             <p className="small-caps text-[color:var(--color-ink-muted)]">Included</p>
             <ul className="mt-5 space-y-3 text-sm text-[color:var(--color-ink)]">
               {[
-                "25 shoots each billing month",
-                "4 downloadable starting images per shoot",
-                "8 total regenerations per shoot",
-                "Commercial usage rights for client previews, social posts, marketing, and deliverables",
-                "90-day image storage window and saved family/client profiles",
-                "Premium Pro card style presets",
-                "Print-ready downloads",
+                "Monthly credits for portraits, cards, invitations, and seasonal moments",
+                "Downloadable, print-ready files",
+                "Priority access to new styles and templates",
               ].map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[color:var(--color-sage)]" />

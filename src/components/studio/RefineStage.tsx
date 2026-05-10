@@ -222,7 +222,7 @@ export default function RefineStage({ initialState }: { initialState: State }) {
               disabled={atCap}
               placeholder={
                 atCap
-                  ? "No regenerations left on this shoot."
+                  ? "No regenerations left for this image."
                   : `e.g. "Have everyone look at the camera"`
               }
               className="serif mt-2 w-full resize-none rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] p-3.5 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:bg-[color:var(--color-bg-elevated)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-50"
@@ -252,7 +252,7 @@ export default function RefineStage({ initialState }: { initialState: State }) {
           )}
           {atCap && !error && (
             <p className="mt-3 text-sm text-[color:var(--color-coral-deep)]">
-              You&apos;ve used all {state.refinesMax} regenerations on this shoot.
+              You&apos;ve used all {state.refinesMax} regenerations for this image.
             </p>
           )}
 

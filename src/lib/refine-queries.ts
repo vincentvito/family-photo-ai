@@ -35,12 +35,16 @@ function refineCapFor(packTier: string | null): number {
   return REFINE_CAP[packTier as PackTier] ?? LEGACY_REFINE_CAP;
 }
 
-async function countShootRefines(generationId: string): Promise<number> {
+async function countImageRefines(generationId: string, rootImageId: string): Promise<number> {
   const [row] = await db
     .select({ total: sql<number>`count(*)` })
     .from(schema.images)
     .where(
-      and(eq(schema.images.generationId, generationId), isNotNull(schema.images.parentImageId)),
+      and(
+        eq(schema.images.generationId, generationId),
+        eq(schema.images.rootImageId, rootImageId),
+        isNotNull(schema.images.parentImageId),
+      ),
     );
   return Number(row?.total ?? 0);
 }
@@ -255,20 +259,20 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
     throw new Error("This shoot has expired.");
   }
 
-  const refinesUsed = await countShootRefines(generation.id);
-  const refinesMax = refineCapFor(generation.packTier);
-  if (refinesUsed >= refinesMax) {
-    throw new Error(
-      `You've used all ${refinesMax} regenerations on this shoot. Start a new shoot to keep going.`,
-    );
-  }
-
   const rootImageId = baseImage.rootImageId ?? baseImage.id;
   const [rootImage] = await db
     .select()
     .from(schema.images)
     .where(and(eq(schema.images.id, rootImageId), eq(schema.images.generationId, generation.id)))
     .limit(1);
+
+  const refinesUsed = await countImageRefines(generation.id, rootImageId);
+  const refinesMax = refineCapFor(generation.packTier);
+  if (refinesUsed >= refinesMax) {
+    throw new Error(
+      `You've used all ${refinesMax} regenerations for this image. Choose another image or start a new shoot to keep going.`,
+    );
+  }
 
   const historyRows = await db
     .select({
@@ -326,12 +330,13 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
       .where(
         and(
           eq(schema.images.generationId, baseImage.generationId),
+          eq(schema.images.rootImageId, rootImageId),
           isNotNull(schema.images.parentImageId),
         ),
       );
     if (Number(capRow?.count ?? 0) >= refinesMax) {
       throw new Error(
-        `You've used all ${refinesMax} regenerations on this shoot. Start a new shoot to keep going.`,
+        `You've used all ${refinesMax} regenerations for this image. Choose another image or start a new shoot to keep going.`,
       );
     }
 
@@ -413,7 +418,9 @@ export async function getRefineState(userId: string, imageId: string) {
     timeline.push({ imageId: h.resultImageId, instruction: h.instruction });
   }
 
-  const refinesUsed = images.filter((i) => i.parentImageId !== null).length;
+  const refinesUsed = images.filter(
+    (i) => i.parentImageId !== null && i.rootImageId === rootImageId,
+  ).length;
   const refinesMax = refineCapFor(generation.packTier);
 
   return {

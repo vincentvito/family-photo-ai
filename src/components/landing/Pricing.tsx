@@ -9,42 +9,36 @@ import { PRO_PLAN, type PricingPackId } from "@/lib/pricing-packs";
 const tiers = [
   {
     packId: "single_keepsake",
-    name: "Single keepsake",
+    name: "Family Snap",
     price: "$5",
-    sub: "One photo or card shoot.",
+    sub: "A quick set for one moment.",
     features: [
-      "1 shoot",
-      "4 downloadable starting images",
-      "2 total regenerations per shoot",
-      "Print-ready download",
+      "4 high-res photos or cards",
+      "Print-ready files",
     ],
     highlight: false,
   },
   {
     packId: "three_pack",
-    name: "Three-pack",
+    name: "Family Album",
     price: "$12",
-    sub: "Best for a small set.",
+    sub: "Best for portraits and cards.",
     features: [
-      "3 shoots",
-      "4 downloadable starting images per shoot",
-      "Mix portraits and occasion cards",
-      "4 total regenerations per shoot",
-      "Digital album + print-ready files",
+      "24 high-res professional photos",
+      "Portraits and occasion cards",
+      "Downloadable, print-ready files",
     ],
     highlight: true,
   },
   {
     packId: "eight_pack",
-    name: "Eight-pack",
+    name: "Family Collection",
     price: "$25",
     sub: "For holidays and family sets.",
     features: [
-      "8 shoots",
-      "4 downloadable starting images per shoot",
-      "Great for gifts, seasons and siblings",
-      "6 total regenerations per shoot",
-      "Album export for the full set",
+      "60 high-res professional photos or cards",
+      "Portraits and occasion cards",
+      "Downloadable, print-ready files",
     ],
     highlight: false,
   },
@@ -107,7 +101,7 @@ export default function Pricing() {
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3">
                       <path d="M12 2 l2.4 6.6 L21 11 l-6.6 2.4 L12 20 l-2.4 -6.6 L3 11 l6.6 -2.4 z" />
                     </svg>
-                    Most loved
+                    Most Popular
                   </span>
                 )}
                 <p
@@ -180,19 +174,15 @@ export default function Pricing() {
                 </span>
               </div>
               <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
-                For photographers, creators, and families making portraits regularly.
+                Create new family photos all month long.
               </p>
 
               <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                 {[
-                  "25 shoots monthly",
-                  "4 downloadable starting images per shoot",
-                  "8 total regenerations per shoot",
-                  "Commercial usage rights",
-                  "90-day image storage",
-                  "Saved family and client profiles",
-                  "Premium Pro card style presets",
-                  "Print-ready downloads",
+                  "25 monthly photo credits",
+                  "Portraits, cards, invitations, and seasonal moments",
+                  "Downloadable, print-ready files",
+                  "Priority access to new styles and templates",
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-3">
                     <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--color-sage)]" />
