@@ -64,6 +64,7 @@ export default function ThemeBoard({
   isAdmin = false,
   defaultModel = "gpt-image-2",
   creditBalance,
+  canStartFreePreview,
   roster,
   outputMode,
   isProSubscriber,
@@ -75,6 +76,7 @@ export default function ThemeBoard({
   isAdmin?: boolean;
   defaultModel?: GenerationModelId;
   creditBalance: number;
+  canStartFreePreview: boolean;
   roster: RosterMember[];
   outputMode: OutputMode;
   isProSubscriber: boolean;
@@ -159,6 +161,8 @@ export default function ThemeBoard({
     return themeRatio ?? CUSTOM_AUTO_RATIO;
   };
   const hasCredits = creditBalance > 0;
+  const canCreateShoot = hasCredits || canStartFreePreview;
+  const disabledLabel = canStartFreePreview ? "Free preview" : "Add credits first";
 
   const pickFile = (file: File) => {
     setLocationFile(file);
@@ -174,8 +178,8 @@ export default function ThemeBoard({
   };
 
   const launch = (theme: Theme) => {
-    if (!hasCredits) {
-      setError("Choose a photo pack before starting a shoot.");
+    if (!canCreateShoot) {
+      setError("Unlock your free preview or add credits before starting another one.");
       return;
     }
     setError(null);
@@ -197,8 +201,8 @@ export default function ThemeBoard({
       setError("A sentence or two will do.");
       return;
     }
-    if (!hasCredits) {
-      setError("Choose a photo pack before starting a shoot.");
+    if (!canCreateShoot) {
+      setError("Unlock your free preview or add credits before starting another one.");
       return;
     }
     setError(null);
@@ -271,8 +275,8 @@ export default function ThemeBoard({
 
   const beginCardShoot = () => {
     if (!selectedCardTheme) return;
-    if (!hasCredits) {
-      setError("Choose a photo pack before starting a shoot.");
+    if (!canCreateShoot) {
+      setError("Unlock your free preview or add credits before starting another one.");
       return;
     }
     if (roster.length > 0 && !selectedHasReference) {
@@ -335,7 +339,11 @@ export default function ThemeBoard({
       outputMode === "card" && pendingShoot.kind === "theme"
         ? " The selected card art style is added on top of the layout prompt."
         : "";
-    return `We'll create 4 ${label} (${ratio}) ${noun}. You can favorite, regenerate, or try another vibe after.${styleNote}`;
+    const previewNote =
+      !hasCredits && canStartFreePreview
+        ? " This will be a watermarked free preview until you unlock it."
+        : "";
+    return `We'll create 4 ${label} (${ratio}) ${noun}.${previewNote} You can favorite, regenerate, or try another vibe after.${styleNote}`;
   })();
 
   return (
@@ -377,11 +385,24 @@ export default function ThemeBoard({
         </div>
       )}
 
-      {!hasCredits && (
+      {!hasCredits && canStartFreePreview && (
+        <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)] sm:p-6">
+          <span className="chip chip-butter">
+            <span className="dot dot-butter" />
+            Free preview
+          </span>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+            Your first photoshoot can run as a watermarked preview. If you love it, unlock that
+            exact photoshoot and it counts as your first paid generation.
+          </p>
+        </section>
+      )}
+
+      {!hasCredits && !canStartFreePreview && (
         <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 shadow-[var(--shadow-md)] sm:p-8">
           <CreditPackChooser
-            title="Add shoots to keep creating."
-            description="Pick a pack first. After checkout, come back here and choose the vibe for your next shoot."
+            title="Add credits to keep creating."
+            description="Pick a credit pack first. After checkout, come back here and choose the vibe for your next photoshoot."
             isProSubscriber={isProSubscriber}
             currentPeriodEnd={subscriptionRenewalDate}
           />
@@ -538,8 +559,8 @@ export default function ThemeBoard({
                   sublabel="Real light, real rooms"
                   chipColor="sage"
                   themes={photoreal}
-                  pending={pending || !hasCredits}
-                  disabledLabel={!hasCredits ? "Add shoots first" : undefined}
+                  pending={pending || !canCreateShoot}
+                  disabledLabel={!canCreateShoot ? disabledLabel : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -549,8 +570,8 @@ export default function ThemeBoard({
                   sublabel="Illustration & cinema"
                   chipColor="plum"
                   themes={stylized}
-                  pending={pending || !hasCredits}
-                  disabledLabel={!hasCredits ? "Add shoots first" : undefined}
+                  pending={pending || !canCreateShoot}
+                  disabledLabel={!canCreateShoot ? disabledLabel : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -649,17 +670,21 @@ export default function ThemeBoard({
                           type="button"
                           onClick={beginCardShoot}
                           disabled={
-                            pending || !hasCredits || (roster.length > 0 && !selectedHasReference)
+                            pending ||
+                            !canCreateShoot ||
+                            (roster.length > 0 && !selectedHasReference)
                           }
                           className={`btn btn-lg ${
-                            hasCredits && selectedHasReference ? "btn-coral" : "btn-ghost"
+                            canCreateShoot && selectedHasReference ? "btn-coral" : "btn-ghost"
                           }`}
                         >
-                          {!hasCredits
-                            ? "Add shoots to begin"
+                          {!canCreateShoot
+                            ? "Add credits to begin"
                             : pending && activeTheme?.id === selectedCardTheme.id
                               ? "Setting up..."
-                              : "Generate card"}
+                              : hasCredits
+                                ? "Generate card"
+                                : "Create free preview"}
                           <svg
                             className="h-4 w-4"
                             viewBox="0 0 24 24"
@@ -702,8 +727,8 @@ export default function ThemeBoard({
                       <ThemeCard
                         key={t.id}
                         theme={t}
-                        disabled={pending || !hasCredits}
-                        disabledLabel={!hasCredits ? "Add shoots first" : undefined}
+                        disabled={pending || !canCreateShoot}
+                        disabledLabel={!canCreateShoot ? disabledLabel : undefined}
                         loading={activeTheme?.id === t.id && pending}
                         onPick={() => launch(t)}
                       />
@@ -724,8 +749,8 @@ export default function ThemeBoard({
                           >
                             <ThemeCard
                               theme={t}
-                              disabled={pending || !hasCredits}
-                              disabledLabel={!hasCredits ? "Add shoots first" : undefined}
+                              disabled={pending || !canCreateShoot}
+                              disabledLabel={!canCreateShoot ? disabledLabel : undefined}
                               loading={activeTheme?.id === t.id && pending}
                               onPick={() => launch(t)}
                             />
@@ -895,14 +920,16 @@ export default function ThemeBoard({
               <div className="mt-8 flex items-center justify-end">
                 <button
                   onClick={launchCustom}
-                  disabled={pending || customDescription.trim().length < 4 || !hasCredits}
-                  className={`btn btn-lg ${hasCredits ? "btn-coral" : "btn-ghost"}`}
+                  disabled={pending || customDescription.trim().length < 4 || !canCreateShoot}
+                  className={`btn btn-lg ${canCreateShoot ? "btn-coral" : "btn-ghost"}`}
                 >
-                  {!hasCredits
-                    ? "Add shoots to begin"
+                  {!canCreateShoot
+                    ? "Add credits to begin"
                     : pending && launchingCustom
                       ? "Setting up…"
-                      : "Begin this shoot"}
+                      : hasCredits
+                        ? "Begin this shoot"
+                        : "Create free preview"}
                   <svg
                     className="h-4 w-4"
                     viewBox="0 0 24 24"

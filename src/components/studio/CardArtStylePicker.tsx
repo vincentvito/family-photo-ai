@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import {
-  CARD_ART_STYLES,
-  type CardArtStyleId,
-  getCardArtStyle,
-} from "@/lib/card-art-styles";
+import { CARD_ART_STYLES, type CardArtStyleId, getCardArtStyle } from "@/lib/card-art-styles";
 
 export default function CardArtStylePicker({
   slotStyleIds,

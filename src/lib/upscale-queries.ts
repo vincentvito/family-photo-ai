@@ -10,12 +10,20 @@ function upscaleKey(imageId: string, target: UpscaleTarget) {
 
 async function ensureOwnedImage(userId: string, imageId: string) {
   const [row] = await db
-    .select({ image: schema.images })
+    .select({
+      image: schema.images,
+      freePreview: schema.generations.freePreview,
+      creditUsageId: schema.creditUsages.id,
+    })
     .from(schema.images)
     .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
     .where(and(eq(schema.images.id, imageId), eq(schema.generations.userId, userId)))
     .limit(1);
   if (!row) throw new Error("Image not found");
+  if (row.freePreview && !row.creditUsageId) {
+    throw new Error("Unlock this free preview before exporting.");
+  }
   return row.image;
 }
 

@@ -74,11 +74,16 @@ export async function getAlbum(userId: string) {
         aspectRatio: schema.images.aspectRatio,
         refineInstruction: schema.images.refineInstruction,
       },
-      generation: { themeId: schema.generations.themeId },
+      generation: {
+        themeId: schema.generations.themeId,
+        freePreview: schema.generations.freePreview,
+      },
+      creditUsageId: schema.creditUsages.id,
     })
     .from(schema.albumImages)
     .innerJoin(schema.images, eq(schema.albumImages.imageId, schema.images.id))
     .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
     .where(
       and(
         eq(schema.albumImages.albumId, album.id),

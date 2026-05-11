@@ -1,6 +1,6 @@
 import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { and, eq, asc, inArray, sql } from "drizzle-orm";
+import { and, eq, asc, gte, inArray, isNull, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
@@ -37,12 +37,25 @@ import { getDefaultModel } from "@/lib/admin-queries";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
 import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
-import { getCurrentSubscription, isActiveSubscriptionStatus } from "@/lib/billing-queries";
+import {
+  getCreditBalanceWithReader,
+  getCurrentSubscription,
+  isActiveSubscriptionStatus,
+} from "@/lib/billing-queries";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
 const MAX_RETRIES_PER_SLOT = 1;
+type DbTransaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
+type DbReader = typeof db | DbTransaction;
+
+export class PreviewUnlockExpiredError extends Error {
+  constructor() {
+    super("This preview has expired.");
+    this.name = "PreviewUnlockExpiredError";
+  }
+}
 
 const CustomVibeSchema = z.object({
   description: z.string().trim().min(4).max(800),
@@ -105,7 +118,6 @@ export async function startGeneration(
 ) {
   const parsed = StartGenerationInput.parse(input);
   const admin = await isAdmin();
-  const spendCredit = true;
 
   let theme: Theme = parsed.customVibe
     ? buildCustomTheme({
@@ -196,7 +208,6 @@ export async function startGeneration(
       input: parsed,
       actor,
       modelId,
-      spendCredit,
     });
   }
 
@@ -216,7 +227,6 @@ export async function startGeneration(
       model: modelId,
     },
     userId: actor.userId,
-    spendCredit,
   });
 
   const { slots } = await createGenerationPredictions({
@@ -313,7 +323,7 @@ export async function getGenerationState(generationId: string, userId: string) {
     await reconcileGeneration(generation);
   }
 
-  const [[refreshed], images] = await Promise.all([
+  const [[refreshed], images, isUnlocked] = await Promise.all([
     db
       .select()
       .from(schema.generations)
@@ -324,9 +334,14 @@ export async function getGenerationState(generationId: string, userId: string) {
       .from(schema.images)
       .where(eq(schema.images.generationId, generationId))
       .orderBy(asc(schema.images.createdAt)),
+    isGenerationUnlocked(generationId, userId),
   ]);
 
-  return { generation: refreshed ?? generation, images: pickChainHeads(images) };
+  return {
+    generation: refreshed ?? generation,
+    images: pickChainHeads(images),
+    isPreview: Boolean((refreshed ?? generation).freePreview) && !isUnlocked,
+  };
 }
 
 /**
@@ -519,7 +534,6 @@ async function startMockGeneration({
   input,
   actor,
   modelId,
-  spendCredit,
 }: {
   theme: Theme;
   prompt: string;
@@ -527,7 +541,6 @@ async function startMockGeneration({
   input: z.infer<typeof StartGenerationInput>;
   actor: { userId: string };
   modelId: GenerationModelId;
-  spendCredit: boolean;
 }) {
   const { MockProvider } = await import("@/lib/providers/mock");
   const mock = new MockProvider();
@@ -548,7 +561,6 @@ async function startMockGeneration({
       model: modelId,
     },
     userId: actor.userId,
-    spendCredit,
   });
 
   try {
@@ -598,22 +610,25 @@ async function startMockGeneration({
 async function createGenerationRecord({
   values,
   userId,
-  spendCredit,
 }: {
   values: typeof schema.generations.$inferInsert;
   userId: string;
-  spendCredit: boolean;
 }) {
   return db.transaction(async (tx) => {
+    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
+
     let packTier: PackTier | null = null;
+    const spendCredit = (await getCreditBalanceWithReader(tx, userId)) > 0;
+
     if (spendCredit) {
-      await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
       packTier = await resolvePackTierForNextCredit(tx, userId);
+    } else if (!(await canStartFreePreviewForTx(tx, userId))) {
+      throw new Error("Unlock your free preview or add shoots before starting another one.");
     }
 
     const [generation] = await tx
       .insert(schema.generations)
-      .values({ ...values, packTier })
+      .values({ ...values, packTier, freePreview: !spendCredit })
       .returning();
 
     if (spendCredit) {
@@ -628,16 +643,89 @@ async function createGenerationRecord({
   });
 }
 
+export async function canStartFreePreview(userId: string) {
+  return canStartFreePreviewForTx(db, userId);
+}
+
+async function canStartFreePreviewForTx(tx: DbReader, userId: string) {
+  const previewCutoff = studioCutoffDate(new Date(), null);
+  const existingPreviews = await tx
+    .select({ id: schema.generations.id })
+    .from(schema.generations)
+    .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
+    .where(
+      and(
+        eq(schema.generations.userId, userId),
+        eq(schema.generations.freePreview, true),
+        isNull(schema.creditUsages.id),
+        ne(schema.generations.status, "error"),
+        gte(schema.generations.createdAt, previewCutoff),
+      ),
+    )
+    .limit(1);
+
+  return existingPreviews.length === 0;
+}
+
+export async function isGenerationUnlocked(generationId: string, userId: string) {
+  const rows = await db
+    .select({ id: schema.creditUsages.id })
+    .from(schema.creditUsages)
+    .innerJoin(schema.generations, eq(schema.creditUsages.generationId, schema.generations.id))
+    .where(and(eq(schema.generations.id, generationId), eq(schema.generations.userId, userId)))
+    .limit(1);
+
+  return rows.length > 0;
+}
+
+export async function unlockPreviewGeneration(generationId: string, userId: string) {
+  return db.transaction(async (tx) => {
+    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
+
+    const [generation] = await tx
+      .select()
+      .from(schema.generations)
+      .where(and(eq(schema.generations.id, generationId), eq(schema.generations.userId, userId)))
+      .limit(1);
+
+    if (!generation) throw new Error("Preview not found.");
+    if (!generation.freePreview) return { unlocked: true, alreadyUnlocked: true };
+    if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
+      throw new PreviewUnlockExpiredError();
+    }
+
+    const [existingUsage] = await tx
+      .select({ id: schema.creditUsages.id })
+      .from(schema.creditUsages)
+      .where(eq(schema.creditUsages.generationId, generationId))
+      .limit(1);
+
+    if (existingUsage) return { unlocked: true, alreadyUnlocked: true };
+
+    const packTier = await resolvePackTierForNextCredit(tx, userId);
+
+    await tx
+      .update(schema.generations)
+      .set({ packTier })
+      .where(eq(schema.generations.id, generationId));
+
+    await tx.insert(schema.creditUsages).values({
+      userId,
+      generationId,
+      credits: 1,
+    });
+
+    return { unlocked: true, alreadyUnlocked: false };
+  });
+}
+
 /**
  * FIFO-walk the user's purchases and grants in chronological order to
  * determine which bucket the next credit will be drawn from. Throws if the
  * user has no remaining balance. Grants default to "three" tier — admins
  * granting credits don't pick a tier, so we land in the middle.
  */
-async function resolvePackTierForNextCredit(
-  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  userId: string,
-): Promise<PackTier> {
+async function resolvePackTierForNextCredit(tx: DbTransaction, userId: string): Promise<PackTier> {
   const [usageRow] = await tx
     .select({
       total: sql<number>`coalesce(sum(${schema.creditUsages.credits}), 0)`,

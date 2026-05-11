@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import type { getGenerationState } from "@/lib/generate-queries";
 import type { AspectRatio } from "@/lib/providers/types";
@@ -35,6 +35,7 @@ const loadingMessages = [
   "A little more color…",
   "Almost there…",
 ];
+const CHECKOUT_UNLOCK_TIMEOUT_MS = 30_000;
 
 export default function GenerationBoard({
   generationId,
@@ -46,10 +47,15 @@ export default function GenerationBoard({
   initialState: State;
 }) {
   const [state, setState] = useState(initialState);
+  const [unlocking, startUnlock] = useTransition();
+  const [unlockError, setUnlockError] = useState<string | null>(null);
+  const [finishingCheckoutUnlock, setFinishingCheckoutUnlock] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [celebratedAt, setCelebratedAt] = useState<number | null>(null);
   const [lightboxImageId, setLightboxImageId] = useState<string | null>(null);
   const prevCount = useRef(initialState?.images.length ?? 0);
+  const stateRef = useRef(state);
 
   const openRegenerate = useCallback(
     (imageId: string) => router.push(`/studio/refine/${imageId}`),
@@ -62,6 +68,11 @@ export default function GenerationBoard({
   // status and image count drive whether we should still be polling.
   const status = state?.generation.status;
   const imagesLength = state?.images.length ?? 0;
+  const unlockReturn = searchParams.get("unlock");
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   useEffect(() => {
     if (!status) return;
     if (status === "done" && imagesLength >= 4) {
@@ -84,6 +95,45 @@ export default function GenerationBoard({
     return () => clearInterval(interval);
   }, [generationId, status, imagesLength]);
 
+  useEffect(() => {
+    if (!unlockReturn || !stateRef.current?.isPreview) {
+      setFinishingCheckoutUnlock(false);
+      return;
+    }
+
+    setFinishingCheckoutUnlock(true);
+    setUnlockError(null);
+
+    const checkUnlock = async () => {
+      const next = await fetchGenerationState(generationId);
+      setState(next);
+      if (!next?.isPreview) {
+        setFinishingCheckoutUnlock(false);
+        window.clearInterval(interval);
+        window.clearTimeout(timeout);
+        router.replace(`/studio/generate/${generationId}`, { scroll: false });
+      }
+    };
+
+    const interval = window.setInterval(() => {
+      void checkUnlock();
+    }, 1500);
+    const timeout = window.setTimeout(() => {
+      setFinishingCheckoutUnlock(false);
+      setUnlockError(
+        "We couldn't confirm the unlock yet. Try unlock manually; your new credit should be available.",
+      );
+      window.clearInterval(interval);
+    }, CHECKOUT_UNLOCK_TIMEOUT_MS);
+
+    void checkUnlock();
+
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
+    };
+  }, [generationId, router, unlockReturn]);
+
   // Rotating loading message
   const [messageIdx, setMessageIdx] = useState(0);
   useEffect(() => {
@@ -96,6 +146,7 @@ export default function GenerationBoard({
   if (!state) return null;
 
   const { generation, images } = state;
+  const isPreview = state.isPreview;
   const aspectCls = aspectStyle[aspectRatio] ?? "aspect-[3/2]";
   const done = generation.status === "done";
   const err = generation.status === "error";
@@ -104,6 +155,62 @@ export default function GenerationBoard({
 
   return (
     <div className="mt-10">
+      {isPreview && (
+        <div className="mb-8 flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-5 py-4 shadow-[var(--shadow-sm)] sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="chip chip-butter">Free preview</span>
+            <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              {finishingCheckoutUnlock
+                ? "Finishing your unlock. The watermark will disappear here in a moment."
+                : "These images are watermarked. Buy credits to unlock this photoshoot, or choose a larger pack and keep the remaining credits."}
+            </p>
+            {unlockError && (
+              <p className="mt-2 text-sm font-semibold text-[color:var(--color-coral-deep)]">
+                {unlockError}
+              </p>
+            )}
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Link
+              href={`/?unlockGenerationId=${encodeURIComponent(generationId)}#pricing`}
+              className="btn btn-coral btn-sm"
+            >
+              Buy credits to unlock
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setUnlockError(null);
+                startUnlock(async () => {
+                  const res = await fetch(`/api/generate/${generationId}/unlock`, {
+                    method: "POST",
+                  });
+                  const body = (await res.json().catch(() => ({}))) as {
+                    error?: string;
+                    needsCredits?: boolean;
+                  };
+                  if (!res.ok) {
+                    setUnlockError(body.error ?? "Could not unlock preview.");
+                    return;
+                  }
+                  const next = await fetchGenerationState(generationId);
+                  setState(next);
+                  router.replace(`/studio/generate/${generationId}`, { scroll: false });
+                });
+              }}
+              disabled={unlocking || finishingCheckoutUnlock}
+              className="btn btn-ghost btn-sm"
+            >
+              {finishingCheckoutUnlock
+                ? "Finishing..."
+                : unlocking
+                  ? "Unlocking..."
+                  : "I have credits"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {err && (
         <div className="mb-8 rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-5 text-sm text-[color:var(--color-coral-deep)]">
           <p className="font-semibold">Shoot ended early</p>
@@ -134,6 +241,7 @@ export default function GenerationBoard({
                   <ImageTile
                     imageId={img.id}
                     isFavorite={img.isFavorite}
+                    isPreview={isPreview}
                     onRegenerateClick={openRegenerate}
                     onOpenLightbox={openLightbox}
                   />
@@ -217,7 +325,7 @@ export default function GenerationBoard({
         </div>
       </div>
 
-      <ImageLightbox imageId={lightboxImageId} onClose={closeLightbox} />
+      <ImageLightbox imageId={lightboxImageId} isPreview={isPreview} onClose={closeLightbox} />
     </div>
   );
 }
@@ -225,11 +333,13 @@ export default function GenerationBoard({
 const ImageTile = memo(function ImageTile({
   imageId,
   isFavorite,
+  isPreview,
   onRegenerateClick,
   onOpenLightbox,
 }: {
   imageId: string;
   isFavorite: boolean;
+  isPreview: boolean;
   onRegenerateClick: (imageId: string) => void;
   onOpenLightbox: (imageId: string) => void;
 }) {
@@ -277,7 +387,9 @@ const ImageTile = memo(function ImageTile({
           <button
             type="button"
             onClick={() => onRegenerateClick(imageId)}
-            className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+            disabled={isPreview}
+            title={isPreview ? "Unlock this preview before regenerating" : undefined}
+            className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white disabled:opacity-70"
           >
             <svg
               viewBox="0 0 24 24"
@@ -293,14 +405,21 @@ const ImageTile = memo(function ImageTile({
               <path d="M18 2v4h-4" />
               <path d="M6 22v-4h4" />
             </svg>
-            Regenerate
+            {isPreview ? "Unlock to regenerate" : "Regenerate"}
           </button>
           <ExportMenu
             imageId={imageId}
+            previewOnly={isPreview}
             triggerClassName="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
           />
         </div>
       </div>
+
+      {isPreview && (
+        <span className="absolute left-3 top-3 z-20 rounded-full bg-[color:rgba(31,26,36,0.64)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow-[var(--shadow-sm)]">
+          Preview
+        </span>
+      )}
 
       <motion.button
         type="button"
@@ -348,7 +467,15 @@ function DevelopingTile({ index }: { index: number }) {
   );
 }
 
-function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: () => void }) {
+function ImageLightbox({
+  imageId,
+  isPreview,
+  onClose,
+}: {
+  imageId: string | null;
+  isPreview: boolean;
+  onClose: () => void;
+}) {
   useEffect(() => {
     if (!imageId) return;
     const onKey = (event: KeyboardEvent) => {
@@ -392,8 +519,14 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
               className="max-h-[92vh] max-w-[94vw] rounded-[var(--radius-lg)] object-contain shadow-[var(--shadow-xl)]"
             />
             <div className="absolute right-3 top-3 flex gap-2">
+              {isPreview && (
+                <span className="flex h-10 items-center rounded-full bg-[color:rgba(31,26,36,0.64)] px-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow-[var(--shadow-md)]">
+                  Preview
+                </span>
+              )}
               <ExportMenu
                 imageId={imageId}
+                previewOnly={isPreview}
                 triggerVariant="icon"
                 triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
               />

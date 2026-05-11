@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getGenerationState } from "@/lib/generate-queries";
 import { resolveTheme } from "@/lib/themes";
 import { studioDaysRemaining, studioRetentionDays } from "@/lib/retention";
@@ -30,13 +31,17 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
           <em className="serif-italic text-[color:var(--color-coral)]">.</em>
         </h1>
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-          Four starting images. Open any image to view it larger, or heart your keepers for the
-          album. This shoot stays available for{" "}
+          {state.isPreview
+            ? "Four watermarked preview images. Open any image to view it larger, then unlock this exact shoot when it feels right. "
+            : "Four starting images. Open any image to view it larger, or heart your keepers for the album. "}
+          This shoot stays available for{" "}
           {daysLeft === 1 ? "1 more day" : `${Math.min(daysLeft, retentionDays)} days`}.
         </p>
       </div>
 
-      <GenerationBoard generationId={id} aspectRatio={theme.aspectRatio} initialState={state} />
+      <Suspense>
+        <GenerationBoard generationId={id} aspectRatio={theme.aspectRatio} initialState={state} />
+      </Suspense>
     </main>
   );
 }

@@ -12,7 +12,13 @@ import Nav from "@/components/landing/Nav";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ unlockGenerationId?: string }>;
+}) {
+  const { unlockGenerationId } = await searchParams;
+
   return (
     <>
       <Nav />
@@ -24,7 +30,7 @@ export default function HomePage() {
         <HowItWorks />
         <TrustPrivacy />
         <GiftCredits />
-        <Pricing />
+        <Pricing unlockGenerationId={unlockGenerationId} />
         <Faq />
       </main>
       <Footer />

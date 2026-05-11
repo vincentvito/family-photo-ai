@@ -12,7 +12,8 @@ type Item = {
     aspectRatio: string;
     refineInstruction: string | null;
   };
-  generation: { themeId: string };
+  generation: { themeId: string; freePreview: boolean };
+  creditUsageId: string | null;
 };
 
 const chipPalette = ["coral", "sage", "butter", "plum"] as const;
@@ -82,6 +83,7 @@ function AlbumTile({ item }: { item: Item }) {
             </button>
             <ExportMenu
               imageId={item.image.id}
+              previewOnly={item.generation.freePreview && !item.creditUsageId}
               triggerClassName="spring-press flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
             />
           </span>

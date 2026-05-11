@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth-helpers";
 import { deleteStoredImage, deleteStoredPrefix, readStoredImage } from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
+import { addPreviewWatermark } from "@/lib/watermark";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -24,13 +25,19 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     .limit(1);
 
   let key: string | null = null;
+  let shouldWatermark = false;
   if (photo[0]) {
     key = `uploads/${photo[0].photo.personId}/${photo[0].photo.fileName}`;
   } else {
     const image = await db
-      .select({ image: schema.images, generation: schema.generations })
+      .select({
+        image: schema.images,
+        generation: schema.generations,
+        creditUsageId: schema.creditUsages.id,
+      })
       .from(schema.images)
       .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+      .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
       .where(and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)))
       .limit(1);
     if (image[0]) {
@@ -39,6 +46,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         return new NextResponse("Not found", { status: 404 });
       }
       key = `generations/${storedImage.generationId}/${storedImage.fileName}`;
+      shouldWatermark = generation.freePreview && !image[0].creditUsageId;
     }
   }
 
@@ -46,10 +54,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return new NextResponse("Not found", { status: 404 });
   }
 
-  const data = await readStoredImage(key);
+  const original = await readStoredImage(key);
+  const data = shouldWatermark ? await addPreviewWatermark(original) : original;
   return new NextResponse(data as unknown as BodyInit, {
     headers: {
-      "Content-Type": key.endsWith(".png") ? "image/png" : "image/jpeg",
+      "Content-Type": shouldWatermark
+        ? "image/jpeg"
+        : key.endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
       "Cache-Control": "private, no-store",
     },
   });

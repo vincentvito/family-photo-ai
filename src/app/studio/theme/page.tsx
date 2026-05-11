@@ -7,6 +7,7 @@ import {
   getCurrentSubscription,
   isActiveSubscriptionStatus,
 } from "@/lib/billing-queries";
+import { canStartFreePreview } from "@/lib/generate-queries";
 import { listRoster } from "@/lib/roster-queries";
 
 export const dynamic = "force-dynamic";
@@ -24,13 +25,15 @@ export default async function ThemePage({
   const selectedCard =
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
   const user = await getCurrentUser();
-  const [admin, defaultModel, creditBalance, rosterRows, subscription] = await Promise.all([
-    isAdmin(),
-    getDefaultModel(),
-    user ? getCreditBalance(user.id) : Promise.resolve(0),
-    user ? listRoster(user.id) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
-    user ? getCurrentSubscription(user.id) : Promise.resolve(null),
-  ]);
+  const [admin, defaultModel, creditBalance, canPreview, rosterRows, subscription] =
+    await Promise.all([
+      isAdmin(),
+      getDefaultModel(),
+      user ? getCreditBalance(user.id) : Promise.resolve(0),
+      user ? canStartFreePreview(user.id) : Promise.resolve(false),
+      user ? listRoster(user.id) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
+      user ? getCurrentSubscription(user.id) : Promise.resolve(null),
+    ]);
   const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
 
   const roster: RosterMember[] = rosterRows.map(({ person, photos }) => ({
@@ -85,6 +88,7 @@ export default async function ThemePage({
         isAdmin={admin}
         defaultModel={defaultModel}
         creditBalance={creditBalance}
+        canStartFreePreview={canPreview}
         roster={roster}
         outputMode={outputMode}
         isProSubscriber={isProSubscriber}

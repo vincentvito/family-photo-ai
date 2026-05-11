@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type ExportMenuProps = {
   imageId: string;
+  previewOnly?: boolean;
   triggerLabel?: string;
   triggerClassName?: string;
   triggerVariant?: "button" | "icon";
@@ -49,6 +50,7 @@ const EXPORT_OPTIONS: ExportOption[] = [
 
 export default function ExportMenu({
   imageId,
+  previewOnly = false,
   triggerLabel = "Export",
   triggerClassName = "btn btn-sm btn-ghost",
   triggerVariant = "button",
@@ -57,6 +59,9 @@ export default function ExportMenu({
   const [activeExport, setActiveExport] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const isIcon = triggerVariant === "icon";
+  const exportOptions = previewOnly
+    ? EXPORT_OPTIONS.filter((option) => option.id === "original")
+    : EXPORT_OPTIONS;
 
   const downloadFile = useCallback(
     async (option: ExportOption) => {
@@ -135,9 +140,15 @@ export default function ExportMenu({
                     </button>
                   </div>
                   <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Pick a file.</h2>
+                  {previewOnly && (
+                    <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+                      Preview downloads use the watermarked original file. Unlock this photoshoot
+                      for print sizes.
+                    </p>
+                  )}
 
                   <ul className="mt-6 space-y-2.5">
-                    {EXPORT_OPTIONS.map((option) => (
+                    {exportOptions.map((option) => (
                       <ExportRow
                         key={option.id}
                         option={option}

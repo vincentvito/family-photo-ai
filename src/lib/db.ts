@@ -15,7 +15,7 @@ function createClient() {
   const sql =
     globalThis.__sql ??
     postgres(url, {
-      max: 20,
+      max: Number(process.env.DATABASE_POOL_MAX ?? 20),
       prepare: false,
       idle_timeout: 20,
       connect_timeout: 10,

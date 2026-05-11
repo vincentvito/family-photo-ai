@@ -44,12 +44,15 @@ export async function POST(req: Request) {
       recipientName?: string;
       message?: string;
     };
+    unlockGenerationId?: string;
   } | null;
+  const unlockGenerationId = sanitizeMetadata(body?.unlockGenerationId, 80) || undefined;
   if (body?.planId === PRO_PLAN.id) {
     return createProCheckout({
       appUrl,
       userId: session.user.id,
       email: session.user.email,
+      unlockGenerationId,
     });
   }
 
@@ -69,13 +72,18 @@ export async function POST(req: Request) {
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: body?.gift
       ? `${appUrl}/studio/gifts?gift=success`
-      : `${appUrl}/studio/roster?checkout=success`,
-    cancel_url: `${appUrl}/?checkout=cancelled#pricing`,
+      : unlockGenerationId
+        ? `${appUrl}/studio/generate/${encodeURIComponent(unlockGenerationId)}?unlock=success`
+        : `${appUrl}/studio/roster?checkout=success`,
+    cancel_url: unlockGenerationId
+      ? `${appUrl}/studio/generate/${encodeURIComponent(unlockGenerationId)}?unlock=cancelled`
+      : `${appUrl}/?checkout=cancelled#pricing`,
     metadata: {
       userId: session.user.id,
       packId: pack.id,
       credits: String(pack.credits),
       priceId,
+      ...(unlockGenerationId ? { unlockGenerationId } : {}),
       ...(body?.gift
         ? {
             fulfillment: "gift",
@@ -89,6 +97,7 @@ export async function POST(req: Request) {
       metadata: {
         userId: session.user.id,
         packId: pack.id,
+        ...(unlockGenerationId ? { unlockGenerationId } : {}),
         ...(body?.gift ? { fulfillment: "gift" } : {}),
       },
     },
@@ -129,10 +138,12 @@ async function createProCheckout({
   appUrl,
   userId,
   email,
+  unlockGenerationId,
 }: {
   appUrl: string;
   userId: string;
   email: string;
+  unlockGenerationId?: string;
 }) {
   const priceId = getProPlanPriceId();
   const customerId = await getOrCreateStripeCustomer({ userId, email });
@@ -140,13 +151,18 @@ async function createProCheckout({
     mode: "subscription",
     customer: customerId,
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${appUrl}/studio/roster?checkout=pro-success`,
-    cancel_url: `${appUrl}/?checkout=cancelled#pricing`,
+    success_url: unlockGenerationId
+      ? `${appUrl}/studio/generate/${encodeURIComponent(unlockGenerationId)}?unlock=pro-success`
+      : `${appUrl}/studio/roster?checkout=pro-success`,
+    cancel_url: unlockGenerationId
+      ? `${appUrl}/studio/generate/${encodeURIComponent(unlockGenerationId)}?unlock=cancelled`
+      : `${appUrl}/?checkout=cancelled#pricing`,
     metadata: {
       userId,
       planId: PRO_PLAN.id,
       credits: String(PRO_PLAN.credits),
       priceId,
+      ...(unlockGenerationId ? { unlockGenerationId } : {}),
     },
     subscription_data: {
       metadata: {

@@ -4,6 +4,7 @@ import Reveal from "@/components/motion/Reveal";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 import { PRO_PLAN, type PricingPackId } from "@/lib/pricing-packs";
 
 const tiers = [
@@ -12,10 +13,7 @@ const tiers = [
     name: "Family Snap",
     price: "$5",
     sub: "A quick set for one moment.",
-    features: [
-      "4 high-res photos or cards",
-      "Print-ready files",
-    ],
+    features: ["4 high-res photos or cards", "Print-ready files"],
     highlight: false,
   },
   {
@@ -66,7 +64,7 @@ function Check({ className }: { className?: string }) {
   );
 }
 
-export default function Pricing() {
+export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: string }) {
   const [error, setError] = useState<string | null>(null);
 
   return (
@@ -76,12 +74,23 @@ export default function Pricing() {
           <div className="text-center">
             <span className="chip chip-butter">
               <span className="dot dot-butter" />
-              Simple photo packs
+              Free preview, paid keepsakes
             </span>
             <h2 className="serif mx-auto mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
               Pay for what <em className="serif-italic text-[color:var(--color-coral)]">fits</em>{" "}
               your family.
             </h2>
+            {unlockGenerationId && (
+              <div className="mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-4 py-3 text-sm text-[color:var(--color-ink-muted)]">
+                <span>Choose any pack below to unlock your preview.</span>
+                <Link
+                  href={`/studio/generate/${encodeURIComponent(unlockGenerationId)}`}
+                  className="font-semibold text-[color:var(--color-coral-deep)]"
+                >
+                  Back to preview
+                </Link>
+              </div>
+            )}
           </div>
         </Reveal>
 
@@ -115,7 +124,7 @@ export default function Pricing() {
                 <p
                   className={`mt-2 text-sm ${t.highlight ? "text-[color:rgba(251,248,243,0.75)]" : "text-[color:var(--color-ink-muted)]"}`}
                 >
-                  {t.sub}
+                  {t.sub} Your first photo set can start as a watermarked preview.
                 </p>
 
                 <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
@@ -136,6 +145,7 @@ export default function Pricing() {
                 <div className="mt-auto grid gap-2 pt-10">
                   <CheckoutButton
                     packId={t.packId}
+                    unlockGenerationId={unlockGenerationId}
                     onError={(message) => setError(message || null)}
                     className={`btn w-full ${
                       t.highlight
@@ -143,7 +153,7 @@ export default function Pricing() {
                         : "btn-ghost"
                     }`}
                   >
-                    Start here
+                    {unlockGenerationId ? "Buy credits" : "Start here"}
                   </CheckoutButton>
                   <CheckoutButton
                     packId={t.packId}
@@ -194,6 +204,7 @@ export default function Pricing() {
               <div className="mt-auto pt-10">
                 <CheckoutButton
                   planId={PRO_PLAN.id}
+                  unlockGenerationId={unlockGenerationId}
                   onError={(message) => setError(message || null)}
                   className="btn btn-sage w-full"
                   pendingLabel="Opening subscription..."

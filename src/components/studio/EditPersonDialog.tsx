@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Person } from "@/../db/schema";
@@ -24,15 +24,21 @@ export default function EditPersonDialog({
   const [notes, setNotes] = useState(person.notes ?? "");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoPreviewError, setPhotoPreviewError] = useState(false);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+    };
+  }, [photoPreview]);
+
   const pickFile = (file: File) => {
     setPhotoFile(file);
-    const reader = new FileReader();
-    reader.onload = () => setPhotoPreview(reader.result as string);
-    reader.readAsDataURL(file);
+    setPhotoPreview(URL.createObjectURL(file));
+    setPhotoPreviewError(false);
   };
 
   const submit = () => {
@@ -177,14 +183,34 @@ export default function EditPersonDialog({
                   </span>
                 </label>
                 <div className="mt-3 flex items-center gap-3">
-                  {photoPreview ? (
+                  {photoPreview && !photoPreviewError ? (
                     <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={photoPreview}
                         alt="New reference preview"
                         className="h-full w-full object-contain"
+                        onError={() => setPhotoPreviewError(true)}
                       />
+                    </div>
+                  ) : photoFile ? (
+                    <div className="flex h-20 w-20 flex-col items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)] px-2 text-center text-[color:var(--color-ink-muted)]">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-5 w-5 shrink-0"
+                        aria-hidden
+                      >
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2Z" />
+                        <path d="M14 2v6h6" />
+                      </svg>
+                      <span className="mt-1 max-w-full truncate text-[0.65rem] font-semibold">
+                        {photoFile.name}
+                      </span>
                     </div>
                   ) : (
                     <div className="flex h-20 w-20 items-center justify-center rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-faint)]">
@@ -216,8 +242,10 @@ export default function EditPersonDialog({
                         onClick={() => {
                           setPhotoFile(null);
                           setPhotoPreview(null);
+                          setPhotoPreviewError(false);
                           if (fileRef.current) fileRef.current.value = "";
                         }}
+                        disabled={pending}
                         className="text-xs font-semibold text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-coral-deep)] hover:underline"
                       >
                         Cancel new photo

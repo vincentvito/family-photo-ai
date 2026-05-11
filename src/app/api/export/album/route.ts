@@ -6,6 +6,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { retainedGenerationCondition } from "@/lib/retention-queries";
 import { readStoredImage } from "@/lib/storage";
+import { addPreviewWatermark } from "@/lib/watermark";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,10 +26,15 @@ export async function GET() {
   }
 
   const rows = await db
-    .select({ image: schema.images })
+    .select({
+      image: schema.images,
+      freePreview: schema.generations.freePreview,
+      creditUsageId: schema.creditUsages.id,
+    })
     .from(schema.albumImages)
     .innerJoin(schema.images, eq(schema.albumImages.imageId, schema.images.id))
     .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
     .where(
       and(
         eq(schema.albumImages.albumId, album.id),
@@ -48,11 +54,16 @@ export async function GET() {
 
   (async () => {
     try {
-      for (const { image } of rows) {
+      for (const { image, freePreview, creditUsageId } of rows) {
         const key = `generations/${image.generationId}/${image.fileName}`;
         try {
           const buf = await readStoredImage(key);
-          archive.append(buf, { name: image.fileName });
+          const shouldWatermark = freePreview && !creditUsageId;
+          const output = shouldWatermark ? await addPreviewWatermark(buf) : buf;
+          const name = shouldWatermark
+            ? image.fileName.replace(/\.[^.]+$/, "-preview.jpg")
+            : image.fileName;
+          archive.append(output, { name });
         } catch (err) {
           console.warn(`album export: missing R2 object ${key}`, err);
         }

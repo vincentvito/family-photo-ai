@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
 import { createGiftFromCheckout, markGiftRefundedByPaymentIntent } from "@/lib/gift-queries";
+import { PreviewUnlockExpiredError, unlockPreviewGeneration } from "@/lib/generate-queries";
 import { PRO_PLAN, getCheckoutCreditPack } from "@/lib/pricing-packs";
 import { stripe } from "@/lib/stripe";
 
@@ -69,6 +70,7 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
   const packId = checkout.metadata?.packId;
   const priceId = checkout.metadata?.priceId;
   const fulfillment = checkout.metadata?.fulfillment;
+  const unlockGenerationId = checkout.metadata?.unlockGenerationId;
 
   if (planId === PRO_PLAN.id) {
     if (checkout.payment_status !== "paid" && checkout.payment_status !== "no_payment_required") {
@@ -95,6 +97,7 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
       stripeEventId: event.id,
       stripePriceId: priceId,
     });
+    if (unlockGenerationId) await unlockPreviewFromCheckout(unlockGenerationId, userId);
     return;
   }
 
@@ -138,6 +141,22 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
       status: "completed",
     })
     .onConflictDoNothing({ target: schema.creditTransactions.stripeCheckoutSessionId });
+
+  if (unlockGenerationId) await unlockPreviewFromCheckout(unlockGenerationId, userId);
+}
+
+async function unlockPreviewFromCheckout(generationId: string, userId: string) {
+  try {
+    await unlockPreviewGeneration(generationId, userId);
+  } catch (err) {
+    if (err instanceof PreviewUnlockExpiredError) {
+      console.warn(
+        `Stripe webhook: preview ${generationId} expired before unlock; credit remains available.`,
+      );
+      return;
+    }
+    throw err;
+  }
 }
 
 async function handleInvoicePaymentSucceeded(event: Stripe.Event) {

@@ -24,9 +24,9 @@ const faqs = [
       "Yes. FamilyShoot includes holiday and occasion card styles for Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, birthdays, new babies, graduations, and more.",
   },
   {
-    question: "Is this free?",
+    question: "Can I try it for free?",
     answer:
-      "No. FamilyShoot is a paid studio. Charging for finished shoots helps us keep the product focused on keepsakes, clear retention, and print-ready downloads instead of ads.",
+      "Yes. Your first photoshoot can be created as a watermarked free preview. If you love it, buy credits to unlock that exact photoshoot and remove the watermark.",
   },
   {
     question: "Can I buy FamilyShoot credits as a gift?",
@@ -46,7 +46,7 @@ const faqs = [
   {
     question: "Can I get a refund after a shoot is created?",
     answer:
-      "Once a shoot has been created, refunds are not available because the image generation work has already run and compute costs have been paid. If something breaks or your shoot fails, contact us and we will help make it right.",
+      "Once a paid shoot has been unlocked or created, refunds are not available because the image generation work has already run and compute costs have been paid. If something breaks or your shoot fails, contact us and we will help make it right.",
   },
   {
     question: "How long are my photos stored?",

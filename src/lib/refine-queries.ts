@@ -258,6 +258,14 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
   if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
     throw new Error("This shoot has expired.");
   }
+  const [usage] = await db
+    .select({ id: schema.creditUsages.id })
+    .from(schema.creditUsages)
+    .where(eq(schema.creditUsages.generationId, generation.id))
+    .limit(1);
+  if (generation.freePreview && !usage) {
+    throw new Error("Unlock this free preview before regenerating.");
+  }
 
   const rootImageId = baseImage.rootImageId ?? baseImage.id;
   const [rootImage] = await db

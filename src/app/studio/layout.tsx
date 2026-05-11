@@ -39,7 +39,13 @@ export default async function StudioLayout({ children }: { children: React.React
           </div>
         </div>
         <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/55">
-          <div className="mx-auto flex max-w-6xl justify-end px-6 py-2 sm:px-8">
+          <div className="mx-auto flex max-w-6xl flex-wrap justify-end gap-2 px-6 py-2 sm:px-8">
+            <Link href="/studio/roster" className="btn btn-ghost btn-sm">
+              Roster
+            </Link>
+            <Link href="/studio/album" className="btn btn-ghost btn-sm">
+              Album
+            </Link>
             <Link href="/studio/gifts" className="btn btn-ghost btn-sm">
               Gift credits
             </Link>

@@ -19,6 +19,7 @@ export default function RosterPageClient({
 }) {
   const [roster, setRoster] = useState<RosterEntry[]>(initialRoster);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const showCheckoutSuccess = checkoutStatus === "success" || checkoutStatus === "pro-success";
 
   const loadRoster = useCallback(async () => {
@@ -60,10 +61,22 @@ export default function RosterPageClient({
             person is enough to lock their likeness across every portrait.
           </p>
         </div>
-        <AddPersonDialog onChanged={loadRoster} />
+        <AddPersonDialog onChanged={loadRoster} onNotice={setNotice} />
       </div>
 
       <div className="mt-8">
+        {notice && (
+          <div className="mb-4 flex items-center justify-between gap-4 rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)]">
+            <p>{notice}</p>
+            <button
+              type="button"
+              onClick={() => setNotice(null)}
+              className="text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--color-coral-deep)] hover:underline"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         {error ? (
           <div className="panel-coral px-8 py-12 text-center">
             <p className="text-sm font-semibold text-[color:var(--color-coral-deep)]">{error}</p>
@@ -169,8 +182,8 @@ function EmptyState() {
       </div>
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">No one on the roster yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
-        Start with yourself - add one person, then add their reference photo. You&apos;ll add the
-        rest of the family after.
+        Start with yourself - add one person and choose a reference photo now, or add the photo
+        later.
       </p>
     </div>
   );

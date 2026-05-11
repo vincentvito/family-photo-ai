@@ -1,18 +1,42 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import {
   getCreditGrantStats,
   getCustomVibeSamples,
   getDefaultModel,
+  getGiftCodeSalesStats,
   getPackageSalesStats,
   getPlatformStats,
+  getPreviewFunnelStats,
   getRecentGenerations,
-  getRecentSignups,
   getThemeRanking,
+  getUsersPage,
 } from "@/lib/admin-queries";
 import DefaultModelPicker from "./DefaultModelPicker";
 import CreditGrantForm from "./CreditGrantForm";
 
 export const dynamic = "force-dynamic";
+
+const ADMIN_TABS = [
+  { id: "overview", label: "Overview", description: "Health and runtime controls." },
+  { id: "previews", label: "Previews", description: "Free-preview funnel." },
+  { id: "billing", label: "Billing", description: "Credits, sales, and grants." },
+  { id: "content", label: "Content", description: "Themes and recent photoshoots." },
+  { id: "users", label: "Users", description: "Recent signups." },
+] as const;
+
+type AdminTab = (typeof ADMIN_TABS)[number]["id"];
+
+const MONEY_WHOLE = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+const MONEY_CENTS = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 2,
+});
 
 function formatRelative(date: Date) {
   const ms = Date.now() - new Date(date).getTime();
@@ -26,27 +50,117 @@ function formatRelative(date: Date) {
 }
 
 function formatMoney(cents: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: cents % 100 === 0 ? 0 : 2,
-  }).format(cents / 100);
+  return (cents % 100 === 0 ? MONEY_WHOLE : MONEY_CENTS).format(cents / 100);
 }
 
-export default function AdminOverviewPage() {
+function resolveTab(value: string | undefined): AdminTab {
+  return ADMIN_TABS.some((tab) => tab.id === value) ? (value as AdminTab) : "overview";
+}
+
+export default async function AdminOverviewPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ tab?: string; page?: string }>;
+}) {
+  const params = await searchParams;
+  const activeTab = resolveTab(params?.tab);
+  const activeMeta = ADMIN_TABS.find((tab) => tab.id === activeTab) ?? ADMIN_TABS[0];
+
   return (
     <div className="space-y-10">
       <section>
         <h1 className="serif text-3xl tracking-[-0.025em]">Overview</h1>
-        <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
-          Platform-wide stats and runtime controls.
-        </p>
+        <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">{activeMeta.description}</p>
+        <AdminTabs activeTab={activeTab} />
+      </section>
 
+      {activeTab === "overview" && <OverviewTab />}
+      {activeTab === "previews" && <PreviewsTab />}
+      {activeTab === "billing" && <BillingTab />}
+      {activeTab === "content" && <ContentTab />}
+      {activeTab === "users" && <UsersTab pageParam={params?.page} />}
+    </div>
+  );
+}
+
+function AdminTabs({ activeTab }: { activeTab: AdminTab }) {
+  return (
+    <nav
+      aria-label="Admin sections"
+      className="mt-6 flex gap-2 overflow-x-auto rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1"
+    >
+      {ADMIN_TABS.map((tab) => {
+        const active = tab.id === activeTab;
+        return (
+          <Link
+            key={tab.id}
+            href={tab.id === "overview" ? "/admin" : `/admin?tab=${tab.id}`}
+            aria-current={active ? "page" : undefined}
+            className={
+              active
+                ? "shrink-0 rounded-[var(--radius-md)] bg-[color:var(--color-ink)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-bg)]"
+                : "shrink-0 rounded-[var(--radius-md)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-line)]/60 hover:text-[color:var(--color-ink)]"
+            }
+          >
+            {tab.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+function OverviewTab() {
+  return (
+    <div className="space-y-10">
+      <section>
         <Suspense fallback={<StatsSkeleton />}>
           <StatsCards />
         </Suspense>
       </section>
 
+      <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+        <h2 className="serif text-xl tracking-[-0.02em]">Default model</h2>
+        <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+          What everyone runs on unless an admin overrides per-shoot.
+        </p>
+        <div className="mt-5">
+          <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
+            <DefaultModelSection />
+          </Suspense>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function PreviewsTab() {
+  return (
+    <div className="space-y-10">
+      <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="serif text-xl tracking-[-0.02em]">Preview funnel</h2>
+            <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+              Watermarked previews and people generating before they buy.
+            </p>
+          </div>
+          <span className="chip chip-coral">
+            <span className="dot dot-coral" />
+            Free preview
+          </span>
+        </div>
+        <Suspense fallback={<PreviewFunnelSkeleton />}>
+          <PreviewFunnelSection />
+        </Suspense>
+      </section>
+    </div>
+  );
+}
+
+function BillingTab() {
+  return (
+    <div className="space-y-10">
       <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -66,15 +180,21 @@ export default function AdminOverviewPage() {
       </section>
 
       <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
-        <h2 className="serif text-xl tracking-[-0.02em]">Default model</h2>
-        <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
-          What everyone runs on unless an admin overrides per-shoot.
-        </p>
-        <div className="mt-5">
-          <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
-            <DefaultModelSection />
-          </Suspense>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="serif text-xl tracking-[-0.02em]">Gift code sales</h2>
+            <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+              Purchased gift codes, grouped by pack.
+            </p>
+          </div>
+          <span className="chip chip-coral">
+            <span className="dot dot-coral" />
+            Gift purchases
+          </span>
         </div>
+        <Suspense fallback={<GiftSalesSkeleton />}>
+          <GiftSalesSection />
+        </Suspense>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -95,7 +215,13 @@ export default function AdminOverviewPage() {
           </Suspense>
         </div>
       </section>
+    </div>
+  );
+}
 
+function ContentTab() {
+  return (
+    <div className="space-y-10">
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
           <div className="flex items-end justify-between gap-3">
@@ -124,22 +250,25 @@ export default function AdminOverviewPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
-          <h2 className="serif text-xl tracking-[-0.02em]">Recent signups</h2>
-          <Suspense fallback={<ListSkeleton />}>
-            <SignupsList />
-          </Suspense>
-        </div>
-
-        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
-          <h2 className="serif text-xl tracking-[-0.02em]">Recent shoots</h2>
-          <Suspense fallback={<ListSkeleton />}>
-            <ShootsList />
-          </Suspense>
-        </div>
+      <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+        <h2 className="serif text-xl tracking-[-0.02em]">Recent shoots</h2>
+        <Suspense fallback={<ListSkeleton />}>
+          <ShootsList />
+        </Suspense>
       </section>
     </div>
+  );
+}
+
+function UsersTab({ pageParam }: { pageParam?: string }) {
+  const page = Math.max(1, Number(pageParam ?? 1) || 1);
+  return (
+    <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+      <h2 className="serif text-xl tracking-[-0.02em]">Users</h2>
+      <Suspense fallback={<ListSkeleton />}>
+        <UsersList page={page} />
+      </Suspense>
+    </section>
   );
 }
 
@@ -162,7 +291,7 @@ async function PackageSalesSection() {
     {
       label: "Credits sold",
       value: sales.totals.creditsSold.toLocaleString(),
-      sub: "available shoots purchased",
+      sub: "available photos purchased",
     },
   ];
 
@@ -213,6 +342,206 @@ async function PackageSalesSection() {
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+async function GiftSalesSection() {
+  const gifts = await getGiftCodeSalesStats();
+  const totals = [
+    {
+      label: "Gift revenue",
+      value: formatMoney(gifts.totals.estimatedRevenueCents),
+      sub: "before Stripe fees",
+    },
+    {
+      label: "Gift codes sold",
+      value: gifts.totals.giftCodesSold.toLocaleString(),
+      sub: gifts.totals.refunded > 0 ? `${gifts.totals.refunded} refunded` : "excluding refunds",
+    },
+    {
+      label: "Redeemed",
+      value: gifts.totals.redeemed.toLocaleString(),
+      sub: `${gifts.totals.creditsGifted.toLocaleString()} credits gifted`,
+    },
+  ];
+
+  return (
+    <div className="mt-5 grid gap-5 xl:grid-cols-[0.75fr_1.25fr]">
+      <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+        {totals.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-4"
+          >
+            <div className="small-caps text-[color:var(--color-ink-muted)]">{item.label}</div>
+            <div className="mt-2 text-2xl font-semibold tabular-nums tracking-tight">
+              {item.value}
+            </div>
+            <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{item.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)]">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)] text-xs text-[color:var(--color-ink-muted)]">
+              <tr>
+                <th className="px-4 py-3 font-semibold">Pack</th>
+                <th className="px-4 py-3 text-right font-semibold">Sold</th>
+                <th className="px-4 py-3 text-right font-semibold">Revenue</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[color:var(--color-line)]">
+              {gifts.packs.map((pack) => (
+                <tr key={pack.packId}>
+                  <td className="px-4 py-3">
+                    <div className="font-medium">{pack.name}</div>
+                    <div className="text-xs text-[color:var(--color-ink-muted)]">
+                      {pack.creditsGifted.toLocaleString()} credits
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums">
+                    {pack.giftCodesSold.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums">
+                    {formatMoney(pack.estimatedRevenueCents)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)]">
+          <div className="border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3">
+            <h3 className="text-sm font-semibold">Recent gift codes</h3>
+          </div>
+          <ul className="divide-y divide-[color:var(--color-line)]">
+            {gifts.recent.length === 0 && (
+              <li className="px-4 py-4 text-sm text-[color:var(--color-ink-muted)]">
+                No gift codes purchased yet.
+              </li>
+            )}
+            {gifts.recent.map((gift) => (
+              <li key={gift.id} className="px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <code className="truncate text-xs font-semibold tracking-[0.08em]">
+                    {gift.code}
+                  </code>
+                  <span className="shrink-0 text-xs text-[color:var(--color-ink-faint)]">
+                    {formatRelative(gift.createdAt)}
+                  </span>
+                </div>
+                <div className="mt-1 text-xs text-[color:var(--color-ink-muted)]">
+                  {gift.packName} · {formatMoney(gift.estimatedRevenueCents)} · {gift.status}
+                </div>
+                <div className="mt-1 truncate text-xs text-[color:var(--color-ink-faint)]">
+                  Buyer {gift.buyerEmail ?? "unknown"}
+                  {gift.recipientEmail ? ` · For ${gift.recipientEmail}` : ""}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function PreviewFunnelSection() {
+  const stats = await getPreviewFunnelStats();
+  const totalPreviewGenerations = stats.previews.generations + stats.convertedPreviews.generations;
+  const unlockRate =
+    totalPreviewGenerations === 0
+      ? 0
+      : Math.round((stats.convertedPreviews.generations / totalPreviewGenerations) * 100);
+  const cards = [
+    {
+      label: "Watermarked images",
+      value: stats.previews.images,
+      sub: `${stats.previews.generations.toLocaleString()} unpaid previews`,
+    },
+    {
+      label: "Previewing users",
+      value: stats.previews.users,
+      sub: `${stats.previews.usersWithoutPurchase.toLocaleString()} have not bought`,
+    },
+    {
+      label: "Last 7 days",
+      value: stats.previews.last7Days,
+      sub: `${stats.previews.usersWithoutPurchaseLast7Days.toLocaleString()} no-purchase users`,
+    },
+    {
+      label: "Unlocked previews",
+      value: stats.convertedPreviews.generations,
+      sub: `${stats.convertedPreviews.users.toLocaleString()} users, ${unlockRate}% preview unlock rate`,
+    },
+  ];
+
+  return (
+    <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {cards.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-4"
+          >
+            <div className="small-caps text-[color:var(--color-ink-muted)]">{item.label}</div>
+            <div className="mt-2 text-2xl font-semibold tabular-nums tracking-tight">
+              {item.value.toLocaleString()}
+            </div>
+            <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{item.sub}</p>
+          </div>
+        ))}
+        <p className="text-xs leading-relaxed text-[color:var(--color-ink-muted)] sm:col-span-2">
+          These counts use the persisted free-preview flag, so old test rows without credit usage
+          are not treated as watermarked previews.
+        </p>
+      </div>
+
+      <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)]">
+        <div className="border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3">
+          <h3 className="text-sm font-semibold">Recent unpaid previews</h3>
+        </div>
+        <ul className="divide-y divide-[color:var(--color-line)]">
+          {stats.recentPreviews.length === 0 && (
+            <li className="px-4 py-4 text-sm text-[color:var(--color-ink-muted)]">
+              No unpaid previews yet.
+            </li>
+          )}
+          {stats.recentPreviews.map((preview) => (
+            <li key={preview.id} className="flex items-center justify-between gap-4 px-4 py-3">
+              <div className="min-w-0">
+                <div className="truncate text-sm font-medium">
+                  {preview.email ?? "Unknown user"}
+                </div>
+                <div className="text-xs text-[color:var(--color-ink-muted)]">
+                  {preview.themeId}
+                  {" · "}
+                  {preview.imageCount} {preview.imageCount === 1 ? "image" : "images"}
+                  {" · "}
+                  <span
+                    className={
+                      preview.status === "done"
+                        ? "text-[color:var(--color-sage-deep)]"
+                        : preview.status === "error"
+                          ? "text-[color:var(--color-coral-deep)]"
+                          : ""
+                    }
+                  >
+                    {preview.status}
+                  </span>
+                </div>
+              </div>
+              <span className="shrink-0 text-xs text-[color:var(--color-ink-faint)]">
+                {formatRelative(preview.createdAt)}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
@@ -303,33 +632,73 @@ async function CreditGrantsList() {
   );
 }
 
-async function SignupsList() {
-  const signups = await getRecentSignups(10);
+async function UsersList({ page }: { page: number }) {
+  const result = await getUsersPage(page, 20);
+  const previousPage = Math.max(1, result.page - 1);
+  const nextPage = Math.min(result.totalPages, result.page + 1);
+
   return (
-    <ul className="mt-4 divide-y divide-[color:var(--color-line)]">
-      {signups.length === 0 && (
-        <li className="py-3 text-sm text-[color:var(--color-ink-muted)]">No signups yet.</li>
-      )}
-      {signups.map((u) => (
-        <li key={u.id} className="flex items-center justify-between gap-4 py-3">
-          <div className="min-w-0">
-            <div className="truncate text-sm font-medium">{u.email}</div>
-            <div className="text-xs text-[color:var(--color-ink-muted)]">
-              {u.name || "—"}
-              {u.role?.toLowerCase() === "admin" && (
-                <span className="ml-2 chip chip-coral">admin</span>
-              )}
+    <div className="mt-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3 text-sm">
+        <span className="text-[color:var(--color-ink-muted)]">
+          {result.total.toLocaleString()} total users
+        </span>
+        <span className="font-medium tabular-nums">
+          Page {result.page.toLocaleString()} of {result.totalPages.toLocaleString()}
+        </span>
+      </div>
+
+      <ul className="mt-4 divide-y divide-[color:var(--color-line)]">
+        {result.users.length === 0 && (
+          <li className="py-3 text-sm text-[color:var(--color-ink-muted)]">No users yet.</li>
+        )}
+        {result.users.map((u) => (
+          <li key={u.id} className="flex items-center justify-between gap-4 py-3">
+            <div className="min-w-0">
+              <div className="truncate text-sm font-medium">{u.email}</div>
+              <div className="text-xs text-[color:var(--color-ink-muted)]">
+                {u.name || "-"}
+                {u.role?.toLowerCase() === "admin" && (
+                  <span className="ml-2 chip chip-coral">admin</span>
+                )}
+              </div>
             </div>
-          </div>
-          <span className="text-xs text-[color:var(--color-ink-faint)]">
-            {formatRelative(u.createdAt)}
+            <span className="text-xs text-[color:var(--color-ink-faint)]">
+              {formatRelative(u.createdAt)}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+        {result.page > 1 ? (
+          <Link href={`/admin?tab=users&page=${previousPage}`} className="btn btn-ghost btn-sm">
+            Previous
+          </Link>
+        ) : (
+          <span
+            aria-disabled="true"
+            className="btn btn-ghost btn-sm pointer-events-none opacity-45"
+          >
+            Previous
           </span>
-        </li>
-      ))}
-    </ul>
+        )}
+        {result.page < result.totalPages ? (
+          <Link href={`/admin?tab=users&page=${nextPage}`} className="btn btn-ghost btn-sm">
+            Next
+          </Link>
+        ) : (
+          <span
+            aria-disabled="true"
+            className="btn btn-ghost btn-sm pointer-events-none opacity-45"
+          >
+            Next
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
-
 async function ShootsList() {
   const generations = await getRecentGenerations(10);
   return (
@@ -475,6 +844,41 @@ function PackageSalesSkeleton() {
         ))}
       </div>
       <div className="h-56 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40" />
+    </div>
+  );
+}
+
+function GiftSalesSkeleton() {
+  return (
+    <div className="mt-5 grid gap-5 xl:grid-cols-[0.75fr_1.25fr]">
+      <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-24 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40"
+          />
+        ))}
+      </div>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div className="h-56 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40" />
+        <div className="h-56 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40" />
+      </div>
+    </div>
+  );
+}
+
+function PreviewFunnelSkeleton() {
+  return (
+    <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-24 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40"
+          />
+        ))}
+      </div>
+      <div className="h-64 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40" />
     </div>
   );
 }

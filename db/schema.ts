@@ -57,6 +57,11 @@ export const generations = familyphotoai.table("generations", {
    * generous tier so we don't retroactively penalize existing users.
    */
   packTier: text("pack_tier", { enum: ["single", "three", "eight", "pro"] }),
+  /**
+   * True only for shoots created through the free-preview path. Legacy rows may
+   * have no credit usage, so this flag is the source of truth for watermarking.
+   */
+  freePreview: boolean("free_preview").notNull().default(false),
   createdAt: createdAt(),
 });
 
