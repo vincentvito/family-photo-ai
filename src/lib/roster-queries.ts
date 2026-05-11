@@ -3,6 +3,7 @@ import { db, schema } from "@/lib/db";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { saveReferencePhoto, deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { z } from "zod";
+import { ROSTER_NAME_MAX_LENGTH, ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
 
@@ -42,10 +43,10 @@ export async function addPerson(input: {
 }) {
   const parsed = z
     .object({
-      name: z.string().trim().min(1).max(60),
+      name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH),
       userId: z.string().min(1),
       role: RoleSchema,
-      notes: z.string().trim().max(200).nullable().optional(),
+      notes: z.string().trim().max(ROSTER_NOTE_MAX_LENGTH).nullable().optional(),
     })
     .parse(input);
 
@@ -74,9 +75,9 @@ export async function updatePerson(input: {
     .object({
       id: z.string().min(1),
       userId: z.string().min(1),
-      name: z.string().trim().min(1).max(60).optional(),
+      name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH).optional(),
       role: RoleSchema.optional(),
-      notes: z.string().trim().max(200).nullable().optional(),
+      notes: z.string().trim().max(ROSTER_NOTE_MAX_LENGTH).nullable().optional(),
     })
     .parse(input);
 
