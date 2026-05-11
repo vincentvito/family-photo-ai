@@ -1,4 +1,13 @@
-import { pgSchema, text, integer, boolean, timestamp, index } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import {
+  pgSchema,
+  text,
+  integer,
+  boolean,
+  timestamp,
+  index,
+  uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
 export const familyphotoai = pgSchema("familyphotoai");
@@ -31,39 +40,47 @@ export const photos = familyphotoai.table("photos", {
   createdAt: createdAt(),
 });
 
-export const generations = familyphotoai.table("generations", {
-  id: id(),
-  userId: text("user_id").notNull(),
-  themeId: text("theme_id").notNull(),
-  prompt: text("prompt").notNull(),
-  providerId: text("provider_id").notNull(),
-  status: text("status", { enum: ["pending", "done", "error"] })
-    .notNull()
-    .default("pending"),
-  errorMessage: text("error_message"),
-  subjectSnapshot: text("subject_snapshot").notNull(),
-  wardrobeNote: text("wardrobe_note"),
-  cardText: text("card_text"),
-  aspectRatio: text("aspect_ratio"),
-  locationReferencePath: text("location_reference_path"),
-  customVibeDescription: text("custom_vibe_description"),
-  /** JSON-encoded slot[] of Replicate prediction IDs + retry count, one per variant. */
-  replicatePredictionIds: text("replicate_prediction_ids"),
-  /** Model id from MODEL_CATALOG (e.g. "nanobanana", "nano-banana-pro", "gpt-image-2"). */
-  model: text("model").notNull().default("gpt-image-2"),
-  /**
-   * Pack tier this shoot's credit was funded by. Drives per-shoot refine cap.
-   * Null on legacy shoots created before tier tracking — treated as the most
-   * generous tier so we don't retroactively penalize existing users.
-   */
-  packTier: text("pack_tier", { enum: ["single", "three", "eight", "pro"] }),
-  /**
-   * True only for shoots created through the free-preview path. Legacy rows may
-   * have no credit usage, so this flag is the source of truth for watermarking.
-   */
-  freePreview: boolean("free_preview").notNull().default(false),
-  createdAt: createdAt(),
-});
+export const generations = familyphotoai.table(
+  "generations",
+  {
+    id: id(),
+    userId: text("user_id").notNull(),
+    themeId: text("theme_id").notNull(),
+    prompt: text("prompt").notNull(),
+    providerId: text("provider_id").notNull(),
+    status: text("status", { enum: ["pending", "done", "error"] })
+      .notNull()
+      .default("pending"),
+    errorMessage: text("error_message"),
+    subjectSnapshot: text("subject_snapshot").notNull(),
+    wardrobeNote: text("wardrobe_note"),
+    cardText: text("card_text"),
+    aspectRatio: text("aspect_ratio"),
+    locationReferencePath: text("location_reference_path"),
+    customVibeDescription: text("custom_vibe_description"),
+    /** JSON-encoded slot[] of Replicate prediction IDs + retry count, one per variant. */
+    replicatePredictionIds: text("replicate_prediction_ids"),
+    /** Model id from MODEL_CATALOG (e.g. "nanobanana", "nano-banana-pro", "gpt-image-2"). */
+    model: text("model").notNull().default("gpt-image-2"),
+    /**
+     * Pack tier this shoot's credit was funded by. Drives per-shoot refine cap.
+     * Null on legacy shoots created before tier tracking — treated as the most
+     * generous tier so we don't retroactively penalize existing users.
+     */
+    packTier: text("pack_tier", { enum: ["single", "three", "eight", "pro"] }),
+    /**
+     * True only for shoots created through the free-preview path. Legacy rows may
+     * have no credit usage, so this flag is the source of truth for watermarking.
+     */
+    freePreview: boolean("free_preview").notNull().default(false),
+    createdAt: createdAt(),
+  },
+  (table) => [
+    uniqueIndex("generations_user_free_preview_once_idx")
+      .on(table.userId)
+      .where(sql`${table.freePreview} = true AND ${table.status} <> 'error'`),
+  ],
+);
 
 export const images = familyphotoai.table("images", {
   id: id(),

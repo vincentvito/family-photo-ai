@@ -28,6 +28,8 @@ type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
 type OutputMode = "photoshoot" | "card";
 const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
+const ADD_CREDITS_MESSAGE =
+  "Your free preview is one-time. Add credits before starting another one.";
 
 export type RosterMember = {
   id: string;
@@ -179,7 +181,7 @@ export default function ThemeBoard({
 
   const launch = (theme: Theme) => {
     if (!canCreateShoot) {
-      setError("Unlock your free preview or add credits before starting another one.");
+      setError(ADD_CREDITS_MESSAGE);
       return;
     }
     setError(null);
@@ -202,7 +204,7 @@ export default function ThemeBoard({
       return;
     }
     if (!canCreateShoot) {
-      setError("Unlock your free preview or add credits before starting another one.");
+      setError(ADD_CREDITS_MESSAGE);
       return;
     }
     setError(null);
@@ -276,7 +278,7 @@ export default function ThemeBoard({
   const beginCardShoot = () => {
     if (!selectedCardTheme) return;
     if (!canCreateShoot) {
-      setError("Unlock your free preview or add credits before starting another one.");
+      setError(ADD_CREDITS_MESSAGE);
       return;
     }
     if (roster.length > 0 && !selectedHasReference) {

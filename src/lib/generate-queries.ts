@@ -1,6 +1,6 @@
 import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { and, eq, asc, gte, inArray, isNull, ne, sql } from "drizzle-orm";
+import { and, eq, asc, inArray, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
@@ -47,6 +47,9 @@ import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
 const MAX_RETRIES_PER_SLOT = 1;
+const FREE_PREVIEW_INELIGIBLE_MESSAGE =
+  "Your free preview is one-time. Add credits before starting another one.";
+const FREE_PREVIEW_UNIQUE_INDEX = "generations_user_free_preview_once_idx";
 type DbTransaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
 type DbReader = typeof db | DbTransaction;
 
@@ -614,33 +617,40 @@ async function createGenerationRecord({
   values: typeof schema.generations.$inferInsert;
   userId: string;
 }) {
-  return db.transaction(async (tx) => {
-    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
+  try {
+    return await db.transaction(async (tx) => {
+      await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
 
-    let packTier: PackTier | null = null;
-    const spendCredit = (await getCreditBalanceWithReader(tx, userId)) > 0;
+      let packTier: PackTier | null = null;
+      const spendCredit = (await getCreditBalanceWithReader(tx, userId)) > 0;
 
-    if (spendCredit) {
-      packTier = await resolvePackTierForNextCredit(tx, userId);
-    } else if (!(await canStartFreePreviewForTx(tx, userId))) {
-      throw new Error("Unlock your free preview or add shoots before starting another one.");
+      if (spendCredit) {
+        packTier = await resolvePackTierForNextCredit(tx, userId);
+      } else if (!(await canStartFreePreviewForTx(tx, userId))) {
+        throw new Error(FREE_PREVIEW_INELIGIBLE_MESSAGE);
+      }
+
+      const [generation] = await tx
+        .insert(schema.generations)
+        .values({ ...values, packTier, freePreview: !spendCredit })
+        .returning();
+
+      if (spendCredit) {
+        await tx.insert(schema.creditUsages).values({
+          userId,
+          generationId: generation.id,
+          credits: 1,
+        });
+      }
+
+      return generation;
+    });
+  } catch (err) {
+    if (isUniqueViolation(err, FREE_PREVIEW_UNIQUE_INDEX)) {
+      throw new Error(FREE_PREVIEW_INELIGIBLE_MESSAGE);
     }
-
-    const [generation] = await tx
-      .insert(schema.generations)
-      .values({ ...values, packTier, freePreview: !spendCredit })
-      .returning();
-
-    if (spendCredit) {
-      await tx.insert(schema.creditUsages).values({
-        userId,
-        generationId: generation.id,
-        credits: 1,
-      });
-    }
-
-    return generation;
-  });
+    throw err;
+  }
 }
 
 export async function canStartFreePreview(userId: string) {
@@ -648,23 +658,71 @@ export async function canStartFreePreview(userId: string) {
 }
 
 async function canStartFreePreviewForTx(tx: DbReader, userId: string) {
-  const previewCutoff = studioCutoffDate(new Date(), null);
-  const existingPreviews = await tx
-    .select({ id: schema.generations.id })
-    .from(schema.generations)
-    .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
-    .where(
-      and(
-        eq(schema.generations.userId, userId),
-        eq(schema.generations.freePreview, true),
-        isNull(schema.creditUsages.id),
-        ne(schema.generations.status, "error"),
-        gte(schema.generations.createdAt, previewCutoff),
-      ),
-    )
-    .limit(1);
+  const [
+    previousPreview,
+    previousPurchase,
+    previousGrant,
+    previousUsage,
+    previousGiftPurchase,
+    previousSubscription,
+  ] = await Promise.all([
+    tx
+      .select({ id: schema.generations.id })
+      .from(schema.generations)
+      .where(
+        and(
+          eq(schema.generations.userId, userId),
+          eq(schema.generations.freePreview, true),
+          ne(schema.generations.status, "error"),
+        ),
+      )
+      .limit(1),
+    tx
+      .select({ id: schema.creditTransactions.id })
+      .from(schema.creditTransactions)
+      .where(eq(schema.creditTransactions.userId, userId))
+      .limit(1),
+    tx
+      .select({ id: schema.creditGrants.id })
+      .from(schema.creditGrants)
+      .where(eq(schema.creditGrants.userId, userId))
+      .limit(1),
+    tx
+      .select({ id: schema.creditUsages.id })
+      .from(schema.creditUsages)
+      .where(eq(schema.creditUsages.userId, userId))
+      .limit(1),
+    tx
+      .select({ id: schema.giftCodes.id })
+      .from(schema.giftCodes)
+      .where(eq(schema.giftCodes.buyerUserId, userId))
+      .limit(1),
+    tx
+      .select({ id: schema.subscriptions.id })
+      .from(schema.subscriptions)
+      .where(eq(schema.subscriptions.userId, userId))
+      .limit(1),
+  ]);
 
-  return existingPreviews.length === 0;
+  return (
+    previousPreview.length === 0 &&
+    previousPurchase.length === 0 &&
+    previousGrant.length === 0 &&
+    previousUsage.length === 0 &&
+    previousGiftPurchase.length === 0 &&
+    previousSubscription.length === 0
+  );
+}
+
+function isUniqueViolation(err: unknown, indexName: string) {
+  if (!err || typeof err !== "object") return false;
+  const record = err as Record<string, unknown>;
+  return (
+    record.code === "23505" &&
+    (record.constraint_name === indexName ||
+      record.constraint === indexName ||
+      String(record.message ?? "").includes(indexName))
+  );
 }
 
 export async function isGenerationUnlocked(generationId: string, userId: string) {
