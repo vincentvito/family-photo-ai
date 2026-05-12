@@ -4,6 +4,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { getSharedImage } from "@/lib/share-queries";
 import { studioDaysRemaining } from "@/lib/retention";
+import PublicShareButton from "@/components/share/PublicShareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -75,16 +76,21 @@ export default async function SharePage({ params }: SharePageProps) {
   if (!shared) return <UnavailableShare />;
 
   const daysLeft = studioDaysRemaining(shared.generation.createdAt, shared.generation.packTier);
+  const imageAspect = `${shared.image.width} / ${shared.image.height}`;
+  const maxFrameWidth = `min(100%, ${(shared.image.width / shared.image.height) * 82}vh)`;
 
   return (
     <main className="min-h-screen bg-[color:var(--color-bg)]">
       <section className="mx-auto grid min-h-screen max-w-6xl content-center gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:py-12">
-        <figure className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-xl)]">
+        <figure
+          className="relative mx-auto w-full overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-xl)]"
+          style={{ aspectRatio: imageAspect, maxWidth: maxFrameWidth }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/api/share/${token}/image`}
             alt="A portrait made with FamilyShoot"
-            className="max-h-[82vh] w-full object-contain"
+            className="h-full w-full object-cover"
           />
         </figure>
 
@@ -105,6 +111,7 @@ export default async function SharePage({ params }: SharePageProps) {
               Make your own
               <ArrowIcon />
             </Link>
+            <PublicShareButton />
             <Link href="/" className="btn btn-ghost">
               Learn more
             </Link>
