@@ -8,6 +8,7 @@ import type { getGenerationState } from "@/lib/generate-queries";
 import type { AspectRatio } from "@/lib/providers/types";
 import Confetti from "@/components/motion/Confetti";
 import ExportMenu from "@/components/studio/ExportMenu";
+import ShareButton from "@/components/studio/ShareButton";
 
 type State = Awaited<ReturnType<typeof getGenerationState>>;
 
@@ -412,6 +413,10 @@ const ImageTile = memo(function ImageTile({
             previewOnly={isPreview}
             triggerClassName="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
           />
+          <ShareButton
+            imageId={imageId}
+            className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+          />
         </div>
       </div>
 
@@ -529,6 +534,11 @@ function ImageLightbox({
                 previewOnly={isPreview}
                 triggerVariant="icon"
                 triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
+              <ShareButton
+                imageId={imageId}
+                iconOnly
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white disabled:opacity-60"
               />
               <button
                 type="button"

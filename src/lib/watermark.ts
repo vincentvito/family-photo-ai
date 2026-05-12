@@ -1,6 +1,6 @@
 import sharp from "sharp";
 
-const WATERMARK_TEXT = "FAMILYSHOOT PREVIEW";
+const WATERMARK_TEXT = "FAMILYSHOOT";
 const BADGE_TEXT = "FREE PREVIEW";
 const URL_TEXT = "FAMILYSHOOT.COM";
 
@@ -68,7 +68,7 @@ export async function addPreviewWatermark(buffer: Buffer): Promise<Buffer> {
   const width = metadata.width ?? 1200;
   const height = metadata.height ?? 800;
   const fontSize = Math.max(18, Math.round(Math.min(width, height) / 20));
-  const watermarkPixel = Math.max(2, Math.round(fontSize / 7));
+  const watermarkPixel = Math.max(1.25, fontSize / 16);
   const badgePixel = Math.max(2, Math.round(fontSize / 16));
   const urlPixel = Math.max(2, Math.round(fontSize / 16));
   const urlWidth = pixelTextWidth(URL_TEXT, urlPixel);
@@ -87,9 +87,9 @@ export async function addPreviewWatermark(buffer: Buffer): Promise<Buffer> {
   const svg = `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="preview-watermark" patternUnits="userSpaceOnUse" width="${fontSize * 12}" height="${fontSize * 7}" patternTransform="rotate(-28)">
-          <g fill="rgba(31,26,36,0.10)" transform="translate(${watermarkPixel * 0.7}, ${watermarkPixel * 0.7})">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 2.2, watermarkPixel)}</g>
-          <g fill="rgba(255,255,255,0.22)">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 2.2, watermarkPixel)}</g>
+        <pattern id="preview-watermark" patternUnits="userSpaceOnUse" width="${fontSize * 5.6}" height="${fontSize * 2.6}">
+          <g fill="rgba(255,255,255,0.07)">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 0.9, watermarkPixel)}</g>
+          <g fill="rgba(31,26,36,0.025)" transform="translate(${watermarkPixel * 0.45}, ${watermarkPixel * 0.45})">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 0.9, watermarkPixel)}</g>
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#preview-watermark)" />

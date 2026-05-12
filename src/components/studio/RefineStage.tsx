@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { getRefineState } from "@/lib/refine-queries";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ExportMenu from "@/components/studio/ExportMenu";
+import ShareButton from "@/components/studio/ShareButton";
 
 type State = NonNullable<Awaited<ReturnType<typeof getRefineState>>>;
 type TimelineStep = State["timeline"][number];
@@ -183,6 +184,10 @@ export default function RefineStage({ initialState }: { initialState: State }) {
             <ExportMenu
               imageId={sourceImageId}
               triggerClassName="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
+            />
+            <ShareButton
+              imageId={sourceImageId}
+              className="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white disabled:opacity-60"
             />
           </div>
         </div>
@@ -401,6 +406,10 @@ function GalleryTile({
             imageId={step.imageId}
             triggerClassName="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
           />
+          <ShareButton
+            imageId={step.imageId}
+            className="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white disabled:opacity-60"
+          />
         </div>
       </figcaption>
     </motion.figure>
@@ -491,6 +500,11 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
                 imageId={imageId}
                 triggerVariant="icon"
                 triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
+              <ShareButton
+                imageId={imageId}
+                iconOnly
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white disabled:opacity-60"
               />
               <button
                 type="button"

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import type { Person, Photo } from "@/../db/schema";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import EditPersonDialog from "./EditPersonDialog";
+import FaceCropDialog from "./FaceCropDialog";
 import { uploadRosterPhoto } from "@/lib/upload-client";
 
 const palette = [
@@ -34,6 +35,7 @@ export default function PersonCard({
 }) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [cropFile, setCropFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const color = colorFor(person.id);
@@ -153,7 +155,7 @@ export default function PersonCard({
         className="hidden"
         onChange={(e) => {
           const selected = e.target.files?.[0];
-          if (selected) void handleFile(selected);
+          if (selected) setCropFile(selected);
           e.target.value = "";
         }}
       />
@@ -230,11 +232,29 @@ export default function PersonCard({
       <EditPersonDialog
         key={`${person.id}-${editOpen ? "open" : "closed"}`}
         person={person}
+        currentPhoto={photo}
         open={editOpen}
         onClose={() => setEditOpen(false)}
         onChanged={onChanged}
       />
       <ReferencePhotoLightbox photo={lightboxPhoto} name={person.name} onClose={closeLightbox} />
+      {cropFile && (
+        <FaceCropDialog
+          key={`${cropFile.name}-${cropFile.lastModified}-${cropFile.size}`}
+          file={cropFile}
+          open
+          busy={uploading}
+          onCancel={() => setCropFile(null)}
+          onUseOriginal={(file) => {
+            setCropFile(null);
+            void handleFile(file);
+          }}
+          onCrop={(file) => {
+            setCropFile(null);
+            void handleFile(file);
+          }}
+        />
+      )}
     </motion.article>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import FaceCropDialog from "./FaceCropDialog";
 import { uploadRosterPhoto } from "@/lib/upload-client";
 import { ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
 
@@ -19,6 +20,7 @@ export default function AddPersonDialog({
   const [role, setRole] = useState<Role>("adult");
   const [notes, setNotes] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [cropFile, setCropFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoPreviewError, setPhotoPreviewError] = useState(false);
   const [pending, start] = useTransition();
@@ -38,6 +40,7 @@ export default function AddPersonDialog({
     setNotes("");
     setRole("adult");
     setPhotoFile(null);
+    setCropFile(null);
     setPhotoPreview(null);
     setPhotoPreviewError(false);
     if (fileRef.current) fileRef.current.value = "";
@@ -54,6 +57,10 @@ export default function AddPersonDialog({
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
     setPhotoPreviewError(false);
+  };
+
+  const queueCrop = (file: File) => {
+    setCropFile(file);
   };
 
   const submit = () => {
@@ -315,7 +322,7 @@ export default function AddPersonDialog({
                       className="hidden"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
-                        if (file) pickFile(file);
+                        if (file) queueCrop(file);
                         e.target.value = "";
                       }}
                     />
@@ -337,6 +344,23 @@ export default function AddPersonDialog({
           </motion.div>
         )}
       </AnimatePresence>
+      {cropFile && (
+        <FaceCropDialog
+          key={`${cropFile.name}-${cropFile.lastModified}-${cropFile.size}`}
+          file={cropFile}
+          open
+          busy={pending}
+          onCancel={() => setCropFile(null)}
+          onUseOriginal={(file) => {
+            pickFile(file);
+            setCropFile(null);
+          }}
+          onCrop={(file) => {
+            pickFile(file);
+            setCropFile(null);
+          }}
+        />
+      )}
     </>
   );
 }

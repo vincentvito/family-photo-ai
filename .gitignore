@@ -11,3 +11,6 @@ next-env.d.ts
 .turbo
 .claude/settings.local.json
 *.tsbuildinfo
+scripts/local-reset.mjs
+.env-legacy
+.env-local

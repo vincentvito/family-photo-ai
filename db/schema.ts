@@ -100,6 +100,25 @@ export const images = familyphotoai.table("images", {
   createdAt: createdAt(),
 });
 
+export const imageShares = familyphotoai.table(
+  "image_shares",
+  {
+    id: id(),
+    imageId: text("image_id")
+      .notNull()
+      .references(() => images.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull(),
+    token: text("token").notNull(),
+    createdAt: createdAt(),
+    revokedAt: timestamp("revoked_at"),
+  },
+  (table) => [
+    index("image_shares_image_id_idx").on(table.imageId),
+    index("image_shares_user_id_idx").on(table.userId),
+    uniqueIndex("image_shares_token_idx").on(table.token),
+  ],
+);
+
 export const refinementHistory = familyphotoai.table("refinement_history", {
   id: id(),
   rootImageId: text("root_image_id").notNull(),
@@ -231,6 +250,7 @@ export type Person = typeof people.$inferSelect;
 export type Photo = typeof photos.$inferSelect;
 export type Generation = typeof generations.$inferSelect;
 export type Image = typeof images.$inferSelect;
+export type ImageShare = typeof imageShares.$inferSelect;
 export type RefinementStep = typeof refinementHistory.$inferSelect;
 export type Album = typeof albums.$inferSelect;
 export type AlbumImage = typeof albumImages.$inferSelect;

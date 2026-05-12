@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import type { Person } from "@/../db/schema";
+import type { Person, Photo } from "@/../db/schema";
+import FaceCropDialog from "./FaceCropDialog";
 import { uploadRosterPhoto } from "@/lib/upload-client";
 import { ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
 
@@ -11,11 +12,13 @@ type Role = "adult" | "child" | "pet";
 
 export default function EditPersonDialog({
   person,
+  currentPhoto,
   open,
   onClose,
   onChanged,
 }: {
   person: Person;
+  currentPhoto?: Photo | null;
   open: boolean;
   onClose: () => void;
   onChanged?: () => void;
@@ -24,6 +27,7 @@ export default function EditPersonDialog({
   const [role, setRole] = useState<Role>(person.role as Role);
   const [notes, setNotes] = useState(person.notes ?? "");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [cropFile, setCropFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoPreviewError, setPhotoPreviewError] = useState(false);
   const [pending, start] = useTransition();
@@ -42,6 +46,10 @@ export default function EditPersonDialog({
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
     setPhotoPreviewError(false);
+  };
+
+  const queueCrop = (file: File) => {
+    setCropFile(file);
   };
 
   const submit = () => {
@@ -191,7 +199,7 @@ export default function EditPersonDialog({
                 <label className="small-caps text-[color:var(--color-ink-muted)]">
                   Reference photo{" "}
                   <span className="opacity-60 normal-case tracking-normal text-[0.7rem]">
-                    (optional — only if replacing)
+                    {currentPhoto ? "(choose a new one to replace)" : "(optional)"}
                   </span>
                 </label>
                 <div className="mt-3 flex items-center gap-3">
@@ -224,6 +232,15 @@ export default function EditPersonDialog({
                         {photoFile.name}
                       </span>
                     </div>
+                  ) : currentPhoto ? (
+                    <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/images/${currentPhoto.id}?thumb=240`}
+                        alt={`${person.name} current reference`}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
                   ) : (
                     <div className="flex h-20 w-20 items-center justify-center rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-faint)]">
                       <svg
@@ -248,6 +265,11 @@ export default function EditPersonDialog({
                     >
                       {photoFile ? "Pick a different photo" : "Choose new photo"}
                     </button>
+                    {currentPhoto && !photoFile && (
+                      <p className="text-xs text-[color:var(--color-ink-muted)]">
+                        Current reference photo
+                      </p>
+                    )}
                     {photoFile && (
                       <button
                         type="button"
@@ -271,7 +293,7 @@ export default function EditPersonDialog({
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
-                      if (file) pickFile(file);
+                      if (file) queueCrop(file);
                       e.target.value = "";
                     }}
                   />
@@ -295,6 +317,23 @@ export default function EditPersonDialog({
               </button>
             </div>
           </motion.div>
+          {cropFile && (
+            <FaceCropDialog
+              key={`${cropFile.name}-${cropFile.lastModified}-${cropFile.size}`}
+              file={cropFile}
+              open
+              busy={pending}
+              onCancel={() => setCropFile(null)}
+              onUseOriginal={(file) => {
+                pickFile(file);
+                setCropFile(null);
+              }}
+              onCrop={(file) => {
+                pickFile(file);
+                setCropFile(null);
+              }}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>,
