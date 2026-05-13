@@ -82,17 +82,20 @@ export default async function SharePage({ params }: SharePageProps) {
   return (
     <main className="min-h-screen bg-[color:var(--color-bg)]">
       <section className="mx-auto grid min-h-screen max-w-6xl content-center gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:py-12">
-        <figure
-          className="relative mx-auto w-full overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-xl)]"
-          style={{ aspectRatio: imageAspect, maxWidth: maxFrameWidth }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`/api/share/${token}/image`}
-            alt="A portrait made with FamilyShoot"
-            className="h-full w-full object-cover"
-          />
-        </figure>
+        <div className="relative mx-auto w-full" style={{ maxWidth: maxFrameWidth }}>
+          <div className="absolute inset-x-[8%] bottom-[-1.1rem] h-12 rounded-full bg-[color:rgba(31,26,36,0.18)] blur-2xl" />
+          <figure
+            className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[0_18px_45px_rgba(31,26,36,0.18),0_3px_8px_rgba(31,26,36,0.08)]"
+            style={{ aspectRatio: imageAspect }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/api/share/${token}/image`}
+              alt="A portrait made with FamilyShoot"
+              className="h-full w-full object-cover"
+            />
+          </figure>
+        </div>
 
         <aside className="lg:pl-2">
           <span className="chip chip-coral">
