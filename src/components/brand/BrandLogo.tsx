@@ -11,13 +11,8 @@ type BrandLogoProps = {
 };
 
 const markSizes = {
-  sm: "h-11 w-11",
-  md: "h-14 w-14",
-};
-
-const textSizes = {
-  sm: "text-2xl",
-  md: "text-3xl",
+  sm: "h-14 w-auto",
+  md: "h-20 w-auto",
 };
 
 export default function BrandLogo({
@@ -26,56 +21,39 @@ export default function BrandLogo({
   size = "sm",
   tone = "dark",
   className = "",
-  showLabelOnMobile = false,
 }: BrandLogoProps) {
-  const familyColor =
-    tone === "light" ? "text-[color:var(--color-bg)]" : "text-[color:var(--color-plum)]";
-  const shootColor =
-    tone === "light" ? "text-[color:var(--color-coral)]" : "text-[color:var(--color-coral)]";
-  const content = (
-    <>
-      <BrandMark className={markSizes[size]} />
-      <span
-        className={`serif tracking-tight ${showLabelOnMobile ? "inline" : "hidden sm:inline"} ${
-          textSizes[size]
-        }`}
-      >
-        {label === "FamilyShoot" ? (
-          <>
-            <span className={familyColor}>Family</span>
-            <span className={shootColor}>Shoot</span>
-          </>
-        ) : (
-          <span className={familyColor}>{label.replace(" ", "\u00a0")}</span>
-        )}
-      </span>
-    </>
-  );
+  const content = <BrandMark className={markSizes[size]} tone={tone} />;
 
   if (href) {
     return (
-      <Link href={href} className={`flex items-center gap-2.5 ${className}`} aria-label={label}>
+      <Link href={href} className={`inline-flex items-center ${className}`} aria-label={label}>
         {content}
       </Link>
     );
   }
 
   return (
-    <div className={`flex items-center gap-2.5 ${className}`} aria-label={label}>
+    <div className={`inline-flex items-center ${className}`} aria-label={label}>
       {content}
     </div>
   );
 }
 
-export function BrandMark({ className = "h-8 w-8" }: { className?: string }) {
+export function BrandMark({
+  className = "h-10 w-auto",
+  tone = "dark",
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+}) {
   return (
     <Image
-      src="/logo-mark.svg"
+      src="/familyshoot-logo.svg"
       alt=""
       aria-hidden="true"
-      width={64}
-      height={64}
-      className={`${className} object-contain`}
+      width={1122}
+      height={1306}
+      className={`${className} object-contain ${tone === "light" ? "invert" : ""}`}
       priority
     />
   );

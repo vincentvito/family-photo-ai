@@ -4,7 +4,7 @@ import BrandLogo from "@/components/brand/BrandLogo";
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden px-6 py-20 sm:px-8 sm:py-24"
+      className="relative overflow-hidden rounded-t-[2.5rem] px-6 py-20 sm:px-8 sm:py-24"
       style={{ background: "linear-gradient(180deg, #2E2239 0%, #231C2B 100%)" }}
     >
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
