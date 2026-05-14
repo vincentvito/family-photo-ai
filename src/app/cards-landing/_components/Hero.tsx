@@ -3,11 +3,11 @@ import { Reveal } from './Reveal';
 import { OCCASIONS, ctaHref } from './occasions';
 
 const SELFIES = [
-  { img: '/ai-landing/before-1.jpg', cap: 'mom_kitchen.jpg', x: -10, y: 0,   r: -8 },
-  { img: '/ai-landing/before-2.jpg', cap: 'dad_airport.jpg', x: 90,  y: 24,  r: 5 },
-  { img: '/ai-landing/before-3.jpg', cap: 'pjs.jpg',         x: 20,  y: 130, r: -3 },
-  { img: '/ai-landing/after-1.jpg',  cap: 'baby.jpg',        x: 130, y: 160, r: 9 },
-  { img: '/ai-landing/after-3.jpg',  cap: 'dog.jpg',         x: -30, y: 230, r: -6 },
+  { img: '/cards-landing/hero-selfie-dad-airport.jpg', cap: 'dad_airport.jpg', x: -10, y: 0,   r: -8 },
+  { img: '/cards-landing/hero-selfie-mom-kitchen.jpg', cap: 'mom_kitchen.jpg', x: 90,  y: 24,  r: 5 },
+  { img: '/cards-landing/hero-selfie-kid-pjs.jpg',     cap: 'kid_pjs.jpg',     x: 20,  y: 130, r: -3 },
+  { img: '/cards-landing/hero-selfie-toddler.jpg',     cap: 'toddler.jpg',     x: 130, y: 160, r: 9 },
+  { img: '/cards-landing/hero-selfie-dog.jpg',         cap: 'buddy.jpg',       x: -30, y: 230, r: -6 },
 ] as const;
 
 function SelfieStack() {
@@ -66,18 +66,18 @@ export function Hero() {
   return (
     <section
       className="warm-noise"
-      style={{ background: 'var(--bg)', paddingTop: 140, paddingBottom: 96, position: 'relative', overflow: 'hidden' }}
+      style={{ background: 'var(--bg)', paddingTop: 120, paddingBottom: 88, position: 'relative', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '0 1.5rem' }}>
         <Reveal>
-          <div style={{ textAlign: 'center', maxWidth: '46rem', margin: '0 auto 56px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '58rem', margin: '0 auto 40px' }}>
             <div className="small-caps" style={{ color: 'var(--coral-deep)', marginBottom: 18 }}>
               AI family holiday card generator
             </div>
             <h1 className="h-hero" style={{ margin: 0 }}>
               Five selfies. One <em className="serif-italic" style={{ color: 'var(--coral)' }}>card-perfect</em> family.
             </h1>
-            <p className="body-lg" style={{ margin: '22px auto 0', maxWidth: '36rem' }}>
+            <p className="body-lg" style={{ margin: '18px auto 0', maxWidth: '36rem' }}>
               Drop in the photos you already have — the one where Dad&apos;s at the airport, the one of just the kids in
               pajamas — and we&apos;ll turn them into a printed-paper holiday card in about two minutes.
             </p>
