@@ -24,6 +24,9 @@ export type PredictionSlot = {
   variationPrompt?: string;
 };
 
+const ANATOMY_PROPORTION_DIRECTIVE =
+  "Anatomy and scale rule: keep every selected subject's head, face, neck, shoulders, torso, arms, hands, fingers, legs, feet, crown, hat and clothing scale natural and proportional to that person's visible body; avoid oversized heads, shrunken bodies, tiny hands, stretched limbs, warped joints, duplicate limbs or costume pieces that distort body proportions.";
+
 /**
  * Fan out one Replicate prediction per variant against the chosen model and
  * return the slot records (id + retries=0). Predictions run async on
@@ -231,6 +234,7 @@ function buildVariantPrompt(
     "",
     basePrompt,
     "",
+    ANATOMY_PROPORTION_DIRECTIVE,
     "Reference handling: preserve each selected subject's facial identity, age cues, skin tone, hair, and recognizable features from the attached reference photos, but do not copy the selfie expression, gaze, lighting, pose, background, clothing, or camera angle.",
     "Expression direction: choose natural expressions that fit the shot direction and setting: relaxed, warm, candid, gently happy or wind-softened as appropriate.",
     `Aspect ratio: ${aspectRatio}.`,

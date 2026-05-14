@@ -224,49 +224,7 @@ export default function GenerationBoard({
         </div>
       )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        {slots.map((img, i) => (
-          <div
-            key={i}
-            className={`group relative ${aspectCls} overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]`}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {img ? (
-                <motion.div
-                  key={`img-${img.id}`}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <ImageTile
-                    imageId={img.id}
-                    isFavorite={img.isFavorite}
-                    isPreview={isPreview}
-                    onRegenerateClick={openRegenerate}
-                    onOpenLightbox={openLightbox}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key={`skel-${i}`}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <DevelopingTile index={i} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Confetti overlay on completion */}
-            {celebratedAt && i === 0 && <Confetti key={celebratedAt} count={22} />}
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-4 shadow-[var(--shadow-sm)]">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-4 shadow-[var(--shadow-sm)]">
         <div className="flex items-center gap-3">
           {!done && !err && (
             <div className="flex gap-1.5" aria-hidden>
@@ -324,6 +282,48 @@ export default function GenerationBoard({
             </svg>
           </Link>
         </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        {slots.map((img, i) => (
+          <div
+            key={i}
+            className={`group relative ${aspectCls} overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]`}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {img ? (
+                <motion.div
+                  key={`img-${img.id}`}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ImageTile
+                    imageId={img.id}
+                    isFavorite={img.isFavorite}
+                    isPreview={isPreview}
+                    onRegenerateClick={openRegenerate}
+                    onOpenLightbox={openLightbox}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={`skel-${i}`}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <DevelopingTile index={i} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Confetti overlay on completion */}
+            {celebratedAt && i === 0 && <Confetti key={celebratedAt} count={22} />}
+          </div>
+        ))}
       </div>
 
       <ImageLightbox imageId={lightboxImageId} isPreview={isPreview} onClose={closeLightbox} />
