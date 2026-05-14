@@ -647,8 +647,7 @@ export const THEMES: Theme[] = [
   {
     id: "royal-family-portrait",
     name: "Royal Family Portrait",
-    blurb:
-      "Velvet, crowns, grand halls, and old-world ceremony. Your family styled like royalty.",
+    blurb: "Velvet, crowns, grand halls, and old-world ceremony. Your family styled like royalty.",
     category: "photoreal",
     provider: "nanobanana",
     coverImage: "/samples/theme-royal-family-portrait.png",

@@ -1,1 +1,42 @@
-{"slug":"ghibli-family-photos","query":"ghibli family portrait","fetchedAt":"2026-05-14","results":[{"position":1,"site_name":"www.instagram.com","title":"Studio Ghibli's style on a family portrait. - Instagram","snippet":"This image used a simple prompt in Chat GPT. I used the model 4o, shared the image and asked it to convert to Studio Ghibli style. Have you tried it?","url":"https://www.instagram.com/p/DHyTS_szguc/"},{"position":2,"site_name":"www.etsy.com","title":"Ghibli Family Portrait - Etsy","snippet":"Capture your cherished moments with custom Ghibli-inspired family portraits. Explore unique, hand-drawn art, from watercolor paintings to digital downloads, ...","url":"https://www.etsy.com/market/ghibli_family_portrait"},{"position":4,"site_name":"www.starshinemontessori.com","title":"How to Create Studio Ghibli-Style Family Portraits with AI (Easy Guide)","snippet":"With the help of simple AI tools like ChatGPT and Sora, you can create Ghibli-inspired family portraits in just a few clicks — and have a lot of ...","url":"https://www.starshinemontessori.com/how-to-create-studio-ghibli-style-family-portraits-with-ai-easy-guide/"},{"position":5,"site_name":"ghiblistyle.co","title":"Ghibli Style - AI Photo to Anime Style Generator","snippet":"Transform your photos into beautiful Ghibli-style artwork using our AI-powered image generator. Fast, simple, and stunning results.","url":"https://ghiblistyle.co/"},{"position":9,"site_name":"www.framearto.com","title":"Studio Ghibli Style Portrait — Transform Your Photo Into Anime Art","snippet":"Our AI generates three unique Ghibli-inspired portrait variations within 2–3 minutes, each with different backgrounds and atmospheric moods drawn from the ...","url":"https://www.framearto.com/ghibli-portrait"}]}
+{
+  "slug": "ghibli-family-photos",
+  "query": "ghibli family portrait",
+  "fetchedAt": "2026-05-14",
+  "results": [
+    {
+      "position": 1,
+      "site_name": "www.instagram.com",
+      "title": "Studio Ghibli's style on a family portrait. - Instagram",
+      "snippet": "This image used a simple prompt in Chat GPT. I used the model 4o, shared the image and asked it to convert to Studio Ghibli style. Have you tried it?",
+      "url": "https://www.instagram.com/p/DHyTS_szguc/"
+    },
+    {
+      "position": 2,
+      "site_name": "www.etsy.com",
+      "title": "Ghibli Family Portrait - Etsy",
+      "snippet": "Capture your cherished moments with custom Ghibli-inspired family portraits. Explore unique, hand-drawn art, from watercolor paintings to digital downloads, ...",
+      "url": "https://www.etsy.com/market/ghibli_family_portrait"
+    },
+    {
+      "position": 4,
+      "site_name": "www.starshinemontessori.com",
+      "title": "How to Create Studio Ghibli-Style Family Portraits with AI (Easy Guide)",
+      "snippet": "With the help of simple AI tools like ChatGPT and Sora, you can create Ghibli-inspired family portraits in just a few clicks — and have a lot of ...",
+      "url": "https://www.starshinemontessori.com/how-to-create-studio-ghibli-style-family-portraits-with-ai-easy-guide/"
+    },
+    {
+      "position": 5,
+      "site_name": "ghiblistyle.co",
+      "title": "Ghibli Style - AI Photo to Anime Style Generator",
+      "snippet": "Transform your photos into beautiful Ghibli-style artwork using our AI-powered image generator. Fast, simple, and stunning results.",
+      "url": "https://ghiblistyle.co/"
+    },
+    {
+      "position": 9,
+      "site_name": "www.framearto.com",
+      "title": "Studio Ghibli Style Portrait — Transform Your Photo Into Anime Art",
+      "snippet": "Our AI generates three unique Ghibli-inspired portrait variations within 2–3 minutes, each with different backgrounds and atmospheric moods drawn from the ...",
+      "url": "https://www.framearto.com/ghibli-portrait"
+    }
+  ]
+}

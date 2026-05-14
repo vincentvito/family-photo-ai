@@ -18,13 +18,12 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
 
   const normalizedEmail = email.trim().toLowerCase();
   const cooldownActive = resendCooldown > 0;
-  const resendLabel =
-    cooldownActive
-      ? `Resend code in ${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(
-          2,
-          "0",
-        )}`
-      : "Resend code";
+  const resendLabel = cooldownActive
+    ? `Resend code in ${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(
+        2,
+        "0",
+      )}`
+    : "Resend code";
 
   useEffect(() => {
     if (!cooldownActive) return;

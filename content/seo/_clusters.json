@@ -3,28 +3,89 @@
   "method": "TinyFish search, US/en, 12 cluster-level queries chosen to map intent across all 64 slugs",
   "clusters": {
     "vibes": {
-      "anchorQueries": ["ghibli family portrait", "pixar family portrait", "wes anderson family portrait", "slim aarons family portrait", "ai family portrait generator"],
-      "competitorTypes": ["Etsy commissions", "Pinterest boards", "AI generators (Pixelbin, Fotor, Phygital+, Media.io, Somake, Framearto, easy-peasy)", "Reddit (r/StableDiffusion)", "How-to articles"],
-      "titlePatterns": ["Custom {Style} Family Portrait", "{Style} Family Portrait from Photo", "AI {Style} Filter — Turn Your Photo Into ...", "{Style}-Style Family Portrait"],
+      "anchorQueries": [
+        "ghibli family portrait",
+        "pixar family portrait",
+        "wes anderson family portrait",
+        "slim aarons family portrait",
+        "ai family portrait generator"
+      ],
+      "competitorTypes": [
+        "Etsy commissions",
+        "Pinterest boards",
+        "AI generators (Pixelbin, Fotor, Phygital+, Media.io, Somake, Framearto, easy-peasy)",
+        "Reddit (r/StableDiffusion)",
+        "How-to articles"
+      ],
+      "titlePatterns": [
+        "Custom {Style} Family Portrait",
+        "{Style} Family Portrait from Photo",
+        "AI {Style} Filter — Turn Your Photo Into ...",
+        "{Style}-Style Family Portrait"
+      ],
       "intent": "Mixed: people want either (a) a custom commission they wait days/weeks for, or (b) a free/cheap AI filter. Almost nobody offers AI + printed deliverable.",
       "ourAngle": "AI generated from your selfies in minutes, no perfect family photo needed, optional printed card. We compete on speed + family-anchored composition + physical deliverable.",
-      "secondaryTerms": ["{style} portrait from photo", "{style} ai filter", "custom {style} family portrait", "{style} style picture"]
+      "secondaryTerms": [
+        "{style} portrait from photo",
+        "{style} ai filter",
+        "custom {style} family portrait",
+        "{style} style picture"
+      ]
     },
     "cards": {
-      "anchorQueries": ["christmas family photo cards", "hanukkah family cards", "diwali family cards", "save the date photo cards", "family photo cards"],
-      "competitorTypes": ["Print-on-demand giants (Minted, Vistaprint, Walmart Photo, Shutterfly, Walgreens, Paper Source, Paper Culture, Simply to Impress, Pear Tree, CardsDirect, Artifact Uprising, Hallmark, Postable, Zazzle)", "Canva (DIY templates)", "Etsy", "Amazon"],
-      "titlePatterns": ["Photo {Occasion} Cards", "Custom {Occasion} Cards", "Personalized {Occasion} Photo Cards", "{Occasion} Cards 2025"],
+      "anchorQueries": [
+        "christmas family photo cards",
+        "hanukkah family cards",
+        "diwali family cards",
+        "save the date photo cards",
+        "family photo cards"
+      ],
+      "competitorTypes": [
+        "Print-on-demand giants (Minted, Vistaprint, Walmart Photo, Shutterfly, Walgreens, Paper Source, Paper Culture, Simply to Impress, Pear Tree, CardsDirect, Artifact Uprising, Hallmark, Postable, Zazzle)",
+        "Canva (DIY templates)",
+        "Etsy",
+        "Amazon"
+      ],
+      "titlePatterns": [
+        "Photo {Occasion} Cards",
+        "Custom {Occasion} Cards",
+        "Personalized {Occasion} Photo Cards",
+        "{Occasion} Cards 2025"
+      ],
       "intent": "Transactional. Searchers already have a family photo and want a printable card. They are price- and design-shopping.",
       "ourAngle": "We generate the family-perfect photo for you. No 'who is wearing what, get everyone smiling, hire a photographer' marathon. Card design + AI family photo in one flow.",
-      "secondaryTerms": ["photo {occasion} cards", "custom {occasion} cards", "personalized {occasion} cards", "{occasion} card 2025", "family {occasion} card"]
+      "secondaryTerms": [
+        "photo {occasion} cards",
+        "custom {occasion} cards",
+        "personalized {occasion} cards",
+        "{occasion} card 2025",
+        "family {occasion} card"
+      ]
     },
     "styles": {
-      "anchorQueries": ["watercolor family portrait from photo", "oil painting family portrait from photo"],
-      "competitorTypes": ["Hand-painting commission services (Paint Your Life, PortraitFlip, MyDavinci, Welham & Co, Instapainting, SchulmanArt, Leon Loard)", "Etsy", "Amazon", "DIY tools (Waterlogue, Procreate)"],
-      "titlePatterns": ["Custom {Style} Family Portrait from Photo", "Hand-Painted {Style} Portrait", "Personalized {Style} Family Portrait"],
+      "anchorQueries": [
+        "watercolor family portrait from photo",
+        "oil painting family portrait from photo"
+      ],
+      "competitorTypes": [
+        "Hand-painting commission services (Paint Your Life, PortraitFlip, MyDavinci, Welham & Co, Instapainting, SchulmanArt, Leon Loard)",
+        "Etsy",
+        "Amazon",
+        "DIY tools (Waterlogue, Procreate)"
+      ],
+      "titlePatterns": [
+        "Custom {Style} Family Portrait from Photo",
+        "Hand-Painted {Style} Portrait",
+        "Personalized {Style} Family Portrait"
+      ],
       "intent": "Gifting and home decor. People wait 2-4 weeks and pay $89-$1000+ for hand painted commissions.",
       "ourAngle": "Same hand-painted look, generated in minutes for a fraction of the price. Optional printed deliverable.",
-      "secondaryTerms": ["{style} family portrait from photo", "custom {style} family portrait", "{style} portrait from picture", "family {style} painting"]
+      "secondaryTerms": [
+        "{style} family portrait from photo",
+        "custom {style} family portrait",
+        "{style} portrait from picture",
+        "family {style} painting"
+      ]
     }
   }
 }

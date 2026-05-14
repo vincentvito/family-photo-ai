@@ -15,19 +15,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/vibes`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/cards`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/styles`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    ...VIBES.map(v => ({
+    ...VIBES.map((v) => ({
       url: `${SITE_URL}/${v.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    ...CARDS.map(c => ({
+    ...CARDS.map((c) => ({
       url: `${SITE_URL}/${c.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    ...STYLES.map(s => ({
+    ...STYLES.map((s) => ({
       url: `${SITE_URL}/${s.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,

@@ -1,22 +1,22 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-import Nav from '@/components/landing/Nav';
-import Footer from '@/components/landing/Footer';
-import { VIBES, type Vibe } from '@/data/vibes';
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import Nav from "@/components/landing/Nav";
+import Footer from "@/components/landing/Footer";
+import { VIBES, type Vibe } from "@/data/vibes";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://familyshoot.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 const featuredSlugs = [
-  'royal-family-portrait',
-  'disney-world-family-photos',
-  'national-park-family-photos',
-  'hawaii-family-photos',
-  'cape-cod-family-photos',
-  'ghibli-family-photos',
-  'pixar-family-photos',
-  'golden-hour-beach-family-photos',
-  'christmas-morning-family-photos',
+  "royal-family-portrait",
+  "disney-world-family-photos",
+  "national-park-family-photos",
+  "hawaii-family-photos",
+  "cape-cod-family-photos",
+  "ghibli-family-photos",
+  "pixar-family-photos",
+  "golden-hour-beach-family-photos",
+  "christmas-morning-family-photos",
 ];
 
 const featured = featuredSlugs
@@ -27,9 +27,9 @@ const rest = VIBES.filter((vibe) => !featuredSlugs.includes(vibe.slug));
 const galleryVibes = [...featured, ...rest];
 
 export const metadata: Metadata = {
-  title: 'See What Others Created | FamilyShoot Gallery',
+  title: "See What Others Created | FamilyShoot Gallery",
   description:
-    'Browse FamilyShoot gallery examples across popular AI family portrait vibes, from royal portraits and national parks to beach, holiday, illustrated, and cinematic family photos.',
+    "Browse FamilyShoot gallery examples across popular AI family portrait vibes, from royal portraits and national parks to beach, holiday, illustrated, and cinematic family photos.",
   alternates: { canonical: `${SITE_URL}/gallery` },
 };
 
@@ -38,10 +38,10 @@ export default function GalleryPage() {
     <>
       <Nav
         links={[
-          { href: '/gallery', label: 'Gallery' },
-          { href: '/vibes', label: 'Vibes' },
-          { href: '/cards', label: 'Cards' },
-          { href: '/styles', label: 'Styles' },
+          { href: "/gallery", label: "Gallery" },
+          { href: "/vibes", label: "Vibes" },
+          { href: "/cards", label: "Cards" },
+          { href: "/styles", label: "Styles" },
         ]}
       />
       <main className="bg-[color:var(--color-bg)] pb-20 pt-28">
@@ -67,10 +67,12 @@ export default function GalleryPage() {
               key={vibe.slug}
               href={`/${vibe.slug}`}
               className={`group overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-sm)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] ${
-                index === 0 ? 'sm:col-span-2 lg:col-span-2' : ''
+                index === 0 ? "sm:col-span-2 lg:col-span-2" : ""
               }`}
             >
-              <div className={`relative overflow-hidden ${index === 0 ? 'aspect-[16/10]' : 'aspect-[4/5]'}`}>
+              <div
+                className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"}`}
+              >
                 <Image
                   src={vibe.image}
                   alt={`${vibe.name} family portrait example`}
@@ -78,8 +80,8 @@ export default function GalleryPage() {
                   priority={index < 3}
                   sizes={
                     index === 0
-                      ? '(max-width: 1024px) 100vw, 66vw'
-                      : '(max-width: 768px) 100vw, 33vw'
+                      ? "(max-width: 1024px) 100vw, 66vw"
+                      : "(max-width: 768px) 100vw, 33vw"
                   }
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />

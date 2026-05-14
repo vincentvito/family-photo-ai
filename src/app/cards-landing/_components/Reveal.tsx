@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export function Reveal({
   children,
@@ -35,7 +35,7 @@ export function Reveal({
       ref={ref}
       style={{
         opacity: shown ? 1 : 0,
-        transform: shown ? 'translateY(0)' : `translateY(${y}px)`,
+        transform: shown ? "translateY(0)" : `translateY(${y}px)`,
         transition: `opacity 0.55s var(--ease-soft) ${delay}s, transform 0.55s var(--ease-soft) ${delay}s`,
       }}
     >
