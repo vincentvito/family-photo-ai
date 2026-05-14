@@ -38,6 +38,7 @@ import { getDefaultModel } from "@/lib/admin-queries";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
 import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
+import { isMockModeEnabled, isPromptDebugOnlyModeEnabled } from "@/lib/runtime-flags";
 import {
   getCreditBalanceWithReader,
   getCurrentSubscription,
@@ -111,14 +112,6 @@ const StartGenerationInput = z
       .optional(),
   })
   .refine((v) => !!v.themeId || !!v.customVibe, "Pick a vibe or describe your own.");
-
-function isMockMode() {
-  return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
-}
-
-function isPromptDebugOnlyMode() {
-  return process.env.PROMPT_DEBUG_ONLY === "1";
-}
 
 export async function startGeneration(
   input: z.infer<typeof StartGenerationInput>,
@@ -208,7 +201,7 @@ export async function startGeneration(
     );
   }
 
-  if (isPromptDebugOnlyMode()) {
+  if (isPromptDebugOnlyModeEnabled()) {
     const prompts = buildGenerationPredictionPrompts({
       basePrompt: prompt,
       aspectRatio: theme.aspectRatio,
@@ -239,7 +232,7 @@ export async function startGeneration(
     };
   }
 
-  if (isMockMode()) {
+  if (isMockModeEnabled()) {
     return startMockGeneration({
       theme,
       prompt,

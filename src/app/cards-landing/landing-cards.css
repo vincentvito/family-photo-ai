@@ -1,0 +1,281 @@
+/* =========================================================================
+   FamilyShoot — Card-First Landing (scoped under .fs-card-landing)
+   Sourced from the design kit's colors_and_type.css + card-textures.css.
+   Scoped so it doesn't bleed into the main app's globals.
+   ========================================================================= */
+
+.fs-card-landing {
+  /* ---------- Color: surfaces & ink ---------- */
+  --bg:             #fbf8f3;
+  --surface:        #ffffff;
+  --ink:            #1f1a24;
+  --ink-muted:      #6b6474;
+  --line:           #ede6db;
+  --line-strong:    #d8cec0;
+
+  /* ---------- Color: brand families ---------- */
+  --coral:          #f26b4a;
+  --coral-soft:     #ffe3d6;
+  --coral-deep:     #d4502f;
+
+  --sage:           #8aae9b;
+  --sage-soft:      #d6e4db;
+  --sage-deep:      #5e8572;
+
+  --butter:         #ffd27a;
+  --butter-soft:    #fff0c9;
+
+  --plum:           #4a3557;
+  --plum-deep:      #382341;
+  --dark-bg:        #231c2b;
+
+  /* ---------- Type families (rebind to app's google font vars) ---------- */
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-fraunces), 'Fraunces', 'Iowan Old Style', 'Apple Garamond', Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --serif-settings: "opsz" 144, "SOFT" 70;
+
+  /* ---------- Radii ---------- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 40px;
+  --radius-pill: 9999px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-sm: 0 1px 2px rgba(31,26,36,0.04), 0 1px 1px rgba(31,26,36,0.03);
+  --shadow-md: 0 6px 18px rgba(31,26,36,0.06), 0 1px 2px rgba(31,26,36,0.04);
+  --shadow-lg: 0 18px 40px -12px rgba(31,26,36,0.12), 0 2px 6px rgba(31,26,36,0.05);
+  --shadow-photo: 0 1px 1px rgba(31,26,36,0.05), 0 12px 28px -10px rgba(31,26,36,0.18);
+
+  /* ---------- Motion ---------- */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+  --duration-reveal: 550ms;
+
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================================
+   Base typography
+   ========================================================================= */
+.fs-card-landing .serif {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--serif-settings);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.fs-card-landing .serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--serif-settings);
+}
+
+.fs-card-landing .h-hero {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: var(--serif-settings);
+  font-size: clamp(3.25rem, 6vw + 1rem, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.fs-card-landing .h-section {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: var(--serif-settings);
+  font-size: clamp(2.25rem, 3.5vw + 1rem, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.fs-card-landing .body-lg { font-size: 1.125rem; line-height: 1.6; color: var(--ink-muted); }
+.fs-card-landing .body    { font-size: 1rem;     line-height: 1.6; color: var(--ink-muted); }
+
+.fs-card-landing .small-caps {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+}
+
+/* =========================================================================
+   Buttons
+   ========================================================================= */
+.fs-card-landing .btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-sans); font-weight: 500; font-size: 0.95rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-soft),
+              color var(--duration-fast) var(--ease-soft),
+              transform var(--duration-fast) var(--ease-soft),
+              border-color var(--duration-fast) var(--ease-soft);
+  cursor: pointer;
+}
+.fs-card-landing .btn:active { transform: scale(0.97); }
+.fs-card-landing .btn-sm { padding: 0.5rem 0.9rem; font-size: 0.875rem; }
+.fs-card-landing .btn-lg { padding: 0.85rem 1.5rem; font-size: 1rem; }
+.fs-card-landing .btn-coral { background: var(--coral); color: #fff; }
+.fs-card-landing .btn-coral:hover { background: var(--coral-deep); }
+.fs-card-landing .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.fs-card-landing .btn-ghost:hover { background: var(--surface); }
+
+.fs-card-landing .spring-press { transition: transform var(--duration-fast) var(--ease-soft); }
+.fs-card-landing .spring-press:active { transform: scale(0.97); }
+
+/* =========================================================================
+   Polaroid
+   ========================================================================= */
+.fs-card-landing .polaroid {
+  background: #fff;
+  padding: 10px 10px 44px 10px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-photo);
+  position: relative;
+  margin: 0;
+}
+.fs-card-landing .polaroid::before {
+  content: "";
+  position: absolute;
+  top: -10px; left: 50%;
+  width: 70px; height: 18px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(31,26,36,0.04);
+  transform: translateX(-50%) rotate(-4deg);
+  border-radius: 2px;
+}
+.fs-card-landing .polaroid > img { display: block; width: 100%; border-radius: 2px; }
+.fs-card-landing .polaroid > figcaption {
+  position: absolute; left: 0; right: 0; bottom: 10px;
+  text-align: center;
+}
+
+/* =========================================================================
+   Warm noise overlay
+   ========================================================================= */
+.fs-card-landing .warm-noise { position: relative; }
+.fs-card-landing .warm-noise::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMjAnIGhlaWdodD0nMjIwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC45JyBudW1PY3RhdmVzPScyJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDAuNiAgMCAwIDAgMCAwLjQ1ICAwIDAgMCAwIDAuMyAgMCAwIDAgMC40NSAwJy8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsdGVyPSd1cmwoI24pJyBvcGFjaXR5PScwLjUnLz48L3N2Zz4=");
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+/* =========================================================================
+   Card textures
+   ========================================================================= */
+.fs-card-landing .paper-card {
+  position: relative;
+  background: #fbf5ec;
+  box-shadow:
+    0 1px 1px rgba(31,26,36,0.05),
+    0 18px 50px -16px rgba(31,26,36,0.28),
+    inset 0 0 0 1px rgba(255,255,255,0.6);
+  border-radius: 6px;
+}
+.fs-card-landing .paper-card::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMjAnIGhlaWdodD0nMjIwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC45JyBudW1PY3RhdmVzPScyJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDAuNiAgMCAwIDAgMCAwLjQ1ICAwIDAgMCAwIDAuMyAgMCAwIDAgMC41IDAnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWx0ZXI9J3VybCgjbiknIG9wYWNpdHk9JzAuNScvPjwvc3ZnPg==");
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+.fs-card-landing .card-frame-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.fs-card-landing .greeting-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.1;
+}
+.fs-card-landing .tilted-stack > * {
+  filter: drop-shadow(0 14px 22px rgba(31,26,36,0.18));
+}
+.fs-card-landing .flow-arrow {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  letter-spacing: -0.005em;
+}
+
+/* =========================================================================
+   Gallery slider
+   ========================================================================= */
+.fs-card-landing .gallery-track {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  padding: 20px 4px 40px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+.fs-card-landing .gallery-track::-webkit-scrollbar { display: none; }
+.fs-card-landing .gallery-slide {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}
+
+/* =========================================================================
+   Keyframes
+   ========================================================================= */
+@keyframes cardSwap {
+  0%   { opacity: 0; transform: rotate(-2deg) translateY(10px); }
+  100% { opacity: 1; transform: rotate(-2deg) translateY(0); }
+}
+
+/* =========================================================================
+   Responsive — stack the hero + picker grids on narrow viewports
+   ========================================================================= */
+@media (max-width: 900px) {
+  .fs-card-landing .hero-grid,
+  .fs-card-landing .picker-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px !important;
+  }
+  .fs-card-landing .context-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* =========================================================================
+   Reduced motion
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .fs-card-landing *, .fs-card-landing *::before, .fs-card-landing *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

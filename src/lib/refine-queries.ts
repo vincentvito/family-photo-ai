@@ -19,6 +19,7 @@ import {
   isAspectSupported,
   type GenerationModelId,
 } from "@/lib/replicate/models";
+import { shouldUseMockProviderFallback } from "@/lib/runtime-flags";
 
 const REGENERATION_TIMEOUT_MS = 270_000;
 
@@ -53,14 +54,6 @@ const RefineInput = z.object({
   imageId: z.string().min(1),
   instruction: z.string().trim().min(2).max(400),
 });
-
-function isMockMode() {
-  return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
-}
-
-function hasReplicate() {
-  return !!process.env.REPLICATE_API_TOKEN;
-}
 
 function isAspectRatio(value: string | null): value is AspectRatio {
   return value === "1:1" || value === "3:2" || value === "2:3";
@@ -197,7 +190,7 @@ async function runRegeneration(args: {
   originalVariationPrompt?: string;
   variantIndex: number;
 }): Promise<RegeneratedImage> {
-  if (isMockMode() || !hasReplicate()) {
+  if (shouldUseMockProviderFallback()) {
     return runMockRegeneration({
       generation: args.generation,
       subjects: args.subjects,
