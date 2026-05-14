@@ -11,6 +11,8 @@ type Props = {
   intro: string;
   heroImage: string;
   heroAlt: string;
+  extraImages?: readonly string[];
+  extraImageLabel?: string;
   whatIsTitle: string;
   whatIsBody: string;
   faqs: FaqItem[];
@@ -26,6 +28,8 @@ export function LandingShell({
   intro,
   heroImage,
   heroAlt,
+  extraImages = [],
+  extraImageLabel = 'Sample variation',
   whatIsTitle,
   whatIsBody,
   faqs,
@@ -74,6 +78,32 @@ export function LandingShell({
             {whatIsBody.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
           </div>
         </section>
+
+        {extraImages.length > 0 && (
+          <section className="mx-auto mt-20 max-w-6xl px-6">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <h2 className="text-2xl font-semibold tracking-tight">More sample directions</h2>
+                <p className="mt-2 max-w-2xl text-base leading-relaxed text-[color:var(--color-ink-muted)]">
+                  A few nearby ways families use this look for cards, prints, and profile-worthy portraits.
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {extraImages.map((image, i) => (
+                <div key={image} className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)]">
+                  <Image
+                    src={image}
+                    alt={`${extraImageLabel} ${i + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="mx-auto mt-20 max-w-6xl px-6">
           <h2 className="text-2xl font-semibold tracking-tight">Related styles you might love</h2>

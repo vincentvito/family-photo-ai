@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { VIBES, vibeBySlug } from '@/data/vibes';
+import type { Vibe } from '@/data/vibes';
 import { CARDS, cardBySlug } from '@/data/cards';
 import { STYLES, styleBySlug } from '@/data/styles';
 import { vibeFaqs, cardFaqs, styleFaqs, vibeIntro, cardIntro, styleIntro } from '@/data/seo-content';
@@ -65,6 +66,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!r) notFound();
 
   const { category, item } = r;
+  const extraImages = category === 'vibe' ? (item as Vibe).extraImages : undefined;
 
   const hubMeta =
     category === 'vibe' ? { href: '/vibes', label: 'Vibes' }
@@ -138,6 +140,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         intro={intro}
         heroImage={item.image}
         heroAlt={`${item.name} family portrait sample`}
+        extraImages={extraImages}
+        extraImageLabel={`${item.name} family portrait sample variation`}
         whatIsTitle={whatIsTitle}
         whatIsBody={whatIsBody}
         faqs={faqs}

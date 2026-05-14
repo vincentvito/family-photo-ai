@@ -643,6 +643,128 @@ export const THEMES: Theme[] = [
     },
   },
 
+  // ─── Travel & Special Occasion ──────────────────────────────────────
+  {
+    id: "royal-family-portrait",
+    name: "Royal Family Portrait",
+    blurb:
+      "Velvet, crowns, grand halls, and old-world ceremony. Your family styled like royalty.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-royal-family-portrait.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 formal editorial family portrait",
+      subjectAction:
+        "up to five uploaded family members arranged in a regal portrait, optionally with one uploaded pet seated beside them, wearing tasteful crowns, velvet, brocade, sashes and formal shoes, composed like a royal household portrait without copying any real royal family",
+      location:
+        "an ornate historic palace hall with velvet drapes, carved wood, gilded picture frames, marble floor, antique side tables and a subtle throne-like settee",
+      camera:
+        "Hasselblad medium format with an 80mm f/2.8 lens, refined editorial portrait perspective, crisp facial detail with gentle palace-background compression",
+      lighting:
+        "painterly window light from camera-left, soft Rembrandt side light, controlled warm highlights on gold and velvet, gentle fill on faces",
+      style:
+        "premium editorial portrait photography with old-world ceremonial styling, ruby velvet, navy, ivory and antique gold palette, polished gallery finish, no public-figure resemblance",
+    },
+  },
+  {
+    id: "disney-world",
+    name: "Disney World",
+    blurb:
+      "A castle plaza, vacation outfits, snack sticks, fireworks haze. The family-trip photo everyone wanted.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-disney-world.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cheerful vacation family photograph",
+      subjectAction:
+        "up to five uploaded family members standing close together during a theme-park vacation, bright coordinated outfits, kids holding colorful snacks, playful generic mouse-ear-style headbands without logos",
+      location:
+        "a bright fantasy castle plaza with flowerbeds, decorative banners, warm stone paths, lanterns and soft fireworks haze in the far sky, no branded signage or copyrighted characters",
+      camera:
+        "Canon R5 with a 35mm f/1.8 lens, cheerful vacation portrait perspective, crisp faces with castle-plaza atmosphere layered behind",
+      lighting:
+        "warm late-afternoon sunshine, clean open shade on faces, sparkling highlights, cheerful high-energy vacation mood",
+      style:
+        "crisp commercial lifestyle photography, sky blue, coral, cream and garden-green palette, polished but natural, no logos, no character costumes",
+    },
+  },
+  {
+    id: "national-park",
+    name: "National Park",
+    blurb:
+      "Granite cliffs, pine air, trail layers, and the everyone-made-it-to-the-viewpoint feeling.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-national-park.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 outdoor adventure family photograph",
+      subjectAction:
+        "up to five uploaded family members gathered proudly after a short hike, optionally with one uploaded dog on leash beside them, wearing tasteful trail layers, fleece, day packs and hiking shoes, safe and grounded on the path",
+      location:
+        "a North American national park overlook with granite cliffs, pine forest, meadow grasses and a winding trail, inspired by Yosemite and Yellowstone landscapes without signage",
+      camera:
+        "Nikon Z8 with a 35mm f/1.8 lens, flexible environmental portrait perspective, readable faces with sweeping trail, cliff and forest context",
+      lighting:
+        "early morning alpine light, clear air, warm rim light from camera-right, soft sky fill and gentle shadow detail",
+      style:
+        "premium outdoor family photography, pine green, granite gray, sky blue, warm tan and rust accents, natural color grade, no park logos",
+    },
+  },
+  {
+    id: "hawaii-vacation",
+    name: "Hawaii Vacation",
+    blurb:
+      "Palms, lava rock, leis, sunset water, and the kind of family trip that deserves a frame.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-hawaii-vacation.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 destination family portrait photograph",
+      subjectAction:
+        "up to five uploaded family members gathered barefoot on the sand in relaxed island vacation clothing, linen, floral dresses and tasteful leis, children near the front, adults close behind, joyful and natural",
+      location:
+        "a Hawaiian beach at golden hour with palms, black lava rock, soft waves, plumeria flowers and distant green volcanic hills",
+      camera:
+        "Sony A1 with a 50mm f/1.4 lens, clean destination portrait perspective, readable faces with ocean, palm and sunset context",
+      lighting:
+        "warm sunset rim light, soft ocean-reflected fill, breezy open-air highlights, gentle haze near the horizon",
+      style:
+        "premium destination family photography, turquoise ocean, coral flowers, white linen, palm green and warm sand palette, respectful non-costume styling",
+    },
+  },
+  {
+    id: "cape-cod-summer",
+    name: "Cape Cod Summer",
+    blurb:
+      "Cedar shingles, hydrangeas, dune grass, navy stripes. A soft New England family summer.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cape-cod-summer.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 coastal editorial family photograph",
+      subjectAction:
+        "up to five uploaded family members standing together along a sandy dune path, optionally with one uploaded dog seated at their feet, in coastal summer layers, cream sweaters, linen, navy stripes and easy smiles",
+      location:
+        "a Cape Cod beach path with dune grass, a weathered cedar-shingle cottage, hydrangeas, a white fence and a glimpse of calm blue water",
+      camera:
+        "Fuji GFX medium format with a 63mm f/2.8 lens, coastal editorial portrait perspective, readable faces with cottage, dune or ocean context",
+      lighting:
+        "soft late-summer morning light, airy sea-breeze fill, low contrast, gentle highlights on white linen and hydrangeas",
+      style:
+        "premium editorial coastal family photography, hydrangea blue, weathered gray cedar, white linen, navy, pale sand and sea-green palette, nostalgic but real",
+    },
+  },
+
   // ─── Stylized ───────────────────────────────────────────────────────
   {
     id: "pixar-family",

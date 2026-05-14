@@ -157,6 +157,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Roadside snapshot: family stopped at a scenic pullout, retro wardrobe and imperfect film framing.",
     "Front-seat close frame: tighter through-window composition with faces layered behind glass reflections.",
   ],
+  "royal-family-portrait": [
+    "Palace settee state portrait: selected cast arranged around a carved velvet settee, one seated anchor and others standing in a triangular court-portrait composition, gilded frames and marble floor visible.",
+    "Gallery procession frame: selected cast walking slowly through a long gilded palace corridor, full regalia and cape hems visible, one subject glancing toward another, portraits and chandeliers receding behind.",
+    "Balcony proclamation portrait: selected cast gathered at a stone balcony rail with velvet drapes and columns, waist-up to knee-up crop, hands resting naturally on the rail, palace garden softly beyond.",
+    "Candlelit crown close-up: tighter dignified portrait near candelabra and dark oil paintings, faces and embroidered details prominent, layered shoulders and jewelry replacing the standard full-room group setup.",
+  ],
+  "disney-world": [
+    "Castle-plaza arrival: selected cast full-body on warm stone pavers near flowerbeds and banners, colorful vacation outfits, snacks or balloons in hand, fantasy castle silhouette centered softly behind.",
+    "Parade-curb candid: selected cast sitting or leaning along a cheerful parade curb, one child waving toward off-frame activity, lanterns and festive bunting around them, no characters or logos.",
+    "Fireworks-night portrait: waist-up close grouping with glowing castle lights and soft fireworks bokeh behind, relaxed after-dark vacation smiles, ears and snack details visible without branding.",
+    "Garden-walk wide frame: selected cast walking across a landscaped castle garden path, flowerbeds and decorative bridges leading the eye, wider environment and sky giving the vacation scene scale.",
+  ],
+  "national-park": [
+    "Granite-overlook hero: selected cast standing full-body on a safe marked overlook, pine forest and granite cliffs sweeping behind, day packs and trail layers visible.",
+    "Trail-map candid: selected cast paused on a winding pine trail around a folded map or water bottle, asymmetrical spacing, visible hands, boots and meadow grass foreground.",
+    "Log-bench rest portrait: selected cast seated or leaning on a fallen log near wildflowers, knee-up crop, soft cliff and forest layers behind, one small backpack or leash detail anchoring the frame.",
+    "Waterfall-mist close crop: tighter portrait beside a misty falls or bright alpine stream, faces and fleece textures prominent, cliffs and evergreens compressed into a soft background.",
+  ],
+  "hawaii-vacation": [
+    "Lava-rock shoreline portrait: selected cast full-body near black lava rock and gentle surf, barefoot on wet sand, palms and volcanic hills layered in the sunset background.",
+    "Palm-path stroll: selected cast walking along a beach path under palms, leis and linen moving in the breeze, asymmetrical spacing with plumeria and sand in the foreground.",
+    "Beach-blanket candid: selected cast seated or kneeling around a simple island picnic blanket, plumeria and woven textures nearby, ocean glow and lava rocks framing the edge.",
+    "Ocean-breeze close-up: tighter shoulder-to-waist portrait with flowers and palms framing faces, wind-softened hair and white linen details, turquoise water blurred behind.",
+  ],
+  "cape-cod-summer": [
+    "Dune-path family portrait: selected cast standing full-body along a sandy dune path, hydrangeas and weathered cedar cottage behind, white fence and calm water glimpse visible.",
+    "Shingled-porch morning: selected cast seated or leaning on cedar-shingle cottage steps, navy stripes and cream layers, hydrangea pots and screen door framing a quiet medium crop.",
+    "Beach-blanket candid: selected cast gathered on a striped blanket near dune grass, one subject reaching for a tote or shell, low relaxed camera with pale sand foreground.",
+    "Hydrangea-fence close crop: tighter coastal portrait beside blue hydrangeas and a white fence, faces and linen textures prominent, cottage shingles and sea haze softly compressed.",
+  ],
   "pixar-family": [
     "Hero family pose: full group in a bright expressive stance, clear silhouettes and warm animated faces.",
     "Kitchen chaos frame: family mid-action in a playful domestic setting, exaggerated gestures and cinematic color.",
