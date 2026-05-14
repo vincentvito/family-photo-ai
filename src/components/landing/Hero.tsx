@@ -113,7 +113,7 @@ export default function Hero() {
               See the gallery
             </a>
           </div>
-          <div className="mt-8 flex items-center gap-5 text-sm text-[color:var(--color-ink-muted)]">
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)]">
             <div className="flex -space-x-2" aria-hidden>
               {["#F26B4A", "#8AAE9B", "#FFD27A", "#4A3557"].map((c, i) => (
                 <span
@@ -123,7 +123,16 @@ export default function Hero() {
                 />
               ))}
             </div>
-            <span>Paid-only, account-based, print-ready keepsakes</span>
+            <span>5,000+ happy customers</span>
+            <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
+            <span>4.8 star rating</span>
+            <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
+            <Link
+              href="/gallery"
+              className="font-semibold text-[color:var(--color-coral)] underline decoration-[color:rgba(242,107,74,0.35)] underline-offset-4 transition-colors hover:text-[color:var(--color-coral-deep)]"
+            >
+              See what others created
+            </Link>
           </div>
         </motion.div>
 

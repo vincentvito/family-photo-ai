@@ -2,7 +2,12 @@
 
 import Reveal from "@/components/motion/Reveal";
 
-const faqs = [
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+const faqs: FaqItem[] = [
   {
     question: "What is an AI family photo generator?",
     answer:
@@ -12,6 +17,16 @@ const faqs = [
     question: "Can I make a family portrait from separate photos?",
     answer:
       "Yes. Upload separate photos of each person, child, or selected pet, and FamilyShoot combines them into one natural family portrait. It is built for families who do not have one perfect group photo.",
+  },
+  {
+    question: "Why do some images not look exactly like us?",
+    answer:
+      "AI creates a new picture from your roster photos rather than copying and pasting faces. It has to imagine new lighting, angles, expressions, and outfits, so it can sometimes soften a feature, mix up a detail, or miss someone's likeness. Clear, front-facing reference photos with shoulders or full body visible help, and you can regenerate a take when one does not feel right.",
+  },
+  {
+    question: "What kind of reference photo works best?",
+    answer:
+      "Use a clear, well-lit photo where the person is facing the camera and at least their shoulders are visible. Full body photos are even better because they show height, build, posture, and clothing proportions. Tight head-only crops can still help with the face, but they give the AI less information and can lead to odd body proportions.",
   },
   {
     question: "Can I add a pet or someone missing from the original photo?",

@@ -225,41 +225,52 @@ export default function GenerationBoard({
       )}
 
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-4 shadow-[var(--shadow-sm)]">
-        <div className="flex items-center gap-3">
-          {!done && !err && (
-            <div className="flex gap-1.5" aria-hidden>
-              {[0, 1, 2].map((i) => (
-                <motion.span
-                  key={i}
-                  className="inline-block h-1.5 w-1.5 rounded-full bg-[color:var(--color-coral)]"
-                  animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
-                  transition={{
-                    duration: 0.9,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
-            </div>
-          )}
-          <p className="text-sm text-[color:var(--color-ink-muted)]">
-            {done ? (
-              <>
-                All four ready. <span className="text-[color:var(--color-ink)]">Tap the heart</span>{" "}
-                on the ones you love.
-              </>
-            ) : err ? (
-              "Shoot ended early."
-            ) : (
-              <>
-                <span className="text-[color:var(--color-ink)]">{loadingMessages[messageIdx]}</span>
-                <span className="ml-2 text-[color:var(--color-ink-faint)]">
-                  {images.length} of 4 ready
-                </span>
-              </>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-3">
+            {!done && !err && (
+              <div className="flex gap-1.5" aria-hidden>
+                {[0, 1, 2].map((i) => (
+                  <motion.span
+                    key={i}
+                    className="inline-block h-1.5 w-1.5 rounded-full bg-[color:var(--color-coral)]"
+                    animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
+                    transition={{
+                      duration: 0.9,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
             )}
-          </p>
+            <p className="text-sm text-[color:var(--color-ink-muted)]">
+              {done ? (
+                <>
+                  All four ready.{" "}
+                  <span className="text-[color:var(--color-ink)]">Tap the heart</span> on the ones
+                  you love.
+                </>
+              ) : err ? (
+                "Shoot ended early."
+              ) : (
+                <>
+                  <span className="text-[color:var(--color-ink)]">
+                    {loadingMessages[messageIdx]}
+                  </span>
+                  <span className="ml-2 text-[color:var(--color-ink-faint)]">
+                    {images.length} of 4 ready
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+          {!err && (
+            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-[color:var(--color-ink-faint)]">
+              AI can miss a likeness, even with good roster photos. If a take feels off, regenerate
+              it or try a clearer reference photo.
+            </p>
+          )}
         </div>
 
         <div className="flex items-center gap-3">

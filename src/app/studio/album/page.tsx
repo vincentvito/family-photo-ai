@@ -35,6 +35,8 @@ export default async function AlbumPage() {
         </div>
 
         {items.length > 0 && (
+          // Download endpoint, not an app route navigation.
+          // eslint-disable-next-line @next/next/no-html-link-for-pages
           <a href="/api/export/album" className="btn btn-ink">
             <svg
               viewBox="0 0 24 24"

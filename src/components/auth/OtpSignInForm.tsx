@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
@@ -13,9 +13,28 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const [pending, start] = useTransition();
 
   const normalizedEmail = email.trim().toLowerCase();
+  const cooldownActive = resendCooldown > 0;
+  const resendLabel =
+    cooldownActive
+      ? `Resend code in ${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(
+          2,
+          "0",
+        )}`
+      : "Resend code";
+
+  useEffect(() => {
+    if (!cooldownActive) return;
+
+    const interval = window.setInterval(() => {
+      setResendCooldown((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, [cooldownActive]);
 
   const signInWithGoogle = () => {
     setError(null);
@@ -38,6 +57,8 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
     setError(null);
     setMessage(null);
 
+    if (step === "code" && resendCooldown > 0) return;
+
     if (!normalizedEmail || !normalizedEmail.includes("@")) {
       setError("Enter a real email so we know where to send the code.");
       return;
@@ -55,7 +76,13 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       }
 
       setStep("code");
-      setMessage(`We sent a 6-digit code to ${normalizedEmail}.`);
+      setOtp("");
+      setResendCooldown(60);
+      setMessage(
+        step === "code"
+          ? `We sent a fresh 6-digit code to ${normalizedEmail}.`
+          : `We sent a 6-digit code to ${normalizedEmail}.`,
+      );
     });
   };
 
@@ -214,10 +241,22 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
         {step === "code" && (
           <button
             type="button"
+            disabled={pending || resendCooldown > 0}
+            onClick={sendCode}
+            className="w-full rounded-[var(--radius-md)] border border-[color:var(--color-line)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:border-[color:var(--color-line-strong)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {pending ? "Sending code..." : resendLabel}
+          </button>
+        )}
+
+        {step === "code" && (
+          <button
+            type="button"
             disabled={pending}
             onClick={() => {
               setStep("email");
               setOtp("");
+              setResendCooldown(0);
               setMessage(null);
               setError(null);
             }}

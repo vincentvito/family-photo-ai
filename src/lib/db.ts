@@ -32,7 +32,7 @@ function createClient() {
 // and would waste pooler slots on Postgres. The connection opens on first
 // query instead.
 export const db = new Proxy({} as ReturnType<typeof createClient>, {
-  get(_t, prop, receiver) {
+  get(_t, prop) {
     const client = (globalThis.__db ??= createClient());
     const value = Reflect.get(client, prop, client);
     return typeof value === "function" ? value.bind(client) : value;

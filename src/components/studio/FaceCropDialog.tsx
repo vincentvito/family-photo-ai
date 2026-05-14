@@ -4,12 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-const OUTPUT_SIZE = 1024;
+const OUTPUT_WIDTH = 1024;
+const OUTPUT_HEIGHT = 1280;
+const CROP_ASPECT_RATIO = OUTPUT_WIDTH / OUTPUT_HEIGHT;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 
 type Point = { x: number; y: number };
 type NaturalSize = { width: number; height: number };
+type StageSize = { width: number; height: number };
 
 export default function FaceCropDialog({
   file,
@@ -31,27 +34,35 @@ export default function FaceCropDialog({
   const dragRef = useRef<{ pointerId: number; start: Point; pan: Point } | null>(null);
   const [sourceUrl, setSourceUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<NaturalSize | null>(null);
-  const [stageSize, setStageSize] = useState(320);
+  const [stageSize, setStageSize] = useState<StageSize>({ width: 320, height: 400 });
   const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1.08);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let objectUrl: string | null = null;
+    let url: string | null = null;
     try {
-      objectUrl = URL.createObjectURL(file);
-      setSourceUrl(objectUrl);
-      setImageSize(null);
-      setPan({ x: 0, y: 0 });
-      setZoom(1.08);
-      setError(null);
+      url = URL.createObjectURL(file);
     } catch {
-      setError("This image cannot be previewed here. You can still upload it as-is.");
+      url = null;
     }
 
+    // Blob URL allocation is an external browser resource; keep its lifecycle in an effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSourceUrl(url);
+
     return () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      if (url) URL.revokeObjectURL(url);
     };
+  }, [file]);
+
+  useEffect(() => {
+    // Reset crop state when a newly selected file enters the same mounted crop dialog.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setImageSize(null);
+    setPan({ x: 0, y: 0 });
+    setZoom(1.08);
+    setError(null);
   }, [file]);
 
   useEffect(() => {
@@ -60,8 +71,8 @@ export default function FaceCropDialog({
     if (!stage) return;
 
     const syncSize = () => {
-      const next = Math.max(240, Math.round(stage.getBoundingClientRect().width));
-      setStageSize(next);
+      const width = Math.max(240, Math.round(stage.getBoundingClientRect().width));
+      setStageSize({ width, height: Math.round(width / CROP_ASPECT_RATIO) });
     };
     syncSize();
 
@@ -72,21 +83,24 @@ export default function FaceCropDialog({
 
   const metrics = useMemo(() => {
     if (!imageSize) return null;
-    const baseScale = Math.max(stageSize / imageSize.width, stageSize / imageSize.height);
+    const baseScale = Math.max(
+      stageSize.width / imageSize.width,
+      stageSize.height / imageSize.height,
+    );
     const scale = baseScale * zoom;
     const width = imageSize.width * scale;
     const height = imageSize.height * scale;
-    const baseX = (stageSize - width) / 2;
-    const baseY = (stageSize - height) / 2;
+    const baseX = (stageSize.width - width) / 2;
+    const baseY = (stageSize.height - height) / 2;
     return { scale, width, height, baseX, baseY };
   }, [imageSize, stageSize, zoom]);
 
   const clampPan = useCallback(
     (next: Point) => {
       if (!metrics) return next;
-      const minX = stageSize - metrics.width - metrics.baseX;
+      const minX = stageSize.width - metrics.width - metrics.baseX;
       const maxX = -metrics.baseX;
-      const minY = stageSize - metrics.height - metrics.baseY;
+      const minY = stageSize.height - metrics.height - metrics.baseY;
       const maxY = -metrics.baseY;
       return {
         x: Math.min(maxX, Math.max(minX, next.x)),
@@ -115,8 +129,8 @@ export default function FaceCropDialog({
     if (!file || !imageSize || !metrics || !imageRef.current) return;
 
     const canvas = document.createElement("canvas");
-    canvas.width = OUTPUT_SIZE;
-    canvas.height = OUTPUT_SIZE;
+    canvas.width = OUTPUT_WIDTH;
+    canvas.height = OUTPUT_HEIGHT;
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       setError("Could not prepare the crop.");
@@ -125,20 +139,21 @@ export default function FaceCropDialog({
 
     const sourceX = Math.max(0, -imageX / metrics.scale);
     const sourceY = Math.max(0, -imageY / metrics.scale);
-    const sourceSize = stageSize / metrics.scale;
+    const sourceWidth = stageSize.width / metrics.scale;
+    const sourceHeight = stageSize.height / metrics.scale;
 
     ctx.fillStyle = "#fbf8f3";
-    ctx.fillRect(0, 0, OUTPUT_SIZE, OUTPUT_SIZE);
+    ctx.fillRect(0, 0, OUTPUT_WIDTH, OUTPUT_HEIGHT);
     ctx.drawImage(
       imageRef.current,
       sourceX,
       sourceY,
-      Math.min(sourceSize, imageSize.width - sourceX),
-      Math.min(sourceSize, imageSize.height - sourceY),
+      Math.min(sourceWidth, imageSize.width - sourceX),
+      Math.min(sourceHeight, imageSize.height - sourceY),
       0,
       0,
-      OUTPUT_SIZE,
-      OUTPUT_SIZE,
+      OUTPUT_WIDTH,
+      OUTPUT_HEIGHT,
     );
 
     canvas.toBlob(
@@ -148,7 +163,7 @@ export default function FaceCropDialog({
           return;
         }
         const croppedName = file.name.replace(/\.[^.]+$/, "") || "reference-photo";
-        onCrop(new File([blob], `${croppedName}-face-crop.jpg`, { type: "image/jpeg" }));
+        onCrop(new File([blob], `${croppedName}-reference-crop.jpg`, { type: "image/jpeg" }));
       },
       "image/jpeg",
       0.92,
@@ -185,7 +200,7 @@ export default function FaceCropDialog({
             <div className="min-h-0 overflow-auto bg-[color:var(--color-bg-dark)] p-3 sm:p-6">
               <div
                 ref={stageRef}
-                className="relative mx-auto aspect-square w-full max-w-[min(58dvh,34rem)] touch-none overflow-hidden rounded-[var(--radius-md)] bg-[color:var(--color-line-dark)] sm:max-w-[min(62vh,34rem)]"
+                className="relative mx-auto aspect-[4/5] w-full max-w-[min(50dvh,30rem)] touch-none overflow-hidden rounded-[var(--radius-md)] bg-[color:var(--color-line-dark)] sm:max-w-[min(58vh,32rem)]"
                 onPointerDown={(event) => {
                   if (!metrics || busy) return;
                   event.currentTarget.setPointerCapture(event.pointerId);
@@ -248,8 +263,9 @@ export default function FaceCropDialog({
                   ))}
                 </div>
               </div>
-              <p className="mx-auto mt-3 max-w-[34rem] text-center text-xs font-medium text-white/72">
-                Drag the photo until the face sits inside the square.
+              <p className="mx-auto mt-3 max-w-[32rem] text-center text-xs font-medium text-white/72">
+                Keep shoulders in the frame when you crop. Use the full photo when it already shows
+                body proportions clearly.
               </p>
             </div>
 
@@ -258,10 +274,10 @@ export default function FaceCropDialog({
                 <div>
                   <span className="chip chip-coral">
                     <span className="dot dot-coral" />
-                    Face crop
+                    Reference check
                   </span>
                   <h2 id="face-crop-title" className="serif mt-3 text-3xl">
-                    Choose the face to use
+                    Keep more than the face
                   </h2>
                 </div>
                 <button
@@ -300,24 +316,29 @@ export default function FaceCropDialog({
                   {error}
                 </p>
               )}
+              {!sourceUrl && (
+                <p className="mt-5 rounded-[var(--radius-md)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-3 text-sm text-[color:var(--color-coral-deep)]">
+                  This image cannot be previewed here. You can still upload it as-is.
+                </p>
+              )}
 
               <div className="sticky bottom-0 z-10 mt-auto bg-[color:var(--color-bg-elevated)] pt-6 pb-[env(safe-area-inset-bottom)]">
                 <button
                   type="button"
-                  onClick={finishCrop}
-                  disabled={!metrics || busy}
+                  onClick={() => onUseOriginal(file)}
+                  disabled={busy}
                   className="btn btn-coral w-full"
                 >
-                  {busy ? "Processing..." : "Use crop"}
+                  {busy ? "Processing..." : "Use full photo"}
                 </button>
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => onUseOriginal(file)}
-                    disabled={busy}
+                    onClick={finishCrop}
+                    disabled={!metrics || busy}
                     className="btn btn-ghost btn-sm"
                   >
-                    Use full photo
+                    Use crop
                   </button>
                   <button
                     type="button"

@@ -57,8 +57,8 @@ export default function RosterPageClient({
             <em className="serif-italic text-[color:var(--color-coral)]">shoot</em>?
           </h1>
           <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
-            Add each person (and pet) who should appear. One clear, well-lit face photo for each
-            person is enough to lock their likeness across every portrait.
+            Add each person (and pet) who should appear. Clear, well-lit photos with at least the
+            shoulders visible give the AI better face and body proportions.
           </p>
         </div>
         <AddPersonDialog onChanged={loadRoster} onNotice={setNotice} />

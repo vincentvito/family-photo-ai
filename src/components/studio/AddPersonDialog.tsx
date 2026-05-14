@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import FaceCropDialog from "./FaceCropDialog";
+import ReferencePhotoGuide from "./ReferencePhotoGuide";
 import { uploadRosterPhoto } from "@/lib/upload-client";
 import { ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
 
@@ -144,7 +145,7 @@ export default function AddPersonDialog({
               exit={{ opacity: 0 }}
             />
             <motion.div
-              className="relative w-full max-w-md rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]"
+              className="relative max-h-[92dvh] w-full max-w-lg overflow-auto rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]"
               initial={{ y: 16, opacity: 0, scale: 0.98 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ y: 10, opacity: 0, scale: 0.98 }}
@@ -235,6 +236,9 @@ export default function AddPersonDialog({
                       (optional)
                     </span>
                   </label>
+                  <div className="mt-3">
+                    <ReferencePhotoGuide compact />
+                  </div>
                   <div className="mt-3 flex items-center gap-3">
                     {photoPreview && !photoPreviewError ? (
                       <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
@@ -297,7 +301,8 @@ export default function AddPersonDialog({
                         {photoFile ? "Pick a different photo" : "Choose photo"}
                       </button>
                       <p className="text-xs text-[color:var(--color-ink-muted)]">
-                        A clear face photo helps keep likeness consistent.
+                        Avoid tight head crops. Shoulders or full body helps prevent odd
+                        proportions.
                       </p>
                       {photoFile && (
                         <button

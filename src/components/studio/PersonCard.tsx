@@ -170,7 +170,7 @@ export default function PersonCard({
         {error && <p className="text-xs text-[color:var(--color-coral-deep)]">{error}</p>}
         {!uploading && !error && !photo && (
           <p className="text-xs text-[color:var(--color-ink-muted)]">
-            Add one clear, well-lit face photo.
+            Add a clear, well-lit photo with shoulders or full body visible.
           </p>
         )}
         <div

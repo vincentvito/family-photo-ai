@@ -1,8 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, emailOTP } from "better-auth/plugins";
+import { after } from "next/server";
 import { db } from "@/lib/db";
-import { sendAuthOtpEmail } from "@/lib/auth-email";
+import { sendAuthOtpEmail, sendWelcomeEmail } from "@/lib/auth-email";
 import * as authSchema from "@/../db/auth-schema";
 
 const baseURL = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL;
@@ -24,6 +25,19 @@ export const auth = betterAuth({
     provider: "pg",
     schema: authSchema,
   }),
+  databaseHooks: {
+    user: {
+      create: {
+        async after(user) {
+          after(() =>
+            sendWelcomeEmail({ email: user.email, name: user.name }).catch((error) => {
+              console.error("Failed to send welcome email", error);
+            }),
+          );
+        },
+      },
+    },
+  },
   emailAndPassword: {
     enabled: false,
   },
