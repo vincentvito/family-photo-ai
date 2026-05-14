@@ -8,6 +8,7 @@ import Link from "next/link";
 const OCCASION_IDS = [
   "card-christmas",
   "card-diwali",
+  "card-nowruz",
   "card-hanukkah",
   "card-easter",
   "card-lunar-new-year",

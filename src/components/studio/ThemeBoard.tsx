@@ -322,6 +322,10 @@ export default function ThemeBoard({
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    if (data?.debugPromptsOnly) {
+      console.log("PROMPT_DEBUG_ONLY prompts", data.prompts);
+      throw new Error("Prompt debug mode is on. Prompts were logged; no credits spent.");
+    }
     return data;
   }
 

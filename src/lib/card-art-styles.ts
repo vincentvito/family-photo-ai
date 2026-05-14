@@ -147,6 +147,6 @@ export function buildCardArtStyleDirective(style: CardArtStyle): string {
     `Card art style: ${style.name}.`,
     style.promptDirective,
     wholeCardDirective,
-    "Preserve the selected card layout, greeting text requirements, negative space, holiday or occasion details, selected cast, recognizable identities, and overall family-positive mood from the base prompt.",
+    "Keep the selected card layout, greeting text requirements, negative space, holiday or occasion details, selected cast, recognizable identities, and overall family-positive mood.",
   ].join(" ");
 }

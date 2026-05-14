@@ -117,7 +117,6 @@ function resolveOriginalSlot(
 
   return {
     variantIndex: slotIndex >= 0 ? slotIndex : 0,
-    totalVariants: slots.length > 0 ? slots.length : 4,
     originalVariationPrompt: slotIndex >= 0 ? slots[slotIndex].variationPrompt : undefined,
   };
 }
@@ -197,7 +196,6 @@ async function runRegeneration(args: {
   history: { instruction: string }[];
   originalVariationPrompt?: string;
   variantIndex: number;
-  totalVariants: number;
 }): Promise<RegeneratedImage> {
   if (isMockMode() || !hasReplicate()) {
     return runMockRegeneration({
@@ -227,10 +225,8 @@ async function runRegeneration(args: {
     modelId,
     basePrompt: args.generation.prompt,
     variantIndex: args.variantIndex,
-    totalVariants: args.totalVariants,
     aspectRatio: args.aspectRatio,
     variationPrompt,
-    subjects: args.subjects,
     imageUrls,
   });
   const image = await waitForPredictionImage(predictionId);
@@ -311,7 +307,6 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
     history: historyRows,
     originalVariationPrompt: originalSlot.originalVariationPrompt,
     variantIndex: originalSlot.variantIndex,
-    totalVariants: originalSlot.totalVariants,
   });
 
   if (!regenerated) throw new Error("Regeneration returned no image");

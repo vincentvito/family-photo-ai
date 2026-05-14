@@ -1101,6 +1101,31 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "card-nowruz",
+    name: "Nowruz Card",
+    blurb:
+      "A bright haft-sin table, spring flowers, mirror, candles and a poetry book. Fresh, refined and joyful.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-nowruz.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 refined Nowruz-card family portrait",
+      subjectAction:
+        "the selected cast gathered warmly near a haft-sin table, one subject holding spring flowers or painted eggs, elegant smiles, in fresh cream, sage, sky-blue and soft gold wardrobe",
+      location:
+        "a bright home interior prepared for Nowruz with a haft-sin table: sabzeh sprouts, apples, garlic, sumac, senjed, vinegar, painted eggs, mirror, candles, hyacinths, coins, and a Hafez or Shahnameh-style poetry book as a cultural keepsake",
+      camera:
+        "Fuji GFX medium format with 63mm f/2.8, gentle eye-level three-quarter composition, selected cast placed to one side with ample negative space upper-left for a serif Nowruz greeting",
+      lighting:
+        "soft spring morning window light, gentle candle sparkle from the haft-sin table, fresh airy highlights, calm celebratory warmth",
+      style:
+        "Kodak Portra 160, luminous spring palette of cream, fresh green, sky blue, soft gold and hyacinth purple, fine grain, refined editorial-card finish",
+    },
+  },
+  {
     id: "card-dia-de-muertos",
     name: "Holiday Card — Día de Muertos",
     blurb:
@@ -1434,6 +1459,7 @@ export function themesByCategory() {
       "card-easter",
       "card-hanukkah",
       "card-diwali",
+      "card-nowruz",
       "card-lunar-new-year",
       "card-eid",
       "card-dia-de-muertos",

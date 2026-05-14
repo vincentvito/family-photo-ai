@@ -53,10 +53,8 @@ export async function createGenerationPredictions(
         modelId: args.modelId,
         basePrompt: args.prompt,
         variantIndex: i,
-        totalVariants: variants,
         aspectRatio: args.aspectRatio,
         variationPrompt: slot.variationPrompt,
-        subjects: args.subjects,
         imageUrls,
       }),
     ),
@@ -83,11 +81,9 @@ export async function createSinglePrediction(args: {
   modelId: GenerationModelId;
   basePrompt: string;
   variantIndex: number;
-  totalVariants: number;
   aspectRatio: AspectRatio;
   variationPrompt?: string;
   variationPrompts?: readonly string[];
-  subjects: Subject[];
   imageUrls: string[];
 }): Promise<string> {
   const client = await getReplicateClient();
@@ -95,11 +91,9 @@ export async function createSinglePrediction(args: {
   const prompt = buildVariantPrompt(
     args.basePrompt,
     args.variantIndex,
-    args.totalVariants,
     args.aspectRatio,
     args.variationPrompt,
     args.variationPrompts,
-    args.subjects,
   );
 
   const input =
@@ -134,6 +128,25 @@ export async function createSinglePrediction(args: {
     input,
   });
   return prediction.id;
+}
+
+export function buildGenerationPredictionPrompts(args: {
+  basePrompt: string;
+  aspectRatio: AspectRatio;
+  variants?: number;
+  variationPrompts?: readonly string[];
+}): string[] {
+  const variants = args.variants ?? 4;
+  return Array.from({ length: variants }, (_, variantIndex) =>
+    buildVariantPrompt(
+      args.basePrompt,
+      variantIndex,
+      args.aspectRatio,
+      args.variationPrompts && args.variationPrompts.length > 0
+        ? args.variationPrompts[variantIndex % args.variationPrompts.length]
+        : undefined,
+    ),
+  );
 }
 
 export function buildReferenceUrls(
@@ -200,56 +213,83 @@ function extractOutputUrl(output: unknown): string | null {
 function buildVariantPrompt(
   basePrompt: string,
   variant: number,
-  totalVariants: number,
   aspectRatio: AspectRatio,
   variationPromptOverride?: string,
   variationPrompts?: readonly string[],
-  subjects?: Subject[],
 ): string {
-  const variationPrompt =
+  const variationPrompt = normalizeVariationPrompt(
     variationPromptOverride ??
-    (variationPrompts && variationPrompts.length > 0
-      ? variationPrompts[variant % variationPrompts.length]
-      : "Subtly vary pose, gaze or micro-composition compared to other variations, but keep the same setting, light, wardrobe and mood.");
+      (variationPrompts && variationPrompts.length > 0
+        ? variationPrompts[variant % variationPrompts.length]
+        : "Use a natural alternate pose, gaze or micro-composition while keeping the same setting, light, wardrobe and mood."),
+  );
 
   return [
+    `Shot direction: ${variationPrompt}`,
+    `Variant framing: ${buildVariantFraming(variant, variationPrompt)}`,
+    "Honor the shot direction and variant framing as the source of truth for pose, camera height, crop, subject scale, prop placement, foreground detail and negative-space placement.",
+    "",
     basePrompt,
     "",
-    "Final generation instructions:",
-    buildCastRail(subjects),
-    "- Preserve the selected subject identities from the attached reference photos.",
-    "- Do not add unselected people, duplicate subjects, background people, extra faces, pets or animals unless they are selected in the cast.",
-    `— Output one high-resolution image at ${aspectRatio} aspect ratio. Return only the image.`,
-    `— Variation ${variant + 1} of ${totalVariants}: ${variationPrompt}`,
-    "- The variation composition is mandatory: follow its pose, seated-or-standing state, crop, subject scale, prop placement, foreground detail and text-space placement.",
-    "- If a card art style is specified, apply that style to the entire card including the selected subject, face, skin, hair, clothes, background, foreground and greeting area.",
-    "- Preserve the card greeting text requirements exactly.",
+    "Reference handling: preserve each selected subject's facial identity, age cues, skin tone, hair, and recognizable features from the attached reference photos, but do not copy the selfie expression, gaze, lighting, pose, background, clothing, or camera angle.",
+    "Expression direction: choose natural expressions that fit the shot direction and setting: relaxed, warm, candid, gently happy or wind-softened as appropriate.",
+    `Aspect ratio: ${aspectRatio}.`,
   ]
     .join("\n")
     .replace(/—|â€”/g, "-");
 }
 
-function buildCastRail(subjects?: Subject[]): string {
-  if (!subjects || subjects.length === 0) {
-    return "- Cast lock: use only the named subjects from the base prompt; no extras, duplicates or background people.";
+function normalizeVariationPrompt(prompt: string): string {
+  return prompt
+    .replace(/\bfamily\b/giu, "selected cast")
+    .replace(/\beveryone\b/giu, "the selected cast");
+}
+
+function buildVariantFraming(variant: number, prompt: string): string {
+  if (/slot 1 composition/iu.test(prompt)) {
+    return "close card portrait, face prominent, selected cast placed low or to one side, large clean greeting area";
+  }
+  if (/slot 2 composition/iu.test(prompt)) {
+    return "standing or walking card, three-quarter to full-body posture, more environment visible, greeting area balanced opposite the cast";
+  }
+  if (/slot 3 composition/iu.test(prompt)) {
+    return "anchored seated or leaning card, medium crop, readable faces, bench/railing/doorway/table/flowers used as structure";
+  }
+  if (/slot 4 composition/iu.test(prompt)) {
+    return "wide environmental card, selected cast smaller in the lower third, occasion setting dominates, large calm greeting area";
+  }
+  if (
+    /\b(seated|sitting|leaning|bench|couch|floor|table|blanket|steps|porch|rail|doorway|lounger)\b/iu.test(
+      prompt,
+    )
+  ) {
+    return "anchored medium portrait, selected cast held in a clear still arrangement, waist-up or knee-up crop, faces readable, named prop or setting element framing an edge";
+  }
+  if (
+    /\b(walking|standing|moving|mid-stride|action|candid|toss|play|passing|reaching|lifting|holding|placing|opening|gesture)\b/iu.test(
+      prompt,
+    )
+  ) {
+    return "candid story-beat composition, selected cast caught in the named action or interaction, asymmetrical spacing, visible hands or feet, lower or closer camera energy";
+  }
+  if (
+    /\b(close|tight|tighter|waist-up|chest-up|shoulder-up|shoulder|face|faces)\b/iu.test(prompt)
+  ) {
+    return "genuinely tight portrait, faces and shoulders prominent, compressed background, no standard full-body group setup";
+  }
+  if (
+    /\b(wide|environmental|establishing|world|landscape|lower third|full room|full-room)\b/iu.test(
+      prompt,
+    )
+  ) {
+    return "wide environmental composition, selected cast small-to-medium in frame, strong location context, visible foreground and background layers";
   }
 
-  const humans = subjects.filter((subject) => subject.role !== "pet");
-  const pets = subjects.filter((subject) => subject.role === "pet");
-  const humanNames = humans
-    .map((subject) => subject.name)
-    .filter(Boolean)
-    .join(", ");
-  const petNames = pets
-    .map((subject) => subject.name)
-    .filter(Boolean)
-    .join(", ");
-
-  return [
-    `- Cast lock: exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames ? ` (${humanNames})` : ""}; exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames ? ` (${petNames})` : ""}.`,
-    subjects.length === 1
-      ? "This is a solo portrait; reinterpret words like family, everyone, each, all or together as the single selected subject only."
-      : "This is a closed group portrait containing only the selected cast.",
-    "No unselected people, no background people, no extra relatives, no strangers, no duplicate versions of a subject, no wall portraits or reflections that introduce extra faces.",
-  ].join(" ");
+  const lanes = [
+    "wide or full-body establishing option, selected cast small-to-medium in frame, strong location context, visible foreground and background layers",
+    "anchored medium portrait option, selected cast held in a clear still arrangement, waist-up or knee-up crop, faces readable, one named prop or setting element framing an edge",
+    "candid story-beat option, selected cast caught in the named action or interaction, asymmetrical spacing, visible hands or feet, lower or closer camera energy",
+    "crop-contrast option, either a genuinely tight face-and-shoulders portrait or a very graphic negative-space composition if the shot direction asks for width; avoid a standard medium group portrait",
+  ];
+  return lanes[variant % lanes.length];
 }

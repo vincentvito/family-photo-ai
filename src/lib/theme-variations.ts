@@ -2,10 +2,10 @@ export type ThemeVariationPrompts = readonly [string, string, string, string];
 
 export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPrompts>> = {
   "golden-hour-beach": [
-    "Walking shoreline frame: family barefoot on wet reflective sand, staggered naturally, one person glancing back, ocean horizon clean and low.",
-    "Seated dunes frame: family nestled near sea oats on a blanket, relaxed shoulder-to-shoulder grouping, warm rim light through grasses.",
-    "Tide-play candid: family gathered at the waterline with small splashes and rolled cuffs, laughter caught mid-motion, beach stretching behind.",
-    "Quiet portrait frame: tighter waist-up grouping with wind in hair and linen, sunset glow behind shoulders, soft negative space of sky and sea.",
+    "Wide shoreline walk: selected cast barefoot on wet reflective sand, full bodies visible, staggered naturally, one person glancing back, ocean horizon clean and low.",
+    "Seated dunes portrait: selected cast nestled shoulder-to-shoulder on a blanket near sea oats, knee-up crop, grasses framing the foreground, warm rim light through the dunes.",
+    "Low waterline candid: selected cast at the retreating tide with small splashes and rolled cuffs, laughter caught mid-motion, lower camera near the sand, beach stretching behind.",
+    "Tight wind portrait: waist-up or shoulder-up grouping with wind in hair and linen, sunset glow behind shoulders, soft negative space of sky and sea.",
   ],
   "autumn-cabin": [
     "Cabin-steps welcome: family gathered on wooden porch steps with mugs and knit layers, breath visible, pumpkins and boots nearby.",
@@ -265,6 +265,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Morning portrait card: tighter elegant grouping after prayers, soft airy background reserved for text.",
     "Lantern-frame card: selected cast framed by textiles and lanterns, refined negative space above.",
   ],
+  "card-nowruz": [
+    "Haft-sin side card: selected cast beside a bright haft-sin table, mirror and candles catching light, clean greeting space upper-left.",
+    "Poetry-book portrait: tighter selected-cast grouping near hyacinths and a Hafez or Shahnameh-style poetry book, soft negative space above.",
+    "Spring doorway card: selected cast standing near a sunlit doorway with sabzeh, painted eggs and flowers in the foreground, greeting space to one side.",
+    "Wide Nowruz table card: selected cast smaller behind or beside the haft-sin table, apples, sprouts, painted eggs, mirror and candles visible, calm readable greeting zone.",
+  ],
   "card-dia-de-muertos": [
     "Ofrenda-side card: selected cast beside glowing ofrenda, marigold path leading to top-left greeting space.",
     "Candle portrait card: tighter selected-cast grouping with one candle gesture, respectful text area in warm shadow.",
@@ -347,22 +353,22 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
 
 const CATEGORY_VARIATIONS = {
   photoreal: [
-    "Hero proof: polished medium-wide portrait with natural spacing, strong face visibility and one subtle candid gesture.",
-    "Candid proof: family mid-action within the same setting, overlapping hands or glances, photographed like an unforced keeper.",
-    "Intimate proof: tighter emotional crop focused on faces, hands and eye contact while preserving the same light and wardrobe logic.",
-    "Environmental proof: wider lifestyle frame with more of the location visible, family off-center and a distinctive foreground detail.",
+    "Wide hero proof: selected cast shown full-body or three-quarter in a polished environmental portrait, natural spacing, strong setting context and clear faces.",
+    "Anchored portrait proof: selected cast held in a still seated, leaning or clustered arrangement, waist-up or knee-up crop, one meaningful prop or setting edge framing them.",
+    "Candid story proof: selected cast mid-action within the same setting, visible hands or feet, asymmetrical spacing, photographed like an unforced keeper.",
+    "Crop-contrast proof: either a genuinely tight emotional portrait focused on faces and hands, or a wider graphic negative-space composition if the theme calls for scale.",
   ],
   stylized: [
-    "Hero proof: full-group frame using the theme's signature visual language, clear silhouettes and expressive poses.",
-    "Character proof: closer family-focused frame with exaggerated gestures and readable faces in the same rendered style.",
-    "World proof: wider frame showing more of the themed environment around the family without changing the concept.",
-    "Alternate proof: different spacing, props, camera height and staging while preserving the same visual language.",
+    "Wide hero proof: full selected-cast frame using the theme's signature visual language, clear silhouettes, expressive poses and visible environment.",
+    "Character portrait proof: closer selected-cast frame with readable faces, stronger expressions and one foreground prop or design detail.",
+    "Action story proof: selected cast in a clear gesture or interaction, asymmetrical spacing, dynamic camera height and energetic staging.",
+    "World proof: wider frame showing more of the themed environment around the selected cast without changing the concept.",
   ],
   card: [
-    "Hero card proof: classic family portrait with generous clean negative space reserved for the greeting.",
-    "Candid card proof: family interaction placed on one side of the frame, text area balanced opposite them.",
-    "Intimate card proof: tighter emotional portrait with decorative details framing the readable text space.",
-    "Environmental card proof: wider card composition with foreground details and a calm readable greeting zone.",
+    "Close greeting card proof: selected cast placed low or to one side, faces readable, generous clean negative space reserved for the greeting.",
+    "Standing greeting card proof: selected cast shown three-quarter or full-body in the occasion setting, text area balanced opposite them.",
+    "Anchored greeting card proof: selected cast seated or leaning near a clear prop, doorway, bench, table or floral frame, medium crop and readable faces.",
+    "Wide greeting card proof: selected cast smaller in the lower third, foreground details and occasion environment visible, calm readable greeting zone.",
   ],
 } satisfies Record<string, ThemeVariationPrompts>;
 

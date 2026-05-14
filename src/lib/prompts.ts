@@ -2,13 +2,11 @@ import type { Theme } from "./themes";
 import type { Subject } from "./providers/types";
 
 const FAMILY_POSITIVE_DIRECTIVE =
-  "Family-positive keepsake direction: keep the mood warm, respectful and optimistic. Do not include smoking, cigarettes, cigars, vaping, ashtrays, lighters in use, smoke clouds, weapons, or threatening menace";
+  "Keepsake mood: warm, respectful, optimistic, clean and safe-feeling";
 
 /**
- * Compose a framework-ordered prompt for a family portrait:
- *   [Asset Type + Aspect] → [Subject + Action, with family roster woven in]
- *   → [Location] → [Camera] → [Lighting] → [Style] → [Wardrobe] → [Card text]
- * Each part becomes one sentence in flowing prose rather than a labeled list.
+ * Compose the stable part of the prompt. Per-output variation prompts own the
+ * exact pose, crop and sub-location so those details do not fight the theme.
  */
 export function buildGenerationPrompt(
   theme: Theme,
@@ -18,29 +16,29 @@ export function buildGenerationPrompt(
 ): string {
   const { spec } = theme;
   const familyClause = describeFamily(subjects);
-  const hasPets = subjects.some((subject) => subject.role === "pet");
   const rosterDirective = buildRosterDirective(subjects);
 
   const sentences: string[] = [
     // Part 1
-    `${spec.assetType}.`,
-    // Part 2 — subject + action, with the roster woven in, then setting (part 3)
-    `${familyClause} ${spec.subjectAction}, set in ${spec.location}.`,
+    sentence(spec.assetType),
+    // Part 2 - selected cast. The per-output variation supplies the physical staging.
+    sentence(`${familyClause} in the ${theme.name} theme`),
+    // Part 3 - broad setting/mood anchor. Avoid locking a pose or sub-location that can fight variants.
+    sentence(`Theme atmosphere: ${selectedCastLanguage(theme.blurb.trim())}`),
     // Part 4
-    `${spec.camera}.`,
+    sentence(selectedCastLanguage(spec.camera)),
     // Part 5
-    `${spec.lighting}.`,
+    sentence(selectedCastLanguage(spec.lighting)),
     // Part 6
-    `${spec.style}.`,
+    sentence(selectedCastLanguage(spec.style)),
     rosterDirective,
-    hasPets
-      ? "Include only the selected pet subjects listed in the cast lock; do not invent additional animals or background pets."
-      : "No pets or animals should appear anywhere in the image.",
-    FAMILY_POSITIVE_DIRECTIVE + ".",
+    sentence(FAMILY_POSITIVE_DIRECTIVE),
   ];
 
   if (wardrobeNote && wardrobeNote.trim()) {
-    sentences.push(`Wardrobe and mood note from the family: ${wardrobeNote.trim()}.`);
+    sentences.push(
+      sentence(`Wardrobe and mood note: ${selectedCastLanguage(wardrobeNote.trim())}`),
+    );
   }
 
   if (cardText && cardText.trim()) {
@@ -63,19 +61,15 @@ export function buildCardTextDirective(cardText: string): string {
 }
 
 /**
- * Produce a natural noun phrase describing the family, suitable to start a
- * sentence — e.g. "A family of two adults, one child and one pet (Elena,
- * Matteo, Luca, Biscotto) together". The phrase is designed to weave directly
- * into the spec's subjectAction ("gathered close…", "walking toward the
- * tide…") without awkward glue.
+ * Produce a natural phrase describing the selected cast without implying a
+ * larger family than the uploaded references contain.
  */
 export function describeFamily(subjects: Subject[]): string {
-  if (subjects.length === 0) return "A family";
+  if (subjects.length === 0) return "The selected cast photographed together";
 
   if (subjects.length === 1) {
     const subject = subjects[0];
-    const nameTag = subject.name ? ` (${subject.name})` : "";
-    return subject.role === "pet" ? `The selected pet${nameTag}` : `The selected person${nameTag}`;
+    return subject.role === "pet" ? "The selected pet" : "The selected person";
   }
 
   const adults = subjects.filter((s) => s.role === "adult");
@@ -88,40 +82,42 @@ export function describeFamily(subjects: Subject[]): string {
   if (pets.length) parts.push(countPhrase(pets.length, "pet"));
 
   const composition = joinWithAnd(parts);
-  const names = subjects.map((s) => s.name).filter(Boolean);
-  const nameTag = names.length > 0 ? ` (${names.join(", ")})` : "";
+  return `Selected cast: ${composition}, shown as the complete group`;
+}
 
-  return `A family of ${composition}${nameTag}`;
+function sentence(text: string): string {
+  const trimmed = text.trim();
+  return /[.!?]$/u.test(trimmed) ? trimmed : `${trimmed}.`;
+}
+
+function selectedCastLanguage(text: string): string {
+  return text
+    .replace(/\bfamily\b/giu, "selected cast")
+    .replace(/\beveryone\b/giu, "the selected cast");
 }
 
 function buildRosterDirective(subjects: Subject[]): string {
   const humans = subjects.filter((subject) => subject.role !== "pet");
   const pets = subjects.filter((subject) => subject.role === "pet");
-  const humanNames = listNames(humans);
-  const petNames = listNames(pets);
-
-  const humanRule =
-    humans.length === 0
-      ? "exactly zero visible humans"
-      : `exactly ${humans.length} visible human subject${humans.length === 1 ? "" : "s"}${humanNames}`;
-  const petRule =
+  const humanRule = countSubjects(humans, "person", "people");
+  const petRule = pets.length === 0 ? "no pets" : countSubjects(pets, "pet", "pets");
+  const backgroundRule =
     pets.length === 0
-      ? "exactly zero visible pets or animals"
-      : `exactly ${pets.length} visible pet subject${pets.length === 1 ? "" : "s"}${petNames}`;
+      ? "Keep the background free of extra people, duplicate faces, posters, reflections and animals."
+      : "Keep the background free of extra people, duplicate faces, posters, reflections and unselected animals.";
 
   return [
-    `Cast lock: ${humanRule}; ${petRule}.`,
+    `Cast rule: show only the selected cast: ${humanRule}; ${petRule}.`,
     subjects.length === 1
-      ? "This is a solo portrait; reinterpret any plural or group staging in the theme as one selected subject only."
-      : "This is a closed group portrait containing only the selected cast.",
-    "Do not add unselected spouses, children, relatives, friends, strangers, background people, extra faces, duplicate versions of the same subject, silhouettes, reflections, wall portraits or implied family members.",
-    "If the theme text uses group words like family, everyone, each, all or together, adapt that phrasing to this exact selected cast.",
+      ? "If the theme wording implies a group, reinterpret it as one selected subject only."
+      : "If the theme wording implies a larger group, reinterpret it as this exact selected cast.",
+    backgroundRule,
   ].join(" ");
 }
 
-function listNames(subjects: Subject[]): string {
-  const names = subjects.map((subject) => subject.name).filter(Boolean);
-  return names.length > 0 ? `: ${names.join(", ")}` : "";
+function countSubjects(subjects: Subject[], singular: string, plural: string): string {
+  const label = subjects.length === 1 ? singular : plural;
+  return `${subjects.length} ${label}`;
 }
 
 function countPhrase(n: number, singular: string, plural?: string): string {

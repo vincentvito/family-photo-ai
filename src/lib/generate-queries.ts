@@ -20,6 +20,7 @@ import {
 } from "@/lib/card-art-styles";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 import {
+  buildGenerationPredictionPrompts,
   buildReferenceUrls,
   createGenerationPredictions,
   createSinglePrediction,
@@ -115,6 +116,10 @@ function isMockMode() {
   return process.env.NEXT_PUBLIC_MOCK_MODE === "1" || process.env.MOCK_MODE === "1";
 }
 
+function isPromptDebugOnlyMode() {
+  return process.env.PROMPT_DEBUG_ONLY === "1";
+}
+
 export async function startGeneration(
   input: z.infer<typeof StartGenerationInput>,
   actor: { userId: string },
@@ -201,6 +206,37 @@ export async function startGeneration(
     throw new Error(
       `${MODEL_CATALOG[modelId].label} doesn't support ${theme.aspectRatio} — pick one of ${supported}.`,
     );
+  }
+
+  if (isPromptDebugOnlyMode()) {
+    const prompts = buildGenerationPredictionPrompts({
+      basePrompt: prompt,
+      aspectRatio: theme.aspectRatio,
+      variants: VARIANT_COUNT,
+      variationPrompts,
+    });
+    console.log(
+      [
+        "",
+        "================ PROMPT_DEBUG_ONLY: generation skipped ================",
+        `themeId=${theme.id}`,
+        `modelId=${modelId}`,
+        `aspectRatio=${theme.aspectRatio}`,
+        `subjects=${effectiveRoster.length}`,
+        ...prompts.flatMap((finalPrompt, index) => [
+          "",
+          `--- VARIANT ${index + 1} ---`,
+          finalPrompt,
+        ]),
+        "======================================================================",
+        "",
+      ].join("\n"),
+    );
+    return {
+      generationId: "prompt-debug-only",
+      debugPromptsOnly: true,
+      prompts,
+    };
   }
 
   if (isMockMode()) {
@@ -299,8 +335,8 @@ function buildCardVariationPrompt({
 }) {
   const slotCommands = [
     "Slot 1 composition: make a close portrait card. Subject occupies the lower-left or lower-center area, face prominent, greeting text in a large clean upper area.",
-    "Slot 2 composition: make a standing or walking card. Show more body and garden environment, different pose from slot 1, greeting text on the opposite side.",
-    "Slot 3 composition: make a seated or leaning card. Use bench, railing, doorway or foreground flowers as structure, different crop and prop placement from slots 1 and 2.",
+    "Slot 2 composition: make a standing or walking card. Show three-quarter or full-body posture, more environment, and greeting text on the opposite side.",
+    "Slot 3 composition: make a seated or leaning card. Use a bench, railing, doorway, table or foreground flowers as the visual anchor, with a medium crop and readable faces.",
     "Slot 4 composition: make a wide environmental card. Subject is smaller in the lower third, more occasion setting is visible, large calm negative space for the greeting.",
   ];
 
@@ -308,7 +344,6 @@ function buildCardVariationPrompt({
     slotCommands[slotIndex] ?? slotCommands[0],
     `Theme-specific layout: ${layoutPrompt}`,
     styleDirective,
-    "This slot must not reuse the same pose, crop, prop placement or subject scale as the other card slots.",
   ].join(" ");
 }
 
@@ -425,7 +460,7 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
 
         if (result.status === "failed" || result.status === "canceled") {
           if (slot.retries < MAX_RETRIES_PER_SLOT) {
-            const newId = await retrySlot(generation, slotIndex, slots.length, slot);
+            const newId = await retrySlot(generation, slotIndex, slot);
             slots[slotIndex] = { ...slot, id: newId, retries: slot.retries + 1 };
             mutatedSlots = true;
           } else {
@@ -470,7 +505,6 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
 async function retrySlot(
   generation: typeof schema.generations.$inferSelect,
   slotIndex: number,
-  totalSlots: number,
   slot: PredictionSlot,
 ): Promise<string> {
   const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
@@ -484,11 +518,9 @@ async function retrySlot(
     modelId,
     basePrompt: generation.prompt,
     variantIndex: slotIndex,
-    totalVariants: totalSlots,
     aspectRatio: (generation.aspectRatio ?? "3:2") as AspectRatio,
     variationPrompt: slot.variationPrompt,
     variationPrompts: getRetryVariationPrompts(generation.themeId),
-    subjects,
     imageUrls,
   });
 }

@@ -11,6 +11,7 @@ const FEATURED_IDS = [
   "golden-hour-beach",
   "card-dia-de-muertos",
   "cherry-blossom",
+  "card-nowruz",
   "card-lunar-new-year",
   "card-eid",
   "coastal-grandmother",
