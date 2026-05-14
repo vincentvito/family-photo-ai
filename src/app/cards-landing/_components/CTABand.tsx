@@ -1,4 +1,5 @@
 import { ctaHref } from './occasions';
+import { THEMES } from '@/lib/themes';
 
 export function CTABand() {
   return (
@@ -12,7 +13,7 @@ export function CTABand() {
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href={ctaHref()} className="btn btn-coral btn-lg spring-press">Make a card</a>
-          <a href="https://familyshoot.com/#gallery" className="btn btn-ghost btn-lg spring-press">Browse all 57 vibes</a>
+          <a href="https://familyshoot.com/#gallery" className="btn btn-ghost btn-lg spring-press">Browse all {THEMES.length} vibes</a>
         </div>
       </div>
     </section>

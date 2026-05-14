@@ -20,9 +20,9 @@ export default function CardFirstLandingPage() {
     <>
       <Nav
         links={[
-          { href: 'https://familyshoot.com/#gallery', label: 'Gallery' },
-          { href: 'https://familyshoot.com/#how', label: 'How it works' },
-          { href: 'https://familyshoot.com/#pricing', label: 'Pricing' },
+          { href: '/vibes', label: 'Vibes' },
+          { href: '/cards', label: 'Cards' },
+          { href: '/styles', label: 'Styles' },
         ]}
       />
       <div className="fs-card-landing">

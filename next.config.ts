@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const config: NextConfig = {
   serverExternalPackages: ["sharp"],
+  async redirects() {
+    return [
+      { source: "/cards-landing", destination: "/cards", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

@@ -13,7 +13,7 @@ export function proxy(request: NextRequest) {
 
   if (pathname === '/' || pathname === '') {
     const url = request.nextUrl.clone();
-    url.pathname = '/cards-landing';
+    url.pathname = '/cards';
     return NextResponse.rewrite(url);
   }
 
