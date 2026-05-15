@@ -7,8 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 const OUTPUT_WIDTH = 1024;
 const OUTPUT_HEIGHT = 1280;
 const CROP_ASPECT_RATIO = OUTPUT_WIDTH / OUTPUT_HEIGHT;
-const MIN_ZOOM = 1;
+const MIN_ZOOM = 0.82;
 const MAX_ZOOM = 3;
+const CROP_GRID_CELLS = Array.from({ length: 9 }, (_, index) => index);
 
 type Point = { x: number; y: number };
 type NaturalSize = { width: number; height: number };
@@ -72,7 +73,10 @@ export default function FaceCropDialog({
 
     const syncSize = () => {
       const width = Math.max(240, Math.round(stage.getBoundingClientRect().width));
-      setStageSize({ width, height: Math.round(width / CROP_ASPECT_RATIO) });
+      const height = Math.round(width / CROP_ASPECT_RATIO);
+      setStageSize((current) =>
+        current.width === width && current.height === height ? current : { width, height },
+      );
     };
     syncSize();
 
@@ -98,10 +102,12 @@ export default function FaceCropDialog({
   const clampPan = useCallback(
     (next: Point) => {
       if (!metrics) return next;
-      const minX = stageSize.width - metrics.width - metrics.baseX;
-      const maxX = -metrics.baseX;
-      const minY = stageSize.height - metrics.height - metrics.baseY;
-      const maxY = -metrics.baseY;
+      const minX =
+        metrics.width >= stageSize.width ? stageSize.width - metrics.width - metrics.baseX : 0;
+      const maxX = metrics.width >= stageSize.width ? -metrics.baseX : 0;
+      const minY =
+        metrics.height >= stageSize.height ? stageSize.height - metrics.height - metrics.baseY : 0;
+      const maxY = metrics.height >= stageSize.height ? -metrics.baseY : 0;
       return {
         x: Math.min(maxX, Math.max(minX, next.x)),
         y: Math.min(maxY, Math.max(minY, next.y)),
@@ -137,10 +143,20 @@ export default function FaceCropDialog({
       return;
     }
 
+    const visibleStageX = Math.max(0, imageX);
+    const visibleStageY = Math.max(0, imageY);
     const sourceX = Math.max(0, -imageX / metrics.scale);
     const sourceY = Math.max(0, -imageY / metrics.scale);
-    const sourceWidth = stageSize.width / metrics.scale;
-    const sourceHeight = stageSize.height / metrics.scale;
+    const sourceWidth = Math.min(
+      (stageSize.width - visibleStageX) / metrics.scale,
+      imageSize.width - sourceX,
+    );
+    const sourceHeight = Math.min(
+      (stageSize.height - visibleStageY) / metrics.scale,
+      imageSize.height - sourceY,
+    );
+    const outputScaleX = OUTPUT_WIDTH / stageSize.width;
+    const outputScaleY = OUTPUT_HEIGHT / stageSize.height;
 
     ctx.fillStyle = "#fbf8f3";
     ctx.fillRect(0, 0, OUTPUT_WIDTH, OUTPUT_HEIGHT);
@@ -148,12 +164,12 @@ export default function FaceCropDialog({
       imageRef.current,
       sourceX,
       sourceY,
-      Math.min(sourceWidth, imageSize.width - sourceX),
-      Math.min(sourceHeight, imageSize.height - sourceY),
-      0,
-      0,
-      OUTPUT_WIDTH,
-      OUTPUT_HEIGHT,
+      sourceWidth,
+      sourceHeight,
+      visibleStageX * outputScaleX,
+      visibleStageY * outputScaleY,
+      sourceWidth * metrics.scale * outputScaleX,
+      sourceHeight * metrics.scale * outputScaleY,
     );
 
     canvas.toBlob(
@@ -174,7 +190,7 @@ export default function FaceCropDialog({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-6"
+          className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto overscroll-contain p-0 sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -191,16 +207,16 @@ export default function FaceCropDialog({
             exit={{ opacity: 0 }}
           />
           <motion.div
-            className="relative grid max-h-[96dvh] w-full max-w-4xl overflow-hidden rounded-t-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-xl)] sm:max-h-[92vh] sm:rounded-[var(--radius-xl)] md:grid-cols-[minmax(0,1fr)_20rem]"
+            className="relative my-auto grid max-h-none w-full max-w-4xl overflow-visible rounded-t-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-xl)] sm:max-h-[92vh] sm:rounded-[var(--radius-xl)] md:grid-cols-[minmax(0,1fr)_20rem] md:overflow-hidden"
             initial={{ y: 22, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 10, opacity: 0, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 320, damping: 28 }}
           >
-            <div className="min-h-0 overflow-auto bg-[color:var(--color-bg-dark)] p-3 sm:p-6">
+            <div className="min-h-0 bg-[color:var(--color-bg-dark)] p-3 pb-3 sm:p-6 md:overflow-auto">
               <div
                 ref={stageRef}
-                className="relative mx-auto aspect-[4/5] w-full max-w-[min(50dvh,30rem)] touch-none overflow-hidden rounded-[var(--radius-md)] bg-[color:var(--color-line-dark)] sm:max-w-[min(58vh,32rem)]"
+                className="relative mx-auto aspect-[4/5] w-full max-w-[min(32svh,18rem)] touch-none overflow-hidden rounded-[var(--radius-md)] bg-[color:var(--color-line-dark)] sm:max-w-[min(58vh,32rem)]"
                 onPointerDown={(event) => {
                   if (!metrics || busy) return;
                   event.currentTarget.setPointerCapture(event.pointerId);
@@ -258,26 +274,28 @@ export default function FaceCropDialog({
                 )}
                 <div className="pointer-events-none absolute inset-0 border-[3px] border-white/95 shadow-[inset_0_0_0_999px_rgba(31,26,36,0.2)]" />
                 <div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3">
-                  {Array.from({ length: 9 }).map((_, index) => (
+                  {CROP_GRID_CELLS.map((index) => (
                     <span key={index} className="border border-white/22" />
                   ))}
                 </div>
               </div>
-              <p className="mx-auto mt-3 max-w-[32rem] text-center text-xs font-medium text-white/72">
-                Keep shoulders in the frame when you crop. Use the full photo when it already shows
-                body proportions clearly.
+              <p className="mx-auto mt-3 max-w-[26rem] text-center text-[0.72rem] font-medium leading-snug text-white/72 sm:max-w-[32rem] sm:text-xs">
+                Drag to center the person. Leave shoulders visible when you can.
               </p>
             </div>
 
-            <div className="flex min-h-0 flex-col overflow-auto p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:p-6">
+            <div className="flex min-h-0 flex-col p-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:p-6 md:overflow-auto">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <span className="chip chip-coral">
                     <span className="dot dot-coral" />
                     Reference check
                   </span>
-                  <h2 id="face-crop-title" className="serif mt-3 text-3xl">
-                    Keep more than the face
+                  <h2
+                    id="face-crop-title"
+                    className="serif mt-2 text-[1.7rem] leading-none sm:mt-3 sm:text-3xl"
+                  >
+                    Adjust photo
                   </h2>
                 </div>
                 <button
@@ -291,13 +309,18 @@ export default function FaceCropDialog({
                 </button>
               </div>
 
-              <div className="mt-7">
-                <label
-                  htmlFor="face-crop-zoom"
-                  className="small-caps text-[color:var(--color-ink-muted)]"
-                >
-                  Zoom
-                </label>
+              <div className="mt-4 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-3 sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
+                <div className="flex items-center justify-between gap-3">
+                  <label
+                    htmlFor="face-crop-zoom"
+                    className="text-sm font-semibold text-[color:var(--color-ink)] sm:small-caps sm:text-[color:var(--color-ink-muted)]"
+                  >
+                    Zoom
+                  </label>
+                  <span className="text-xs font-medium text-[color:var(--color-ink-muted)]">
+                    Pinch or drag photo
+                  </span>
+                </div>
                 <input
                   id="face-crop-zoom"
                   type="range"
@@ -307,7 +330,7 @@ export default function FaceCropDialog({
                   value={zoom}
                   disabled={!metrics || busy}
                   onChange={(event) => setZoom(Number(event.target.value))}
-                  className="mt-3 w-full accent-[color:var(--color-coral)]"
+                  className="mt-2 w-full accent-[color:var(--color-coral)] sm:mt-3"
                 />
               </div>
 
@@ -322,33 +345,33 @@ export default function FaceCropDialog({
                 </p>
               )}
 
-              <div className="sticky bottom-0 z-10 mt-auto bg-[color:var(--color-bg-elevated)] pt-6 pb-[env(safe-area-inset-bottom)]">
-                <button
-                  type="button"
-                  onClick={() => onUseOriginal(file)}
-                  disabled={busy}
-                  className="btn btn-coral w-full"
-                >
-                  {busy ? "Processing..." : "Use full photo"}
-                </button>
-                <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="sticky bottom-0 z-10 mt-4 bg-[color:var(--color-bg-elevated)] pt-2 pb-[env(safe-area-inset-bottom)] sm:mt-auto sm:pt-6">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={finishCrop}
                     disabled={!metrics || busy}
                     className="btn btn-ghost btn-sm"
                   >
-                    Use crop
+                    {busy ? "Processing..." : "Use crop"}
                   </button>
                   <button
                     type="button"
-                    onClick={onCancel}
+                    onClick={() => onUseOriginal(file)}
                     disabled={busy}
                     className="btn btn-ghost btn-sm"
                   >
-                    Choose again
+                    Use full photo
                   </button>
                 </div>
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  disabled={busy}
+                  className="mt-2 w-full rounded-full px-4 py-2 text-sm font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)] disabled:opacity-50"
+                >
+                  Choose again
+                </button>
               </div>
             </div>
           </motion.div>

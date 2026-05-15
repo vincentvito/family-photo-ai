@@ -239,43 +239,74 @@ export default function AddPersonDialog({
                   <div className="mt-3">
                     <ReferencePhotoGuide compact />
                   </div>
-                  <div className="mt-3 flex items-center gap-3">
-                    {photoPreview && !photoPreviewError ? (
-                      <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={photoPreview}
-                          alt="Reference preview"
-                          className="h-full w-full object-contain"
-                          onError={() => setPhotoPreviewError(true)}
-                        />
-                      </div>
-                    ) : photoFile ? (
-                      <div className="flex h-20 w-20 flex-col items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)] px-2 text-center text-[color:var(--color-ink-muted)]">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="h-5 w-5 shrink-0"
-                          aria-hidden
-                        >
-                          <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2Z" />
-                          <path d="M14 2v6h6" />
-                        </svg>
-                        <span className="mt-1 max-w-full truncate text-[0.65rem] font-semibold">
-                          {photoFile.name}
-                        </span>
+                  <div className="mt-3">
+                    {photoFile ? (
+                      <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-3">
+                        {photoPreview && !photoPreviewError ? (
+                          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={photoPreview}
+                              alt="Reference preview"
+                              className="h-full w-full object-contain"
+                              onError={() => setPhotoPreviewError(true)}
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-[var(--radius-sm)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)] px-2 text-center text-[color:var(--color-ink-muted)]">
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="h-5 w-5 shrink-0"
+                              aria-hidden
+                            >
+                              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2Z" />
+                              <path d="M14 2v6h6" />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-semibold text-[color:var(--color-ink)]">
+                            {photoFile.name}
+                          </p>
+                          <p className="mt-0.5 text-xs text-[color:var(--color-ink-muted)]">
+                            Photo selected
+                          </p>
+                          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <button
+                              type="button"
+                              onClick={() => fileRef.current?.click()}
+                              disabled={pending}
+                              className="text-xs font-semibold text-[color:var(--color-coral-deep)] hover:underline disabled:opacity-50"
+                            >
+                              Change photo
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setPhotoFile(null);
+                                setPhotoPreview(null);
+                                setPhotoPreviewError(false);
+                                if (fileRef.current) fileRef.current.value = "";
+                              }}
+                              disabled={pending}
+                              className="text-xs font-semibold text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-coral-deep)] hover:underline disabled:opacity-50"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
                         disabled={pending}
-                        className="spring-press flex h-20 w-20 items-center justify-center rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-faint)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
-                        aria-label="Choose reference photo"
+                        className="spring-press flex w-full items-center justify-center gap-2 rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-4 text-sm font-semibold text-[color:var(--color-ink-muted)] transition-all hover:border-[color:var(--color-coral)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)] disabled:opacity-50"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -289,37 +320,9 @@ export default function AddPersonDialog({
                         >
                           <path d="M12 5v14M5 12h14" />
                         </svg>
+                        Choose photo
                       </button>
                     )}
-                    <div className="flex flex-col items-start gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => fileRef.current?.click()}
-                        disabled={pending}
-                        className="btn btn-ghost btn-sm"
-                      >
-                        {photoFile ? "Pick a different photo" : "Choose photo"}
-                      </button>
-                      <p className="text-xs text-[color:var(--color-ink-muted)]">
-                        Avoid tight head crops. Shoulders or full body helps prevent odd
-                        proportions.
-                      </p>
-                      {photoFile && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPhotoFile(null);
-                            setPhotoPreview(null);
-                            setPhotoPreviewError(false);
-                            if (fileRef.current) fileRef.current.value = "";
-                          }}
-                          disabled={pending}
-                          className="text-xs font-semibold text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-coral-deep)] hover:underline"
-                        >
-                          Remove selected photo
-                        </button>
-                      )}
-                    </div>
                     <input
                       ref={fileRef}
                       type="file"
