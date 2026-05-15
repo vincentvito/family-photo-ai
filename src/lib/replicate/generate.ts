@@ -121,9 +121,10 @@ export async function createSinglePrediction(args: {
             prompt,
             input_images: args.imageUrls,
             aspect_ratio: args.aspectRatio,
-            quality: "medium",
+            quality: model.gptImageQuality ?? "medium",
             number_of_images: 1,
             output_format: "jpeg",
+            moderation: "low",
           };
 
   const prediction = await client.predictions.create({

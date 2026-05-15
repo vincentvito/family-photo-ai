@@ -19,6 +19,7 @@ export async function refineImage(args: RefineArgs): Promise<RefineResult> {
       quality: "medium",
       number_of_images: 1,
       output_format: "jpeg",
+      moderation: "low",
     },
   });
 

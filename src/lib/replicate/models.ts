@@ -25,7 +25,13 @@ export type ModelSlug = (typeof MODELS)[keyof typeof MODELS];
  * model identifier. Pricing is per output image at the configured tier so the
  * admin can see cost before kicking off a shoot.
  */
-export type GenerationModelId = "nanobanana" | "nano-banana-pro" | "gpt-image-2";
+export type GenerationModelId =
+  | "nanobanana"
+  | "nano-banana-pro"
+  | "gpt-image-2"
+  | "gpt-image-2-high";
+
+export type GptImageQuality = "low" | "medium" | "high" | "auto";
 
 export type GenerationModel = {
   id: GenerationModelId;
@@ -37,6 +43,7 @@ export type GenerationModel = {
   /** Configuration tier shown in the UI, such as "1K resolution" or "Medium quality". */
   tierLabel: string;
   supportedAspectRatios: readonly AspectRatio[];
+  gptImageQuality?: GptImageQuality;
 };
 
 const SUPPORTED_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
@@ -68,6 +75,17 @@ export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
     priceLabel: "$0.047 / image",
     tierLabel: "Medium quality",
     supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "medium",
+  },
+  "gpt-image-2-high": {
+    id: "gpt-image-2-high",
+    slug: MODELS.gptImage2,
+    label: "GPT Image 2 High",
+    priceUsd: 0.128,
+    priceLabel: "$0.128 / image",
+    tierLabel: "High quality",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "high",
   },
 };
 
