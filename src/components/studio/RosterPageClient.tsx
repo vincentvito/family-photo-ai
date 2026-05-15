@@ -7,6 +7,7 @@ import Link from "next/link";
 import type { Person, Photo } from "@/../db/schema";
 import RosterGrid from "@/components/studio/RosterGrid";
 import AddPersonDialog from "@/components/studio/AddPersonDialog";
+import BulkAddPeopleDialog from "@/components/studio/BulkAddPeopleDialog";
 
 type RosterEntry = { person: Person; photos: Photo[] };
 
@@ -61,7 +62,10 @@ export default function RosterPageClient({
             shoulders visible give the AI better face and body proportions.
           </p>
         </div>
-        <AddPersonDialog onChanged={loadRoster} onNotice={setNotice} />
+        <div className="flex flex-wrap items-center gap-3">
+          <BulkAddPeopleDialog onChanged={loadRoster} onNotice={setNotice} />
+          <AddPersonDialog onChanged={loadRoster} onNotice={setNotice} />
+        </div>
       </div>
 
       <div className="mt-8">

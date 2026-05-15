@@ -31,6 +31,7 @@ export default function EditPersonDialog({
   const [cropFile, setCropFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoPreviewError, setPhotoPreviewError] = useState(false);
+  const [loadingCurrentPhoto, setLoadingCurrentPhoto] = useState(false);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -51,6 +52,26 @@ export default function EditPersonDialog({
 
   const queueCrop = (file: File) => {
     setCropFile(file);
+  };
+
+  const cropCurrentPhoto = async () => {
+    if (!currentPhoto) return;
+    setError(null);
+    setLoadingCurrentPhoto(true);
+    try {
+      const res = await fetch(`/api/images/${currentPhoto.id}`);
+      if (!res.ok) {
+        throw new Error(`Could not load current photo (${res.status}).`);
+      }
+      const blob = await res.blob();
+      const type = blob.type || "image/jpeg";
+      const extension = type.includes("png") ? "png" : type.includes("webp") ? "webp" : "jpg";
+      queueCrop(new File([blob], `${person.name}-current-reference.${extension}`, { type }));
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Could not load current photo.");
+    } finally {
+      setLoadingCurrentPhoto(false);
+    }
   };
 
   const submit = () => {
@@ -264,15 +285,20 @@ export default function EditPersonDialog({
                     <button
                       type="button"
                       onClick={() => fileRef.current?.click()}
-                      disabled={pending}
+                      disabled={pending || loadingCurrentPhoto}
                       className="btn btn-ghost btn-sm"
                     >
                       {photoFile ? "Pick a different photo" : "Choose new photo"}
                     </button>
                     {currentPhoto && !photoFile && (
-                      <p className="text-xs text-[color:var(--color-ink-muted)]">
-                        Current reference photo. Shoulders or full body works best.
-                      </p>
+                      <button
+                        type="button"
+                        onClick={cropCurrentPhoto}
+                        disabled={pending || loadingCurrentPhoto}
+                        className="btn btn-ghost btn-sm"
+                      >
+                        {loadingCurrentPhoto ? "Loading photo..." : "Crop current photo"}
+                      </button>
                     )}
                     {photoFile && (
                       <button
