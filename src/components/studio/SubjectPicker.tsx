@@ -1,7 +1,10 @@
 "use client";
 
 import type { RosterMember } from "./ThemeBoard";
-import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
+import {
+  MAX_SHOT_SUBJECTS,
+  SHOT_SUBJECT_CONSISTENCY_WARNING_THRESHOLD,
+} from "@/lib/generation-limits";
 
 export default function SubjectPicker({
   roster,
@@ -10,6 +13,7 @@ export default function SubjectPicker({
   onSelectAll,
   onClear,
   maxSubjects = MAX_SHOT_SUBJECTS,
+  consistencyWarningThreshold = SHOT_SUBJECT_CONSISTENCY_WARNING_THRESHOLD,
 }: {
   roster: RosterMember[];
   selectedIds: Set<string>;
@@ -17,17 +21,19 @@ export default function SubjectPicker({
   onSelectAll: () => void;
   onClear: () => void;
   maxSubjects?: number | null;
+  consistencyWarningThreshold?: number;
 }) {
   if (roster.length === 0) return null;
 
-  const selectedWithRef = roster.filter((m) => selectedIds.has(m.id) && m.hasReference).length;
   const selectedCount = selectedIds.size;
-  const invalid = selectedWithRef === 0;
-  const cappedRoster = maxSubjects ? roster.slice(0, maxSubjects) : roster;
+  const hasSelectedReference = roster.some((m) => selectedIds.has(m.id) && m.hasReference);
+  const invalid = !hasSelectedReference;
   const maxSelectable = maxSubjects ? Math.min(roster.length, maxSubjects) : roster.length;
   const allSelected =
-    selectedIds.size === maxSelectable && cappedRoster.every((m) => selectedIds.has(m.id));
+    selectedCount === maxSelectable &&
+    roster.every((m, index) => (maxSubjects && index >= maxSubjects) || selectedIds.has(m.id));
   const atLimit = maxSubjects ? selectedIds.size >= maxSubjects : false;
+  const showConsistencyWarning = selectedCount > consistencyWarningThreshold;
 
   return (
     <div>
@@ -118,6 +124,13 @@ export default function SubjectPicker({
       {invalid && (
         <p className="mt-3 rounded-[var(--radius-sm)] bg-[color:var(--color-coral-soft)] px-3 py-2 text-center text-xs text-[color:var(--color-coral-deep)]">
           Select at least one person or pet with a reference photo to start the shoot.
+        </p>
+      )}
+      {!invalid && showConsistencyWarning && (
+        <p className="mt-3 rounded-[var(--radius-sm)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-3 py-2 text-center text-xs text-[color:var(--color-ink-muted)]">
+          We&apos;ve noticed shoots with more than {consistencyWarningThreshold} people can be a little
+          less consistent. You can still include them, but smaller groups usually look more
+          reliable.
         </p>
       )}
       {!invalid && atLimit && maxSubjects && roster.length > maxSubjects && (
