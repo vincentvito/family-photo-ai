@@ -128,8 +128,8 @@ export default function SubjectPicker({
       )}
       {!invalid && showConsistencyWarning && (
         <p className="mt-3 rounded-[var(--radius-sm)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-3 py-2 text-center text-xs text-[color:var(--color-ink-muted)]">
-          We&apos;ve noticed shoots with more than {consistencyWarningThreshold} people can be a little
-          less consistent. You can still include them, but smaller groups usually look more
+          We&apos;ve noticed shoots with more than {consistencyWarningThreshold} people can be a
+          little less consistent. You can still include them, but smaller groups usually look more
           reliable.
         </p>
       )}

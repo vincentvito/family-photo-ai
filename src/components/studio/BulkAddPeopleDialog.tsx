@@ -118,7 +118,10 @@ export default function BulkAddPeopleDialog({
     setDrafts((current) => [...current, ...nextFiles.map(createDraft)]);
   };
 
-  const updateDraft = (id: string, patch: Partial<Pick<PersonDraft, "name" | "role" | "notes">>) => {
+  const updateDraft = (
+    id: string,
+    patch: Partial<Pick<PersonDraft, "name" | "role" | "notes">>,
+  ) => {
     setDrafts((current) =>
       current.map((draft) =>
         draft.id === id ? { ...draft, ...patch, error: null, status: "idle" } : draft,
@@ -277,9 +280,7 @@ export default function BulkAddPeopleDialog({
                       <span className="dot dot-coral" />
                       Bulk roster
                     </span>
-                    <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">
-                      Add up to 10 people
-                    </h2>
+                    <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Add up to 10 people</h2>
                   </div>
                   <button
                     onClick={close}
@@ -373,7 +374,9 @@ export default function BulkAddPeopleDialog({
                             value={draft.name}
                             maxLength={ROSTER_NAME_MAX_LENGTH}
                             disabled={pending || draft.status === "done"}
-                            onChange={(event) => updateDraft(draft.id, { name: event.target.value })}
+                            onChange={(event) =>
+                              updateDraft(draft.id, { name: event.target.value })
+                            }
                             placeholder={`Person ${index + 1}`}
                             className="mt-1 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-3 py-2 outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-70"
                           />
@@ -447,10 +450,20 @@ export default function BulkAddPeopleDialog({
                     : "Review names before adding them to the roster."}
                 </p>
                 <div className="flex items-center justify-end gap-3">
-                  <button type="button" onClick={close} disabled={pending} className="btn btn-ghost btn-sm">
+                  <button
+                    type="button"
+                    onClick={close}
+                    disabled={pending}
+                    className="btn btn-ghost btn-sm"
+                  >
                     Cancel
                   </button>
-                  <button type="button" onClick={saveAll} disabled={!canSave} className="btn btn-coral">
+                  <button
+                    type="button"
+                    onClick={saveAll}
+                    disabled={!canSave}
+                    className="btn btn-coral"
+                  >
                     {pending ? "Adding..." : "Add people"}
                   </button>
                 </div>
