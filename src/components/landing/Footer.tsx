@@ -110,7 +110,6 @@ export default function Footer() {
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">
           © {new Date().getFullYear()} Family Photoshoot. Made with care for families.
         </p>
-        <p className="text-xs text-[color:rgba(251,248,243,0.5)]">A paid-only family studio.</p>
       </div>
     </footer>
   );
