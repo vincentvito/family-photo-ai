@@ -90,12 +90,7 @@ export default function Hero() {
             AI family photo generator
           </span>
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
-            Family photos
-            <br />
-            you&apos;ll <em className="serif-italic text-[color:var(--color-coral)]">
-              actually
-            </em>{" "}
-            print.
+            Turn your phone pics into professional photo shoots.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
             Scattered iPhone photos in, one frame-worthy family portrait out. Upload separate photos
