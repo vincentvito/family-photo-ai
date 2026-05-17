@@ -6,10 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const customerFaces = [
-  "/samples/before-1.jpg",
-  "/samples/before-2.jpg",
-  "/samples/before-3.jpg",
-  "/samples/after-1.jpg",
+  "/avatars/hero-customer-1.webp",
+  "/avatars/hero-customer-2.webp",
+  "/avatars/hero-customer-3.webp",
+  "/avatars/hero-customer-4.webp",
 ];
 
 function Polaroid({
