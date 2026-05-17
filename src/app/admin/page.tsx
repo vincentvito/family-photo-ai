@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { getCurrentUser } from "@/lib/auth-helpers";
 import {
   getCreditGrantStats,
   getCustomVibeSamples,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/admin-queries";
 import DefaultModelPicker from "./DefaultModelPicker";
 import CreditGrantForm from "./CreditGrantForm";
+import UserAdminRoleButton from "./UserAdminRoleButton";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +26,7 @@ const ADMIN_TABS = [
   { id: "content", label: "Content", description: "Themes and recent photoshoots." },
   { id: "users", label: "Users", description: "Recent signups." },
 ] as const;
+const ROLE_MANAGER_EMAILS = new Set(["vlad.palacio@gmail.com"]);
 
 type AdminTab = (typeof ADMIN_TABS)[number]["id"];
 
@@ -60,7 +63,7 @@ function resolveTab(value: string | undefined): AdminTab {
 export default async function AdminOverviewPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ tab?: string; page?: string }>;
+  searchParams?: Promise<{ tab?: string; page?: string; q?: string }>;
 }) {
   const params = await searchParams;
   const activeTab = resolveTab(params?.tab);
@@ -78,7 +81,7 @@ export default async function AdminOverviewPage({
       {activeTab === "previews" && <PreviewsTab />}
       {activeTab === "billing" && <BillingTab />}
       {activeTab === "content" && <ContentTab />}
-      {activeTab === "users" && <UsersTab pageParam={params?.page} />}
+      {activeTab === "users" && <UsersTab pageParam={params?.page} queryParam={params?.q} />}
     </div>
   );
 }
@@ -260,13 +263,43 @@ function ContentTab() {
   );
 }
 
-function UsersTab({ pageParam }: { pageParam?: string }) {
+async function UsersTab({ pageParam, queryParam }: { pageParam?: string; queryParam?: string }) {
   const page = Math.max(1, Number(pageParam ?? 1) || 1);
+  const currentUser = await getCurrentUser();
+  const query = (queryParam ?? "").trim();
+  const canManageRoles = ROLE_MANAGER_EMAILS.has(currentUser?.email?.toLowerCase() ?? "");
   return (
     <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
       <h2 className="serif text-xl tracking-[-0.02em]">Users</h2>
+      <form action="/admin" className="mt-4 flex flex-col gap-3 sm:flex-row">
+        <input type="hidden" name="tab" value="users" />
+        <label className="sr-only" htmlFor="admin-user-search">
+          Search users
+        </label>
+        <input
+          id="admin-user-search"
+          name="q"
+          type="search"
+          defaultValue={query}
+          placeholder="Search by email or name"
+          className="min-w-0 flex-1 rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-2.5 text-sm outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)]"
+        />
+        <button type="submit" className="btn btn-coral btn-sm">
+          Search
+        </button>
+        {query && (
+          <Link href="/admin?tab=users" className="btn btn-ghost btn-sm">
+            Clear
+          </Link>
+        )}
+      </form>
       <Suspense fallback={<ListSkeleton />}>
-        <UsersList page={page} />
+        <UsersList
+          page={page}
+          query={query}
+          currentUserId={currentUser?.id ?? null}
+          canManageRoles={canManageRoles}
+        />
       </Suspense>
     </section>
   );
@@ -632,10 +665,21 @@ async function CreditGrantsList() {
   );
 }
 
-async function UsersList({ page }: { page: number }) {
-  const result = await getUsersPage(page, 20);
+async function UsersList({
+  page,
+  query,
+  currentUserId,
+  canManageRoles,
+}: {
+  page: number;
+  query: string;
+  currentUserId: string | null;
+  canManageRoles: boolean;
+}) {
+  const result = await getUsersPage(page, 20, query);
   const previousPage = Math.max(1, result.page - 1);
   const nextPage = Math.min(result.totalPages, result.page + 1);
+  const queryPart = query ? `&q=${encodeURIComponent(query)}` : "";
 
   return (
     <div className="mt-4">
@@ -650,29 +694,46 @@ async function UsersList({ page }: { page: number }) {
 
       <ul className="mt-4 divide-y divide-[color:var(--color-line)]">
         {result.users.length === 0 && (
-          <li className="py-3 text-sm text-[color:var(--color-ink-muted)]">No users yet.</li>
+          <li className="py-3 text-sm text-[color:var(--color-ink-muted)]">
+            {query ? "No users match that search." : "No users yet."}
+          </li>
         )}
-        {result.users.map((u) => (
-          <li key={u.id} className="flex items-center justify-between gap-4 py-3">
-            <div className="min-w-0">
-              <div className="truncate text-sm font-medium">{u.email}</div>
-              <div className="text-xs text-[color:var(--color-ink-muted)]">
-                {u.name || "-"}
-                {u.role?.toLowerCase() === "admin" && (
-                  <span className="ml-2 chip chip-coral">admin</span>
+        {result.users.map((u) => {
+          const userIsAdmin = Boolean(
+            u.role
+              ?.split(",")
+              .map((role) => role.trim().toLowerCase())
+              .includes("admin"),
+          );
+          return (
+            <li key={u.id} className="flex items-center justify-between gap-4 py-3">
+              <div className="min-w-0">
+                <div className="truncate text-sm font-medium">{u.email}</div>
+                <div className="text-xs text-[color:var(--color-ink-muted)]">
+                  {u.name || "-"}
+                  {userIsAdmin && <span className="ml-2 chip chip-coral">admin</span>}
+                  {u.id === currentUserId && <span className="ml-2 chip chip-ghost">you</span>}
+                </div>
+              </div>
+              <div className="flex shrink-0 items-center gap-3">
+                <span className="hidden text-xs text-[color:var(--color-ink-faint)] sm:inline">
+                  {formatRelative(u.createdAt)}
+                </span>
+                {canManageRoles && u.id !== currentUserId && (
+                  <UserAdminRoleButton userId={u.id} email={u.email} isAdmin={userIsAdmin} />
                 )}
               </div>
-            </div>
-            <span className="text-xs text-[color:var(--color-ink-faint)]">
-              {formatRelative(u.createdAt)}
-            </span>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         {result.page > 1 ? (
-          <Link href={`/admin?tab=users&page=${previousPage}`} className="btn btn-ghost btn-sm">
+          <Link
+            href={`/admin?tab=users&page=${previousPage}${queryPart}`}
+            className="btn btn-ghost btn-sm"
+          >
             Previous
           </Link>
         ) : (
@@ -684,7 +745,10 @@ async function UsersList({ page }: { page: number }) {
           </span>
         )}
         {result.page < result.totalPages ? (
-          <Link href={`/admin?tab=users&page=${nextPage}`} className="btn btn-ghost btn-sm">
+          <Link
+            href={`/admin?tab=users&page=${nextPage}${queryPart}`}
+            className="btn btn-ghost btn-sm"
+          >
             Next
           </Link>
         ) : (

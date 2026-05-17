@@ -348,30 +348,47 @@ export async function getRecentSignups(limit = 10) {
     .limit(limit);
 }
 
-export async function getUsersPage(page = 1, pageSize = 20) {
+export async function getUsersPage(page = 1, pageSize = 20, search = "") {
   const safePage = Math.max(1, Math.floor(page));
   const safePageSize = Math.min(100, Math.max(1, Math.floor(pageSize)));
+  const q = search.trim().toLowerCase();
+  const searchWhere = q
+    ? sql`lower(${userTable.email}) like ${`%${q}%`} or lower(${userTable.name}) like ${`%${q}%`}`
+    : undefined;
 
-  const [{ count: totalUsers }] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(userTable);
+  const countQuery = db.select({ count: sql<number>`count(*)::int` }).from(userTable);
+  const [{ count: totalUsers }] = searchWhere ? await countQuery.where(searchWhere) : await countQuery;
 
   const total = Number(totalUsers ?? 0);
   const totalPages = Math.max(1, Math.ceil(total / safePageSize));
   const clampedPage = Math.min(safePage, totalPages);
   const offset = (clampedPage - 1) * safePageSize;
-  const users = await db
-    .select({
-      id: userTable.id,
-      email: userTable.email,
-      name: userTable.name,
-      role: userTable.role,
-      createdAt: userTable.createdAt,
-    })
-    .from(userTable)
-    .orderBy(desc(userTable.createdAt))
-    .limit(safePageSize)
-    .offset(offset);
+  const users = searchWhere
+    ? await db
+        .select({
+          id: userTable.id,
+          email: userTable.email,
+          name: userTable.name,
+          role: userTable.role,
+          createdAt: userTable.createdAt,
+        })
+        .from(userTable)
+        .where(searchWhere)
+        .orderBy(desc(userTable.createdAt))
+        .limit(safePageSize)
+        .offset(offset)
+    : await db
+        .select({
+          id: userTable.id,
+          email: userTable.email,
+          name: userTable.name,
+          role: userTable.role,
+          createdAt: userTable.createdAt,
+        })
+        .from(userTable)
+        .orderBy(desc(userTable.createdAt))
+        .limit(safePageSize)
+        .offset(offset);
 
   return {
     users,
