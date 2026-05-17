@@ -19,6 +19,12 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const needsCredits =
+      message === "Your free preview is one-time. Add credits before starting another one." ||
+      message === "Buy a photo pack before starting a shoot.";
+    return NextResponse.json(
+      { error: message, needsCredits },
+      { status: needsCredits ? 402 : 500 },
+    );
   }
 }
