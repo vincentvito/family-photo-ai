@@ -2,7 +2,15 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import ParallaxStack from "@/components/motion/ParallaxStack";
+import Image from "next/image";
 import Link from "next/link";
+
+const customerFaces = [
+  "/samples/before-1.jpg",
+  "/samples/before-2.jpg",
+  "/samples/before-3.jpg",
+  "/samples/after-1.jpg",
+];
 
 function Polaroid({
   src,
@@ -115,12 +123,20 @@ export default function Hero() {
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)]">
             <div className="flex -space-x-2" aria-hidden>
-              {["#F26B4A", "#8AAE9B", "#FFD27A", "#4A3557"].map((c, i) => (
+              {customerFaces.map((src, i) => (
                 <span
-                  key={i}
-                  className="inline-block h-7 w-7 rounded-full border-2 border-[color:var(--color-bg)]"
-                  style={{ background: c }}
-                />
+                  key={src}
+                  className="relative inline-block h-7 w-7 overflow-hidden rounded-full border-2 border-[color:var(--color-bg)] bg-[color:var(--color-bg-soft)]"
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="28px"
+                    className="object-cover"
+                    priority={i === 0}
+                  />
+                </span>
               ))}
             </div>
             <span>5,000+ happy customers</span>
