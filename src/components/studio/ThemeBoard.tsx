@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Theme } from "@/lib/themes";
@@ -8,7 +9,6 @@ import type { AspectRatio } from "@/lib/providers/types";
 import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import CreditPackChooser from "@/components/billing/CreditPackChooser";
 import SubjectPicker from "./SubjectPicker";
 import CardArtStylePicker from "./CardArtStylePicker";
 import {
@@ -30,6 +30,11 @@ type OutputMode = "photoshoot" | "card";
 const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
 const ADD_CREDITS_MESSAGE =
   "Your free preview is one-time. Add credits before starting another one.";
+const BUY_PACK_MESSAGE = "Buy a photo pack before starting a shoot.";
+const CreditPurchaseDialog = dynamic(
+  () => import("@/components/billing/CreditPurchaseDialog"),
+  { ssr: false },
+);
 
 export type RosterMember = {
   id: string;
@@ -101,6 +106,9 @@ export default function ThemeBoard({
 
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [creditDialogOpen, setCreditDialogOpen] = useState(
+    () => creditBalance <= 0 && !canStartFreePreview,
+  );
   const [cardsExpanded, setCardsExpanded] = useState(false);
   const [mode, setMode] = useState<"curated" | "custom">("curated");
   const [pendingShoot, setPendingShoot] = useState<
@@ -165,6 +173,21 @@ export default function ThemeBoard({
   const hasCredits = creditBalance > 0;
   const canCreateShoot = hasCredits || canStartFreePreview;
   const disabledLabel = canStartFreePreview ? "Free preview" : "Add credits first";
+  const outOfCredits = !hasCredits && !canStartFreePreview;
+
+  const openCreditDialog = () => {
+    setError(null);
+    setCreditDialogOpen(true);
+  };
+
+  const handleStartError = (fallback: string) => (e: unknown) => {
+    const message = e instanceof Error ? e.message : fallback;
+    if (isCreditError(message)) {
+      openCreditDialog();
+      return;
+    }
+    setError(message);
+  };
 
   const pickFile = (file: File) => {
     setLocationFile(file);
@@ -181,7 +204,7 @@ export default function ThemeBoard({
 
   const launch = (theme: Theme) => {
     if (!canCreateShoot) {
-      setError(ADD_CREDITS_MESSAGE);
+      openCreditDialog();
       return;
     }
     setError(null);
@@ -204,7 +227,7 @@ export default function ThemeBoard({
       return;
     }
     if (!canCreateShoot) {
-      setError(ADD_CREDITS_MESSAGE);
+      openCreditDialog();
       return;
     }
     setError(null);
@@ -241,7 +264,7 @@ export default function ThemeBoard({
           });
           router.push(`/studio/generate/${generationId}`);
         } catch (e) {
-          setError(e instanceof Error ? e.message : "Couldn't start the shoot.");
+          handleStartError("Couldn't start the shoot.")(e);
           setActiveTheme(null);
         }
       });
@@ -269,7 +292,7 @@ export default function ThemeBoard({
         });
         router.push(`/studio/generate/${generationId}`);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Couldn't start the shoot.");
+        handleStartError("Couldn't start the shoot.")(e);
         setLaunchingCustom(false);
       }
     });
@@ -278,7 +301,7 @@ export default function ThemeBoard({
   const beginCardShoot = () => {
     if (!selectedCardTheme) return;
     if (!canCreateShoot) {
-      setError(ADD_CREDITS_MESSAGE);
+      openCreditDialog();
       return;
     }
     if (roster.length > 0 && !selectedHasReference) {
@@ -308,7 +331,7 @@ export default function ThemeBoard({
         });
         router.push(`/studio/generate/${generationId}`);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Couldn't start the card.");
+        handleStartError("Couldn't start the card.")(e);
         setActiveTheme(null);
       }
     });
@@ -404,14 +427,20 @@ export default function ThemeBoard({
         </section>
       )}
 
-      {!hasCredits && !canStartFreePreview && (
-        <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 shadow-[var(--shadow-md)] sm:p-8">
-          <CreditPackChooser
-            title="Add credits to keep creating."
-            description="Pick a credit pack first. After checkout, come back here and choose the vibe for your next photoshoot."
-            isProSubscriber={isProSubscriber}
-            currentPeriodEnd={subscriptionRenewalDate}
-          />
+      {outOfCredits && (
+        <section className="mt-10 flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-5 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div>
+            <span className="chip chip-coral !bg-white/70">
+              <span className="dot dot-coral" />
+              Out of credits
+            </span>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              Add a pack before your next photoshoot. You can review the prices any time.
+            </p>
+          </div>
+          <button type="button" onClick={openCreditDialog} className="btn btn-coral btn-sm">
+            View packs
+          </button>
         </section>
       )}
 
@@ -565,8 +594,9 @@ export default function ThemeBoard({
                   sublabel="Real light, real rooms"
                   chipColor="sage"
                   themes={photoreal}
-                  pending={pending || !canCreateShoot}
+                  pending={pending}
                   disabledLabel={!canCreateShoot ? disabledLabel : undefined}
+                  actionLabel={!canCreateShoot ? disabledLabel : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -576,8 +606,9 @@ export default function ThemeBoard({
                   sublabel="Illustration & cinema"
                   chipColor="plum"
                   themes={stylized}
-                  pending={pending || !canCreateShoot}
+                  pending={pending}
                   disabledLabel={!canCreateShoot ? disabledLabel : undefined}
+                  actionLabel={!canCreateShoot ? disabledLabel : undefined}
                   activeId={activeTheme?.id ?? null}
                   onPick={launch}
                 />
@@ -675,11 +706,7 @@ export default function ThemeBoard({
                         <button
                           type="button"
                           onClick={beginCardShoot}
-                          disabled={
-                            pending ||
-                            !canCreateShoot ||
-                            (roster.length > 0 && !selectedHasReference)
-                          }
+                          disabled={pending || (roster.length > 0 && !selectedHasReference)}
                           className={`btn btn-lg ${
                             canCreateShoot && selectedHasReference ? "btn-coral" : "btn-ghost"
                           }`}
@@ -733,8 +760,9 @@ export default function ThemeBoard({
                       <ThemeCard
                         key={t.id}
                         theme={t}
-                        disabled={pending || !canCreateShoot}
+                        disabled={pending}
                         disabledLabel={!canCreateShoot ? disabledLabel : undefined}
+                        actionLabel={!canCreateShoot ? disabledLabel : undefined}
                         loading={activeTheme?.id === t.id && pending}
                         onPick={() => launch(t)}
                       />
@@ -755,8 +783,9 @@ export default function ThemeBoard({
                           >
                             <ThemeCard
                               theme={t}
-                              disabled={pending || !canCreateShoot}
+                              disabled={pending}
                               disabledLabel={!canCreateShoot ? disabledLabel : undefined}
+                              actionLabel={!canCreateShoot ? disabledLabel : undefined}
                               loading={activeTheme?.id === t.id && pending}
                               onPick={() => launch(t)}
                             />
@@ -926,7 +955,7 @@ export default function ThemeBoard({
               <div className="mt-8 flex items-center justify-end">
                 <button
                   onClick={launchCustom}
-                  disabled={pending || customDescription.trim().length < 4 || !canCreateShoot}
+                  disabled={pending || customDescription.trim().length < 4}
                   className={`btn btn-lg ${canCreateShoot ? "btn-coral" : "btn-ghost"}`}
                 >
                   {!canCreateShoot
@@ -1024,6 +1053,17 @@ export default function ThemeBoard({
           />
         )}
       </ConfirmDialog>
+
+      <CreditPurchaseDialog
+        open={creditDialogOpen}
+        isProSubscriber={isProSubscriber}
+        currentPeriodEnd={subscriptionRenewalDate}
+        onClose={() => setCreditDialogOpen(false)}
+      />
     </>
   );
+}
+
+function isCreditError(message: string) {
+  return message === ADD_CREDITS_MESSAGE || message === BUY_PACK_MESSAGE;
 }

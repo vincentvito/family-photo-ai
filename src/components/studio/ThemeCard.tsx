@@ -9,12 +9,14 @@ export default function ThemeCard({
   loading,
   onPick,
   disabledLabel = "Add credits first",
+  actionLabel,
 }: {
   theme: Theme;
   disabled: boolean;
   loading: boolean;
   onPick: () => void;
   disabledLabel?: string;
+  actionLabel?: string;
 }) {
   return (
     <motion.button
@@ -60,7 +62,7 @@ export default function ThemeCard({
           }`}
         >
           <span className="chip chip-coral shadow-[var(--shadow-md)]">
-            {disabled ? disabledLabel : "Try this vibe"}
+            {disabled ? disabledLabel : (actionLabel ?? "Try this vibe")}
             <svg
               className="h-3 w-3"
               viewBox="0 0 24 24"

@@ -100,9 +100,7 @@ function buildRosterDirective(subjects: Subject[]): string {
   const adults = subjects.filter((subject) => subject.role === "adult");
   const kids = subjects.filter((subject) => subject.role === "child");
   const pets = subjects.filter((subject) => subject.role === "pet");
-  const adultRule = countSubjects(adults, "adult", "adults");
-  const childRule = countSubjects(kids, "child", "children");
-  const petRule = pets.length === 0 ? "no pets" : describePets(pets);
+  const castRule = buildCastRule({ adults, kids, pets });
   const identityRule = describeRosterIdentities(subjects);
   const backgroundRule =
     pets.length === 0
@@ -110,21 +108,46 @@ function buildRosterDirective(subjects: Subject[]): string {
       : "Keep the background free of extra people, duplicate faces, posters, reflections and unselected animals.";
 
   return [
-    `Cast rule: show only the selected cast: ${adultRule}; ${childRule}; ${petRule}.`,
+    `Cast rule: show only the selected cast: ${castRule}.`,
+    `Total living subjects in the image must be exactly ${subjects.length}.`,
     identityRule,
     pets.length === 0
       ? "Do not add animals or pets."
-      : "Selected pets must remain animals, not extra adults, children or human subjects.",
+      : "Selected pet references are required cast members and must appear as animals, not as extra adults, children, dolls, statues, mascots or human subjects.",
+    pets.length > 0
+      ? "When shot directions describe human poses, gestures, hands, feet, clothing or regalia, apply those details only to adult and child subjects; place selected pets naturally beside the people, held safely by a person, seated on a cushion, at their feet, or on nearby furniture as the scene allows."
+      : "",
     subjects.length === 1
       ? "If the theme wording implies a group, reinterpret it as one selected subject only."
       : "If the theme wording implies a larger group, reinterpret it as this exact selected cast.",
     backgroundRule,
-  ].join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function buildCastRule({
+  adults,
+  kids,
+  pets,
+}: {
+  adults: Subject[];
+  kids: Subject[];
+  pets: Subject[];
+}): string {
+  const parts: string[] = [];
+  if (adults.length) parts.push(countSubjects(adults, "adult", "adults"));
+  if (kids.length) parts.push(countSubjects(kids, "child", "children"));
+  if (pets.length) {
+    parts.push(describePets(pets));
+  } else {
+    parts.push("no pets");
+  }
+  return parts.join("; ");
 }
 
 function countSubjects(subjects: Subject[], singular: string, plural: string): string {
-  const label = subjects.length === 1 ? singular : plural;
-  return `${subjects.length} ${label}`;
+  return `${subjects.length} ${subjects.length === 1 ? singular : plural}`;
 }
 
 function countPhrase(n: number, singular: string, plural?: string): string {
@@ -147,16 +170,39 @@ function describePets(pets: Subject[]): string {
 }
 
 function describeRosterIdentities(subjects: Subject[]): string {
-  if (subjects.length === 0) return "Roster identities: none.";
+  if (subjects.length === 0) return "Reference identity map: none.";
+
+  let referenceIndex = 1;
+  const roleCounts: Record<Subject["role"], number> = {
+    adult: 0,
+    child: 0,
+    pet: 0,
+  };
 
   const identities = subjects.map((subject) => {
-    if (subject.role === "pet") {
-      return `${subject.name} is a ${petLabel(subject)}`;
-    }
-    return `${subject.name} is ${articleFor(subject.role)} ${subject.role}`;
+    roleCounts[subject.role] += 1;
+    const stableLabel =
+      subject.role === "pet"
+        ? `${petLabel(subject)} ${roleCounts.pet}`
+        : `${subject.role} ${roleCounts[subject.role]}`;
+    const references = subject.referencePaths.length;
+    const firstReferenceIndex = referenceIndex;
+    const referenceLabel =
+      references > 0
+        ? references === 1
+          ? `reference image ${firstReferenceIndex}`
+          : `reference images ${firstReferenceIndex}-${firstReferenceIndex + references - 1}`
+        : "no reference image";
+
+    referenceIndex += references;
+
+    return `${referenceLabel} is ${stableLabel}`;
   });
 
-  return `Roster identities: ${joinWithAnd(identities)}.`;
+  return [
+    `Reference identity map: ${joinWithAnd(identities)}.`,
+    "Treat each mapped reference as one distinct selected subject; do not use names or file names as visible identity cues, and do not merge, rename, duplicate or replace subjects.",
+  ].join(" ");
 }
 
 function petLabel(subject: Subject): string {
@@ -164,10 +210,6 @@ function petLabel(subject: Subject): string {
   if (/\b(cat|kitten|kitty|feline)\b/u.test(source)) return "cat";
   if (/\b(dog|puppy|pup|canine)\b/u.test(source)) return "dog";
   return "pet";
-}
-
-function articleFor(word: string): "a" | "an" {
-  return /^[aeiou]/iu.test(word) ? "an" : "a";
 }
 
 function joinWithAnd(parts: string[]): string {

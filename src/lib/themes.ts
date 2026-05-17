@@ -3,23 +3,39 @@ import type { AspectRatio } from "./providers/types";
 export type ThemeCategory = "photoreal" | "stylized" | "card";
 
 /**
- * Structured prompt spec mapped 1:1 to the Nano Banana art-director framework:
- *   [Asset Type & Aspect Ratio] + [Subject & Action] + [Location/Setting]
- *   + [Camera/Composition] + [Lighting/Mood] + [Style/Aesthetic]
- * Explicit text (part 7) is only used for cards and is composed separately.
+ * Structured prompt spec. The composer in `src/lib/prompts.ts` weaves these
+ * fields, plus `theme.name` and `theme.blurb`, into the final prompt.
+ *
+ * CONVENTION — read this before adding a new theme:
+ *
+ * - Each field below describes ONLY its own aspect (medium, optics, light,
+ *   aesthetic). Do NOT describe the roster here: no counts ("up to five
+ *   family members"), no pet mentions ("optionally with one dog"), no
+ *   "uploaded" wording. The roster (people + pets + counts + identities)
+ *   is generated dynamically by `buildRosterDirective` in prompts.ts from
+ *   whatever the user selected, and is appended to every prompt.
+ *
+ * - Card themes that need a greeting set `acceptsCardText: true` on the
+ *   Theme; the text is rendered by `buildCardTextDirective` and does not
+ *   belong in any spec field.
+ *
+ * - The composer rewrites occurrences of "family"/"everyone" inside these
+ *   fields to "selected cast". Either word is fine; prefer "family" in
+ *   prose since it reads naturally.
+ *
+ * - If you write a roster detail into a spec field anyway it will fight
+ *   the dynamic roster directive and the model may add or substitute
+ *   subjects (e.g. swap a cat for a person to match hardcoded "five
+ *   family members" wording). Don't.
  */
 export type PromptSpec = {
-  /** Part 1. Medium + aspect ratio as a single crisp handle. */
+  /** Medium + aspect ratio as a single crisp handle. e.g. "A 3:2 cinematic color photograph". */
   assetType: string;
-  /** Part 2. What the family is DOING (identity comes from references). */
-  subjectAction: string;
-  /** Part 3. Physical environment + environmental detail. */
-  location: string;
-  /** Part 4. Camera, lens, angle, framing. For non-photo themes: viewpoint / engine. */
+  /** Camera, lens, angle, framing. For non-photo themes: viewpoint / engine. No roster references. */
   camera: string;
-  /** Part 5. Direction + quality of light + mood. */
+  /** Direction + quality of light + mood. No roster references. */
   lighting: string;
-  /** Part 6. Film stock / rendering engine / texture / palette. */
+  /** Film stock / rendering engine / texture / palette. No roster references. */
   style: string;
 };
 
@@ -58,10 +74,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 cinematic color photograph",
-      subjectAction:
-        "gathered close, mid-laugh or walking barefoot toward the tide, in warm linen and neutral tones, at ease with each other",
-      location:
-        "an open Atlantic-style coastal beach at summer's end, tide retreating over wet sand, low dunes and sea oats behind, horizon on the lower third",
       camera:
         "Hasselblad medium format with an 80mm f/2.8 lens, medium-wide eye-level framing, subjects slightly off-center left",
       lighting:
@@ -82,10 +94,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 warm documentary color photograph",
-      subjectAction:
-        "gathered on and around the porch steps with steaming mugs, sharing a quiet laugh, breath faintly visible in the cool air, in chunky cable knits, wool coats and leather boots",
-      location:
-        "the weathered-cedar porch of a small cabin on a crisp October morning, amber and rust foliage filling the background, a stone step dusted with fallen leaves",
       camera:
         "Leica M6 on 35mm, 35mm Summilux f/2.0, natural medium framing just above eye-level, mild rule-of-thirds composition",
       lighting:
@@ -106,10 +114,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 candid documentary color photograph",
-      subjectAction:
-        "scattered through the kitchen, each doing something small — kneading dough, pouring coffee, passing fruit, a child peeking up from the counter — no posing, no eye contact with the camera",
-      location:
-        "a bright, plant-filled kitchen on a Sunday morning, pale-wood island, stoneware bowls, a linen runner, flour dust hanging in a sunbeam",
       camera:
         "Fuji GFX medium format, 63mm f/2.8, waist-level documentary framing, loose rule-of-thirds with negative space toward a window",
       lighting:
@@ -131,10 +135,6 @@ export const THEMES: Theme[] = [
     spec: {
       assetType:
         "A 1:1 square vintage instant-film snapshot with a distinctive thick white paper border on the bottom",
-      subjectAction:
-        "squeezed close on a living-room couch for a snapshot, imperfect expressions, one person blinking, one candid bit of motion — captured in a single Polaroid frame",
-      location:
-        "a late-1970s home interior with period-correct wood paneling, earthtone carpet, a macramé wall hanging and a pendant lamp",
       camera:
         "SX-70 Polaroid camera, fixed normal lens at arm's length, straight-on composition, gentle lens imperfections and corner falloff",
       lighting:
@@ -155,10 +155,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 editorial magazine studio portrait",
-      subjectAction:
-        "arranged in a deliberate painterly grouping, tailored and unified, one subject caught in a quieter unscripted glance that anchors the frame",
-      location:
-        "a high-ceiling studio set with a hand-painted canvas Old-Master backdrop in deep umber and muted teal, polished stone floor",
       camera:
         "Hasselblad H6D-100c, 100mm f/2.8 lens, waist-up framing, classical triangular composition, shallow depth of field",
       lighting:
@@ -179,10 +175,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 cinematic film still at a 1.85:1 aspect",
-      subjectAction:
-        "dead-center in the frame, facing camera with flat deadpan expressions, frozen mid-moment with precise theatrical stillness",
-      location:
-        "a storybook dollhouse-styled interior with ornate pastel wallpaper, wainscoting, a patterned rug centered to the frame, symmetric decor on both walls",
       camera:
         "Arri Alexa 35 with vintage Cooke S4 50mm prime, perfectly centered head-on composition, 1.85:1 flat crop",
       lighting:
@@ -202,10 +194,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 documentary expedition photograph",
-      subjectAction:
-        "paused together on the ridge, looking out toward the valley, one subject adjusting a pack strap, in earth-tone technical outerwear, weathered and genuinely present",
-      location:
-        "a windswept alpine ridge at dawn, layered mountain silhouettes receding into distance, patches of low mist, scree and tundra underfoot",
       camera:
         "Nikon Z9 with 24-70mm f/2.8, 35mm field of view, low three-quarter angle, subjects placed on the right third with the valley opening to the left",
       lighting:
@@ -225,10 +213,6 @@ export const THEMES: Theme[] = [
     supportsPets: false,
     spec: {
       assetType: "A 2:3 high-contrast black-and-white film photograph",
-      subjectAction:
-        "arranged in a close elegant noir vignette, one subject holding a sealed letter or small case file, another glancing over a shoulder, 1940s tailoring and silk, held in thoughtful mystery with protective warmth",
-      location:
-        "a dim 1940s office interior with a wooden venetian blind casting hard stripes across the scene, heavy wood desk, brass lamp, dust motes in bright window beams, framed family photos and tidy papers",
       camera:
         "Leica Monochrom with a 35mm Summilux f/1.4, three-quarter composition, low-key shadows dominating two thirds of the frame",
       lighting:
@@ -248,10 +232,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 candid tender color photograph",
-      subjectAction:
-        "clustered on the floor and couch in mismatched flannel pajamas, holding mugs of cocoa, mid-laugh over a just-opened present, loose wrapping paper sliding into the frame",
-      location:
-        "a lived-in living room on Christmas morning, a decorated tree glowing with warm string lights behind, scattered ribbon and paper on the rug, a stocking on the mantel",
       camera:
         "Leica Q2 with its built-in 28mm Summilux f/1.7, low seated-level framing, loose composition with the tree and lights on the right third",
       lighting:
@@ -272,10 +252,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 editorial documentary photograph",
-      subjectAction:
-        "gathered around a stone table with a glass carafe of water and a handful of sliced peaches, one subject pouring, another leaning on the terrace wall, in linen and neutral tones",
-      location:
-        "a Tuscan villa terrace overlooking cypress-dotted hills and olive groves at late afternoon, aged limestone walls, terracotta tiles underfoot, a fig tree in a clay pot",
       camera:
         "Contax 645 medium format with an 80mm f/2 Zeiss Planar, chest-level framing, subjects placed left-of-center with the valley opening to the right",
       lighting:
@@ -295,10 +271,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 tender documentary color photograph",
-      subjectAction:
-        "walking slowly along a petal-strewn path, one subject looking up at the branches, another reaching out as a petal lands, in cotton layers and muted neutrals",
-      location:
-        "a traditional Japanese garden in early spring, sakura trees in full bloom arching overhead, stone lanterns and a mossy path, a glimpse of a wooden bridge behind",
       camera:
         "Pentax 67II medium format with a 105mm f/2.4 lens, three-quarter portrait framing, shallow depth compressing the blossom bokeh",
       lighting:
@@ -319,10 +291,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 warm Nordic documentary photograph",
-      subjectAction:
-        "gathered in the lit doorway of the cabin, brushing snow off a shoulder, one subject holding a lantern, breath softly visible in the cold air, in chunky wool cable knits and felt boots",
-      location:
-        "the timber-plank doorway of a small Nordic cabin during an evening snowfall, snow settled on the eaves and ground, glowing windows beside, pines dusted with snow",
       camera:
         "Leica M10 with a 50mm Summilux f/1.4, natural chest-level composition, doorway acting as an internal frame around the family",
       lighting:
@@ -342,10 +310,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 warm Southwest documentary photograph",
-      subjectAction:
-        "standing against a sunlit adobe wall, relaxed and slightly apart, in linen and chambray with one turquoise accent, wind softly lifting a sleeve",
-      location:
-        "a Santa Fe adobe compound at golden hour, earthen walls glowing, cottonwoods silhouetted, red desert dust drifting low, wide Southwest sky above",
       camera:
         "Mamiya 7 medium format with an 80mm f/4, shoulder-level straight-on composition, generous sky in the upper third",
       lighting:
@@ -366,10 +330,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 editorial documentary photograph",
-      subjectAction:
-        "seated around a small round marble café table, one lifting an espresso, another tearing a croissant, unhurried and at ease, in linen and wool in muted neutrals",
-      location:
-        "a narrow cobblestone Paris street in early morning, rattan café chairs on the sidewalk, a painted café awning just out of frame, a bicycle leaned against a stone wall",
       camera:
         "Leica Q2 with its 28mm Summilux f/1.7, slight low angle from across the table, loose composition with the street opening behind",
       lighting:
@@ -390,10 +350,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 editorial documentary city photograph",
-      subjectAction:
-        "walking together on the Brooklyn Bridge pedestrian walkway, one subject holding a paper coffee cup, a child leaning into the group, everyone caught mid-conversation with easy city energy",
-      location:
-        "the Brooklyn Bridge with its stone towers and suspension cables clearly recognizable, the Manhattan skyline and One World Trade Center visible behind, a yellow taxi hinted below in the city background",
       camera:
         "Leica M10 with a 35mm Summilux f/1.4, eye-level walking composition, bridge cables as leading lines, skyline held soft but unmistakable behind the family",
       lighting:
@@ -414,10 +370,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 refined travel-documentary photograph",
-      subjectAction:
-        "walking together along the river, one subject carrying flowers wrapped in kraft paper, a child holding a baguette, the family glancing at each other with quiet delight",
-      location:
-        "the Trocadéro terrace or Champ de Mars in Paris with the Eiffel Tower large, close and clearly visible behind the family, classic limestone and city gardens framing the scene",
       camera:
         "Leica Q2 with its 28mm Summilux f/1.7, waist-level walking composition, gentle motion in coats and scarves, Eiffel Tower filling much of the background while the family remains the focus",
       lighting:
@@ -438,10 +390,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 bright family lifestyle photograph",
-      subjectAction:
-        "seated on a plaid picnic blanket, passing strawberries and lemonade, a child reaching across the blanket mid-laugh, picnic details gathered at the edge",
-      location:
-        "a lived-in suburban backyard in late spring, leafy shade tree overhead, wooden fence, raised garden beds and soft flowers in the background",
       camera:
         "Canon R5 with a 50mm f/1.8 lens, low blanket-level composition, family arranged in a loose circle with food in the foreground",
       lighting:
@@ -462,10 +410,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 cozy documentary interior photograph",
-      subjectAction:
-        "piled comfortably together on a soft sofa with blankets, one subject reading a picture book, children leaning in close, mugs and a small candle on the table nearby",
-      location:
-        "a warm lived-in living room on a rainy Sunday, bookshelf and plants behind, rain droplets on the window, layered throws and soft cushions",
       camera:
         "Fuji GFX medium format with a 63mm f/2.8 lens, close chest-level composition from the coffee table, intimate framing with faces gathered around the book",
       lighting:
@@ -486,10 +430,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 joyful early-fall documentary photograph",
-      subjectAction:
-        "standing between rows of apple trees, one adult lifting a child to pick an apple, another holding a wooden basket, everyone relaxed in flannel, denim and soft knit layers",
-      location:
-        "a family apple orchard in early fall, red apples on branches, leaves just starting to turn, grass path between rows and a soft tree line beyond",
       camera:
         "Nikon Z8 with a 50mm f/1.8 lens, low eye-level composition down the orchard row, subjects on the right third with apples framing the foreground",
       lighting:
@@ -509,10 +449,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 warm summer-evening documentary photograph",
-      subjectAction:
-        "gathered barefoot at the end of a long dock, one subject sitting with feet dangling toward the water, another standing, a golden retriever near the edge, in linen and cotton",
-      location:
-        "a weathered wooden dock stretching out over a still freshwater lake at late evening, reflected pine silhouettes, a rowboat tied at the post, warm horizon glow",
       camera:
         "Contax 645 medium format with 80mm f/2, low eye-level framing along the length of the dock, horizon on the lower third",
       lighting:
@@ -534,10 +470,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 high-society color photograph in the Slim Aarons tradition",
-      subjectAction:
-        "lounging unhurried on white sun loungers around a turquoise pool, one subject mid-stretch reaching for a glass tumbler, another floating on a raft, polished-casual resort wardrobe in cream, white and pop-coral",
-      location:
-        "the deck of a mid-century modern Palm Springs villa, butterfly chairs, a row of date-palms, the San Jacinto mountains hazy in the distance, cobalt sky, an aqua-tiled pool dominating the foreground",
       camera:
         "Pentax 67 medium format with a 105mm f/2.4, slightly elevated three-quarter angle from the deck rail, generous breathing room around subjects",
       lighting:
@@ -558,10 +490,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 amateur snapshot from a single-use disposable camera",
-      subjectAction:
-        "squeezed close in a candid huddle, mid-laugh with imperfect expressions, one subject blinking, another looking off-frame, in early-2000s wardrobe — bootcut jeans, layered tees, juicy-tracksuit casual",
-      location:
-        "a lived-in early-2000s home interior — beige carpet, a CRT television in the background, a refrigerator covered in magnets, framed family photos on the wall",
       camera:
         "Kodak Funsaver disposable camera, fixed 32mm plastic lens at f/9, on-camera bulb flash, arm's-length framing",
       lighting:
@@ -582,10 +510,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 lifestyle editorial photograph",
-      subjectAction:
-        "gathered around a sun-bleached marble island, one pouring iced tea from a glass pitcher, another arranging a hydrangea bouquet, a child perched on a stool with a pastry, all in unhurried casual elegance, in linen and chambray with a cream apron",
-      location:
-        "a Hamptons-style coastal kitchen with white shaker cabinetry, an aged-brass faucet, an open dutch door framing a glimpse of dune grass, a vase of fresh hydrangeas, basket of lemons",
       camera:
         "Leica Q2 with its 28mm Summilux f/1.7, waist-level documentary framing, slight rule-of-thirds bias toward the dutch door",
       lighting:
@@ -606,10 +530,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 sun-drenched editorial photograph",
-      subjectAction:
-        "gathered around a long lunch table on a cliffside terrace, one subject pouring chilled limoncello, another reaching for fresh focaccia, a child on a wrought-iron chair holding a lemon, in white linen with a single lemon-print accent",
-      location:
-        "a Positano-style terrace cut into the cliffside, blue-and-white majolica tile underfoot, terracotta lemon trees along the railing, vibrant cascading bougainvillea, the cobalt Tyrrhenian sea stretching to the horizon",
       camera:
         "Leica M10 with a 50mm Summilux f/1.4, eye-level slightly low angle from the table edge, generous sea opening on the right third",
       lighting:
@@ -630,10 +550,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 vintage Americana road-trip photograph from circa 1976",
-      subjectAction:
-        "piled around a wood-paneled station wagon at a roadside pull-off, one subject leaning against the hood, another on the open tailgate with a thermos, a child with a sticker-covered suitcase, in flared corduroy, gingham, and earth-tone knits",
-      location:
-        "a Route-66-style high-desert pull-off at late afternoon, mesa silhouettes in the distance, a faded gas-station sign, the asphalt shoulder still warm",
       camera:
         "Nikon F2 SLR with a 50mm f/1.4 Nikkor, eye-level three-quarter framing, the wagon angled to lead the eye toward the road",
       lighting:
@@ -655,10 +571,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 formal editorial family portrait",
-      subjectAction:
-        "up to five uploaded family members arranged in a regal portrait, optionally with one uploaded pet seated beside them, wearing tasteful crowns, velvet, brocade, sashes and formal shoes, composed like a royal household portrait without copying any real royal family",
-      location:
-        "an ornate historic palace hall with velvet drapes, carved wood, gilded picture frames, marble floor, antique side tables and a subtle throne-like settee",
       camera:
         "Hasselblad medium format with an 80mm f/2.8 lens, refined editorial portrait perspective, crisp facial detail with gentle palace-background compression",
       lighting:
@@ -679,10 +591,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 cheerful vacation family photograph",
-      subjectAction:
-        "up to five uploaded family members standing close together during a theme-park vacation, bright coordinated outfits, kids holding colorful snacks, playful generic mouse-ear-style headbands without logos",
-      location:
-        "a bright fantasy castle plaza with flowerbeds, decorative banners, warm stone paths, lanterns and soft fireworks haze in the far sky, no branded signage or copyrighted characters",
       camera:
         "Canon R5 with a 35mm f/1.8 lens, cheerful vacation portrait perspective, crisp faces with castle-plaza atmosphere layered behind",
       lighting:
@@ -703,10 +611,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 outdoor adventure family photograph",
-      subjectAction:
-        "up to five uploaded family members gathered proudly after a short hike, optionally with one uploaded dog on leash beside them, wearing tasteful trail layers, fleece, day packs and hiking shoes, safe and grounded on the path",
-      location:
-        "a North American national park overlook with granite cliffs, pine forest, meadow grasses and a winding trail, inspired by Yosemite and Yellowstone landscapes without signage",
       camera:
         "Nikon Z8 with a 35mm f/1.8 lens, flexible environmental portrait perspective, readable faces with sweeping trail, cliff and forest context",
       lighting:
@@ -727,10 +631,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 destination family portrait photograph",
-      subjectAction:
-        "up to five uploaded family members gathered barefoot on the sand in relaxed island vacation clothing, linen, floral dresses and tasteful leis, children near the front, adults close behind, joyful and natural",
-      location:
-        "a Hawaiian beach at golden hour with palms, black lava rock, soft waves, plumeria flowers and distant green volcanic hills",
       camera:
         "Sony A1 with a 50mm f/1.4 lens, clean destination portrait perspective, readable faces with ocean, palm and sunset context",
       lighting:
@@ -751,10 +651,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 coastal editorial family photograph",
-      subjectAction:
-        "up to five uploaded family members standing together along a sandy dune path, optionally with one uploaded dog seated at their feet, in coastal summer layers, cream sweaters, linen, navy stripes and easy smiles",
-      location:
-        "a Cape Cod beach path with dune grass, a weathered cedar-shingle cottage, hydrangeas, a white fence and a glimpse of calm blue water",
       camera:
         "Fuji GFX medium format with a 63mm f/2.8 lens, coastal editorial portrait perspective, readable faces with cottage, dune or ocean context",
       lighting:
@@ -776,10 +672,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 Pixar-quality 3D animated hero frame",
-      subjectAction:
-        "stylized as Pixar characters — softened features that still read as the real family, expressive eyes, a shared moment of warmth or laughter",
-      location:
-        "a sunlit Pixar-lit interior-exterior balance, warm practicals in the background, environmental props evoking a family den or garden",
       camera:
         "cinematic wide-screen hero composition, virtual 35mm-equivalent lens at f/2.0 with shallow depth of field, rule-of-thirds with the family slightly left-of-center",
       lighting:
@@ -799,10 +691,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 hand-drawn anime illustration",
-      subjectAction:
-        "the family standing together on a breezy hillside, hair and clothing softly animated by wind, a simple quiet gesture between them",
-      location:
-        "a pastoral Ghibli-style summer landscape with tall grass, distant cumulus clouds, a winding dirt path and one large solitary tree",
       camera:
         "wide painterly framing with the family on the right third and the landscape opening to the left, slightly low horizon",
       lighting:
@@ -823,10 +711,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 blockbuster superhero movie promotional still",
-      subjectAction:
-        "arranged in a confident hero group pose, capes billowing in wind, each subject with a distinct coordinated costume and heroic stance",
-      location:
-        "a city rooftop at golden hour, sweeping skyline behind with distant skyscrapers catching the sun, antennas and water tanks, low wind kicking up dust",
       camera:
         "Arri Alexa LF with a 35mm anamorphic lens, slightly low heroic angle, wide composition with the family centered against the skyline",
       lighting:
@@ -846,10 +730,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 1990s Saturday-morning hand-drawn cartoon cel",
-      subjectAction:
-        "the family sitting around a kitchen table mid-breakfast, cereal flying, wide open-mouth laughter, exaggerated gestures",
-      location:
-        "a sunny 1990s cartoon kitchen with a yellow fridge, gingham curtains, a cereal box on the table, chairs slightly askew",
       camera:
         "flat head-on cartoon framing with a slight tilt-down, characters occupying the full width, broad cartoon proportions",
       lighting:
@@ -870,10 +750,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 Studio-Ghibli-style hand-painted illustration",
-      subjectAction:
-        "the family standing on a rise in a meadow, hair and summer clothing catching the wind, one small gesture of pointing toward the horizon",
-      location:
-        "rolling green countryside meadows under a vast watercolor sky, tall grass rippling in wind, softly-painted cumulus clouds, a distant winding road",
       camera:
         "wide painterly composition with a low horizon placing the sky on the upper two thirds, family centered on a rise",
       lighting:
@@ -893,10 +769,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 Dutch-Golden-Age style oil painting on canvas",
-      subjectAction:
-        "arranged as a 17th-century Dutch family portrait — tailored velvet and wool, one hand resting on another's shoulder, a book held open, all in quiet ceremonial stillness",
-      location:
-        "a dim wood-paneled 17th-century interior with a heavy curtain pulled aside, a pewter pitcher and a pomegranate on a small table, shadow pooling behind",
       camera:
         "classical triangular composition, slightly low eye-level, three-quarter portrait framing with a tabletop still-life in the lower third",
       lighting:
@@ -917,10 +789,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 1990s Springfield-style prime-time animated cel",
-      subjectAction:
-        "the family seated on a living-room couch in a broadcast couch-gag pose, exaggerated simplified features, open-mouthed grins, cushions tumbling in from one side",
-      location:
-        "a Springfield-ish living room with a floor lamp, a cheap framed painting on the wall, a patterned rug and a television out of frame",
       camera:
         "flat head-on broadcast composition, family filling the frame horizontally, slight downward tilt",
       lighting:
@@ -941,10 +809,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 1:1 photoreal CGI render of plastic toy-brick minifigures",
-      subjectAction:
-        "a family group of minifigures standing together on a brick base, cylindrical hair pieces, C-shaped hands, tiny printed smiles, tiny minifigure-scale accessories beside them",
-      location:
-        "a brick-built domestic set — a miniature porch, a little tree, a picket fence — assembled from visible studded toy bricks, a smooth brick floor",
       camera:
         "macro product photography framing, 100mm macro lens at f/4, low eye-level matching the minifigure scale, square composition centered on the family",
       lighting:
@@ -964,10 +828,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 hand-painted watercolor children's storybook illustration",
-      subjectAction:
-        "the family walking hand-in-hand through a whimsical garden, one pointing at a lantern tree, softened painterly proportions",
-      location:
-        "a magical garden at dusk with paper-lantern-like flowers, tall wildflowers, a curving cobbled path and a distant cottage with warm lit windows",
       camera:
         "gentle low-angle storybook framing, family left-of-center, path and cottage drawing the eye to the background",
       lighting:
@@ -989,10 +849,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 hand-painted Studio-Ghibli illustration in the Spirited-Away tradition",
-      subjectAction:
-        "the family standing together on an ornate wooden bridge, gentle awe on each face, one reaching out toward a paper lantern drifting upward",
-      location:
-        "a mystical bath-house town at twilight, glowing red paper lanterns lining the eaves, soft steam rising from a bath-house entrance, distant train tracks running across still water, indigo dusk above",
       camera:
         "wide painterly composition with the family centered on the bridge, low horizon placing the bath-house buildings in the upper third",
       lighting:
@@ -1013,10 +869,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 South-Park-style construction-paper cutout animation cel",
-      subjectAction:
-        "the family lined up along a snowy sidewalk in basic chunky winter coats and beanies, ovoid bodies, perfectly round white eyes with tiny black pupils, mouths slightly open mid-sentence",
-      location:
-        "a small Colorado mountain-town main street under flat snowfall, simple flat A-frame houses with smoke chimneys, a yellow school bus parked in the background, a wooden 'Welcome' sign",
       camera:
         "flat dead-on cartoon framing, characters lined up like a TV episode title card, broad horizontal composition",
       lighting:
@@ -1037,10 +889,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 in-game render in the style of The Sims 4",
-      subjectAction:
-        "the family in a Sims living room, each with a glowing green plumbob floating just above their head, faces in mid-Sim animation — slightly smiling, gesturing with stiff Sim hands",
-      location:
-        "a customized Sims build interior — modern furniture, a fireplace with a framed family painting above it, a window looking out onto a Sims neighborhood, a fully-furnished kitchen visible through an arch",
       camera:
         "three-quarter overhead Sims gameplay camera angle, slight isometric perspective, wide framing covering the living-room set",
       lighting:
@@ -1061,10 +909,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 2:3 Saturday-Evening-Post cover illustration in oil",
-      subjectAction:
-        "the family caught in a tender narrative moment — gathered around a kitchen table mid-grace, or all crowded onto a porch swing, warm earnestness on each face, one slightly idealized but believable gesture anchoring the scene",
-      location:
-        "a wholesome American mid-century interior with wooden furniture, a knitted throw, a quilt across a chair, framed family photographs on the wall, a window opening to a small-town view",
       camera:
         "classical painterly composition, slight low eye-level, three-quarter narrative framing with a foreground prop tying the eye to the family",
       lighting:
@@ -1085,10 +929,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 in-game render in the style of Minecraft",
-      subjectAction:
-        "the family rendered as voxel Minecraft characters with blocky cubic arms and legs, square pixel-grid faces, simple recognizable hair colors, each holding a different signature Minecraft item — a torch, a pickaxe, a flower, a bucket",
-      location:
-        "a sunlit Minecraft overworld biome — a grassy plains hill with cubic oak trees, a small player-built cobblestone-and-oak house in the background, a creeper peeking from behind a tree, a few floating voxel clouds in a light-blue sky",
       camera:
         "wide third-person Minecraft gameplay camera, slight low angle from the grass, subjects centered with the village stretching behind",
       lighting:
@@ -1109,10 +949,6 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     spec: {
       assetType: "A 3:2 stop-motion claymation frame in the Aardman tradition",
-      subjectAction:
-        "the family rendered as plasticine claymation characters with visible thumbprint texture across faces and clothing, oversized teeth and warm grins, expressive over-arched eyebrows, mid-gesture holding fresh teacups",
-      location:
-        "a cozy English cottage interior with sloped wooden ceilings, a copper kettle steaming on a vintage stove, a tiny model train running along a shelf, comically detailed clutter on every surface",
       camera:
         "slight hand-held wobble characteristic of stop-motion, cinematic 35mm-equivalent lens, eye-level chest-up framing",
       lighting:
@@ -1135,10 +971,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 holiday-card family portrait",
-      subjectAction:
-        "gathered in the doorway and on the front step, smiling warmly toward the camera, in coordinated-not-matching wool and flannel, with only the selected family members present",
-      location:
-        "a snow-dusted front porch of a traditional home, a lit wreath on the door behind the family, warm interior glow through the glass, pines dusted with snow",
       camera:
         "Leica M10 with 50mm Summilux f/1.4, eye-level framing, subjects on the right two-thirds with deliberate negative space on the left for a greeting",
       lighting:
@@ -1159,10 +991,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 spring holiday-card family portrait",
-      subjectAction:
-        "the family walking through a tulip garden, one child holding a small woven basket, in linen and cotton pastels, gentle smiles",
-      location:
-        "a flowering-tree and tulip garden at early morning, white picket fence behind, a wooden bench just visible, bright pastel ground carpet",
       camera:
         "Contax 645 medium format with 80mm f/2, waist-up composition with deliberate negative space low-right for a greeting",
       lighting:
@@ -1184,10 +1012,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 festive Diwali-card family portrait",
-      subjectAction:
-        "the family gathered close in elegant festive clothing, smiling warmly toward the camera, one child placing a diya near a colorful rangoli pattern",
-      location:
-        "a contemporary home decorated for Diwali with rows of brass diyas, marigold garlands, a bright rangoli pattern on the floor and soft string lights behind",
       camera:
         "Leica Q2 with 28mm Summilux f/1.7, eye-level chest-up composition, ample negative space upper-left for a serif greeting",
       lighting:
@@ -1209,10 +1033,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 festive Eid-al-Fitr family portrait",
-      subjectAction:
-        "the family gathered after morning prayers in modest elegant clothing, children holding small sweets, grandparents seated warmly at the center",
-      location:
-        "a bright home courtyard with patterned textiles, lanterns, dates, sweets and fresh flowers on a small table",
       camera:
         "Fuji GFX medium format with 63mm f/2.8, gentle three-quarter composition, upper-left negative space for a greeting",
       lighting:
@@ -1234,10 +1054,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 refined Nowruz-card family portrait",
-      subjectAction:
-        "the selected cast gathered warmly near a haft-sin table, one subject holding spring flowers or painted eggs, elegant smiles, in fresh cream, sage, sky-blue and soft gold wardrobe",
-      location:
-        "a bright home interior prepared for Nowruz with a haft-sin table: sabzeh sprouts, apples, garlic, sumac, senjed, vinegar, painted eggs, mirror, candles, hyacinths, coins, and a Hafez or Shahnameh-style poetry book as a cultural keepsake",
       camera:
         "Fuji GFX medium format with 63mm f/2.8, gentle eye-level three-quarter composition, selected cast placed to one side with ample negative space upper-left for a serif Nowruz greeting",
       lighting:
@@ -1259,10 +1075,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 Día-de-Muertos family remembrance card portrait",
-      subjectAction:
-        "the family gathered together in front of the ofrenda, smiling with warmth and reverence, one subject holding a candle while a child places marigolds",
-      location:
-        "a home ofrenda decorated with marigolds, candles, papel picado, framed family photos softly out of focus and sugar skulls as respectful decor",
       camera:
         "Leica M10 with 50mm Summilux f/1.4, eye-level composition, family foreground right with negative space top-left for a greeting",
       lighting:
@@ -1283,10 +1095,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 warm happy-birthday card portrait",
-      subjectAction:
-        "the selected cast gathered around or near a lit birthday cake, warm anticipation, joyful expressions, festive but not cluttered",
-      location:
-        "a cozy dining room with paper streamers and tissue pompoms in pastel colors, wooden table, gift wrap and party plates near the table's edge",
       camera:
         "Fuji GFX medium format with a 63mm f/2.8, slightly low eye-level from across the table, composition with deliberate negative space upper-left for birthday greeting text",
       lighting:
@@ -1308,10 +1116,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 warm Halloween-card family portrait",
-      subjectAction:
-        "lined up on the porch steps in coordinated not-scary costumes — a little witch, a small vampire, a gentle ghost — playful smiles",
-      location:
-        "a wooden porch at dusk with carved jack-o'-lanterns lining the steps, wisps of low ground fog, a wreath of dry wheat on the door",
       camera:
         "Leica Q2 with 28mm Summilux f/1.7, slightly low eye-level framing, composition with negative space on the right for a serif greeting",
       lighting:
@@ -1332,10 +1136,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 Thanksgiving-card family portrait",
-      subjectAction:
-        "gathered around a harvest table mid-gesture of passing a dish, hands lightly holding, warm honest expressions, in plaid and linen",
-      location:
-        "a dining room with a long table set with a roast turkey, small pumpkins and autumn florals as centerpiece, a window letting in overcast daylight behind",
       camera:
         "Fuji GFX medium format with 63mm f/2.8, chest-level three-quarter composition, negative space upper-right for a greeting",
       lighting:
@@ -1356,10 +1156,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 glamorous New-Year's-card family portrait",
-      subjectAction:
-        "raising champagne coupes in a mid-toast, gold confetti caught mid-air around them, in black-tie and cocktail-dress wardrobe, warm joy",
-      location:
-        "an elegant interior at midnight with a softly-lit chandelier behind, dark-wood panelling, warm cinematic bokeh",
       camera:
         "Arri Alexa 35 with Cooke 50mm S4, chest-up cinematic framing, negative space above for a serif year and greeting",
       lighting:
@@ -1380,10 +1176,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 warm graduation-card family portrait",
-      subjectAction:
-        "the family around the graduate in cap and gown, a parent adjusting the tassel or resting a hand on a shoulder, shared quiet pride",
-      location:
-        "an ivy-covered brick university wall in golden-hour afternoon light, a glimpse of a wooden bench and stone path to the side",
       camera:
         "Leica Q2 with 28mm Summilux f/1.7, chest-up three-quarter composition, negative space upper-right for a serif name and date",
       lighting:
@@ -1404,10 +1196,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 tender newborn-announcement family portrait",
-      subjectAction:
-        "gathered in soft white bedding, parents holding a swaddled sleeping newborn at center, siblings leaning in, quiet gentleness",
-      location:
-        "a sunlit bedroom with white linen bedding, a muslin swaddle, a small woven basket of folded blankets nearby, pastel-muted walls",
       camera:
         "Fuji GFX medium format with 63mm f/2.8, slightly high angle looking down on the newborn, waist-up composition, ample negative space above for a name, date, weight",
       lighting:
@@ -1429,10 +1217,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 romantic save-the-date engagement portrait",
-      subjectAction:
-        "the couple — and immediate family if extended — caught in an intimate unrehearsed moment, a quiet laugh, hand-in-hand or temple-to-temple, in coordinated soft tones with one accent piece",
-      location:
-        "a wide open meadow at golden hour, wildflowers in the foreground, distant tree line, a wooden split-rail fence to one side",
       camera:
         "Contax 645 medium format with 80mm f/2 Zeiss Planar, chest-up composition, deliberate negative space lower-right for a serif greeting and date",
       lighting:
@@ -1454,10 +1238,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 romantic happy-anniversary card portrait",
-      subjectAction:
-        "the selected cast sharing a tender anniversary moment, close and affectionate, with a small bouquet or champagne-glass detail nearby, elegant and sincere",
-      location:
-        "a softly lit garden terrace or intimate dining nook with cream florals, candles, linen textures and warm evening ambience",
       camera:
         "Contax 645 medium format with 80mm f/2 Zeiss Planar, gentle chest-up composition, deliberate negative space upper-right for anniversary greeting text",
       lighting:
@@ -1479,10 +1259,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 tender Mother's-Day-card family portrait",
-      subjectAction:
-        "the selected cast posed tenderly in the spring garden, surrounded by peonies and soft blooms, gentle warmth, in linen and cotton pastels",
-      location:
-        "a sunlit spring garden in full bloom — peonies, ranunculus and roses in pinks and creams — a wisteria-draped trellis behind, dewy grass underfoot",
       camera:
         "Leica Q2 with 28mm Summilux f/1.7, chest-up composition, ample negative space upper-right for a serif greeting",
       lighting:
@@ -1503,10 +1279,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 warm Father's-Day-card family portrait",
-      subjectAction:
-        "father in mid-action with the children — tossing a baseball, lifting a small one onto his shoulders, mid-laugh together, in chambray, denim and earth tones",
-      location:
-        "a sunlit suburban backyard at late afternoon, a wooden fence and a leaning bicycle in the background, oak tree casting dappled light",
       camera:
         "Leica M10 with 35mm Summilux f/1.4, eye-level three-quarter composition, ample negative space upper-left for a serif greeting",
       lighting:
@@ -1528,10 +1300,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 festive Lunar-New-Year family portrait",
-      subjectAction:
-        "the family gathered around a round dining table mid-meal, one passing a plate of dumplings, another raising a small tea cup in toast, a child holding a red envelope, all in coordinated red-and-gold wardrobe with one cheongsam-inspired accent",
-      location:
-        "an ornately decorated home interior with hung red paper lanterns, golden 福 calligraphy banners on the wall, a small altar of auspicious oranges and tangerines, a brass tea-set on the table",
       camera:
         "Fuji GFX medium format with 63mm f/2.8, slightly elevated three-quarter angle from the table, ample negative space upper-left for a serif greeting in both Chinese characters and Latin script",
       lighting:
@@ -1553,10 +1321,6 @@ export const THEMES: Theme[] = [
     acceptsCardText: true,
     spec: {
       assetType: "A 2:3 warm Hanukkah-card family portrait",
-      subjectAction:
-        "the family gathered around a glowing nine-branch menorah on a wooden table, one subject lifting the shamash to light a candle, the others leaning in with gentle smiles, a child clutching a wooden dreidel, in coordinated wool sweaters in blue, silver and cream",
-      location:
-        "a warm dining room at blue hour, a window dusted with snow behind the menorah, a plate of latkes with applesauce and sour cream nearby, a stack of gold-foil-wrapped gelt on the table",
       camera:
         "Leica Q2 with 28mm Summilux f/1.7, chest-up composition just above the menorah, ample negative space upper-right for a serif greeting",
       lighting:
@@ -1605,22 +1369,16 @@ export function themesByCategory() {
 
 /**
  * Build a PromptSpec for a custom user-described vibe.
- * We place the user's free-form description in `location` (the "setting"
- * sentence of the composed prompt) so it reads naturally, and we fill the
- * other framework fields with tasteful defaults. The user is free to embed
- * their own camera / lighting / style notes in the description — those
- * will simply appear alongside the defaults in the composed prompt.
+ *
+ * The user's free-form description is carried on the synthetic Theme's
+ * `blurb` (see `buildCustomTheme`), which the prompt composer reads as the
+ * "Theme atmosphere" sentence. The spec below contributes tasteful
+ * photographic defaults (optics, light, film stock) that sit alongside
+ * the user's creative direction.
  */
-function buildCustomSpec(opts: { description: string; aspectRatio: AspectRatio }): PromptSpec {
-  const description = opts.description.trim().replace(/\s+$/u, "");
+function buildCustomSpec(opts: { aspectRatio: AspectRatio }): PromptSpec {
   return {
     assetType: `A ${opts.aspectRatio} cinematic color photograph`,
-    // Embed the family's own creative direction as a quoted note inside the
-    // subject-action clause. This reads as the dominant brief the model
-    // should honor over the generic defaults below.
-    subjectAction: `together, honest and at ease — rendering the scene the family themselves described: "${description}"`,
-    location:
-      "an environment that matches the family's described scene above, with consistent props, season and time of day",
     camera:
       "tasteful documentary framing, a 50mm-equivalent field of view, eye-level composition, shallow depth of field",
     lighting:
