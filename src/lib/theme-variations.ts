@@ -1,6 +1,12 @@
 export type ThemeVariationPrompts = readonly [string, string, string, string];
 
 export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPrompts>> = {
+  "passport-visa-photo": [
+    "Official ID crop A: centered face and upper shoulders, straight-on camera, crown-to-chin comfortably framed with clean white margin, neutral expression.",
+    "Official ID crop B: very slight framing variation while staying symmetrical, eyes level, shoulders squared, plain white background, no shadows.",
+    "Official ID crop C: close head-and-shoulders crop for passport or visa use, face evenly lit, natural skin texture, no glasses or accessories.",
+    "Official ID crop D: conservative document-photo composition, centered head, visible neck and shoulders, clean border area for final crop.",
+  ],
   "golden-hour-beach": [
     "Wide shoreline walk: selected cast barefoot on wet reflective sand, full bodies visible, staggered naturally, one person glancing back, ocean horizon clean and low.",
     "Seated dunes portrait: selected cast nestled shoulder-to-shoulder on a blanket near sea oats, knee-up crop, grasses framing the foreground, warm rim light through the dunes.",

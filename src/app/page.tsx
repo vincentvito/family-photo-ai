@@ -2,6 +2,7 @@ import Hero from "@/components/landing/Hero";
 import BeforeAfter from "@/components/landing/BeforeAfter";
 import Gallery from "@/components/landing/Gallery";
 import OccasionCards from "@/components/landing/OccasionCards";
+import PassportVisaVibe from "@/components/landing/PassportVisaVibe";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TrustPrivacy from "@/components/landing/TrustPrivacy";
 import GiftCredits from "@/components/landing/GiftCredits";
@@ -27,6 +28,7 @@ export default async function HomePage({
         <BeforeAfter />
         <Gallery />
         <OccasionCards />
+        <PassportVisaVibe />
         <HowItWorks />
         <TrustPrivacy />
         <GiftCredits />

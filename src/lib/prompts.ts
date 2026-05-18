@@ -1,4 +1,5 @@
 import type { Theme } from "./themes";
+import { PASSPORT_VISA_THEME_ID } from "./passport-visa-specs";
 import type { Subject } from "./providers/types";
 
 const FAMILY_POSITIVE_DIRECTIVE =
@@ -15,7 +16,10 @@ export function buildGenerationPrompt(
   cardText?: string | null,
 ): string {
   const { spec } = theme;
-  const familyClause = describeFamily(subjects);
+  const familyClause =
+    theme.id === PASSPORT_VISA_THEME_ID
+      ? "The selected person photographed alone for an official ID document"
+      : describeFamily(subjects);
   const rosterDirective = buildRosterDirective(subjects);
 
   const sentences: string[] = [
@@ -37,7 +41,19 @@ export function buildGenerationPrompt(
 
   if (wardrobeNote && wardrobeNote.trim()) {
     sentences.push(
-      sentence(`Wardrobe and mood note: ${selectedCastLanguage(wardrobeNote.trim())}`),
+      sentence(
+        theme.id === PASSPORT_VISA_THEME_ID
+          ? `Document preset and compliance instructions: ${wardrobeNote.trim()}`
+          : `Wardrobe and mood note: ${selectedCastLanguage(wardrobeNote.trim())}`,
+      ),
+    );
+  }
+
+  if (theme.id === PASSPORT_VISA_THEME_ID) {
+    sentences.push(
+      sentence(
+        "Passport/visa constraints: exactly one human subject, plain white or off-white background, direct eye contact, neutral expression, closed mouth, both eyes open, natural skin texture, no smile exaggeration, no glasses, no hats, no uniforms, no jewelry glare, no props, no visible hands, no shadows, no background texture, no other people or animals",
+      ),
     );
   }
 
@@ -164,9 +180,7 @@ function describePets(pets: Subject[]): string {
     return counts;
   }, {});
 
-  return joinWithAnd(
-    Object.entries(grouped).map(([label, count]) => countPhrase(count, label)),
-  );
+  return joinWithAnd(Object.entries(grouped).map(([label, count]) => countPhrase(count, label)));
 }
 
 function describeRosterIdentities(subjects: Subject[]): string {

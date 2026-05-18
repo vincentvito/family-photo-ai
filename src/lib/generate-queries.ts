@@ -45,6 +45,11 @@ import {
   isActiveSubscriptionStatus,
 } from "@/lib/billing-queries";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
+import {
+  PASSPORT_VISA_SPEC_IDS,
+  PASSPORT_VISA_THEME_ID,
+  getPassportVisaSpec,
+} from "@/lib/passport-visa-specs";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
@@ -74,6 +79,10 @@ const CardArtStyleIdSchema = z.enum([...CARD_ART_STYLE_IDS] as [
   ...CardArtStyleId[],
 ]);
 const CardSlotStyleSchema = z.union([CardArtStyleIdSchema, z.literal("default")]);
+const PassportVisaSpecIdSchema = z.enum(PASSPORT_VISA_SPEC_IDS);
+const PassportVisaInputSchema = z.object({
+  specId: PassportVisaSpecIdSchema,
+});
 
 async function markGenerationErrorAndRefundCredit(generationId: string, errorMessage: string) {
   await db.transaction(async (tx) => {
@@ -103,6 +112,8 @@ const StartGenerationInput = z
     modelId: ModelIdSchema.optional(),
     /** Optional per-shoot roster filter. When omitted, the full roster is used. */
     subjectIds: z.array(z.string().min(1)).min(1).optional(),
+    /** Passport/visa preset metadata. Requires themeId passport-visa-photo. */
+    passportVisa: PassportVisaInputSchema.optional(),
     /** Card-only art treatment: one default plus optional per-output overrides. */
     cardArtStyles: z
       .object({
@@ -127,8 +138,23 @@ export async function startGeneration(
       })
     : getTheme(parsed.themeId!);
 
-  if (!parsed.customVibe && parsed.aspectOverride) {
+  const isPassportVisaShoot = parsed.themeId === PASSPORT_VISA_THEME_ID;
+  const passportVisaSpec = parsed.passportVisa
+    ? getPassportVisaSpec(parsed.passportVisa.specId)
+    : null;
+
+  if (parsed.passportVisa && !isPassportVisaShoot) {
+    throw new Error("Passport/visa sizing can only be used with the passport & visa photo mode.");
+  }
+  if (isPassportVisaShoot && !passportVisaSpec) {
+    throw new Error("Pick a country and passport/visa document size.");
+  }
+
+  if (!parsed.customVibe && parsed.aspectOverride && !passportVisaSpec) {
     theme = { ...theme, aspectRatio: parsed.aspectOverride };
+  }
+  if (passportVisaSpec) {
+    theme = { ...theme, aspectRatio: passportVisaSpec.nearestAspectRatio };
   }
   const outputType = parsed.outputType ?? (theme.category === "card" ? "card" : "photoshoot");
   if (outputType === "card" && (parsed.customVibe || theme.category !== "card")) {
@@ -136,6 +162,9 @@ export async function startGeneration(
   }
   if (outputType === "photoshoot" && theme.category === "card") {
     throw new Error("Choose card output before using a card layout.");
+  }
+  if (isPassportVisaShoot && outputType !== "photoshoot") {
+    throw new Error("Passport/visa photos must use photo output.");
   }
 
   const roster = await loadRosterAsSubjects(actor.userId, parsed.subjectIds);
@@ -162,6 +191,13 @@ export async function startGeneration(
   // reference photo rather than blocking the shoot — the selector already
   // surfaces missing-reference state to them.
   const effectiveRoster = parsed.subjectIds ? withReference : roster;
+  if (isPassportVisaShoot) {
+    if (effectiveRoster.length !== 1 || effectiveRoster[0]?.role === "pet") {
+      throw new Error(
+        "Passport/visa mode creates one official-style image for one person at a time. Select exactly one adult or child.",
+      );
+    }
+  }
   if (!admin && effectiveRoster.length > MAX_SHOT_SUBJECTS) {
     throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
   }
@@ -182,10 +218,14 @@ export async function startGeneration(
     }
   }
 
+  const promptWardrobeNote = passportVisaSpec
+    ? buildPassportVisaPromptNote(passportVisaSpec.id, parsed.wardrobeNote)
+    : parsed.wardrobeNote;
+
   const prompt = buildGenerationPrompt(
     theme,
     effectiveRoster,
-    parsed.wardrobeNote,
+    promptWardrobeNote,
     parsed.cardText ?? null,
   );
   const variationPrompts = buildLaunchVariationPrompts({
@@ -283,6 +323,27 @@ export async function startGeneration(
     .where(eq(schema.generations.id, generation.id));
 
   return { generationId: generation.id };
+}
+
+/**
+ * Pick the model for this shoot. Admins may override per-shoot via the input;
+ * everyone else falls back to the admin-configured default.
+ */
+function buildPassportVisaPromptNote(specId: string, userNote: string | null | undefined): string {
+  const spec = getPassportVisaSpec(specId);
+  if (!spec) return userNote?.trim() ?? "";
+
+  const preset = [
+    `${spec.countryName} ${spec.documentLabel} preset`,
+    `target crop ${spec.sizeLabel}`,
+    `suggested output ${spec.outputPixels}`,
+    `background ${spec.background}`,
+    `print guidance: ${spec.printableSheet}`,
+    `preset notes: ${spec.notes.join("; ")}`,
+    `This is a preset guide, not a legal guarantee; prioritize a conservative official-document photo look.`,
+  ].join(". ");
+  const trimmedUserNote = userNote?.trim();
+  return trimmedUserNote ? `${preset}. User note: ${trimmedUserNote}` : preset;
 }
 
 /**

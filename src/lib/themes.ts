@@ -1,4 +1,5 @@
 import type { AspectRatio } from "./providers/types";
+import { PASSPORT_VISA_THEME_ID } from "./passport-visa-specs";
 
 export type ThemeCategory = "photoreal" | "stylized" | "card";
 
@@ -61,6 +62,27 @@ export type Theme = {
 };
 
 export const THEMES: Theme[] = [
+  // ─── Utility / document photos ───────────────────────────────────────
+  {
+    id: PASSPORT_VISA_THEME_ID,
+    name: "Passport & Visa Photo",
+    blurb:
+      "Official-document style ID photo on a plain white or off-white background, designed around country and document size presets.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-passport-visa-photo.jpg",
+    aspectRatio: "2:3",
+    supportsPets: false,
+    spec: {
+      assetType: "A biometric-style passport or visa ID photograph",
+      camera:
+        "straight-on eye-level camera, centered head-and-shoulders crop, face square to camera, symmetrical framing, ample clean margin around head",
+      lighting:
+        "even soft frontal studio lighting, no harsh shadows on face or background, no dramatic rim light, no colored gels",
+      style:
+        "neutral realistic color, accurate skin tone, plain document-photo finish, no stylization, no retouching, no props, no text or watermark",
+    },
+  },
   // ─── Photoreal ───────────────────────────────────────────────────────
   {
     id: "golden-hour-beach",
@@ -1357,7 +1379,7 @@ export function themesByCategory() {
   );
 
   return {
-    photoreal: THEMES.filter((t) => t.category === "photoreal"),
+    photoreal: THEMES.filter((t) => t.category === "photoreal" && t.id !== PASSPORT_VISA_THEME_ID),
     stylized: THEMES.filter((t) => t.category === "stylized"),
     card: THEMES.filter((t) => t.category === "card").sort(
       (a, b) =>
