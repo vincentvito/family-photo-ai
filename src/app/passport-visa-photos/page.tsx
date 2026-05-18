@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
@@ -16,10 +17,29 @@ const workflow = [
   "Export exact size or printable sheet",
 ];
 
+const passportPreviews = [
+  {
+    name: "Mia",
+    status: "Generating now",
+    src: "/samples/passport-visa/passport-woman.webp",
+  },
+  {
+    name: "Noah",
+    status: "Next in queue",
+    src: "/samples/passport-visa/passport-man.webp",
+  },
+  {
+    name: "Luca",
+    status: "Next in queue",
+    src: "/samples/passport-visa/passport-child.webp",
+  },
+];
+
 export default function PassportVisaPhotosPage() {
   const countries = Array.from(new Set(PASSPORT_VISA_SPECS.map((spec) => spec.countryName)));
   const featured = PASSPORT_VISA_SPECS.slice(0, 8);
-  const heroSpec = PASSPORT_VISA_SPECS.find((spec) => spec.id === "uk-passport") ?? PASSPORT_VISA_SPECS[0];
+  const heroSpec =
+    PASSPORT_VISA_SPECS.find((spec) => spec.id === "uk-passport") ?? PASSPORT_VISA_SPECS[0];
 
   return (
     <>
@@ -39,9 +59,9 @@ export default function PassportVisaPhotosPage() {
                 Passport and visa photos, built for family admin.
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-                A separate, compliance-minded workflow from the creative shoots: pick the country and
-                document first, process one adult or child at a time, then preview official-style
-                white-background photos with sizing and print guidance attached.
+                A separate, compliance-minded workflow from the creative shoots: pick the country
+                and document first, process one adult or child at a time, then preview
+                official-style white-background photos with sizing and print guidance attached.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -103,9 +123,9 @@ export default function PassportVisaPhotosPage() {
                   <div className="rounded-[24px] border border-[color:var(--color-line)] bg-white p-4 shadow-[var(--shadow-sm)]">
                     <p className="small-caps text-[color:var(--color-ink-muted)]">Family queue</p>
                     <div className="mt-4 space-y-3">
-                      {["Mia", "Noah", "Luca"].map((name, index) => (
+                      {passportPreviews.map((preview, index) => (
                         <div
-                          key={name}
+                          key={preview.name}
                           className={`flex items-center justify-between rounded-[18px] px-3 py-3 ${
                             index === 0
                               ? "bg-[color:var(--color-bg-tinted-sage)]"
@@ -113,13 +133,19 @@ export default function PassportVisaPhotosPage() {
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-semibold shadow-[var(--shadow-sm)]">
-                              {name[0]}
+                            <span className="relative h-9 w-9 overflow-hidden rounded-full bg-white shadow-[var(--shadow-sm)]">
+                              <Image
+                                src={preview.src}
+                                alt={`${preview.name} passport photo preview`}
+                                fill
+                                sizes="36px"
+                                className="object-cover object-top"
+                              />
                             </span>
                             <div>
-                              <p className="text-sm font-semibold">{name}</p>
+                              <p className="text-sm font-semibold">{preview.name}</p>
                               <p className="text-xs text-[color:var(--color-ink-muted)]">
-                                {index === 0 ? "Generating now" : "Next in queue"}
+                                {preview.status}
                               </p>
                             </div>
                           </div>
@@ -130,9 +156,16 @@ export default function PassportVisaPhotosPage() {
                   </div>
 
                   <div className="rounded-[28px] border border-[color:var(--color-line-strong)] bg-white p-5 shadow-[var(--shadow-md)]">
-                    <div className="mx-auto flex aspect-[35/45] max-w-[245px] flex-col items-center justify-end overflow-hidden rounded-[18px] border border-[color:var(--color-line)] bg-white px-8 pt-8 shadow-inner">
-                      <div className="h-24 w-24 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-sage)]" />
-                      <div className="mt-4 h-28 w-44 rounded-t-full bg-[color:var(--color-bg-tinted-butter)]" />
+                    <div className="mx-auto max-w-[245px] overflow-hidden rounded-[18px] border border-[color:var(--color-line)] bg-white shadow-inner">
+                      <Image
+                        src={passportPreviews[0].src}
+                        alt="Generated UK passport photo preview for Mia"
+                        width={420}
+                        height={540}
+                        sizes="(min-width: 1024px) 245px, 70vw"
+                        priority
+                        className="h-auto w-full object-cover"
+                      />
                     </div>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <span className="rounded-full bg-[color:var(--color-ink)] px-3 py-1.5 text-xs font-semibold text-white">
@@ -148,14 +181,16 @@ export default function PassportVisaPhotosPage() {
                 <div className="mt-4 rounded-[22px] border border-[color:var(--color-line)] bg-white/80 p-4">
                   <p className="small-caps text-[color:var(--color-ink-muted)]">Printable output</p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {[heroSpec.sizeLabel, "4 x 6 sheet", "300 DPI", "Multiple copies"].map((chip) => (
-                      <span
-                        key={chip}
-                        className="rounded-full bg-[color:var(--color-bg-tinted-butter)] px-3 py-1.5 text-xs font-semibold"
-                      >
-                        {chip}
-                      </span>
-                    ))}
+                    {[heroSpec.sizeLabel, "4 x 6 sheet", "300 DPI", "Multiple copies"].map(
+                      (chip) => (
+                        <span
+                          key={chip}
+                          className="rounded-full bg-[color:var(--color-bg-tinted-butter)] px-3 py-1.5 text-xs font-semibold"
+                        >
+                          {chip}
+                        </span>
+                      ),
+                    )}
                   </div>
                 </div>
               </div>
@@ -176,8 +211,8 @@ export default function PassportVisaPhotosPage() {
                 </h2>
               </div>
               <p className="max-w-md text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                Current presets include {countries.join(", ")}. The catalog can grow without changing
-                the generation flow.
+                Current presets include {countries.join(", ")}. The catalog can grow without
+                changing the generation flow.
               </p>
             </div>
 

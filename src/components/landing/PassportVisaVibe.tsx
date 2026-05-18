@@ -1,7 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 
-const queue = ["Ava", "Ben", "Sam"];
+const queue = [
+  {
+    name: "Ava",
+    status: "Active",
+    src: "/samples/passport-visa/passport-woman.webp",
+  },
+  {
+    name: "Ben",
+    status: "Queued",
+    src: "/samples/passport-visa/passport-man.webp",
+  },
+  {
+    name: "Sam",
+    status: "Queued",
+    src: "/samples/passport-visa/passport-child.webp",
+  },
+];
 
 export default function PassportVisaVibe() {
   return (
@@ -15,11 +32,7 @@ export default function PassportVisaVibe() {
                 <div className="relative mx-auto max-w-md rounded-[28px] border border-white/80 bg-white/62 p-4 shadow-[var(--shadow-lg)] backdrop-blur">
                   <div className="rounded-[24px] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-4">
                     <div className="flex flex-wrap gap-2">
-                      {[
-                        "United Kingdom",
-                        "Passport photo",
-                        "35 x 45 mm",
-                      ].map((item, index) => (
+                      {["United Kingdom", "Passport photo", "35 x 45 mm"].map((item, index) => (
                         <span
                           key={item}
                           className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
@@ -35,22 +48,30 @@ export default function PassportVisaVibe() {
 
                     <div className="mt-4 grid gap-4 sm:grid-cols-[0.62fr_1fr]">
                       <div className="rounded-[20px] bg-[color:var(--color-bg)] p-3">
-                        <p className="small-caps text-[color:var(--color-ink-muted)]">Family queue</p>
+                        <p className="small-caps text-[color:var(--color-ink-muted)]">
+                          Family queue
+                        </p>
                         <div className="mt-3 space-y-2">
-                          {queue.map((name, index) => (
+                          {queue.map((person, index) => (
                             <div
-                              key={name}
+                              key={person.name}
                               className={`flex items-center gap-2 rounded-[16px] px-3 py-2 ${
                                 index === 0 ? "bg-[color:var(--color-bg-tinted-sage)]" : "bg-white"
                               }`}
                             >
-                              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-semibold shadow-[var(--shadow-sm)]">
-                                {name[0]}
+                              <span className="relative h-8 w-8 overflow-hidden rounded-full bg-white shadow-[var(--shadow-sm)]">
+                                <Image
+                                  src={person.src}
+                                  alt={`${person.name} passport photo preview`}
+                                  fill
+                                  sizes="32px"
+                                  className="object-cover object-top"
+                                />
                               </span>
                               <div>
-                                <p className="text-sm font-semibold">{name}</p>
+                                <p className="text-sm font-semibold">{person.name}</p>
                                 <p className="text-[11px] text-[color:var(--color-ink-muted)]">
-                                  {index === 0 ? "Active" : "Queued"}
+                                  {person.status}
                                 </p>
                               </div>
                             </div>
@@ -59,9 +80,15 @@ export default function PassportVisaVibe() {
                       </div>
 
                       <div className="rounded-[22px] border border-[color:var(--color-line-strong)] bg-white p-4 shadow-[var(--shadow-sm)]">
-                        <div className="mx-auto flex aspect-[35/45] max-w-[190px] flex-col items-center justify-end overflow-hidden rounded-[16px] border border-[color:var(--color-line)] bg-white px-6 pt-7 shadow-inner">
-                          <div className="h-20 w-20 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-sage)]" />
-                          <div className="mt-3 h-24 w-36 rounded-t-full bg-[color:var(--color-bg-tinted-butter)]" />
+                        <div className="mx-auto max-w-[190px] overflow-hidden rounded-[16px] border border-[color:var(--color-line)] bg-white shadow-inner">
+                          <Image
+                            src={queue[0].src}
+                            alt="Generated UK passport photo preview for Ava"
+                            width={420}
+                            height={540}
+                            sizes="(min-width: 1024px) 190px, 55vw"
+                            className="h-auto w-full object-cover"
+                          />
                         </div>
                         <div className="mt-3 flex flex-wrap justify-center gap-2">
                           <span className="rounded-full bg-[color:var(--color-ink)] px-3 py-1 text-[11px] font-semibold text-white">
@@ -87,16 +114,28 @@ export default function PassportVisaVibe() {
                 </h2>
                 <p className="mt-5 max-w-xl text-sm leading-relaxed text-[color:var(--color-ink-muted)] sm:text-base">
                   Choose the country and document requirements first, queue one family member, and
-                  produce official-style white-background previews with exact size chips and printable
-                  sheet guidance.
+                  produce official-style white-background previews with exact size chips and
+                  printable sheet guidance.
                 </p>
 
                 <div className="mt-7 grid gap-3 text-sm sm:grid-cols-2">
                   {[
-                    ["Country first", "US, UK, Schengen, Canada, India, Australia, China, and Japan presets."],
-                    ["One-person queue", "Run the official photo workflow member by member for cleaner outputs."],
-                    ["Official preview", "White-background head-and-shoulders framing instead of lifestyle styling."],
-                    ["Print-ready chips", "Size, pixel output, and printable sheet notes stay visible."],
+                    [
+                      "Country first",
+                      "US, UK, Schengen, Canada, India, Australia, China, and Japan presets.",
+                    ],
+                    [
+                      "One-person queue",
+                      "Run the official photo workflow member by member for cleaner outputs.",
+                    ],
+                    [
+                      "Official preview",
+                      "White-background head-and-shoulders framing instead of lifestyle styling.",
+                    ],
+                    [
+                      "Print-ready chips",
+                      "Size, pixel output, and printable sheet notes stay visible.",
+                    ],
                   ].map(([title, body]) => (
                     <div
                       key={title}
