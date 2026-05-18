@@ -2,7 +2,15 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import ParallaxStack from "@/components/motion/ParallaxStack";
+import Image from "next/image";
 import Link from "next/link";
+
+const customerFaces = [
+  "/avatars/hero-customer-1.webp",
+  "/avatars/hero-customer-2.webp",
+  "/avatars/hero-customer-3.webp",
+  "/avatars/hero-customer-4.webp",
+];
 
 function Polaroid({
   src,
@@ -82,12 +90,7 @@ export default function Hero() {
             AI family photo generator
           </span>
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
-            Family photos
-            <br />
-            you&apos;ll <em className="serif-italic text-[color:var(--color-coral)]">
-              actually
-            </em>{" "}
-            print.
+            Turn your phone pics into professional photo shoots.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
             Scattered iPhone photos in, one frame-worthy family portrait out. Upload separate photos
@@ -115,12 +118,20 @@ export default function Hero() {
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)]">
             <div className="flex -space-x-2" aria-hidden>
-              {["#F26B4A", "#8AAE9B", "#FFD27A", "#4A3557"].map((c, i) => (
+              {customerFaces.map((src, i) => (
                 <span
-                  key={i}
-                  className="inline-block h-7 w-7 rounded-full border-2 border-[color:var(--color-bg)]"
-                  style={{ background: c }}
-                />
+                  key={src}
+                  className="relative inline-block h-7 w-7 overflow-hidden rounded-full border-2 border-[color:var(--color-bg)] bg-[color:var(--color-bg-soft)]"
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="28px"
+                    className="object-cover"
+                    priority={i === 0}
+                  />
+                </span>
               ))}
             </div>
             <span>5,000+ happy customers</span>
