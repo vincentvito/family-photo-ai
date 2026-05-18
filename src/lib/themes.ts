@@ -164,6 +164,26 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "stacked-love",
+    name: "Stacked Love",
+    blurb:
+      "A close black-and-white studio portrait with faces gently stacked together. Soft smiles, white backdrop, timeless album-cover intimacy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-stacked-love.jpg",
+    aspectRatio: "2:3",
+    supportsPets: false,
+    spec: {
+      assetType: "A 2:3 classic black-and-white studio family portrait",
+      camera:
+        "medium-format portrait camera with an 85mm lens, vertical close crop, faces layered in a gentle stacked pyramid composition, all selected people looking toward camera",
+      lighting:
+        "large softbox front light with delicate fill, clean white-to-light-gray studio backdrop, soft shadow falloff, bright eyes and flattering skin texture",
+      style:
+        "timeless monochrome silver-gelatin print, smooth midtone contrast, subtle natural grain, clean white background, no props, no color, polished family-album finish",
+    },
+  },
+  {
     id: "wes-anderson",
     name: "Wes Anderson Symmetry",
     blurb:

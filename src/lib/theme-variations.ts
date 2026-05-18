@@ -31,6 +31,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close intimate crop: shoulder-to-shoulder grouping, faces layered in depth, quiet unscripted glances under Rembrandt light.",
     "Wide set portrait: family placed within the painted studio backdrop, polished floor visible, refined magazine-cover negative space.",
   ],
+  "stacked-love": [
+    "Classic stacked portrait: selected people arranged in a gentle vertical pyramid, taller subjects slightly higher when natural, shorter subjects lower, faces close and smiling on a clean white backdrop.",
+    "Cheek-to-cheek close crop: selected people nestled shoulder-to-shoulder with heads layered tightly, warm eye contact, monochrome studio softness and no props.",
+    "Album-cover portrait: selected people composed like a timeless black-and-white magazine cover, relaxed smiles, white background, elegant vertical crop.",
+    "Soft family pile portrait: selected people leaning together naturally with overlapping shoulders, balanced face spacing, bright white studio negative space and silver-gelatin texture.",
+  ],
   "wes-anderson": [
     "Standing lineup proof: selected subject or cast standing full-body on the centered patterned rug, hands empty at sides, serious deadpan expression, perfectly symmetrical furniture around them.",
     "Seated tableau proof: selected subject or cast seated formally on a couch or bench, holding a single tiny teacup or flower stem, exact pastel order and balanced side tables.",
