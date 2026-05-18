@@ -678,8 +678,9 @@ export default function ThemeBoard({
                   selectedIds={selectedThemeIdSet}
                   onPick={toggleThemeSelection}
                 />
-                <div className="mt-8 rounded-[var(--radius-xl)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] p-4 shadow-[var(--shadow-sm)] sm:flex sm:items-center sm:justify-between sm:gap-4">
-                  <div>
+                <div className="h-32 sm:h-28" aria-hidden />
+                <div className="fixed inset-x-3 bottom-3 z-30 mx-auto max-w-5xl rounded-[var(--radius-xl)] border border-[color:var(--color-line-strong)] bg-[color:rgba(255,253,248,0.94)] p-3 shadow-[0_20px_60px_rgba(31,26,36,0.18)] backdrop-blur-md sm:bottom-5 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:p-4">
+                  <div className="min-w-0">
                     <p className="small-caps text-[color:var(--color-ink-muted)]">
                       {selectedThemes.length}/4 vibes selected
                     </p>
@@ -693,7 +694,7 @@ export default function ThemeBoard({
                             : "We'll use your 4 selected vibes."}
                     </p>
                     {selectedThemes.length > 0 && (
-                      <p className="mt-2 text-sm font-medium text-[color:var(--color-ink)]">
+                      <p className="mt-2 truncate text-sm font-medium text-[color:var(--color-ink)]">
                         {selectedThemes.map((theme) => theme.name).join(" · ")}
                       </p>
                     )}
@@ -702,7 +703,7 @@ export default function ThemeBoard({
                     type="button"
                     onClick={launchSelectedThemes}
                     disabled={pending || selectedThemes.length === 0}
-                    className={`btn btn-lg mt-4 sm:mt-0 ${canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"}`}
+                    className={`btn btn-lg mt-3 w-full sm:mt-0 sm:w-auto ${canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"}`}
                   >
                     {!canCreateShoot
                       ? "Add credits to begin"
