@@ -25,7 +25,7 @@ export type PredictionSlot = {
 };
 
 const ANATOMY_PROPORTION_DIRECTIVE =
-  "Anatomy and scale rule: keep every selected subject's head, face, neck, shoulders, torso, arms, hands, fingers, legs, feet, crown, hat and clothing scale natural and proportional to that person's visible body; avoid oversized heads, shrunken bodies, tiny hands, stretched limbs, warped joints, duplicate limbs or costume pieces that distort body proportions.";
+  "Anatomy and scale: keep each selected subject natural and proportional; avoid warped faces, oversized heads, tiny hands, stretched or duplicate limbs, and distorted clothing.";
 
 /**
  * Fan out one Replicate prediction per variant against the chosen model and
@@ -231,13 +231,13 @@ function buildVariantPrompt(
   return [
     `Shot direction: ${variationPrompt}`,
     `Variant framing: ${buildVariantFraming(variant, variationPrompt)}`,
-    "Honor the shot direction and variant framing as the source of truth for pose, camera height, crop, subject scale, prop placement, foreground detail and negative-space placement.",
+    "Use the shot direction and variant framing as the source of truth for pose, crop, subject scale, foreground detail and negative space.",
     "",
     basePrompt,
     "",
     ANATOMY_PROPORTION_DIRECTIVE,
-    "Reference handling: preserve each selected subject's facial identity, age cues, skin tone, hair, and recognizable features from the attached reference photos, but do not copy the selfie expression, gaze, lighting, pose, background, clothing, or camera angle.",
-    "Expression direction: choose natural expressions that fit the shot direction and setting: relaxed, warm, candid, gently happy or wind-softened as appropriate.",
+    "Reference handling: preserve each selected subject's facial identity, age cues, skin tone, hair and recognizable features; do not copy selfie expression, pose, lighting, background, clothing or camera angle.",
+    "Expression direction: use relaxed, warm expressions that fit the shot direction and setting.",
     `Aspect ratio: ${aspectRatio}.`,
   ]
     .join("\n")
@@ -262,6 +262,12 @@ function buildVariantFraming(variant: number, prompt: string): string {
   }
   if (/slot 4 composition/iu.test(prompt)) {
     return "wide environmental card, selected cast smaller in the lower third, occasion setting dominates, large calm greeting area";
+  }
+  if (/\b(horizontal cheek line|tight shoulder-up row|heads nearly level)\b/iu.test(prompt)) {
+    return "tight horizontal portrait, selected cast spread across the frame with heads nearly level, faces and shoulders prominent";
+  }
+  if (/\b(album-cover|magazine cover|negative space)\b/iu.test(prompt)) {
+    return "graphic album-cover portrait, selected cast clustered asymmetrically with clean white negative space, chest-up to waist-up crop";
   }
   if (
     /\b(seated|sitting|leaning|bench|couch|floor|table|blanket|steps|porch|rail|doorway|lounger)\b/iu.test(

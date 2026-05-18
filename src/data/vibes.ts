@@ -146,6 +146,26 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "stacked-love-family-photos",
+    name: "Stacked Love",
+    keyword: "stacked family portrait",
+    secondaryKeywords: [
+      "black and white family portrait",
+      "stacked love family photo",
+      "viral family portrait trend",
+      "studio family portrait white background",
+    ],
+    image: "/samples/theme-stacked-love.jpg",
+    shortDescription:
+      "A viral black-and-white studio portrait with everyone gently stacked together on a clean white backdrop.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "film-noir-family-photos",
+      "vintage-polaroid-family-photos",
+      "wes-anderson-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",

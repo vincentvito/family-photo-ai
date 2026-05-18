@@ -83,3 +83,47 @@ test("Reference identity map omits roster names", () => {
   assert.doesNotMatch(prompt, /Arena/i);
   assert.doesNotMatch(prompt, /WhatsApp Image/i);
 });
+
+test("People-only casts do not add pet or animal exclusions", () => {
+  const prompt = buildGenerationPrompt(
+    getTheme("stacked-love"),
+    [
+      {
+        personId: "adult-1",
+        name: "Adult One",
+        role: "adult",
+        notes: null,
+        referencePaths: ["adult-one.jpg"],
+      },
+      {
+        personId: "adult-2",
+        name: "Adult Two",
+        role: "adult",
+        notes: null,
+        referencePaths: ["adult-two.jpg"],
+      },
+      {
+        personId: "child-1",
+        name: "Child One",
+        role: "child",
+        notes: null,
+        referencePaths: ["child-one.jpg"],
+      },
+      {
+        personId: "child-2",
+        name: "Child Two",
+        role: "child",
+        notes: null,
+        referencePaths: ["child-two.jpg"],
+      },
+    ],
+    null,
+    null,
+  );
+
+  assert.match(prompt, /Cast rule: show only the selected cast: 2 adults; 2 children\./i);
+  assert.match(prompt, /Total living subjects in the image must be exactly 4\./i);
+  assert.doesNotMatch(prompt, /no pets/i);
+  assert.doesNotMatch(prompt, /Do not add animals/i);
+  assert.doesNotMatch(prompt, /background free of .*animals/i);
+});

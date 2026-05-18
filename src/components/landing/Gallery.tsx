@@ -7,6 +7,7 @@ import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
 const FEATURED_IDS = [
+  "stacked-love",
   "card-diwali",
   "golden-hour-beach",
   "card-dia-de-muertos",
