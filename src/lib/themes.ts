@@ -1403,6 +1403,18 @@ export function buildCustomTheme(opts: { description: string; aspectRatio: Aspec
   };
 }
 
+export function withAspectRatioOverride(theme: Theme, aspectRatio: AspectRatio): Theme {
+  if (theme.aspectRatio === aspectRatio) return theme;
+  return {
+    ...theme,
+    aspectRatio,
+    spec: {
+      ...theme.spec,
+      assetType: theme.spec.assetType.replace(/\b[1234]:[1234]\b/u, aspectRatio),
+    },
+  };
+}
+
 /**
  * Resolve the right Theme for a generation row — for canned themes we look up
  * the static catalog; for themeId === "custom" we synthesize one from the
@@ -1425,7 +1437,7 @@ export function resolveTheme(generation: {
   }
   const theme = getTheme(generation.themeId);
   if (generation.aspectRatio && generation.aspectRatio !== theme.aspectRatio) {
-    return { ...theme, aspectRatio: generation.aspectRatio as AspectRatio };
+    return withAspectRatioOverride(theme, generation.aspectRatio as AspectRatio);
   }
   return theme;
 }

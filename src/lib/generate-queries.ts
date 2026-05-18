@@ -4,7 +4,7 @@ import { and, eq, asc, inArray, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
-import { THEMES, buildCustomTheme, getTheme } from "@/lib/themes";
+import { THEMES, buildCustomTheme, getTheme, withAspectRatioOverride } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import { getThemeVariationPrompts } from "@/lib/theme-variations";
 import { buildVibeSelectionPlan } from "@/lib/vibe-selection-plan";
@@ -358,8 +358,7 @@ function buildLaunchVariationPrompts({
 }
 
 function applyThemeAspectOverride(theme: Theme, aspectRatio: AspectRatio): Theme {
-  if (theme.aspectRatio === aspectRatio) return theme;
-  return { ...theme, aspectRatio };
+  return withAspectRatioOverride(theme, aspectRatio);
 }
 
 function buildCardVariationPrompt({
