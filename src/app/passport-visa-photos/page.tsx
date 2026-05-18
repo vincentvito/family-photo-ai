@@ -156,7 +156,7 @@ export default function PassportVisaPhotosPage() {
                   </div>
 
                   <div className="rounded-[28px] border border-[color:var(--color-line-strong)] bg-white p-5 shadow-[var(--shadow-md)]">
-                    <div className="mx-auto max-w-[245px] overflow-hidden rounded-[18px] border border-[color:var(--color-line)] bg-white shadow-inner">
+                    <div className="mx-auto max-w-[245px] overflow-hidden border border-[color:var(--color-line)] bg-white shadow-inner">
                       <Image
                         src={passportPreviews[0].src}
                         alt="Generated UK passport photo preview for Mia"

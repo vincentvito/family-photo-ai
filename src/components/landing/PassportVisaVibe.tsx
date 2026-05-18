@@ -80,7 +80,7 @@ export default function PassportVisaVibe() {
                       </div>
 
                       <div className="rounded-[22px] border border-[color:var(--color-line-strong)] bg-white p-4 shadow-[var(--shadow-sm)]">
-                        <div className="mx-auto max-w-[190px] overflow-hidden rounded-[16px] border border-[color:var(--color-line)] bg-white shadow-inner">
+                        <div className="mx-auto max-w-[190px] overflow-hidden border border-[color:var(--color-line)] bg-white shadow-inner">
                           <Image
                             src={queue[0].src}
                             alt="Generated UK passport photo preview for Ava"
