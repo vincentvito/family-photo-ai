@@ -180,7 +180,7 @@ export const THEMES: Theme[] = [
       lighting:
         "large softbox front light with delicate fill, clean white-to-light-gray studio backdrop, soft shadow falloff, bright eyes and flattering skin texture",
       style:
-        "timeless monochrome silver-gelatin print, smooth midtone contrast, subtle natural grain, clean white background, no props, no color, polished family-album finish",
+        "timeless monochrome silver-gelatin print, smooth midtone contrast, subtle natural grain, clean white background, no props, no color, polished album finish",
     },
   },
   {

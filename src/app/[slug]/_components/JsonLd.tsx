@@ -1,4 +1,5 @@
 import type { FaqItem } from "@/data/seo-content";
+import { PRICING_PACKS } from "@/lib/pricing-packs";
 
 type Props = {
   url: string;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
+const STARTER_PACK = PRICING_PACKS.single_keepsake;
 
 export function JsonLd({
   url,
@@ -32,6 +34,20 @@ export function JsonLd({
     url: fullUrl,
     image: fullImage,
     isPartOf: { "@type": "WebSite", name: "FamilyShoot", url: SITE_URL },
+    ...(type === "Product"
+      ? {
+          brand: { "@type": "Brand", name: "FamilyShoot" },
+          offers: {
+            "@type": "Offer",
+            url: fullUrl,
+            priceCurrency: "USD",
+            price: (STARTER_PACK.unitAmount / 100).toFixed(2),
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            category: "Personalized family photo card",
+          },
+        }
+      : {}),
   };
 
   const breadcrumb = {

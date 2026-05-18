@@ -104,16 +104,16 @@ function buildRosterDirective(subjects: Subject[]): string {
   const identityRule = describeRosterIdentities(subjects);
   const backgroundRule =
     pets.length === 0
-      ? "Keep the background free of extra people, duplicate faces, posters, reflections and animals."
+      ? "Keep the background free of extra people, duplicate faces, posters and reflections."
       : "Keep the background free of extra people, duplicate faces, posters, reflections and unselected animals.";
 
   return [
     `Cast rule: show only the selected cast: ${castRule}.`,
     `Total living subjects in the image must be exactly ${subjects.length}.`,
     identityRule,
-    pets.length === 0
-      ? "Do not add animals or pets."
-      : "Selected pet references are required cast members and must appear as animals, not as extra adults, children, dolls, statues, mascots or human subjects.",
+    pets.length > 0
+      ? "Selected pet references are required cast members and must appear as animals, not as extra adults, children, dolls, statues, mascots or human subjects."
+      : "",
     pets.length > 0
       ? "When shot directions describe human poses, gestures, hands, feet, clothing or regalia, apply those details only to adult and child subjects; place selected pets naturally beside the people, held safely by a person, seated on a cushion, at their feet, or on nearby furniture as the scene allows."
       : "",
@@ -140,8 +140,6 @@ function buildCastRule({
   if (kids.length) parts.push(countSubjects(kids, "child", "children"));
   if (pets.length) {
     parts.push(describePets(pets));
-  } else {
-    parts.push("no pets");
   }
   return parts.join("; ");
 }
@@ -201,7 +199,7 @@ function describeRosterIdentities(subjects: Subject[]): string {
 
   return [
     `Reference identity map: ${joinWithAnd(identities)}.`,
-    "Treat each mapped reference as one distinct selected subject; do not use names or file names as visible identity cues, and do not merge, rename, duplicate or replace subjects.",
+    "Treat each mapped reference as one distinct selected subject; do not render names or file names, and do not merge, duplicate or replace subjects.",
   ].join(" ");
 }
 

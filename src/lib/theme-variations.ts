@@ -32,10 +32,10 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Wide set portrait: family placed within the painted studio backdrop, polished floor visible, refined magazine-cover negative space.",
   ],
   "stacked-love": [
-    "Classic stacked portrait: selected people arranged in a gentle vertical pyramid, taller subjects slightly higher when natural, shorter subjects lower, faces close and smiling on a clean white backdrop.",
-    "Cheek-to-cheek close crop: selected people nestled shoulder-to-shoulder with heads layered tightly, warm eye contact, monochrome studio softness and no props.",
-    "Album-cover portrait: selected people composed like a timeless black-and-white magazine cover, relaxed smiles, white background, elegant vertical crop.",
-    "Soft family pile portrait: selected people leaning together naturally with overlapping shoulders, balanced face spacing, bright white studio negative space and silver-gelatin texture.",
+    "Tiered pyramid close-up: selected people arranged in a gentle vertical stack, taller subjects slightly higher, shorter subjects lower, faces close and smiling on a clean white backdrop.",
+    "Horizontal cheek line: selected people nestled in a tight shoulder-up row across the frame, heads nearly level, cheeks and shoulders overlapping, warm eye contact and monochrome studio softness.",
+    "Graphic album-cover portrait: selected people clustered asymmetrically in the lower third or one side of the frame, diagonal face spacing, relaxed smiles and large clean white negative space.",
+    "Seated studio pile: one adult seated as the anchor, children leaning naturally against shoulders, second adult tucked behind or beside them, waist-up crop with relaxed visible hands.",
   ],
   "wes-anderson": [
     "Standing lineup proof: selected subject or cast standing full-body on the centered patterned rug, hands empty at sides, serious deadpan expression, perfectly symmetrical furniture around them.",
