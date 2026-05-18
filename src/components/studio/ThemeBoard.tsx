@@ -31,10 +31,9 @@ const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
 const ADD_CREDITS_MESSAGE =
   "Your free preview is one-time. Add credits before starting another one.";
 const BUY_PACK_MESSAGE = "Buy a photo pack before starting a shoot.";
-const CreditPurchaseDialog = dynamic(
-  () => import("@/components/billing/CreditPurchaseDialog"),
-  { ssr: false },
-);
+const CreditPurchaseDialog = dynamic(() => import("@/components/billing/CreditPurchaseDialog"), {
+  ssr: false,
+});
 
 export type RosterMember = {
   id: string;
@@ -96,6 +95,7 @@ export default function ThemeBoard({
     Array.from({ length: CARD_STYLE_SLOT_COUNT }, () => DEFAULT_CARD_ART_STYLE_ID),
   );
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
+  const [selectedThemeIds, setSelectedThemeIds] = useState<string[]>([]);
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
 
   const [customDescription, setCustomDescription] = useState("");
@@ -112,7 +112,7 @@ export default function ThemeBoard({
   const [cardsExpanded, setCardsExpanded] = useState(false);
   const [mode, setMode] = useState<"curated" | "custom">("curated");
   const [pendingShoot, setPendingShoot] = useState<
-    { kind: "theme"; theme: Theme } | { kind: "custom" } | null
+    { kind: "theme"; themes: Theme[]; selectedCount: number } | { kind: "custom" } | null
   >(null);
   const subjectLimit = isAdmin ? null : MAX_SHOT_SUBJECTS;
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(
@@ -124,6 +124,11 @@ export default function ThemeBoard({
   const selectedCardTheme = selectedCardId
     ? (cards.find((theme) => theme.id === selectedCardId) ?? null)
     : null;
+  const availableShootThemes = [...photoreal, ...stylized];
+  const selectedThemes = selectedThemeIds
+    .map((themeId) => availableShootThemes.find((theme) => theme.id === themeId))
+    .filter((theme): theme is Theme => Boolean(theme));
+  const selectedThemeIdSet = new Set(selectedThemeIds);
 
   const selectedHasReference = roster.some((m) => selectedSubjectIds.has(m.id) && m.hasReference);
 
@@ -202,6 +207,39 @@ export default function ThemeBoard({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  const toggleThemeSelection = (theme: Theme) => {
+    if (outputMode === "card") {
+      launch(theme);
+      return;
+    }
+    setError(null);
+    setSelectedThemeIds((prev) => {
+      if (prev.includes(theme.id)) return prev.filter((id) => id !== theme.id);
+      if (prev.length >= 4) {
+        setError("Choose up to 4 vibes for one shoot.");
+        return prev;
+      }
+      return [...prev, theme.id];
+    });
+  };
+
+  const launchSelectedThemes = () => {
+    if (selectedThemes.length === 0) {
+      setError("Pick at least one vibe to start the shoot.");
+      return;
+    }
+    if (!canCreateShoot) {
+      openCreditDialog();
+      return;
+    }
+    setError(null);
+    setPendingShoot({
+      kind: "theme",
+      themes: selectedThemes,
+      selectedCount: selectedThemes.length,
+    });
+  };
+
   const launch = (theme: Theme) => {
     if (!canCreateShoot) {
       openCreditDialog();
@@ -212,7 +250,7 @@ export default function ThemeBoard({
       router.push(`/studio/theme?output=card&card=${encodeURIComponent(theme.id)}`);
       return;
     }
-    setPendingShoot({ kind: "theme", theme });
+    setPendingShoot({ kind: "theme", themes: [theme], selectedCount: 1 });
   };
 
   const backToCards = () => {
@@ -240,7 +278,8 @@ export default function ThemeBoard({
     setPendingShoot(null);
 
     if (shoot.kind === "theme") {
-      const theme = shoot.theme;
+      const themes = shoot.themes;
+      const theme = themes[0];
       setActiveTheme(theme);
       setLaunchingCustom(false);
       const subjectIds = buildSubjectIdsPayload();
@@ -248,6 +287,7 @@ export default function ThemeBoard({
         try {
           const { generationId } = await postGenerate({
             themeId: theme.id,
+            themeIds: themes.map((item) => item.id),
             outputType: outputMode,
             wardrobeNote: wardrobe.trim() || null,
             cardText: theme.acceptsCardText ? cardText.trim() || null : null,
@@ -354,13 +394,17 @@ export default function ThemeBoard({
 
   const confirmTitle = (() => {
     if (!pendingShoot) return "";
-    if (pendingShoot.kind === "theme") return `Start the ${pendingShoot.theme.name} shoot?`;
+    if (pendingShoot.kind === "theme") {
+      const names = pendingShoot.themes.map((theme) => theme.name).join(", ");
+      return `Start with ${names}?`;
+    }
     return "Start the custom shoot?";
   })();
 
   const confirmDescription = (() => {
     if (!pendingShoot) return undefined;
-    const themeRatio = pendingShoot.kind === "theme" ? pendingShoot.theme.aspectRatio : null;
+    const themeRatio =
+      pendingShoot.kind === "theme" ? (pendingShoot.themes[0]?.aspectRatio ?? null) : null;
     const ratio = resolveRatio(themeRatio);
     const label = shapeOptions.find((o) => o.ratio === ratio)?.label ?? "Wide";
     const noun = outputMode === "card" ? "card designs" : "shots";
@@ -372,7 +416,15 @@ export default function ThemeBoard({
       !hasCredits && canStartFreePreview
         ? " This will be a watermarked free preview until you unlock it."
         : "";
-    return `We'll create 4 ${label} (${ratio}) ${noun}.${previewNote} You can favorite, regenerate, or try another vibe after.${styleNote}`;
+    const vibeNote =
+      pendingShoot.kind === "theme" && outputMode === "photoshoot"
+        ? pendingShoot.selectedCount === 1
+          ? " Since you picked 1 vibe, we'll generate 4 different variations of that same vibe."
+          : pendingShoot.selectedCount < 4
+            ? ` We'll fill the remaining ${4 - pendingShoot.selectedCount} ${4 - pendingShoot.selectedCount === 1 ? "slot" : "slots"} with recommended vibes automatically.`
+            : " We'll use your 4 selected vibes."
+        : "";
+    return `We'll create 4 ${label} (${ratio}) ${noun}.${vibeNote}${previewNote} You can favorite, regenerate, or try another vibe after.${styleNote}`;
   })();
 
   return (
@@ -596,9 +648,16 @@ export default function ThemeBoard({
                   themes={photoreal}
                   pending={pending}
                   disabledLabel={!canCreateShoot ? disabledLabel : undefined}
-                  actionLabel={!canCreateShoot ? disabledLabel : undefined}
+                  actionLabel={
+                    !canCreateShoot
+                      ? disabledLabel
+                      : selectedThemeIds.length === 0
+                        ? "Select vibe"
+                        : "Toggle vibe"
+                  }
                   activeId={activeTheme?.id ?? null}
-                  onPick={launch}
+                  selectedIds={selectedThemeIdSet}
+                  onPick={toggleThemeSelection}
                 />
 
                 <ThemeSection
@@ -608,10 +667,52 @@ export default function ThemeBoard({
                   themes={stylized}
                   pending={pending}
                   disabledLabel={!canCreateShoot ? disabledLabel : undefined}
-                  actionLabel={!canCreateShoot ? disabledLabel : undefined}
+                  actionLabel={
+                    !canCreateShoot
+                      ? disabledLabel
+                      : selectedThemeIds.length === 0
+                        ? "Select vibe"
+                        : "Toggle vibe"
+                  }
                   activeId={activeTheme?.id ?? null}
-                  onPick={launch}
+                  selectedIds={selectedThemeIdSet}
+                  onPick={toggleThemeSelection}
                 />
+                <div className="mt-8 rounded-[var(--radius-xl)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] p-4 shadow-[var(--shadow-sm)] sm:flex sm:items-center sm:justify-between sm:gap-4">
+                  <div>
+                    <p className="small-caps text-[color:var(--color-ink-muted)]">
+                      {selectedThemes.length}/4 vibes selected
+                    </p>
+                    <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+                      {selectedThemes.length === 0
+                        ? "Pick 1 to 4 vibes. We'll always create 4 variations."
+                        : selectedThemes.length === 1
+                          ? "We'll make 4 different variations of this vibe after you confirm."
+                          : selectedThemes.length < 4
+                            ? `We'll add ${4 - selectedThemes.length} recommended ${4 - selectedThemes.length === 1 ? "vibe" : "vibes"} automatically.`
+                            : "We'll use your 4 selected vibes."}
+                    </p>
+                    {selectedThemes.length > 0 && (
+                      <p className="mt-2 text-sm font-medium text-[color:var(--color-ink)]">
+                        {selectedThemes.map((theme) => theme.name).join(" · ")}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={launchSelectedThemes}
+                    disabled={pending || selectedThemes.length === 0}
+                    className={`btn btn-lg mt-4 sm:mt-0 ${canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"}`}
+                  >
+                    {!canCreateShoot
+                      ? "Add credits to begin"
+                      : pending
+                        ? "Setting up..."
+                        : hasCredits
+                          ? "Generate 4 shots"
+                          : "Create free preview"}
+                  </button>
+                </div>
               </>
             )}
 

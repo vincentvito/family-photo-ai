@@ -5,6 +5,7 @@ import type { AspectRatio, Subject } from "@/lib/providers/types";
 
 export type StartPredictionsArgs = {
   prompt: string;
+  slotPrompts?: readonly string[];
   aspectRatio: AspectRatio;
   subjects: Subject[];
   locationReferencePath?: string | null;
@@ -21,6 +22,7 @@ export type StartPredictionsArgs = {
 export type PredictionSlot = {
   id: string;
   retries: number;
+  basePrompt?: string;
   variationPrompt?: string;
 };
 
@@ -44,6 +46,10 @@ export async function createGenerationPredictions(
   const imageUrls = buildReferenceUrls(args.subjects, args.locationReferencePath);
 
   const slotInputs = Array.from({ length: variants }, (_, i) => ({
+    basePrompt:
+      args.slotPrompts && args.slotPrompts.length > 0
+        ? args.slotPrompts[i % args.slotPrompts.length]
+        : args.prompt,
     variationPrompt:
       args.variationPrompts && args.variationPrompts.length > 0
         ? args.variationPrompts[i % args.variationPrompts.length]
@@ -54,7 +60,7 @@ export async function createGenerationPredictions(
     slotInputs.map((slot, i) =>
       createSinglePrediction({
         modelId: args.modelId,
-        basePrompt: args.prompt,
+        basePrompt: slot.basePrompt,
         variantIndex: i,
         aspectRatio: args.aspectRatio,
         variationPrompt: slot.variationPrompt,
@@ -67,6 +73,9 @@ export async function createGenerationPredictions(
     slots: ids.map((id, index) => ({
       id,
       retries: 0,
+      ...(slotInputs[index].basePrompt !== args.prompt
+        ? { basePrompt: slotInputs[index].basePrompt }
+        : {}),
       ...(slotInputs[index].variationPrompt
         ? { variationPrompt: slotInputs[index].variationPrompt }
         : {}),
@@ -136,21 +145,26 @@ export async function createSinglePrediction(args: {
 
 export function buildGenerationPredictionPrompts(args: {
   basePrompt: string;
+  slotPrompts?: readonly string[];
   aspectRatio: AspectRatio;
   variants?: number;
   variationPrompts?: readonly string[];
 }): string[] {
   const variants = args.variants ?? 4;
-  return Array.from({ length: variants }, (_, variantIndex) =>
-    buildVariantPrompt(
-      args.basePrompt,
+  return Array.from({ length: variants }, (_, variantIndex) => {
+    const basePrompt =
+      args.slotPrompts && args.slotPrompts.length > 0
+        ? args.slotPrompts[variantIndex % args.slotPrompts.length]
+        : args.basePrompt;
+    return buildVariantPrompt(
+      basePrompt,
       variantIndex,
       args.aspectRatio,
       args.variationPrompts && args.variationPrompts.length > 0
         ? args.variationPrompts[variantIndex % args.variationPrompts.length]
         : undefined,
-    ),
-  );
+    );
+  });
 }
 
 export function buildReferenceUrls(

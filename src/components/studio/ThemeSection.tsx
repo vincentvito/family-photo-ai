@@ -12,6 +12,7 @@ export default function ThemeSection({
   themes,
   pending,
   activeId,
+  selectedIds,
   onPick,
   initialCount = 6,
   disabledLabel,
@@ -23,6 +24,7 @@ export default function ThemeSection({
   themes: Theme[];
   pending: boolean;
   activeId: string | null;
+  selectedIds?: ReadonlySet<string>;
   onPick: (theme: Theme) => void;
   initialCount?: number;
   disabledLabel?: string;
@@ -60,6 +62,7 @@ export default function ThemeSection({
             disabled={pending}
             disabledLabel={disabledLabel}
             actionLabel={actionLabel}
+            selected={selectedIds?.has(theme.id) ?? false}
             loading={activeId === theme.id && pending}
             onPick={() => onPick(theme)}
           />
@@ -83,6 +86,7 @@ export default function ThemeSection({
                   disabled={pending}
                   disabledLabel={disabledLabel}
                   actionLabel={actionLabel}
+                  selected={selectedIds?.has(theme.id) ?? false}
                   loading={activeId === theme.id && pending}
                   onPick={() => onPick(theme)}
                 />

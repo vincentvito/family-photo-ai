@@ -7,6 +7,7 @@ export default function ThemeCard({
   theme,
   disabled,
   loading,
+  selected = false,
   onPick,
   disabledLabel = "Add credits first",
   actionLabel,
@@ -14,6 +15,7 @@ export default function ThemeCard({
   theme: Theme;
   disabled: boolean;
   loading: boolean;
+  selected?: boolean;
   onPick: () => void;
   disabledLabel?: string;
   actionLabel?: string;
@@ -22,7 +24,8 @@ export default function ThemeCard({
     <motion.button
       onClick={onPick}
       disabled={disabled}
-      className="group relative flex h-full flex-col text-left transition-opacity disabled:opacity-60 focus:outline-none"
+      className={`group relative flex h-full flex-col text-left transition-opacity disabled:opacity-60 focus:outline-none ${selected ? "scale-[0.99]" : ""}`}
+      aria-pressed={selected}
       whileHover={
         disabled
           ? undefined
@@ -42,10 +45,17 @@ export default function ThemeCard({
         />
         {/* Hover ring of coral soft light */}
         <div
-          className="absolute inset-0 rounded-[var(--radius-lg)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className={`absolute inset-0 rounded-[var(--radius-lg)] transition-opacity duration-300 ${
+            selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
           style={{ boxShadow: "inset 0 0 0 2px rgba(242,107,74,0.55)" }}
           aria-hidden
         />
+        {selected && (
+          <span className="absolute left-3 top-3 chip chip-coral shadow-[var(--shadow-md)]">
+            Selected
+          </span>
+        )}
 
         {/* Name overlay on bottom */}
         <div className="absolute inset-x-0 bottom-0 p-4">
