@@ -71,6 +71,13 @@ export default function PassportVisaBoard({
   const selectedHumanWithReference = selectedSubjects.filter(
     (member) => member.role !== "pet" && member.hasReference,
   );
+  const activeSubject = selectedHumanWithReference[0];
+  const printableChips = [
+    selectedSpec.sizeLabel,
+    selectedSpec.outputPixels,
+    selectedSpec.printableSheet.includes("4 x 6") ? "4 x 6 printable sheet" : "Printable sheet",
+    selectedSpec.background,
+  ];
   const canCreateShoot = creditBalance > 0 || canStartFreePreview;
 
   const toggleSubject = (id: string) => {
@@ -183,101 +190,151 @@ export default function PassportVisaBoard({
         </section>
       )}
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)] sm:p-7">
-          <span className="chip chip-sage">
-            <span className="dot dot-sage" />1 · Select country and document
-          </span>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="small-caps text-[color:var(--color-ink-muted)]">Country</span>
-              <select
-                value={selectedSpec.countryName}
-                onChange={(event) => {
-                  const group = groupedSpecs.find(
-                    (item) => item.countryName === event.target.value,
-                  );
-                  if (group?.specs[0]) setSpecId(group.specs[0].id as PassportVisaSpecId);
-                }}
-                className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-2.5 outline-none transition-all focus:border-[color:var(--color-sage)] focus:shadow-[var(--shadow-ring-sage)]"
-              >
-                {groupedSpecs.map((group) => (
-                  <option key={group.countryName} value={group.countryName}>
-                    {group.countryName}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="small-caps text-[color:var(--color-ink-muted)]">Document</span>
-              <select
-                value={selectedSpec.id}
-                onChange={(event) => setSpecId(event.target.value as PassportVisaSpecId)}
-                className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-2.5 outline-none transition-all focus:border-[color:var(--color-sage)] focus:shadow-[var(--shadow-ring-sage)]"
-              >
-                {groupedSpecs
-                  .find((group) => group.countryName === selectedSpec.countryName)
-                  ?.specs.map((spec) => (
-                    <option key={spec.id} value={spec.id}>
-                      {spec.documentLabel} · {spec.sizeLabel}
+      <section className="mt-8 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]">
+          <div className="bg-gradient-to-br from-white via-[color:var(--color-bg)] to-[color:var(--color-bg-tinted-butter)] p-5 sm:p-7">
+            <span className="chip chip-sage">
+              <span className="dot dot-sage" />1 · Select country and document
+            </span>
+            <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h2 className="serif text-4xl tracking-[-0.03em]">
+                  Requirements first, photo second.
+                </h2>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                  Lock the destination and document type before choosing a family member, so size,
+                  background, crop, and sheet guidance stay attached to the generation.
+                </p>
+              </div>
+              <span className="rounded-full bg-[color:var(--color-ink)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+                {selectedSpec.countryCode} · {selectedSpec.documentType}
+              </span>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <label className="block rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-white/78 p-4 shadow-[var(--shadow-sm)]">
+                <span className="small-caps text-[color:var(--color-ink-muted)]">Country</span>
+                <select
+                  value={selectedSpec.countryName}
+                  onChange={(event) => {
+                    const group = groupedSpecs.find(
+                      (item) => item.countryName === event.target.value,
+                    );
+                    if (group?.specs[0]) setSpecId(group.specs[0].id as PassportVisaSpecId);
+                  }}
+                  className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-3 outline-none transition-all focus:border-[color:var(--color-sage)] focus:shadow-[var(--shadow-ring-sage)]"
+                >
+                  {groupedSpecs.map((group) => (
+                    <option key={group.countryName} value={group.countryName}>
+                      {group.countryName}
                     </option>
                   ))}
-              </select>
-            </label>
+                </select>
+              </label>
+              <label className="block rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-white/78 p-4 shadow-[var(--shadow-sm)]">
+                <span className="small-caps text-[color:var(--color-ink-muted)]">Document</span>
+                <select
+                  value={selectedSpec.id}
+                  onChange={(event) => setSpecId(event.target.value as PassportVisaSpecId)}
+                  className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-3 outline-none transition-all focus:border-[color:var(--color-sage)] focus:shadow-[var(--shadow-ring-sage)]"
+                >
+                  {groupedSpecs
+                    .find((group) => group.countryName === selectedSpec.countryName)
+                    ?.specs.map((spec) => (
+                      <option key={spec.id} value={spec.id}>
+                        {spec.documentLabel} · {spec.sizeLabel}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            </div>
           </div>
 
-          <div className="mt-5 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-5">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[color:var(--color-ink-faint)]">
-                  Selected preset
-                </p>
-                <h2 className="serif mt-1 text-3xl tracking-[-0.02em]">
-                  {selectedSpec.countryName} {selectedSpec.documentLabel}
-                </h2>
-              </div>
-              <div className="rounded-[var(--radius-md)] bg-[color:var(--color-bg-tinted-butter)] px-4 py-3 text-right">
-                <p className="text-xs text-[color:var(--color-ink-muted)]">Size</p>
-                <p className="text-lg font-semibold">{selectedSpec.sizeLabel}</p>
+          <div className="grid gap-0 lg:grid-cols-[0.72fr_1fr]">
+            <div className="border-t border-[color:var(--color-line)] bg-white p-5 sm:p-7 lg:border-r lg:border-t-0">
+              <p className="small-caps text-[color:var(--color-ink-muted)]">Official preview</p>
+              <div className="mt-4 rounded-[26px] border border-[color:var(--color-line-strong)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                <div className="mx-auto flex aspect-[35/45] max-w-[210px] flex-col items-center justify-end overflow-hidden rounded-[18px] border border-[color:var(--color-line)] bg-white px-7 pt-7 shadow-inner">
+                  <div className="h-20 w-20 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-sage)]" />
+                  <div className="mt-3 h-24 w-36 rounded-t-full bg-[color:var(--color-bg-tinted-butter)]" />
+                </div>
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  <span className="rounded-full bg-[color:var(--color-ink)] px-3 py-1.5 text-xs font-semibold text-white">
+                    White background
+                  </span>
+                  <span className="rounded-full border border-[color:var(--color-line-strong)] px-3 py-1.5 text-xs font-semibold">
+                    {selectedSpec.sizeLabel}
+                  </span>
+                </div>
               </div>
             </div>
-            <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
-              <div>
-                <dt className="font-semibold">Output</dt>
-                <dd className="text-[color:var(--color-ink-muted)]">{selectedSpec.outputPixels}</dd>
+
+            <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-5 sm:p-7 lg:border-t-0">
+              <p className="small-caps text-[color:var(--color-ink-muted)]">Selected preset</p>
+              <h3 className="serif mt-1 text-3xl tracking-[-0.02em]">
+                {selectedSpec.countryName} {selectedSpec.documentLabel}
+              </h3>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {printableChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full border border-[color:var(--color-line-strong)] bg-white px-3 py-1.5 text-xs font-semibold"
+                  >
+                    {chip}
+                  </span>
+                ))}
               </div>
-              <div>
-                <dt className="font-semibold">Shape sent to model</dt>
-                <dd className="text-[color:var(--color-ink-muted)]">
-                  {selectedSpec.nearestAspectRatio} nearest supported aspect
-                </dd>
-              </div>
-              <div className="sm:col-span-2">
-                <dt className="font-semibold">Printable sheet</dt>
-                <dd className="text-[color:var(--color-ink-muted)]">
-                  {selectedSpec.printableSheet}
-                </dd>
-              </div>
-            </dl>
-            <ul className="mt-4 grid gap-2 text-sm text-[color:var(--color-ink-muted)]">
-              {selectedSpec.notes.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[color:var(--color-sage)]" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+              <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+                <div>
+                  <dt className="font-semibold">Output</dt>
+                  <dd className="text-[color:var(--color-ink-muted)]">{selectedSpec.outputPixels}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold">Model shape</dt>
+                  <dd className="text-[color:var(--color-ink-muted)]">
+                    {selectedSpec.nearestAspectRatio} nearest supported aspect
+                  </dd>
+                </div>
+                <div className="sm:col-span-2">
+                  <dt className="font-semibold">Printable sheet</dt>
+                  <dd className="text-[color:var(--color-ink-muted)]">
+                    {selectedSpec.printableSheet}
+                  </dd>
+                </div>
+              </dl>
+              <ul className="mt-4 grid gap-2 text-sm text-[color:var(--color-ink-muted)]">
+                {selectedSpec.notes.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[color:var(--color-sage)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)] sm:p-7">
+        <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-md)] sm:p-7">
           <span className="chip chip-butter">
-            <span className="dot dot-butter" />2 · Pick one family member
+            <span className="dot dot-butter" />2 · One family member queue
           </span>
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-            Official-style photos work best one person at a time. Run this flow again for each adult
-            or child in the family.
-          </p>
+          <div className="mt-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="small-caps text-[color:var(--color-ink-muted)]">Current run</p>
+                <p className="mt-1 text-lg font-semibold">
+                  {activeSubject ? activeSubject.name : "Select one adult or child"}
+                </p>
+              </div>
+              <span className="rounded-full bg-[color:var(--color-ink)] px-3 py-1.5 text-xs font-semibold text-white">
+                1 person max
+              </span>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              This keeps the passport/visa output focused: one reference, one official preview set,
+              then repeat for the next family member.
+            </p>
+          </div>
 
           {roster.length === 0 ? (
             <div className="mt-5 rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] p-5 text-sm text-[color:var(--color-ink-muted)]">
