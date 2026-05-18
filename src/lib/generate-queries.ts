@@ -4,9 +4,10 @@ import { and, eq, asc, inArray, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
-import { buildCustomTheme, getTheme } from "@/lib/themes";
+import { THEMES, buildCustomTheme, getTheme, withAspectRatioOverride } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import { getThemeVariationPrompts } from "@/lib/theme-variations";
+import { buildVibeSelectionPlan } from "@/lib/vibe-selection-plan";
 import { buildGenerationPrompt } from "@/lib/prompts";
 import {
   CARD_ART_STYLE_IDS,
@@ -92,6 +93,7 @@ async function markGenerationErrorAndRefundCredit(generationId: string, errorMes
 const StartGenerationInput = z
   .object({
     themeId: z.string().min(1).optional(),
+    themeIds: z.array(z.string().min(1)).min(1).max(VARIANT_COUNT).optional(),
     customVibe: CustomVibeSchema.optional(),
     outputType: OutputTypeSchema.optional(),
     wardrobeNote: z.string().trim().max(240).nullable().optional(),
@@ -111,7 +113,10 @@ const StartGenerationInput = z
       })
       .optional(),
   })
-  .refine((v) => !!v.themeId || !!v.customVibe, "Pick a vibe or describe your own.");
+  .refine(
+    (v) => !!v.themeId || !!v.themeIds?.length || !!v.customVibe,
+    "Pick a vibe or describe your own.",
+  );
 
 export async function startGeneration(
   input: z.infer<typeof StartGenerationInput>,
@@ -119,18 +124,33 @@ export async function startGeneration(
 ) {
   const parsed = StartGenerationInput.parse(input);
   const admin = await isAdmin();
+  const requestedThemeIds = parsed.themeIds?.length
+    ? parsed.themeIds
+    : parsed.themeId
+      ? [parsed.themeId]
+      : [];
+  const photoshootCatalog = THEMES.filter((catalogTheme) => catalogTheme.category !== "card");
+  const vibePlan = parsed.customVibe
+    ? []
+    : buildVibeSelectionPlan(requestedThemeIds, photoshootCatalog);
+  if (!parsed.customVibe && vibePlan.length === 0) {
+    throw new Error("Pick a valid vibe.");
+  }
 
   let theme: Theme = parsed.customVibe
     ? buildCustomTheme({
         description: parsed.customVibe.description,
         aspectRatio: parsed.customVibe.aspectRatio,
       })
-    : getTheme(parsed.themeId!);
+    : getTheme(vibePlan[0]?.themeId ?? parsed.themeId!);
 
   if (!parsed.customVibe && parsed.aspectOverride) {
     theme = { ...theme, aspectRatio: parsed.aspectOverride };
   }
   const outputType = parsed.outputType ?? (theme.category === "card" ? "card" : "photoshoot");
+  if (outputType === "card" && parsed.themeIds && parsed.themeIds.length > 1) {
+    throw new Error("Choose one card layout to create a card.");
+  }
   if (outputType === "card" && (parsed.customVibe || theme.category !== "card")) {
     throw new Error("Choose a card layout to create a card.");
   }
@@ -188,8 +208,20 @@ export async function startGeneration(
     parsed.wardrobeNote,
     parsed.cardText ?? null,
   );
+  const plannedThemes =
+    !parsed.customVibe && outputType === "photoshoot" && vibePlan.length > 0
+      ? vibePlan.map((slot) => applyThemeAspectOverride(getTheme(slot.themeId), theme.aspectRatio))
+      : [theme];
+  const slotPrompts = plannedThemes.map((plannedTheme) =>
+    buildGenerationPrompt(
+      plannedTheme,
+      effectiveRoster,
+      parsed.wardrobeNote,
+      parsed.cardText ?? null,
+    ),
+  );
   const variationPrompts = buildLaunchVariationPrompts({
-    theme,
+    themes: plannedThemes,
     cardArtStyleIds,
   });
 
@@ -204,6 +236,7 @@ export async function startGeneration(
   if (isPromptDebugOnlyModeEnabled()) {
     const prompts = buildGenerationPredictionPrompts({
       basePrompt: prompt,
+      slotPrompts,
       aspectRatio: theme.aspectRatio,
       variants: VARIANT_COUNT,
       variationPrompts,
@@ -263,6 +296,7 @@ export async function startGeneration(
 
   const { slots } = await createGenerationPredictions({
     prompt,
+    slotPrompts,
     aspectRatio: theme.aspectRatio,
     subjects: effectiveRoster,
     locationReferencePath: parsed.locationReferencePath ?? null,
@@ -298,13 +332,19 @@ async function resolveModelId(
 }
 
 function buildLaunchVariationPrompts({
-  theme,
+  themes,
   cardArtStyleIds,
 }: {
-  theme: Theme;
+  themes: readonly Theme[];
   cardArtStyleIds: readonly CardArtStyleId[] | null;
 }): string[] {
-  const baseVariations = getThemeVariationPrompts(theme.id, theme.category);
+  const baseVariations =
+    themes.length === 1
+      ? getThemeVariationPrompts(themes[0].id, themes[0].category)
+      : themes.map((theme, index) => {
+          const themeVariations = getThemeVariationPrompts(theme.id, theme.category);
+          return themeVariations[index % themeVariations.length];
+        });
   if (!cardArtStyleIds) return [...baseVariations];
 
   return Array.from({ length: VARIANT_COUNT }, (_, index) => {
@@ -315,6 +355,10 @@ function buildLaunchVariationPrompts({
       styleDirective: buildCardArtStyleDirective(style),
     });
   });
+}
+
+function applyThemeAspectOverride(theme: Theme, aspectRatio: AspectRatio): Theme {
+  return withAspectRatioOverride(theme, aspectRatio);
 }
 
 function buildCardVariationPrompt({
