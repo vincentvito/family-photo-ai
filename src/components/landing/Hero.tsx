@@ -46,6 +46,42 @@ function Polaroid({
   );
 }
 
+function StatsBar({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)] ${className}`}
+    >
+      <div className="flex -space-x-2" aria-hidden>
+        {customerFaces.map((src, i) => (
+          <span
+            key={src}
+            className="relative inline-block h-7 w-7 overflow-hidden rounded-full border-2 border-[color:var(--color-bg)] bg-[color:var(--color-bg-soft)]"
+          >
+            <Image
+              src={src}
+              alt=""
+              fill
+              sizes="28px"
+              className="object-cover"
+              priority={i === 0}
+            />
+          </span>
+        ))}
+      </div>
+      <span>5,000+ happy customers</span>
+      <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
+      <span>4.8 star rating</span>
+      <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
+      <Link
+        href="/gallery"
+        className="font-semibold text-[color:var(--color-coral)] underline decoration-[color:rgba(242,107,74,0.35)] underline-offset-4 transition-colors hover:text-[color:var(--color-coral-deep)]"
+      >
+        See what others created
+      </Link>
+    </div>
+  );
+}
+
 export default function Hero() {
   const reduce = useReducedMotion();
 
@@ -85,16 +121,21 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="chip chip-coral">
-            <span className="dot dot-coral" />
-            AI family photo generator
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="chip chip-coral">
+              <span className="dot dot-coral" />
+              AI family photo generator
+            </span>
+            <span className="chip chip-sage">
+              <span className="dot dot-sage" />
+              #1 app for complex family photoshoots with multiple people and pets
+            </span>
+          </div>
           <h1 className="serif mt-5 text-[3.25rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5.25rem]">
-            Turn your phone pics into professional photo shoots.
+            Turn pictures into professional photo shoots.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-            Scattered iPhone photos in, one frame-worthy family portrait out. Upload separate photos
-            of everyone, pick a vibe, and keep the AI family photos you love in about two minutes.
+            Upload separate photos of each family member, pick a vibe, and get beautiful AI family photos ready to print in about two minutes.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/sign-in" className="btn btn-coral btn-lg">
@@ -116,76 +157,54 @@ export default function Hero() {
               See the gallery
             </a>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)]">
-            <div className="flex -space-x-2" aria-hidden>
-              {customerFaces.map((src, i) => (
-                <span
-                  key={src}
-                  className="relative inline-block h-7 w-7 overflow-hidden rounded-full border-2 border-[color:var(--color-bg)] bg-[color:var(--color-bg-soft)]"
-                >
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    sizes="28px"
-                    className="object-cover"
-                    priority={i === 0}
-                  />
-                </span>
-              ))}
-            </div>
-            <span>5,000+ happy customers</span>
-            <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
-            <span>4.8 star rating</span>
-            <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
-            <Link
-              href="/gallery"
-              className="font-semibold text-[color:var(--color-coral)] underline decoration-[color:rgba(242,107,74,0.35)] underline-offset-4 transition-colors hover:text-[color:var(--color-coral-deep)]"
-            >
-              See what others created
-            </Link>
-          </div>
+          <StatsBar className="mt-8 hidden sm:flex" />
         </motion.div>
 
         {/* Polaroid stack */}
-        <div className="relative mx-auto h-[520px] w-full max-w-[460px] sm:h-[560px]">
-          <ParallaxStack
-            className="h-full w-full"
-            items={[
-              {
-                rotate: -8,
-                offsetX: -14,
-                offsetY: -4,
-                depth: 14,
-                zIndex: 1,
-                content: <Polaroid src="/samples/g-2.jpg" caption="Autumn cabin" tinted="butter" />,
-              },
-              {
-                rotate: 6,
-                offsetX: 14,
-                offsetY: 6,
-                depth: 22,
-                zIndex: 2,
-                content: (
-                  <Polaroid src="/samples/g-5.jpg" caption="Leibovitz studio" tinted="sage" />
-                ),
-              },
-              {
-                rotate: -2,
-                offsetX: 0,
-                offsetY: -20,
-                depth: 30,
-                zIndex: 3,
-                content: (
-                  <Polaroid
-                    src="/samples/hero.jpg"
-                    caption="Golden hour, back porch"
-                    tinted="coral"
-                  />
-                ),
-              },
-            ]}
-          />
+        <div>
+          <div className="relative mx-auto h-[520px] w-full max-w-[460px] sm:h-[560px]">
+            <ParallaxStack
+              className="h-full w-full"
+              items={[
+                {
+                  label: "Autumn cabin photo",
+                  rotate: -8,
+                  offsetX: -14,
+                  offsetY: -4,
+                  depth: 14,
+                  zIndex: 1,
+                  content: <Polaroid src="/samples/g-2.jpg" caption="Autumn cabin" tinted="butter" />,
+                },
+                {
+                  label: "Leibovitz studio photo",
+                  rotate: 6,
+                  offsetX: 14,
+                  offsetY: 6,
+                  depth: 22,
+                  zIndex: 2,
+                  content: (
+                    <Polaroid src="/samples/g-5.jpg" caption="Leibovitz studio" tinted="sage" />
+                  ),
+                },
+                {
+                  label: "Golden hour photo",
+                  rotate: -2,
+                  offsetX: 0,
+                  offsetY: -20,
+                  depth: 30,
+                  zIndex: 3,
+                  content: (
+                    <Polaroid
+                      src="/samples/hero.jpg"
+                      caption="Golden hour, back porch"
+                      tinted="coral"
+                    />
+                  ),
+                },
+              ]}
+            />
+          </div>
+          <StatsBar className="mx-auto mt-2 sm:hidden" />
         </div>
       </div>
     </section>

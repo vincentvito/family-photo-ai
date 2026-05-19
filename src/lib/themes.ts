@@ -579,6 +579,107 @@ export const THEMES: Theme[] = [
     },
   },
 
+  {
+    id: "king-of-pop-stage-portrait",
+    name: "King of Pop Stage Portrait",
+    blurb:
+      "A dramatic concert-stage family portrait with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and 1980s pop-performance energy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-film-noir.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 dramatic concert-stage editorial portrait",
+      camera:
+        "Hasselblad medium format with an 80mm lens, low three-quarter stage perspective, crisp faces with theater depth and clean performance-poster framing",
+      lighting:
+        "hard white follow-spot from above, cool moonlit stage-floor reflections, rim lights through cinematic smoke, deep high-contrast shadows with readable faces",
+      style:
+        "1980s pop-concert editorial photography, black, white, silver and deep-blue palette, sequined highlights, sharp tailoring, no public-figure likeness, no branded costume recreation",
+    },
+  },
+  {
+    id: "galactic-family-adventure",
+    name: "Galactic Family Adventure",
+    blurb:
+      "A cinematic space-opera family portrait on a desert-world horizon with a starship-hangar atmosphere, twin suns, heroic rim light, and adventurous wonder.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-superhero.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cinematic space-adventure family portrait",
+      camera:
+        "large-format digital cinema camera with a 40mm anamorphic lens, heroic wide group framing, desert horizon and starship-hangar silhouettes layered behind the cast",
+      lighting:
+        "low twin-sun golden backlight, cool blue hangar fill, glowing rim light on shoulders and hair, atmospheric dust haze with readable skin tones",
+      style:
+        "original space-opera production still, sand, bronze, indigo and starlight palette, practical weathered travel wardrobe, no franchise symbols, no glowing weapon props, no character costumes",
+    },
+  },
+  {
+    id: "iconic-crosswalk-album-cover",
+    name: "Iconic Crosswalk Album Cover",
+    blurb:
+      "A clean editorial street-crossing portrait with classic 1960s music-magazine energy, soft overcast city light, stylish coats, and print-ready album-cover framing.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-new-york-city.jpg",
+    aspectRatio: "1:1",
+    supportsPets: true,
+    spec: {
+      assetType: "A 1:1 square editorial street-crossing portrait",
+      camera:
+        "medium-format film camera with a 50mm lens, straight-on street-level composition, clean crosswalk geometry and balanced negative space for album-cover impact",
+      lighting:
+        "soft overcast city daylight, gentle pavement bounce fill, low contrast with crisp silhouettes and polished faces",
+      style:
+        "classic late-1960s music-magazine photography, tailored coats, muted black, cream, gray and brick palette, subtle film grain, original street scene, no exact album recreation, no band likeness",
+    },
+  },
+  {
+    id: "runway-editor-in-chief-family-editorial",
+    name: "Runway Editor-in-Chief Family Editorial",
+    blurb:
+      "A polished high-fashion magazine family shoot with sharp tailoring, glossy editorial light, city office and runway mood, confident poses, and a luxury neutral palette.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-leibovitz.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 polished high-fashion magazine family editorial",
+      camera:
+        "digital medium format with a 90mm portrait lens, refined vertical editorial framing, confident staggered poses with runway and city-office cues in the background",
+      lighting:
+        "glossy studio key light with crisp cheek highlights, soft fill, subtle rim on tailored silhouettes, reflective floor accents and controlled shadows",
+      style:
+        "luxury fashion editorial photography, ivory, charcoal, camel and glossy black palette, sharp tailoring, premium magazine retouch, no brand logos, no movie-character styling",
+    },
+  },
+  {
+    id: "noughties-family-throwback",
+    name: "Noughties Family Throwback",
+    blurb:
+      "Early-2000s family-photo energy with warm compact-camera flash, denim layers, playful mall-photo nostalgia, and a premium printable finish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-y2k-disposable.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 early-2000s compact-camera family portrait",
+      camera:
+        "consumer digital compact camera at normal focal length, slight off-center candid framing, close enough for faces and outfit details with a nostalgic snapshot feel",
+      lighting:
+        "warm direct on-camera flash balanced with soft indoor ambient light, gentle red-orange highlights, mild background falloff",
+      style:
+        "premium noughties throwback photography, casual denim and layered knits, sticker-album and mall-photo mood, soft JPEG-era color character, polished for print, no phone-screen props",
+    },
+  },
+
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
     id: "royal-family-portrait",

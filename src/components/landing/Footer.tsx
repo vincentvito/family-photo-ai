@@ -33,6 +33,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/trending" className="hover:text-white transition-colors">
+                Trending 🔥
+              </Link>
+            </li>
+            <li>
               <Link href="/#how" className="hover:text-white transition-colors">
                 How it works
               </Link>
@@ -86,6 +91,7 @@ export default function Footer() {
           className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
         >
           <HubPill href="/vibes" label="See all vibes" count={VIBES.length} />
+          <HubPill href="/trending" label="Trending vibes" />
           <HubPill href="/cards" label="See all cards" count={CARDS.length} />
           <HubPill href="/styles" label="See all styles" count={STYLES.length} />
         </nav>
@@ -139,16 +145,18 @@ function FooterLinkGroup({
   );
 }
 
-function HubPill({ href, label, count }: { href: string; label: string; count: number }) {
+function HubPill({ href, label, count }: { href: string; label: string; count?: number }) {
   return (
     <Link
       href={href}
       className="inline-flex items-center gap-2 rounded-full border border-[color:rgba(251,248,243,0.18)] bg-[color:rgba(251,248,243,0.04)] px-4 py-2 text-sm text-[color:rgba(251,248,243,0.9)] transition-colors hover:border-[color:rgba(251,248,243,0.4)] hover:bg-[color:rgba(251,248,243,0.08)] hover:text-white"
     >
       <span>{label}</span>
-      <span className="rounded-full bg-[color:rgba(251,248,243,0.1)] px-2 py-0.5 text-xs text-[color:rgba(251,248,243,0.65)]">
-        {count}
-      </span>
+      {typeof count === "number" && (
+        <span className="rounded-full bg-[color:rgba(251,248,243,0.1)] px-2 py-0.5 text-xs text-[color:rgba(251,248,243,0.65)]">
+          {count}
+        </span>
+      )}
     </Link>
   );
 }

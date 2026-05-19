@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
-import { getTheme } from "../src/lib/themes";
+import { THEMES, getTheme } from "../src/lib/themes";
+import { getThemeVariationPrompts } from "../src/lib/theme-variations";
+import { VIBES } from "../src/data/vibes";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
 
@@ -126,4 +128,44 @@ test("People-only casts do not add pet or animal exclusions", () => {
   assert.doesNotMatch(prompt, /no pets/i);
   assert.doesNotMatch(prompt, /Do not add animals/i);
   assert.doesNotMatch(prompt, /background free of .*animals/i);
+});
+
+
+const TREND_LED_THEME_IDS = [
+  "king-of-pop-stage-portrait",
+  "galactic-family-adventure",
+  "iconic-crosswalk-album-cover",
+  "runway-editor-in-chief-family-editorial",
+  "noughties-family-throwback",
+];
+
+const TREND_LED_VIBE_SLUGS = [
+  "king-of-pop-stage-family-photos",
+  "galactic-family-adventure-photos",
+  "iconic-crosswalk-album-cover-family-photos",
+  "runway-editorial-family-photos",
+  "noughties-family-throwback-photos",
+];
+
+const BLOCKED_PROMPT_TERMS =
+  /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
+
+test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
+  const themeIds = new Set(THEMES.map((theme) => theme.id));
+  const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
+
+  for (const themeId of TREND_LED_THEME_IDS) {
+    assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
+    const theme = getTheme(themeId);
+    assert.equal(theme.supportsPets, true);
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+    assert.doesNotMatch(
+      [theme.name, theme.blurb, theme.spec.assetType, theme.spec.camera, theme.spec.lighting, theme.spec.style].join(" "),
+      BLOCKED_PROMPT_TERMS,
+    );
+  }
+
+  for (const slug of TREND_LED_VIBE_SLUGS) {
+    assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
+  }
 });

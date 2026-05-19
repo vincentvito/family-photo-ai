@@ -12,6 +12,7 @@ type NavLink = {
 
 const defaultLinks: NavLink[] = [
   { href: "#gallery", label: "Gallery" },
+  { href: "/trending", label: "Trending 🔥" },
   { href: "#how", label: "How it works" },
   { href: "#pricing", label: "Pricing" },
   { href: "#faq", label: "FAQ" },

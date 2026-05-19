@@ -20,6 +20,7 @@ export default function VibesHub() {
       <Nav
         links={[
           { href: "/vibes", label: "Vibes" },
+          { href: "/trending", label: "Trending 🔥" },
           { href: "/cards", label: "Cards" },
           { href: "/styles", label: "Styles" },
         ]}

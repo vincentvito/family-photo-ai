@@ -6,22 +6,27 @@ import Reveal from "@/components/motion/Reveal";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
-const FEATURED_IDS = [
-  "stacked-love",
-  "card-diwali",
-  "golden-hour-beach",
-  "card-dia-de-muertos",
-  "cherry-blossom",
-  "card-nowruz",
-  "card-lunar-new-year",
-  "card-eid",
-  "coastal-grandmother",
-  "y2k-disposable",
-  "card-hanukkah",
+const FEATURED_ITEMS: { id: string; badge?: string; note?: string }[] = [
+  { id: "stacked-love" },
+  { id: "leibovitz-studio", badge: "Family of 5", note: "4 people + 1 pet in Leibovitz studio drama" },
+  { id: "card-diwali" },
+  { id: "golden-hour-beach" },
+  { id: "card-dia-de-muertos" },
+  { id: "cherry-blossom" },
+  { id: "card-nowruz" },
+  { id: "card-lunar-new-year" },
+  { id: "card-eid" },
+  { id: "coastal-grandmother" },
+  { id: "y2k-disposable" },
+  { id: "card-hanukkah" },
 ];
 
-const featured = FEATURED_IDS.map((id) => THEMES.find((t) => t.id === id)!).filter(Boolean);
-const rest = THEMES.filter((t) => !FEATURED_IDS.includes(t.id));
+const featured = FEATURED_ITEMS.flatMap((item) => {
+  const theme = THEMES.find((t) => t.id === item.id);
+  return theme ? [{ theme, badge: item.badge, note: item.note }] : [];
+});
+const featuredIds = FEATURED_ITEMS.map((item) => item.id);
+const rest = THEMES.filter((t) => !featuredIds.includes(t.id));
 
 const aspectClass: Record<string, string> = {
   "3:2": "aspect-[3/2]",
@@ -43,7 +48,7 @@ const categoryLabel: Record<Theme["category"], string> = {
   card: "For a card",
 };
 
-function ThemeTile({ theme }: { theme: Theme }) {
+function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?: string }) {
   const aspect = aspectClass[theme.aspectRatio] ?? "aspect-[4/5]";
   const chip = categoryChip[theme.category];
 
@@ -61,6 +66,7 @@ function ThemeTile({ theme }: { theme: Theme }) {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color:rgba(31,26,36,0.62)] via-transparent to-transparent"
           aria-hidden
         />
+        {badge && <span className="chip chip-coral absolute left-4 top-4">{badge}</span>}
         <div className="absolute inset-x-0 bottom-0 p-4">
           <h3 className="serif text-[1.4rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
             {theme.name}
@@ -72,6 +78,7 @@ function ThemeTile({ theme }: { theme: Theme }) {
           <span className={`dot ${chip.dot}`} />
           {categoryLabel[theme.category]}
         </span>
+        {note && <span className="text-right text-xs font-semibold text-[color:var(--color-ink-muted)]">{note}</span>}
       </figcaption>
     </motion.figure>
   );
@@ -112,9 +119,9 @@ export default function Gallery() {
         </Reveal>
 
         <div className="masonry-3 mt-12">
-          {featured.map((theme, i) => (
-            <Reveal key={theme.id} delay={i * 0.03}>
-              <ThemeTile theme={theme} />
+          {featured.map((item, i) => (
+            <Reveal key={item.theme.id} delay={i * 0.03}>
+              <ThemeTile theme={item.theme} badge={item.badge} note={item.note} />
             </Reveal>
           ))}
 

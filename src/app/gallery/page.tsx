@@ -39,6 +39,7 @@ export default function GalleryPage() {
       <Nav
         links={[
           { href: "/gallery", label: "Gallery" },
+          { href: "/trending", label: "Trending 🔥" },
           { href: "/vibes", label: "Vibes" },
           { href: "/cards", label: "Cards" },
           { href: "/styles", label: "Styles" },
