@@ -580,8 +580,8 @@ export const THEMES: Theme[] = [
   },
 
   {
-    id: "king-of-pop-stage-portrait",
-    name: "King of Pop Stage Portrait",
+    id: "pop-icon-stage-portrait",
+    name: "Pop Icon Stage Portrait",
     blurb:
       "A dramatic concert-stage family portrait with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and 1980s pop-performance energy.",
     category: "photoreal",

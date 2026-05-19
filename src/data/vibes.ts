@@ -166,8 +166,8 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "king-of-pop-stage-family-photos",
-    name: "King of Pop Stage Portrait",
+    slug: "pop-icon-stage-family-photos",
+    name: "Pop Icon Stage Portrait",
     keyword: "concert stage family portrait",
     secondaryKeywords: [
       "pop star stage family photo",
@@ -234,7 +234,7 @@ export const VIBES: readonly Vibe[] = [
     related: [
       "annie-leibovitz-family-photos",
       "slim-aarons-family-photos",
-      "king-of-pop-stage-family-photos",
+      "pop-icon-stage-family-photos",
     ],
   },
   {

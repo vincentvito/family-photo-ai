@@ -132,7 +132,7 @@ test("People-only casts do not add pet or animal exclusions", () => {
 
 
 const TREND_LED_THEME_IDS = [
-  "king-of-pop-stage-portrait",
+  "pop-icon-stage-portrait",
   "galactic-family-adventure",
   "iconic-crosswalk-album-cover",
   "runway-editor-in-chief-family-editorial",
@@ -140,7 +140,7 @@ const TREND_LED_THEME_IDS = [
 ];
 
 const TREND_LED_VIBE_SLUGS = [
-  "king-of-pop-stage-family-photos",
+  "pop-icon-stage-family-photos",
   "galactic-family-adventure-photos",
   "iconic-crosswalk-album-cover-family-photos",
   "runway-editorial-family-photos",
