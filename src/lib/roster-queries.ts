@@ -3,7 +3,7 @@ import { db, schema } from "@/lib/db";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { saveReferencePhoto, deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { z } from "zod";
-import { ROSTER_NAME_MAX_LENGTH, ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
+import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
 
@@ -39,14 +39,12 @@ export async function addPerson(input: {
   userId: string;
   name: string;
   role: "adult" | "child" | "pet";
-  notes?: string | null;
 }) {
   const parsed = z
     .object({
       name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH),
       userId: z.string().min(1),
       role: RoleSchema,
-      notes: z.string().trim().max(ROSTER_NOTE_MAX_LENGTH).nullable().optional(),
     })
     .parse(input);
 
@@ -56,7 +54,7 @@ export async function addPerson(input: {
       userId: parsed.userId,
       name: parsed.name,
       role: parsed.role,
-      notes: parsed.notes ?? null,
+      notes: null,
     })
     .returning();
 
@@ -69,7 +67,6 @@ export async function updatePerson(input: {
   id: string;
   name?: string;
   role?: "adult" | "child" | "pet";
-  notes?: string | null;
 }) {
   const parsed = z
     .object({
@@ -77,7 +74,6 @@ export async function updatePerson(input: {
       userId: z.string().min(1),
       name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH).optional(),
       role: RoleSchema.optional(),
-      notes: z.string().trim().max(ROSTER_NOTE_MAX_LENGTH).nullable().optional(),
     })
     .parse(input);
 
@@ -86,7 +82,6 @@ export async function updatePerson(input: {
     .set({
       ...(parsed.name !== undefined ? { name: parsed.name } : {}),
       ...(parsed.role !== undefined ? { role: parsed.role } : {}),
-      ...(parsed.notes !== undefined ? { notes: parsed.notes } : {}),
     })
     .where(and(eq(schema.people.id, parsed.id), eq(schema.people.userId, parsed.userId)));
 

@@ -2,22 +2,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { removePerson, updatePerson } from "@/lib/roster-queries";
-import { ROSTER_NAME_MAX_LENGTH, ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
+import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
 
 export const runtime = "nodejs";
 
 const PatchBody = z.object({
   name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH).optional(),
   role: z.enum(["adult", "child", "pet"]).optional(),
-  notes: z
-    .string()
-    .trim()
-    .max(
-      ROSTER_NOTE_MAX_LENGTH,
-      `Optional note must be ${ROSTER_NOTE_MAX_LENGTH} characters or fewer.`,
-    )
-    .nullable()
-    .optional(),
 });
 
 function validationError(error: z.ZodError) {

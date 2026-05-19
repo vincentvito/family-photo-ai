@@ -100,7 +100,6 @@ export default function PersonCard({
         </div>
         <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <span className={`chip ${color.chip}`}>{person.role}</span>
-          {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
         </div>
       </div>
 

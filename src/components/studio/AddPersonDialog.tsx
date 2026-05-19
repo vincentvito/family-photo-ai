@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import FaceCropDialog from "./FaceCropDialog";
 import ReferencePhotoGuide from "./ReferencePhotoGuide";
 import { uploadRosterPhoto } from "@/lib/upload-client";
-import { ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
 
 type Role = "adult" | "child" | "pet";
 
@@ -19,7 +18,6 @@ export default function AddPersonDialog({
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState<Role>("adult");
-  const [notes, setNotes] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [cropFile, setCropFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -27,8 +25,6 @@ export default function AddPersonDialog({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const noteLength = notes.trim().length;
-  const noteTooLong = noteLength > ROSTER_NOTE_MAX_LENGTH;
 
   useEffect(() => {
     return () => {
@@ -38,7 +34,6 @@ export default function AddPersonDialog({
 
   const resetForm = () => {
     setName("");
-    setNotes("");
     setRole("adult");
     setPhotoFile(null);
     setCropFile(null);
@@ -70,18 +65,13 @@ export default function AddPersonDialog({
       setError("Please add a name.");
       return;
     }
-    if (noteTooLong) {
-      setError(`Optional note must be ${ROSTER_NOTE_MAX_LENGTH} characters or fewer.`);
-      return;
-    }
-
     start(async () => {
       try {
         const displayName = name.trim();
         const res = await fetch("/api/roster/people", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ name: displayName, role, notes: notes.trim() || null }),
+          body: JSON.stringify({ name: displayName, role }),
         });
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
@@ -207,26 +197,6 @@ export default function AddPersonDialog({
                       </button>
                     ))}
                   </div>
-                </div>
-
-                <div>
-                  <label className="small-caps text-[color:var(--color-ink-muted)]">
-                    Optional note{" "}
-                    <span className="opacity-60 normal-case tracking-normal text-[0.7rem]">
-                      (age, hair, breed...)
-                    </span>
-                  </label>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    maxLength={ROSTER_NOTE_MAX_LENGTH}
-                    rows={3}
-                    placeholder="e.g. 4 years old, curly hair"
-                    className="mt-2 w-full resize-none rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] px-4 py-2.5 outline-none transition-all focus:border-[color:var(--color-coral)] focus:bg-[color:var(--color-bg-elevated)] focus:shadow-[var(--shadow-ring-coral)]"
-                  />
-                  <p className="mt-1 text-right text-[0.7rem] text-[color:var(--color-ink-muted)]">
-                    {noteLength}/{ROSTER_NOTE_MAX_LENGTH}
-                  </p>
                 </div>
 
                 <div>
