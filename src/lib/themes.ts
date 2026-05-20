@@ -583,10 +583,10 @@ export const THEMES: Theme[] = [
     id: "pop-icon-stage-portrait",
     name: "Pop Icon Stage Portrait",
     blurb:
-      "A dramatic concert-stage family portrait with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and 1980s pop-performance energy.",
+      "A dramatic King of Pop Stage Portrait family shoot with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and IP-safe 1980s pop-superstar energy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-film-noir.jpg",
+    coverImage: "/samples/theme-pop-icon-stage-portrait.png",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -596,7 +596,7 @@ export const THEMES: Theme[] = [
       lighting:
         "hard white follow-spot from above, cool moonlit stage-floor reflections, rim lights through cinematic smoke, deep high-contrast shadows with readable faces",
       style:
-        "1980s pop-concert editorial photography, black, white, silver and deep-blue palette, sequined highlights, sharp tailoring, no public-figure likeness, no branded costume recreation",
+        "King of Pop Stage Portrait vibe, IP-safe 1980s pop superstar stage energy, no celebrity likeness, no names, no logos, no text, no watermark; one selected adult may wear a vivid red military-style performance jacket with gold accents, black cropped pants, bright white socks and black loafers; another selected cast member may wear a black fedora-inspired hat; children wear coordinated sparkling black-and-white stage outfits; premium editorial quality",
     },
   },
   {
@@ -606,13 +606,13 @@ export const THEMES: Theme[] = [
       "A cinematic space-opera family portrait on a desert-world horizon with a starship-hangar atmosphere, twin suns, heroic rim light, and adventurous wonder.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-superhero.jpg",
-    aspectRatio: "3:2",
+    coverImage: "/samples/theme-galactic-family-adventure.png",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 3:2 cinematic space-adventure family portrait",
+      assetType: "A 2:3 cinematic space-adventure family portrait",
       camera:
-        "large-format digital cinema camera with a 40mm anamorphic lens, heroic wide group framing, desert horizon and starship-hangar silhouettes layered behind the cast",
+        "large-format digital cinema camera with a 40mm anamorphic lens, heroic vertical group framing, desert horizon and starship-hangar silhouettes layered behind the cast",
       lighting:
         "low twin-sun golden backlight, cool blue hangar fill, glowing rim light on shoulders and hair, atmospheric dust haze with readable skin tones",
       style:
@@ -626,13 +626,13 @@ export const THEMES: Theme[] = [
       "A clean editorial street-crossing portrait with classic 1960s music-magazine energy, soft overcast city light, stylish coats, and print-ready album-cover framing.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-new-york-city.jpg",
-    aspectRatio: "1:1",
+    coverImage: "/samples/theme-iconic-crosswalk-album-cover.png",
+    aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 1:1 square editorial street-crossing portrait",
+      assetType: "A 2:3 vertical editorial street-crossing portrait",
       camera:
-        "medium-format film camera with a 50mm lens, straight-on street-level composition, clean crosswalk geometry and balanced negative space for album-cover impact",
+        "medium-format film camera with a 50mm lens, straight-on street-level vertical composition, clean crosswalk geometry and balanced negative space for album-cover impact",
       lighting:
         "soft overcast city daylight, gentle pavement bounce fill, low contrast with crisp silhouettes and polished faces",
       style:
@@ -646,7 +646,7 @@ export const THEMES: Theme[] = [
       "A polished high-fashion magazine family shoot with sharp tailoring, glossy editorial light, city office and runway mood, confident poses, and a luxury neutral palette.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-leibovitz.jpg",
+    coverImage: "/samples/theme-runway-editorial.png",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -666,7 +666,7 @@ export const THEMES: Theme[] = [
       "Early-2000s family-photo energy with warm compact-camera flash, denim layers, playful mall-photo nostalgia, and a premium printable finish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-y2k-disposable.jpg",
+    coverImage: "/samples/theme-noughties-family-throwback.png",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {

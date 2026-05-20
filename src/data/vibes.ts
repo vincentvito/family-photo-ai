@@ -174,7 +174,7 @@ export const VIBES: readonly Vibe[] = [
       "dramatic stage family photoshoot",
       "1980s concert portrait family photo",
     ],
-    image: "/samples/theme-film-noir.jpg",
+    image: "/samples/theme-pop-icon-stage-portrait.png",
     shortDescription:
       "Spotlights, smoke, sharp tailoring, and high-contrast stage energy for a family portrait with pop-performance drama.",
     related: [
@@ -192,7 +192,7 @@ export const VIBES: readonly Vibe[] = [
       "space opera family portrait",
       "desert planet family photo",
     ],
-    image: "/samples/theme-superhero.jpg",
+    image: "/samples/theme-galactic-family-adventure.png",
     shortDescription:
       "Twin-sun horizons, hangar light, desert-world atmosphere, and heroic adventure without franchise cosplay.",
     related: [
@@ -210,9 +210,9 @@ export const VIBES: readonly Vibe[] = [
       "1960s editorial family portrait",
       "street crossing family photoshoot",
     ],
-    image: "/samples/theme-new-york-city.jpg",
+    image: "/samples/theme-iconic-crosswalk-album-cover.png",
     shortDescription:
-      "A square editorial street-crossing portrait with classic music-magazine energy and original album-cover framing.",
+      "A vertical editorial street-crossing portrait with classic music-magazine energy and original album-cover framing.",
     related: [
       "new-york-city-family-photos",
       "vintage-polaroid-family-photos",
@@ -228,7 +228,7 @@ export const VIBES: readonly Vibe[] = [
       "high fashion family portrait",
       "magazine editor family photo",
     ],
-    image: "/samples/theme-leibovitz.jpg",
+    image: "/samples/theme-runway-editorial.png",
     shortDescription:
       "Sharp tailoring, glossy magazine lighting, city-office polish, and confident runway-family energy.",
     related: [
@@ -246,7 +246,7 @@ export const VIBES: readonly Vibe[] = [
       "y2k family photoshoot",
       "mall photo family portrait",
     ],
-    image: "/samples/theme-y2k-disposable.jpg",
+    image: "/samples/theme-noughties-family-throwback.png",
     shortDescription:
       "Warm compact-camera flash, denim layers, sticker-album nostalgia, and a polished print-ready finish.",
     related: [

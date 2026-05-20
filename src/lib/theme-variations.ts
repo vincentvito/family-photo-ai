@@ -37,6 +37,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Graphic album-cover portrait: selected people clustered asymmetrically in the lower third or one side of the frame, diagonal face spacing, relaxed smiles and large clean white negative space.",
     "Seated studio pile: one adult seated as the anchor, children leaning naturally against shoulders, second adult tucked behind or beside them, waist-up crop with relaxed visible hands.",
   ],
+  "pop-icon-stage-portrait": [
+    "Text-free premium social teaser: selected cast standing full-body on a dramatic concert stage, King of Pop Stage Portrait vibe, one adult in a vivid red military-style performance jacket with gold accents, black cropped pants, bright white socks and black loafers; another cast member in a black fedora-inspired hat; kids in coordinated sparkling black-and-white outfits, joyful confident poses.",
+    "Low stage hero frame: selected cast staggered in a vertical concert-poster composition with IP-safe 1980s pop superstar stage energy, glittering spotlights, cinematic smoke, moonlit glossy floor reflections, no celebrity likeness, no names, no logos.",
+    "Tight performance-family crop: selected cast shoulder-to-knee with sharp black-white-silver tailoring, sequined highlights, optional sunglasses or sparkling accessories where natural, theatrical smiles, deep blue-black shadows and bright follow-spot edges.",
+    "Encore tableau: selected cast arranged like a polished tour-photo finale on a smoky stage, dramatic hand poses, black-and-white performance styling with one red jacket accent, bright overhead beams, premium editorial quality, no text or watermark.",
+  ],
+  "galactic-family-adventure": [
+    "Hangar doorway hero: selected cast full-body in layered desert-traveler robes inside a sci-fi hangar arch, warm twin-sun horizon behind, pet clearly grounded when selected.",
+    "Guardian silhouette frame: selected cast grouped in front of a tall original armored guardian figure, glowing blue practical panels, heroic vertical composition and readable faces.",
+    "Desert-world expedition: selected cast standing with capes, scarves and utility belts, distant ships and spires in haze, bronze sunset rim light, no franchise symbols or glowing weapons.",
+    "Family crew portrait: selected cast arranged as an original space-adventure crew with one seated or kneeling child/pet anchor, cool hangar fill and warm backlight balanced for print.",
+  ],
+  "iconic-crosswalk-album-cover": [
+    "Straight crosswalk march: selected cast walking left-to-right across a city crosswalk, stylish coats, soft overcast light, vertical editorial crop with clean street geometry.",
+    "Album-page portrait: selected cast paused mid-crossing in a fashion-magazine street frame, one subject slightly ahead, muted coats and polished shoes, no exact album recreation.",
+    "Sidewalk lead-in: selected cast entering the crosswalk from the curb, city storefronts softened behind, crisp legs and silhouettes, negative space above for cover-like impact.",
+    "Close street-culture crop: selected cast three-quarter length on painted crosswalk stripes, relaxed music-magazine attitude, subtle film grain and no band likeness.",
+  ],
+  "runway-editor-in-chief-family-editorial": [
+    "Glass-tower office portrait: selected cast in camel, ivory, charcoal and black tailoring, one seated anchor, reflective marble floor, city windows and glossy magazine light.",
+    "Runway-family stance: selected cast staggered like a high-fashion cover shoot, confident posture, sharp lapels, controlled hands, polished neutral palette and no visible logos.",
+    "Executive lounge crop: selected cast knee-up around a leather chair or sleek sofa, pet posed in foreground when selected, crisp cheek highlights and premium retouch.",
+    "Editorial corridor frame: selected cast walking or standing in a modern city-office corridor, tall vertical lines, glossy black accents and calm luxury styling.",
+  ],
+  "noughties-family-throwback": [
+    "Ball-pit flash candid: selected cast laughing in a colorful indoor ball pit, warm compact-camera flash, slightly off-center vertical snapshot, playful motion but clear faces.",
+    "Mall-party portrait: selected cast clustered in a bright early-2000s play-zone or mall-photo setting, denim layers, primary colors and polished nostalgic flash.",
+    "Sticker-album family frame: selected cast close together with casual striped tops, hoodies or denim, direct flash, cheerful clutter and premium print-ready color.",
+    "Low playful crop: selected cast partially surrounded by colorful plastic balls or party props, one subject cropped candidly, warm JPEG-era color character and natural smiles.",
+  ],
   "wes-anderson": [
     "Standing lineup proof: selected subject or cast standing full-body on the centered patterned rug, hands empty at sides, serious deadpan expression, perfectly symmetrical furniture around them.",
     "Seated tableau proof: selected subject or cast seated formally on a couch or bench, holding a single tiny teacup or flower stem, exact pastel order and balanced side tables.",
