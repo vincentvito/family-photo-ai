@@ -61,32 +61,29 @@ function Polaroid({
 
 function LaurelSide({ mirror = false }: { mirror?: boolean }) {
   const leaves = [
-    { x: 20, y: 96, r: -54, sx: 0.86 },
-    { x: 27, y: 82, r: -46, sx: 0.94 },
-    { x: 35, y: 68, r: -36, sx: 1 },
-    { x: 44, y: 55, r: -27, sx: 1.06 },
-    { x: 55, y: 43, r: -17, sx: 1 },
-    { x: 68, y: 33, r: -8, sx: 0.92 },
+    { x: 15, y: 59, r: -31, s: 0.46 },
+    { x: 22, y: 76, r: -45, s: 0.52 },
+    { x: 33, y: 91, r: -60, s: 0.58 },
+    { x: 47, y: 103, r: -76, s: 0.63 },
+    { x: 63, y: 111, r: -92, s: 0.66 },
+    { x: 77, y: 114, r: -108, s: 0.6 },
   ];
 
   return (
     <g transform={mirror ? "translate(160 0) scale(-1 1)" : undefined}>
       <path
-        d="M17 108C22 76 44 45 78 26"
+        d="M13 61C23 91 50 114 80 115"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeWidth="3"
+        strokeWidth="1.6"
       />
       {leaves.map((leaf) => (
-        <ellipse
+        <path
           key={`${leaf.x}-${leaf.y}`}
-          cx={leaf.x}
-          cy={leaf.y}
-          rx={5.4 * leaf.sx}
-          ry={13}
+          d="M0 -17C8 -12 10 -4 1 17C-9 -3 -8 -12 0 -17Z"
           fill="currentColor"
-          transform={`rotate(${leaf.r} ${leaf.x} ${leaf.y})`}
+          transform={`translate(${leaf.x} ${leaf.y}) rotate(${leaf.r}) scale(${leaf.s})`}
         />
       ))}
     </g>
@@ -95,27 +92,46 @@ function LaurelSide({ mirror = false }: { mirror?: boolean }) {
 
 function AwardBadge() {
   return (
-    <div className="relative w-full max-w-[280px] sm:max-w-[330px]" aria-label="Top pick for family photo shoots">
-      <div className="absolute inset-x-8 bottom-2 h-8 rounded-full bg-[color:var(--color-coral-soft)] blur-xl" aria-hidden />
-      <div className="relative flex min-h-[150px] items-center justify-center">
+    <div
+      className="relative w-full max-w-[280px] sm:max-w-[330px]"
+      aria-label="Top pick for family photo shoots"
+    >
+      <div
+        className="absolute inset-x-8 bottom-3 h-8 rounded-full bg-[color:var(--color-coral-soft)] blur-xl"
+        aria-hidden
+      />
+      <div className="relative flex min-h-[156px] items-start justify-center pt-1">
         <svg
-          className="absolute inset-0 h-full w-full text-[color:var(--color-ink)]"
+          className="pointer-events-none absolute left-1/2 top-8 z-0 h-[132px] w-[246px] -translate-x-1/2 text-[color:var(--color-ink)]"
           viewBox="0 0 160 130"
           fill="none"
           aria-hidden
         >
           <LaurelSide />
           <LaurelSide mirror />
-          <path d="M72 20h16l-3 14h-10z" fill="currentColor" />
-          <path d="M61 23l11 11-12 4zM99 23 88 34l12 4z" fill="currentColor" />
         </svg>
-        <div className="relative mx-auto mt-4 flex h-28 w-28 flex-col items-center justify-center rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] text-center shadow-[var(--shadow-lg)]">
-          <span className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[color:var(--color-coral-deep)]">
+        <div className="relative z-10 mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] text-center shadow-[var(--shadow-lg)]">
+          <svg
+            className="absolute left-1/2 top-[-2px] h-7 w-10 -translate-x-1/2 text-[color:var(--color-coral)] drop-shadow-sm"
+            viewBox="0 0 40 28"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M5 25h30l-3-16-8 8-4-13-4 13-8-8-3 16Z"
+              fill="currentColor"
+              stroke="var(--color-bg-elevated)"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
+            <path d="M9 25h22" stroke="var(--color-bg-elevated)" strokeLinecap="round" strokeWidth="2" />
+          </svg>
+          <span className="text-[0.58rem] font-bold uppercase tracking-[0.14em] text-[color:var(--color-coral-deep)]">
             Top pick
           </span>
-          <span className="serif mt-1 text-[1.65rem] leading-none text-[color:var(--color-ink)]">#1</span>
-          <span className="mt-1 max-w-[5.8rem] text-[0.65rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
-            for family photo shoots
+          <span className="serif mt-0.5 text-[1.55rem] leading-none text-[color:var(--color-ink)]">#1</span>
+          <span className="mt-1 max-w-[5.9rem] text-[0.63rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
+            family photo app
           </span>
         </div>
       </div>
