@@ -90,13 +90,10 @@ function ParallaxItem({
 export default function ParallaxStack({ items, className }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion();
-  const defaultActiveIndex = Math.max(
-    0,
-    items.findIndex(
-      (item) => (item.zIndex ?? 1) === Math.max(...items.map((candidate) => candidate.zIndex ?? 1)),
-    ),
-  );
-  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+  const [activeIndex, setActiveIndex] = useState(() => {
+    const maxZ = Math.max(...items.map((candidate) => candidate.zIndex ?? 1));
+    return Math.max(0, items.findIndex((item) => (item.zIndex ?? 1) === maxZ));
+  });
 
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);

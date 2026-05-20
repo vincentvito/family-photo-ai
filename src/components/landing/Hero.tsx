@@ -25,6 +25,8 @@ const testimonials = [
   "I used it for gifts, cards, and framed prints. It turned random camera-roll photos into something emotional.",
 ];
 
+const testimonialMarqueeItems = [...testimonials, ...testimonials];
+
 function Polaroid({
   src,
   caption,
@@ -102,7 +104,7 @@ function AwardBadge() {
       />
       <div className="relative flex min-h-[156px] items-start justify-center pt-1">
         <svg
-          className="pointer-events-none absolute left-1/2 top-8 z-0 h-[132px] w-[246px] -translate-x-1/2 text-[color:var(--color-ink)]"
+          className="pointer-events-none absolute left-1/2 top-4 z-0 h-[132px] w-[246px] -translate-x-1/2 text-[color:var(--color-ink)]"
           viewBox="0 0 160 130"
           fill="none"
           aria-hidden
@@ -124,12 +126,19 @@ function AwardBadge() {
               strokeLinejoin="round"
               strokeWidth="2"
             />
-            <path d="M9 25h22" stroke="var(--color-bg-elevated)" strokeLinecap="round" strokeWidth="2" />
+            <path
+              d="M9 25h22"
+              stroke="var(--color-bg-elevated)"
+              strokeLinecap="round"
+              strokeWidth="2"
+            />
           </svg>
           <span className="text-[0.58rem] font-bold uppercase tracking-[0.14em] text-[color:var(--color-coral-deep)]">
             Top pick
           </span>
-          <span className="serif mt-0.5 text-[1.55rem] leading-none text-[color:var(--color-ink)]">#1</span>
+          <span className="serif mt-0.5 text-[1.55rem] leading-none text-[color:var(--color-ink)]">
+            #1
+          </span>
           <span className="mt-1 max-w-[5.9rem] text-[0.63rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
             family photo app
           </span>
@@ -150,14 +159,7 @@ function StatsBar({ className = "" }: { className?: string }) {
             key={src}
             className="relative inline-block h-7 w-7 overflow-hidden rounded-full border-2 border-[color:var(--color-bg)] bg-[color:var(--color-bg-soft)]"
           >
-            <Image
-              src={src}
-              alt=""
-              fill
-              sizes="28px"
-              className="object-cover"
-              priority={i === 0}
-            />
+            <Image src={src} alt="" fill sizes="28px" className="object-cover" priority={i === 0} />
           </span>
         ))}
       </div>
@@ -176,8 +178,6 @@ function StatsBar({ className = "" }: { className?: string }) {
 }
 
 function TestimonialMarquee() {
-  const marqueeItems = [...testimonials, ...testimonials];
-
   return (
     <section
       className="border-y border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] py-5"
@@ -185,7 +185,7 @@ function TestimonialMarquee() {
     >
       <div className="marquee-mask overflow-hidden">
         <div className="marquee-track flex w-max gap-4 px-4 [--marquee-duration:72s]">
-          {marqueeItems.map((quote, index) => (
+          {testimonialMarqueeItems.map((quote, index) => (
             <figure
               key={`${quote}-${index}`}
               className="w-[min(82vw,560px)] shrink-0 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-5 py-4 shadow-[var(--shadow-sm)]"
@@ -252,7 +252,8 @@ export default function Hero() {
               From Messy Phone Pics to Beautiful Family Portraits
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-              Upload separate photos of each family member, pick a vibe, and get beautiful AI family photos ready to print in about two minutes.
+              Upload separate photos of each family member, pick a vibe, and get beautiful AI family
+              photos ready to print in about two minutes.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link href="/sign-in" className="btn btn-coral btn-lg">

@@ -31,8 +31,10 @@ export default async function HomePage({
 }: {
   searchParams: Promise<{ unlockGenerationId?: string }>;
 }) {
-  const { unlockGenerationId } = await searchParams;
-  const trendingVibes = await loadTrendingVibeNames();
+  const [{ unlockGenerationId }, trendingVibes] = await Promise.all([
+    searchParams,
+    loadTrendingVibeNames(),
+  ]);
 
   return (
     <>

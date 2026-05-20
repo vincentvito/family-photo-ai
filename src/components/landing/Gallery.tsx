@@ -21,12 +21,13 @@ const FEATURED_ITEMS: { id: string; badge?: string; note?: string }[] = [
   { id: "card-hanukkah" },
 ];
 
+const themeById = new Map(THEMES.map((t) => [t.id, t]));
 const featured = FEATURED_ITEMS.flatMap((item) => {
-  const theme = THEMES.find((t) => t.id === item.id);
+  const theme = themeById.get(item.id);
   return theme ? [{ theme, badge: item.badge, note: item.note }] : [];
 });
-const featuredIds = FEATURED_ITEMS.map((item) => item.id);
-const rest = THEMES.filter((t) => !featuredIds.includes(t.id));
+const featuredIds = new Set(FEATURED_ITEMS.map((item) => item.id));
+const rest = THEMES.filter((t) => !featuredIds.has(t.id));
 
 const aspectClass: Record<string, string> = {
   "3:2": "aspect-[3/2]",
