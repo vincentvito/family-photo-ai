@@ -586,7 +586,7 @@ export const THEMES: Theme[] = [
       "A dramatic concert-stage family portrait with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and 1980s pop-performance energy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-film-noir.jpg",
+    coverImage: "/samples/theme-pop-icon-stage-portrait.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -606,7 +606,7 @@ export const THEMES: Theme[] = [
       "A cinematic space-opera family portrait on a desert-world horizon with a starship-hangar atmosphere, twin suns, heroic rim light, and adventurous wonder.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-superhero.jpg",
+    coverImage: "/samples/theme-galactic-family-adventure.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
