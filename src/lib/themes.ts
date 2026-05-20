@@ -586,7 +586,7 @@ export const THEMES: Theme[] = [
       "A dramatic King of Pop Stage Portrait family shoot with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and IP-safe 1980s pop-superstar energy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-pop-icon-stage-portrait.png",
+    coverImage: "/samples/theme-pop-icon-stage-portrait.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -606,7 +606,7 @@ export const THEMES: Theme[] = [
       "A cinematic space-opera family portrait on a desert-world horizon with a starship-hangar atmosphere, twin suns, heroic rim light, and adventurous wonder.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-galactic-family-adventure.png",
+    coverImage: "/samples/theme-galactic-family-adventure.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {

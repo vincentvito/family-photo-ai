@@ -346,6 +346,31 @@
     margin-bottom: 1rem;
   }
 
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    animation: marquee var(--marquee-duration, 48s) linear infinite;
+  }
+
+  .marquee-track:hover,
+  .marquee-track:focus-within,
+  a:hover .marquee-track,
+  a:focus-visible .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
   /* Surface primitives */
   .card {
     background-color: var(--color-bg-elevated);
@@ -617,6 +642,7 @@
 
   /* Reduced-motion overrides */
   @media (prefers-reduced-motion: reduce) {
+    .marquee-track,
     .developing,
     .developing::before,
     .warm-shimmer {
