@@ -169,3 +169,24 @@ test("trend-led vibes are valid catalog themes with variation prompts and SEO en
     assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
   }
 });
+
+test("iconic crosswalk vibe keeps album-cover walking composition", () => {
+  const theme = getTheme("iconic-crosswalk-album-cover");
+  const stablePrompt = [
+    theme.blurb,
+    theme.spec.assetType,
+    theme.spec.camera,
+    theme.spec.lighting,
+    theme.spec.style,
+  ].join(" ");
+  const variationPrompt = getThemeVariationPrompts(theme.id, theme.category).join(" ");
+
+  assert.match(stablePrompt, /zebra crosswalk/i);
+  assert.match(stablePrompt, /full-body side-profile march/i);
+  assert.match(stablePrompt, /London-like/i);
+  assert.match(stablePrompt, /not a posed sidewalk fashion portrait/i);
+  assert.match(variationPrompt, /walking left-to-right/i);
+  assert.match(variationPrompt, /head-to-toe/i);
+  assert.match(variationPrompt, /not standing still/i);
+  assert.match(variationPrompt, /no three-quarter crop/i);
+});

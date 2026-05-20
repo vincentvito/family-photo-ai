@@ -50,10 +50,10 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Family crew portrait: selected cast arranged as an original space-adventure crew with one seated or kneeling child/pet anchor, cool hangar fill and warm backlight balanced for print.",
   ],
   "iconic-crosswalk-album-cover": [
-    "Straight crosswalk march: selected cast walking left-to-right across a city crosswalk, stylish coats, soft overcast light, vertical editorial crop with clean street geometry.",
-    "Album-page portrait: selected cast paused mid-crossing in a fashion-magazine street frame, one subject slightly ahead, muted coats and polished shoes, no exact album recreation.",
-    "Sidewalk lead-in: selected cast entering the crosswalk from the curb, city storefronts softened behind, crisp legs and silhouettes, negative space above for cover-like impact.",
-    "Close street-culture crop: selected cast three-quarter length on painted crosswalk stripes, relaxed music-magazine attitude, subtle film grain and no band likeness.",
+    "Straight crosswalk march: selected cast walking left-to-right across a zebra crosswalk in full-body side profile, evenly spaced one behind another, stylish coats and boots, soft overcast city light, vertical album-cover framing.",
+    "Classic crossing frame: selected cast mid-stride on bold white crosswalk stripes, all bodies visible head-to-toe, one subject slightly ahead but still in a clean horizontal procession, quiet London-like street and soft architecture behind.",
+    "Symmetric street-cover composition: selected cast crossing from curb to curb with legs in motion, clean zebra-crossing geometry filling the foreground, balanced negative space above, muted coats, polished shoes and natural calm expressions.",
+    "Music-magazine walking portrait: selected cast in a deliberate side-profile street-crossing line, not standing still, not facing camera as a posed group, no sidewalk pose, no three-quarter crop, subtle film grain and no band likeness.",
   ],
   "runway-editor-in-chief-family-editorial": [
     "Glass-tower office portrait: selected cast in camel, ivory, charcoal and black tailoring, one seated anchor, reflective marble floor, city windows and glossy magazine light.",

@@ -630,13 +630,14 @@ export const THEMES: Theme[] = [
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType: "A 2:3 vertical editorial street-crossing portrait",
+      assetType:
+        "A 2:3 vertical text-free premium social teaser image of the selected cast walking across a quiet city zebra crosswalk",
       camera:
-        "medium-format film camera with a 50mm lens, straight-on street-level vertical composition, clean crosswalk geometry and balanced negative space for album-cover impact",
+        "medium-format film camera with a 50mm lens, straight-on street-level vertical composition, full-body side-profile march from left to right, each selected person separated along the crosswalk stripes, clean zebra-crossing geometry dominating the foreground, balanced sky and street negative space for album-cover impact",
       lighting:
-        "soft overcast city daylight, gentle pavement bounce fill, low contrast with crisp silhouettes and polished faces",
+        "soft overcast London-like city daylight, gentle pavement bounce fill, low contrast with crisp silhouettes and polished readable faces",
       style:
-        "classic late-1960s music-magazine photography, tailored coats, muted black, cream, gray and brick palette, subtle film grain, original street scene, no exact album recreation, no band likeness",
+        "IP-safe music nostalgia with classic late-1960s British music-magazine energy, tailored coats and boots, muted black, cream, camel, gray and brick palette, subtle film grain, polished but natural family mood, original street scene, no exact album recreation, no band likeness, no logos, no text, no watermark, not a posed sidewalk fashion portrait",
     },
   },
   {
