@@ -939,7 +939,6 @@ async function loadRosterAsSubjects(userId: string, subjectIds?: string[]): Prom
       personId: person.id,
       name: person.name,
       role: person.role,
-      notes: person.notes,
       referencePaths: photo ? [path.posix.join("uploads", person.id, photo.fileName)] : [],
     };
   });
