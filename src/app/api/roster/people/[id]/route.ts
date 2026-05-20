@@ -2,14 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { removePerson, updatePerson } from "@/lib/roster-queries";
-import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
+import { rosterPatchBodySchema } from "@/lib/roster-validation";
 
 export const runtime = "nodejs";
-
-const PatchBody = z.object({
-  name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH).optional(),
-  role: z.enum(["adult", "child", "pet"]).optional(),
-});
 
 function validationError(error: z.ZodError) {
   return error.issues[0]?.message ?? "Please check the roster details and try again.";
@@ -22,7 +17,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   }
   const { id } = await params;
   const json = await req.json().catch(() => null);
-  const parsed = PatchBody.safeParse(json);
+  const parsed = rosterPatchBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: validationError(parsed.error) }, { status: 400 });
   }

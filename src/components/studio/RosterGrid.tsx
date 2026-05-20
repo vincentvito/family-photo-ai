@@ -1,7 +1,5 @@
 import PersonCard from "./PersonCard";
-import type { Person, Photo } from "@/../db/schema";
-
-type RosterEntry = { person: Person; photos: Photo[] };
+import type { RosterEntry } from "@/lib/roster-queries";
 
 export default function RosterGrid({
   roster,

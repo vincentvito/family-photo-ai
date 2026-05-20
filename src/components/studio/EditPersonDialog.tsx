@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import type { Person, Photo } from "@/../db/schema";
+import type { Photo } from "@/../db/schema";
+import type { RosterPerson } from "@/lib/roster-queries";
 import FaceCropDialog from "./FaceCropDialog";
 import ReferencePhotoGuide from "./ReferencePhotoGuide";
 import { uploadRosterPhoto } from "@/lib/upload-client";
@@ -17,7 +18,7 @@ export default function EditPersonDialog({
   onClose,
   onChanged,
 }: {
-  person: Person;
+  person: RosterPerson;
   currentPhoto?: Photo | null;
   open: boolean;
   onClose: () => void;

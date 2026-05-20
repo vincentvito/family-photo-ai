@@ -2,15 +2,10 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { addPerson, listRoster } from "@/lib/roster-queries";
-import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
+import { rosterCreateBodySchema } from "@/lib/roster-validation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const Body = z.object({
-  name: z.string().trim().min(1).max(ROSTER_NAME_MAX_LENGTH),
-  role: z.enum(["adult", "child", "pet"]),
-});
 
 function validationError(error: z.ZodError) {
   return error.issues[0]?.message ?? "Please check the roster details and try again.";
@@ -39,7 +34,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const json = await req.json().catch(() => null);
-  const parsed = Body.safeParse(json);
+  const parsed = rosterCreateBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: validationError(parsed.error) }, { status: 400 });
   }

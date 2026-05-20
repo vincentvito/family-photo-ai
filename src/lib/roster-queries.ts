@@ -4,8 +4,22 @@ import { and, asc, eq, inArray } from "drizzle-orm";
 import { saveReferencePhoto, deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { z } from "zod";
 import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
+import type { Person, Photo } from "@/../db/schema";
 
 const RoleSchema = z.enum(["adult", "child", "pet"]);
+
+export type RosterPerson = Omit<Person, "notes">;
+export type RosterEntry = { person: RosterPerson; photos: Photo[] };
+
+export function stripRosterPersonNotes(person: Person): RosterPerson {
+  return {
+    id: person.id,
+    userId: person.userId,
+    name: person.name,
+    role: person.role,
+    createdAt: person.createdAt,
+  };
+}
 
 export async function listRoster(userId: string) {
   const people = await db
@@ -29,8 +43,8 @@ export async function listRoster(userId: string) {
     photoByPerson.set(photo.personId, photo);
   }
 
-  return people.map((person) => ({
-    person,
+  return people.map((person): RosterEntry => ({
+    person: stripRosterPersonNotes(person),
     photos: photoByPerson.has(person.id) ? [photoByPerson.get(person.id)!] : [],
   }));
 }
