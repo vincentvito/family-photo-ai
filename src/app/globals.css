@@ -309,12 +309,12 @@
   }
 
   .masonry-3 {
-    column-count: 1;
-    column-gap: 1.25rem;
+    column-count: 2;
+    column-gap: 0.75rem;
   }
   @media (min-width: 640px) {
     .masonry-3 {
-      column-count: 2;
+      column-gap: 1.25rem;
     }
   }
   @media (min-width: 1024px) {
@@ -324,7 +324,12 @@
   }
   .masonry-3 > * {
     break-inside: avoid;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .masonry-3 > * {
+      margin-bottom: 1.25rem;
+    }
   }
 
   .masonry-4 {
