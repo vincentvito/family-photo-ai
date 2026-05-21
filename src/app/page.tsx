@@ -43,7 +43,7 @@ export default async function HomePage({
       <main>
         <Hero />
         <BeforeAfter />
-        <Gallery />
+        <Gallery trendingVibes={trendingVibes} />
         <OccasionCards />
         <HowItWorks />
         <TrustPrivacy />

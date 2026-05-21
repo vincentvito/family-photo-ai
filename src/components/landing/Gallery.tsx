@@ -6,28 +6,36 @@ import Reveal from "@/components/motion/Reveal";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
-const FEATURED_ITEMS: { id: string; badge?: string; note?: string }[] = [
+const FALLBACK_POPULAR_ITEMS: { id: string; badge?: string; note?: string }[] = [
+  { id: "pixar-family", badge: "Trending now" },
+  { id: "card-mothers-day", badge: "Popular card" },
   { id: "stacked-love" },
-  { id: "leibovitz-studio", badge: "Family of 5", note: "4 people + 1 pet in Leibovitz studio drama" },
-  { id: "card-diwali" },
-  { id: "golden-hour-beach" },
-  { id: "card-dia-de-muertos" },
-  { id: "cherry-blossom" },
-  { id: "card-nowruz" },
+  { id: "leibovitz-studio", badge: "Family of 5", note: "4 people + 1 pet" },
   { id: "card-lunar-new-year" },
   { id: "card-eid" },
+  { id: "card-diwali" },
+  { id: "golden-hour-beach" },
+  { id: "cherry-blossom" },
   { id: "coastal-grandmother" },
   { id: "y2k-disposable" },
   { id: "card-hanukkah" },
 ];
 
-const themeById = new Map(THEMES.map((t) => [t.id, t]));
-const featured = FEATURED_ITEMS.flatMap((item) => {
-  const theme = themeById.get(item.id);
-  return theme ? [{ theme, badge: item.badge, note: item.note }] : [];
-});
-const featuredIds = new Set(FEATURED_ITEMS.map((item) => item.id));
-const rest = THEMES.filter((t) => !featuredIds.has(t.id));
+const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
+
+type TrendingVibe = { id: string; name: string };
+
+function buildFeaturedItems(trendingVibes: TrendingVibe[]) {
+  const trendingItems = trendingVibes
+    .map((vibe, index) => ({ id: vibe.id, badge: index === 0 ? "Most popular" : "Trending" }))
+    .filter((item) => THEME_BY_ID.has(item.id));
+
+  const deduped = [...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(
+    (item, index, items) => items.findIndex((candidate) => candidate.id === item.id) === index,
+  );
+
+  return deduped.slice(0, 12);
+}
 
 const aspectClass: Record<string, string> = {
   "3:2": "aspect-[3/2]",
@@ -79,14 +87,25 @@ function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?
           <span className={`dot ${chip.dot}`} />
           {categoryLabel[theme.category]}
         </span>
-        {note && <span className="text-right text-xs font-semibold text-[color:var(--color-ink-muted)]">{note}</span>}
+        {note && (
+          <span className="hidden text-right text-xs font-semibold text-[color:var(--color-ink-muted)] sm:inline">
+            {note}
+          </span>
+        )}
       </figcaption>
     </motion.figure>
   );
 }
 
-export default function Gallery() {
+export default function Gallery({ trendingVibes = [] }: { trendingVibes?: TrendingVibe[] }) {
   const [expanded, setExpanded] = useState(false);
+  const featuredItems = buildFeaturedItems(trendingVibes);
+  const featured = featuredItems.flatMap((item) => {
+    const theme = THEME_BY_ID.get(item.id);
+    return theme ? [{ theme, badge: item.badge, note: item.note }] : [];
+  });
+  const featuredIds = new Set(featuredItems.map((item) => item.id));
+  const rest = THEMES.filter((theme) => !featuredIds.has(theme.id));
 
   return (
     <section
