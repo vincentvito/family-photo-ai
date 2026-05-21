@@ -12,12 +12,19 @@ type NavLink = {
 
 const defaultLinks: NavLink[] = [
   { href: "#gallery", label: "Gallery" },
+  { href: "/trending", label: "Trending 🔥" },
   { href: "#how", label: "How it works" },
   { href: "#pricing", label: "Pricing" },
   { href: "#faq", label: "FAQ" },
 ];
 
-export default function Nav({ links = defaultLinks }: { links?: NavLink[] }) {
+export default function Nav({
+  links = defaultLinks,
+  topOffsetClass = "top-0",
+}: {
+  links?: NavLink[];
+  topOffsetClass?: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -30,7 +37,7 @@ export default function Nav({ links = defaultLinks }: { links?: NavLink[] }) {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-30 flex justify-center px-4 pt-4 transition-all duration-300 ${
+      className={`fixed inset-x-0 ${topOffsetClass} z-30 flex justify-center px-4 pt-4 transition-all duration-300 ${
         scrolled ? "pt-3" : "pt-6"
       }`}
     >

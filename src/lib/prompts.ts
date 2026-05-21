@@ -15,40 +15,43 @@ export function buildGenerationPrompt(
   cardText?: string | null,
 ): string {
   const { spec } = theme;
-  const familyClause = describeFamily(subjects);
-  const rosterDirective = buildRosterDirective(subjects);
+  const count = subjects.length;
+  const adults = subjects.filter((subject) => subject.role === "adult").length;
+  const children = subjects.filter((subject) => subject.role === "child").length;
+  const pets = subjects.filter((subject) => subject.role === "pet").length;
+  const scene = spec.scene ?? `${theme.blurb.trim()} ${spec.lighting}`;
+  const composition =
+    spec.composition ??
+    "theme-appropriate spatial arrangement; final crop, subject size, lens feel, and camera distance are controlled by the variant composition mode";
+  const safety = spec.safety ?? "no logos, no text, no watermark";
 
-  const sentences: string[] = [
-    // Part 1
+  const sections: string[] = [
     sentence(spec.assetType),
-    // Part 2 - selected cast. The per-output variation supplies the physical staging.
-    sentence(`${familyClause} in the ${theme.name} theme`),
-    // Part 3 - broad setting/mood anchor. Avoid locking a pose or sub-location that can fight variants.
-    sentence(`Theme atmosphere: ${selectedCastLanguage(theme.blurb.trim())}`),
-    // Part 4
-    sentence(selectedCastLanguage(spec.camera)),
-    // Part 5
-    sentence(selectedCastLanguage(spec.lighting)),
-    // Part 6
-    sentence(selectedCastLanguage(spec.style)),
-    rosterDirective,
+    `Scene: ${sentence(selectedCastLanguage(scene))}`,
+    `Style: ${sentence(selectedCastLanguage(spec.style))}`,
+    buildSubjectLine(count, adults, children, pets),
+    `Composition anchor: ${sentence(selectedCastLanguage(composition))}`,
+    getReferenceMap(subjects),
+    buildRosterDirective(subjects),
+    buildHardConstraints({ children, pets }),
+    `Safety: ${sentence(selectedCastLanguage(safety))}`,
     sentence(FAMILY_POSITIVE_DIRECTIVE),
   ];
 
   if (wardrobeNote && wardrobeNote.trim()) {
-    sentences.push(
-      sentence(`Wardrobe and mood note: ${selectedCastLanguage(wardrobeNote.trim())}`),
-    );
+    sections.push(`Wardrobe and mood note: ${sentence(selectedCastLanguage(wardrobeNote.trim()))}`);
   }
 
   if (cardText && cardText.trim()) {
-    sentences.push(buildCardTextDirective(cardText.trim()));
+    sections.push(buildCardTextDirective(cardText.trim()));
   }
 
-  return sentences.join(" ").replace(/—/g, "-");
+  sections.push(`Aspect ratio: ${theme.aspectRatio}.`);
+
+  return sections.join("\n\n");
 }
 
-/** Framework part 7 — explicit text directive, used for card themes. */
+/** Framework part 7: explicit text directive, used for card themes. */
 export function buildCardTextDirective(cardText: string): string {
   return [
     `Within the image's deliberate negative space,`,
@@ -61,15 +64,15 @@ export function buildCardTextDirective(cardText: string): string {
 }
 
 /**
- * Produce a natural phrase describing the selected cast without implying a
+ * Produce a natural phrase describing the subjects without implying a
  * larger family than the uploaded references contain.
  */
 export function describeFamily(subjects: Subject[]): string {
-  if (subjects.length === 0) return "The selected cast photographed together";
+  if (subjects.length === 0) return "The subjects photographed together";
 
   if (subjects.length === 1) {
     const subject = subjects[0];
-    return subject.role === "pet" ? `The selected ${petLabel(subject)}` : "The selected person";
+    return subject.role === "pet" ? `The ${petLabel(subject)}` : "The person";
   }
 
   const adults = subjects.filter((s) => s.role === "adult");
@@ -82,7 +85,7 @@ export function describeFamily(subjects: Subject[]): string {
   if (pets.length) parts.push(describePets(pets));
 
   const composition = joinWithAnd(parts);
-  return `Selected cast: ${composition}, shown as the complete group`;
+  return `Subjects: ${composition}, shown as the complete group`;
 }
 
 function sentence(text: string): string {
@@ -92,25 +95,69 @@ function sentence(text: string): string {
 
 function selectedCastLanguage(text: string): string {
   return text
-    .replace(/\bfamily\b/giu, "selected cast")
-    .replace(/\beveryone\b/giu, "the selected cast");
+    .replace(/\bselected cast\b/giu, "subjects")
+    .replace(/\bfamily\b/giu, "subjects")
+    .replace(/\beveryone\b/giu, "the subjects");
+}
+
+function buildSubjectLine(count: number, adults: number, children: number, pets: number): string {
+  const parts: string[] = [];
+  if (adults > 0) parts.push(`${adults} ${adults === 1 ? "adult" : "adults"}`);
+  if (children > 0) parts.push(`${children} ${children === 1 ? "child" : "children"}`);
+  if (pets > 0) parts.push(`${pets} ${pets === 1 ? "pet" : "pets"}`);
+
+  return `Subjects: exactly ${countPhrase(count, "subject")} only: ${joinWithAnd(parts)}.`;
+}
+
+function getReferenceMap(subjects: Subject[]): string {
+  if (subjects.length === 0) return "Reference identity map: none.";
+
+  const roleCounts: Record<Subject["role"], number> = {
+    adult: 0,
+    child: 0,
+    pet: 0,
+  };
+
+  const mappedSubjects = subjects.map((subject, index) => {
+    roleCounts[subject.role] += 1;
+    const label =
+      subject.role === "pet"
+        ? `${petLabel(subject)} ${roleCounts.pet}`
+        : `${subject.role} ${roleCounts[subject.role]}`;
+
+    return `reference image ${index + 1} is ${label}`;
+  });
+
+  return [
+    `Reference identity map: ${mappedSubjects.join(", ")}.`,
+    "Each reference image represents one distinct subject. Preserve facial structure, age cues, skin tone, hair, and recognizable facial features only. Do not merge, duplicate, replace, or rename subjects.",
+  ].join(" ");
+}
+
+function buildHardConstraints({ children, pets }: { children: number; pets: number }): string {
+  const scaleRule =
+    children > 0
+      ? "Maintain realistic adult-child height differences."
+      : "Maintain consistent head scale and body proportions.";
+
+  return [
+    "Hard constraints:",
+    "No background people, posters with faces, reflections of people, duplicated subjects, logos, text, or watermark.",
+    `Maintain coherent realistic anatomy, facial structure, limb proportions, and clean subject separation. ${scaleRule}`,
+    pets > 0 ? "Selected pets must remain animals, not people, dolls, statues, or mascots." : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 function buildRosterDirective(subjects: Subject[]): string {
-  const adults = subjects.filter((subject) => subject.role === "adult");
-  const kids = subjects.filter((subject) => subject.role === "child");
   const pets = subjects.filter((subject) => subject.role === "pet");
-  const castRule = buildCastRule({ adults, kids, pets });
-  const identityRule = describeRosterIdentities(subjects);
   const backgroundRule =
     pets.length === 0
       ? "Keep the background free of extra people, duplicate faces, posters and reflections."
       : "Keep the background free of extra people, duplicate faces, posters, reflections and unselected animals.";
 
   return [
-    `Cast rule: show only the selected cast: ${castRule}.`,
-    `Total living subjects in the image must be exactly ${subjects.length}.`,
-    identityRule,
     pets.length > 0
       ? "Selected pet references are required cast members and must appear as animals, not as extra adults, children, dolls, statues, mascots or human subjects."
       : "",
@@ -119,33 +166,11 @@ function buildRosterDirective(subjects: Subject[]): string {
       : "",
     subjects.length === 1
       ? "If the theme wording implies a group, reinterpret it as one selected subject only."
-      : "If the theme wording implies a larger group, reinterpret it as this exact selected cast.",
+      : "If the theme wording implies a larger group, reinterpret it as these exact subjects.",
     backgroundRule,
   ]
     .filter(Boolean)
     .join(" ");
-}
-
-function buildCastRule({
-  adults,
-  kids,
-  pets,
-}: {
-  adults: Subject[];
-  kids: Subject[];
-  pets: Subject[];
-}): string {
-  const parts: string[] = [];
-  if (adults.length) parts.push(countSubjects(adults, "adult", "adults"));
-  if (kids.length) parts.push(countSubjects(kids, "child", "children"));
-  if (pets.length) {
-    parts.push(describePets(pets));
-  }
-  return parts.join("; ");
-}
-
-function countSubjects(subjects: Subject[], singular: string, plural: string): string {
-  return `${subjects.length} ${subjects.length === 1 ? singular : plural}`;
 }
 
 function countPhrase(n: number, singular: string, plural?: string): string {
@@ -162,45 +187,7 @@ function describePets(pets: Subject[]): string {
     return counts;
   }, {});
 
-  return joinWithAnd(
-    Object.entries(grouped).map(([label, count]) => countPhrase(count, label)),
-  );
-}
-
-function describeRosterIdentities(subjects: Subject[]): string {
-  if (subjects.length === 0) return "Reference identity map: none.";
-
-  let referenceIndex = 1;
-  const roleCounts: Record<Subject["role"], number> = {
-    adult: 0,
-    child: 0,
-    pet: 0,
-  };
-
-  const identities = subjects.map((subject) => {
-    roleCounts[subject.role] += 1;
-    const stableLabel =
-      subject.role === "pet"
-        ? `${petLabel(subject)} ${roleCounts.pet}`
-        : `${subject.role} ${roleCounts[subject.role]}`;
-    const references = subject.referencePaths.length;
-    const firstReferenceIndex = referenceIndex;
-    const referenceLabel =
-      references > 0
-        ? references === 1
-          ? `reference image ${firstReferenceIndex}`
-          : `reference images ${firstReferenceIndex}-${firstReferenceIndex + references - 1}`
-        : "no reference image";
-
-    referenceIndex += references;
-
-    return `${referenceLabel} is ${stableLabel}`;
-  });
-
-  return [
-    `Reference identity map: ${joinWithAnd(identities)}.`,
-    "Treat each mapped reference as one distinct selected subject; do not render names or file names, and do not merge, duplicate or replace subjects.",
-  ].join(" ");
+  return joinWithAnd(Object.entries(grouped).map(([label, count]) => countPhrase(count, label)));
 }
 
 function petLabel(subject: Subject): string {

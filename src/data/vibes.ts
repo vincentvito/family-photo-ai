@@ -166,6 +166,96 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "pop-icon-stage-family-photos",
+    name: "Pop Icon Stage Portrait",
+    keyword: "concert stage family portrait",
+    secondaryKeywords: [
+      "pop star stage family photo",
+      "dramatic stage family photoshoot",
+      "1980s concert portrait family photo",
+    ],
+    image: "/samples/theme-pop-icon-stage-portrait.png",
+    shortDescription:
+      "Spotlights, smoke, sharp tailoring, and high-contrast stage energy for a family portrait with pop-performance drama.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "film-noir-family-photos",
+      "runway-editorial-family-photos",
+    ],
+  },
+  {
+    slug: "galactic-family-adventure-photos",
+    name: "Galactic Family Adventure",
+    keyword: "space adventure family portrait",
+    secondaryKeywords: [
+      "galactic family photoshoot",
+      "space opera family portrait",
+      "desert planet family photo",
+    ],
+    image: "/samples/theme-galactic-family-adventure.png",
+    shortDescription:
+      "Twin-sun horizons, hangar light, desert-world atmosphere, and heroic adventure without franchise cosplay.",
+    related: [
+      "superhero-family-photos",
+      "national-park-family-photos",
+      "royal-family-portrait",
+    ],
+  },
+  {
+    slug: "iconic-crosswalk-album-cover-family-photos",
+    name: "Iconic Crosswalk Album Cover",
+    keyword: "crosswalk album cover family portrait",
+    secondaryKeywords: [
+      "music magazine family photo",
+      "1960s editorial family portrait",
+      "street crossing family photoshoot",
+    ],
+    image: "/samples/theme-iconic-crosswalk-album-cover.png",
+    shortDescription:
+      "A vertical editorial street-crossing portrait with classic music-magazine energy and original album-cover framing.",
+    related: [
+      "new-york-city-family-photos",
+      "vintage-polaroid-family-photos",
+      "wes-anderson-family-photos",
+    ],
+  },
+  {
+    slug: "runway-editorial-family-photos",
+    name: "Runway Editor-in-Chief Family Editorial",
+    keyword: "fashion editorial family portrait",
+    secondaryKeywords: [
+      "runway family photoshoot",
+      "high fashion family portrait",
+      "magazine editor family photo",
+    ],
+    image: "/samples/theme-runway-editorial.png",
+    shortDescription:
+      "Sharp tailoring, glossy magazine lighting, city-office polish, and confident runway-family energy.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "slim-aarons-family-photos",
+      "pop-icon-stage-family-photos",
+    ],
+  },
+  {
+    slug: "noughties-family-throwback-photos",
+    name: "Noughties Family Throwback",
+    keyword: "noughties family portrait",
+    secondaryKeywords: [
+      "early 2000s family photo",
+      "y2k family photoshoot",
+      "mall photo family portrait",
+    ],
+    image: "/samples/theme-noughties-family-throwback.png",
+    shortDescription:
+      "Warm compact-camera flash, denim layers, sticker-album nostalgia, and a polished print-ready finish.",
+    related: [
+      "vintage-polaroid-family-photos",
+      "70s-station-wagon-family-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",
