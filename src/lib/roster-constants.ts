@@ -1,2 +1,1 @@
 export const ROSTER_NAME_MAX_LENGTH = 60;
-export const ROSTER_NOTE_MAX_LENGTH = 200;

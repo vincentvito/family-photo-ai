@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import type { Person, Photo } from "@/../db/schema";
+import type { Photo } from "@/../db/schema";
+import type { RosterPerson } from "@/lib/roster-queries";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import EditPersonDialog from "./EditPersonDialog";
 import FaceCropDialog from "./FaceCropDialog";
@@ -29,7 +30,7 @@ export default function PersonCard({
   photos,
   onChanged,
 }: {
-  person: Person;
+  person: RosterPerson;
   photos: Photo[];
   onChanged?: () => void;
 }) {
@@ -100,7 +101,6 @@ export default function PersonCard({
         </div>
         <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <span className={`chip ${color.chip}`}>{person.role}</span>
-          {person.notes && <span className="chip chip-ghost">{person.notes}</span>}
         </div>
       </div>
 

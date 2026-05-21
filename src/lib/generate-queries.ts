@@ -130,9 +130,14 @@ export async function startGeneration(
       ? [parsed.themeId]
       : [];
   const photoshootCatalog = THEMES.filter((catalogTheme) => catalogTheme.category !== "card");
+  const selectionIsCard = requestedThemeIds.some((id) => {
+    const t = THEMES.find((entry) => entry.id === id);
+    return t?.category === "card";
+  });
+  const planCatalog = selectionIsCard ? THEMES : photoshootCatalog;
   const vibePlan = parsed.customVibe
     ? []
-    : buildVibeSelectionPlan(requestedThemeIds, photoshootCatalog);
+    : buildVibeSelectionPlan(requestedThemeIds, planCatalog);
   if (!parsed.customVibe && vibePlan.length === 0) {
     throw new Error("Pick a valid vibe.");
   }
@@ -934,7 +939,6 @@ async function loadRosterAsSubjects(userId: string, subjectIds?: string[]): Prom
       personId: person.id,
       name: person.name,
       role: person.role,
-      notes: person.notes,
       referencePaths: photo ? [path.posix.join("uploads", person.id, photo.fileName)] : [],
     };
   });

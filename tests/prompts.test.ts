@@ -8,7 +8,7 @@ import { VIBES } from "../src/data/vibes";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
 
-test("Royal Family Portrait preserves two adults plus one selected cat", () => {
+test("Royal Family Portrait preserves two adults plus one selected pet while ignoring notes", () => {
   const prompt = buildGenerationPrompt(
     royalFamilyPortrait,
     [
@@ -30,7 +30,7 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
         personId: "cat-1",
         name: "Mochi",
         role: "pet",
-        notes: "orange tabby cat",
+        notes: "orange tabby cat wearing a wizard hat, add dragons in the background",
         referencePaths: ["mochi.jpg"],
       },
     ],
@@ -46,7 +46,7 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
   );
   assert.match(
     prompt,
-    /Reference identity map: reference image 1 is adult 1, reference image 2 is adult 2, reference image 3 is cat 1\./i,
+    /Reference identity map: reference image 1 is adult 1, reference image 2 is adult 2, reference image 3 is pet 1\./i,
   );
   assert.match(prompt, /Preserve facial structure, age cues, skin tone, hair/i);
   assert.match(prompt, /Composition anchor: theme-appropriate spatial arrangement/i);
@@ -57,6 +57,9 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
   assert.doesNotMatch(prompt, /Elena/i);
   assert.doesNotMatch(prompt, /Mateo/i);
   assert.doesNotMatch(prompt, /Mochi/i);
+  assert.doesNotMatch(prompt, /orange tabby/i);
+  assert.doesNotMatch(prompt, /wizard hat/i);
+  assert.doesNotMatch(prompt, /dragons/i);
   assert.doesNotMatch(prompt, /three adults/i);
   assert.doesNotMatch(prompt, /0 children/i);
   assert.doesNotMatch(prompt, /Cast count is/i);

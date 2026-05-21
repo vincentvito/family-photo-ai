@@ -8,16 +8,15 @@ const { getTheme, buildCustomTheme, THEMES } = await import("../src/lib/themes.t
 const { buildGenerationPrompt } = await import("../src/lib/prompts.ts");
 
 const roster = [
-  { personId: "p1", name: "Elena", role: "adult", notes: null, referencePaths: [] },
-  { personId: "p2", name: "Matteo", role: "adult", notes: null, referencePaths: [] },
+  { personId: "p1", name: "Elena", role: "adult", referencePaths: [] },
+  { personId: "p2", name: "Matteo", role: "adult", referencePaths: [] },
   {
     personId: "p3",
     name: "Luca",
     role: "child",
-    notes: "4 years old, curly hair",
     referencePaths: [],
   },
-  { personId: "p4", name: "Biscotto", role: "pet", notes: "golden retriever", referencePaths: [] },
+  { personId: "p4", name: "Biscotto", role: "pet", referencePaths: [] },
 ];
 
 const cases = [

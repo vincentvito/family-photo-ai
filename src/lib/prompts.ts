@@ -191,7 +191,7 @@ function describePets(pets: Subject[]): string {
 }
 
 function petLabel(subject: Subject): string {
-  const source = `${subject.name} ${subject.notes ?? ""}`.toLowerCase();
+  const source = subject.name.toLowerCase();
   if (/\b(cat|kitten|kitty|feline)\b/u.test(source)) return "cat";
   if (/\b(dog|puppy|pup|canine)\b/u.test(source)) return "dog";
   return "pet";

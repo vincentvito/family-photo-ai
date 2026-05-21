@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { uploadRosterPhoto } from "@/lib/upload-client";
-import { ROSTER_NAME_MAX_LENGTH, ROSTER_NOTE_MAX_LENGTH } from "@/lib/roster-constants";
+import { ROSTER_NAME_MAX_LENGTH } from "@/lib/roster-constants";
 
 type Role = "adult" | "child" | "pet";
 type DraftStatus = "idle" | "saving" | "done" | "error";
@@ -14,7 +14,6 @@ type PersonDraft = {
   previewUrl: string;
   name: string;
   role: Role;
-  notes: string;
   status: DraftStatus;
   error: string | null;
 };
@@ -39,7 +38,6 @@ function createDraft(file: File): PersonDraft {
     previewUrl: URL.createObjectURL(file),
     name: fileStem(file.name),
     role: "adult",
-    notes: "",
     status: "idle",
     error: null,
   };
@@ -85,9 +83,6 @@ export default function BulkAddPeopleDialog({
     if (editableDrafts.some((draft) => draft.name.trim().length > ROSTER_NAME_MAX_LENGTH)) {
       return `Names must be ${ROSTER_NAME_MAX_LENGTH} characters or fewer.`;
     }
-    if (editableDrafts.some((draft) => draft.notes.trim().length > ROSTER_NOTE_MAX_LENGTH)) {
-      return `Optional notes must be ${ROSTER_NOTE_MAX_LENGTH} characters or fewer.`;
-    }
     return null;
   }, [drafts]);
 
@@ -120,7 +115,7 @@ export default function BulkAddPeopleDialog({
 
   const updateDraft = (
     id: string,
-    patch: Partial<Pick<PersonDraft, "name" | "role" | "notes">>,
+    patch: Partial<Pick<PersonDraft, "name" | "role">>,
   ) => {
     setDrafts((current) =>
       current.map((draft) =>
@@ -177,7 +172,6 @@ export default function BulkAddPeopleDialog({
           body: JSON.stringify({
             name: displayName,
             role: draft.role,
-            notes: draft.notes.trim() || null,
           }),
         });
         if (!res.ok) {
@@ -356,7 +350,7 @@ export default function BulkAddPeopleDialog({
                     {drafts.map((draft, index) => (
                       <div
                         key={draft.id}
-                        className="grid gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-3 shadow-[var(--shadow-sm)] sm:grid-cols-[88px_minmax(0,1fr)_130px_1fr_auto]"
+                        className="grid gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-3 shadow-[var(--shadow-sm)] sm:grid-cols-[88px_minmax(0,1fr)_130px_auto]"
                       >
                         <div className="relative h-24 overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)] sm:h-[88px]">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -398,21 +392,6 @@ export default function BulkAddPeopleDialog({
                             <option value="pet">pet</option>
                           </select>
                         </label>
-                        <label className="block">
-                          <span className="small-caps text-[color:var(--color-ink-muted)]">
-                            Optional note
-                          </span>
-                          <input
-                            value={draft.notes}
-                            maxLength={ROSTER_NOTE_MAX_LENGTH}
-                            disabled={pending || draft.status === "done"}
-                            onChange={(event) =>
-                              updateDraft(draft.id, { notes: event.target.value })
-                            }
-                            placeholder="age, hair, breed..."
-                            className="mt-1 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-3 py-2 outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-70"
-                          />
-                        </label>
                         <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
                           <StatusPill status={draft.status} />
                           {draft.status !== "done" && (
@@ -427,7 +406,7 @@ export default function BulkAddPeopleDialog({
                           )}
                         </div>
                         {draft.error && (
-                          <p className="text-sm text-[color:var(--color-coral-deep)] sm:col-span-5">
+                          <p className="text-sm text-[color:var(--color-coral-deep)] sm:col-span-4">
                             {draft.error}
                           </p>
                         )}

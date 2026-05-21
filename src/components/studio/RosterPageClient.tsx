@@ -4,12 +4,10 @@ import type { CSSProperties } from "react";
 import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Person, Photo } from "@/../db/schema";
+import type { RosterEntry } from "@/lib/roster-queries";
 import RosterGrid from "@/components/studio/RosterGrid";
 import AddPersonDialog from "@/components/studio/AddPersonDialog";
 import BulkAddPeopleDialog from "@/components/studio/BulkAddPeopleDialog";
-
-type RosterEntry = { person: Person; photos: Photo[] };
 
 export default function RosterPageClient({
   initialRoster,
