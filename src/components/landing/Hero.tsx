@@ -61,87 +61,49 @@ function Polaroid({
   );
 }
 
-function LaurelSide({ mirror = false }: { mirror?: boolean }) {
-  const leaves = [
-    { x: 15, y: 59, r: -31, s: 0.46 },
-    { x: 22, y: 76, r: -45, s: 0.52 },
-    { x: 33, y: 91, r: -60, s: 0.58 },
-    { x: 47, y: 103, r: -76, s: 0.63 },
-    { x: 63, y: 111, r: -92, s: 0.66 },
-    { x: 77, y: 114, r: -108, s: 0.6 },
-  ];
-
-  return (
-    <g transform={mirror ? "translate(160 0) scale(-1 1)" : undefined}>
-      <path
-        d="M13 61C23 91 50 114 80 115"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="1.6"
-      />
-      {leaves.map((leaf) => (
-        <path
-          key={`${leaf.x}-${leaf.y}`}
-          d="M0 -17C8 -12 10 -4 1 17C-9 -3 -8 -12 0 -17Z"
-          fill="currentColor"
-          transform={`translate(${leaf.x} ${leaf.y}) rotate(${leaf.r}) scale(${leaf.s})`}
-        />
-      ))}
-    </g>
-  );
-}
-
 function AwardBadge() {
   return (
     <div
-      className="relative w-full max-w-[280px] sm:max-w-[330px]"
+      className="relative w-full max-w-[220px] sm:max-w-[250px]"
       aria-label="Top pick for family photo shoots"
     >
       <div
-        className="absolute inset-x-8 bottom-3 h-8 rounded-full bg-[color:var(--color-coral-soft)] blur-xl"
+        className="absolute inset-x-12 bottom-4 h-5 rounded-full bg-[color:rgba(242,107,74,0.1)] blur-xl"
         aria-hidden
       />
-      <div className="relative flex min-h-[156px] items-start justify-center pt-1">
-        <svg
-          className="pointer-events-none absolute left-1/2 top-4 z-0 h-[132px] w-[246px] -translate-x-1/2 text-[color:var(--color-ink)]"
-          viewBox="0 0 160 130"
-          fill="none"
+      <div className="relative flex min-h-[108px] items-center justify-center">
+        <Image
+          src="/laurel-hero.svg"
+          alt=""
+          width={300}
+          height={245}
+          className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[102px] w-[250px] -translate-x-1/2 -translate-y-1/2 scale-x-[1.32] object-contain opacity-70 [filter:brightness(0)_saturate(100%)_invert(9%)_sepia(10%)_saturate(1350%)_hue-rotate(231deg)_brightness(88%)_contrast(90%)] sm:h-[112px] sm:w-[272px] sm:scale-x-[1.36]"
           aria-hidden
-        >
-          <LaurelSide />
-          <LaurelSide mirror />
-        </svg>
-        <div className="relative z-10 mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] text-center shadow-[var(--shadow-lg)]">
-          <svg
-            className="absolute left-1/2 top-[-2px] h-7 w-10 -translate-x-1/2 text-[color:var(--color-coral)] drop-shadow-sm"
-            viewBox="0 0 40 28"
-            fill="none"
-            aria-hidden
-          >
-            <path
-              d="M5 25h30l-3-16-8 8-4-13-4 13-8-8-3 16Z"
-              fill="currentColor"
-              stroke="var(--color-bg-elevated)"
-              strokeLinejoin="round"
-              strokeWidth="2"
-            />
-            <path
-              d="M9 25h22"
-              stroke="var(--color-bg-elevated)"
-              strokeLinecap="round"
-              strokeWidth="2"
-            />
-          </svg>
-          <span className="text-[0.58rem] font-bold uppercase tracking-[0.14em] text-[color:var(--color-coral-deep)]">
+          priority
+        />
+        <div className="relative z-10 flex -translate-y-2 flex-col items-center pt-1 text-center">
+          <span className="text-[0.52rem] font-bold uppercase tracking-[0.14em] text-[color:var(--color-coral-deep)]">
             Top pick
           </span>
-          <span className="serif mt-0.5 text-[1.55rem] leading-none text-[color:var(--color-ink)]">
+          <span className="serif mt-0.5 text-[1.35rem] leading-none text-[color:var(--color-ink)]">
             #1
           </span>
-          <span className="mt-1 max-w-[5.9rem] text-[0.63rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
+          <span className="mt-1 max-w-[5.9rem] text-[0.57rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
             family photo app
           </span>
+          <div className="mt-1.5 flex items-center gap-0.5 text-[color:var(--color-coral)] drop-shadow-[0_1px_1px_rgba(31,26,36,0.14)]">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <svg
+                key={index}
+                className="h-3.5 w-3.5 sm:h-4 sm:w-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden
+              >
+                <path d="M12 2.5 14.9 8.6l6.7.9-4.9 4.7 1.2 6.6L12 17.6l-5.9 3.2 1.2-6.6-4.9-4.7 6.7-.9L12 2.5Z" />
+              </svg>
+            ))}
+          </div>
         </div>
       </div>
     </div>
