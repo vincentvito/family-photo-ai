@@ -6,7 +6,10 @@ import Reveal from "@/components/motion/Reveal";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
-const FALLBACK_POPULAR_ITEMS: { id: string; badge?: string; note?: string }[] = [
+type FeaturedItem = { id: string; badge?: string; note?: string };
+type TrendingVibe = { id: string; name: string };
+
+const FALLBACK_POPULAR_ITEMS: FeaturedItem[] = [
   { id: "pixar-family", badge: "Trending now" },
   { id: "card-mothers-day", badge: "Popular card" },
   { id: "stacked-love" },
@@ -23,11 +26,9 @@ const FALLBACK_POPULAR_ITEMS: { id: string; badge?: string; note?: string }[] = 
 
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
 
-type TrendingVibe = { id: string; name: string };
-
-function buildFeaturedItems(trendingVibes: TrendingVibe[]) {
-  const trendingItems = trendingVibes
-    .map((vibe, index) => ({ id: vibe.id, badge: index === 0 ? "Most popular" : "Trending" }))
+function buildFeaturedItems(trendingVibes: TrendingVibe[]): FeaturedItem[] {
+  const trendingItems: FeaturedItem[] = trendingVibes
+    .map<FeaturedItem>((vibe, index) => ({ id: vibe.id, badge: index === 0 ? "Most popular" : "Trending" }))
     .filter((item) => THEME_BY_ID.has(item.id));
 
   const deduped = [...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(
