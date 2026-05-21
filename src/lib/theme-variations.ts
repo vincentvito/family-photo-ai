@@ -50,10 +50,10 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Family crew portrait: selected cast arranged as an original space-adventure crew with one seated or kneeling child/pet anchor, cool hangar fill and warm backlight balanced for print.",
   ],
   "iconic-crosswalk-album-cover": [
-    "Straight crosswalk march: selected cast walking left-to-right across a zebra crosswalk in full-body side profile, evenly spaced one behind another, stylish coats and boots, soft overcast city light, vertical album-cover framing.",
-    "Classic crossing frame: selected cast mid-stride on bold white crosswalk stripes, all bodies visible head-to-toe, one subject slightly ahead but still in a clean horizontal procession, quiet London-like street and soft architecture behind.",
+    "Straight crosswalk walk: selected cast walking left-to-right across a zebra crosswalk in a side-oriented cinematic walk, mostly side-facing bodies with slight natural face turns toward camera for readable faces, evenly spaced one behind another, stylish coats and boots, soft overcast city light, vertical album-cover framing.",
+    "Classic crossing frame: selected cast mid-stride on bold white crosswalk stripes, bodies mostly visible with readable faces, one subject slightly ahead but still in a clean horizontal procession, quiet London-like street and soft architecture behind.",
     "Symmetric street-cover composition: selected cast crossing from curb to curb with legs in motion, clean zebra-crossing geometry filling the foreground, balanced negative space above, muted coats, polished shoes and natural calm expressions.",
-    "Music-magazine walking portrait: selected cast in a deliberate side-profile street-crossing line, not standing still, not facing camera as a posed group, no sidewalk pose, no three-quarter crop, subtle film grain and no band likeness.",
+    "Music-magazine walking portrait: selected cast in a deliberate side-oriented street-crossing line, mostly side-facing with slight natural face turns for readable faces, not standing still, not facing camera as a posed group, no sidewalk pose, subtle film grain and no band likeness.",
   ],
   "runway-editor-in-chief-family-editorial": [
     "Glass-tower office portrait: selected cast in camel, ivory, charcoal and black tailoring, one seated anchor, reflective marble floor, city windows and glossy magazine light.",
@@ -419,22 +419,22 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
 
 const CATEGORY_VARIATIONS = {
   photoreal: [
-    "Wide hero proof: selected cast shown full-body or three-quarter in a polished environmental portrait, natural spacing, strong setting context and clear faces.",
-    "Anchored portrait proof: selected cast held in a still seated, leaning or clustered arrangement, waist-up or knee-up crop, one meaningful prop or setting edge framing them.",
-    "Candid story proof: selected cast mid-action within the same setting, visible hands or feet, asymmetrical spacing, photographed like an unforced keeper.",
-    "Crop-contrast proof: either a genuinely tight emotional portrait focused on faces and hands, or a wider graphic negative-space composition if the theme calls for scale.",
+    "Environmental hero proof: polished environmental portrait, natural spacing, strong setting context, clear faces.",
+    "Anchored portrait proof: selected cast held in a still seated, leaning or clustered arrangement, one meaningful prop or setting edge framing them.",
+    "Candid story proof: selected cast in one clear action beat within the same setting, visible hands or feet when natural, asymmetrical spacing.",
+    "Face-led editorial proof: intimate emotional portrait focused on faces, hands, and one clean negative-space field.",
   ],
   stylized: [
-    "Wide hero proof: full selected-cast frame using the theme's signature visual language, clear silhouettes, expressive poses and visible environment.",
-    "Character portrait proof: closer selected-cast frame with readable faces, stronger expressions and one foreground prop or design detail.",
+    "World hero proof: selected cast using the theme's signature visual language, clear silhouettes, expressive poses and visible environment.",
+    "Character portrait proof: readable faces, stronger expressions and one foreground prop or design detail.",
     "Action story proof: selected cast in a clear gesture or interaction, asymmetrical spacing, dynamic camera height and energetic staging.",
-    "World proof: wider frame showing more of the themed environment around the selected cast without changing the concept.",
+    "World proof: more of the themed environment around the selected cast without changing the concept.",
   ],
   card: [
     "Close greeting card proof: selected cast placed low or to one side, faces readable, generous clean negative space reserved for the greeting.",
-    "Standing greeting card proof: selected cast shown three-quarter or full-body in the occasion setting, text area balanced opposite them.",
+    "Standing greeting card proof: selected cast standing or walking in the occasion setting, text area balanced opposite them.",
     "Anchored greeting card proof: selected cast seated or leaning near a clear prop, doorway, bench, table or floral frame, medium crop and readable faces.",
-    "Wide greeting card proof: selected cast smaller in the lower third, foreground details and occasion environment visible, calm readable greeting zone.",
+    "Environmental greeting card proof: selected cast in the lower third, foreground details and occasion environment visible, calm readable greeting zone.",
   ],
 } satisfies Record<string, ThemeVariationPrompts>;
 

@@ -31,12 +31,18 @@ export type ThemeCategory = "photoreal" | "stylized" | "card";
 export type PromptSpec = {
   /** Medium + aspect ratio as a single crisp handle. e.g. "A 3:2 cinematic color photograph". */
   assetType: string;
+  /** Setting, mood, and environment. No crop, pose, subject scale, or roster references. */
+  scene?: string;
   /** Camera, lens, angle, framing. For non-photo themes: viewpoint / engine. No roster references. */
   camera: string;
+  /** Composition geometry only. Pose, crop, subject scale, and negative space stay dynamic. */
+  composition?: string;
   /** Direction + quality of light + mood. No roster references. */
   lighting: string;
   /** Film stock / rendering engine / texture / palette. No roster references. */
   style: string;
+  /** IP, text, watermark, logo, and theme-specific safety constraints. */
+  safety?: string;
 };
 
 export type Theme = {
@@ -630,14 +636,19 @@ export const THEMES: Theme[] = [
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
-      assetType:
-        "A 2:3 vertical text-free premium social teaser image of the selected cast walking across a quiet city zebra crosswalk",
+      assetType: "A 2:3 vertical text-free premium social teaser image",
+      scene:
+        "quiet London-like city zebra crosswalk, soft overcast daylight, clean editorial street-crossing portrait",
       camera:
-        "medium-format film camera with a 50mm lens, straight-on street-level vertical composition, full-body side-profile march from left to right, each selected person separated along the crosswalk stripes, clean zebra-crossing geometry dominating the foreground, balanced sky and street negative space for album-cover impact",
+        "medium-format film camera with a 50mm lens, straight-on street-level vertical perspective",
+      composition:
+        "side-oriented cinematic crosswalk walk, mostly side-facing bodies with slight natural face turns toward camera for readable faces, clean zebra-crossing geometry in the foreground",
       lighting:
         "soft overcast London-like city daylight, gentle pavement bounce fill, low contrast with crisp silhouettes and polished readable faces",
       style:
-        "IP-safe music nostalgia with classic late-1960s British music-magazine energy, tailored coats and boots, muted black, cream, camel, gray and brick palette, subtle film grain, polished but natural family mood, original street scene, no exact album recreation, no band likeness, no logos, no text, no watermark, not a posed sidewalk fashion portrait",
+        "classic late-1960s British music-magazine energy, tailored coats and boots, muted black, cream, camel, gray and brick palette, subtle film grain, cinematic editorial realism, polished but natural family mood",
+      safety:
+        "original street scene, no exact album recreation, no band likeness, no logos, no text, no watermark, not a posed sidewalk fashion portrait",
     },
   },
   {

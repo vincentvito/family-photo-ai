@@ -38,13 +38,17 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
     null,
   );
 
-  assert.match(prompt, /Selected cast: two adults and one cat/i);
-  assert.match(prompt, /Cast rule: show only the selected cast: 2 adults; one cat\./i);
+  assert.match(prompt, /Subjects: exactly three subjects only: 2 adults and 1 pet\./i);
+  assert.match(prompt, /Hard constraints:/i);
   assert.match(
     prompt,
-    /Reference identity map: reference image 1 is adult 1, reference image 2 is adult 2 and reference image 3 is cat 1\./i,
+    /Maintain coherent realistic anatomy, facial structure, limb proportions, and clean subject separation\./i,
   );
-  assert.match(prompt, /Total living subjects in the image must be exactly 3\./i);
+  assert.match(
+    prompt,
+    /Reference identity map: reference image 1 is adult 1, reference image 2 is adult 2, reference image 3 is cat 1\./i,
+  );
+  assert.match(prompt, /Composition anchor: theme-appropriate spatial arrangement/i);
   assert.match(prompt, /Selected pet references are required cast members/i);
   assert.match(prompt, /must appear as animals, not as extra adults/i);
   assert.match(prompt, /When shot directions describe human poses, gestures, hands, feet/i);
@@ -54,6 +58,8 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
   assert.doesNotMatch(prompt, /Mochi/i);
   assert.doesNotMatch(prompt, /three adults/i);
   assert.doesNotMatch(prompt, /0 children/i);
+  assert.doesNotMatch(prompt, /Cast count is/i);
+  assert.doesNotMatch(prompt, /Selected cast/i);
   assert.doesNotMatch(prompt, /no pets/i);
 });
 
@@ -123,13 +129,13 @@ test("People-only casts do not add pet or animal exclusions", () => {
     null,
   );
 
-  assert.match(prompt, /Cast rule: show only the selected cast: 2 adults; 2 children\./i);
-  assert.match(prompt, /Total living subjects in the image must be exactly 4\./i);
+  assert.match(prompt, /Subjects: exactly four subjects only: 2 adults and 2 children\./i);
+  assert.match(prompt, /Hard constraints:/i);
+  assert.doesNotMatch(prompt, /Cast count is/i);
   assert.doesNotMatch(prompt, /no pets/i);
   assert.doesNotMatch(prompt, /Do not add animals/i);
   assert.doesNotMatch(prompt, /background free of .*animals/i);
 });
-
 
 const TREND_LED_THEME_IDS = [
   "pop-icon-stage-portrait",
@@ -160,7 +166,14 @@ test("trend-led vibes are valid catalog themes with variation prompts and SEO en
     assert.equal(theme.supportsPets, true);
     assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
     assert.doesNotMatch(
-      [theme.name, theme.blurb, theme.spec.assetType, theme.spec.camera, theme.spec.lighting, theme.spec.style].join(" "),
+      [
+        theme.name,
+        theme.blurb,
+        theme.spec.assetType,
+        theme.spec.camera,
+        theme.spec.lighting,
+        theme.spec.style,
+      ].join(" "),
       BLOCKED_PROMPT_TERMS,
     );
   }
@@ -175,18 +188,23 @@ test("iconic crosswalk vibe keeps album-cover walking composition", () => {
   const stablePrompt = [
     theme.blurb,
     theme.spec.assetType,
+    theme.spec.scene,
     theme.spec.camera,
+    theme.spec.composition,
     theme.spec.lighting,
     theme.spec.style,
+    theme.spec.safety,
   ].join(" ");
   const variationPrompt = getThemeVariationPrompts(theme.id, theme.category).join(" ");
 
   assert.match(stablePrompt, /zebra crosswalk/i);
-  assert.match(stablePrompt, /full-body side-profile march/i);
+  assert.match(stablePrompt, /side-oriented cinematic crosswalk walk/i);
+  assert.match(stablePrompt, /slight natural face turns/i);
   assert.match(stablePrompt, /London-like/i);
   assert.match(stablePrompt, /not a posed sidewalk fashion portrait/i);
   assert.match(variationPrompt, /walking left-to-right/i);
-  assert.match(variationPrompt, /head-to-toe/i);
+  assert.match(variationPrompt, /mostly side-facing bodies with slight natural face turns/i);
   assert.match(variationPrompt, /not standing still/i);
-  assert.match(variationPrompt, /no three-quarter crop/i);
+  assert.doesNotMatch(`${stablePrompt} ${variationPrompt}`, /full-body side-profile march/i);
+  assert.doesNotMatch(`${stablePrompt} ${variationPrompt}`, /strict side profile/i);
 });
