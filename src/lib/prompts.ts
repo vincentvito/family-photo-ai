@@ -130,7 +130,7 @@ function getReferenceMap(subjects: Subject[]): string {
 
   return [
     `Reference identity map: ${mappedSubjects.join(", ")}.`,
-    "Each reference image represents one distinct subject. Maintain recognizable identity traits, age cues, skin tone, hair, and key facial features while adapting naturally to the cinematic scene, wardrobe, lighting, and pose. Do not merge, duplicate, replace, or rename subjects.",
+    "Each reference image represents one distinct subject. Preserve facial structure, age cues, skin tone, hair, and recognizable facial features only. Do not merge, duplicate, replace, or rename subjects.",
   ].join(" ");
 }
 

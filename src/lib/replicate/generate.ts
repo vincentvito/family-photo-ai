@@ -36,6 +36,8 @@ type CompositionMode = {
   spacingRule: string;
   subjectSize: string;
   backgroundComplexity: "simple" | "moderate" | "rich";
+  expressionFlexibility: "medium" | "high";
+  expressionIntensity: "low" | "medium" | "medium-high";
 };
 
 type ScenePressure = "low" | "medium" | "high" | "very-high";
@@ -258,7 +260,10 @@ function buildVariantPrompt(
     scenePressure,
   );
   const shotDetail = stripCompositionLanguage(rawVariationPrompt);
-  const expressionDirection = getExpressionDirection(`${basePrompt} ${rawVariationPrompt}`);
+  const expressionDirection = getExpressionDirection(
+    `${basePrompt} ${rawVariationPrompt}`,
+    compositionMode,
+  );
 
   return [
     "Variant composition mode:",
@@ -270,7 +275,11 @@ function buildVariantPrompt(
     "Base scene and identity:",
     basePrompt,
     "",
-    `Expression direction: ${expressionDirection}`,
+    "Expression override:",
+    "Identity preservation applies only to facial structure, age cues, skin tone, hair, and recognizable facial features.",
+    "Do not preserve the exact expression, smile shape, eyebrow tension, mouth shape, selfie emotion, or facial pose from the reference images.",
+    "",
+    `Scene-driven expressions: ${expressionDirection}`,
   ]
     .join("\n")
     .replace(/—|â€”/g, "-");
@@ -335,6 +344,7 @@ function tuneCompositionMode(mode: CompositionMode, pressure: ScenePressure): Co
     return {
       ...mode,
       spacingRule: `${mode.spacingRule}; preserve equal visual importance for each subject`,
+      expressionFlexibility: "high",
     };
   }
 
@@ -345,6 +355,7 @@ function tuneCompositionMode(mode: CompositionMode, pressure: ScenePressure): Co
       backgroundComplexity:
         mode.backgroundComplexity === "rich" ? "moderate" : mode.backgroundComplexity,
       spacingRule: `${mode.spacingRule}; controlled subject separation and equal visual importance for each subject`,
+      expressionFlexibility: "high",
     };
   }
 
@@ -354,6 +365,7 @@ function tuneCompositionMode(mode: CompositionMode, pressure: ScenePressure): Co
     environmentPriority: mode.environmentPriority === "high" ? "medium" : mode.environmentPriority,
     backgroundComplexity: "moderate",
     spacingRule: `${mode.spacingRule}; strict subject separation and equal visual importance for each subject`,
+    expressionFlexibility: "high",
   };
 }
 
@@ -369,6 +381,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "tight grouping placed low or to one side with clean greeting area",
       subjectSize: "subjects occupy roughly 65-80% of image height",
       backgroundComplexity: "simple",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
   if (/slot 2 composition/iu.test(prompt)) {
@@ -382,6 +396,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "clear cast silhouette balanced opposite greeting space",
       subjectSize: "subjects occupy roughly 55-70% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
   if (/slot 3 composition/iu.test(prompt)) {
@@ -395,6 +411,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "stable grouping around one prop or architectural edge",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
   if (/slot 4 composition/iu.test(prompt)) {
@@ -408,6 +426,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "cast in lower third with large calm greeting area",
       subjectSize: "subjects occupy roughly 35-50% of image height",
       backgroundComplexity: "rich",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
   if (/\b(horizontal cheek line|tight shoulder-up row|heads nearly level)\b/iu.test(prompt)) {
@@ -424,6 +444,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "evenly spaced along crosswalk stripes without overlap",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "low",
     };
   }
   if (/\b(album-cover|magazine cover|negative space|crop-contrast)\b/iu.test(prompt)) {
@@ -437,6 +459,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "tight staggered grouping with one clean negative-space field",
       subjectSize: "subjects occupy roughly 65-80% of image height",
       backgroundComplexity: "simple",
+      expressionFlexibility: "high",
+      expressionIntensity: "low",
     };
   }
   if (
@@ -454,6 +478,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "clear grouping anchored by one named prop or setting edge",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
   if (
@@ -471,6 +497,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "asymmetrical spacing with hands or feet visible when relevant",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium-high",
     };
   }
   if (
@@ -493,6 +521,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "clear silhouettes with foreground and background layers",
       subjectSize: "subjects occupy roughly 40-55% of image height",
       backgroundComplexity: "rich",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     };
   }
 
@@ -508,6 +538,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "coherent grouping with one prop or setting edge",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     },
     {
       cropType: "medium-full story frame",
@@ -519,6 +551,8 @@ function getCompositionMode(variant: number, prompt: string): CompositionMode {
       spacingRule: "asymmetrical spacing without overlap",
       subjectSize: "subjects occupy roughly 60-75% of image height",
       backgroundComplexity: "moderate",
+      expressionFlexibility: "high",
+      expressionIntensity: "medium",
     },
     closePortraitMode("face-led crop contrast"),
   ];
@@ -536,6 +570,8 @@ function closePortraitMode(spacingRule: string): CompositionMode {
     spacingRule,
     subjectSize: "subjects occupy roughly 70-85% of image height",
     backgroundComplexity: "simple",
+    expressionFlexibility: "high",
+    expressionIntensity: "low",
   };
 }
 
@@ -550,6 +586,8 @@ function environmentalMode(): CompositionMode {
     spacingRule: "clear silhouettes with foreground and background layers",
     subjectSize: "subjects occupy roughly 40-55% of image height",
     backgroundComplexity: "rich",
+    expressionFlexibility: "high",
+    expressionIntensity: "medium",
   };
 }
 
@@ -659,24 +697,26 @@ function renderLensStyle(lensStyle: string): string {
   return "natural editorial perspective, realistic proportions, no stretched edge anatomy.";
 }
 
-function getExpressionDirection(text: string): string {
+function getExpressionDirection(text: string, mode: CompositionMode): string {
+  const metadata = `expressionFlexibility=${mode.expressionFlexibility}; expressionIntensity=${mode.expressionIntensity}.`;
+
   if (/\b(crosswalk|zebra|street-crossing|1960s|music-magazine)\b/iu.test(text)) {
-    return "calm confident expressions, natural and unforced.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Calm confident expressions, natural and unforced.`;
   }
   if (/\b(space|galactic|starship|hangar|adventure|guardian)\b/iu.test(text)) {
-    return "subtle awe and adventurous curiosity without exaggerated acting.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Subtle awe and adventurous curiosity without exaggerated acting.`;
   }
   if (/\b(runway|fashion|editorial|office|luxury|stage|concert)\b/iu.test(text)) {
-    return "restrained editorial confidence with composed expressions.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Restrained editorial confidence with composed expressions.`;
   }
   if (/\b(noughties|throwback|mall|sticker|flash|y2k|party|ball-pit)\b/iu.test(text)) {
-    return "natural playful smiles and candid warmth.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Natural playful smiles and candid warmth.`;
   }
   if (/\b(royal|palace|court|ceremonial)\b/iu.test(text)) {
-    return "dignified calm expressions with gentle warmth.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Dignified calm expressions with gentle warmth.`;
   }
   if (/\b(card|christmas|holiday|birthday|mother|father|newborn|graduation)\b/iu.test(text)) {
-    return "warm approachable expressions suited to a keepsake card.";
+    return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Warm approachable expressions suited to a keepsake card.`;
   }
-  return "relaxed warm expressions that fit the shot direction and setting.";
+  return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Relaxed warm expressions that fit the shot direction and setting.`;
 }

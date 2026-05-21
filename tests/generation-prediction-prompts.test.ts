@@ -56,7 +56,12 @@ test("variant prompts do not duplicate aspect ratio and adapt expression by scen
   });
 
   assert.equal(prompt.match(/Aspect ratio:/g)?.length, 1);
-  assert.match(prompt, /Expression direction: calm confident expressions/i);
+  assert.match(prompt, /Expression override:/i);
+  assert.match(prompt, /Do not preserve the exact expression, smile shape, eyebrow tension/i);
+  assert.match(prompt, /Scene-driven expressions: expressionFlexibility=high/i);
+  assert.match(prompt, /expressionIntensity=low/i);
+  assert.match(prompt, /rather than copying the expressions from the source photos/i);
+  assert.match(prompt, /Calm confident expressions/i);
   assert.match(prompt, /Scene pressure: dense scene/i);
   assert.match(prompt, /Focus priority: faces and front-facing eyes first/i);
   assert.doesNotMatch(prompt, /walking,,/i);

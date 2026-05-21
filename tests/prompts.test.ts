@@ -48,6 +48,7 @@ test("Royal Family Portrait preserves two adults plus one selected cat", () => {
     prompt,
     /Reference identity map: reference image 1 is adult 1, reference image 2 is adult 2, reference image 3 is cat 1\./i,
   );
+  assert.match(prompt, /Preserve facial structure, age cues, skin tone, hair/i);
   assert.match(prompt, /Composition anchor: theme-appropriate spatial arrangement/i);
   assert.match(prompt, /Selected pet references are required cast members/i);
   assert.match(prompt, /must appear as animals, not as extra adults/i);
