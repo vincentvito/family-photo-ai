@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 import { db, schema } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
 import { getSignedPutUrl } from "@/lib/storage";
@@ -18,7 +19,8 @@ const Body = z.object({
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -35,13 +37,13 @@ export async function POST(req: NextRequest) {
   const [person] = await db
     .select({ id: schema.people.id })
     .from(schema.people)
-    .where(and(eq(schema.people.id, personId), eq(schema.people.userId, user.id)))
+    .where(and(eq(schema.people.id, personId), eq(schema.people.userId, ownerId)))
     .limit(1);
   if (!person) {
     return NextResponse.json({ error: "Person not found" }, { status: 404 });
   }
 
-  const tempKey = `tmp/uploads/${user.id}/${nanoid(16)}`;
+  const tempKey = `tmp/uploads/${ownerId}/${nanoid(16)}`;
   const uploadUrl = await getSignedPutUrl(tempKey, contentType, 300);
 
   return NextResponse.json({ uploadUrl, tempKey });

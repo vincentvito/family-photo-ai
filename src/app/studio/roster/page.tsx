@@ -1,6 +1,7 @@
 import { listRoster } from "@/lib/roster-queries";
 import RosterPageClient from "@/components/studio/RosterPageClient";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,14 @@ export default async function RosterPage({
 }) {
   const { checkout } = await searchParams;
   const user = await getCurrentUser();
-  if (!user) return <RosterPageClient initialRoster={[]} checkoutStatus={checkout} />;
-  const roster = await listRoster(user.id);
-  return <RosterPageClient initialRoster={roster} checkoutStatus={checkout} />;
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) return <RosterPageClient initialRoster={[]} checkoutStatus={checkout} />;
+  const roster = await listRoster(ownerId);
+  return (
+    <RosterPageClient
+      initialRoster={roster}
+      checkoutStatus={checkout}
+      hideReferenceImages={!user}
+    />
+  );
 }

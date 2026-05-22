@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth-helpers";
+import { claimGuestStudio } from "@/lib/guest-owner";
 import {
   getCreditBalance,
   getCurrentSubscription,
@@ -10,17 +10,15 @@ import AccountMenu from "@/components/auth/AccountMenu";
 import BrandLogo from "@/components/brand/BrandLogo";
 import CreditBalanceBadge from "@/components/billing/CreditBalanceBadge";
 import StudioStepper from "@/components/studio/StudioStepper";
+import GuestClaimCookieClearer from "@/components/studio/GuestClaimCookieClearer";
 
 export default async function StudioLayout({ children }: { children: React.ReactNode }) {
   const session = await getCurrentSession();
-
-  if (!session) {
-    redirect("/sign-in");
-  }
+  const claimResult = session ? await claimGuestStudio(session.user.id) : { status: "none" };
 
   const [balance, subscription] = await Promise.all([
-    getCreditBalance(session.user.id),
-    getCurrentSubscription(session.user.id),
+    session ? getCreditBalance(session.user.id) : Promise.resolve(0),
+    session ? getCurrentSubscription(session.user.id) : Promise.resolve(null),
   ]);
 
   return (
@@ -30,12 +28,20 @@ export default async function StudioLayout({ children }: { children: React.React
           <BrandLogo href="/" showLabelOnMobile className="shrink-0 pr-4 md:pr-6 lg:pr-8" />
           <StudioStepper />
           <div className="flex items-center gap-3">
-            <CreditBalanceBadge
-              balance={balance}
-              isProSubscriber={isActiveSubscriptionStatus(subscription?.status)}
-              currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
-            />
-            <AccountSlot session={session} />
+            {session ? (
+              <>
+                <CreditBalanceBadge
+                  balance={balance}
+                  isProSubscriber={isActiveSubscriptionStatus(subscription?.status)}
+                  currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
+                />
+                <AccountSlot session={session} />
+              </>
+            ) : (
+              <Link href="/sign-in?next=/studio/roster" className="btn btn-coral btn-sm">
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
         <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/55">
@@ -46,12 +52,15 @@ export default async function StudioLayout({ children }: { children: React.React
             <Link href="/studio/album" className="btn btn-ghost btn-sm">
               Album
             </Link>
-            <Link href="/studio/gifts" className="btn btn-ghost btn-sm">
-              Gift credits
-            </Link>
+            {session && (
+              <Link href="/studio/gifts" className="btn btn-ghost btn-sm">
+                Gift credits
+              </Link>
+            )}
           </div>
         </div>
       </header>
+      {claimResult.status === "claimed" && <GuestClaimCookieClearer />}
       <div>{children}</div>
     </div>
   );

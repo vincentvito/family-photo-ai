@@ -29,10 +29,12 @@ export default function PersonCard({
   person,
   photos,
   onChanged,
+  hideReferenceImages = false,
 }: {
   person: RosterPerson;
   photos: Photo[];
   onChanged?: () => void;
+  hideReferenceImages?: boolean;
 }) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -109,18 +111,26 @@ export default function PersonCard({
           <button
             type="button"
             key={photo.id}
-            onClick={() => setLightboxPhoto(photo)}
+            onClick={() => {
+              if (!hideReferenceImages) setLightboxPhoto(photo);
+            }}
             className="group relative aspect-[3/2] w-full overflow-hidden rounded-[var(--radius-sm)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-butter)]"
             aria-label={`Preview ${person.name} reference photo`}
           >
-            <Image
-              src={`/api/images/${photo.id}?thumb=240`}
-              alt={`${person.name} reference`}
-              fill
-              sizes="120px"
-              className="object-contain"
-              unoptimized
-            />
+            {hideReferenceImages ? (
+              <div className="flex h-full w-full items-center justify-center px-3 text-center text-xs font-semibold uppercase tracking-[0.12em] text-[color:var(--color-ink-muted)]">
+                Reference added
+              </div>
+            ) : (
+              <Image
+                src={`/api/images/${photo.id}?thumb=240`}
+                alt={`${person.name} reference`}
+                fill
+                sizes="120px"
+                className="object-contain"
+                unoptimized
+              />
+            )}
           </button>
         ) : (
           <button
@@ -233,6 +243,7 @@ export default function PersonCard({
         key={`${person.id}-${editOpen ? "open" : "closed"}`}
         person={person}
         currentPhoto={photo}
+        hideCurrentPhoto={hideReferenceImages}
         open={editOpen}
         onClose={() => setEditOpen(false)}
         onChanged={onChanged}

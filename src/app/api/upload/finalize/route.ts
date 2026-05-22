@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 import { addPhotoToPerson } from "@/lib/roster-queries";
 import { deleteStoredImage, getStoredObjectSize, readStoredImage } from "@/lib/storage";
 
@@ -17,7 +18,8 @@ const Body = z.object({
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
   const { personId, tempKey } = parsed.data;
 
   // Lock finalization to objects this user uploaded under their own tmp prefix.
-  if (!tempKey.startsWith(`tmp/uploads/${user.id}/`)) {
+  if (!tempKey.startsWith(`tmp/uploads/${ownerId}/`)) {
     return NextResponse.json({ error: "Invalid tempKey" }, { status: 400 });
   }
 
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const buffer = await readStoredImage(tempKey);
-    const photo = await addPhotoToPerson({ userId: user.id, personId, buffer });
+    const photo = await addPhotoToPerson({ userId: ownerId, personId, buffer });
     after(() => deleteStoredImage(tempKey).catch(() => {}));
     return NextResponse.json({ photo });
   } catch (err) {

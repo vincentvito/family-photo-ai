@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { getAlbum, getRecentShoots } from "@/lib/album-queries";
 import {
   STUDIO_RETENTION_DAYS,
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AlbumPage() {
   const user = await getCurrentUser();
+  if (!user) redirect("/sign-in?next=/studio/album");
   const [{ items }, recentShoots] = user
     ? await Promise.all([getAlbum(user.id), getRecentShoots(user.id)])
     : [{ items: [] }, []];

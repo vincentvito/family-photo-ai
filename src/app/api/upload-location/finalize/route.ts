@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 import {
   deleteStoredImage,
   getStoredObjectSize,
@@ -20,7 +21,8 @@ const Body = z.object({
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -30,7 +32,7 @@ export async function POST(req: NextRequest) {
   }
   const { tempKey } = parsed.data;
 
-  if (!tempKey.startsWith(`tmp/locations/${user.id}/`)) {
+  if (!tempKey.startsWith(`tmp/locations/${ownerId}/`)) {
     return NextResponse.json({ error: "Invalid tempKey" }, { status: 400 });
   }
 
@@ -47,7 +49,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const buffer = await readStoredImage(tempKey);
-    const saved = await saveLocationReference(buffer, user.id);
+    const saved = await saveLocationReference(buffer, ownerId);
     after(() => deleteStoredImage(tempKey).catch(() => {}));
     return NextResponse.json({
       path: saved.relativePath,

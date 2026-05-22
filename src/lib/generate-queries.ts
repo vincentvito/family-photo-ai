@@ -135,9 +135,7 @@ export async function startGeneration(
     return t?.category === "card";
   });
   const planCatalog = selectionIsCard ? THEMES : photoshootCatalog;
-  const vibePlan = parsed.customVibe
-    ? []
-    : buildVibeSelectionPlan(requestedThemeIds, planCatalog);
+  const vibePlan = parsed.customVibe ? [] : buildVibeSelectionPlan(requestedThemeIds, planCatalog);
   if (!parsed.customVibe && vibePlan.length === 0) {
     throw new Error("Pick a valid vibe.");
   }
@@ -389,7 +387,11 @@ function buildCardVariationPrompt({
   ].join(" ");
 }
 
-export async function getGenerationState(generationId: string, userId: string) {
+export async function getGenerationState(
+  generationId: string,
+  userId: string,
+  options: { guest?: boolean } = {},
+) {
   const [generation] = await db
     .select()
     .from(schema.generations)
@@ -417,10 +419,13 @@ export async function getGenerationState(generationId: string, userId: string) {
     isGenerationUnlocked(generationId, userId),
   ]);
 
+  const isPreview = Boolean((refreshed ?? generation).freePreview) && !isUnlocked;
+
   return {
     generation: refreshed ?? generation,
     images: pickChainHeads(images),
-    isPreview: Boolean((refreshed ?? generation).freePreview) && !isUnlocked,
+    isPreview,
+    revealRequiresSignIn: Boolean(options.guest && isPreview),
   };
 }
 

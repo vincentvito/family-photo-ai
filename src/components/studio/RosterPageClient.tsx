@@ -12,9 +12,11 @@ import BulkAddPeopleDialog from "@/components/studio/BulkAddPeopleDialog";
 export default function RosterPageClient({
   initialRoster,
   checkoutStatus,
+  hideReferenceImages = false,
 }: {
   initialRoster: RosterEntry[];
   checkoutStatus?: string;
+  hideReferenceImages?: boolean;
 }) {
   const [roster, setRoster] = useState<RosterEntry[]>(initialRoster);
   const [error, setError] = useState<string | null>(null);
@@ -89,7 +91,11 @@ export default function RosterPageClient({
         ) : roster.length === 0 ? (
           <EmptyState />
         ) : (
-          <RosterGrid roster={roster} onChanged={loadRoster} />
+          <RosterGrid
+            roster={roster}
+            onChanged={loadRoster}
+            hideReferenceImages={hideReferenceImages}
+          />
         )}
       </div>
 

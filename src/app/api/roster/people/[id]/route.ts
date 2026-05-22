@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 import { removePerson, updatePerson } from "@/lib/roster-queries";
 import { rosterPatchBodySchema } from "@/lib/roster-validation";
 
@@ -12,7 +13,8 @@ function validationError(error: z.ZodError) {
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const { id } = await params;
@@ -22,7 +24,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ error: validationError(parsed.error) }, { status: 400 });
   }
   try {
-    await updatePerson({ id, userId: user.id, ...parsed.data });
+    await updatePerson({ id, userId: ownerId, ...parsed.data });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("roster.update failed", err);
@@ -32,12 +34,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const { id } = await params;
   try {
-    const photoCount = await removePerson(user.id, id);
+    const photoCount = await removePerson(ownerId, id);
     return NextResponse.json({ photoCount });
   } catch (err) {
     console.error("roster.delete failed", err);

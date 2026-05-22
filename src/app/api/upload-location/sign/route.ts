@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 import { getSignedPutUrl } from "@/lib/storage";
 
 export const runtime = "nodejs";
@@ -15,7 +16,8 @@ const Body = z.object({
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user) {
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: `Unsupported file type: ${contentType}` }, { status: 415 });
   }
 
-  const tempKey = `tmp/locations/${user.id}/${nanoid(16)}`;
+  const tempKey = `tmp/locations/${ownerId}/${nanoid(16)}`;
   const uploadUrl = await getSignedPutUrl(tempKey, contentType, 300);
 
   return NextResponse.json({ uploadUrl, tempKey });

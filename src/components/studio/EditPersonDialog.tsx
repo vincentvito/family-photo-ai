@@ -14,12 +14,14 @@ type Role = "adult" | "child" | "pet";
 export default function EditPersonDialog({
   person,
   currentPhoto,
+  hideCurrentPhoto = false,
   open,
   onClose,
   onChanged,
 }: {
   person: RosterPerson;
   currentPhoto?: Photo | null;
+  hideCurrentPhoto?: boolean;
   open: boolean;
   onClose: () => void;
   onChanged?: () => void;
@@ -51,7 +53,7 @@ export default function EditPersonDialog({
   };
 
   const cropCurrentPhoto = async () => {
-    if (!currentPhoto) return;
+    if (!currentPhoto || hideCurrentPhoto) return;
     setError(null);
     setLoadingCurrentPhoto(true);
     try {
@@ -229,7 +231,7 @@ export default function EditPersonDialog({
                         {photoFile.name}
                       </span>
                     </div>
-                  ) : currentPhoto ? (
+                  ) : currentPhoto && !hideCurrentPhoto ? (
                     <div className="relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -237,6 +239,10 @@ export default function EditPersonDialog({
                         alt={`${person.name} current reference`}
                         className="h-full w-full object-contain"
                       />
+                    </div>
+                  ) : currentPhoto ? (
+                    <div className="flex h-20 w-20 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-tinted-butter)] px-2 text-center text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-[color:var(--color-ink-muted)]">
+                      Reference added
                     </div>
                   ) : (
                     <div className="flex h-20 w-20 items-center justify-center rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-line-strong)] text-[color:var(--color-ink-faint)]">
@@ -262,7 +268,7 @@ export default function EditPersonDialog({
                     >
                       {photoFile ? "Pick a different photo" : "Choose new photo"}
                     </button>
-                    {currentPhoto && !photoFile && (
+                    {currentPhoto && !hideCurrentPhoto && !photoFile && (
                       <button
                         type="button"
                         onClick={cropCurrentPhoto}

@@ -9,6 +9,7 @@ import {
 } from "@/lib/billing-queries";
 import { canStartFreePreview } from "@/lib/generate-queries";
 import { listRoster } from "@/lib/roster-queries";
+import { getGuestOwnerId } from "@/lib/guest-owner";
 
 export const dynamic = "force-dynamic";
 
@@ -25,13 +26,15 @@ export default async function ThemePage({
   const selectedCard =
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
   const user = await getCurrentUser();
+  const guestOwnerId = user ? null : await getGuestOwnerId();
+  const ownerId = user?.id ?? guestOwnerId;
   const [admin, defaultModel, creditBalance, canPreview, rosterRows, subscription] =
     await Promise.all([
       isAdmin(),
       getDefaultModel(),
       user ? getCreditBalance(user.id) : Promise.resolve(0),
-      user ? canStartFreePreview(user.id) : Promise.resolve(false),
-      user ? listRoster(user.id) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
+      ownerId ? canStartFreePreview(ownerId) : Promise.resolve(false),
+      ownerId ? listRoster(ownerId) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
       user ? getCurrentSubscription(user.id) : Promise.resolve(null),
     ]);
   const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
@@ -41,7 +44,7 @@ export default async function ThemePage({
     name: person.name,
     role: person.role as "adult" | "child" | "pet",
     hasReference: photos.length > 0,
-    photoId: photos[0]?.id ?? null,
+    photoId: user ? (photos[0]?.id ?? null) : null,
   }));
 
   return (
@@ -91,6 +94,7 @@ export default async function ThemePage({
         canStartFreePreview={canPreview}
         roster={roster}
         outputMode={outputMode}
+        isAuthenticated={Boolean(user)}
         isProSubscriber={isProSubscriber}
         subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
       />

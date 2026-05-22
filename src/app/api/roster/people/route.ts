@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { createGuestOwnerId, getGuestOwnerId, setGuestOwnerCookie } from "@/lib/guest-owner";
 import { addPerson, listRoster } from "@/lib/roster-queries";
 import { rosterCreateBodySchema } from "@/lib/roster-validation";
 
@@ -13,11 +14,10 @@ function validationError(error: z.ZodError) {
 
 export async function GET() {
   const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
+  const ownerId = user?.id ?? (await getGuestOwnerId());
+  if (!ownerId) return NextResponse.json({ roster: [] });
   try {
-    const roster = await listRoster(user.id);
+    const roster = await listRoster(ownerId);
     return NextResponse.json({ roster });
   } catch (err) {
     console.error("roster.list failed", err);
@@ -30,17 +30,18 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
+  const existingGuestOwnerId = user ? null : await getGuestOwnerId();
+  const ownerId = user?.id ?? existingGuestOwnerId ?? createGuestOwnerId();
   const json = await req.json().catch(() => null);
   const parsed = rosterCreateBodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: validationError(parsed.error) }, { status: 400 });
   }
   try {
-    const person = await addPerson({ ...parsed.data, userId: user.id });
-    return NextResponse.json({ person });
+    const person = await addPerson({ ...parsed.data, userId: ownerId });
+    const response = NextResponse.json({ person });
+    if (!user && !existingGuestOwnerId) setGuestOwnerCookie(response, ownerId);
+    return response;
   } catch (err) {
     console.error("roster.create failed", err);
     return NextResponse.json({ error: "Could not save. Please try again." }, { status: 500 });

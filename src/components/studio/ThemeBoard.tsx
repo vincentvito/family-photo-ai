@@ -73,6 +73,7 @@ export default function ThemeBoard({
   canStartFreePreview,
   roster,
   outputMode,
+  isAuthenticated = true,
   isProSubscriber,
   subscriptionRenewalDate,
 }: {
@@ -85,6 +86,7 @@ export default function ThemeBoard({
   canStartFreePreview: boolean;
   roster: RosterMember[];
   outputMode: OutputMode;
+  isAuthenticated?: boolean;
   isProSubscriber: boolean;
   subscriptionRenewalDate: string | null;
 }) {
@@ -107,7 +109,7 @@ export default function ThemeBoard({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [creditDialogOpen, setCreditDialogOpen] = useState(
-    () => creditBalance <= 0 && !canStartFreePreview,
+    () => isAuthenticated && creditBalance <= 0 && !canStartFreePreview,
   );
   const [cardsExpanded, setCardsExpanded] = useState(false);
   const [mode, setMode] = useState<"curated" | "custom">("curated");
@@ -192,8 +194,12 @@ export default function ThemeBoard({
 
   const openCreditDialog = useCallback(() => {
     setError(null);
+    if (!isAuthenticated) {
+      setError("Sign in to continue after your free preview.");
+      return;
+    }
     setCreditDialogOpen(true);
-  }, []);
+  }, [isAuthenticated]);
 
   const handleStartError = (fallback: string) => (e: unknown) => {
     const message = e instanceof Error ? e.message : fallback;
@@ -217,19 +223,22 @@ export default function ThemeBoard({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const toggleThemeSelection = useCallback((theme: Theme) => {
-    const alreadySelected = selectedThemeIds.includes(theme.id);
-    if (!alreadySelected && selectedThemeIds.length >= 4) {
-      setError("Choose up to 4 vibes for one shoot.");
-      return;
-    }
-    setError(null);
-    setSelectedThemeIds(
-      alreadySelected
-        ? selectedThemeIds.filter((id) => id !== theme.id)
-        : [...selectedThemeIds, theme.id],
-    );
-  }, [selectedThemeIds]);
+  const toggleThemeSelection = useCallback(
+    (theme: Theme) => {
+      const alreadySelected = selectedThemeIds.includes(theme.id);
+      if (!alreadySelected && selectedThemeIds.length >= 4) {
+        setError("Choose up to 4 vibes for one shoot.");
+        return;
+      }
+      setError(null);
+      setSelectedThemeIds(
+        alreadySelected
+          ? selectedThemeIds.filter((id) => id !== theme.id)
+          : [...selectedThemeIds, theme.id],
+      );
+    },
+    [selectedThemeIds],
+  );
 
   const launchSelectedThemes = useCallback(() => {
     if (selectedThemes.length === 0) {
@@ -492,15 +501,27 @@ export default function ThemeBoard({
           <div>
             <span className="chip chip-coral !bg-white/70">
               <span className="dot dot-coral" />
-              Out of credits
+              {isAuthenticated ? "Out of credits" : "Preview already used"}
             </span>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-              Add a pack before your next photoshoot. You can review the prices any time.
+              {isAuthenticated
+                ? "Add a pack before your next photoshoot. You can review the prices any time."
+                : "Sign in before starting another photoshoot or buying credits."}
             </p>
           </div>
-          <button type="button" onClick={openCreditDialog} className="btn btn-coral btn-sm">
-            View packs
-          </button>
+          {isAuthenticated ? (
+            <button type="button" onClick={openCreditDialog} className="btn btn-coral btn-sm">
+              View packs
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => router.push("/sign-in?next=/studio/theme")}
+              className="btn btn-coral btn-sm"
+            >
+              Sign in
+            </button>
+          )}
         </section>
       )}
 
@@ -1157,12 +1178,14 @@ export default function ThemeBoard({
         )}
       </ConfirmDialog>
 
-      <CreditPurchaseDialog
-        open={creditDialogOpen}
-        isProSubscriber={isProSubscriber}
-        currentPeriodEnd={subscriptionRenewalDate}
-        onClose={() => setCreditDialogOpen(false)}
-      />
+      {isAuthenticated && (
+        <CreditPurchaseDialog
+          open={creditDialogOpen}
+          isProSubscriber={isProSubscriber}
+          currentPeriodEnd={subscriptionRenewalDate}
+          onClose={() => setCreditDialogOpen(false)}
+        />
+      )}
     </>
   );
 }

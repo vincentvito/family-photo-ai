@@ -148,6 +148,7 @@ export default function GenerationBoard({
 
   const { generation, images } = state;
   const isPreview = state.isPreview;
+  const revealRequiresSignIn = state.revealRequiresSignIn;
   const aspectCls = aspectStyle[aspectRatio] ?? "aspect-[3/2]";
   const done = generation.status === "done";
   const err = generation.status === "error";
@@ -156,7 +157,23 @@ export default function GenerationBoard({
 
   return (
     <div className="mt-10">
-      {isPreview && (
+      {revealRequiresSignIn ? (
+        <div className="mb-8 flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-5 py-4 shadow-[var(--shadow-sm)] sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="chip chip-butter">Free preview ready</span>
+            <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              Sign in to reveal your free previews. We will keep this exact shoot and show the
+              standard watermarked preview after login.
+            </p>
+          </div>
+          <Link
+            href={`/sign-in?next=${encodeURIComponent(`/studio/generate/${generationId}`)}`}
+            className="btn btn-coral btn-sm shrink-0"
+          >
+            Sign in to reveal
+          </Link>
+        </div>
+      ) : isPreview ? (
         <div className="mb-8 flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-5 py-4 shadow-[var(--shadow-sm)] sm:flex-row sm:items-center sm:justify-between">
           <div>
             <span className="chip chip-butter">Free preview</span>
@@ -210,7 +227,7 @@ export default function GenerationBoard({
             </button>
           </div>
         </div>
-      )}
+      ) : null}
 
       {err && (
         <div className="mb-8 rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-5 text-sm text-[color:var(--color-coral-deep)]">
@@ -277,21 +294,23 @@ export default function GenerationBoard({
           <Link href="/studio/output" className="btn btn-ghost btn-sm">
             Try another format
           </Link>
-          <Link href="/studio/album" className="btn btn-coral btn-sm">
-            Album
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </Link>
+          {!revealRequiresSignIn && (
+            <Link href="/studio/album" className="btn btn-coral btn-sm">
+              Album
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -310,13 +329,17 @@ export default function GenerationBoard({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <ImageTile
-                    imageId={img.id}
-                    isFavorite={img.isFavorite}
-                    isPreview={isPreview}
-                    onRegenerateClick={openRegenerate}
-                    onOpenLightbox={openLightbox}
-                  />
+                  {revealRequiresSignIn ? (
+                    <GuestRevealTile index={i} />
+                  ) : (
+                    <ImageTile
+                      imageId={img.id}
+                      isFavorite={img.isFavorite}
+                      isPreview={isPreview}
+                      onRegenerateClick={openRegenerate}
+                      onOpenLightbox={openLightbox}
+                    />
+                  )}
                 </motion.div>
               ) : (
                 <motion.div
@@ -337,7 +360,9 @@ export default function GenerationBoard({
         ))}
       </div>
 
-      <ImageLightbox imageId={lightboxImageId} isPreview={isPreview} onClose={closeLightbox} />
+      {!revealRequiresSignIn && (
+        <ImageLightbox imageId={lightboxImageId} isPreview={isPreview} onClose={closeLightbox} />
+      )}
     </div>
   );
 }
@@ -477,6 +502,27 @@ function DevelopingTile({ index }: { index: number }) {
       <div className="absolute inset-0 flex items-center justify-center p-5">
         <div className="rounded-full border border-white/55 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] backdrop-blur-sm">
           Developing - {index + 1}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GuestRevealTile({ index }: { index: number }) {
+  const tilt = useMemo(() => -1.5 + index * 1.1, [index]);
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-[color:var(--color-bg-tinted-butter)]">
+      <div className="absolute inset-0 warm-noise blur-sm" />
+      <div
+        className="absolute inset-[7%] rounded-[calc(var(--radius-xl)-10px)] border border-white/55 bg-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] blur-md"
+        style={{ transform: `rotate(${tilt}deg)` }}
+      >
+        <div className="absolute inset-x-[10%] top-[10%] h-[62%] rounded-sm bg-white/55" />
+        <div className="absolute inset-x-[18%] bottom-[13%] h-2 rounded-full bg-white/50" />
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center p-5">
+        <div className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] backdrop-blur-sm">
+          Sign in to reveal
         </div>
       </div>
     </div>
