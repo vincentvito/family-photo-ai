@@ -76,7 +76,6 @@ export async function claimGuestStudio(userId: string): Promise<GuestClaimResult
   ]);
 
   if (guestPreview[0] && userPreview[0]) {
-    await db.update(schema.people).set({ userId }).where(eq(schema.people.userId, guestOwnerId));
     return { status: "conflict", guestOwnerId, generationId: guestPreview[0].id };
   }
 
