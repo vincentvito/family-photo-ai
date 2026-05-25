@@ -57,6 +57,14 @@ export default function Footer() {
                 Blog
               </Link>
             </li>
+            <li>
+              <Link
+                href="/best-family-photo-prompts"
+                className="hover:text-white transition-colors"
+              >
+                Best prompts to create a family photo
+              </Link>
+            </li>
           </ul>
         </div>
 
