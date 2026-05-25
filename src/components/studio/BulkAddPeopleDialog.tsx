@@ -157,7 +157,9 @@ export default function BulkAddPeopleDialog({
     let saved = 0;
     let failed = 0;
 
-    await runWithConcurrency(toSave, 3, async (draft) => {
+    // Keep bulk saves serialized so a brand-new guest owner cookie is established
+    // before the next create/sign/finalize upload chain starts.
+    await runWithConcurrency(toSave, 1, async (draft) => {
       setDrafts((current) =>
         current.map((item) =>
           item.id === draft.id ? { ...item, status: "saving", error: null } : item,

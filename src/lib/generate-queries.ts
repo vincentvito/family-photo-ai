@@ -55,6 +55,19 @@ const FREE_PREVIEW_INELIGIBLE_MESSAGE =
 const FREE_PREVIEW_UNIQUE_INDEX = "generations_user_free_preview_once_idx";
 type DbTransaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
 type DbReader = typeof db | DbTransaction;
+type GenerationStateImage = Pick<schema.Image, "id" | "isFavorite">;
+type GenerationStateGeneration = Pick<
+  typeof schema.generations.$inferSelect,
+  | "id"
+  | "themeId"
+  | "status"
+  | "errorMessage"
+  | "createdAt"
+  | "packTier"
+  | "aspectRatio"
+  | "customVibeDescription"
+  | "freePreview"
+>;
 
 export class PreviewUnlockExpiredError extends Error {
   constructor() {
@@ -420,13 +433,41 @@ export async function getGenerationState(
   ]);
 
   const isPreview = Boolean((refreshed ?? generation).freePreview) && !isUnlocked;
+  const safeGeneration = toGenerationStateGeneration(refreshed ?? generation);
+  const safeImages = toGenerationStateImages(pickChainHeads(images), Boolean(options.guest));
 
   return {
-    generation: refreshed ?? generation,
-    images: pickChainHeads(images),
+    generation: safeGeneration,
+    images: safeImages,
     isPreview,
     revealRequiresSignIn: Boolean(options.guest && isPreview),
   };
+}
+
+function toGenerationStateGeneration(
+  generation: typeof schema.generations.$inferSelect,
+): GenerationStateGeneration {
+  return {
+    id: generation.id,
+    themeId: generation.themeId,
+    status: generation.status,
+    errorMessage: generation.errorMessage,
+    createdAt: generation.createdAt,
+    packTier: generation.packTier,
+    aspectRatio: generation.aspectRatio,
+    customVibeDescription: generation.customVibeDescription,
+    freePreview: generation.freePreview,
+  };
+}
+
+function toGenerationStateImages(
+  images: schema.Image[],
+  guest: boolean,
+): GenerationStateImage[] {
+  return images.map((image, index) => ({
+    id: guest ? `guest-preview-${index}` : image.id,
+    isFavorite: guest ? false : image.isFavorite,
+  }));
 }
 
 /**

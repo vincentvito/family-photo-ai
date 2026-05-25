@@ -49,6 +49,19 @@ export async function listRoster(userId: string) {
   }));
 }
 
+export function hideRosterPhotoStorage(roster: RosterEntry[]): RosterEntry[] {
+  return roster.map((entry) => ({
+    person: entry.person,
+    photos: entry.photos.map((photo, index) => ({
+      ...photo,
+      id: `guest-reference-${entry.person.id}-${index}`,
+      fileName: "",
+      width: 0,
+      height: 0,
+    })),
+  }));
+}
+
 export async function addPerson(input: {
   userId: string;
   name: string;

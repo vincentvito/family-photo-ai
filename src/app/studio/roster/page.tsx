@@ -1,4 +1,4 @@
-import { listRoster } from "@/lib/roster-queries";
+import { hideRosterPhotoStorage, listRoster } from "@/lib/roster-queries";
 import RosterPageClient from "@/components/studio/RosterPageClient";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { getGuestOwnerId } from "@/lib/guest-owner";
@@ -17,7 +17,7 @@ export default async function RosterPage({
   const roster = await listRoster(ownerId);
   return (
     <RosterPageClient
-      initialRoster={roster}
+      initialRoster={user ? roster : hideRosterPhotoStorage(roster)}
       checkoutStatus={checkout}
       hideReferenceImages={!user}
     />

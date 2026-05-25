@@ -186,7 +186,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
           hubLabel: otherCategoryLabel,
           sample: crossSample,
         }}
-        ctaHref="/sign-in"
+        ctaHref="/studio/roster"
         ctaLabel={
           category === "card" ? `Make your ${item.name} card` : `Make your ${item.name} portrait`
         }

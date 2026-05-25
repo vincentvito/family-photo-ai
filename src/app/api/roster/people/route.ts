@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { createGuestOwnerId, getGuestOwnerId, setGuestOwnerCookie } from "@/lib/guest-owner";
-import { addPerson, listRoster } from "@/lib/roster-queries";
+import { addPerson, hideRosterPhotoStorage, listRoster } from "@/lib/roster-queries";
 import { rosterCreateBodySchema } from "@/lib/roster-validation";
 
 export const runtime = "nodejs";
@@ -18,7 +18,7 @@ export async function GET() {
   if (!ownerId) return NextResponse.json({ roster: [] });
   try {
     const roster = await listRoster(ownerId);
-    return NextResponse.json({ roster });
+    return NextResponse.json({ roster: user ? roster : hideRosterPhotoStorage(roster) });
   } catch (err) {
     console.error("roster.list failed", err);
     return NextResponse.json(

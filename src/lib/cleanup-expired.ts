@@ -79,9 +79,21 @@ export async function cleanupExpiredStudio() {
     );
   }
 
+  if (expiredGenerationIds.length > 0) {
+    await db.transaction(async (tx) => {
+      await tx
+        .delete(schema.creditUsages)
+        .where(inArray(schema.creditUsages.generationId, expiredGenerationIds));
+      await tx
+        .delete(schema.generations)
+        .where(inArray(schema.generations.id, expiredGenerationIds));
+    });
+  }
+
   return {
     cutoff,
     generationsStoragePurged: expiredGenerations.length,
+    generationsDeleted: expiredGenerationIds.length,
     upscaleCachesPurged: expiredImages.length,
     peopleDeleted: expiredPeople.length,
   };

@@ -218,7 +218,7 @@ export default function Hero() {
               photos ready to print in about two minutes.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/sign-in" className="btn btn-coral btn-lg">
+              <Link href="/studio/roster" className="btn btn-coral btn-lg">
                 Begin a shoot
                 <svg
                   className="h-4 w-4"
