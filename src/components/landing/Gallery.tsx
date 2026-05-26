@@ -10,25 +10,28 @@ type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
 
 const FALLBACK_POPULAR_ITEMS: FeaturedItem[] = [
+  { id: "private-jet-family", badge: "New vibe" },
+  { id: "soccer-team-family", badge: "New vibe" },
+  { id: "white-cyclorama-exaggerated-faces", badge: "New vibe" },
+  { id: "zero-gravity-family", badge: "New vibe" },
+  { id: "western-wanted-family", badge: "New vibe" },
+  { id: "fluffy-cloud-family", badge: "New vibe" },
+  { id: "cereal-box-family", badge: "New vibe" },
   { id: "pixar-family", badge: "Trending now" },
   { id: "card-mothers-day", badge: "Popular card" },
   { id: "stacked-love" },
   { id: "leibovitz-studio", badge: "Family of 5", note: "4 people + 1 pet" },
-  { id: "card-lunar-new-year" },
-  { id: "card-eid" },
-  { id: "card-diwali" },
   { id: "golden-hour-beach" },
-  { id: "cherry-blossom" },
-  { id: "coastal-grandmother" },
-  { id: "y2k-disposable" },
-  { id: "card-hanukkah" },
 ];
 
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
 
 function buildFeaturedItems(trendingVibes: TrendingVibe[]): FeaturedItem[] {
   const trendingItems: FeaturedItem[] = trendingVibes
-    .map<FeaturedItem>((vibe, index) => ({ id: vibe.id, badge: index === 0 ? "Most popular" : "Trending" }))
+    .map<FeaturedItem>((vibe, index) => ({
+      id: vibe.id,
+      badge: index === 0 ? "Most popular" : "Trending",
+    }))
     .filter((item) => THEME_BY_ID.has(item.id));
 
   const deduped = [...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(

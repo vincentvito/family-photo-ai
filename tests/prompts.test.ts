@@ -149,6 +149,16 @@ const TREND_LED_THEME_IDS = [
   "noughties-family-throwback",
 ];
 
+const CREATIVE_PROMPT_THEME_IDS = [
+  "private-jet-family",
+  "soccer-team-family",
+  "white-cyclorama-exaggerated-faces",
+  "zero-gravity-family",
+  "western-wanted-family",
+  "fluffy-cloud-family",
+  "cereal-box-family",
+];
+
 const TREND_LED_VIBE_SLUGS = [
   "pop-icon-stage-family-photos",
   "galactic-family-adventure-photos",
@@ -184,6 +194,19 @@ test("trend-led vibes are valid catalog themes with variation prompts and SEO en
 
   for (const slug of TREND_LED_VIBE_SLUGS) {
     assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
+  }
+});
+
+test("creative prompt ideas are selectable app themes with homepage-ready images", () => {
+  const themeIds = new Set(THEMES.map((theme) => theme.id));
+
+  for (const themeId of CREATIVE_PROMPT_THEME_IDS) {
+    assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
+    const theme = getTheme(themeId);
+    assert.notEqual(theme.category, "card");
+    assert.ok(theme.coverImage.includes("/samples/best-family-photo-prompts/"));
+    assert.equal(theme.provider, "nanobanana");
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
   }
 });
 
