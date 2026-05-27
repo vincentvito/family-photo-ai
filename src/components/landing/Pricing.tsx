@@ -184,12 +184,12 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
                 </span>
               </div>
               <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
-                Create new family photos all month long.
+                Built for creators, photographers, and repeat family-card work.
               </p>
 
               <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                 {[
-                  "25 monthly photo credits",
+                  "100 high-res professional photos or cards each month",
                   "Portraits, cards, invitations, and seasonal moments",
                   "Downloadable, print-ready files",
                   "Priority access to new styles and templates",
