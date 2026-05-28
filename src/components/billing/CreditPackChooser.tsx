@@ -82,7 +82,10 @@ export default function CreditPackChooser({
             className="spring-press flex min-h-28 flex-col justify-between rounded-[var(--radius-lg)] border border-[color:var(--color-sage)] bg-[color:var(--color-bg-tinted-sage)] p-4 text-left shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] disabled:opacity-70"
             pendingLabel="Opening..."
           >
-            <ProPlanCardContent action="Subscribe" detail="Monthly photo credits" />
+            <ProPlanCardContent
+              action="Subscribe"
+              detail="25 shoots/month, creating 100 high-res photos or cards"
+            />
           </CheckoutButton>
         )}
       </div>

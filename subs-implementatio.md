@@ -14,7 +14,7 @@ This file is intended as a handoff checklist for the next agent/developer.
 - The monthly plan must be visible on the public landing page pricing section.
 - The monthly plan must appear alongside the existing pricing options, not hidden only inside the logged-in studio.
 - Keep existing one-time packs: Single Keepsake, Three-pack, and Eight-pack.
-- Pro includes 25 shoots per billing month. Each shoot creates 4 downloadable starting images.
+- Pro includes 25 shoots per billing month, marketed as 100 high-res professional photos or cards because each shoot creates 4 downloadable starting images.
 - Pro includes 8 regenerations per shoot.
 - Pro includes commercial usage rights copy.
 - Pro includes 90-day image storage.
