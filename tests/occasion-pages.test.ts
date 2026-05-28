@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { OCCASION_PAGES } from "../src/data/occasion-pages";
@@ -33,4 +34,21 @@ test("high-intent occasion pages exist with clear CTAs", () => {
 test("occasion page slugs are unique", () => {
   const slugs = OCCASION_PAGES.map((page) => page.slug);
   assert.equal(new Set(slugs).size, slugs.length);
+});
+
+test("footer links to occasion pages and the occasions hub", () => {
+  const footerSource = readFileSync("src/components/landing/Footer.tsx", "utf8");
+
+  assert.match(footerSource, /Occasion pages/);
+  assert.match(footerSource, /href=\"\/occasions\"/);
+  assert.match(footerSource, /OCCASION_PAGES\.map/);
+  assert.match(footerSource, /href: `\/\$\{page\.slug\}`/);
+});
+
+test("occasions hub is a route that lists every occasion page", () => {
+  const hubSource = readFileSync("src/app/occasions/page.tsx", "utf8");
+
+  assert.match(hubSource, /OCCASION_PAGES/);
+  assert.match(hubSource, /\/studio\/roster/);
+  assert.match(hubSource, /href=\{`\/\$\{page\.slug\}`\}/);
 });
