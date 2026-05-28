@@ -39,6 +39,11 @@ const faqs: FaqItem[] = [
       "Yes. FamilyShoot includes holiday and occasion card styles for Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, birthdays, new babies, graduations, and more.",
   },
   {
+    question: "Do I pay before seeing the result?",
+    answer:
+      "No. You can create a watermarked preview first. Pay only if you want to unlock the high-resolution files.",
+  },
+  {
     question: "Can I try it for free?",
     answer:
       "Yes. Your first photoshoot can be created as a watermarked free preview. If you love it, buy credits to unlock that exact photoshoot and remove the watermark.",
