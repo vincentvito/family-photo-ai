@@ -36,6 +36,13 @@ test("occasion page slugs are unique", () => {
   assert.equal(new Set(slugs).size, slugs.length);
 });
 
+test("valentine's day uses a dedicated valentine image", () => {
+  const page = OCCASION_PAGES.find((item) => item.slug === "valentines-day");
+  assert.ok(page, "valentines-day page should exist");
+  assert.match(page.image, /valentine/i);
+  assert.notEqual(page.image, "/samples/theme-card-mothers-day.jpg");
+});
+
 test("footer links to occasion pages and the occasions hub", () => {
   const footerSource = readFileSync("src/components/landing/Footer.tsx", "utf8");
 

@@ -176,7 +176,7 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     name: "Valentine's Day",
     keyword: "valentine's day family portrait",
     secondaryKeywords: ["valentine photo card", "couple family portrait", "valentine family card"],
-    image: "/samples/theme-card-mothers-day.jpg",
+    image: "/samples/theme-card-valentines-day.jpg",
     shortDescription:
       "A family-friendly Valentine's Day portrait or card for couples, parents, kids, and pets.",
     h1: "Make a Valentine's portrait with the people you love most",
