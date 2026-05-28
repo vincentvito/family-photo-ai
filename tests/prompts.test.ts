@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
 import { THEMES, getTheme } from "../src/lib/themes";
-import { getThemeVariationPrompts } from "../src/lib/theme-variations";
+import { THEME_VARIATION_PROMPTS, getThemeVariationPrompts } from "../src/lib/theme-variations";
 import { VIBES } from "../src/data/vibes";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
@@ -149,6 +149,26 @@ const TREND_LED_THEME_IDS = [
   "noughties-family-throwback",
 ];
 
+const CREATIVE_PROMPT_THEME_IDS = [
+  "private-jet-family",
+  "soccer-team-family",
+  "white-cyclorama-exaggerated-faces",
+  "zero-gravity-family",
+  "western-wanted-family",
+  "fluffy-cloud-family",
+  "cereal-box-family",
+];
+
+const CREATIVE_PROMPT_VIBE_SLUGS = [
+  "private-jet-family-photos",
+  "soccer-team-family-photos",
+  "white-cyclorama-family-photos",
+  "zero-gravity-family-photos",
+  "western-wanted-family-photos",
+  "fluffy-cloud-family-photos",
+  "cereal-box-family-photos",
+];
+
 const TREND_LED_VIBE_SLUGS = [
   "pop-icon-stage-family-photos",
   "galactic-family-adventure-photos",
@@ -183,6 +203,28 @@ test("trend-led vibes are valid catalog themes with variation prompts and SEO en
   }
 
   for (const slug of TREND_LED_VIBE_SLUGS) {
+    assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
+  }
+});
+
+test("creative prompt ideas are selectable app themes with homepage-ready images", () => {
+  const themeIds = new Set(THEMES.map((theme) => theme.id));
+  const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
+
+  for (const themeId of CREATIVE_PROMPT_THEME_IDS) {
+    assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
+    const theme = getTheme(themeId);
+    assert.notEqual(theme.category, "card");
+    assert.ok(theme.coverImage.includes("/samples/best-family-photo-prompts/"));
+    assert.equal(theme.provider, "nanobanana");
+    assert.ok(
+      THEME_VARIATION_PROMPTS[theme.id],
+      `${theme.id} should have custom per-slot variation prompts`,
+    );
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+  }
+
+  for (const slug of CREATIVE_PROMPT_VIBE_SLUGS) {
     assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
   }
 });

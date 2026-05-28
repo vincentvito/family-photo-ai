@@ -29,6 +29,8 @@ export function buildGenerationPrompt(
     sentence(spec.assetType),
     `Scene: ${sentence(selectedCastLanguage(scene))}`,
     `Style: ${sentence(selectedCastLanguage(spec.style))}`,
+    `Camera and framing: ${sentence(selectedCastLanguage(spec.camera))}`,
+    `Lighting: ${sentence(selectedCastLanguage(spec.lighting))}`,
     buildSubjectLine(count, adults, children, pets),
     `Composition anchor: ${sentence(selectedCastLanguage(composition))}`,
     getReferenceMap(subjects),

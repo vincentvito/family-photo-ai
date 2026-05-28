@@ -793,6 +793,161 @@ export const THEMES: Theme[] = [
     },
   },
 
+  {
+    id: "private-jet-family",
+    name: "Private Jet Family",
+    blurb:
+      "Cream leather seats, glowing cabin windows, designer-travel polish. The family as a rich-but-warm private jet editorial.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/private-jet-family.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 luxury editorial family photograph",
+      scene:
+        "inside a private jet cabin above the clouds, cream leather seating, polished wood trim, soft window glow, tasteful travel details and premium luggage without visible brand logos",
+      camera:
+        "medium-format camera with a 45mm lens, wide cabin portrait perspective, readable faces with aircraft interior context and elegant staggered seating",
+      lighting:
+        "soft daylight pouring through oval jet windows, warm cabin practicals, controlled fill across faces, glossy highlights on leather and wood",
+      style:
+        "luxury travel editorial photography, champagne, ivory, walnut, sky blue and gold palette, polished magazine finish, natural skin texture, no airline marks or logos",
+    },
+  },
+  {
+    id: "soccer-team-family",
+    name: "Soccer Team Family",
+    blurb:
+      "A pre-game squad photo on the pitch. Matching jerseys, stadium lights, muddy boots, serious game faces.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 professional sports team family photograph",
+      scene:
+        "on a soccer pitch moments before kickoff, stadium lights, green turf, subtle mist, matching blank jerseys, cleats, one classic soccer ball as a prop, no club crests or sponsors",
+      camera:
+        "sports photographer perspective with a 35mm lens, low eye-level squad-photo framing, strong horizontal lineup geometry with slight coach-poster drama",
+      lighting:
+        "bright stadium floodlights with crisp rim highlights, cool evening ambient fill, clean shadow separation on the turf",
+      style:
+        "realistic sports photography, saturated grass green, white kit accents, cinematic contrast, sharp faces, professional team-photo polish, no copyrighted logos",
+    },
+  },
+  {
+    id: "white-cyclorama-exaggerated-faces",
+    name: "White Cyclorama Faces",
+    blurb:
+      "Clean white studio, fashion-campaign light, and a different exaggerated expression on every face.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 high-key studio family portrait",
+      scene:
+        "a seamless white cyclorama studio with clean floor curve, minimal props, fashion-campaign emptiness, playful exaggerated facial expressions and body language",
+      camera:
+        "digital medium-format camera with a 50mm lens, straight-on full-to-three-quarter body studio framing, graphic spacing and crisp subject separation",
+      lighting:
+        "large high-key softboxes, clean shadow control, glossy catchlights, bright white backdrop with subtle floor contact shadows",
+      style:
+        "premium studio campaign photography, bright white and soft neutral palette, crisp faces, playful expression-driven energy, polished commercial retouch without plastic skin",
+    },
+  },
+  {
+    id: "zero-gravity-family",
+    name: "Zero Gravity Family",
+    blurb:
+      "Hair, socks, toys and snacks floating in a bright space-station portrait with Earth outside the window.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cinematic zero-gravity family photograph",
+      scene:
+        "inside a bright space-station module, Earth visible through a round window, floating toys, snacks, socks and hair suspended naturally in microgravity, clean family-friendly sci-fi details",
+      camera:
+        "wide 28mm cinematic camera perspective, floating mid-room composition with readable faces and curved station architecture around the group",
+      lighting:
+        "soft cool daylight from the Earth-facing window, gentle white cabin fill, subtle blue rim light and clean highlights on metal surfaces",
+      style:
+        "believable near-future space photography, white, silver, sky-blue and soft orange palette, cinematic realism, no franchise suits, no space agency logos",
+    },
+  },
+  {
+    id: "western-wanted-family",
+    name: "Western Wanted Family",
+    blurb:
+      "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 vintage far-west wanted-poster family portrait",
+      scene:
+        "aged sepia parchment poster treatment, old saloon atmosphere, dust coats, cowboy hats, worn wood, playful outlaw styling, humorous serious expressions, weathered paper edges",
+      camera:
+        "front-facing portrait-poster composition with subtle vintage lens distortion, stacked poster hierarchy and space for decorative western typography-style ornaments without readable real text",
+      lighting:
+        "warm saloon-window side light, smoky amber fill, dramatic cheek shadows, antique studio falloff",
+      style:
+        "old western lithograph and sepia photo hybrid, brown parchment, black ink, faded cream and dusty amber palette, distressed print texture, no real weapons emphasized, no gore",
+    },
+  },
+  {
+    id: "fluffy-cloud-family",
+    name: "Fluffy Cloud Family",
+    blurb:
+      "A dreamy portrait on a soft cloud at blue-pink sunrise, pastel glow, pajamas, robes, and sky magic.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 dreamy magical-realism family photograph",
+      scene:
+        "posing on a giant fluffy cloud high in the sky, blue and pink sunrise, soft pastel horizon, cozy pajamas and robes, gentle wind, peaceful whimsical atmosphere",
+      camera:
+        "cinematic portrait camera with a 50mm lens, slightly low floating perspective, airy negative space and readable faces against the sunrise sky",
+      lighting:
+        "pink sunrise rim light, soft blue skylight fill, glowing cloud bounce from below, gentle halation and pastel highlight bloom",
+      style:
+        "magical-realism photography, blush pink, sky blue, cream and warm gold palette, photoreal faces with dreamlike environment polish, no angel or religious iconography",
+    },
+  },
+  {
+    id: "cereal-box-family",
+    name: "Cereal Box Family",
+    blurb:
+      "The family as the mascots on a giant colorful breakfast cereal box, glossy, loud, and supermarket-ready.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 glossy breakfast-cereal box family illustration",
+      scene:
+        "a giant colorful cereal package design, oversized spoons, flying cereal rings, milk splash shapes, playful supermarket packaging energy, blank made-up branding areas with no readable real brand names",
+      camera:
+        "front-facing product-packaging composition, bold central mascot-style family pose, dynamic diagonal cereal motion and clean readable silhouette hierarchy",
+      lighting:
+        "bright commercial product lighting, glossy highlights, crisp shadows, high-energy color pop",
+      style:
+        "premium cartoon-packaging illustration, saturated rainbow breakfast colors, shiny box texture, playful mascot charm, clean vector-like edges mixed with polished 3D depth, no real cereal logos",
+    },
+  },
+
   // ─── Stylized ───────────────────────────────────────────────────────
   {
     id: "pixar-family",

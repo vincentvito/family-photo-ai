@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
@@ -10,25 +11,28 @@ type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
 
 const FALLBACK_POPULAR_ITEMS: FeaturedItem[] = [
+  { id: "private-jet-family", badge: "New vibe" },
+  { id: "soccer-team-family", badge: "New vibe" },
+  { id: "white-cyclorama-exaggerated-faces", badge: "New vibe" },
+  { id: "zero-gravity-family", badge: "New vibe" },
+  { id: "western-wanted-family", badge: "New vibe" },
+  { id: "fluffy-cloud-family", badge: "New vibe" },
+  { id: "cereal-box-family", badge: "New vibe" },
   { id: "pixar-family", badge: "Trending now" },
   { id: "card-mothers-day", badge: "Popular card" },
   { id: "stacked-love" },
   { id: "leibovitz-studio", badge: "Family of 5", note: "4 people + 1 pet" },
-  { id: "card-lunar-new-year" },
-  { id: "card-eid" },
-  { id: "card-diwali" },
   { id: "golden-hour-beach" },
-  { id: "cherry-blossom" },
-  { id: "coastal-grandmother" },
-  { id: "y2k-disposable" },
-  { id: "card-hanukkah" },
 ];
 
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
 
 function buildFeaturedItems(trendingVibes: TrendingVibe[]): FeaturedItem[] {
   const trendingItems: FeaturedItem[] = trendingVibes
-    .map<FeaturedItem>((vibe, index) => ({ id: vibe.id, badge: index === 0 ? "Most popular" : "Trending" }))
+    .map<FeaturedItem>((vibe, index) => ({
+      id: vibe.id,
+      badge: index === 0 ? "Most popular" : "Trending",
+    }))
     .filter((item) => THEME_BY_ID.has(item.id));
 
   const deduped = [...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(
@@ -61,40 +65,43 @@ const categoryLabel: Record<Theme["category"], string> = {
 function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?: string }) {
   const aspect = aspectClass[theme.aspectRatio] ?? "aspect-[4/5]";
   const chip = categoryChip[theme.category];
+  const href = theme.category === "card" ? "/studio/theme?output=card" : "/studio/theme?output=photoshoot";
 
   return (
-    <motion.figure
+    <motion.div
       className="group relative overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]"
       whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
     >
-      <div className="warm-noise relative overflow-hidden">
-        <div
-          className={`${aspect} w-full bg-[color:var(--color-line)] bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]`}
-          style={{ backgroundImage: `url(${theme.coverImage})` }}
-        />
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color:rgba(31,26,36,0.62)] via-transparent to-transparent"
-          aria-hidden
-        />
-        {badge && <span className="chip chip-coral absolute left-4 top-4">{badge}</span>}
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <h3 className="serif text-[1.4rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
-            {theme.name}
-          </h3>
+      <Link href={href} className="block" aria-label={`Try the ${theme.name} vibe`}>
+        <div className="warm-noise relative overflow-hidden">
+          <div
+            className={`${aspect} w-full bg-[color:var(--color-line)] bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]`}
+            style={{ backgroundImage: `url(${theme.coverImage})` }}
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color:rgba(31,26,36,0.62)] via-transparent to-transparent"
+            aria-hidden
+          />
+          {badge && <span className="chip chip-coral absolute left-4 top-4">{badge}</span>}
+          <div className="absolute inset-x-0 bottom-0 p-4">
+            <h3 className="serif text-[1.4rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
+              {theme.name}
+            </h3>
+          </div>
         </div>
-      </div>
-      <figcaption className="flex items-center justify-between gap-3 px-4 py-3">
-        <span className={`chip ${chip.chip}`}>
-          <span className={`dot ${chip.dot}`} />
-          {categoryLabel[theme.category]}
-        </span>
-        {note && (
-          <span className="hidden text-right text-xs font-semibold text-[color:var(--color-ink-muted)] sm:inline">
-            {note}
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <span className={`chip ${chip.chip}`}>
+            <span className={`dot ${chip.dot}`} />
+            {categoryLabel[theme.category]}
           </span>
-        )}
-      </figcaption>
-    </motion.figure>
+          {note && (
+            <span className="hidden text-right text-xs font-semibold text-[color:var(--color-ink-muted)] sm:inline">
+              {note}
+            </span>
+          )}
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 
