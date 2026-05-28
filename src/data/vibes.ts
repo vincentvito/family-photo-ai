@@ -274,6 +274,132 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "private-jet-family-photos",
+    name: "Private Jet Family",
+    keyword: "private jet family photo",
+    secondaryKeywords: [
+      "luxury family portrait",
+      "private jet family photoshoot",
+      "editorial family travel photo",
+    ],
+    image: "/samples/best-family-photo-prompts/private-jet-family.png",
+    shortDescription:
+      "Cream leather seats, cabin window glow, polished travel details, and your family in a luxury editorial.",
+    related: [
+      "slim-aarons-family-photos",
+      "runway-editorial-family-photos",
+      "amalfi-summer-family-photos",
+    ],
+  },
+  {
+    slug: "soccer-team-family-photos",
+    name: "Soccer Team Family",
+    keyword: "soccer team family photo",
+    secondaryKeywords: [
+      "football squad family photo",
+      "sports team family portrait",
+      "stadium family photoshoot",
+    ],
+    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    shortDescription:
+      "Stadium lights, blank jerseys, muddy boots, and your family posed like a pre-game squad photo.",
+    related: [
+      "national-park-family-photos",
+      "noughties-family-throwback-photos",
+      "golden-hour-beach-family-photos",
+    ],
+  },
+  {
+    slug: "white-cyclorama-family-photos",
+    name: "White Cyclorama Faces",
+    keyword: "white cyclorama family photo",
+    secondaryKeywords: [
+      "studio family portrait white background",
+      "exaggerated face family portrait",
+      "high key family studio photo",
+    ],
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    shortDescription:
+      "A clean white studio portrait with fashion-campaign light and a different exaggerated expression on every face.",
+    related: [
+      "stacked-love-family-photos",
+      "annie-leibovitz-family-photos",
+      "wes-anderson-family-photos",
+    ],
+  },
+  {
+    slug: "zero-gravity-family-photos",
+    name: "Zero Gravity Family",
+    keyword: "zero gravity family photo",
+    secondaryKeywords: [
+      "space station family portrait",
+      "floating family photo",
+      "sci fi family photoshoot",
+    ],
+    image: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    shortDescription:
+      "Hair, toys, socks, and snacks floating in a bright space-station portrait with Earth outside the window.",
+    related: [
+      "galactic-family-adventure-photos",
+      "superhero-family-photos",
+      "cereal-box-family-photos",
+    ],
+  },
+  {
+    slug: "western-wanted-family-photos",
+    name: "Western Wanted Family",
+    keyword: "western wanted family photo",
+    secondaryKeywords: [
+      "wanted poster family portrait",
+      "cowboy family photo",
+      "old west family portrait",
+    ],
+    image: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    shortDescription:
+      "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
+    related: [
+      "royal-family-portrait",
+      "norman-rockwell-family-photos",
+      "vintage-polaroid-family-photos",
+    ],
+  },
+  {
+    slug: "fluffy-cloud-family-photos",
+    name: "Fluffy Cloud Family",
+    keyword: "cloud family photo",
+    secondaryKeywords: [
+      "family portrait on a cloud",
+      "dreamy family photo",
+      "pastel sky family portrait",
+    ],
+    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    shortDescription:
+      "A dreamy portrait on a soft cloud at blue-pink sunrise, with pastel glow, cozy robes, and sky magic.",
+    related: [
+      "watercolor-storybook-family-photos",
+      "cherry-blossom-family-photos",
+      "zero-gravity-family-photos",
+    ],
+  },
+  {
+    slug: "cereal-box-family-photos",
+    name: "Cereal Box Family",
+    keyword: "cereal box family photo",
+    secondaryKeywords: [
+      "breakfast cereal family portrait",
+      "cartoon packaging family photo",
+      "family mascot illustration",
+    ],
+    image: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    shortDescription:
+      "Your family as cheerful mascots on a glossy breakfast cereal box, bright, playful, and supermarket-ready.",
+    related: [
+      "pixar-family-photos",
+      "cartoon-family-photos",
+      "noughties-family-throwback-photos",
+    ],
+  },
+  {
     slug: "lego-family-photos",
     name: "LEGO",
     keyword: "lego family portrait",

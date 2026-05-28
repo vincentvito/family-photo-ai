@@ -67,6 +67,48 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Sticker-album family frame: selected cast close together with casual striped tops, hoodies or denim, direct flash, cheerful clutter and premium print-ready color.",
     "Low playful crop: selected cast partially surrounded by colorful plastic balls or party props, one subject cropped candidly, warm JPEG-era color character and natural smiles.",
   ],
+  "private-jet-family": [
+    "Cabin lounge editorial: selected cast arranged across cream leather seats inside the private jet, polished wood trim and oval windows visible, faces readable in soft daylight.",
+    "Aisle arrival portrait: selected cast standing or leaning along the jet aisle with premium luggage nearby, staggered warm poses, no visible brand logos or airline marks.",
+    "Window-glow close crop: selected cast grouped near glowing cabin windows above the clouds, glossy leather highlights, relaxed luxury-travel expressions and clear faces.",
+    "Wide cabin proof: selected cast smaller in the private jet interior with seating, table details and sky outside included, elegant magazine composition and no readable text.",
+  ],
+  "soccer-team-family": [
+    "Pre-game squad photo: selected cast posed on the pitch like a professional team lineup, matching blank jerseys, cleats, one classic soccer ball and stadium lights behind.",
+    "Low tunnel-to-field hero: selected cast stepping from a stadium tunnel onto green turf, cool floodlights and mist, full bodies visible and no club crests or sponsors.",
+    "Captain huddle portrait: selected cast clustered around one soccer ball at center, serious game faces softening into family warmth, muddy boots and crisp rim light.",
+    "Touchline poster proof: selected cast arranged near the sideline with stadium seats blurred behind, strong horizontal geometry, blank kit details and realistic sports-photo polish.",
+  ],
+  "white-cyclorama-exaggerated-faces": [
+    "Expression lineup proof: selected cast standing full-to-three-quarter body on the seamless white cyclorama, each person making a different exaggerated expression, crisp studio spacing.",
+    "Campaign close crop: selected cast shoulder-to-knee with bold faces, graphic white negative space, glossy catchlights and fashion-campaign light.",
+    "Playful staggered pose: selected cast spread across the white floor curve with varied body language, clean contact shadows and no props fighting the faces.",
+    "High-key group burst: selected cast caught mid-gesture in a bright studio frame, expressive faces first, clean backdrop, polished commercial retouch without plastic skin.",
+  ],
+  "zero-gravity-family": [
+    "Floating module portrait: selected cast suspended naturally inside a bright space-station room, Earth visible through a round window, hair and socks drifting in microgravity.",
+    "Window orbit close-up: selected cast gathered near the Earth-facing window with toys and snacks floating around them, readable faces and cool cabin fill.",
+    "Wide station proof: selected cast smaller within curved white station architecture, floating objects showing zero gravity, clean family-friendly near-future details and no logos.",
+    "Playful mid-room drift: selected cast rotating gently around the frame with relaxed expressions, soft blue rim light, visible hands and feet, believable cinematic space photography.",
+  ],
+  "western-wanted-family": [
+    "Text-free wanted poster proof: selected cast front-facing on aged sepia parchment with western ornament areas left decorative and unreadable, cowboy hats and funny-serious outlaw faces.",
+    "Saloon doorway portrait: selected cast posed in dusty coats near worn wood and warm saloon-window light, antique studio falloff and no emphasized weapons.",
+    "Stacked outlaw hierarchy: selected cast arranged in a vertical poster composition with weathered paper edges, sepia ink texture and blank decorative typography bands.",
+    "Close parchment character crop: selected cast waist-up with humorous serious expressions, smoky amber fill, distressed lithograph texture and no readable real text.",
+  ],
+  "fluffy-cloud-family": [
+    "Cloud-top sunrise portrait: selected cast seated or standing on a giant soft cloud, blue-pink horizon behind, pajamas and robes moving in gentle wind.",
+    "Low floating hero frame: selected cast photographed from a slightly low airy perspective with glowing cloud bounce, readable faces and generous pastel sky.",
+    "Cozy cloud close-up: selected cast nestled together on the cloud surface, sunrise rim light on hair, peaceful expressions and dreamlike photoreal polish.",
+    "Wide sky proof: selected cast smaller against a soft pastel sky with the full cloud shape visible, blush, cream and gold palette, no angel or religious iconography.",
+  ],
+  "cereal-box-family": [
+    "Front-box mascot proof: selected cast illustrated as cheerful breakfast mascots on a giant cereal package, blank made-up brand panels and no readable real text.",
+    "Spoon-and-rings action: selected cast centered amid oversized spoons, flying cereal rings and milk splash shapes, bold supermarket packaging energy and clean silhouettes.",
+    "Glossy product close-up: selected cast waist-up on the box art with shiny print texture, saturated breakfast colors, playful expressions and no real cereal logos.",
+    "Shelf-ready packaging frame: selected cast in a full vertical package composition with decorative unreadable label areas, dynamic diagonal cereal motion and polished 3D depth.",
+  ],
   "wes-anderson": [
     "Standing lineup proof: selected subject or cast standing full-body on the centered patterned rug, hands empty at sides, serious deadpan expression, perfectly symmetrical furniture around them.",
     "Seated tableau proof: selected subject or cast seated formally on a couch or bench, holding a single tiny teacup or flower stem, exact pastel order and balanced side tables.",
