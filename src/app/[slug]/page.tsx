@@ -101,7 +101,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       : category === "card"
         ? { href: "/cards", label: "Cards" }
         : category === "occasion"
-          ? { href: "/cards", label: "Occasions" }
+          ? { href: "/occasions", label: "Occasions" }
           : { href: "/styles", label: "Styles" };
 
   const breadcrumbs = [
