@@ -189,7 +189,7 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
 
               <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                 {[
-                  "100 high-res professional photos or cards each month",
+                  "25 shoots/month, creating 100 high-res photos or cards",
                   "Portraits, cards, invitations, and seasonal moments",
                   "Downloadable, print-ready files",
                   "Priority access to new styles and templates",
