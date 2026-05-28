@@ -125,11 +125,9 @@ export default function Gallery({ trendingVibes = [] }: { trendingVibes?: Trendi
                 Family photoshoot ideas
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                {THEMES.length} curated vibes,
+                Choose from 100+ curated styles,
                 <br />
-                from <em className="serif-italic text-[color:var(--color-sage-deep)]">
-                  cabin
-                </em> to <em className="serif-italic text-[color:var(--color-coral)]">cinema</em>.
+                or create your own.
               </h2>
             </div>
             <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
