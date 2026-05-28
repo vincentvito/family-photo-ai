@@ -94,6 +94,22 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
           </div>
         </Reveal>
 
+        <Reveal delay={0.04}>
+          <div className="mx-auto mt-8 max-w-3xl rounded-[var(--radius-xl)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] p-5 text-center shadow-[var(--shadow-md)] sm:p-6">
+            <p className="small-caps text-[color:var(--color-coral-deep)]">Try it before paying</p>
+            <h3 className="serif mt-2 text-3xl leading-tight sm:text-4xl">
+              Start with a free preview.
+            </h3>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)] sm:text-base">
+              Create your first family portrait as a watermarked preview. If it looks right, unlock
+              the high-res print-ready version.
+            </p>
+            <p className="mt-4 text-sm font-semibold text-[color:var(--color-coral-deep)]">
+              No payment needed to preview.
+            </p>
+          </div>
+        </Reveal>
+
         <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1fr_1fr_1.18fr] items-stretch">
           {tiers.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.06}>

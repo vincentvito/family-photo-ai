@@ -4,6 +4,7 @@ import { VIBES, vibeBySlug } from "@/data/vibes";
 import type { Vibe } from "@/data/vibes";
 import { CARDS, cardBySlug } from "@/data/cards";
 import { STYLES, styleBySlug } from "@/data/styles";
+import { OCCASION_PAGES, occasionPageBySlug, type OccasionPage } from "@/data/occasion-pages";
 import {
   vibeFaqs,
   cardFaqs,
@@ -11,15 +12,18 @@ import {
   vibeIntro,
   cardIntro,
   styleIntro,
+  type FaqItem,
 } from "@/data/seo-content";
 import { LandingShell, type RelatedLink } from "./_components/LandingShell";
 import { JsonLd } from "./_components/JsonLd";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
-type Category = "vibe" | "card" | "style";
+type Category = "vibe" | "card" | "style" | "occasion";
 
 function resolve(slug: string) {
+  const occasion = occasionPageBySlug(slug);
+  if (occasion) return { category: "occasion" as Category, item: occasion };
   const v = vibeBySlug(slug);
   if (v) return { category: "vibe" as Category, item: v };
   const c = cardBySlug(slug);
@@ -34,6 +38,7 @@ export function generateStaticParams() {
     ...VIBES.map((v) => ({ slug: v.slug })),
     ...CARDS.map((c) => ({ slug: c.slug })),
     ...STYLES.map((s) => ({ slug: s.slug })),
+    ...OCCASION_PAGES.map((page) => ({ slug: page.slug })),
   ];
 }
 
@@ -52,7 +57,9 @@ export async function generateMetadata({
       ? `${item.name} Family Portrait | AI Generated from Your Photos | FamilyShoot`
       : category === "card"
         ? `${item.name} Family Cards | AI Photo Cards in Minutes | FamilyShoot`
-        : `${item.name} Family Portrait from Photo | Custom AI Painting | FamilyShoot`;
+        : category === "occasion"
+          ? `${item.name} Family Portraits and Cards | FamilyShoot`
+          : `${item.name} Family Portrait from Photo | Custom AI Painting | FamilyShoot`;
 
   const description = item.shortDescription;
   const url = `/${slug}`;
@@ -93,7 +100,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       ? { href: "/vibes", label: "Vibes" }
       : category === "card"
         ? { href: "/cards", label: "Cards" }
-        : { href: "/styles", label: "Styles" };
+        : category === "occasion"
+          ? { href: "/occasions", label: "Occasions" }
+          : { href: "/styles", label: "Styles" };
 
   const breadcrumbs = [
     { name: "Home", url: "/" },
@@ -106,28 +115,49 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       ? `${item.name} family portraits from your phone photos`
       : category === "card"
         ? `${item.name} family cards, made from selfies in minutes`
-        : `${item.name} family portraits, generated from your photos`;
+        : category === "occasion"
+          ? (item as OccasionPage).h1
+          : `${item.name} family portraits, generated from your photos`;
 
   const intro =
     category === "vibe"
       ? vibeIntro(item as never)
       : category === "card"
         ? cardIntro(item as never)
-        : styleIntro(item as never);
+        : category === "occasion"
+          ? (item as OccasionPage).intro
+          : styleIntro(item as never);
 
-  const faqs =
+  const faqs: FaqItem[] =
     category === "vibe"
       ? vibeFaqs(item as never)
       : category === "card"
         ? cardFaqs(item as never)
-        : styleFaqs(item as never);
+        : category === "occasion"
+          ? [
+              {
+                q: `Can I preview my ${item.name} portrait before paying?`,
+                a: "Yes. Start with a free watermarked preview. Unlock the high-resolution, print-ready version only if you like the result.",
+              },
+              {
+                q: "Do all family members need to be in the same photo?",
+                a: "No. Upload separate phone photos for each person or pet, and FamilyShoot composes the final portrait or card from those source photos.",
+              },
+              {
+                q: "Can I use this as a card and a framed gift?",
+                a: "Yes. The same generated keepsake can work as a digital share, printable card, or framed portrait after you unlock the high-resolution file.",
+              },
+            ]
+          : styleFaqs(item as never);
 
   const whatIsTitle =
     category === "vibe"
       ? `What is a ${item.name} family portrait?`
       : category === "card"
         ? `What are ${item.name} family cards on FamilyShoot?`
-        : `What is a ${item.name.toLowerCase()} family portrait?`;
+        : category === "occasion"
+          ? (item as OccasionPage).whatIsTitle
+          : `What is a ${item.name.toLowerCase()} family portrait?`;
 
   const whatIsBody =
     category === "vibe"
@@ -136,8 +166,10 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       : category === "card"
         ? `A ${item.keyword.replace(/^\w/, (ch) => ch.toUpperCase())} on FamilyShoot is a printable family card with a generated, photo-realistic family image baked in. You do not need a perfect family photo to start. Upload selfies of each person, pick a ${item.name} design, and the card is ready to send or print.` +
           `\n\nUnlike Minted, Vistaprint, or Shutterfly, we do not assume you already have the family photo. We generate it. The card design, the family, and the print are produced in one flow.`
-        : `A ${item.keyword} renders your family in a ${item.name.toLowerCase()} finish that mirrors a hand-painted commission. Brushwork, color, and composition are calibrated to the medium. FamilyShoot generates each portrait from the selfies you upload, so the family looks like itself, not like a stock illustration.` +
-          `\n\nHand-painted portrait services like Paint Your Life and PortraitFlip take two to four weeks and cost hundreds of dollars. FamilyShoot delivers a comparable ${item.name.toLowerCase()} finish in minutes.`;
+        : category === "occasion"
+          ? (item as OccasionPage).whatIsBody
+          : `A ${item.keyword} renders your family in a ${item.name.toLowerCase()} finish that mirrors a hand-painted commission. Brushwork, color, and composition are calibrated to the medium. FamilyShoot generates each portrait from the selfies you upload, so the family looks like itself, not like a stock illustration.` +
+            `\n\nHand-painted portrait services like Paint Your Life and PortraitFlip take two to four weeks and cost hundreds of dollars. FamilyShoot delivers a comparable ${item.name.toLowerCase()} finish in minutes.`;
 
   const related: RelatedLink[] = item.related
     .slice(0, 4)
@@ -148,11 +180,30 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
     })
     .filter((x): x is RelatedLink => x !== null);
 
-  const otherCategory = category === "vibe" ? CARDS : category === "card" ? VIBES : VIBES;
+  const otherCategory =
+    category === "vibe"
+      ? CARDS
+      : category === "card"
+        ? VIBES
+        : category === "occasion"
+          ? CARDS
+          : VIBES;
   const otherCategoryHref =
-    category === "vibe" ? "/cards" : category === "card" ? "/vibes" : "/vibes";
+    category === "vibe"
+      ? "/cards"
+      : category === "card"
+        ? "/vibes"
+        : category === "occasion"
+          ? "/cards"
+          : "/vibes";
   const otherCategoryLabel =
-    category === "vibe" ? "Cards" : category === "card" ? "Vibes" : "Vibes";
+    category === "vibe"
+      ? "Cards"
+      : category === "card"
+        ? "Vibes"
+        : category === "occasion"
+          ? "Cards"
+          : "Vibes";
   const crossSample: RelatedLink[] = otherCategory.slice(0, 4).map((o) => ({
     href: `/${o.slug}`,
     label: o.name,
@@ -181,14 +232,19 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         whatIsBody={whatIsBody}
         faqs={faqs}
         related={related}
+        relatedHeading={category === "occasion" ? "Related occasions and gift pages" : undefined}
         crossLinks={{
           hubHref: otherCategoryHref,
           hubLabel: otherCategoryLabel,
           sample: crossSample,
         }}
-        ctaHref="/sign-in"
+        ctaHref={category === "occasion" ? "/studio/roster" : "/sign-in"}
         ctaLabel={
-          category === "card" ? `Make your ${item.name} card` : `Make your ${item.name} portrait`
+          category === "card"
+            ? `Make your ${item.name} card`
+            : category === "occasion"
+              ? (item as OccasionPage).ctaLabel
+              : `Make your ${item.name} portrait`
         }
         breadcrumbs={breadcrumbs}
       />

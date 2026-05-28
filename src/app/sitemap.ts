@@ -3,6 +3,7 @@ import { getAllBlogPosts } from "@/lib/blog";
 import { VIBES } from "@/data/vibes";
 import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
+import { OCCASION_PAGES } from "@/data/occasion-pages";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
@@ -22,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     { url: `${SITE_URL}/cards`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/occasions`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/styles`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...VIBES.map((v) => ({
       url: `${SITE_URL}/${v.slug}`,
@@ -40,6 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...OCCASION_PAGES.map((page) => ({
+      url: `${SITE_URL}/${page.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
     })),
     { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     ...blogPosts.map((post) => ({

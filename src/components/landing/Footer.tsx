@@ -3,6 +3,7 @@ import BrandLogo from "@/components/brand/BrandLogo";
 import { VIBES } from "@/data/vibes";
 import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
+import { OCCASION_PAGES } from "@/data/occasion-pages";
 
 export default function Footer() {
   return (
@@ -101,10 +102,11 @@ export default function Footer() {
           <HubPill href="/vibes" label="See all vibes" count={VIBES.length} />
           <HubPill href="/trending" label="Trending vibes" />
           <HubPill href="/cards" label="See all cards" count={CARDS.length} />
+          <HubPill href="/occasions" label="Occasion pages" count={OCCASION_PAGES.length} />
           <HubPill href="/styles" label="See all styles" count={STYLES.length} />
         </nav>
 
-        <div className="mt-10 grid gap-10 md:grid-cols-3">
+        <div className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <FooterLinkGroup
             title="Family portrait vibes"
             items={VIBES.map((v) => ({ href: `/${v.slug}`, label: v.name }))}
@@ -112,6 +114,10 @@ export default function Footer() {
           <FooterLinkGroup
             title="Family photo cards"
             items={CARDS.map((c) => ({ href: `/${c.slug}`, label: c.name }))}
+          />
+          <FooterLinkGroup
+            title="Occasion pages"
+            items={OCCASION_PAGES.map((page) => ({ href: `/${page.slug}`, label: page.name }))}
           />
           <FooterLinkGroup
             title="Portrait art styles"

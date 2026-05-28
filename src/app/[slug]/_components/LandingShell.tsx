@@ -17,6 +17,7 @@ type Props = {
   whatIsBody: string;
   faqs: FaqItem[];
   related: RelatedLink[];
+  relatedHeading?: string;
   crossLinks: { hubHref: string; hubLabel: string; sample: RelatedLink[] };
   ctaHref: string;
   ctaLabel: string;
@@ -34,6 +35,7 @@ export function LandingShell({
   whatIsBody,
   faqs,
   related,
+  relatedHeading = "Related styles you might love",
   crossLinks,
   ctaHref,
   ctaLabel,
@@ -138,7 +140,7 @@ export function LandingShell({
         )}
 
         <section className="mx-auto mt-20 max-w-6xl px-6">
-          <h2 className="text-2xl font-semibold tracking-tight">Related styles you might love</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">{relatedHeading}</h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (
               <li key={r.href}>
