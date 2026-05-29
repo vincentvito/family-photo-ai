@@ -59,3 +59,17 @@ test("occasions hub is a route that lists every occasion page", () => {
   assert.match(hubSource, /\/studio\/roster/);
   assert.match(hubSource, /href=\{`\/\$\{page\.slug\}`\}/);
 });
+
+test("homepage card section deep-links priority occasion pages", () => {
+  const source = readFileSync("src/components/landing/OccasionCards.tsx", "utf8");
+
+  assert.match(source, /Create portraits for every family occasion/);
+  assert.match(source, /FEATURED_OCCASION_SLUGS/);
+  assert.match(source, /fathers-day/);
+  assert.match(source, /mothers-day/);
+  assert.match(source, /womens-day/);
+  assert.match(source, /grandparents-day/);
+  assert.match(source, /anniversary-gift/);
+  assert.match(source, /family-reunion/);
+  assert.match(source, /href=\{`\/\$\{page\.slug\}`\}/);
+});

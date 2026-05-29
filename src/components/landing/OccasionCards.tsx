@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
+import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { THEMES } from "@/lib/themes";
 import Link from "next/link";
 
@@ -23,6 +24,19 @@ const OCCASION_IDS = [
 const occasions = OCCASION_IDS.map((id) => THEMES.find((theme) => theme.id === id)!).filter(
   Boolean,
 );
+
+const FEATURED_OCCASION_SLUGS = [
+  "fathers-day",
+  "mothers-day",
+  "womens-day",
+  "grandparents-day",
+  "anniversary-gift",
+  "family-reunion",
+];
+
+const featuredOccasionPages = FEATURED_OCCASION_SLUGS.map(
+  (slug) => OCCASION_PAGES.find((page) => page.slug === slug)!,
+).filter(Boolean);
 
 export default function OccasionCards() {
   return (
@@ -92,6 +106,41 @@ export default function OccasionCards() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.12}>
+          <div className="mt-12 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-white/80 p-6 shadow-[var(--shadow-soft)] sm:p-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="small-caps text-[color:var(--color-coral)]">Occasion pages</p>
+                <h3 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
+                  Create portraits for every family occasion
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                  Turn family photos into personalized portraits for birthdays, holidays, reunions,
+                  anniversaries, and gifts. Each page has its own preview-first CTA.
+                </p>
+              </div>
+              <Link href="/occasions" className="btn btn-coral shrink-0">
+                Browse all occasions
+              </Link>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredOccasionPages.map((page) => (
+                <Link
+                  key={page.slug}
+                  href={`/${page.slug}`}
+                  className="rounded-2xl border border-[color:var(--color-line)] bg-[color:var(--color-cream)] px-4 py-4 transition-colors hover:border-[color:var(--color-coral)] hover:bg-white"
+                >
+                  <span className="font-semibold">{page.name}</span>
+                  <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                    {page.shortDescription}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
