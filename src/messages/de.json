@@ -1,0 +1,159 @@
+{
+  "LocaleSwitcher": {
+    "label": "Sprache",
+    "english": "English",
+    "german": "Deutsch"
+  },
+  "Nav": {
+    "gallery": "Galerie",
+    "trending": "Beliebt",
+    "how": "So funktioniert es",
+    "pricing": "Preise",
+    "faq": "FAQ",
+    "startShoot": "Shooting starten",
+    "openMenu": "Navigationsmenü öffnen",
+    "closeMenu": "Navigationsmenü schließen",
+    "openMenuShort": "Menü öffnen",
+    "closeMenuShort": "Menü schließen"
+  },
+  "Hero": {
+    "chip": "KI-Familienfoto-Generator",
+    "awardLabel": "Top-Empfehlung für Familienfotoshootings",
+    "awardEyebrow": "Top-Empfehlung",
+    "awardRank": "#1",
+    "awardText": "Familienfoto-App",
+    "title": "Von chaotischen Handyfotos zu schönen Familienporträts",
+    "body": "Lade einzelne Fotos jedes Familienmitglieds hoch, wähle einen Stil und erhalte in etwa zwei Minuten schöne KI-Familienfotos zum Ausdrucken.",
+    "primaryCta": "Shooting beginnen",
+    "secondaryCta": "Galerie ansehen",
+    "customers": "5.000+ glückliche Kundinnen und Kunden",
+    "rating": "4,8-Sterne-Bewertung",
+    "seeCreated": "Ansehen, was andere erstellt haben",
+    "marqueeLabel": "FamilyShoot Kundengeschichten",
+    "testimonials": [
+      "Ich habe meinem Mann, der im Ausland im Einsatz ist, ein wunderschönes Familienporträt mit uns allen geschickt. Er hat mich weinend angerufen.",
+      "Jedes Jahr erstelle ich damit warme Weihnachtskarten für meine Kundinnen und Kunden. Das spart mir ein ganzes Wochenende Arbeit.",
+      "Meine Oma hatte nie ein Foto mit allen Enkelkindern und Opa zusammen. Wir haben eines für sie gemacht, ausgedruckt, und sie bewahrt es neben ihrem Bett auf.",
+      "Endlich haben wir ein Familienporträt, auf dem niemand blinzelt, wegläuft oder ein komisches Gesicht macht.",
+      "Die Kinder würden für ein Studioshooting nie stillsitzen. So bekamen wir das schöne Porträt ohne Chaos.",
+      "Aus ein paar unordentlichen Handyfotos wurde eine Weihnachtskarte, die aussah, als hätten wir einen Profi gebucht.",
+      "Unsere Familie lebt in drei verschiedenen Ländern. Damit fühlte es sich an, als wären wir wieder alle im selben Raum.",
+      "Ich habe passende saisonale Porträts für meine ganze Familie in Minuten statt Wochen erstellt.",
+      "Die Option für Haustiere hat mich überzeugt. Unser Hund ist endlich auf dem Familien-Weihnachtsfoto.",
+      "Ich habe es für Geschenke, Karten und gerahmte Drucke genutzt. Aus zufälligen Fotos aus der Kamerarolle wurde etwas Emotionales."
+    ],
+    "polaroids": {
+      "autumnLabel": "Foto in der Herbsthütte",
+      "autumnCaption": "Herbsthütte",
+      "studioLabel": "Leibovitz-Studiofoto",
+      "studioCaption": "Leibovitz-Studio",
+      "goldenLabel": "Foto zur goldenen Stunde",
+      "goldenCaption": "Goldene Stunde, Veranda"
+    }
+  },
+  "Pricing": {
+    "chip": "Kostenlose Vorschau, bezahlte Erinnerungsstücke",
+    "titleBefore": "Bezahle für das, was",
+    "titleEmphasis": "passt",
+    "titleAfter": "zu deiner Familie.",
+    "unlockPrompt": "Wähle unten ein Paket, um deine Vorschau freizuschalten.",
+    "backToPreview": "Zurück zur Vorschau",
+    "previewEyebrow": "Erst ausprobieren, dann bezahlen",
+    "previewTitle": "Starte mit einer kostenlosen Vorschau.",
+    "previewBody": "Erstelle dein erstes Familienporträt als Vorschau mit Wasserzeichen. Wenn es passt, schaltest du die hochauflösende, druckfertige Version frei.",
+    "previewNote": "Für die Vorschau ist keine Zahlung nötig.",
+    "mostPopular": "Am beliebtesten",
+    "firstSetNote": "Dein erstes Fotoset kann als Vorschau mit Wasserzeichen starten.",
+    "buyCredits": "Credits kaufen",
+    "startHere": "Hier starten",
+    "buyAsGift": "Als Geschenk kaufen",
+    "openingGiftCheckout": "Geschenk-Checkout wird geöffnet...",
+    "proBadge": "Pro",
+    "perMonth": "/Monat",
+    "proSub": "Gemacht für Creator, Fotografen und regelmäßige Familienkarten-Projekte.",
+    "openingSubscription": "Abo wird geöffnet...",
+    "subscribeMonthly": "Monatlich abonnieren",
+    "tiers": [
+      {
+        "name": "Family Snap",
+        "price": "$5",
+        "sub": "Ein schnelles Set für einen besonderen Moment.",
+        "features": ["4 hochauflösende Fotos oder Karten", "Druckfertige Dateien"]
+      },
+      {
+        "name": "Family Album",
+        "price": "$12",
+        "sub": "Ideal für Porträts und Karten.",
+        "features": [
+          "24 hochauflösende professionelle Fotos",
+          "Porträts und Anlasskarten",
+          "Herunterladbare, druckfertige Dateien"
+        ]
+      },
+      {
+        "name": "Family Collection",
+        "price": "$25",
+        "sub": "Für Feiertage und Familienserien.",
+        "features": [
+          "60 hochauflösende professionelle Fotos oder Karten",
+          "Porträts und Anlasskarten",
+          "Herunterladbare, druckfertige Dateien"
+        ]
+      }
+    ],
+    "proFeatures": [
+      "25 Shootings/Monat mit 100 hochauflösenden Fotos oder Karten",
+      "Porträts, Karten, Einladungen und saisonale Momente",
+      "Herunterladbare, druckfertige Dateien",
+      "Priorisierter Zugang zu neuen Stilen und Vorlagen"
+    ]
+  },
+  "SignIn": {
+    "backHome": "Zur Startseite",
+    "chip": "Dein privates Album startet hier",
+    "titleLine1": "Behalte die Gesichter.",
+    "titleLine2Before": "Verändere die",
+    "titleLine2Emphasis": "Welt",
+    "body": "Lade Alltagsschnappschüsse hoch, wähle eine Stimmung und verwandle die Menschen, die du liebst, in Porträts zum Einrahmen.",
+    "frames": {
+      "goldenHour": "Goldene Stunde",
+      "cabinSeason": "Hüttensaison",
+      "cardReady": "Kartenfertig"
+    }
+  },
+  "OtpSignIn": {
+    "chip": "Privater Studiozugang",
+    "titleBefore": "Starte dein",
+    "titleEmphasis": "Familienshooting",
+    "body": "Kein Passwort zum Merken. Wir senden dir einen kurzen Code und verknüpfen deine Familienfotos mit deinem Konto.",
+    "openingGoogle": "Google wird geöffnet...",
+    "continueGoogle": "Mit Google fortfahren",
+    "orEmail": "Oder per E-Mail",
+    "email": "E-Mail",
+    "code": "Code",
+    "sendCode": "Code per E-Mail senden",
+    "sendingCode": "Code wird gesendet...",
+    "checkingCode": "Code wird geprüft...",
+    "enterStudio": "Studio betreten",
+    "resendCode": "Code erneut senden",
+    "resendCodeIn": "Code erneut senden in {time}",
+    "differentEmail": "Andere E-Mail verwenden",
+    "invalidEmail": "Gib eine gültige E-Mail ein, damit wir den Code senden können.",
+    "googleError": "Google-Anmeldung konnte nicht gestartet werden.",
+    "sendError": "Der Code konnte nicht gesendet werden.",
+    "sentFreshCode": "Wir haben einen neuen 6-stelligen Code an {email} gesendet.",
+    "sentCode": "Wir haben einen 6-stelligen Code an {email} gesendet.",
+    "shortCode": "Gib den 6-stelligen Code aus deiner E-Mail ein.",
+    "badCode": "Dieser Code hat nicht funktioniert."
+  },
+  "Studio": {
+    "roster": "Personen",
+    "format": "Format",
+    "vibe": "Stil",
+    "create": "Erstellen",
+    "regenerate": "Neu erstellen",
+    "keep": "Behalten",
+    "album": "Album",
+    "giftCredits": "Credits verschenken"
+  }
+}

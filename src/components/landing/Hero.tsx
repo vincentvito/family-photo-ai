@@ -3,7 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import ParallaxStack from "@/components/motion/ParallaxStack";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import LocalizedLink from "@/components/i18n/LocalizedLink";
 
 const customerFaces = [
   "/avatars/hero-customer-1.webp",
@@ -11,21 +12,6 @@ const customerFaces = [
   "/avatars/hero-customer-3.webp",
   "/avatars/hero-customer-4.webp",
 ];
-
-const testimonials = [
-  "I sent my husband, who is serving overseas, a beautiful family portrait with all of us together. He called me crying.",
-  "Every year I use it to create warm Christmas cards for my clients. It saves me a full weekend of work.",
-  "My grandma never had one photo with all the grandkids and grandpa together. We made one for her, printed it, and she keeps it by her bed.",
-  "We finally got a family portrait where nobody was blinking, running away, or making a weird face.",
-  "The kids would never sit still for a studio shoot. This gave us the polished portrait without the chaos.",
-  "I turned a handful of messy phone pictures into a holiday card that looked like we hired a professional photographer.",
-  "Our family lives in three different countries. This made it feel like we were all in the same room again.",
-  "I made matching seasonal portraits for my whole family in minutes, not weeks.",
-  "The pet-friendly option is what sold me. Our dog finally made it into the family Christmas photo.",
-  "I used it for gifts, cards, and framed prints. It turned random camera-roll photos into something emotional.",
-];
-
-const testimonialMarqueeItems = [...testimonials, ...testimonials];
 
 function Polaroid({
   src,
@@ -62,10 +48,12 @@ function Polaroid({
 }
 
 function AwardBadge() {
+  const t = useTranslations("Hero");
+
   return (
     <div
       className="relative w-full max-w-[220px] sm:max-w-[250px]"
-      aria-label="Top pick for family photo shoots"
+      aria-label={t("awardLabel")}
     >
       <div
         className="absolute inset-x-12 bottom-4 h-5 rounded-full bg-[color:rgba(242,107,74,0.1)] blur-xl"
@@ -83,13 +71,13 @@ function AwardBadge() {
         />
         <div className="relative z-10 flex -translate-y-2 flex-col items-center pt-1 text-center">
           <span className="text-[0.52rem] font-bold uppercase tracking-[0.14em] text-[color:var(--color-coral-deep)]">
-            Top pick
+            {t("awardEyebrow")}
           </span>
           <span className="serif mt-0.5 text-[1.35rem] leading-none text-[color:var(--color-ink)]">
-            #1
+            {t("awardRank")}
           </span>
           <span className="mt-1 max-w-[5.9rem] text-[0.57rem] font-semibold leading-tight text-[color:var(--color-ink-muted)]">
-            family photo app
+            {t("awardText")}
           </span>
           <div className="mt-1.5 flex items-center gap-0.5 text-[color:var(--color-coral)] drop-shadow-[0_1px_1px_rgba(31,26,36,0.14)]">
             {Array.from({ length: 5 }).map((_, index) => (
@@ -111,6 +99,8 @@ function AwardBadge() {
 }
 
 function StatsBar({ className = "" }: { className?: string }) {
+  const t = useTranslations("Hero");
+
   return (
     <div
       className={`flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[color:var(--color-ink-muted)] ${className}`}
@@ -125,25 +115,29 @@ function StatsBar({ className = "" }: { className?: string }) {
           </span>
         ))}
       </div>
-      <span>5,000+ happy customers</span>
+      <span>{t("customers")}</span>
       <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
-      <span>4.8 star rating</span>
+      <span>{t("rating")}</span>
       <span className="hidden h-1 w-1 rounded-full bg-[color:var(--color-ink-muted)] sm:inline-block" />
-      <Link
+      <LocalizedLink
         href="/gallery"
         className="font-semibold text-[color:var(--color-coral)] underline decoration-[color:rgba(242,107,74,0.35)] underline-offset-4 transition-colors hover:text-[color:var(--color-coral-deep)]"
       >
-        See what others created
-      </Link>
+        {t("seeCreated")}
+      </LocalizedLink>
     </div>
   );
 }
 
 function TestimonialMarquee() {
+  const t = useTranslations("Hero");
+  const testimonials = t.raw("testimonials") as string[];
+  const testimonialMarqueeItems = [...testimonials, ...testimonials];
+
   return (
     <section
       className="border-y border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] py-5"
-      aria-label="FamilyShoot customer-style stories"
+      aria-label={t("marqueeLabel")}
     >
       <div className="marquee-mask overflow-hidden">
         <div className="marquee-track flex w-max gap-4 px-4 [--marquee-duration:72s]">
@@ -165,6 +159,7 @@ function TestimonialMarquee() {
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  const t = useTranslations("Hero");
 
   return (
     <>
@@ -206,20 +201,19 @@ export default function Hero() {
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <span className="chip chip-coral w-fit">
                 <span className="dot dot-coral" />
-                AI family photo generator
+                {t("chip")}
               </span>
               <AwardBadge />
             </div>
             <h1 className="serif mt-5 text-[3.05rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5rem]">
-              From Messy Phone Pics to Beautiful Family Portraits
+              {t("title")}
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-              Upload separate photos of each family member, pick a vibe, and get beautiful AI family
-              photos ready to print in about two minutes.
+              {t("body")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/sign-in" className="btn btn-coral btn-lg">
-                Begin a shoot
+              <LocalizedLink href="/sign-in" className="btn btn-coral btn-lg">
+                {t("primaryCta")}
                 <svg
                   className="h-4 w-4"
                   viewBox="0 0 24 24"
@@ -232,9 +226,9 @@ export default function Hero() {
                 >
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
-              </Link>
+              </LocalizedLink>
               <a href="#gallery" className="btn btn-ghost btn-lg">
-                See the gallery
+                {t("secondaryCta")}
               </a>
             </div>
             <StatsBar className="mt-8 hidden sm:flex" />
@@ -247,29 +241,37 @@ export default function Hero() {
                 className="h-full w-full"
                 items={[
                   {
-                    label: "Autumn cabin photo",
+                    label: t("polaroids.autumnLabel"),
                     rotate: -8,
                     offsetX: -14,
                     offsetY: -4,
                     depth: 14,
                     zIndex: 1,
                     content: (
-                      <Polaroid src="/samples/g-2.jpg" caption="Autumn cabin" tinted="butter" />
+                      <Polaroid
+                        src="/samples/g-2.jpg"
+                        caption={t("polaroids.autumnCaption")}
+                        tinted="butter"
+                      />
                     ),
                   },
                   {
-                    label: "Leibovitz studio photo",
+                    label: t("polaroids.studioLabel"),
                     rotate: 6,
                     offsetX: 14,
                     offsetY: 6,
                     depth: 22,
                     zIndex: 2,
                     content: (
-                      <Polaroid src="/samples/g-5.jpg" caption="Leibovitz studio" tinted="sage" />
+                      <Polaroid
+                        src="/samples/g-5.jpg"
+                        caption={t("polaroids.studioCaption")}
+                        tinted="sage"
+                      />
                     ),
                   },
                   {
-                    label: "Golden hour photo",
+                    label: t("polaroids.goldenLabel"),
                     rotate: -2,
                     offsetX: 0,
                     offsetY: -20,
@@ -278,7 +280,7 @@ export default function Hero() {
                     content: (
                       <Polaroid
                         src="/samples/hero.jpg"
-                        caption="Golden hour, back porch"
+                        caption={t("polaroids.goldenCaption")}
                         tinted="coral"
                       />
                     ),

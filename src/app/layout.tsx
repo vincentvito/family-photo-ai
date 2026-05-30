@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
+import { NextIntlClientProvider } from "next-intl";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { getMessages } from "@/lib/i18n/locales";
+import { getRequestLocale } from "@/lib/i18n/server";
 import "./globals.css";
 
 const inter = Inter({
@@ -182,11 +185,16 @@ const FAQ_JSONLD = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getRequestLocale();
+  const messages = getMessages(locale);
+
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${fraunces.variable}`}>
       <body className="antialiased">
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}

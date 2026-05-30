@@ -2,12 +2,14 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 
 type Step = "email" | "code";
 
 export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPath?: string }) {
   const router = useRouter();
+  const t = useTranslations("OtpSignIn");
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -19,11 +21,10 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
   const normalizedEmail = email.trim().toLowerCase();
   const cooldownActive = resendCooldown > 0;
   const resendLabel = cooldownActive
-    ? `Resend code in ${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(
-        2,
-        "0",
-      )}`
-    : "Resend code";
+    ? t("resendCodeIn", {
+        time: `${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(2, "0")}`,
+      })
+    : t("resendCode");
 
   useEffect(() => {
     if (!cooldownActive) return;
@@ -47,7 +48,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       });
 
       if (result.error) {
-        setError(result.error.message ?? "Google sign-in did not start.");
+        setError(result.error.message ?? t("googleError"));
       }
     });
   };
@@ -59,7 +60,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
     if (step === "code" && resendCooldown > 0) return;
 
     if (!normalizedEmail || !normalizedEmail.includes("@")) {
-      setError("Enter a real email so we know where to send the code.");
+      setError(t("invalidEmail"));
       return;
     }
 
@@ -70,7 +71,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       });
 
       if (result.error) {
-        setError(result.error.message ?? "Could not send the code.");
+        setError(result.error.message ?? t("sendError"));
         return;
       }
 
@@ -79,8 +80,8 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       setResendCooldown(60);
       setMessage(
         step === "code"
-          ? `We sent a fresh 6-digit code to ${normalizedEmail}.`
-          : `We sent a 6-digit code to ${normalizedEmail}.`,
+          ? t("sentFreshCode", { email: normalizedEmail })
+          : t("sentCode", { email: normalizedEmail }),
       );
     });
   };
@@ -90,7 +91,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
     setMessage(null);
 
     if (otp.trim().length < 6) {
-      setError("Enter the 6-digit code from your email.");
+      setError(t("shortCode"));
       return;
     }
 
@@ -101,7 +102,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       });
 
       if (result.error) {
-        setError(result.error.message ?? "That code did not work.");
+        setError(result.error.message ?? t("badCode"));
         return;
       }
 
@@ -115,14 +116,14 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       <div>
         <span className="chip chip-coral">
           <span className="dot dot-coral" />
-          Private studio access
+          {t("chip")}
         </span>
         <h1 className="serif mt-5 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-          Start your <em className="serif-italic text-[color:var(--color-coral)]">family shoot</em>.
+          {t("titleBefore")}{" "}
+          <em className="serif-italic text-[color:var(--color-coral)]">{t("titleEmphasis")}</em>.
         </h1>
         <p className="mt-4 text-[color:var(--color-ink-muted)]">
-          No password to remember. We&apos;ll send one quiet little code and keep your family photos
-          tied to your account.
+          {t("body")}
         </p>
       </div>
 
@@ -151,12 +152,12 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
               d="M12 5.38c1.62 0 3.06 0.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06L5.84 9.9C6.71 7.3 9.14 5.38 12 5.38z"
             />
           </svg>
-          {pending ? "Opening Google..." : "Continue with Google"}
+          {pending ? t("openingGoogle") : t("continueGoogle")}
         </button>
 
         <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--color-ink-faint)]">
           <span className="h-px flex-1 bg-[color:var(--color-line)]" />
-          Or use email
+          {t("orEmail")}
           <span className="h-px flex-1 bg-[color:var(--color-line)]" />
         </div>
       </div>
@@ -171,7 +172,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
       >
         <div>
           <label className="small-caps text-[color:var(--color-ink-muted)]" htmlFor="auth-email">
-            Email
+            {t("email")}
           </label>
           <input
             id="auth-email"
@@ -188,7 +189,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
         {step === "code" && (
           <div>
             <label className="small-caps text-[color:var(--color-ink-muted)]" htmlFor="auth-code">
-              Code
+              {t("code")}
             </label>
             <input
               id="auth-code"
@@ -218,11 +219,11 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
         <button type="submit" disabled={pending} className="btn btn-coral btn-lg w-full">
           {pending
             ? step === "email"
-              ? "Sending code..."
-              : "Checking code..."
+              ? t("sendingCode")
+              : t("checkingCode")
             : step === "email"
-              ? "Email me a code"
-              : "Enter the studio"}
+              ? t("sendCode")
+              : t("enterStudio")}
           <svg
             className="h-4 w-4"
             viewBox="0 0 24 24"
@@ -244,7 +245,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
             onClick={sendCode}
             className="w-full rounded-[var(--radius-md)] border border-[color:var(--color-line)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:border-[color:var(--color-line-strong)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {pending ? "Sending code..." : resendLabel}
+            {pending ? t("sendingCode") : resendLabel}
           </button>
         )}
 
@@ -261,7 +262,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
             }}
             className="w-full text-center text-sm font-medium text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
           >
-            Use a different email
+            {t("differentEmail")}
           </button>
         )}
       </form>

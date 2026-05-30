@@ -1,0 +1,38 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { LOCALES, type Locale, localizePath } from "@/lib/i18n/locales";
+
+export default function LocaleSwitcher() {
+  const activeLocale = useLocale() as Locale;
+  const pathname = usePathname() ?? "/";
+  const searchParams = useSearchParams();
+  const query = searchParams.toString();
+  const t = useTranslations("LocaleSwitcher");
+
+  return (
+    <div className="flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 text-xs font-semibold">
+      <span className="sr-only">{t("label")}</span>
+      {LOCALES.map((locale) => {
+        const href = `${localizePath(pathname, locale)}${query ? `?${query}` : ""}`;
+        const active = locale === activeLocale;
+        return (
+          <Link
+            key={locale}
+            href={href}
+            hrefLang={locale}
+            className={`rounded-full px-2.5 py-1 transition-colors ${
+              active
+                ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)]"
+                : "text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
+            }`}
+          >
+            {locale.toUpperCase()}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
