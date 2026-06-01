@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import ImpersonationBanner from "@/components/ImpersonationBanner";
 import "./globals.css";
 
 const inter = Inter({
@@ -186,6 +187,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body className="antialiased">
+        <ImpersonationBanner />
         {children}
         <script
           type="application/ld+json"
