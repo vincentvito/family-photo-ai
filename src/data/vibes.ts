@@ -256,6 +256,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "dockside-family-weekend-photos",
+    name: "Dockside Family Weekend",
+    keyword: "dockside family photoshoot",
+    secondaryKeywords: [
+      "lake dock family portrait",
+      "summer weekend family photo",
+      "lake house family photoshoot",
+    ],
+    image: "/samples/theme-lake-house.jpg",
+    shortDescription:
+      "Weathered dock planks, lake sparkle, towels, totes, and long-weekend summer ease.",
+    related: [
+      "lake-house-family-photos",
+      "cape-cod-family-photos",
+      "golden-hour-beach-family-photos",
+    ],
+  },
+  {
+    slug: "backyard-sports-day-family-photos",
+    name: "Backyard Sports Day Portrait",
+    keyword: "backyard sports day family portrait",
+    secondaryKeywords: [
+      "family field day photo",
+      "sports day family photoshoot",
+      "backyard games family photo",
+    ],
+    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    shortDescription:
+      "Blank jerseys, lawn-game props, chalk lines, ribbons, sneakers, and bright field-day joy.",
+    related: [
+      "soccer-team-family-photos",
+      "backyard-picnic-family-photos",
+      "summer-color-pop-studio-family-photos",
+    ],
+  },
+  {
+    slug: "slow-travel-summer-picnic-family-photos",
+    name: "Slow Travel Summer Picnic",
+    keyword: "slow travel summer picnic family photo",
+    secondaryKeywords: [
+      "summer picnic family portrait",
+      "travel picnic family photoshoot",
+      "meadow picnic family photo",
+    ],
+    image: "/samples/theme-backyard-picnic.jpg",
+    shortDescription:
+      "Checked blanket, market fruit, paper maps, wildflowers, and unhurried travel light.",
+    related: [
+      "backyard-picnic-family-photos",
+      "tuscan-summer-family-photos",
+      "paris-family-stroll-family-photos",
+    ],
+  },
+  {
+    slug: "sunset-festival-family-glow-photos",
+    name: "Sunset Festival Family Glow",
+    keyword: "sunset festival family photo",
+    secondaryKeywords: [
+      "festival family portrait",
+      "string lights family photoshoot",
+      "summer festival family photo",
+    ],
+    image: "/samples/theme-card-new-years.jpg",
+    shortDescription:
+      "String lights, paper lanterns, fabric flags, and golden-hour festival warmth.",
+    related: [
+      "golden-hour-beach-family-photos",
+      "noughties-family-throwback-photos",
+      "pop-icon-stage-family-photos",
+    ],
+  },
+  {
+    slug: "summer-color-pop-studio-family-photos",
+    name: "Summer Color Pop Studio",
+    keyword: "summer color pop family studio portrait",
+    secondaryKeywords: [
+      "colorful studio family photo",
+      "summer studio family photoshoot",
+      "bright color block family portrait",
+    ],
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    shortDescription:
+      "High-key studio light, bold color blocks, glossy summer props, and commercial polish.",
+    related: [
+      "white-cyclorama-family-photos",
+      "backyard-sports-day-family-photos",
+      "stacked-love-family-photos",
+    ],
+  },
+  {
+    slug: "whimsical-adventure-postcard-family-photos",
+    name: "Whimsical Adventure Postcard",
+    keyword: "whimsical adventure postcard family portrait",
+    secondaryKeywords: [
+      "storybook travel family photo",
+      "illustrated postcard family portrait",
+      "adventure postcard family photoshoot",
+    ],
+    image: "/samples/theme-watercolor-storybook.jpg",
+    shortDescription:
+      "Painted skies, oversized luggage, map edges, and original storybook travel charm.",
+    related: [
+      "watercolor-storybook-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+      "fluffy-cloud-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",
