@@ -6,11 +6,12 @@ import { authClient } from "@/lib/auth-client";
 
 type Step = "email" | "code";
 
-export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPath?: string }) {
+export default function OtpSignInForm({ nextPath = "/studio/album" }: { nextPath?: string }) {
   const router = useRouter();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
@@ -42,7 +43,7 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
     start(async () => {
       const result = await authClient.signIn.social({
         provider: "google",
-        callbackURL: nextPath,
+        callbackURL: `/api/account/marketing-consent?optIn=${marketingOptIn ? "1" : "0"}&source=sign_in&next=${encodeURIComponent(nextPath)}`,
         errorCallbackURL: "/sign-in",
       });
 
@@ -105,6 +106,14 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
         return;
       }
 
+      await fetch("/api/account/marketing-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ optIn: marketingOptIn, source: "sign_in" }),
+      }).catch((err) => {
+        console.error("Failed to save sign-in metadata", err);
+      });
+
       router.push(nextPath);
       router.refresh();
     });
@@ -126,7 +135,20 @@ export default function OtpSignInForm({ nextPath = "/studio/roster" }: { nextPat
         </p>
       </div>
 
-      <div className="mt-8 space-y-4">
+      <label className="mt-8 flex gap-3 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3 text-sm text-[color:var(--color-ink-muted)]">
+        <input
+          type="checkbox"
+          checked={marketingOptIn}
+          disabled={pending}
+          onChange={(event) => setMarketingOptIn(event.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-[color:var(--color-line-strong)] accent-[color:var(--color-coral)]"
+        />
+        <span>
+          Send me product updates, new styles, offers, and tips. I can unsubscribe any time.
+        </span>
+      </label>
+
+      <div className="mt-5 space-y-4">
         <button
           type="button"
           disabled={pending}

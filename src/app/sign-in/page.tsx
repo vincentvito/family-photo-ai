@@ -99,6 +99,6 @@ export default async function SignInPage({
 }
 
 function getSafeNextPath(value: string | undefined) {
-  if (!value?.startsWith("/") || value.startsWith("//")) return "/studio/roster";
+  if (!value?.startsWith("/") || value.startsWith("//")) return "/studio/album";
   return value;
 }

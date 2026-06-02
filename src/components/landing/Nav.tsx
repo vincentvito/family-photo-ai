@@ -58,8 +58,11 @@ export default function Nav({
           ))}
         </div>
 
-        <Link href="/sign-in" className="btn btn-coral btn-sm hidden md:inline-flex">
-          Start a shoot
+        <Link
+          href="/sign-in?next=/studio/roster"
+          className="btn btn-coral btn-sm hidden md:inline-flex"
+        >
+          Login
         </Link>
 
         <button
@@ -92,11 +95,11 @@ export default function Nav({
               </MobileNavLink>
             ))}
             <Link
-              href="/sign-in"
+              href="/sign-in?next=/studio/roster"
               onClick={() => setOpen(false)}
               className="btn btn-coral mt-2 w-full"
             >
-              Start a shoot
+              Login
             </Link>
           </div>
         )}

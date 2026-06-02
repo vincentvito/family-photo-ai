@@ -29,10 +29,12 @@ export default function PersonCard({
   person,
   photos,
   onChanged,
+  canPreviewPhotos,
 }: {
   person: RosterPerson;
   photos: Photo[];
   onChanged?: () => void;
+  canPreviewPhotos: boolean;
 }) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -105,7 +107,7 @@ export default function PersonCard({
       </div>
 
       <div className="px-4 pt-2">
-        {photo ? (
+        {photo && canPreviewPhotos ? (
           <button
             type="button"
             key={photo.id}
@@ -122,6 +124,24 @@ export default function PersonCard({
               unoptimized
             />
           </button>
+        ) : photo ? (
+          <div className="flex aspect-[3/2] w-full flex-col items-center justify-center gap-2 rounded-[var(--radius-sm)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-sage)] text-[color:var(--color-sage-deep)]">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5"
+              aria-hidden
+            >
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            <span className="text-center text-xs font-semibold uppercase tracking-[0.12em]">
+              Reference added
+            </span>
+          </div>
         ) : (
           <button
             type="button"
@@ -232,12 +252,16 @@ export default function PersonCard({
       <EditPersonDialog
         key={`${person.id}-${editOpen ? "open" : "closed"}`}
         person={person}
-        currentPhoto={photo}
+        currentPhoto={canPreviewPhotos ? photo : null}
         open={editOpen}
         onClose={() => setEditOpen(false)}
         onChanged={onChanged}
       />
-      <ReferencePhotoLightbox photo={lightboxPhoto} name={person.name} onClose={closeLightbox} />
+      <ReferencePhotoLightbox
+        photo={canPreviewPhotos ? lightboxPhoto : null}
+        name={person.name}
+        onClose={closeLightbox}
+      />
       {cropFile && (
         <FaceCropDialog
           key={`${cropFile.name}-${cropFile.lastModified}-${cropFile.size}`}

@@ -12,9 +12,13 @@ import BulkAddPeopleDialog from "@/components/studio/BulkAddPeopleDialog";
 export default function RosterPageClient({
   initialRoster,
   checkoutStatus,
+  canPreviewPhotos,
+  isAuthenticated,
 }: {
   initialRoster: RosterEntry[];
   checkoutStatus?: string;
+  canPreviewPhotos: boolean;
+  isAuthenticated: boolean;
 }) {
   const [roster, setRoster] = useState<RosterEntry[]>(initialRoster);
   const [error, setError] = useState<string | null>(null);
@@ -42,8 +46,13 @@ export default function RosterPageClient({
   const canContinue = roster.length > 0 && peopleWithPhotos === roster.length;
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
+    <main
+      className={`mx-auto max-w-6xl px-6 pb-12 sm:px-8 sm:pb-16 ${
+        isAuthenticated ? "pt-12 sm:pt-16" : "pt-6 sm:pt-8"
+      }`}
+    >
       {showCheckoutSuccess && <CheckoutSuccessBanner pro={checkoutStatus === "pro-success"} />}
+      {!isAuthenticated && <ReturningAccountBanner />}
 
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -61,7 +70,11 @@ export default function RosterPageClient({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <BulkAddPeopleDialog onChanged={loadRoster} onNotice={setNotice} />
+          <BulkAddPeopleDialog
+            onChanged={loadRoster}
+            onNotice={setNotice}
+            isAuthenticated={isAuthenticated}
+          />
           <AddPersonDialog onChanged={loadRoster} onNotice={setNotice} />
         </div>
       </div>
@@ -89,11 +102,11 @@ export default function RosterPageClient({
         ) : roster.length === 0 ? (
           <EmptyState />
         ) : (
-          <RosterGrid roster={roster} onChanged={loadRoster} />
+          <RosterGrid roster={roster} onChanged={loadRoster} canPreviewPhotos={canPreviewPhotos} />
         )}
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-6 text-center shadow-[var(--shadow-sm)]">
+      <div className="mt-5 flex flex-col items-center gap-3 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-6 py-4 text-center shadow-[var(--shadow-sm)]">
         <p className="text-sm text-[color:var(--color-ink-muted)]">
           {roster.length === 0
             ? "Add at least one person to continue."
@@ -121,6 +134,43 @@ export default function RosterPageClient({
         </Link>
       </div>
     </main>
+  );
+}
+
+function ReturningAccountBanner() {
+  return (
+    <section className="mb-6 overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-5 py-4 shadow-[var(--shadow-md)] sm:px-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <span className="chip chip-sage">
+            <span className="dot dot-sage" />
+            Already have an account?
+          </span>
+          <p className="serif mt-2 text-2xl leading-tight tracking-[-0.02em] text-[color:var(--color-ink)] sm:text-3xl">
+            Sign in to load your roster and credits.
+          </p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+            We&apos;ll bring back your saved people, reference photos, album, and any available
+            shoots.
+          </p>
+        </div>
+        <Link href="/sign-in?next=/studio/roster" className="btn btn-coral shrink-0">
+          Sign in to load roster
+          <svg
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </Link>
+      </div>
+    </section>
   );
 }
 
@@ -178,12 +228,12 @@ function CheckoutSuccessBanner({ pro }: { pro: boolean }) {
 
 function EmptyState() {
   return (
-    <div className="panel-coral flex flex-col items-center justify-center px-8 py-14 text-center sm:py-16">
-      <div className="relative h-40 w-48">
+    <div className="panel-coral flex flex-col items-center justify-center px-8 py-8 text-center sm:py-9">
+      <div className="relative h-24 w-32">
         <Image src="/illustrations/empty-roster.svg" alt="" fill className="object-contain" />
       </div>
-      <p className="serif mt-6 text-3xl tracking-[-0.02em]">No one on the roster yet.</p>
-      <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
+      <p className="serif mt-4 text-2xl tracking-[-0.02em]">No one on the roster yet.</p>
+      <p className="mt-2 max-w-md text-sm text-[color:var(--color-ink-muted)]">
         Start with yourself - add one person and choose a reference photo now, or add the photo
         later.
       </p>

@@ -61,9 +61,11 @@ async function runWithConcurrency<T>(
 export default function BulkAddPeopleDialog({
   onChanged,
   onNotice,
+  isAuthenticated,
 }: {
   onChanged?: () => void;
   onNotice?: (message: string) => void;
+  isAuthenticated: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [drafts, setDrafts] = useState<PersonDraft[]>([]);
@@ -157,7 +159,10 @@ export default function BulkAddPeopleDialog({
     let saved = 0;
     let failed = 0;
 
-    await runWithConcurrency(toSave, 3, async (draft) => {
+    // Keep logged-out bulk saves sequential so the temp roster cookie is
+    // established before the next person/upload pair starts. Authenticated
+    // users do not have that cookie race, so they keep faster parallel saves.
+    await runWithConcurrency(toSave, isAuthenticated ? 3 : 1, async (draft) => {
       setDrafts((current) =>
         current.map((item) =>
           item.id === draft.id ? { ...item, status: "saving", error: null } : item,

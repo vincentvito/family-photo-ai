@@ -20,7 +20,7 @@ export default function Footer() {
           </p>
           <div className="mt-6">
             <Link href="/studio/roster" className="btn btn-coral btn-sm">
-              Start a shoot
+              Start a free preview
             </Link>
           </div>
         </div>
