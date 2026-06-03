@@ -4,36 +4,40 @@ import { redirect } from "next/navigation";
 import BrandLogo from "@/components/brand/BrandLogo";
 import OtpSignInForm from "@/components/auth/OtpSignInForm";
 import { auth } from "@/lib/auth";
-
-const frames = [
-  {
-    src: "/samples/hero.jpg",
-    caption: "Golden hour",
-    className: "left-0 top-10 rotate-[-6deg]",
-  },
-  {
-    src: "/samples/theme-autumn-cabin.jpg",
-    caption: "Cabin season",
-    className: "right-0 top-20 rotate-[7deg]",
-  },
-  {
-    src: "/samples/theme-card-christmas.jpg",
-    caption: "Card ready",
-    className: "left-1/2 top-0 -translate-x-1/2 rotate-[-2deg]",
-  },
-];
+import { getMessages, localizePath } from "@/lib/i18n/locales";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 export default async function SignInPage({
   searchParams,
 }: {
   searchParams?: Promise<{ next?: string }>;
 }) {
+  const locale = await getRequestLocale();
+  const messages = getMessages(locale).SignIn;
   const params = await searchParams;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   const nextPath = getSafeNextPath(params?.next);
-  if (session) redirect(nextPath);
+  if (session) redirect(localizePath(nextPath, locale));
+
+  const frames = [
+    {
+      src: "/samples/hero.jpg",
+      caption: messages.frames.goldenHour,
+      className: "left-0 top-10 rotate-[-6deg]",
+    },
+    {
+      src: "/samples/theme-autumn-cabin.jpg",
+      caption: messages.frames.cabinSeason,
+      className: "right-0 top-20 rotate-[7deg]",
+    },
+    {
+      src: "/samples/theme-card-christmas.jpg",
+      caption: messages.frames.cardReady,
+      className: "left-1/2 top-0 -translate-x-1/2 rotate-[-2deg]",
+    },
+  ];
 
   return (
     <main className="min-h-screen overflow-hidden bg-[color:var(--color-bg)]">
@@ -47,10 +51,10 @@ export default async function SignInPage({
       />
 
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 sm:px-8">
-        <BrandLogo href="/" size="md" />
+        <BrandLogo href={localizePath("/", locale)} size="md" />
 
-        <Link href="/" className="btn btn-ghost btn-sm">
-          Back home
+        <Link href={localizePath("/", locale)} className="btn btn-ghost btn-sm">
+          {messages.backHome}
         </Link>
       </header>
 
@@ -59,16 +63,19 @@ export default async function SignInPage({
           <div className="max-w-xl">
             <span className="chip chip-sage">
               <span className="dot dot-sage" />
-              Your private album starts here
+              {messages.chip}
             </span>
             <h2 className="serif mt-5 text-5xl leading-[1.02] tracking-[-0.03em] sm:text-6xl xl:text-7xl">
-              Keep the faces.
+              {messages.titleLine1}
               <br />
-              Change the <em className="serif-italic text-[color:var(--color-coral)]">world</em>.
+              {messages.titleLine2Before}{" "}
+              <em className="serif-italic text-[color:var(--color-coral)]">
+                {messages.titleLine2Emphasis}
+              </em>
+              .
             </h2>
             <p className="mt-5 max-w-sm text-[color:var(--color-ink-muted)]">
-              Upload everyday snapshots, choose a mood, and turn the people you love into portraits
-              worth framing.
+              {messages.body}
             </p>
           </div>
 
@@ -92,7 +99,7 @@ export default async function SignInPage({
           </div>
         </div>
 
-        <OtpSignInForm nextPath={nextPath} />
+        <OtpSignInForm nextPath={localizePath(nextPath, locale)} />
       </section>
     </main>
   );

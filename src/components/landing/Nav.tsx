@@ -1,32 +1,38 @@
 "use client";
 
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import BrandLogo from "@/components/brand/BrandLogo";
+import LocaleSwitcher from "@/components/i18n/LocaleSwitcher";
+import LocalizedLink from "@/components/i18n/LocalizedLink";
+import { type Locale, localizePath } from "@/lib/i18n/locales";
 
 type NavLink = {
   href: string;
   label: string;
 };
 
-const defaultLinks: NavLink[] = [
-  { href: "#gallery", label: "Gallery" },
-  { href: "/trending", label: "Trending 🔥" },
-  { href: "#how", label: "How it works" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
-];
-
 export default function Nav({
-  links = defaultLinks,
+  links,
   topOffsetClass = "top-0",
 }: {
   links?: NavLink[];
   topOffsetClass?: string;
 }) {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Nav");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const navLinks =
+    links ??
+    [
+      { href: "#gallery", label: t("gallery") },
+      { href: "/trending", label: `${t("trending")} 🔥` },
+      { href: "#how", label: t("how") },
+      { href: "#pricing", label: t("pricing") },
+      { href: "#faq", label: t("faq") },
+    ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -48,31 +54,31 @@ export default function Nav({
             : "bg-transparent border border-transparent"
         }`}
       >
-        <BrandLogo href="/" />
+        <BrandLogo href={localizePath("/", locale)} />
 
         <div className="hidden items-center gap-6 md:flex">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <NavAnchor key={link.href} href={link.href}>
               {link.label}
             </NavAnchor>
           ))}
         </div>
 
-        <Link
-          href="/sign-in?next=/studio/roster"
-          className="btn btn-coral btn-sm hidden md:inline-flex"
-        >
-          Login
-        </Link>
+        <div className="hidden items-center gap-2 md:flex">
+          <LocaleSwitcher />
+          <LocalizedLink href="/sign-in?next=/studio/roster" className="btn btn-coral btn-sm">
+            {t("startShoot")}
+          </LocalizedLink>
+        </div>
 
         <button
           type="button"
           onClick={() => setOpen((isOpen) => !isOpen)}
           className="spring-press inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] md:hidden"
-          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={open ? t("closeMenu") : t("openMenu")}
           aria-expanded={open}
         >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+          <span className="sr-only">{open ? t("closeMenuShort") : t("openMenuShort")}</span>
           <svg
             className="h-5 w-5"
             viewBox="0 0 24 24"
@@ -89,18 +95,21 @@ export default function Nav({
 
         {open && (
           <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-2 shadow-[var(--shadow-lg)] md:hidden">
-            {links.map((link) => (
+            <div className="px-2 pb-2">
+              <LocaleSwitcher />
+            </div>
+            {navLinks.map((link) => (
               <MobileNavLink key={link.href} href={link.href} onClick={() => setOpen(false)}>
                 {link.label}
               </MobileNavLink>
             ))}
-            <Link
+            <LocalizedLink
               href="/sign-in?next=/studio/roster"
               onClick={() => setOpen(false)}
               className="btn btn-coral mt-2 w-full"
             >
-              Login
-            </Link>
+              {t("startShoot")}
+            </LocalizedLink>
           </div>
         )}
       </div>
@@ -114,9 +123,9 @@ function NavAnchor({ href, children }: { href: string; children: ReactNode }) {
 
   if (href.startsWith("/")) {
     return (
-      <Link href={href} className={className}>
+      <LocalizedLink href={href} className={className}>
         {children}
-      </Link>
+      </LocalizedLink>
     );
   }
 
@@ -141,9 +150,9 @@ function MobileNavLink({
 
   if (href.startsWith("/")) {
     return (
-      <Link href={href} onClick={onClick} className={className}>
+      <LocalizedLink href={href} onClick={onClick} className={className}>
         {children}
-      </Link>
+      </LocalizedLink>
     );
   }
 

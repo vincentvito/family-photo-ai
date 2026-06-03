@@ -3,55 +3,59 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { useLocale, useTranslations } from "next-intl";
+import { type Locale, localizePath, stripLocalePrefix } from "@/lib/i18n/locales";
 
 const steps: {
   id: string;
-  label: string;
+  labelKey: "roster" | "format" | "vibe" | "create" | "regenerate" | "keep";
   href: string;
   matches: RegExp;
   color: "coral" | "sage" | "butter" | "plum" | "ink";
 }[] = [
   {
     id: "roster",
-    label: "Roster",
+    labelKey: "roster",
     href: "/studio/roster",
     matches: /^\/studio\/roster/,
     color: "coral",
   },
   {
     id: "output",
-    label: "Format",
+    labelKey: "format",
     href: "/studio/output",
     matches: /^\/studio\/output/,
     color: "butter",
   },
   {
     id: "theme",
-    label: "Vibe",
+    labelKey: "vibe",
     href: "/studio/output",
     matches: /^\/studio\/theme/,
     color: "sage",
   },
   {
     id: "create",
-    label: "Create",
+    labelKey: "create",
     href: "/studio/output",
     matches: /^\/studio\/generate/,
     color: "coral",
   },
   {
     id: "refine",
-    label: "Regenerate",
+    labelKey: "regenerate",
     href: "/studio/album",
     matches: /^\/studio\/refine/,
     color: "plum",
   },
-  { id: "keep", label: "Keep", href: "/studio/album", matches: /^\/studio\/album/, color: "ink" },
+  { id: "keep", labelKey: "keep", href: "/studio/album", matches: /^\/studio\/album/, color: "ink" },
 ];
 
 export default function StudioStepper() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Studio");
   const pathname = usePathname() ?? "";
-  const activeIdx = steps.findIndex((s) => s.matches.test(pathname));
+  const activeIdx = steps.findIndex((s) => s.matches.test(stripLocalePrefix(pathname)));
 
   return (
     <nav className="hidden md:block">
@@ -64,7 +68,7 @@ export default function StudioStepper() {
           return (
             <li key={s.id} className="relative">
               <Link
-                href={canClick ? s.href : "#"}
+                href={canClick ? localizePath(s.href, locale) : "#"}
                 aria-current={active ? "step" : undefined}
                 className={`relative z-10 flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-[0.04em] transition-colors ${
                   active
@@ -91,7 +95,7 @@ export default function StudioStepper() {
                   }`}
                   aria-hidden
                 />
-                {String(i + 1).padStart(2, "0")} · {s.label}
+                {String(i + 1).padStart(2, "0")} · {t(s.labelKey)}
               </Link>
             </li>
           );

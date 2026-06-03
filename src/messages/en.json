@@ -1,0 +1,159 @@
+{
+  "LocaleSwitcher": {
+    "label": "Language",
+    "english": "English",
+    "german": "Deutsch"
+  },
+  "Nav": {
+    "gallery": "Gallery",
+    "trending": "Trending",
+    "how": "How it works",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "startShoot": "Start a shoot",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "openMenuShort": "Open menu",
+    "closeMenuShort": "Close menu"
+  },
+  "Hero": {
+    "chip": "AI family photo generator",
+    "awardLabel": "Top pick for family photo shoots",
+    "awardEyebrow": "Top pick",
+    "awardRank": "#1",
+    "awardText": "family photo app",
+    "title": "From Messy Phone Pics to Beautiful Family Portraits",
+    "body": "Upload separate photos of each family member, pick a vibe, and get beautiful AI family photos ready to print in about two minutes.",
+    "primaryCta": "Begin a shoot",
+    "secondaryCta": "See the gallery",
+    "customers": "5,000+ happy customers",
+    "rating": "4.8 star rating",
+    "seeCreated": "See what others created",
+    "marqueeLabel": "FamilyShoot customer-style stories",
+    "testimonials": [
+      "I sent my husband, who is serving overseas, a beautiful family portrait with all of us together. He called me crying.",
+      "Every year I use it to create warm Christmas cards for my clients. It saves me a full weekend of work.",
+      "My grandma never had one photo with all the grandkids and grandpa together. We made one for her, printed it, and she keeps it by her bed.",
+      "We finally got a family portrait where nobody was blinking, running away, or making a weird face.",
+      "The kids would never sit still for a studio shoot. This gave us the polished portrait without the chaos.",
+      "I turned a handful of messy phone pictures into a holiday card that looked like we hired a professional photographer.",
+      "Our family lives in three different countries. This made it feel like we were all in the same room again.",
+      "I made matching seasonal portraits for my whole family in minutes, not weeks.",
+      "The pet-friendly option is what sold me. Our dog finally made it into the family Christmas photo.",
+      "I used it for gifts, cards, and framed prints. It turned random camera-roll photos into something emotional."
+    ],
+    "polaroids": {
+      "autumnLabel": "Autumn cabin photo",
+      "autumnCaption": "Autumn cabin",
+      "studioLabel": "Leibovitz studio photo",
+      "studioCaption": "Leibovitz studio",
+      "goldenLabel": "Golden hour photo",
+      "goldenCaption": "Golden hour, back porch"
+    }
+  },
+  "Pricing": {
+    "chip": "Free preview, paid keepsakes",
+    "titleBefore": "Pay for what",
+    "titleEmphasis": "fits",
+    "titleAfter": "your family.",
+    "unlockPrompt": "Choose any pack below to unlock your preview.",
+    "backToPreview": "Back to preview",
+    "previewEyebrow": "Try it before paying",
+    "previewTitle": "Start with a free preview.",
+    "previewBody": "Create your first family portrait as a watermarked preview. If it looks right, unlock the high-res print-ready version.",
+    "previewNote": "No payment needed to preview.",
+    "mostPopular": "Most Popular",
+    "firstSetNote": "Your first photo set can start as a watermarked preview.",
+    "buyCredits": "Buy credits",
+    "startHere": "Start here",
+    "buyAsGift": "Buy as gift",
+    "openingGiftCheckout": "Opening gift checkout...",
+    "proBadge": "Pro",
+    "perMonth": "/month",
+    "proSub": "Built for creators, photographers, and repeat family-card work.",
+    "openingSubscription": "Opening subscription...",
+    "subscribeMonthly": "Subscribe monthly",
+    "tiers": [
+      {
+        "name": "Family Snap",
+        "price": "$5",
+        "sub": "A quick set for one moment.",
+        "features": ["4 high-res photos or cards", "Print-ready files"]
+      },
+      {
+        "name": "Family Album",
+        "price": "$12",
+        "sub": "Best for portraits and cards.",
+        "features": [
+          "24 high-res professional photos",
+          "Portraits and occasion cards",
+          "Downloadable, print-ready files"
+        ]
+      },
+      {
+        "name": "Family Collection",
+        "price": "$25",
+        "sub": "For holidays and family sets.",
+        "features": [
+          "60 high-res professional photos or cards",
+          "Portraits and occasion cards",
+          "Downloadable, print-ready files"
+        ]
+      }
+    ],
+    "proFeatures": [
+      "25 shoots/month, creating 100 high-res photos or cards",
+      "Portraits, cards, invitations, and seasonal moments",
+      "Downloadable, print-ready files",
+      "Priority access to new styles and templates"
+    ]
+  },
+  "SignIn": {
+    "backHome": "Back home",
+    "chip": "Your private album starts here",
+    "titleLine1": "Keep the faces.",
+    "titleLine2Before": "Change the",
+    "titleLine2Emphasis": "world",
+    "body": "Upload everyday snapshots, choose a mood, and turn the people you love into portraits worth framing.",
+    "frames": {
+      "goldenHour": "Golden hour",
+      "cabinSeason": "Cabin season",
+      "cardReady": "Card ready"
+    }
+  },
+  "OtpSignIn": {
+    "chip": "Private studio access",
+    "titleBefore": "Start your",
+    "titleEmphasis": "family shoot",
+    "body": "No password to remember. We'll send one quiet little code and keep your family photos tied to your account.",
+    "openingGoogle": "Opening Google...",
+    "continueGoogle": "Continue with Google",
+    "orEmail": "Or use email",
+    "email": "Email",
+    "code": "Code",
+    "sendCode": "Email me a code",
+    "sendingCode": "Sending code...",
+    "checkingCode": "Checking code...",
+    "enterStudio": "Enter the studio",
+    "resendCode": "Resend code",
+    "resendCodeIn": "Resend code in {time}",
+    "differentEmail": "Use a different email",
+    "invalidEmail": "Enter a real email so we know where to send the code.",
+    "googleError": "Google sign-in did not start.",
+    "sendError": "Could not send the code.",
+    "sentFreshCode": "We sent a fresh 6-digit code to {email}.",
+    "sentCode": "We sent a 6-digit code to {email}.",
+    "shortCode": "Enter the 6-digit code from your email.",
+    "badCode": "That code did not work."
+  },
+  "Studio": {
+    "roster": "Roster",
+    "format": "Format",
+    "vibe": "Vibe",
+    "create": "Create",
+    "regenerate": "Regenerate",
+    "keep": "Keep",
+    "album": "Album",
+    "giftCredits": "Gift credits"
+  }
+}

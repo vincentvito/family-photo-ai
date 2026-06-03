@@ -165,7 +165,7 @@ export function Hero() {
           <Reveal delay={0.18}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
               <div style={{ position: "relative" }}>
-                <HolidayCard occ={occ} size="lg" />
+                <HolidayCard occ={occ} size="lg" priority />
                 <div
                   style={{
                     position: "absolute",

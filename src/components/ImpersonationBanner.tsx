@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { authClient } from "@/lib/auth-client";
 
 export default function ImpersonationBanner() {
