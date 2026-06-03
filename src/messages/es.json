@@ -1,0 +1,159 @@
+{
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "english": "English",
+    "german": "Deutsch"
+  },
+  "Nav": {
+    "gallery": "Galería",
+    "trending": "Tendencias",
+    "how": "Cómo funciona",
+    "pricing": "Precios",
+    "faq": "FAQ",
+    "startShoot": "Empezar sesión",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "openMenuShort": "Abrir menú",
+    "closeMenuShort": "Cerrar menú"
+  },
+  "Hero": {
+    "chip": "Generador de fotos familiares con IA",
+    "awardLabel": "La mejor opción para sesiones de fotos familiares",
+    "awardEyebrow": "Mejor opción",
+    "awardRank": "#1",
+    "awardText": "app de fotos familiares",
+    "title": "De fotos desordenadas del móvil a hermosos retratos familiares",
+    "body": "Sube fotos separadas de cada miembro de la familia, elige un estilo y recibe hermosas fotos familiares con IA listas para imprimir en unos dos minutos.",
+    "primaryCta": "Empezar una sesión",
+    "secondaryCta": "Ver la galería",
+    "customers": "Más de 5.000 clientes felices",
+    "rating": "Calificación de 4,8 estrellas",
+    "seeCreated": "Mira lo que otros crearon",
+    "marqueeLabel": "Historias de clientes de FamilyShoot",
+    "testimonials": [
+      "Le envié a mi esposo, que está sirviendo en el extranjero, un hermoso retrato familiar con todos nosotros juntos. Me llamó llorando.",
+      "Cada año lo uso para crear cálidas tarjetas navideñas para mis clientes. Me ahorra un fin de semana completo de trabajo.",
+      "Mi abuela nunca tuvo una foto con todos los nietos y el abuelo juntos. Hicimos una para ella, la imprimimos y la tiene junto a su cama.",
+      "Por fin tenemos un retrato familiar donde nadie parpadea, sale corriendo ni pone una cara rara.",
+      "Los niños nunca se quedarían quietos para una sesión de estudio. Esto nos dio el retrato pulido sin el caos.",
+      "Convertí unas cuantas fotos desordenadas del móvil en una tarjeta navideña que parecía hecha por un fotógrafo profesional.",
+      "Nuestra familia vive en tres países distintos. Esto hizo que pareciera que estábamos todos en la misma habitación otra vez.",
+      "Creé retratos de temporada coordinados para toda mi familia en minutos, no semanas.",
+      "La opción apta para mascotas fue lo que me convenció. Nuestro perro por fin salió en la foto familiar de Navidad.",
+      "Lo usé para regalos, tarjetas e impresiones enmarcadas. Convirtió fotos aleatorias del carrete en algo emotivo."
+    ],
+    "polaroids": {
+      "autumnLabel": "Foto en cabaña de otoño",
+      "autumnCaption": "Cabaña de otoño",
+      "studioLabel": "Foto de estudio estilo Leibovitz",
+      "studioCaption": "Estudio estilo Leibovitz",
+      "goldenLabel": "Foto de la hora dorada",
+      "goldenCaption": "Hora dorada, porche trasero"
+    }
+  },
+  "Pricing": {
+    "chip": "Vista previa gratis, recuerdos de pago",
+    "titleBefore": "Paga por lo que",
+    "titleEmphasis": "encaja",
+    "titleAfter": "con tu familia.",
+    "unlockPrompt": "Elige cualquier paquete abajo para desbloquear tu vista previa.",
+    "backToPreview": "Volver a la vista previa",
+    "previewEyebrow": "Pruébalo antes de pagar",
+    "previewTitle": "Empieza con una vista previa gratis.",
+    "previewBody": "Crea tu primer retrato familiar como vista previa con marca de agua. Si te gusta, desbloquea la versión en alta resolución lista para imprimir.",
+    "previewNote": "No necesitas pagar para ver la vista previa.",
+    "mostPopular": "Más popular",
+    "firstSetNote": "Tu primer set de fotos puede empezar como una vista previa con marca de agua.",
+    "buyCredits": "Comprar créditos",
+    "startHere": "Empieza aquí",
+    "buyAsGift": "Comprar como regalo",
+    "openingGiftCheckout": "Abriendo compra de regalo...",
+    "proBadge": "Pro",
+    "perMonth": "/mes",
+    "proSub": "Creado para creadores, fotógrafos y trabajos recurrentes de tarjetas familiares.",
+    "openingSubscription": "Abriendo suscripción...",
+    "subscribeMonthly": "Suscribirse mensualmente",
+    "tiers": [
+      {
+        "name": "Family Snap",
+        "price": "$5",
+        "sub": "Un set rápido para un momento.",
+        "features": ["4 fotos o tarjetas en alta resolución", "Archivos listos para imprimir"]
+      },
+      {
+        "name": "Family Album",
+        "price": "$12",
+        "sub": "Ideal para retratos y tarjetas.",
+        "features": [
+          "24 fotos profesionales en alta resolución",
+          "Retratos y tarjetas para ocasiones",
+          "Archivos descargables listos para imprimir"
+        ]
+      },
+      {
+        "name": "Family Collection",
+        "price": "$25",
+        "sub": "Para fiestas y sets familiares.",
+        "features": [
+          "60 fotos o tarjetas profesionales en alta resolución",
+          "Retratos y tarjetas para ocasiones",
+          "Archivos descargables listos para imprimir"
+        ]
+      }
+    ],
+    "proFeatures": [
+      "25 sesiones/mes, creando 100 fotos o tarjetas en alta resolución",
+      "Retratos, tarjetas, invitaciones y momentos de temporada",
+      "Archivos descargables listos para imprimir",
+      "Acceso prioritario a nuevos estilos y plantillas"
+    ]
+  },
+  "SignIn": {
+    "backHome": "Volver al inicio",
+    "chip": "Tu álbum privado empieza aquí",
+    "titleLine1": "Conserva los rostros.",
+    "titleLine2Before": "Cambia el",
+    "titleLine2Emphasis": "mundo",
+    "body": "Sube instantáneas cotidianas, elige un ambiente y convierte a las personas que amas en retratos dignos de enmarcar.",
+    "frames": {
+      "goldenHour": "Hora dorada",
+      "cabinSeason": "Temporada de cabaña",
+      "cardReady": "Lista para tarjeta"
+    }
+  },
+  "OtpSignIn": {
+    "chip": "Acceso privado al estudio",
+    "titleBefore": "Empieza tu",
+    "titleEmphasis": "sesión familiar",
+    "body": "Sin contraseñas que recordar. Te enviaremos un código breve y mantendremos tus fotos familiares vinculadas a tu cuenta.",
+    "openingGoogle": "Abriendo Google...",
+    "continueGoogle": "Continuar con Google",
+    "orEmail": "O usa email",
+    "email": "Email",
+    "code": "Código",
+    "sendCode": "Enviarme un código por email",
+    "sendingCode": "Enviando código...",
+    "checkingCode": "Comprobando código...",
+    "enterStudio": "Entrar al estudio",
+    "resendCode": "Reenviar código",
+    "resendCodeIn": "Reenviar código en {time}",
+    "differentEmail": "Usar otro email",
+    "invalidEmail": "Introduce un email real para que sepamos dónde enviar el código.",
+    "googleError": "No se pudo iniciar sesión con Google.",
+    "sendError": "No se pudo enviar el código.",
+    "sentFreshCode": "Enviamos un nuevo código de 6 dígitos a {email}.",
+    "sentCode": "Enviamos un código de 6 dígitos a {email}.",
+    "shortCode": "Introduce el código de 6 dígitos de tu email.",
+    "badCode": "Ese código no funcionó."
+  },
+  "Studio": {
+    "roster": "Personas",
+    "format": "Formato",
+    "vibe": "Estilo",
+    "create": "Crear",
+    "regenerate": "Regenerar",
+    "keep": "Guardar",
+    "album": "Álbum",
+    "giftCredits": "Regalar créditos"
+  }
+}
