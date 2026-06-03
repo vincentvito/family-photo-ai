@@ -66,7 +66,7 @@ export default function Nav({
 
         <div className="hidden items-center gap-2 md:flex">
           <LocaleSwitcher />
-          <LocalizedLink href="/sign-in" className="btn btn-coral btn-sm">
+          <LocalizedLink href="/sign-in?next=/studio/roster" className="btn btn-coral btn-sm">
             {t("startShoot")}
           </LocalizedLink>
         </div>
@@ -104,7 +104,7 @@ export default function Nav({
               </MobileNavLink>
             ))}
             <LocalizedLink
-              href="/sign-in"
+              href="/sign-in?next=/studio/roster"
               onClick={() => setOpen(false)}
               className="btn btn-coral mt-2 w-full"
             >

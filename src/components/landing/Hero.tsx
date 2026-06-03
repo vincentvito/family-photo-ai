@@ -212,7 +212,7 @@ export default function Hero() {
               {t("body")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <LocalizedLink href="/sign-in" className="btn btn-coral btn-lg">
+              <LocalizedLink href="/studio/roster" className="btn btn-coral btn-lg">
                 {t("primaryCta")}
                 <svg
                   className="h-4 w-4"
@@ -231,6 +231,9 @@ export default function Hero() {
                 {t("secondaryCta")}
               </a>
             </div>
+            <p className="mt-3 text-sm font-medium text-[color:var(--color-ink-muted)]">
+              No credit card required. Add an email only when you are ready to generate.
+            </p>
             <StatsBar className="mt-8 hidden sm:flex" />
           </motion.div>
 

@@ -1,16 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LOCALES, type Locale, localizePath } from "@/lib/i18n/locales";
 
 export default function LocaleSwitcher() {
+  const router = useRouter();
   const activeLocale = useLocale() as Locale;
   const pathname = usePathname() ?? "/";
   const searchParams = useSearchParams();
   const query = searchParams.toString();
   const t = useTranslations("LocaleSwitcher");
+  const [, startTransition] = useTransition();
+
+  function switchLocale(href: string) {
+    startTransition(() => {
+      router.push(href);
+      router.refresh();
+    });
+  }
 
   return (
     <div className="flex items-center gap-1 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-1 text-xs font-semibold">
@@ -23,6 +33,11 @@ export default function LocaleSwitcher() {
             key={locale}
             href={href}
             hrefLang={locale}
+            onClick={(event) => {
+              if (active) return;
+              event.preventDefault();
+              switchLocale(href);
+            }}
             className={`rounded-full px-2.5 py-1 transition-colors ${
               active
                 ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)]"

@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Theme } from "@/lib/themes";
 import type { AspectRatio } from "@/lib/providers/types";
+import { authClient } from "@/lib/auth-client";
 import ThemeCard from "./ThemeCard";
 import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
@@ -27,6 +28,8 @@ import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
 type OutputMode = "photoshoot" | "card";
+type PendingShoot = { kind: "theme"; themes: Theme[] } | { kind: "custom" };
+type AuthResume = { kind: "shoot"; shoot: PendingShoot } | { kind: "card"; theme: Theme };
 const CUSTOM_AUTO_RATIO: AspectRatio = "2:3";
 const ADD_CREDITS_MESSAGE =
   "Your free preview is one-time. Add credits before starting another one.";
@@ -75,6 +78,7 @@ export default function ThemeBoard({
   outputMode,
   isProSubscriber,
   subscriptionRenewalDate,
+  isAuthenticated,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -87,6 +91,7 @@ export default function ThemeBoard({
   outputMode: OutputMode;
   isProSubscriber: boolean;
   subscriptionRenewalDate: string | null;
+  isAuthenticated: boolean;
 }) {
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
@@ -107,13 +112,13 @@ export default function ThemeBoard({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [creditDialogOpen, setCreditDialogOpen] = useState(
-    () => creditBalance <= 0 && !canStartFreePreview,
+    () => isAuthenticated && creditBalance <= 0 && !canStartFreePreview,
   );
   const [cardsExpanded, setCardsExpanded] = useState(false);
   const [mode, setMode] = useState<"curated" | "custom">("curated");
-  const [pendingShoot, setPendingShoot] = useState<
-    { kind: "theme"; themes: Theme[] } | { kind: "custom" } | null
-  >(null);
+  const [pendingShoot, setPendingShoot] = useState<PendingShoot | null>(null);
+  const [authResume, setAuthResume] = useState<AuthResume | null>(null);
+  const [generationAuthReady, setGenerationAuthReady] = useState(isAuthenticated);
   const subjectLimit = isAdmin ? null : MAX_SHOT_SUBJECTS;
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(() => new Set());
   const router = useRouter();
@@ -182,9 +187,13 @@ export default function ThemeBoard({
     return themeRatio ?? CUSTOM_AUTO_RATIO;
   };
   const hasCredits = creditBalance > 0;
-  const canCreateShoot = hasCredits || canStartFreePreview;
-  const disabledLabel = canStartFreePreview ? "Free preview" : "Add credits first";
-  const outOfCredits = !hasCredits && !canStartFreePreview;
+  const canCreateShoot = !generationAuthReady || hasCredits || canStartFreePreview;
+  const disabledLabel = !generationAuthReady
+    ? "Sign in to generate"
+    : canStartFreePreview
+      ? "Free preview"
+      : "Add credits first";
+  const outOfCredits = generationAuthReady && !hasCredits && !canStartFreePreview;
   const themeActionLabel = useMemo(() => {
     if (!canCreateShoot) return disabledLabel;
     return selectedThemeIds.length === 0 ? "Select vibe" : "Toggle vibe";
@@ -193,6 +202,11 @@ export default function ThemeBoard({
   const openCreditDialog = useCallback(() => {
     setError(null);
     setCreditDialogOpen(true);
+  }, []);
+
+  const openGenerationAuth = useCallback((resume: AuthResume) => {
+    setError(null);
+    setAuthResume(resume);
   }, []);
 
   const handleStartError = (fallback: string) => (e: unknown) => {
@@ -248,13 +262,13 @@ export default function ThemeBoard({
   }, [canCreateShoot, openCreditDialog, selectedThemes]);
 
   const launch = (theme: Theme) => {
-    if (!canCreateShoot) {
-      openCreditDialog();
-      return;
-    }
     setError(null);
     if (outputMode === "card") {
       router.push(`/studio/theme?output=card&card=${encodeURIComponent(theme.id)}`);
+      return;
+    }
+    if (!canCreateShoot) {
+      openCreditDialog();
       return;
     }
     setPendingShoot({ kind: "theme", themes: [theme] });
@@ -279,11 +293,7 @@ export default function ThemeBoard({
     setPendingShoot({ kind: "custom" });
   };
 
-  const confirmShoot = () => {
-    if (!pendingShoot) return;
-    const shoot = pendingShoot;
-    setPendingShoot(null);
-
+  const executeShoot = (shoot: PendingShoot) => {
     if (shoot.kind === "theme") {
       const themes = shoot.themes;
       const theme = themes[0];
@@ -345,6 +355,17 @@ export default function ThemeBoard({
     });
   };
 
+  const confirmShoot = () => {
+    if (!pendingShoot) return;
+    const shoot = pendingShoot;
+    setPendingShoot(null);
+    if (!generationAuthReady) {
+      openGenerationAuth({ kind: "shoot", shoot });
+      return;
+    }
+    executeShoot(shoot);
+  };
+
   const beginCardShoot = () => {
     if (!selectedCardTheme) return;
     if (!canCreateShoot) {
@@ -357,6 +378,14 @@ export default function ThemeBoard({
     }
 
     const theme = selectedCardTheme;
+    if (!generationAuthReady) {
+      openGenerationAuth({ kind: "card", theme });
+      return;
+    }
+    executeCardShoot(theme);
+  };
+
+  const executeCardShoot = (theme: Theme) => {
     setError(null);
     setActiveTheme(theme);
     setLaunchingCustom(false);
@@ -398,6 +427,21 @@ export default function ThemeBoard({
     }
     return data;
   }
+
+  const handleGenerationAuthVerified = () => {
+    const resume = authResume;
+    if (!resume) return;
+
+    setGenerationAuthReady(true);
+    setAuthResume(null);
+    router.refresh();
+
+    if (resume.kind === "shoot") {
+      executeShoot(resume.shoot);
+      return;
+    }
+    executeCardShoot(resume.theme);
+  };
 
   const confirmTitle = (() => {
     if (!pendingShoot) return "";
@@ -474,7 +518,7 @@ export default function ThemeBoard({
         </div>
       )}
 
-      {!hasCredits && canStartFreePreview && (
+      {generationAuthReady && !hasCredits && canStartFreePreview && (
         <section className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)] sm:p-6">
           <span className="chip chip-butter">
             <span className="dot dot-butter" />
@@ -774,8 +818,10 @@ export default function ThemeBoard({
                             canCreateShoot && selectedHasReference ? "btn-coral" : "btn-ghost"
                           }`}
                         >
-                          {!canCreateShoot
-                            ? "Add credits to begin"
+                          {!generationAuthReady
+                            ? "Sign in to generate"
+                            : !canCreateShoot
+                              ? "Add credits to begin"
                             : pending && activeTheme?.id === selectedCardTheme.id
                               ? "Setting up..."
                               : hasCredits
@@ -1021,8 +1067,10 @@ export default function ThemeBoard({
                   disabled={pending || customDescription.trim().length < 4}
                   className={`btn btn-lg ${canCreateShoot ? "btn-coral" : "btn-ghost"}`}
                 >
-                  {!canCreateShoot
-                    ? "Add credits to begin"
+                  {!generationAuthReady
+                    ? "Sign in to generate"
+                    : !canCreateShoot
+                      ? "Add credits to begin"
                     : pending && launchingCustom
                       ? "Setting up…"
                       : hasCredits
@@ -1076,8 +1124,10 @@ export default function ThemeBoard({
               canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"
             }`}
           >
-            {!canCreateShoot
-              ? "Add credits to begin"
+            {!generationAuthReady
+              ? "Sign in to generate"
+              : !canCreateShoot
+                ? "Add credits to begin"
               : pending
                 ? "Setting up..."
                 : hasCredits
@@ -1157,6 +1207,12 @@ export default function ThemeBoard({
         )}
       </ConfirmDialog>
 
+      <InlineGenerationAuthGate
+        open={!!authResume}
+        onClose={() => setAuthResume(null)}
+        onVerified={handleGenerationAuthVerified}
+      />
+
       <CreditPurchaseDialog
         open={creditDialogOpen}
         isProSubscriber={isProSubscriber}
@@ -1169,4 +1225,262 @@ export default function ThemeBoard({
 
 function isCreditError(message: string) {
   return message === ADD_CREDITS_MESSAGE || message === BUY_PACK_MESSAGE;
+}
+
+function InlineGenerationAuthGate({
+  open,
+  onClose,
+  onVerified,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onVerified: () => void;
+}) {
+  const [step, setStep] = useState<"email" | "code">("email");
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [pending, start] = useTransition();
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const cooldownActive = resendCooldown > 0;
+  const reset = useCallback(() => {
+    setStep("email");
+    setEmail("");
+    setOtp("");
+    setMarketingOptIn(false);
+    setMessage(null);
+    setError(null);
+    setResendCooldown(0);
+  }, []);
+  const close = useCallback(() => {
+    reset();
+    onClose();
+  }, [onClose, reset]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !pending) close();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [close, open, pending]);
+
+  useEffect(() => {
+    if (!cooldownActive) return;
+    const interval = window.setInterval(() => {
+      setResendCooldown((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, [cooldownActive]);
+
+  if (!open) return null;
+
+  const sendCode = () => {
+    setError(null);
+    setMessage(null);
+
+    if (step === "code" && cooldownActive) return;
+    if (!normalizedEmail || !normalizedEmail.includes("@")) {
+      setError("Enter the email for your FamilyShoot account.");
+      return;
+    }
+
+    start(async () => {
+      const result = await authClient.emailOtp.sendVerificationOtp({
+        email: normalizedEmail,
+        type: "sign-in",
+      });
+
+      if (result.error) {
+        setError(result.error.message ?? "Could not send the code.");
+        return;
+      }
+
+      setStep("code");
+      setOtp("");
+      setResendCooldown(60);
+      setMessage(`We sent a 6-digit code to ${normalizedEmail}.`);
+    });
+  };
+
+  const verifyCode = () => {
+    setError(null);
+    setMessage(null);
+
+    if (otp.trim().length < 6) {
+      setError("Enter the 6-digit code from your email.");
+      return;
+    }
+
+    start(async () => {
+      const result = await authClient.signIn.emailOtp({
+        email: normalizedEmail,
+        otp: otp.trim(),
+      });
+
+      if (result.error) {
+        setError(result.error.message ?? "That code did not work.");
+        return;
+      }
+
+      const consent = await fetch("/api/account/marketing-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ optIn: marketingOptIn, source: "generation_gate" }),
+      }).catch((err) => {
+        console.error("Failed to claim temp roster after inline OTP", err);
+        return null;
+      });
+
+      if (!consent || !consent.ok) {
+        setError("You are signed in, but we could not attach this roster. Please try again.");
+        return;
+      }
+
+      onVerified();
+    });
+  };
+
+  const resendLabel = cooldownActive
+    ? `Resend in ${Math.floor(resendCooldown / 60)}:${String(resendCooldown % 60).padStart(2, "0")}`
+    : "Resend code";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-[color:rgba(31,26,36,0.48)] p-3 backdrop-blur-sm sm:items-center sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="generation-auth-title"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget && !pending) close();
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 22, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 14, scale: 0.98 }}
+        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-md rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] p-5 shadow-[var(--shadow-xl)] sm:p-6"
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <span className="chip chip-coral">
+              <span className="dot dot-coral" />
+              Save or load account
+            </span>
+            <h2
+              id="generation-auth-title"
+              className="serif mt-4 text-3xl leading-tight tracking-[-0.02em]"
+            >
+              Enter your email to start.
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              If you already have an account, we&apos;ll load your roster and credits. Once the code
+              checks out, this shoot starts automatically.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            disabled={pending}
+            className="spring-press inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] text-[color:var(--color-ink-muted)] transition hover:text-[color:var(--color-ink)] disabled:opacity-50"
+            aria-label="Close"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+              <path
+                d="M2 2L12 12M12 2L2 12"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <label className="mt-6 block">
+          <span className="small-caps text-[color:var(--color-ink-muted)]">Email</span>
+          <input
+            type="email"
+            autoComplete="email"
+            value={email}
+            disabled={pending || step === "code"}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            className="mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-3 outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-65"
+          />
+        </label>
+
+        {step === "code" && (
+          <label className="mt-4 block">
+            <span className="small-caps text-[color:var(--color-ink-muted)]">Code</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={otp}
+              disabled={pending}
+              onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="000000"
+              className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-center text-3xl tracking-[0.32em] outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)] disabled:opacity-65"
+            />
+          </label>
+        )}
+
+        <label className="mt-4 flex gap-3 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-ink-muted)]">
+          <input
+            type="checkbox"
+            checked={marketingOptIn}
+            disabled={pending}
+            onChange={(event) => setMarketingOptIn(event.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-[color:var(--color-line-strong)] accent-[color:var(--color-coral)]"
+          />
+          <span>Send me product updates, new styles, offers, and tips.</span>
+        </label>
+
+        {message && (
+          <p className="mt-4 rounded-[var(--radius-md)] bg-[color:var(--color-bg-tinted-sage)] px-4 py-3 text-sm text-[color:var(--color-sage-deep)]">
+            {message}
+          </p>
+        )}
+        {error && (
+          <p className="mt-4 rounded-[var(--radius-md)] bg-[color:var(--color-bg-tinted-coral)] px-4 py-3 text-sm text-[color:var(--color-coral-deep)]">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-5 flex flex-col gap-2">
+          <button
+            type="button"
+            disabled={pending}
+            onClick={step === "email" ? sendCode : verifyCode}
+            className="btn btn-coral btn-lg w-full"
+          >
+            {pending
+              ? step === "email"
+                ? "Sending code..."
+                : "Starting shoot..."
+              : step === "email"
+                ? "Send code"
+                : "Start my shoot"}
+          </button>
+          {step === "code" && (
+            <button
+              type="button"
+              disabled={pending || cooldownActive}
+              onClick={sendCode}
+              className="w-full rounded-[var(--radius-md)] border border-[color:var(--color-line)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:border-[color:var(--color-line-strong)] hover:text-[color:var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {resendLabel}
+            </button>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
 }

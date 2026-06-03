@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth-helpers";
 import {
   getCreditBalance,
@@ -18,13 +17,9 @@ export default async function StudioLayout({ children }: { children: React.React
   const messages = getMessages(locale).Studio;
   const session = await getCurrentSession();
 
-  if (!session) {
-    redirect(localizePath("/sign-in", locale));
-  }
-
   const [balance, subscription] = await Promise.all([
-    getCreditBalance(session.user.id),
-    getCurrentSubscription(session.user.id),
+    session ? getCreditBalance(session.user.id) : Promise.resolve(0),
+    session ? getCurrentSubscription(session.user.id) : Promise.resolve(null),
   ]);
 
   return (
@@ -38,12 +33,23 @@ export default async function StudioLayout({ children }: { children: React.React
           />
           <StudioStepper />
           <div className="flex items-center gap-3">
-            <CreditBalanceBadge
-              balance={balance}
-              isProSubscriber={isActiveSubscriptionStatus(subscription?.status)}
-              currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
-            />
-            <AccountSlot session={session} />
+            {session ? (
+              <>
+                <CreditBalanceBadge
+                  balance={balance}
+                  isProSubscriber={isActiveSubscriptionStatus(subscription?.status)}
+                  currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
+                />
+                <AccountSlot session={session} />
+              </>
+            ) : (
+              <Link
+                href={localizePath("/sign-in?next=/studio/album", locale)}
+                className="btn btn-coral btn-sm"
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
         <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/55">
@@ -51,12 +57,16 @@ export default async function StudioLayout({ children }: { children: React.React
             <Link href={localizePath("/studio/roster", locale)} className="btn btn-ghost btn-sm">
               {messages.roster}
             </Link>
-            <Link href={localizePath("/studio/album", locale)} className="btn btn-ghost btn-sm">
-              {messages.album}
-            </Link>
-            <Link href={localizePath("/studio/gifts", locale)} className="btn btn-ghost btn-sm">
-              {messages.giftCredits}
-            </Link>
+            {session && (
+              <>
+                <Link href={localizePath("/studio/album", locale)} className="btn btn-ghost btn-sm">
+                  {messages.album}
+                </Link>
+                <Link href={localizePath("/studio/gifts", locale)} className="btn btn-ghost btn-sm">
+                  {messages.giftCredits}
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

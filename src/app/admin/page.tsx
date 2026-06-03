@@ -16,6 +16,7 @@ import {
 import DefaultModelPicker from "./DefaultModelPicker";
 import CreditGrantForm from "./CreditGrantForm";
 import UserAdminRoleButton from "./UserAdminRoleButton";
+import ImpersonateButton from "./ImpersonateButton";
 
 export const dynamic = "force-dynamic";
 
@@ -719,6 +720,9 @@ async function UsersList({
                 <span className="hidden text-xs text-[color:var(--color-ink-faint)] sm:inline">
                   {formatRelative(u.createdAt)}
                 </span>
+                {u.id !== currentUserId && (
+                  <ImpersonateButton userId={u.id} email={u.email} />
+                )}
                 {canManageRoles && u.id !== currentUserId && (
                   <UserAdminRoleButton userId={u.id} email={u.email} isAdmin={userIsAdmin} />
                 )}

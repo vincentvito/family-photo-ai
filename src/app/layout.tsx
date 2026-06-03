@@ -3,6 +3,7 @@ import { Inter, Fraunces } from "next/font/google";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import ImpersonationBanner from "@/components/ImpersonationBanner";
 import { getMessages } from "@/lib/i18n/locales";
 import { getRequestLocale } from "@/lib/i18n/server";
 import "./globals.css";
@@ -193,6 +194,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale} className={`${inter.variable} ${fraunces.variable}`}>
       <body className="antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ImpersonationBanner />
           {children}
         </NextIntlClientProvider>
         <script
