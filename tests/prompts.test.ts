@@ -177,8 +177,29 @@ const TREND_LED_VIBE_SLUGS = [
   "noughties-family-throwback-photos",
 ];
 
+const WEEKLY_TREND_THEME_IDS = [
+  "dockside-family-weekend",
+  "backyard-sports-day-portrait",
+  "slow-travel-summer-picnic",
+  "sunset-festival-family-glow",
+  "summer-color-pop-studio",
+  "whimsical-adventure-postcard",
+];
+
+const WEEKLY_TREND_VIBE_SLUGS = [
+  "dockside-family-weekend-photos",
+  "backyard-sports-day-family-photos",
+  "slow-travel-summer-picnic-family-photos",
+  "sunset-festival-family-glow-photos",
+  "summer-color-pop-studio-family-photos",
+  "whimsical-adventure-postcard-family-photos",
+];
+
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
+
+const WEEKLY_BLOCKED_TERMS =
+  /\b(Barbie|Swift|Beyonce|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
 
 test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
@@ -226,6 +247,99 @@ test("creative prompt ideas are selectable app themes with homepage-ready images
 
   for (const slug of CREATIVE_PROMPT_VIBE_SLUGS) {
     assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
+  }
+});
+
+test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated", () => {
+  const themeIds = new Set(THEMES.map((theme) => theme.id));
+  const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
+  const themeIdCounts = new Map<string, number>();
+  const vibeSlugCounts = new Map<string, number>();
+
+  for (const theme of THEMES) {
+    themeIdCounts.set(theme.id, (themeIdCounts.get(theme.id) ?? 0) + 1);
+  }
+  for (const vibe of VIBES) {
+    vibeSlugCounts.set(vibe.slug, (vibeSlugCounts.get(vibe.slug) ?? 0) + 1);
+  }
+
+  for (const [id, count] of themeIdCounts) {
+    assert.equal(count, 1, `${id} should be a unique theme id`);
+  }
+  for (const [slug, count] of vibeSlugCounts) {
+    assert.equal(count, 1, `${slug} should be a unique vibe slug`);
+  }
+
+  for (const themeId of WEEKLY_TREND_THEME_IDS) {
+    assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
+    const theme = getTheme(themeId);
+    assert.ok(theme.name.trim(), `${themeId} should have a label`);
+    assert.ok(theme.blurb.trim(), `${themeId} should have a blurb`);
+    assert.ok(theme.coverImage.startsWith("/samples/"), `${themeId} should use owned sample art`);
+    assert.equal(theme.provider, "nanobanana");
+    assert.equal(theme.supportsPets, true);
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+
+    const promptFields = [
+      theme.name,
+      theme.blurb,
+      theme.spec.assetType,
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+      getThemeVariationPrompts(theme.id, theme.category).join(" "),
+    ].join(" ");
+
+    assert.doesNotMatch(promptFields, WEEKLY_BLOCKED_TERMS);
+    assert.doesNotMatch(promptFields, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+
+    const peopleOnlyPrompt = buildGenerationPrompt(
+      theme,
+      [
+        {
+          personId: "adult-1",
+          name: "Adult One",
+          role: "adult",
+          notes: null,
+          referencePaths: ["adult-one.jpg"],
+        },
+        {
+          personId: "child-1",
+          name: "Child One",
+          role: "child",
+          notes: null,
+          referencePaths: ["child-one.jpg"],
+        },
+      ],
+      null,
+      null,
+    );
+
+    assert.doesNotMatch(peopleOnlyPrompt, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+  }
+
+  for (const slug of WEEKLY_TREND_VIBE_SLUGS) {
+    assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
+    const vibe = VIBES.find((entry) => entry.slug === slug)!;
+    assert.ok(vibe.name.trim(), `${slug} should have a name`);
+    assert.ok(vibe.keyword.trim(), `${slug} should have a primary keyword`);
+    assert.ok(vibe.secondaryKeywords.length >= 3, `${slug} should have secondary keywords`);
+    assert.ok(vibe.image.startsWith("/samples/"), `${slug} should use owned sample art`);
+    assert.ok(vibe.shortDescription.trim(), `${slug} should have a short description`);
+    assert.ok(vibe.related.length >= 3, `${slug} should expose related routes`);
+    assert.doesNotMatch(
+      [
+        vibe.name,
+        vibe.keyword,
+        vibe.shortDescription,
+        vibe.secondaryKeywords.join(" "),
+        vibe.related.join(" "),
+      ].join(" "),
+      WEEKLY_BLOCKED_TERMS,
+    );
   }
 });
 

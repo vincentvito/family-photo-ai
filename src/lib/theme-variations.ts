@@ -67,6 +67,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Sticker-album family frame: selected cast close together with casual striped tops, hoodies or denim, direct flash, cheerful clutter and premium print-ready color.",
     "Low playful crop: selected cast partially surrounded by colorful plastic balls or party props, one subject cropped candidly, warm JPEG-era color character and natural smiles.",
   ],
+  "dockside-family-weekend": [
+    "End-of-dock portrait: selected cast gathered near the lake edge on weathered planks, folded towels and canvas tote nearby, waterline low and faces warmly rim-lit.",
+    "Boat-cushion candid: selected cast seated or leaning around simple boat cushions and dock cleats, relaxed weekend gestures, lake house and pines softened behind.",
+    "Shoreline walk proof: selected cast walking along the dock toward camera, striped towels over shoulders, safe rail or shoreline context visible, full bodies when natural.",
+    "Tight lake-glow crop: waist-up grouping with sparkling water bokeh behind, breezy hair, sun-faded summer color and clear subject separation.",
+  ],
+  "backyard-sports-day-portrait": [
+    "Relay-lane hero: selected cast in blank athletic tops at chalk lane marks, one ribbon marker or baton prop, joyful motion with readable faces and no team branding.",
+    "Trophy-ribbon portrait: selected cast clustered around simple ribbons and lawn-game props, funny-proud expressions, grass field and cones framing the foreground.",
+    "Low sideline action: selected cast mid-game on backyard grass, sneakers and hands visible, bright open-shade sports-lifestyle polish and no sponsor marks.",
+    "Team-photo field day: selected cast arranged like a friendly family squad portrait in blank jerseys, chalkboard-free background, cones and ribbon markers only.",
+  ],
+  "slow-travel-summer-picnic": [
+    "Market-blanket scene: selected cast seated around a checked blanket with fruit, basket and paper maps, meadow or village view behind, relaxed hands and smiles.",
+    "Canal-path picnic: selected cast near a quiet towpath or overlook, blanket edge in foreground, wildflowers and travel bag details, slow afternoon light.",
+    "Passing-fruit candid: selected cast sharing berries or bread on the blanket, overlapping hands, natural laughter and warm travel-photo grain.",
+    "Wide postcard meadow: selected cast smaller in a scenic summer field with blanket and basket visible, plenty of sky and landscape, calm editorial spacing.",
+  ],
+  "sunset-festival-family-glow": [
+    "Lantern-lane portrait: selected cast standing under paper lanterns and string lights at sunset, soft crowd-free bokeh, coral and teal fabric flags framing faces.",
+    "Food-stall glow candid: selected cast near simple family-friendly stall shapes, warm lantern light, safe snack props, no alcohol cues and no readable signs.",
+    "Festival-close sparkle: waist-up selected-cast grouping with tasteful face-safe sparkle and warm golden rim light, glowing lights behind and clean subject separation.",
+    "Wide evening fairway: selected cast walking through a quiet festival lane, flags and lights overhead, sunset sky visible, joyful print-ready color without performer likeness.",
+  ],
+  "summer-color-pop-studio": [
+    "Color-block lineup: selected cast full-to-three-quarter body on a seamless studio floor, turquoise, red and yellow panels behind, glossy props spaced cleanly.",
+    "Beach-ball campaign crop: selected cast shoulder-to-knee with beach-ball shapes and striped mats, bright commercial smiles, crisp catchlights and no text.",
+    "Graphic staggered pose: selected cast spread across the white cyclorama with bold summer color blocks, visible hands and stable contact shadows.",
+    "Tight pop portrait: selected cast clustered against saturated color panels, sunglasses as simple props where natural, polished skin texture and clean white margins.",
+  ],
+  "whimsical-adventure-postcard": [
+    "Station-platform postcard: selected cast beside oversized luggage on a tiny illustrated platform, rolling hills behind, decorative blank border and no readable text.",
+    "Map-edge overlook: selected cast at a scenic storybook overlook with painted map-edge shapes framing the corners, warm sky wash and clear faces.",
+    "Adventure-procession proof: selected cast walking along a curved path with bags and flags, playful silhouettes, gouache texture and original non-franchise charm.",
+    "Close painted keepsake: selected cast waist-up within a whimsical postcard frame, clouds and hills behind, warm paper texture and cheerful color separation.",
+  ],
   "private-jet-family": [
     "Cabin lounge editorial: selected cast arranged across cream leather seats inside the private jet, polished wood trim and oval windows visible, faces readable in soft daylight.",
     "Aisle arrival portrait: selected cast standing or leaning along the jet aisle with premium luggage nearby, staggered warm poses, no visible brand logos or airline marks.",

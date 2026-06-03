@@ -691,6 +691,138 @@ export const THEMES: Theme[] = [
         "premium noughties throwback photography, casual denim and layered knits, sticker-album and mall-photo mood, soft JPEG-era color character, polished for print, no phone-screen props",
     },
   },
+  {
+    id: "dockside-family-weekend",
+    name: "Dockside Family Weekend",
+    blurb:
+      "Weathered planks, lake light, striped towels, canvas totes, and the easy rhythm of a long summer weekend by the dock.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-lake-house.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm lakeside editorial family photograph",
+      scene:
+        "a quiet wooden dock at a lake house, still water, pine shoreline, folded towels, canvas totes, boat cushions and summer-weekend details without visible brands",
+      camera:
+        "Contax 645 medium format with an 80mm lens, low dock-level environmental portrait perspective, readable faces with water and shoreline context",
+      lighting:
+        "late-afternoon sun skimming across the lake, soft water-bounced fill, warm rim light on hair and shoulders, gentle highlight sparkle without blown-out whites",
+      style:
+        "Kodak Portra 400 medium format, lake blue, sun-faded red, towel stripe, pine green and warm cedar palette, relaxed documentary polish, no boat logos or marina branding",
+    },
+  },
+  {
+    id: "backyard-sports-day-portrait",
+    name: "Backyard Sports Day Portrait",
+    blurb:
+      "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 upbeat backyard sports-day family photograph",
+      scene:
+        "a tidy backyard or neighborhood grass field set for a friendly family sports day, chalk lane marks, cones, ribbon markers, lawn-game props and blank athletic tops with no team identifiers",
+      camera:
+        "sports-lifestyle photographer perspective with a 35mm lens, low eye-level framing, enough space for full-body motion and readable faces",
+      lighting:
+        "bright late-morning sun softened by open shade, crisp grass bounce, clean rim highlights on active silhouettes and clear skin tones",
+      style:
+        "commercial lifestyle sports photography, fresh grass green, sky blue, white, red and sunny yellow accents, realistic motion, print-ready color, no club crests, sponsors, league marks or athlete likeness",
+    },
+  },
+  {
+    id: "slow-travel-summer-picnic",
+    name: "Slow Travel Summer Picnic",
+    blurb:
+      "A checked blanket, market fruit, linen layers, paper maps, wildflowers, and unhurried travel light on a warm afternoon.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-backyard-picnic.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 sunlit slow-travel picnic family photograph",
+      scene:
+        "a scenic summer picnic near a quiet meadow, canal path or village overlook, checked blanket, market fruit, paper maps, woven basket, wildflowers and simple travel details",
+      camera:
+        "Leica M10 with a 35mm Summilux lens, blanket-level documentary framing, relaxed environmental portrait with landscape and picnic textures held in balance",
+      lighting:
+        "soft golden afternoon light filtered through trees, grass-bounced fill, gentle haze in the background and flattering open shade on faces",
+      style:
+        "Kodak Gold 200 travel-photo warmth, cream linen, tomato red, meadow green, sky blue and sunflower yellow palette, natural grain, unhurried editorial keepsake finish",
+    },
+  },
+  {
+    id: "sunset-festival-family-glow",
+    name: "Sunset Festival Family Glow",
+    blurb:
+      "String lights, paper lanterns, food-stall color, face-safe sparkle, and golden-hour festival warmth without the late-night edge.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-new-years.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 golden-hour outdoor festival family portrait",
+      scene:
+        "a family-friendly summer festival lane at sunset, string lights, paper lanterns, colorful fabric flags, simple food-stall shapes and soft crowd-free background atmosphere",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical editorial framing, shallow depth of field with glowing lights and clean subject separation",
+      lighting:
+        "warm sunset backlight mixed with amber lantern glow, soft front fill for readable faces, gentle bokeh highlights and controlled contrast",
+      style:
+        "premium outdoor lifestyle photography, coral, teal, marigold, denim and warm cream palette, tasteful face-safe sparkle details, joyful print-ready glow, no alcohol cues, drug cues, logos or performer likeness",
+    },
+  },
+  {
+    id: "summer-color-pop-studio",
+    name: "Summer Color Pop Studio",
+    blurb:
+      "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 high-key summer color-pop studio family portrait",
+      scene:
+        "a clean seamless studio with bold color-block panels, glossy beach-ball shapes, simple sunglasses, striped mats and summer props without readable text or brands",
+      camera:
+        "digital medium-format camera with a 50mm lens, straight-on commercial studio framing, graphic spacing with crisp silhouettes and visible hands",
+      lighting:
+        "large high-key softboxes, polished catchlights, clean contact shadows on the cyclorama floor and saturated color reflections kept off skin tones",
+      style:
+        "bright commercial campaign photography, turquoise, cherry red, lemon yellow, white and grass green palette, glossy summer energy, natural facial detail, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "whimsical-adventure-postcard",
+    name: "Whimsical Adventure Postcard",
+    blurb:
+      "A playful original travel postcard come to life with painted skies, oversized luggage, map edges, and storybook-adventure charm.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-watercolor-storybook.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical illustrated travel-postcard family portrait",
+      scene:
+        "an original storybook travel scene with rolling hills, a tiny station platform or scenic overlook, oversized luggage, map-border shapes and decorative postcard framing with no readable text",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter perspective, clear character silhouettes, readable faces and a balanced postcard layout",
+      lighting:
+        "warm painted sunset wash, soft sky glow, gentle rim highlights and cheerful color separation across the scene",
+      style:
+        "hand-painted gouache and watercolor postcard texture, sky blue, leaf green, poppy red, butter yellow and warm paper palette, family-safe adventure mood, no franchise characters, no logos, no text, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
