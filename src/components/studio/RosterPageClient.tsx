@@ -144,18 +144,17 @@ function ReturningAccountBanner() {
         <div>
           <span className="chip chip-sage">
             <span className="dot dot-sage" />
-            Already have an account?
+            Returning?
           </span>
           <p className="serif mt-2 text-2xl leading-tight tracking-[-0.02em] text-[color:var(--color-ink)] sm:text-3xl">
-            Sign in to load your roster and credits.
+            Already have an account?
           </p>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-            We&apos;ll bring back your saved people, reference photos, album, and any available
-            shoots.
+            Sign in to bring back your saved people, credits, album, and reference photos.
           </p>
         </div>
         <Link href="/sign-in?next=/studio/roster" className="btn btn-coral shrink-0">
-          Sign in to load roster
+          I already have an account
           <svg
             className="h-4 w-4"
             viewBox="0 0 24 24"
