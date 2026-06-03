@@ -1,7 +1,8 @@
 import de from "@/messages/de.json";
 import en from "@/messages/en.json";
+import uk from "@/messages/uk.json";
 
-export const LOCALES = ["en", "de"] as const;
+export const LOCALES = ["en", "de", "uk"] as const;
 export const DEFAULT_LOCALE = "en";
 export const LOCALE_HEADER = "x-familyshoot-locale";
 
@@ -10,9 +11,10 @@ export type Locale = (typeof LOCALES)[number];
 export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
   de: "Deutsch",
+  uk: "Українська",
 };
 
-const messages = { en, de };
+const messages = { en, de, uk };
 
 export function isLocale(value: string | undefined | null): value is Locale {
   return LOCALES.includes(value as Locale);
