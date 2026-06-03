@@ -9,7 +9,7 @@ import { getRequestLocale } from "@/lib/i18n/server";
 import "./globals.css";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
   display: "swap",
 });
