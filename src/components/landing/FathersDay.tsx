@@ -1,9 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
 
-const sourceTiles = ["Dad", "Kids", "Grandma", "Pet"];
+const sourceTiles = [
+  {
+    label: "Dad",
+    src: "/landing/fathers-day/fathers-day-dad-selfie.webp",
+    alt: "Phone selfie of Dad wearing glasses in warm car light",
+  },
+  {
+    label: "Kids",
+    src: "/landing/fathers-day/fathers-day-kids-selfie.webp",
+    alt: "Phone selfie of two smiling children at home",
+  },
+  {
+    label: "Grandma",
+    src: "/landing/fathers-day/fathers-day-grandma-selfie.webp",
+    alt: "Phone selfie of Grandma in a cozy kitchen",
+  },
+  {
+    label: "Pet",
+    src: "/landing/fathers-day/fathers-day-pet-selfie.webp",
+    alt: "Phone photo of a golden retriever in the living room",
+  },
+];
 
 export default function FathersDay() {
   return (
@@ -37,18 +59,27 @@ export default function FathersDay() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-butter)] p-5 shadow-[var(--shadow-md)]">
-            <div className="grid gap-4 sm:grid-cols-[0.82fr_auto_1fr] sm:items-center">
+          <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-tinted-butter)] p-4 shadow-[var(--shadow-md)] sm:p-5">
+            <div className="grid gap-4 sm:grid-cols-[0.86fr_auto_1.08fr] sm:items-center">
               <div className="grid grid-cols-2 gap-3">
-                {sourceTiles.map((label, index) => (
-                  <div
-                    key={label}
-                    className="flex aspect-[4/5] items-end rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[linear-gradient(145deg,rgba(255,255,255,0.88),rgba(242,219,177,0.34))] p-3 shadow-[var(--shadow-sm)]"
+                {sourceTiles.map((tile, index) => (
+                  <figure
+                    key={tile.label}
+                    className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-lg)] border border-[color:rgba(31,26,36,0.12)] bg-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
                   >
-                    <span className="rounded-full bg-[color:rgba(31,26,36,0.78)] px-3 py-1 text-xs font-semibold text-[color:var(--color-bg)]">
-                      {index + 1}. {label}
-                    </span>
-                  </div>
+                    <Image
+                      src={tile.src}
+                      alt={tile.alt}
+                      fill
+                      sizes="(min-width: 1024px) 110px, (min-width: 640px) 18vw, 38vw"
+                      className="object-cover"
+                    />
+                    <figcaption className="absolute inset-x-2 bottom-2 flex">
+                      <span className="rounded-full bg-[color:rgba(31,26,36,0.76)] px-2.5 py-1 text-[0.68rem] font-semibold leading-none text-[color:var(--color-bg)] shadow-[var(--shadow-sm)] backdrop-blur">
+                        {index + 1}. {tile.label}
+                      </span>
+                    </figcaption>
+                  </figure>
                 ))}
               </div>
 
@@ -65,16 +96,25 @@ export default function FathersDay() {
                 </svg>
               </div>
 
-              <div className="relative flex aspect-[4/5] items-end overflow-hidden rounded-[var(--radius-xl)] border border-[color:rgba(255,255,255,0.72)] bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.82),transparent_28%),linear-gradient(145deg,rgba(244,160,117,0.3),rgba(89,123,106,0.28)),url('/samples/after-wes-anderson-family.jpg')] bg-cover bg-center p-4 shadow-[var(--shadow-lg)]">
-                <div className="rounded-[var(--radius-lg)] bg-[color:rgba(251,248,243,0.9)] p-4 shadow-[var(--shadow-md)] backdrop-blur">
+              <figure className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:rgba(31,26,36,0.12)] bg-[color:rgba(251,248,243,0.92)] shadow-[var(--shadow-lg)]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-bg)]">
+                  <Image
+                    src="/landing/fathers-day/fathers-day-final.webp"
+                    alt="Finished Father's Day portrait with Dad, two children, Grandma, and a golden retriever"
+                    fill
+                    sizes="(min-width: 1024px) 260px, (min-width: 640px) 42vw, 82vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="border-t border-[color:rgba(31,26,36,0.09)] bg-[color:rgba(251,248,243,0.96)] p-4">
                   <p className="small-caps text-[color:var(--color-coral-deep)]">
                     Father&apos;s Day Card
                   </p>
-                  <p className="serif mt-1 text-2xl leading-tight">
+                  <p className="serif mt-1 text-xl leading-tight sm:text-2xl">
                     One polished keepsake portrait.
                   </p>
-                </div>
-              </div>
+                </figcaption>
+              </figure>
             </div>
           </div>
         </Reveal>
