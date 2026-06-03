@@ -21,6 +21,50 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 type Category = "vibe" | "card" | "style" | "occasion";
 
+const FATHERS_DAY_SOURCE_IMAGES = [
+  {
+    label: "Dad",
+    src: "/landing/fathers-day/fathers-day-dad-selfie.webp",
+    alt: "Phone selfie of Dad in warm car light",
+  },
+  {
+    label: "Kids",
+    src: "/landing/fathers-day/fathers-day-kids-selfie.webp",
+    alt: "Phone selfie of two smiling children at home",
+  },
+  {
+    label: "Grandma",
+    src: "/landing/fathers-day/fathers-day-grandma-selfie.webp",
+    alt: "Phone selfie of Grandma in a cozy kitchen",
+  },
+  {
+    label: "Pet",
+    src: "/landing/fathers-day/fathers-day-pet-selfie.webp",
+    alt: "Phone photo of a golden retriever in the living room",
+  },
+] as const;
+
+const FATHERS_DAY_SAMPLE_IMAGES = [
+  {
+    label: "Backyard Breakfast",
+    caption: "A sunny gift portrait with Dad, the kids, Grandma, and the family dog together.",
+    src: "/landing/fathers-day/fathers-day-sample-backyard-v2.webp",
+    alt: "Finished Father's Day backyard breakfast portrait with Dad, children, Grandma, and a golden retriever",
+  },
+  {
+    label: "Living Room Card",
+    caption: "A cozy at-home keepsake that feels personal enough to print or send as a card.",
+    src: "/landing/fathers-day/fathers-day-sample-living-room-v2.webp",
+    alt: "Finished Father's Day living room portrait with Dad, children, Grandma, and a golden retriever",
+  },
+  {
+    label: "Lakeside Picnic",
+    caption: "A polished summer scene for families who want something a little more occasion-ready.",
+    src: "/landing/fathers-day/fathers-day-sample-lakeside-v2.webp",
+    alt: "Finished Father's Day lakeside picnic portrait with Dad, children, Grandma, and a golden retriever",
+  },
+] as const;
+
 function resolve(slug: string) {
   const occasion = occasionPageBySlug(slug);
   if (occasion) return { category: "occasion" as Category, item: occasion };
@@ -94,6 +138,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
   const { category, item } = r;
   const extraImages = category === "vibe" ? (item as Vibe).extraImages : undefined;
+  const isFathersDay = category === "occasion" && item.slug === "fathers-day";
 
   const hubMeta =
     category === "vibe"
@@ -247,6 +292,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
               : `Make your ${item.name} portrait`
         }
         breadcrumbs={breadcrumbs}
+        sourceImages={isFathersDay ? FATHERS_DAY_SOURCE_IMAGES : undefined}
+        sampleImages={isFathersDay ? FATHERS_DAY_SAMPLE_IMAGES : undefined}
       />
     </>
   );

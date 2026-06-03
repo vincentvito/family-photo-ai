@@ -23,15 +23,15 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
       "dad family portrait",
       "father's day card from photos",
     ],
-    image: "/samples/theme-card-fathers-day.jpg",
+    image: "/landing/fathers-day/fathers-day-sample-backyard-v2.webp",
     shortDescription:
       "Make Dad the family portrait he never gets to be in, generated from separate phone photos in minutes.",
     h1: "Make Dad the family portrait he never gets to be in",
     intro:
       "Upload separate photos of Dad, the kids, grandparents, or pets. FamilyShoot turns them into a polished Father's Day portrait or card with a free watermarked preview first.",
-    whatIsTitle: "Why Father's Day needs its own FamilyShoot page",
+    whatIsTitle: "A Father's Day photo gift from the pictures you already have",
     whatIsBody:
-      "Dad is often behind the camera, traveling, deployed, or missing from the one photo everyone wants to print. This page is built for that exact gift moment: a warm portrait where he is finally in the frame.\n\nUse it for Father's Day cards, framed gifts, grandparent copies, or a last-minute keepsake when booking a photoshoot is not realistic.",
+      "Dad is usually the one taking the photos, which means the best family moments often do not include him. Upload separate pictures of Dad, the kids, grandparents, and pets, and turn them into one custom Father's Day family portrait he can actually keep.\n\nMake a printable Father's Day card, a framed portrait, or a last-minute photo gift without booking a studio session. Start with a free watermarked preview, then unlock the high-resolution version only when it feels ready to give.",
     ctaLabel: "Create Father's Day Portrait",
     related: ["fathers-day-family-cards", "mothers-day", "grandparents-day", "family-reunion"],
   },
