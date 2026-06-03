@@ -1,8 +1,17 @@
+import Image from "next/image";
 import type { Occasion } from "./occasions";
 
 type Size = "lg" | "md" | "sm";
 
-export function HolidayCard({ occ, size = "lg" }: { occ: Occasion; size?: Size }) {
+export function HolidayCard({
+  occ,
+  size = "lg",
+  priority = false,
+}: {
+  occ: Occasion;
+  size?: Size;
+  priority?: boolean;
+}) {
   const w = size === "lg" ? 320 : size === "md" ? 230 : 180;
   const h = w * 1.4;
   const greetingSize = size === "lg" ? "1.6rem" : size === "md" ? "1.15rem" : "0.95rem";
@@ -28,13 +37,13 @@ export function HolidayCard({ occ, size = "lg" }: { occ: Occasion; size?: Size }
           boxShadow: "inset 0 0 0 1px rgba(31,26,36,0.08)",
         }}
       >
-        <img
+        <Image
           src={occ.img}
           alt=""
+          fill
+          sizes={`${w}px`}
           className="card-frame-img"
-          style={{ height: "100%" }}
-          loading="lazy"
-          decoding="async"
+          priority={priority}
         />
         <div
           style={{

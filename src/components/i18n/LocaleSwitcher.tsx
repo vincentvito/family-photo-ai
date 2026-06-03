@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useRef, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LOCALES, type Locale, localizePath } from "@/lib/i18n/locales";
 
@@ -13,12 +13,27 @@ export default function LocaleSwitcher() {
   const searchParams = useSearchParams();
   const query = searchParams.toString();
   const t = useTranslations("LocaleSwitcher");
+  const pendingSwitchRef = useRef<{ href: string; locale: Locale } | null>(null);
   const [, startTransition] = useTransition();
 
-  function switchLocale(href: string) {
+  useEffect(() => {
+    const pendingSwitch = pendingSwitchRef.current;
+    if (!pendingSwitch) return;
+    if (pendingSwitch.locale === activeLocale) {
+      pendingSwitchRef.current = null;
+      return;
+    }
+
+    const currentHref = `${window.location.pathname}${window.location.search}`;
+    if (currentHref !== pendingSwitch.href) return;
+
+    router.refresh();
+  }, [activeLocale, pathname, query, router]);
+
+  function switchLocale(href: string, locale: Locale) {
+    pendingSwitchRef.current = { href, locale };
     startTransition(() => {
       router.push(href);
-      router.refresh();
     });
   }
 
@@ -36,7 +51,7 @@ export default function LocaleSwitcher() {
             onClick={(event) => {
               if (active) return;
               event.preventDefault();
-              switchLocale(href);
+              switchLocale(href, locale);
             }}
             className={`rounded-full px-2.5 py-1 transition-colors ${
               active
