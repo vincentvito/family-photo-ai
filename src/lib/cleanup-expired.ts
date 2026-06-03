@@ -3,9 +3,13 @@ import { studioCutoffDate } from "@/lib/retention";
 import { deleteStoredImage, deleteStoredPrefix } from "@/lib/storage";
 import { and, eq, inArray, lt, or, sql } from "drizzle-orm";
 
+const TEMP_ROSTER_RETENTION_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 export async function cleanupExpiredStudio() {
   const cutoff = studioCutoffDate();
   const proCutoff = studioCutoffDate(new Date(), "pro");
+  const tempRosterCutoff = new Date(Date.now() - TEMP_ROSTER_RETENTION_DAYS * DAY_MS);
 
   const [expiredGenerations, oldPeople, activeProSubscriptions] = await Promise.all([
     db
@@ -20,7 +24,15 @@ export async function cleanupExpiredStudio() {
           ),
         ),
       ),
-    db.select().from(schema.people).where(lt(schema.people.createdAt, cutoff)),
+    db
+      .select()
+      .from(schema.people)
+      .where(
+        or(
+          lt(schema.people.createdAt, cutoff),
+          and(sql`${schema.people.userId} like 'temp:%'`, lt(schema.people.createdAt, tempRosterCutoff)),
+        ),
+      ),
     db
       .select({ userId: schema.subscriptions.userId })
       .from(schema.subscriptions)
@@ -29,7 +41,9 @@ export async function cleanupExpiredStudio() {
   const activeProUserIds = new Set(
     activeProSubscriptions.map((subscription) => subscription.userId),
   );
-  const expiredPeople = oldPeople.filter((person) => !activeProUserIds.has(person.userId));
+  const expiredPeople = oldPeople.filter(
+    (person) => person.userId.startsWith("temp:") || !activeProUserIds.has(person.userId),
+  );
   const expiredGenerationIds = expiredGenerations.map((generation) => generation.id);
   const expiredImages =
     expiredGenerationIds.length > 0
@@ -84,5 +98,6 @@ export async function cleanupExpiredStudio() {
     generationsStoragePurged: expiredGenerations.length,
     upscaleCachesPurged: expiredImages.length,
     peopleDeleted: expiredPeople.length,
+    tempRosterCutoff,
   };
 }

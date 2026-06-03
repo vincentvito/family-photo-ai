@@ -15,6 +15,9 @@ export const user = familyphotoai.table("user", {
   banned: boolean("banned").default(false).notNull(),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
+  marketingOptIn: boolean("marketing_opt_in").default(false).notNull(),
+  marketingOptInAt: timestamp("marketing_opt_in_at"),
+  marketingOptInSource: text("marketing_opt_in_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

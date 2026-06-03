@@ -218,8 +218,8 @@ export default function Hero() {
               photos ready to print in about two minutes.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/sign-in" className="btn btn-coral btn-lg">
-                Begin a shoot
+              <Link href="/studio/roster" className="btn btn-coral btn-lg">
+                Take a free shot
                 <svg
                   className="h-4 w-4"
                   viewBox="0 0 24 24"
@@ -237,6 +237,9 @@ export default function Hero() {
                 See the gallery
               </a>
             </div>
+            <p className="mt-3 text-sm font-medium text-[color:var(--color-ink-muted)]">
+              No credit card required. Add an email only when you are ready to generate.
+            </p>
             <StatsBar className="mt-8 hidden sm:flex" />
           </motion.div>
 

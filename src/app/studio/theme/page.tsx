@@ -9,6 +9,8 @@ import {
 } from "@/lib/billing-queries";
 import { canStartFreePreview } from "@/lib/generate-queries";
 import { listRoster } from "@/lib/roster-queries";
+import { cookies } from "next/headers";
+import { getTempRosterOwnerFromCookieValue, TEMP_ROSTER_COOKIE } from "@/lib/temp-roster";
 
 export const dynamic = "force-dynamic";
 
@@ -25,13 +27,20 @@ export default async function ThemePage({
   const selectedCard =
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
   const user = await getCurrentUser();
+  const cookieStore = user ? null : await cookies();
+  const tempOwner = user
+    ? null
+    : getTempRosterOwnerFromCookieValue(cookieStore?.get(TEMP_ROSTER_COOKIE)?.value);
+  const rosterOwnerId = user?.id ?? tempOwner?.userId ?? null;
   const [admin, defaultModel, creditBalance, canPreview, rosterRows, subscription] =
     await Promise.all([
       isAdmin(),
       getDefaultModel(),
       user ? getCreditBalance(user.id) : Promise.resolve(0),
       user ? canStartFreePreview(user.id) : Promise.resolve(false),
-      user ? listRoster(user.id) : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
+      rosterOwnerId
+        ? listRoster(rosterOwnerId)
+        : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
       user ? getCurrentSubscription(user.id) : Promise.resolve(null),
     ]);
   const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
@@ -41,7 +50,7 @@ export default async function ThemePage({
     name: person.name,
     role: person.role as "adult" | "child" | "pet",
     hasReference: photos.length > 0,
-    photoId: photos[0]?.id ?? null,
+    photoId: user ? (photos[0]?.id ?? null) : null,
   }));
 
   return (
@@ -93,6 +102,7 @@ export default async function ThemePage({
         outputMode={outputMode}
         isProSubscriber={isProSubscriber}
         subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
+        isAuthenticated={Boolean(user)}
       />
     </main>
   );

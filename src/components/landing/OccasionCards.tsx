@@ -45,8 +45,8 @@ export default function OccasionCards() {
                 Create a family holiday card, Christmas card photo, or greeting card from the photos
                 you already have. No studio date, matching outfits, or perfect group shot required.
               </p>
-              <Link href="/sign-in" className="btn btn-coral mt-5">
-                Make a card
+              <Link href="/studio/roster" className="btn btn-coral mt-5">
+                Make a free card preview
                 <svg
                   className="h-4 w-4"
                   viewBox="0 0 24 24"
