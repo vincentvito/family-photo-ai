@@ -46,10 +46,10 @@ const FATHERS_DAY_SOURCE_IMAGES = [
 
 const FATHERS_DAY_SAMPLE_IMAGES = [
   {
-    label: "Backyard Breakfast",
-    caption: "A sunny gift portrait with Dad, the kids, Grandma, and the family dog together.",
-    src: "/landing/fathers-day/fathers-day-sample-backyard-v2.webp",
-    alt: "Finished Father's Day backyard breakfast portrait with Dad, children, Grandma, and a golden retriever",
+    label: "Soccer Team Family",
+    caption: "A stadium-ready lineup for dads who would rather frame match day than another polite picnic.",
+    src: "/landing/fathers-day/fathers-day-sample-soccer-team.webp",
+    alt: "Finished Father's Day soccer team family portrait with Dad and family in matching jerseys",
   },
   {
     label: "Living Room Card",
@@ -58,10 +58,10 @@ const FATHERS_DAY_SAMPLE_IMAGES = [
     alt: "Finished Father's Day living room portrait with Dad, children, Grandma, and a golden retriever",
   },
   {
-    label: "Lakeside Picnic",
-    caption: "A polished summer scene for families who want something a little more occasion-ready.",
-    src: "/landing/fathers-day/fathers-day-sample-lakeside-v2.webp",
-    alt: "Finished Father's Day lakeside picnic portrait with Dad, children, Grandma, and a golden retriever",
+    label: "Western Wanted Family",
+    caption: "A goofy old-west wanted-poster portrait for families who want the gift to feel like a story.",
+    src: "/landing/fathers-day/fathers-day-sample-western-wanted.webp",
+    alt: "Finished Father's Day western wanted poster family portrait with cowboy hats and sepia paper texture",
   },
 ] as const;
 
