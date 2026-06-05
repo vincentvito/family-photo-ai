@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import LocalizedLink from "@/components/i18n/LocalizedLink";
+import { stripLocalePrefix } from "@/lib/i18n/locales";
 
 const STORAGE_KEY = "familyshoot:fathers-day-popup-dismissed-at";
 const SHOW_DELAY_MS = 6000;
@@ -25,26 +26,27 @@ function recentlyDismissed() {
 
 function shouldShowForPath(pathname: string | null) {
   if (!pathname) return false;
-  if (pathname === "/fathers-day") return false;
+  const strippedPathname = stripLocalePrefix(pathname);
+  if (strippedPathname === "/fathers-day") return false;
 
-  return !EXCLUDED_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  return !EXCLUDED_PATH_PREFIXES.some((prefix) => strippedPathname.startsWith(prefix));
 }
 
 export default function FathersDayPopup() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [visiblePathname, setVisiblePathname] = useState<string | null>(null);
 
   useEffect(() => {
     if (!shouldShowForPath(pathname) || recentlyDismissed()) return;
 
     const timer = window.setTimeout(() => {
-      setOpen(true);
+      setVisiblePathname(pathname);
     }, SHOW_DELAY_MS);
 
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
-  if (!open) return null;
+  if (!pathname || visiblePathname !== pathname) return null;
 
   const close = () => {
     try {
@@ -52,11 +54,14 @@ export default function FathersDayPopup() {
     } catch {
       // Ignore storage failures and still close the popup.
     }
-    setOpen(false);
+    setVisiblePathname(null);
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-[calc(100%-2rem)] max-w-sm sm:bottom-6 sm:right-6" role="presentation">
+    <div
+      className="fixed bottom-4 right-4 z-50 w-[calc(100%-2rem)] max-w-sm sm:bottom-6 sm:right-6"
+      role="presentation"
+    >
       <div
         role="dialog"
         aria-modal="false"
@@ -87,16 +92,20 @@ export default function FathersDayPopup() {
           have.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <Link href="/fathers-day" onClick={close} className="btn btn-coral btn-sm spring-press">
+          <LocalizedLink
+            href="/fathers-day"
+            onClick={close}
+            className="btn btn-coral btn-sm spring-press"
+          >
             See Father&apos;s Day portraits
-          </Link>
-          <Link
+          </LocalizedLink>
+          <LocalizedLink
             href="/studio/roster"
             onClick={close}
             className="text-sm font-bold text-[color:var(--color-coral-deep)] underline-offset-4 hover:underline"
           >
             Start now
-          </Link>
+          </LocalizedLink>
         </div>
       </div>
     </div>
