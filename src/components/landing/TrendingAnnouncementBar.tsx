@@ -6,7 +6,7 @@ type TrendingAnnouncementBarProps = {
 
 const fallbackVibes = [
   { id: "golden-hour-beach", name: "Golden Hour Beach" },
-  { id: "leibovitz-studio", name: "Leibovitz Studio" },
+  { id: "leibovitz-studio", name: "Studio" },
   { id: "christmas-morning", name: "Christmas Morning" },
   { id: "watercolor-storybook", name: "Watercolor Storybook" },
   { id: "pixar", name: "Pixar-Inspired Family" },

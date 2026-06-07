@@ -151,7 +151,7 @@ export const THEMES: Theme[] = [
   },
   {
     id: "leibovitz-studio",
-    name: "Leibovitz Studio",
+    name: "Studio",
     blurb:
       "Editorial, cinematic. A painted backdrop, theatrical side-light, everyone styled with intent.",
     category: "photoreal",
