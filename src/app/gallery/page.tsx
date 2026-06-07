@@ -1,53 +1,181 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
+import { THEMES } from "@/lib/themes";
+import GalleryExperience, { type GalleryCreation } from "./GalleryExperience";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
+const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
 
-const customerCreations = [
+type ThemeCreationInput = {
+  themeId: string;
+  title?: string;
+  description?: string;
+  likes: number;
+  sourceLabel: GalleryCreation["sourceLabel"];
+};
+
+const communityCreations: GalleryCreation[] = [
   {
     image: "/gallery/community/community-kitchen-laughs.webp",
     title: "Kitchen laughs",
     description: "A warm at-home portrait with the kind of smiles you never get from a timer shot.",
     likes: 184,
+    themeId: "kinfolk-kitchen",
+    sourceLabel: "Community pick",
   },
   {
     image: "/gallery/community/community-generations-sofa.webp",
     title: "Three generations",
     description: "Grandparents, parents, and the newest tiny family member in one cozy frame.",
     likes: 267,
+    themeId: "sunday-sofa",
+    sourceLabel: "Community pick",
   },
   {
     image: "/gallery/community/community-beach-walk.webp",
     title: "Beach walk",
     description: "Soft evening light, sandy feet, and the family dog refusing to miss the moment.",
     likes: 143,
+    themeId: "golden-hour-beach",
+    sourceLabel: "Community pick",
   },
   {
     image: "/gallery/community/community-snow-day.webp",
     title: "Snow day",
     description: "A playful winter portrait that feels more like a memory than a posed session.",
     likes: 319,
+    themeId: "christmas-morning",
+    sourceLabel: "Community pick",
   },
   {
     image: "/gallery/community/community-apartment-baby.webp",
     title: "New baby at home",
     description: "Small-apartment warmth, sleepy baby energy, and a golden retriever cameo.",
     likes: 226,
+    themeId: "kinfolk-kitchen",
+    sourceLabel: "Community pick",
   },
   {
     image: "/gallery/community/community-backyard-dinner.webp",
     title: "Backyard dinner",
     description: "An extended-family table under string lights, made for the group chat.",
     likes: 401,
+    themeId: "backyard-picnic",
+    sourceLabel: "Community pick",
   },
+];
+
+const trendingCreations: ThemeCreationInput[] = [
+  {
+    themeId: "pop-icon-stage-portrait",
+    title: "Stage lights",
+    likes: 532,
+    sourceLabel: "Trending",
+  },
+  {
+    themeId: "galactic-family-adventure",
+    title: "Galactic weekend",
+    likes: 489,
+    sourceLabel: "Trending",
+  },
+  {
+    themeId: "stacked-love",
+    title: "Stacked studio hug",
+    likes: 458,
+    sourceLabel: "Trending",
+  },
+  {
+    themeId: "golden-hour-beach",
+    title: "Golden hour cousins",
+    likes: 376,
+    sourceLabel: "Trending",
+  },
+  {
+    themeId: "christmas-morning",
+    title: "Holiday pajama chaos",
+    likes: 344,
+    sourceLabel: "Trending",
+  },
+  {
+    themeId: "runway-editor-in-chief-family-editorial",
+    title: "Runway family edit",
+    likes: 297,
+    sourceLabel: "Trending",
+  },
+];
+
+const newVibeCreations: ThemeCreationInput[] = [
+  {
+    themeId: "noughties-family-throwback",
+    title: "Mall-photo throwback",
+    likes: 219,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "dockside-family-weekend",
+    title: "Dockside weekend",
+    likes: 188,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "backyard-sports-day-portrait",
+    title: "Backyard sports day",
+    likes: 241,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "slow-travel-summer-picnic",
+    title: "Slow picnic afternoon",
+    likes: 172,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "sunset-festival-family-glow",
+    title: "Festival glow",
+    likes: 263,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "summer-color-pop-studio",
+    title: "Color pop studio",
+    likes: 205,
+    sourceLabel: "New vibe",
+  },
+  {
+    themeId: "private-jet-family",
+    title: "Private jet arrival",
+    likes: 154,
+    sourceLabel: "New vibe",
+  },
+];
+
+function themeCreation(input: ThemeCreationInput): GalleryCreation {
+  const theme = THEME_BY_ID.get(input.themeId);
+
+  return {
+    image: theme?.coverImage ?? "/samples/hero.jpg",
+    title: input.title ?? theme?.name ?? "Family creation",
+    description:
+      input.description ??
+      theme?.blurb ??
+      "A FamilyShoot vibe customers can use as a starting point.",
+    likes: input.likes,
+    themeId: input.themeId,
+    sourceLabel: input.sourceLabel,
+  };
+}
+
+const customerCreations = [
+  ...communityCreations,
+  ...trendingCreations.map(themeCreation),
+  ...newVibeCreations.map(themeCreation),
 ];
 
 export const metadata: Metadata = {
   title: "See What Others Created | FamilyShoot Gallery",
   description:
-    "Browse realistic FamilyShoot-style family portrait examples made for framed prints, holiday cards, grandparents, birthdays, and everyday family moments.",
+    "Browse realistic FamilyShoot-style family portrait examples, trending vibes, and new vibe ideas made for framed prints, holiday cards, grandparents, birthdays, and everyday family moments.",
   alternates: { canonical: `${SITE_URL}/gallery` },
 };
 
@@ -74,48 +202,13 @@ export default function GalleryPage() {
               See what others created.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-              Realistic family moments with different homes, seasons, people, and stories, not
-              another repeat of the landing page vibe cards.
+              Realistic family moments, trending picks, and new vibe shots with different homes,
+              seasons, people, and stories.
             </p>
           </div>
         </header>
 
-        <section className="mx-auto mt-12 grid max-w-6xl gap-5 px-6 sm:grid-cols-2 lg:grid-cols-3">
-          {customerCreations.map((creation, index) => (
-            <article
-              key={creation.title}
-              className="group overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-sm)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden">
-                <Image
-                  src={creation.image}
-                  alt={`${creation.title} family portrait`}
-                  fill
-                  priority={index < 3}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[color:rgba(31,26,36,0.78)] via-[color:rgba(31,26,36,0.22)] to-transparent"
-                  aria-hidden
-                />
-                <div className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-sm font-bold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] backdrop-blur">
-                  ❤️ {creation.likes.toLocaleString("en-US")}
-                </div>
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <h2 className="serif text-3xl leading-none tracking-[-0.02em] text-white drop-shadow-sm">
-                    {creation.title}
-                  </h2>
-                </div>
-              </div>
-              <div className="px-5 py-4">
-                <p className="text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                  {creation.description}
-                </p>
-              </div>
-            </article>
-          ))}
-        </section>
+        <GalleryExperience creations={customerCreations} />
       </main>
       <Footer />
     </>
