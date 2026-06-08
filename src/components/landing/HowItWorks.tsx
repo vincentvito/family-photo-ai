@@ -22,7 +22,7 @@ const steps: Step[] = [
   {
     n: 2,
     title: "Pick a vibe",
-    body: "Choose a theme - Golden Hour Beach, a cabin in October, a Leibovitz studio, a Pixar family. You pick the feeling; we handle the rest.",
+    body: "Choose a theme - Golden Hour Beach, a cabin in October, Studio, a Pixar family. You pick the feeling; we handle the rest.",
     chip: "sage",
     visual: "vibe",
   },
