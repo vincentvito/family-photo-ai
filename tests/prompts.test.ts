@@ -184,6 +184,12 @@ const WEEKLY_TREND_THEME_IDS = [
   "sunset-festival-family-glow",
   "summer-color-pop-studio",
   "whimsical-adventure-postcard",
+  "retro-summer-postcard",
+  "toy-box-keepsake-portrait",
+  "cool-blue-lake-day",
+  "poetcore-family-library-portrait",
+  "neo-deco-celebration-card",
+  "crochet-raffia-picnic-card",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -193,13 +199,33 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "sunset-festival-family-glow-photos",
   "summer-color-pop-studio-family-photos",
   "whimsical-adventure-postcard-family-photos",
+  "retro-summer-postcard-family-photos",
+  "toy-box-keepsake-family-photos",
+  "cool-blue-lake-day-family-photos",
+  "poetcore-family-library-photos",
+  "neo-deco-celebration-card-family-photos",
+  "crochet-raffia-picnic-card-family-photos",
 ];
+
+const NEW_WEEKLY_TREND_PAIRS = [
+  ["retro-summer-postcard", "retro-summer-postcard-family-photos"],
+  ["toy-box-keepsake-portrait", "toy-box-keepsake-family-photos"],
+  ["cool-blue-lake-day", "cool-blue-lake-day-family-photos"],
+  ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
+  ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
+  ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+] as const;
+
+const NEW_WEEKLY_CARD_THEME_IDS = new Set([
+  "neo-deco-celebration-card",
+  "crochet-raffia-picnic-card",
+]);
 
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
 
 const WEEKLY_BLOCKED_TERMS =
-  /\b(Barbie|Swift|Beyonce|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
+  /\b(Barbie|Swift|Beyonce|Beyoncé|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|Toy Story|Pixar|Disney|Minions|Moana|DreamWorks|Illumination|TikTok|Instagram|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
 
 test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
@@ -340,6 +366,22 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
       ].join(" "),
       WEEKLY_BLOCKED_TERMS,
     );
+  }
+
+  for (const [themeId, slug] of NEW_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const vibe = VIBES.find((entry) => entry.slug === slug)!;
+    assert.ok(theme.spec.safety?.trim(), `${themeId} should include a prompt safety section`);
+    assert.equal(
+      vibe.image,
+      theme.coverImage,
+      `${themeId} discovery image should match the selectable theme cover fallback`,
+    );
+
+    if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
+      assert.equal(theme.category, "card");
+      assert.equal(theme.acceptsCardText, true);
+    }
   }
 });
 

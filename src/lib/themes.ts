@@ -823,6 +823,110 @@ export const THEMES: Theme[] = [
         "hand-painted gouache and watercolor postcard texture, sky blue, leaf green, poppy red, butter yellow and warm paper palette, family-safe adventure mood, no franchise characters, no logos, no text, no watermark",
     },
   },
+  {
+    id: "retro-summer-postcard",
+    name: "Retro Summer Postcard",
+    blurb:
+      "A sun-washed family vacation portrait with postcard color, retro stripes, summer linens, and soft film-camera nostalgia.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cape-cod-summer.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 nostalgic summer-postcard family photograph",
+      scene:
+        "a beach, lake, or picnic-safe summer backdrop with sun-faded towels, striped fabric, casual linen layers, warm sand or grass, and a clean print-ready vacation setting",
+      camera:
+        "35mm film camera with a 40mm lens, relaxed eye-level vacation portrait framing, postcard-balanced spacing with readable faces and a hint of scenic context",
+      composition:
+        "natural grouped portrait with gentle diagonal spacing, clean margins for a printed postcard crop, no app interface, no stickers, no readable captions",
+      lighting:
+        "warm late-afternoon sunlight with soft bounce fill, mild rosy highlight warmth, gentle haze and crisp facial detail without heavy filter effects",
+      style:
+        "retro summer travel photography, rose-tinted film warmth, cream, coral, sky blue, grass green and sun-yellow accents, subtle grain, polished keepsake finish",
+      safety:
+        "original vacation scene, no brand names, no recognizable social app interface, no celebrity likeness, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "toy-box-keepsake-portrait",
+    name: "Toy-Box Keepsake Portrait",
+    blurb:
+      "A bright playroom keepsake portrait with wooden blocks, storybooks, handmade toys, soft primary color, and childlike wonder.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-newborn.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical playroom family keepsake portrait",
+      scene:
+        "a bright nursery or playroom with generic wooden blocks, handmade plush keepsakes, picture books, soft rugs, storage cubbies and tidy colorful childhood details",
+      camera:
+        "digital medium-format camera with a 45mm lens, low seated-level framing, playful environmental portrait perspective with clean face readability",
+      composition:
+        "parents and children grouped naturally among simple playroom props, balanced floor-level geometry, visible hands and uncluttered toy-box details",
+      lighting:
+        "large soft window light with gentle wall bounce, bright catchlights, pastel shadow detail and no harsh flash",
+      style:
+        "premium family lifestyle photography, soft primary colors, warm cream, maple wood, gentle blue and red accents, tactile nursery textures, print-ready keepsake polish",
+      safety:
+        "generic handmade toys only, no branded toy shapes, no franchise characters, no studio names, no mascot characters, no logos, no readable text",
+    },
+  },
+  {
+    id: "cool-blue-lake-day",
+    name: "Cool Blue Lake Day",
+    blurb:
+      "A crisp cool-blue lake portrait with airy dock light, linen and denim styling, glacier-blue accents, and calm editorial freshness.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-lake-house.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 crisp cool-blue lakeside family photograph",
+      scene:
+        "a quiet lake dock or airy coastal overlook with still water, pale sky, weathered planks, clean towels, simple picnic details and calm summer freshness",
+      camera:
+        "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing, waterline and sky used as clean graphic layers",
+      composition:
+        "relaxed grouped portrait with premium negative space, faces held in the brighter third, dock or shoreline lines guiding toward the cast",
+      lighting:
+        "clean natural morning light, cool sky fill, subtle water bounce, dewy highlight freshness and crisp skin detail",
+      style:
+        "cool blue editorial photography, glacier blue, pale denim, white linen, cloud cream and soft silver palette, restrained contrast, print-ready premium finish",
+      safety:
+        "modest summer styling, no swimwear-forward posing, no revealing wardrobe, no brands, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "poetcore-family-library-portrait",
+    name: "Poetcore Family Library Portrait",
+    blurb:
+      "A warm library portrait with oversized knits, vintage blazers, book props, handwritten card details, and soft literary intimacy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-graduation.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 warm literary-library family portrait",
+      scene:
+        "a cozy home library or study with wood shelves, stacked books, a writing desk, blank handwritten cards, messenger satchel details, oversized knits and vintage blazers",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical waist-up to knee-up framing, intimate study-room depth and clear face priority",
+      composition:
+        "selected cast gathered near a reading chair, desk or shelves, triangular portrait arrangement with book and letter details kept secondary",
+      lighting:
+        "soft window light through sheer curtains, warm desk-lamp glow, gentle amber fill across wood shelves and flattering falloff on faces",
+      style:
+        "literary editorial photography, wool, tweed, oxblood, parchment, moss green and warm walnut palette, quiet protagonist mood, gallery-print finish",
+      safety:
+        "original library setting, no author likeness, no public-figure resemblance, no readable copyrighted text, no brand logos, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
@@ -1582,6 +1686,60 @@ export const THEMES: Theme[] = [
         "warm tungsten key with cinematic falloff, soft golden rim from the chandelier, specular highlights on glass and gold",
       style:
         "Kodak Vision3 500T emulation, warm cinematic glamour grade, soft halation on the gold confetti, fine grain, editorial polish",
+    },
+  },
+  {
+    id: "neo-deco-celebration-card",
+    name: "Neo Deco Celebration Card",
+    blurb:
+      "An elegant celebration card with geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-new-years.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 elegant neo-deco celebration-card family portrait",
+      scene:
+        "a refined celebration-card set with art-deco-inspired geometric arches, brass and chrome accents, cream wall panels, polished floor reflections and a clean greeting area",
+      camera:
+        "digital medium-format camera with a 65mm portrait lens, vertical card framing, selected cast placed low or to one side with deliberate negative space for greeting text",
+      composition:
+        "balanced arch geometry, tasteful evening attire, centered vertical rhythm and a readable card layout with faces kept clear of typography space",
+      lighting:
+        "soft cinematic key light, warm brass glints, gentle chrome rim highlights, controlled festive sparkle and flattering face fill",
+      style:
+        "neo-deco editorial card design, cream, black, gold, tomato red or emerald accent palette, crisp geometry, polished print finish",
+      safety:
+        "no speakeasy cues, no alcohol props, no gambling references, no adult-nightlife setting, no logos, no readable venue text, no watermark",
+    },
+  },
+  {
+    id: "crochet-raffia-picnic-card",
+    name: "Crochet & Raffia Picnic Card",
+    blurb:
+      "A soft summer picnic card with crochet texture accents, raffia basket details, gingham, citrus color, and natural dewy light.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-backyard-picnic.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 soft summer picnic-card family portrait",
+      scene:
+        "a sunny picnic setup with a gingham blanket, crochet texture accents, raffia basket and hat details, Cloud Dancer cream textiles, fruit, flowers and a clean card greeting area",
+      camera:
+        "Leica M10 with a 35mm lens, blanket-level lifestyle framing, selected cast balanced with picnic textures and negative space for greeting text",
+      composition:
+        "print-friendly card composition with the picnic blanket as a stable foreground grid, soft diagonal grouping and airy margin for typography",
+      lighting:
+        "natural dewy summer light, open-shade face fill, gentle sun rim through leaves, fresh highlight detail on woven textures",
+      style:
+        "summer lifestyle card photography, Cloud Dancer cream base with citrus yellow, tomato red, lime and soft green accents, tactile crochet and raffia texture, polished print-ready finish",
+      safety:
+        "modest casual styling, no brands, no logos, no readable product labels, no text except user-supplied greeting, no watermark",
     },
   },
   {

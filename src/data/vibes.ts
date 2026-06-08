@@ -364,6 +364,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "retro-summer-postcard-family-photos",
+    name: "Retro Summer Postcard",
+    keyword: "retro summer postcard family photo",
+    secondaryKeywords: [
+      "nostalgic summer family portrait",
+      "postcard family photoshoot",
+      "summer vacation family photo",
+    ],
+    image: "/samples/theme-cape-cod-summer.png",
+    shortDescription:
+      "Sun-washed postcard color, retro stripes, linen layers, and soft film-camera vacation nostalgia.",
+    related: [
+      "cape-cod-family-photos",
+      "golden-hour-beach-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+    ],
+  },
+  {
+    slug: "toy-box-keepsake-family-photos",
+    name: "Toy-Box Keepsake Portrait",
+    keyword: "toy box family portrait",
+    secondaryKeywords: [
+      "playroom family portrait",
+      "nursery family photoshoot",
+      "childhood keepsake family photo",
+    ],
+    image: "/samples/theme-card-newborn.jpg",
+    shortDescription:
+      "Wooden blocks, storybooks, handmade toys, soft primary color, and bright playroom wonder.",
+    related: [
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "cool-blue-lake-day-family-photos",
+    name: "Cool Blue Lake Day",
+    keyword: "cool blue lake family photo",
+    secondaryKeywords: [
+      "lake dock family portrait",
+      "blue summer family photoshoot",
+      "coastal lake family photo",
+    ],
+    image: "/samples/theme-lake-house.jpg",
+    shortDescription:
+      "Crisp lake light, glacier-blue accents, linen and denim styling, and calm editorial freshness.",
+    related: [
+      "lake-house-family-photos",
+      "dockside-family-weekend-photos",
+      "coastal-grandmother-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-family-library-photos",
+    name: "Poetcore Family Library Portrait",
+    keyword: "poetcore family library portrait",
+    secondaryKeywords: [
+      "library family portrait",
+      "literary family photoshoot",
+      "cozy study family photo",
+    ],
+    image: "/samples/theme-card-graduation.jpg",
+    shortDescription:
+      "Warm shelves, oversized knits, vintage blazers, handwritten card details, and literary intimacy.",
+    related: [
+      "sunday-sofa-family-photos",
+      "graduation-card-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "neo-deco-celebration-card-family-photos",
+    name: "Neo Deco Celebration Card",
+    keyword: "neo deco celebration family card",
+    secondaryKeywords: [
+      "art deco family card",
+      "elegant celebration family portrait",
+      "geometric family greeting card",
+    ],
+    image: "/samples/theme-card-new-years.jpg",
+    shortDescription:
+      "Geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
+    related: [
+      "new-years-card-family-photos",
+      "birthday-card-family-photos",
+      "runway-editorial-family-photos",
+    ],
+  },
+  {
+    slug: "crochet-raffia-picnic-card-family-photos",
+    name: "Crochet & Raffia Picnic Card",
+    keyword: "crochet raffia picnic family card",
+    secondaryKeywords: [
+      "summer picnic family card",
+      "raffia picnic family portrait",
+      "gingham picnic family photoshoot",
+    ],
+    image: "/samples/theme-backyard-picnic.jpg",
+    shortDescription:
+      "Crochet texture, raffia basket details, gingham, citrus color, and natural dewy picnic light.",
+    related: [
+      "backyard-picnic-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",
