@@ -343,6 +343,44 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
   }
 });
 
+test("luxury carved-number birthday card is selectable, dynamic and guarded", () => {
+  const theme = getTheme("card-luxury-carved-number-birthday");
+  const variations = getThemeVariationPrompts(theme.id, theme.category);
+  const prompt = buildGenerationPrompt(
+    theme,
+    [
+      {
+        personId: "child-1",
+        name: "Sky Lou",
+        role: "child",
+        notes: null,
+        referencePaths: ["child.jpg"],
+      },
+    ],
+    null,
+    "AVA ROSE\nCHAPTER 7\n365 MORE DAYS OF WONDER",
+  );
+
+  assert.equal(theme.category, "card");
+  assert.equal(theme.aspectRatio, "2:3");
+  assert.equal(theme.acceptsCardText, true);
+  assert.equal(theme.supportsPets, true);
+  assert.equal(variations.length, 4);
+  assert.match(prompt, /off-white luxury paper textured wall/i);
+  assert.match(prompt, /birthday-age number/i);
+  assert.match(prompt, /carved into the wall/i);
+  assert.match(prompt, /visible thickness/i);
+  assert.match(prompt, /realistic inner shadows/i);
+  assert.match(prompt, /face, shoulder, one hand or one foot/i);
+  assert.match(prompt, /exact text "AVA ROSE\nCHAPTER 7\n365 MORE DAYS OF WONDER"/i);
+  assert.match(prompt, /no hardcoded names/i);
+  assert.match(prompt, /no hardcoded age/i);
+  assert.match(variations.join(" "), /provided card text only/i);
+  assert.match(variations.join(" "), /no sample names or sample ages/i);
+  assert.doesNotMatch(prompt, /SKY LOU, CHAPTER 6/i);
+  assert.doesNotMatch(prompt, /POPPY MAE, CHAPTER 4/i);
+});
+
 test("iconic crosswalk vibe keeps album-cover walking composition", () => {
   const theme = getTheme("iconic-crosswalk-album-cover");
   const stablePrompt = [

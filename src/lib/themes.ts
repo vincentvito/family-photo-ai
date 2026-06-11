@@ -1524,6 +1524,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "card-luxury-carved-number-birthday",
+    name: "Luxury Carved Number Birthday Poster",
+    blurb:
+      "A premium off-white paper wall with the birthday age carved deep into it, balloons and florals inside, and the child breaking the frame in a luxe 3D poster look.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-birthday.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:4 professional luxury birthday poster card",
+      scene:
+        "Entire frame is a premium off-white luxury paper textured wall. A large birthday-age number is precisely carved into the wall with visible thickness, realistic inner depth and believable shadowed cut edges. Inside the carved number are soft balloons, subtle white flowers and an elegant bouquet arrangement. Subjects sit naturally in and partly out of the carved number, with the child or children laughing naturally and preserving reference facial features.",
+      composition:
+        "Clean minimalist luxury magazine-cover layout. The carved number dominates the frame, with face, shoulder, one hand or one foot allowed to extend outside the number to create a realistic 3D breakthrough effect. Typography belongs on the wall as tasteful serif birthday text using the exact user-provided card text when supplied; infer any age number from the supplied card text or occasion context only, never hardcode sample names or a sample age.",
+      camera:
+        "Medium-format premium studio photography, sharp focus, realistic skin, straight-on poster framing, refined negative space for wall typography and print-ready 3:4 crop",
+      lighting:
+        "Warm cinematic sunlight from one side, soft rim light, realistic inner shadows inside the carved number, natural colors, no tree shadows and no fake-looking lighting",
+      style:
+        "Ultra-realistic high-end art direction, off-white textured paper, soft blue or palette-matched balloons, subtle white flowers, elegant celebration styling, luxury magazine-cover aesthetic, photorealistic skin, no AI artifacts",
+      safety:
+        "no logos, no watermark, no extra people, no fake tree shadows, no garbled typography, no hardcoded names such as SKY LOU or POPPY MAE, no hardcoded age such as 4 or 6",
+    },
+  },
+  {
     id: "card-halloween",
     name: "Halloween Card",
     blurb:
