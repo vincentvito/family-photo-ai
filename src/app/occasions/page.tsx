@@ -8,9 +8,9 @@ import { OCCASION_PAGES } from "@/data/occasion-pages";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "Family Portrait Occasion Pages: Gifts, Holidays, Reunions | FamilyShoot",
+  title: "Family Photo Cards, Birthday Cards, Gifts and Occasion Pages | FamilyShoot",
   description:
-    "Browse FamilyShoot occasion pages for Father's Day, Mother's Day, Women's Day, grandparents, reunions, anniversary gifts, Valentine's Day, and military family portraits.",
+    "Browse FamilyShoot occasion pages for birthday cards, kids birthday photo cards, 1st birthday cards, Father's Day, Mother's Day, grandparents, reunions, and family gifts.",
   alternates: { canonical: `${SITE_URL}/occasions` },
 };
 
@@ -29,7 +29,8 @@ export default function OccasionsHub() {
         <header className="mx-auto max-w-6xl px-6 text-center">
           <p className="small-caps text-[color:var(--color-coral)]">FamilyShoot occasions</p>
           <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Family portraits for the moments people actually buy gifts
+            Birthday cards, photo gifts, and family portraits for the moments people actually shop
+            for
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
             Pick the occasion, upload separate family photos, and start with a free watermarked

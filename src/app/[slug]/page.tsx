@@ -47,7 +47,8 @@ const FATHERS_DAY_SOURCE_IMAGES = [
 const FATHERS_DAY_SAMPLE_IMAGES = [
   {
     label: "Soccer Team Family",
-    caption: "A stadium-ready lineup for dads who would rather frame match day than another polite picnic.",
+    caption:
+      "A stadium-ready lineup for dads who would rather frame match day than another polite picnic.",
     src: "/landing/fathers-day/fathers-day-sample-soccer-team.webp",
     alt: "Finished Father's Day soccer team family portrait with Dad and family in matching jerseys",
   },
@@ -59,7 +60,8 @@ const FATHERS_DAY_SAMPLE_IMAGES = [
   },
   {
     label: "Western Wanted Family",
-    caption: "A goofy old-west wanted-poster portrait for families who want the gift to feel like a story.",
+    caption:
+      "A goofy old-west wanted-poster portrait for families who want the gift to feel like a story.",
     src: "/landing/fathers-day/fathers-day-sample-western-wanted.webp",
     alt: "Finished Father's Day western wanted poster family portrait with cowboy hats and sepia paper texture",
   },
@@ -102,10 +104,13 @@ export async function generateMetadata({
       : category === "card"
         ? `${item.name} Family Cards | AI Photo Cards in Minutes | FamilyShoot`
         : category === "occasion"
-          ? `${item.name} Family Portraits and Cards | FamilyShoot`
+          ? ((item as OccasionPage).metaTitle ?? `${(item as OccasionPage).h1} | FamilyShoot`)
           : `${item.name} Family Portrait from Photo | Custom AI Painting | FamilyShoot`;
 
-  const description = item.shortDescription;
+  const description =
+    category === "occasion"
+      ? ((item as OccasionPage).metaDescription ?? item.shortDescription)
+      : item.shortDescription;
   const url = `/${slug}`;
   const image = item.image;
 
@@ -292,6 +297,11 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
               : `Make your ${item.name} portrait`
         }
         breadcrumbs={breadcrumbs}
+        keywordHighlights={
+          category === "occasion"
+            ? [(item as OccasionPage).keyword, ...(item as OccasionPage).secondaryKeywords]
+            : undefined
+        }
         sourceImages={isFathersDay ? FATHERS_DAY_SOURCE_IMAGES : undefined}
         sampleImages={isFathersDay ? FATHERS_DAY_SAMPLE_IMAGES : undefined}
       />

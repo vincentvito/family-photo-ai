@@ -24,6 +24,7 @@ type Props = {
   ctaHref: string;
   ctaLabel: string;
   breadcrumbs: { name: string; url: string }[];
+  keywordHighlights?: readonly string[];
   sourceImages?: readonly ImageTile[];
   sampleImages?: readonly SampleImage[];
 };
@@ -44,6 +45,7 @@ export function LandingShell({
   ctaHref,
   ctaLabel,
   breadcrumbs,
+  keywordHighlights = [],
   sourceImages = [],
   sampleImages = [],
 }: Props) {
@@ -93,6 +95,21 @@ export function LandingShell({
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
               {intro}
             </p>
+            {keywordHighlights.length > 0 && (
+              <div
+                className="mt-5 flex max-w-xl flex-wrap gap-2"
+                aria-label="Related birthday card searches"
+              >
+                {keywordHighlights.slice(0, 6).map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-3 py-1 text-xs font-semibold text-[color:var(--color-ink-muted)]"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            )}
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href={ctaHref} className="btn btn-coral">
                 {ctaLabel}
