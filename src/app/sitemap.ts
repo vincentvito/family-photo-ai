@@ -4,6 +4,7 @@ import { VIBES } from "@/data/vibes";
 import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
+import { BIRTHDAY_CARD_SEO_PAGES } from "@/data/birthday-card-pages";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
@@ -45,6 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...OCCASION_PAGES.map((page) => ({
       url: `${SITE_URL}/${page.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    })),
+    ...BIRTHDAY_CARD_SEO_PAGES.map((page) => ({
+      url: `${SITE_URL}${page.path}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.85,
