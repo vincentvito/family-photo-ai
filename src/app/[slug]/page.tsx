@@ -144,6 +144,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const { category, item } = r;
   const extraImages = category === "vibe" ? (item as Vibe).extraImages : undefined;
   const isFathersDay = category === "occasion" && item.slug === "fathers-day";
+  const usesCenteredBirthdayHero =
+    category === "occasion" && item.image.startsWith("/seo/birthday-cards/");
 
   const hubMeta =
     category === "vibe"
@@ -304,6 +306,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         }
         sourceImages={isFathersDay ? FATHERS_DAY_SOURCE_IMAGES : undefined}
         sampleImages={isFathersDay ? FATHERS_DAY_SAMPLE_IMAGES : undefined}
+        heroLayout={usesCenteredBirthdayHero ? "centered" : "split"}
       />
     </>
   );
