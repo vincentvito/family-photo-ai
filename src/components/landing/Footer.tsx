@@ -4,6 +4,7 @@ import { VIBES } from "@/data/vibes";
 import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
+import { BIRTHDAY_CARD_PAGES } from "@/data/birthday-card-pages";
 
 export default function Footer() {
   return (
@@ -102,11 +103,12 @@ export default function Footer() {
           <HubPill href="/vibes" label="See all vibes" count={VIBES.length} />
           <HubPill href="/trending" label="Trending vibes" />
           <HubPill href="/cards" label="See all cards" count={CARDS.length} />
+          <HubPill href="/birthday-cards" label="Birthday card ideas" count={BIRTHDAY_CARD_PAGES.length} />
           <HubPill href="/occasions" label="Occasion pages" count={OCCASION_PAGES.length} />
           <HubPill href="/styles" label="See all styles" count={STYLES.length} />
         </nav>
 
-        <div className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <FooterLinkGroup
             title="Family portrait vibes"
             items={VIBES.map((v) => ({ href: `/${v.slug}`, label: v.name }))}
@@ -114,6 +116,13 @@ export default function Footer() {
           <FooterLinkGroup
             title="Family photo cards"
             items={CARDS.map((c) => ({ href: `/${c.slug}`, label: c.name }))}
+          />
+          <FooterLinkGroup
+            title="Birthday card ideas"
+            items={BIRTHDAY_CARD_PAGES.map((page) => ({
+              href: `/birthday-cards/${page.slug}`,
+              label: page.name,
+            }))}
           />
           <FooterLinkGroup
             title="Occasion pages"
