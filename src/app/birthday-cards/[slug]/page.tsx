@@ -100,6 +100,9 @@ export default async function BirthdayCardPageRoute({
         intro={page.intro}
         heroImage={page.image}
         heroAlt={`${page.name} sample`}
+        sampleImages={page.styleExamples}
+        sampleEyebrow={page.styleEyebrow}
+        sampleHeading={page.styleHeading}
         whatIsTitle={page.sections[0]?.title ?? page.name}
         whatIsBody={buildBody(page)}
         faqs={page.faqs}

@@ -4,11 +4,7 @@ import test from "node:test";
 
 import { BIRTHDAY_CARD_PAGES, birthdayCardPageBySlug } from "../src/data/birthday-card-pages";
 
-const requiredSlugs = [
-  "kids-birthday-card-maker",
-  "birthday-card-for-grandma",
-  "partners",
-];
+const requiredSlugs = ["kids-birthday-card-maker", "birthday-card-for-grandma", "partners"];
 
 test("birthday-card growth pages exist with clear metadata and CTAs", () => {
   const bySlug = new Map(BIRTHDAY_CARD_PAGES.map((page) => [page.slug, page]));
@@ -62,6 +58,20 @@ test("footer links to birthday-card hub and pages", () => {
   assert.match(footerSource, /href=\"\/birthday-cards\"/);
   assert.match(footerSource, /BIRTHDAY_CARD_PAGES\.map/);
   assert.match(footerSource, /href: `\/birthday-cards\/\$\{page\.slug\}`/);
+});
+
+test("kids birthday-card page features child-focused design directions", () => {
+  const page = birthdayCardPageBySlug("kids-birthday-card-maker");
+
+  assert.ok(page, "kids birthday-card page should exist");
+  assert.notEqual(page.image, "/samples/theme-card-birthday.jpg");
+  assert.match(page.image, /minecraft/i);
+  assert.equal(page.styleExamples?.length, 3);
+  assert.match(page.styleHeading ?? "", /generic birthday template/i);
+  assert.ok(page.styleExamples?.some((style) => /Minecraft/i.test(style.label)));
+  assert.ok(page.styleExamples?.some((style) => /Storybook/i.test(style.label)));
+  assert.ok(page.styleExamples?.some((style) => /Big-number/i.test(style.label)));
+  assert.ok(page.styleExamples?.every((style) => style.src.startsWith("/samples/")));
 });
 
 test("partner birthday-card page keeps approved positioning", () => {

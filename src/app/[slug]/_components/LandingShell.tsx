@@ -26,6 +26,8 @@ type Props = {
   breadcrumbs: { name: string; url: string }[];
   sourceImages?: readonly ImageTile[];
   sampleImages?: readonly SampleImage[];
+  sampleEyebrow?: string;
+  sampleHeading?: string;
 };
 
 export function LandingShell({
@@ -46,6 +48,8 @@ export function LandingShell({
   breadcrumbs,
   sourceImages = [],
   sampleImages = [],
+  sampleEyebrow = "Three Father's Day directions",
+  sampleHeading = "Three Father's Day gifts you can make from simple phone photos.",
 }: Props) {
   const sampleHref = sampleImages.length > 0 ? "#samples" : "/#gallery";
 
@@ -183,11 +187,9 @@ export function LandingShell({
           <section id="samples" className="mx-auto mt-20 max-w-6xl px-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="small-caps text-[color:var(--color-coral-deep)]">
-                  Three Father&apos;s Day directions
-                </p>
+                <p className="small-caps text-[color:var(--color-coral-deep)]">{sampleEyebrow}</p>
                 <h2 className="mt-3 text-3xl leading-tight tracking-tight sm:text-4xl">
-                  Three Father&apos;s Day gifts you can make from simple phone photos.
+                  {sampleHeading}
                 </h2>
               </div>
               <Link href={ctaHref} className="btn btn-ghost self-start sm:self-auto">

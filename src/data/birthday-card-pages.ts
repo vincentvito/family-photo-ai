@@ -1,3 +1,10 @@
+export type BirthdayCardStyleExample = {
+  label: string;
+  src: string;
+  alt: string;
+  caption: string;
+};
+
 export type BirthdayCardPage = {
   slug: string;
   name: string;
@@ -8,6 +15,9 @@ export type BirthdayCardPage = {
   intro: string;
   ctaLabel: string;
   sections: { title: string; body: string }[];
+  styleExamples?: readonly BirthdayCardStyleExample[];
+  styleEyebrow?: string;
+  styleHeading?: string;
   messageExamples: string[];
   faqs: { q: string; a: string }[];
   related: { href: string; label: string }[];
@@ -20,31 +30,52 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     title: "Kids Birthday Card Maker | Personalized Birthday Cards | FamilyShoot",
     description:
       "Create a personalized kids birthday card using family, party, portrait, or pet photos. Birthday card ideas for sons, daughters, nieces, nephews, and little friends.",
-    image: "/samples/theme-card-birthday.jpg",
+    image: "/samples/theme-minecraft.jpg",
     h1: "Personalized kids birthday cards made from family moments",
     intro:
-      "Turn favorite family, party, portrait, or pet photos into a birthday card idea that feels made for the child, not picked from a shelf.",
+      "Turn favorite family, party, portrait, or pet photos into a birthday card idea that feels made for the child, not picked from a shelf. Start with playful styles like Minecraft, storybook garden, or a soft birthday portrait with balloons and big age-number energy.",
     ctaLabel: "Create a birthday card",
     sections: [
       {
         title: "For birthdays they will remember",
-        body:
-          "A good kids birthday card should feel like it belongs to that child: their smile, their family, their pets, their hobbies, and the little moments everyone already talks about.",
+        body: "A good kids birthday card should feel like it belongs to that child: their smile, their family, their pets, their hobbies, and the little moments everyone already talks about.",
       },
       {
         title: "Card ideas for sons, daughters, nieces, nephews, and classmates",
-        body:
-          "Use FamilyShoot for a birthday card from parents, grandparents, aunties, uncles, cousins, classmates, or family friends. Start from the photos you already have and make the card feel personal.",
+        body: "Use FamilyShoot for a birthday card from parents, grandparents, aunties, uncles, cousins, classmates, or family friends. Start from the photos you already have and make the card feel personal.",
       },
       {
         title: "Birthday message examples for kids",
-        body:
-          "Keep the message short, warm, and age-appropriate. Add a family memory, a nickname, or a small wish for the year ahead.",
+        body: "Keep the message short, warm, and age-appropriate. Add a family memory, a nickname, or a small wish for the year ahead.",
       },
       {
         title: "Add family, pets, hobbies, or party memories",
-        body:
-          "The card can lean into a party theme, a favorite pet, a sports moment, a sibling photo, or a simple portrait. The point is not to look generic. It should look like their birthday.",
+        body: "The card can lean into a party theme, a favorite pet, a sports moment, a sibling photo, or a simple portrait. The point is not to look generic. It should look like their birthday.",
+      },
+    ],
+    styleEyebrow: "Three kid-ready design styles",
+    styleHeading: "Show them a card that feels like their world, not a generic birthday template.",
+    styleExamples: [
+      {
+        label: "Minecraft party quest",
+        src: "/samples/theme-minecraft.jpg",
+        alt: "Blocky Minecraft-inspired family birthday card style",
+        caption:
+          "Voxel blocks, bright biomes, pets, siblings, and adventure energy for kids who want the card to feel like a game world.",
+      },
+      {
+        label: "Storybook garden birthday",
+        src: "/samples/theme-watercolor-storybook.jpg",
+        alt: "Watercolor storybook kids birthday card style",
+        caption:
+          "Soft illustrated flowers, lanterns, warm family faces, and gentle bedtime-book charm for younger kids.",
+      },
+      {
+        label: "Big-number balloon portrait",
+        src: "/samples/card-art-styles/photoshoot.jpg",
+        alt: "Soft photo-led kids birthday card portrait style",
+        caption:
+          "A polished portrait direction inspired by big age-number backdrops, pastel balloons, flowers, and clean editorial typography.",
       },
     ],
     messageExamples: [
@@ -86,23 +117,19 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     sections: [
       {
         title: "A personal birthday gift from the whole family",
-        body:
-          "Grandma does not need another generic card. A family photo card lets the birthday greeting carry the faces, pets, nicknames, and memories she already cares about.",
+        body: "Grandma does not need another generic card. A family photo card lets the birthday greeting carry the faces, pets, nicknames, and memories she already cares about.",
       },
       {
         title: "Use grandkids, grown kids, pets, or long-distance family",
-        body:
-          "Start with everyday phone photos. The card can focus on grandchildren, include adult children, add the family dog or cat, or make a long-distance birthday message feel closer.",
+        body: "Start with everyday phone photos. The card can focus on grandchildren, include adult children, add the family dog or cat, or make a long-distance birthday message feel closer.",
       },
       {
         title: "Grandma birthday message examples",
-        body:
-          "Keep the note specific. Mention what she taught the family, a recent memory, or a small thing everyone loves about her.",
+        body: "Keep the note specific. Mention what she taught the family, a recent memory, or a small thing everyone loves about her.",
       },
       {
         title: "Built for keepsake cards and birthday posts",
-        body:
-          "Use the final idea as a printed birthday card, a digital surprise, or a starting point for a social post from the family after approval.",
+        body: "Use the final idea as a printed birthday card, a digital surprise, or a starting point for a social post from the family after approval.",
       },
     ],
     messageExamples: [
@@ -144,28 +171,23 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     sections: [
       {
         title: "For cake decorators",
-        body:
-          "After the cake is picked up or photographed, families already have a birthday moment worth turning into a card. FamilyShoot can be a light add-on recommendation, not another heavy service to manage.",
+        body: "After the cake is picked up or photographed, families already have a birthday moment worth turning into a card. FamilyShoot can be a light add-on recommendation, not another heavy service to manage.",
       },
       {
         title: "For kids’ party planners",
-        body:
-          "Party planners can give families a simple next step after the event: turn the birthday photos, family portraits, and pet moments into a personal card idea.",
+        body: "Party planners can give families a simple next step after the event: turn the birthday photos, family portraits, and pet moments into a personal card idea.",
       },
       {
         title: "For family photographers",
-        body:
-          "Birthday mini-sessions and cake-smash shoots already create the source material. FamilyShoot can help clients reuse those images as birthday-card concepts.",
+        body: "Birthday mini-sessions and cake-smash shoots already create the source material. FamilyShoot can help clients reuse those images as birthday-card concepts.",
       },
       {
         title: "For pet birthday creators",
-        body:
-          "Pet birthday accounts and photographers can use the same idea for families who want the dog or cat included in the birthday-card moment.",
+        body: "Pet birthday accounts and photographers can use the same idea for families who want the dog or cat included in the birthday-card moment.",
       },
       {
         title: "How to share it with clients",
-        body:
-          "This is not a replacement for your service. It is a small personal add-on families can use after they already have birthday photos, cake photos, party portraits, or pet celebration pictures.",
+        body: "This is not a replacement for your service. It is a small personal add-on families can use after they already have birthday photos, cake photos, party portraits, or pet celebration pictures.",
       },
     ],
     messageExamples: [
