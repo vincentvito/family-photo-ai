@@ -24,15 +24,13 @@ export default function Nav({
   const t = useTranslations("Nav");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const navLinks =
-    links ??
-    [
-      { href: "#gallery", label: t("gallery") },
-      { href: "/trending", label: `${t("trending")} 🔥` },
-      { href: "#how", label: t("how") },
-      { href: "#pricing", label: t("pricing") },
-      { href: "#faq", label: t("faq") },
-    ];
+  const navLinks = links ?? [
+    { href: "#gallery", label: t("gallery") },
+    { href: "/trending", label: `${t("trending")} 🔥` },
+    { href: "#how", label: t("how") },
+    { href: "#pricing", label: t("pricing") },
+    { href: "#faq", label: t("faq") },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

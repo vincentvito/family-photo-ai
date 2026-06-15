@@ -10,6 +10,15 @@ import type { Theme } from "@/lib/themes";
 type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
 
+const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
+  { id: "retro-summer-postcard", badge: "Fresh weekly" },
+  { id: "toy-box-keepsake-portrait", badge: "Fresh weekly" },
+  { id: "cool-blue-lake-day", badge: "Fresh weekly" },
+  { id: "poetcore-family-library-portrait", badge: "Fresh weekly" },
+  { id: "neo-deco-celebration-card", badge: "New card" },
+  { id: "crochet-raffia-picnic-card", badge: "New card" },
+];
+
 const FALLBACK_POPULAR_ITEMS: FeaturedItem[] = [
   { id: "private-jet-family", badge: "New vibe" },
   { id: "soccer-team-family", badge: "New vibe" },
@@ -35,7 +44,7 @@ function buildFeaturedItems(trendingVibes: TrendingVibe[]): FeaturedItem[] {
     }))
     .filter((item) => THEME_BY_ID.has(item.id));
 
-  const deduped = [...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(
+  const deduped = [...WEEKLY_TREND_ITEMS, ...trendingItems, ...FALLBACK_POPULAR_ITEMS].filter(
     (item, index, items) => items.findIndex((candidate) => candidate.id === item.id) === index,
   );
 
@@ -65,7 +74,8 @@ const categoryLabel: Record<Theme["category"], string> = {
 function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?: string }) {
   const aspect = aspectClass[theme.aspectRatio] ?? "aspect-[4/5]";
   const chip = categoryChip[theme.category];
-  const href = theme.category === "card" ? "/studio/theme?output=card" : "/studio/theme?output=photoshoot";
+  const href =
+    theme.category === "card" ? "/studio/theme?output=card" : "/studio/theme?output=photoshoot";
 
   return (
     <motion.div

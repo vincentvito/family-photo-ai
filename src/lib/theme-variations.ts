@@ -103,6 +103,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Adventure-procession proof: selected cast walking along a curved path with bags and flags, playful silhouettes, gouache texture and original non-franchise charm.",
     "Close painted keepsake: selected cast waist-up within a whimsical postcard frame, clouds and hills behind, warm paper texture and cheerful color separation.",
   ],
+  "retro-summer-postcard": [
+    "Beach-postcard portrait: selected cast grouped on warm sand with striped towels and linen layers, clean horizon, rose-warm film color and generous print margins.",
+    "Lake-picnic keepsake: selected cast seated near a summer blanket with fruit and sun-faded fabric, relaxed faces, water or grass context behind.",
+    "Vacation-walk candid: selected cast walking through late-afternoon summer light with retro stripes and casual linen, postcard-balanced spacing and soft film grain.",
+    "Tight sun-wash crop: waist-up selected-cast grouping against sky blue and cream background, mild rosy highlights, clear faces and no app-filter artifacts.",
+  ],
+  "toy-box-keepsake-portrait": [
+    "Block-floor portrait: selected cast gathered on a soft rug among generic wooden blocks, picture books and handmade keepsakes, low seated-level camera and bright window light.",
+    "Storybook-shelf frame: selected cast near tidy cubbies and a reading nook, soft primary colors, relaxed parent-child gestures and clean face readability.",
+    "Toy-box candid: selected cast reaching toward simple handmade toys and open storybooks, playful floor-level composition, uncluttered nursery texture.",
+    "Keepsake close portrait: selected cast shoulder-to-knee with maple wood, pastel rugs and blank book spines behind, warm smiles and polished keepsake finish.",
+  ],
+  "cool-blue-lake-day": [
+    "End-of-dock blue portrait: selected cast on weathered planks with still lake water behind, pale denim and linen styling, crisp cool morning light.",
+    "Shoreline breeze frame: selected cast standing near reeds or a coastal overlook, glacier-blue accents, airy negative space and modest summer layers.",
+    "Lake-blanket candid: selected cast seated beside simple towels and picnic details, dewy highlights, water-bounced fill and calm editorial freshness.",
+    "Tight blue-hour crop: waist-up selected-cast grouping with cool water bokeh, cloud cream wardrobe notes, clean faces and premium print contrast.",
+  ],
+  "poetcore-family-library-portrait": [
+    "Reading-chair portrait: selected cast gathered around a worn reading chair with books and blank cards nearby, oversized knits and warm window light.",
+    "Writing-desk candid: selected cast leaning near a wooden desk with stationery details, vintage blazers, soft lamp glow and intimate study-room depth.",
+    "Library-aisle frame: selected cast standing between shelves with book stacks secondary, messenger satchel texture and quiet literary editorial mood.",
+    "Close letter-card crop: selected cast waist-up beside parchment-toned cards and shelves, wool and tweed details, soft amber falloff and clear faces.",
+  ],
+  "neo-deco-celebration-card": [
+    "Arch-side greeting card: selected cast placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
+    "Emerald accent portrait: selected cast in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
+    "Tomato accent celebration: selected cast arranged in a refined vertical card layout with tomato red accent decor, controlled sparkle and readable faces.",
+    "Wide deco card proof: selected cast smaller within symmetrical arch geometry, elegant negative space for greeting text and no venue signage.",
+  ],
+  "crochet-raffia-picnic-card": [
+    "Gingham greeting card: selected cast seated near a gingham blanket edge with crochet texture accents, raffia basket detail and clean greeting space in sunlit grass.",
+    "Citrus picnic portrait: selected cast grouped beside fruit, flowers and cream textiles, citrus yellow and tomato accents, airy card margin on one side.",
+    "Raffia hat candid: selected cast leaning into a soft picnic moment with woven details and open-shade face fill, greeting area held in pale background.",
+    "Wide summer card proof: selected cast smaller on the blanket within a meadow or garden, crochet and raffia textures visible, clear typography space above.",
+  ],
   "private-jet-family": [
     "Cabin lounge editorial: selected cast arranged across cream leather seats inside the private jet, polished wood trim and oval windows visible, faces readable in soft daylight.",
     "Aisle arrival portrait: selected cast standing or leaning along the jet aisle with premium luggage nearby, staggered warm poses, no visible brand logos or airline marks.",

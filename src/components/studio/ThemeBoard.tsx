@@ -234,19 +234,22 @@ export default function ThemeBoard({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const toggleThemeSelection = useCallback((theme: Theme) => {
-    const alreadySelected = selectedThemeIds.includes(theme.id);
-    if (!alreadySelected && selectedThemeIds.length >= 4) {
-      setError("Choose up to 4 vibes for one shoot.");
-      return;
-    }
-    setError(null);
-    setSelectedThemeIds(
-      alreadySelected
-        ? selectedThemeIds.filter((id) => id !== theme.id)
-        : [...selectedThemeIds, theme.id],
-    );
-  }, [selectedThemeIds]);
+  const toggleThemeSelection = useCallback(
+    (theme: Theme) => {
+      const alreadySelected = selectedThemeIds.includes(theme.id);
+      if (!alreadySelected && selectedThemeIds.length >= 4) {
+        setError("Choose up to 4 vibes for one shoot.");
+        return;
+      }
+      setError(null);
+      setSelectedThemeIds(
+        alreadySelected
+          ? selectedThemeIds.filter((id) => id !== theme.id)
+          : [...selectedThemeIds, theme.id],
+      );
+    },
+    [selectedThemeIds],
+  );
 
   const launchSelectedThemes = useCallback(() => {
     if (selectedThemes.length === 0) {
@@ -844,11 +847,11 @@ export default function ThemeBoard({
                             ? "Sign in to generate"
                             : !canCreateShoot
                               ? "Add credits to begin"
-                            : pending && activeTheme?.id === selectedCardTheme.id
-                              ? "Setting up..."
-                              : hasCredits
-                                ? "Generate card"
-                                : "Create free preview"}
+                              : pending && activeTheme?.id === selectedCardTheme.id
+                                ? "Setting up..."
+                                : hasCredits
+                                  ? "Generate card"
+                                  : "Create free preview"}
                           <svg
                             className="h-4 w-4"
                             viewBox="0 0 24 24"
@@ -1093,11 +1096,11 @@ export default function ThemeBoard({
                     ? "Sign in to generate"
                     : !canCreateShoot
                       ? "Add credits to begin"
-                    : pending && launchingCustom
-                      ? "Setting up…"
-                      : hasCredits
-                        ? "Begin this shoot"
-                        : "Create free preview"}
+                      : pending && launchingCustom
+                        ? "Setting up…"
+                        : hasCredits
+                          ? "Begin this shoot"
+                          : "Create free preview"}
                   <svg
                     className="h-4 w-4"
                     viewBox="0 0 24 24"
@@ -1150,11 +1153,11 @@ export default function ThemeBoard({
               ? "Sign in to generate"
               : !canCreateShoot
                 ? "Add credits to begin"
-              : pending
-                ? "Setting up..."
-                : hasCredits
-                  ? "Generate 4 shots"
-                  : "Create free preview"}
+                : pending
+                  ? "Setting up..."
+                  : hasCredits
+                    ? "Generate 4 shots"
+                    : "Create free preview"}
           </button>
         </div>
       )}

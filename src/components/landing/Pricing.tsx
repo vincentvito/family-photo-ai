@@ -44,7 +44,12 @@ function Check({ className }: { className?: string }) {
 export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: string }) {
   const t = useTranslations("Pricing");
   const [error, setError] = useState<string | null>(null);
-  const tierMessages = t.raw("tiers") as { name: string; price: string; sub: string; features: string[] }[];
+  const tierMessages = t.raw("tiers") as {
+    name: string;
+    price: string;
+    sub: string;
+    features: string[];
+  }[];
   const tiers = tierConfig.map((tier, index) => ({ ...tier, ...tierMessages[index] }));
   const proFeatures = t.raw("proFeatures") as string[];
 
@@ -53,10 +58,10 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="text-center">
-              <span className="chip chip-butter">
-                <span className="dot dot-butter" />
-                {t("chip")}
-              </span>
+            <span className="chip chip-butter">
+              <span className="dot dot-butter" />
+              {t("chip")}
+            </span>
             <h2 className="serif mx-auto mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
               {t("titleBefore")}{" "}
               <em className="serif-italic text-[color:var(--color-coral)]">{t("titleEmphasis")}</em>{" "}
@@ -79,9 +84,7 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
         <Reveal delay={0.04}>
           <div className="mx-auto mt-8 max-w-3xl rounded-[var(--radius-xl)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] p-5 text-center shadow-[var(--shadow-md)] sm:p-6">
             <p className="small-caps text-[color:var(--color-coral-deep)]">{t("previewEyebrow")}</p>
-            <h3 className="serif mt-2 text-3xl leading-tight sm:text-4xl">
-              {t("previewTitle")}
-            </h3>
+            <h3 className="serif mt-2 text-3xl leading-tight sm:text-4xl">{t("previewTitle")}</h3>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)] sm:text-base">
               {t("previewBody")}
             </p>
@@ -180,9 +183,7 @@ export default function Pricing({ unlockGenerationId }: { unlockGenerationId?: s
                   {t("perMonth")}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
-                {t("proSub")}
-              </p>
+              <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">{t("proSub")}</p>
 
               <ul className="mt-8 flex-1 space-y-3 text-[0.95rem]">
                 {proFeatures.map((f) => (

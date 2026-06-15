@@ -92,7 +92,10 @@ export default function ParallaxStack({ items, className }: Props) {
   const reduce = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(() => {
     const maxZ = Math.max(...items.map((candidate) => candidate.zIndex ?? 1));
-    return Math.max(0, items.findIndex((item) => (item.zIndex ?? 1) === maxZ));
+    return Math.max(
+      0,
+      items.findIndex((item) => (item.zIndex ?? 1) === maxZ),
+    );
   });
 
   const rawX = useMotionValue(0);
