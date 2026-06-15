@@ -3,19 +3,19 @@ import { existsSync, statSync } from "node:fs";
 import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
-import { THEMES, getTheme } from "../src/lib/themes";
+import { THEMES, getRequiredCardTextError, getTheme, themesByCategory } from "../src/lib/themes";
 import { THEME_VARIATION_PROMPTS, getThemeVariationPrompts } from "../src/lib/theme-variations";
 import { VIBES } from "../src/data/vibes";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
-const MAX_FEATURED_SAMPLE_IMAGE_BYTES = 400 * 1024;
+const MAX_THEME_SAMPLE_IMAGE_BYTES = 400 * 1024;
 
 function assertOptimizedSampleImage(imagePath: string) {
   const projectPath = imagePath.replace(/^\/+/, "public/");
   assert.ok(existsSync(projectPath), `${imagePath} should exist in public assets`);
   assert.ok(
-    statSync(projectPath).size <= MAX_FEATURED_SAMPLE_IMAGE_BYTES,
-    `${imagePath} should stay under 400 KB for landing and SEO pages`,
+    statSync(projectPath).size <= MAX_THEME_SAMPLE_IMAGE_BYTES,
+    `${imagePath} should stay under 400 KB for landing, SEO, and theme pages`,
   );
 }
 
@@ -465,6 +465,62 @@ test("new weekly theme specs leave roster and card text details to the prompt co
       assert.doesNotMatch(prompt, /render the exact text/i);
     }
   }
+});
+
+test("luxury carved-number birthday card is selectable, dynamic and guarded", () => {
+  const theme = getTheme("card-luxury-carved-number-birthday");
+  const variations = getThemeVariationPrompts(theme.id, theme.category);
+  const prompt = buildGenerationPrompt(
+    theme,
+    [
+      {
+        personId: "child-1",
+        name: "Sky Lou",
+        role: "child",
+        notes: null,
+        referencePaths: ["child.jpg"],
+      },
+    ],
+    null,
+    "AVA ROSE\nCHAPTER 7\n365 MORE DAYS OF WONDER",
+  );
+
+  assert.equal(theme.category, "card");
+  assert.equal(theme.aspectRatio, "2:3");
+  assert.equal(theme.acceptsCardText, true);
+  assert.equal(theme.supportsPets, true);
+  assert.equal(
+    getRequiredCardTextError(theme, null),
+    "Add birthday card text with the age for this carved-number card.",
+  );
+  assert.equal(
+    getRequiredCardTextError(theme, "AVA ROSE"),
+    "Include the birthday age in the card text so the carved number is correct.",
+  );
+  assert.equal(getRequiredCardTextError(theme, "AVA ROSE - CHAPTER 7"), null);
+  assert.equal(theme.coverImage, "/samples/theme-card-luxury-carved-number-birthday.webp");
+  assertOptimizedSampleImage(theme.coverImage);
+  assert.equal(variations.length, 4);
+  assert.doesNotMatch(theme.spec.assetType, /3:4/);
+  assert.match(prompt, /off-white luxury paper textured wall/i);
+  assert.match(prompt, /birthday-age number/i);
+  assert.match(prompt, /carved into it/i);
+  assert.match(prompt, /visible paper thickness/i);
+  assert.match(prompt, /realistic inner shadows/i);
+  assert.match(prompt, /exact text "AVA ROSE\nCHAPTER 7\n365 MORE DAYS OF WONDER"/i);
+  assert.match(prompt, /no fixed sample names/i);
+  assert.match(prompt, /no fixed sample age/i);
+  assert.match(variations.join(" "), /provided card text only/i);
+  assert.match(variations.join(" "), /no sample names or sample ages/i);
+  assert.doesNotMatch(prompt, /SKY LOU, CHAPTER 6/i);
+  assert.doesNotMatch(prompt, /POPPY MAE, CHAPTER 4/i);
+  assert.doesNotMatch(`${prompt} ${variations.join(" ")}`, /3:4/i);
+
+  const cardThemeIds = themesByCategory().card.map((entry) => entry.id);
+  assert.equal(
+    cardThemeIds.indexOf("card-luxury-carved-number-birthday"),
+    cardThemeIds.indexOf("card-birthday") + 1,
+  );
 });
 
 test("iconic crosswalk vibe keeps album-cover walking composition", () => {

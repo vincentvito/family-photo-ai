@@ -66,6 +66,22 @@ export type Theme = {
   acceptsCardText?: boolean;
 };
 
+export const LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID = "card-luxury-carved-number-birthday";
+
+export function getRequiredCardTextError(
+  theme: Pick<Theme, "id">,
+  cardText?: string | null,
+): string | null {
+  if (theme.id !== LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID) return null;
+
+  const trimmed = cardText?.trim() ?? "";
+  if (!trimmed) return "Add birthday card text with the age for this carved-number card.";
+  if (!/\d/u.test(trimmed)) {
+    return "Include the birthday age in the card text so the carved number is correct.";
+  }
+  return null;
+}
+
 export const THEMES: Theme[] = [
   // ─── Photoreal ───────────────────────────────────────────────────────
   {
@@ -1628,6 +1644,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID,
+    name: "Luxury Carved Number Birthday Poster",
+    blurb:
+      "A premium off-white paper wall with the birthday age carved deep into it, balloons and florals inside, and the child breaking the frame in a luxe 3D poster look.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-luxury-carved-number-birthday.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 professional luxury carved-number birthday card portrait",
+      scene:
+        "a premium off-white luxury paper textured wall with a large birthday-age number precisely carved into it, visible paper thickness, realistic inner depth, believable shadowed cut edges, soft balloons, subtle white flowers and an elegant bouquet arrangement inside the carved opening",
+      composition:
+        "clean minimalist luxury magazine-cover layout with the carved number dominating the frame, realistic 3D breakthrough depth at the number edge, and calm wall space reserved for the supplied greeting",
+      camera:
+        "medium-format premium studio photography, sharp focus, realistic skin, straight-on vertical card framing, refined negative space for wall typography and a print-ready 2:3 crop",
+      lighting:
+        "Warm cinematic sunlight from one side, soft rim light, realistic inner shadows inside the carved number, natural colors, no tree shadows and no fake-looking lighting",
+      style:
+        "Ultra-realistic high-end art direction, off-white textured paper, soft blue or palette-matched balloons, subtle white flowers, elegant celebration styling, luxury magazine-cover aesthetic, photorealistic skin, no AI artifacts",
+      safety:
+        "no logos, no watermark, no extra people, no fake tree shadows, no garbled typography, no fixed sample names, no fixed sample age; if the supplied card text includes an age number, the carved number should match it",
+    },
+  },
+  {
     id: "card-halloween",
     name: "Halloween Card",
     blurb:
@@ -1927,6 +1970,7 @@ export function themesByCategory() {
       "card-eid",
       "card-dia-de-muertos",
       "card-birthday",
+      "card-luxury-carved-number-birthday",
       "card-anniversary",
       "card-save-the-date",
       "card-mothers-day",

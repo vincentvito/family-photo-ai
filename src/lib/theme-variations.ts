@@ -463,6 +463,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Gift-table candid: selected cast around gifts and plates, text balanced in open background.",
     "Close candle crop: tighter faces around candle glow, soft party details framing readable type.",
   ],
+  "card-luxury-carved-number-birthday": [
+    "Carved-number breakthrough poster: selected birthday subject centered inside a large birthday-age number cut into an off-white textured paper wall, face and shoulder extending outside the number, soft blue balloons and white florals inside, tasteful wall typography from the provided card text only.",
+    "Bouquet-and-balloon number card: selected cast tucked into the deep carved birthday number with realistic inner shadows, elegant bouquet on one side, one hand or foot breaking the number edge for 3D depth, clean luxury wall negative space for exact user text.",
+    "Minimal magazine cover poster: oversized carved birthday-age number dominates the frame, natural laughter in dark denim or premium casual styling, warm side sunlight, subtle rim light, serif typography on the wall using supplied text, no sample names or sample ages.",
+    "Close luxury paper-wall crop: tight vertical poster framing on the carved number opening, premium off-white texture, soft palette-matched balloons and white flowers, realistic shadows under extended limbs, natural colors, no tree shadows and no fake lighting.",
+  ],
   "card-anniversary": [
     "Champagne-toast card: selected cast close together near a small table with champagne or sparkling glasses, greeting space upper-right.",
     "Garden-terrace portrait: selected cast standing or seated among cream florals and candles, soft negative space on the left.",
