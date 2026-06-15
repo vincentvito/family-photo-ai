@@ -30,7 +30,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     title: "Kids Birthday Card Maker | Personalized Birthday Cards | FamilyShoot",
     description:
       "Create a personalized kids birthday card using family, party, portrait, or pet photos. Birthday card ideas for sons, daughters, nieces, nephews, and little friends.",
-    image: "/samples/theme-minecraft.jpg",
+    image: "/seo/birthday-cards/kids-birthday-card-maker.webp",
     h1: "Personalized kids birthday cards made from family moments",
     intro:
       "Turn favorite family, party, portrait, or pet photos into a birthday card idea that feels made for the child, not picked from a shelf. Start with playful styles like Minecraft, storybook garden, or a soft birthday portrait with balloons and big age-number energy.",
@@ -109,7 +109,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     title: "Birthday Card for Grandma | Personalized Family Gift | FamilyShoot",
     description:
       "Make a birthday card for Grandma using family photos, grandkids, pets, and warm message ideas. A personal grandparent birthday gift from the people she loves.",
-    image: "/samples/theme-card-birthday.jpg",
+    image: "/seo/birthday-cards/birthday-card-for-grandma.webp",
     h1: "A birthday card for Grandma that feels like family",
     intro:
       "Create a warm birthday card idea for Grandma with the grandkids, family portraits, pets, and little memories that make the gift feel personal.",
@@ -162,8 +162,8 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     name: "Birthday card partners",
     title: "Birthday Card Add-On for Party Planners and Cake Decorators | FamilyShoot",
     description:
-      "A simple personalized birthday-card idea for cake decorators, party planners, family photographers, and children’s event businesses to share with clients.",
-    image: "/samples/theme-card-birthday.jpg",
+      "A simple personalized birthday-card idea for cake decorators, party planners, family photographers, and children's event businesses to share with clients.",
+    image: "/seo/birthday-cards/birthday-card-partners.webp",
     h1: "A simple birthday-card add-on for your clients",
     intro:
       "FamilyShoot gives families a personal birthday-card idea they can pair with a cake order, birthday shoot, party package, or celebration gift.",
@@ -174,7 +174,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
         body: "After the cake is picked up or photographed, families already have a birthday moment worth turning into a card. FamilyShoot can be a light add-on recommendation, not another heavy service to manage.",
       },
       {
-        title: "For kids’ party planners",
+        title: "For kids' party planners",
         body: "Party planners can give families a simple next step after the event: turn the birthday photos, family portraits, and pet moments into a personal card idea.",
       },
       {
@@ -202,7 +202,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
       },
       {
         q: "Who is this partner page for?",
-        a: "Cake decorators, kids’ party planners, family photographers, children’s event venues, and pet birthday creators who want a simple birthday-card add-on to share with clients.",
+        a: "Cake decorators, kids' party planners, family photographers, children's event venues, and pet birthday creators who want a simple birthday-card add-on to share with clients.",
       },
       {
         q: "Can partners request examples before sharing it?",
@@ -219,3 +219,43 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
 
 export const birthdayCardPageBySlug = (slug: string) =>
   BIRTHDAY_CARD_PAGES.find((page) => page.slug === slug);
+
+export type BirthdayCardSeoPage = {
+  slug: string;
+  path: string;
+  name: string;
+  seoTitle: string;
+  metaDescription: string;
+  h1: string;
+  heroCopy: string;
+  ctaLabel: string;
+  ctaHref: string;
+  image: string;
+  related: string[];
+};
+
+export const LAST_MINUTE_BIRTHDAY_CARD_PAGE: BirthdayCardSeoPage = {
+  slug: "last-minute-personalized-birthday-card",
+  path: "/birthday-cards/last-minute-personalized-birthday-card",
+  name: "Last-minute personalized birthday cards",
+  seoTitle: "Last-Minute Personalized Birthday Cards | FamilyShoot",
+  metaDescription:
+    "Create a thoughtful personalized birthday card using family, kid, couple, grandparent, or pet photos. A better last-minute birthday gift idea from FamilyShoot.",
+  h1: "Last-minute personalized birthday cards that still feel thoughtful",
+  heroCopy:
+    "Forgot a birthday? Turn family, couple, kid, grandparent, or pet photos into a birthday card idea that feels personal instead of rushed.",
+  ctaLabel: "Create a birthday card",
+  ctaHref: "/studio/roster",
+  image: "/seo/birthday-cards/last-minute-personalized-birthday-card.webp",
+  related: [
+    "/birthday-family-cards",
+    "/anniversary-gift",
+    "/grandparents-day",
+    "/fathers-day-family-cards",
+  ],
+} as const;
+
+export const BIRTHDAY_CARD_SEO_PAGES = [LAST_MINUTE_BIRTHDAY_CARD_PAGE] as const;
+
+export const birthdayCardSeoPageByPath = (path: string) =>
+  BIRTHDAY_CARD_SEO_PAGES.find((page) => page.path === path);

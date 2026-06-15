@@ -1,3 +1,5 @@
+import { BIRTHDAY_CARD_SEO_PAGES } from "./birthday-card-seo-pages";
+
 export type OccasionPage = {
   slug: string;
   name: string;
@@ -11,6 +13,8 @@ export type OccasionPage = {
   whatIsBody: string;
   ctaLabel: string;
   related: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 };
 
 export const OCCASION_PAGES: readonly OccasionPage[] = [
@@ -169,7 +173,13 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     whatIsBody:
       "Anniversaries are recurring gift moments with a clear buyer: spouses, children, and relatives looking for a personal keepsake. A dedicated page can speak to gift anxiety better than a generic AI portrait page.\n\nUse this page for wedding anniversaries, relationship milestones, and framed family keepsakes.",
     ctaLabel: "Create Anniversary Portrait",
-    related: ["save-the-date-family-cards", "mothers-day", "fathers-day", "birthday-family-cards"],
+    related: [
+      "birthday-cards/last-minute-personalized-birthday-card",
+      "save-the-date-family-cards",
+      "mothers-day",
+      "fathers-day",
+      "birthday-family-cards",
+    ],
   },
   {
     slug: "valentines-day",
@@ -186,8 +196,15 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     whatIsBody:
       "Valentine's Day is a gift and card-buying moment, but FamilyShoot should own the family-safe angle rather than competing with generic romance cards. The hook is simple: make something personal with the people you love most.\n\nThe CTA should move users into a free preview quickly and avoid anything too couple-only or cheesy.",
     ctaLabel: "Create Valentine's Portrait",
-    related: ["anniversary-gift", "mothers-day", "fathers-day", "birthday-family-cards"],
+    related: [
+      "birthday-cards/last-minute-personalized-birthday-card",
+      "anniversary-gift",
+      "mothers-day",
+      "fathers-day",
+      "birthday-family-cards",
+    ],
   },
+  ...BIRTHDAY_CARD_SEO_PAGES,
 ] as const;
 
 export const occasionPageBySlug = (slug: string) =>

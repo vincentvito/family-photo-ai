@@ -26,6 +26,7 @@ const occasions = OCCASION_IDS.map((id) => THEMES.find((theme) => theme.id === i
 );
 
 const FEATURED_OCCASION_SLUGS = [
+  "birthday-cards/last-minute-personalized-birthday-card",
   "fathers-day",
   "mothers-day",
   "womens-day",
@@ -34,9 +35,18 @@ const FEATURED_OCCASION_SLUGS = [
   "family-reunion",
 ];
 
-const featuredOccasionPages = FEATURED_OCCASION_SLUGS.map(
-  (slug) => OCCASION_PAGES.find((page) => page.slug === slug)!,
-).filter(Boolean);
+const featuredOccasionPages = FEATURED_OCCASION_SLUGS.map((slug) => {
+  if (slug === "birthday-cards/last-minute-personalized-birthday-card") {
+    return {
+      slug,
+      name: "Last-minute birthday cards",
+      shortDescription:
+        "Turn family, couple, kid, grandparent, or pet photos into a thoughtful birthday card idea.",
+    };
+  }
+
+  return OCCASION_PAGES.find((page) => page.slug === slug)!;
+}).filter(Boolean);
 
 export default function OccasionCards() {
   return (

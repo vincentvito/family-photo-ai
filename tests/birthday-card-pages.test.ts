@@ -1,13 +1,15 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import test from "node:test";
 
 import { BIRTHDAY_CARD_PAGES, birthdayCardPageBySlug } from "../src/data/birthday-card-pages";
 
 const requiredSlugs = ["kids-birthday-card-maker", "birthday-card-for-grandma", "partners"];
+const MAX_BIRTHDAY_CARD_PAGE_IMAGE_BYTES = 400 * 1024;
 
 test("birthday-card growth pages exist with clear metadata and CTAs", () => {
   const bySlug = new Map(BIRTHDAY_CARD_PAGES.map((page) => [page.slug, page]));
+  const imagePaths = new Set<string>();
 
   for (const slug of requiredSlugs) {
     const page = bySlug.get(slug);
@@ -21,6 +23,20 @@ test("birthday-card growth pages exist with clear metadata and CTAs", () => {
     assert.ok(page.faqs.length >= 3, `${slug} should have FAQ content`);
     assert.ok(page.related.length >= 3, `${slug} should link to related pages`);
     assert.ok(page.ctaLabel.length >= 12, `${slug} should have a clear CTA`);
+    const expectedImageSlug = slug === "partners" ? "birthday-card-partners" : slug;
+    assert.match(
+      page.image,
+      new RegExp(`/seo/birthday-cards/${expectedImageSlug}\\.webp$`),
+    );
+    assert.equal(imagePaths.has(page.image), false, `${slug} should use a distinct hero image`);
+    imagePaths.add(page.image);
+
+    const projectImagePath = page.image.replace(/^\/+/, "public/");
+    assert.ok(existsSync(projectImagePath), `${page.image} should exist`);
+    assert.ok(
+      statSync(projectImagePath).size <= MAX_BIRTHDAY_CARD_PAGE_IMAGE_BYTES,
+      `${page.image} should stay under 400 KB`,
+    );
   }
 });
 
@@ -64,8 +80,7 @@ test("kids birthday-card page features child-focused design directions", () => {
   const page = birthdayCardPageBySlug("kids-birthday-card-maker");
 
   assert.ok(page, "kids birthday-card page should exist");
-  assert.notEqual(page.image, "/samples/theme-card-birthday.jpg");
-  assert.match(page.image, /minecraft/i);
+  assert.equal(page.image, "/seo/birthday-cards/kids-birthday-card-maker.webp");
   assert.equal(page.styleExamples?.length, 3);
   assert.match(page.styleHeading ?? "", /generic birthday template/i);
   assert.ok(page.styleExamples?.some((style) => /Minecraft/i.test(style.label)));
@@ -87,7 +102,7 @@ test("partner birthday-card page keeps approved positioning", () => {
   assert.match(page.intro, /cake order, birthday shoot, party package, or celebration gift/i);
   assert.equal(page.ctaLabel, "Request a sample birthday-card pack");
   assert.ok(page.sections.some((section) => /cake decorators/i.test(section.title)));
-  assert.ok(page.sections.some((section) => /kids’ party planners/i.test(section.title)));
+  assert.ok(page.sections.some((section) => /kids' party planners/i.test(section.title)));
   assert.ok(page.sections.some((section) => /family photographers/i.test(section.title)));
   assert.ok(page.sections.some((section) => /pet birthday creators/i.test(section.title)));
 });

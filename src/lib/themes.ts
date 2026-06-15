@@ -66,6 +66,22 @@ export type Theme = {
   acceptsCardText?: boolean;
 };
 
+export const LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID = "card-luxury-carved-number-birthday";
+
+export function getRequiredCardTextError(
+  theme: Pick<Theme, "id">,
+  cardText?: string | null,
+): string | null {
+  if (theme.id !== LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID) return null;
+
+  const trimmed = cardText?.trim() ?? "";
+  if (!trimmed) return "Add birthday card text with the age for this carved-number card.";
+  if (!/\d/u.test(trimmed)) {
+    return "Include the birthday age in the card text so the carved number is correct.";
+  }
+  return null;
+}
+
 export const THEMES: Theme[] = [
   // ─── Photoreal ───────────────────────────────────────────────────────
   {
@@ -720,7 +736,7 @@ export const THEMES: Theme[] = [
       "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -786,7 +802,7 @@ export const THEMES: Theme[] = [
       "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -821,6 +837,110 @@ export const THEMES: Theme[] = [
         "warm painted sunset wash, soft sky glow, gentle rim highlights and cheerful color separation across the scene",
       style:
         "hand-painted gouache and watercolor postcard texture, sky blue, leaf green, poppy red, butter yellow and warm paper palette, family-safe adventure mood, no franchise characters, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "retro-summer-postcard",
+    name: "Retro Summer Postcard",
+    blurb:
+      "A sun-washed family vacation portrait with postcard color, retro stripes, summer linens, and soft film-camera nostalgia.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-retro-summer-postcard.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 nostalgic summer-postcard family photograph",
+      scene:
+        "a beach, lake, or picnic-safe summer backdrop with sun-faded towels, striped fabric, casual linen layers, warm sand or grass, and a clean print-ready vacation setting",
+      camera:
+        "35mm film camera with a 40mm lens, relaxed eye-level vacation portrait framing, postcard-balanced spacing with readable faces and a hint of scenic context",
+      composition:
+        "gentle diagonal spacing, clean printed-postcard margins, no app interface, no stickers, no readable captions",
+      lighting:
+        "warm late-afternoon sunlight with soft bounce fill, mild rosy highlight warmth, gentle haze and crisp facial detail without heavy filter effects",
+      style:
+        "retro summer travel photography, rose-tinted film warmth, cream, coral, sky blue, grass green and sun-yellow accents, subtle grain, polished keepsake finish",
+      safety:
+        "original vacation scene, no brand names, no recognizable social app interface, no celebrity likeness, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "toy-box-keepsake-portrait",
+    name: "Toy-Box Keepsake Portrait",
+    blurb:
+      "A bright playroom keepsake portrait with wooden blocks, storybooks, handmade toys, soft primary color, and childlike wonder.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-toy-box-keepsake-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical playroom family keepsake portrait",
+      scene:
+        "a bright nursery or playroom with generic wooden blocks, handmade plush keepsakes, picture books, soft rugs, storage cubbies and tidy colorful childhood details",
+      camera:
+        "digital medium-format camera with a 45mm lens, low seated-level framing, playful environmental portrait perspective with clean face readability",
+      composition:
+        "balanced floor-level rug geometry, clear sightlines through the toy details, visible hands and uncluttered toy-box texture",
+      lighting:
+        "large soft window light with gentle wall bounce, bright catchlights, pastel shadow detail and no harsh flash",
+      style:
+        "premium keepsake lifestyle photography, soft primary colors, warm cream, maple wood, gentle blue and red accents, tactile nursery textures, print-ready polish",
+      safety:
+        "generic handmade toys only, no branded toy shapes, no franchise characters, no studio names, no mascot characters, no logos, no readable text",
+    },
+  },
+  {
+    id: "cool-blue-lake-day",
+    name: "Cool Blue Lake Day",
+    blurb:
+      "A crisp cool-blue lake portrait with airy dock light, linen and denim styling, glacier-blue accents, and calm editorial freshness.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cool-blue-lake-day.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 crisp cool-blue lakeside family photograph",
+      scene:
+        "a quiet lake dock or airy coastal overlook with still water, pale sky, weathered planks, clean towels, simple picnic details and calm summer freshness",
+      camera:
+        "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing, waterline and sky used as clean graphic layers",
+      composition:
+        "premium negative space, faces held in the brighter third, dock or shoreline lines guiding into the frame",
+      lighting:
+        "clean natural morning light, cool sky fill, subtle water bounce, dewy highlight freshness and crisp skin detail",
+      style:
+        "cool blue editorial photography, glacier blue, pale denim, white linen, cloud cream and soft silver palette, restrained contrast, print-ready premium finish",
+      safety:
+        "modest summer styling, no swimwear-forward posing, no revealing wardrobe, no brands, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "poetcore-family-library-portrait",
+    name: "Poetcore Family Library Portrait",
+    blurb:
+      "A warm library portrait with oversized knits, vintage blazers, book props, handwritten card details, and soft literary intimacy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-family-library-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 warm literary-library family portrait",
+      scene:
+        "a cozy home library or study with wood shelves, stacked books, a writing desk, blank handwritten cards, messenger satchel details, oversized knits and vintage blazers",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical waist-up to knee-up framing, intimate study-room depth and clear face priority",
+      composition:
+        "triangular portrait arrangement near a reading chair, desk or shelves, with book and letter details kept secondary",
+      lighting:
+        "soft window light through sheer curtains, warm desk-lamp glow, gentle amber fill across wood shelves and flattering falloff on faces",
+      style:
+        "literary editorial photography, wool, tweed, oxblood, parchment, moss green and warm walnut palette, quiet protagonist mood, gallery-print finish",
+      safety:
+        "original library setting, no author likeness, no public-figure resemblance, no readable copyrighted text, no brand logos, no watermark",
     },
   },
 
@@ -932,7 +1052,7 @@ export const THEMES: Theme[] = [
       "Cream leather seats, glowing cabin windows, designer-travel polish. The family as a rich-but-warm private jet editorial.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/private-jet-family.png",
+    coverImage: "/samples/best-family-photo-prompts/private-jet-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -954,7 +1074,7 @@ export const THEMES: Theme[] = [
       "A pre-game squad photo on the pitch. Matching jerseys, stadium lights, muddy boots, serious game faces.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -976,7 +1096,7 @@ export const THEMES: Theme[] = [
       "Clean white studio, fashion-campaign light, and a different exaggerated expression on every face.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -998,7 +1118,7 @@ export const THEMES: Theme[] = [
       "Hair, socks, toys and snacks floating in a bright space-station portrait with Earth outside the window.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    coverImage: "/samples/best-family-photo-prompts/zero-gravity-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1020,7 +1140,7 @@ export const THEMES: Theme[] = [
       "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    coverImage: "/samples/best-family-photo-prompts/western-wanted-family.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1042,7 +1162,7 @@ export const THEMES: Theme[] = [
       "A dreamy portrait on a soft cloud at blue-pink sunrise, pastel glow, pajamas, robes, and sky magic.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    coverImage: "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1064,7 +1184,7 @@ export const THEMES: Theme[] = [
       "The family as the mascots on a giant colorful breakfast cereal box, glossy, loud, and supermarket-ready.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    coverImage: "/samples/best-family-photo-prompts/cereal-box-family.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1524,6 +1644,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID,
+    name: "Luxury Carved Number Birthday Poster",
+    blurb:
+      "A premium off-white paper wall with the birthday age carved deep into it, balloons and florals inside, and the child breaking the frame in a luxe 3D poster look.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-luxury-carved-number-birthday.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 professional luxury carved-number birthday card portrait",
+      scene:
+        "a premium off-white luxury paper textured wall with a large birthday-age number precisely carved into it, visible paper thickness, realistic inner depth, believable shadowed cut edges, soft balloons, subtle white flowers and an elegant bouquet arrangement inside the carved opening",
+      composition:
+        "clean minimalist luxury magazine-cover layout with the carved number dominating the frame, realistic 3D breakthrough depth at the number edge, and calm wall space reserved for the supplied greeting",
+      camera:
+        "medium-format premium studio photography, sharp focus, realistic skin, straight-on vertical card framing, refined negative space for wall typography and a print-ready 2:3 crop",
+      lighting:
+        "Warm cinematic sunlight from one side, soft rim light, realistic inner shadows inside the carved number, natural colors, no tree shadows and no fake-looking lighting",
+      style:
+        "Ultra-realistic high-end art direction, off-white textured paper, soft blue or palette-matched balloons, subtle white flowers, elegant celebration styling, luxury magazine-cover aesthetic, photorealistic skin, no AI artifacts",
+      safety:
+        "no logos, no watermark, no extra people, no fake tree shadows, no garbled typography, no fixed sample names, no fixed sample age; if the supplied card text includes an age number, the carved number should match it",
+    },
+  },
+  {
     id: "card-halloween",
     name: "Halloween Card",
     blurb:
@@ -1582,6 +1729,60 @@ export const THEMES: Theme[] = [
         "warm tungsten key with cinematic falloff, soft golden rim from the chandelier, specular highlights on glass and gold",
       style:
         "Kodak Vision3 500T emulation, warm cinematic glamour grade, soft halation on the gold confetti, fine grain, editorial polish",
+    },
+  },
+  {
+    id: "neo-deco-celebration-card",
+    name: "Neo Deco Celebration Card",
+    blurb:
+      "An elegant celebration card with geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-neo-deco-celebration-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 elegant neo-deco celebration-card family portrait",
+      scene:
+        "a refined celebration-card set with art-deco-inspired geometric arches, brass and chrome accents, cream wall panels, polished floor reflections and a clean greeting area",
+      camera:
+        "digital medium-format camera with a 65mm portrait lens, vertical card framing with deliberate negative space for greeting text",
+      composition:
+        "balanced arch geometry, centered vertical rhythm and a readable card layout with faces kept clear of typography space",
+      lighting:
+        "soft cinematic key light, warm brass glints, gentle chrome rim highlights, controlled festive sparkle and flattering face fill",
+      style:
+        "neo-deco editorial card design, cream, black, gold, tomato red or emerald accent palette, crisp geometry, polished print finish",
+      safety:
+        "no speakeasy cues, no alcohol props, no gambling references, no nightlife setting, no logos, no readable venue text, no watermark",
+    },
+  },
+  {
+    id: "crochet-raffia-picnic-card",
+    name: "Crochet & Raffia Picnic Card",
+    blurb:
+      "A soft summer picnic card with crochet texture accents, raffia basket details, gingham, citrus color, and natural dewy light.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-crochet-raffia-picnic-card.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 soft summer picnic-card family portrait",
+      scene:
+        "a sunny picnic setup with a gingham blanket, crochet texture accents, raffia basket and hat details, warm cream textiles, fruit, flowers and a clean card greeting area",
+      camera:
+        "Leica M10 with a 35mm lens, blanket-level lifestyle framing with picnic textures balanced against negative space for greeting text",
+      composition:
+        "print-friendly card composition with the picnic blanket as a stable foreground grid, soft diagonal grouping and airy margin for typography",
+      lighting:
+        "natural dewy summer light, open-shade face fill, gentle sun rim through leaves, fresh highlight detail on woven textures",
+      style:
+        "summer lifestyle card photography, warm cream base with citrus yellow, tomato red, lime and soft green accents, tactile crochet and raffia texture, polished print-ready finish",
+      safety:
+        "modest casual styling, no brands, no logos, no readable product labels, no text except user-supplied greeting, no watermark",
     },
   },
   {
@@ -1769,6 +1970,7 @@ export function themesByCategory() {
       "card-eid",
       "card-dia-de-muertos",
       "card-birthday",
+      "card-luxury-carved-number-birthday",
       "card-anniversary",
       "card-save-the-date",
       "card-mothers-day",

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+        url: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
         width: 1200,
         height: 900,
         alt: "White cyclorama family photo prompt example",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Best Prompts to Create a Family Photo | FamilyShoot",
     description:
       "Copy family photo prompt ideas with example images for AI portraits, cards, and creative family keepsakes.",
-    images: ["/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png"],
+    images: ["/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp"],
   },
 };
 
@@ -94,7 +94,7 @@ const FAMILYSHOOT_PROMPTS: PromptExample[] = VIBES.slice(0, 10).map((vibe) => {
 const NEW_PROMPTS: NewPromptExample[] = [
   {
     title: "White cyclorama exaggerated faces",
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     alt: "Family portrait in a white cyclorama studio with exaggerated facial expressions",
     href: "/white-cyclorama-family-photos",
     prompt:
@@ -102,7 +102,7 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Private jet family",
-    image: "/samples/best-family-photo-prompts/private-jet-family.png",
+    image: "/samples/best-family-photo-prompts/private-jet-family.webp",
     alt: "Luxury family portrait inside a private jet above the clouds",
     href: "/private-jet-family-photos",
     prompt:
@@ -110,7 +110,7 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Soccer team family",
-    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     alt: "Family posed as a professional soccer team on a stadium pitch",
     href: "/soccer-team-family-photos",
     prompt:
@@ -118,7 +118,7 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Zero gravity family",
-    image: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    image: "/samples/best-family-photo-prompts/zero-gravity-family.webp",
     alt: "Family floating in zero gravity inside a bright space station",
     href: "/zero-gravity-family-photos",
     prompt:
@@ -126,14 +126,14 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Fridge magnet family",
-    image: "/samples/best-family-photo-prompts/fridge-magnet-family.png",
+    image: "/samples/best-family-photo-prompts/fridge-magnet-family.webp",
     alt: "Family portrait styled as a glossy vacation fridge magnet",
     prompt:
       "Create a fridge magnet-style family photo, tiny glossy souvenir magnet texture, rounded plastic edges, bright vacation colors, decorative blank souvenir-label shapes with no readable lettering, the family squeezed into a cheerful landmark scene, photographed as if stuck on a real refrigerator door.",
   },
   {
     title: "Western wanted family",
-    image: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    image: "/samples/best-family-photo-prompts/western-wanted-family.webp",
     alt: "Sepia western wanted poster family portrait",
     href: "/western-wanted-family-photos",
     prompt:
@@ -141,7 +141,7 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Fluffy cloud family",
-    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
     alt: "Dreamy family portrait on a fluffy cloud at sunrise",
     href: "/fluffy-cloud-family-photos",
     prompt:
@@ -149,7 +149,7 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Cereal box family",
-    image: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    image: "/samples/best-family-photo-prompts/cereal-box-family.webp",
     alt: "Family illustrated as mascots on a colorful cereal box",
     href: "/cereal-box-family-photos",
     prompt:
@@ -157,14 +157,14 @@ const NEW_PROMPTS: NewPromptExample[] = [
   },
   {
     title: "Royal museum family",
-    image: "/samples/best-family-photo-prompts/royal-museum-family.png",
+    image: "/samples/best-family-photo-prompts/royal-museum-family.webp",
     alt: "Family painted as tiny rulers in a royal museum oil portrait",
     prompt:
       "Create a royal museum oil portrait of the family as tiny rulers of an imaginary kingdom, velvet capes, toy crowns, ornate gold frame, dramatic old-master lighting, tiny family crest, majestic poses with slightly humorous seriousness.",
   },
   {
     title: "Snow globe family",
-    image: "/samples/best-family-photo-prompts/snow-globe-family.png",
+    image: "/samples/best-family-photo-prompts/snow-globe-family.webp",
     alt: "Family photo inside a sparkling winter snow globe",
     prompt:
       "Create a family photo inside a snow globe, miniature winter village, sparkling flakes suspended in the glass, cozy scarves, curved glass reflections, warm cottage lights, a polished blank base with no readable engraving, magical holiday keepsake style.",
@@ -210,8 +210,8 @@ export default function BestFamilyPhotoPromptsPage() {
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
               If you are searching for the best family photo prompts, start here. Copy a proven
-              FamilyShoot vibe prompt, or use one of the weird, polished, and memorable ideas
-              below as a starting point.
+              FamilyShoot vibe prompt, or use one of the weird, polished, and memorable ideas below
+              as a starting point.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/studio/roster" className="btn btn-coral btn-lg spring-press">

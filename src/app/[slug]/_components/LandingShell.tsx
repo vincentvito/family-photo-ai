@@ -24,10 +24,12 @@ type Props = {
   ctaHref: string;
   ctaLabel: string;
   breadcrumbs: { name: string; url: string }[];
+  keywordHighlights?: readonly string[];
   sourceImages?: readonly ImageTile[];
   sampleImages?: readonly SampleImage[];
   sampleEyebrow?: string;
   sampleHeading?: string;
+  heroLayout?: "split" | "centered";
 };
 
 export function LandingShell({
@@ -46,12 +48,15 @@ export function LandingShell({
   ctaHref,
   ctaLabel,
   breadcrumbs,
+  keywordHighlights = [],
   sourceImages = [],
   sampleImages = [],
   sampleEyebrow = "Three Father's Day directions",
   sampleHeading = "Three Father's Day gifts you can make from simple phone photos.",
+  heroLayout = "split",
 }: Props) {
   const sampleHref = sampleImages.length > 0 ? "#samples" : "/#gallery";
+  const isCenteredHero = heroLayout === "centered";
 
   return (
     <>
@@ -83,8 +88,14 @@ export function LandingShell({
           </ol>
         </nav>
 
-        <section className="mx-auto mt-6 grid max-w-6xl gap-10 px-6 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div>
+        <section
+          className={
+            isCenteredHero
+              ? "mx-auto mt-6 grid max-w-5xl gap-8 px-6 md:justify-items-center"
+              : "mx-auto mt-6 grid max-w-6xl gap-10 px-6 md:grid-cols-[1.1fr_1fr] md:items-center"
+          }
+        >
+          <div className={isCenteredHero ? "mx-auto max-w-4xl text-center" : undefined}>
             {sampleImages.length > 0 && (
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-3 py-1.5 text-xs font-semibold text-[color:var(--color-coral-deep)] shadow-[var(--shadow-sm)]">
                 <span className="dot dot-coral" />
@@ -94,10 +105,39 @@ export function LandingShell({
             <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
               {h1}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
+            <p
+              className={
+                isCenteredHero
+                  ? "mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]"
+                  : "mt-5 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]"
+              }
+            >
               {intro}
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            {keywordHighlights.length > 0 && (
+              <div
+                className={
+                  isCenteredHero
+                    ? "mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2"
+                    : "mt-5 flex max-w-xl flex-wrap gap-2"
+                }
+                aria-label="Related birthday card searches"
+              >
+                {keywordHighlights.slice(0, 6).map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-3 py-1 text-xs font-semibold text-[color:var(--color-ink-muted)]"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div
+              className={
+                isCenteredHero ? "mt-7 flex flex-wrap justify-center gap-3" : "mt-7 flex flex-wrap gap-3"
+              }
+            >
               <Link href={ctaHref} className="btn btn-coral">
                 {ctaLabel}
               </Link>
@@ -106,7 +146,7 @@ export function LandingShell({
               </Link>
             </div>
           </div>
-          <div className="relative">
+          <div className={isCenteredHero ? "relative mx-auto w-full max-w-2xl" : "relative"}>
             <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)]">
               <Image
                 src={heroImage}
@@ -338,7 +378,7 @@ export function LandingShell({
         <section className="mx-auto mt-20 max-w-3xl px-6 text-center">
           <h2 className="text-3xl font-semibold tracking-tight">Ready to make yours?</h2>
           <p className="mt-3 text-[color:var(--color-ink-muted)]">
-            A few selfies in, a frame-worthy family portrait out. About two minutes.
+            A few selfies in, a frame-worthy family portrait or card out. About two minutes.
           </p>
           <div className="mt-6">
             <Link href={ctaHref} className="btn btn-coral">

@@ -68,7 +68,7 @@ export default function BirthdayCardsHub() {
                       {page.description}
                     </p>
                     <span className="mt-4 inline-flex text-sm font-semibold text-[color:var(--color-coral)]">
-                      {page.ctaLabel} →
+                      {page.ctaLabel} -&gt;
                     </span>
                   </div>
                 </Link>

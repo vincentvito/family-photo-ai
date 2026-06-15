@@ -230,7 +230,12 @@ export const CARDS: readonly Card[] = [
     accentSoft: "#ffe6dc",
     greeting: "Happy Birthday",
     shortDescription: "Confetti light, the whole family in on the candle blow.",
-    related: ["graduation-family-cards", "newborn-family-cards", "fathers-day-family-cards"],
+    related: [
+      "birthday-cards/last-minute-personalized-birthday-card",
+      "graduation-family-cards",
+      "newborn-family-cards",
+      "fathers-day-family-cards",
+    ],
   },
   {
     slug: "newborn-family-cards",

@@ -55,7 +55,7 @@ export async function generateMetadata({
 
 const buildBody = (page: BirthdayCardPage) =>
   page.sections.map((section) => `${section.title}\n${section.body}`).join("\n\n") +
-  `\n\nMessage ideas\n${page.messageExamples.map((example) => `• ${example}`).join("\n")}`;
+  `\n\nMessage ideas\n${page.messageExamples.map((example) => `- ${example}`).join("\n")}`;
 
 export default async function BirthdayCardPageRoute({
   params,
