@@ -5,6 +5,7 @@ import type { Vibe } from "@/data/vibes";
 import { CARDS, cardBySlug } from "@/data/cards";
 import { STYLES, styleBySlug } from "@/data/styles";
 import { OCCASION_PAGES, occasionPageBySlug, type OccasionPage } from "@/data/occasion-pages";
+import { BIRTHDAY_CARD_SEO_PAGES } from "@/data/birthday-card-pages";
 import {
   vibeFaqs,
   cardFaqs,
@@ -235,6 +236,15 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const related: RelatedLink[] = item.related
     .slice(0, 4)
     .map((rs) => {
+      const birthdayCardPage = BIRTHDAY_CARD_SEO_PAGES.find((page) => page.path === `/${rs}`);
+      if (birthdayCardPage) {
+        return {
+          href: birthdayCardPage.path,
+          label: birthdayCardPage.name,
+          image: birthdayCardPage.image,
+        };
+      }
+
       const found = resolve(rs);
       if (!found) return null;
       return { href: `/${rs}`, label: found.item.name, image: found.item.image };

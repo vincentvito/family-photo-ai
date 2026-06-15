@@ -4,6 +4,8 @@ import test from "node:test";
 
 import { OCCASION_PAGES } from "../src/data/occasion-pages";
 
+const MAX_SEO_IMAGE_BYTES = 400 * 1024;
+
 const requiredBirthdaySeoSlugs = [
   "birthday-card-generator",
   "birthday-card-ideas-for-kids",
@@ -15,8 +17,6 @@ const requiredBirthdaySeoSlugs = [
   "birthday-card-for-dad",
   "birthday-invitation-card-with-photo",
 ];
-
-const MAX_BIRTHDAY_SEO_IMAGE_BYTES = 400 * 1024;
 
 test("birthday card SEO pages exist with generated page copy and image content", () => {
   const bySlug = new Map(OCCASION_PAGES.map((page) => [page.slug, page]));
@@ -52,7 +52,7 @@ test("birthday card SEO pages exist with generated page copy and image content",
     const projectImagePath = page.image.replace(/^\/+/, "public/");
     assert.ok(existsSync(projectImagePath), `${page.image} should exist`);
     assert.ok(
-      statSync(projectImagePath).size <= MAX_BIRTHDAY_SEO_IMAGE_BYTES,
+      statSync(projectImagePath).size <= MAX_SEO_IMAGE_BYTES,
       `${page.image} should stay under 400 KB`,
     );
   }
@@ -129,6 +129,7 @@ test("homepage card section deep-links priority occasion pages", () => {
 
   assert.match(source, /Create portraits for every family occasion/);
   assert.match(source, /FEATURED_OCCASION_SLUGS/);
+  assert.match(source, /last-minute-personalized-birthday-card/);
   assert.match(source, /fathers-day/);
   assert.match(source, /mothers-day/);
   assert.match(source, /womens-day/);
@@ -136,4 +137,56 @@ test("homepage card section deep-links priority occasion pages", () => {
   assert.match(source, /anniversary-gift/);
   assert.match(source, /family-reunion/);
   assert.match(source, /href=\{`\/\$\{page\.slug\}`\}/);
+});
+
+test("last-minute personalized birthday card page has approved SEO, CTA, sitemap and links", () => {
+  const pageSource = readFileSync(
+    "src/app/birthday-cards/last-minute-personalized-birthday-card/page.tsx",
+    "utf8",
+  );
+  const dataSource = readFileSync("src/data/birthday-card-pages.ts", "utf8");
+  const sitemapSource = readFileSync("src/app/sitemap.ts", "utf8");
+  const cardsSource = readFileSync("src/data/cards.ts", "utf8");
+  const dynamicSlugSource = readFileSync("src/app/[slug]/page.tsx", "utf8");
+
+  assert.match(dataSource, /\/birthday-cards\/last-minute-personalized-birthday-card/);
+  assert.match(dataSource, /Last-Minute Personalized Birthday Cards \| FamilyShoot/);
+  assert.match(
+    dataSource,
+    /Create a thoughtful personalized birthday card using family, kid, couple, grandparent, or pet photos\./,
+  );
+  assert.match(
+    dataSource,
+    /Last-minute personalized birthday cards that still feel thoughtful/,
+  );
+  assert.match(dataSource, /Forgot a birthday\?/);
+  assert.match(dataSource, /\/seo\/birthday-cards\/last-minute-personalized-birthday-card\.webp/);
+  assert.doesNotMatch(dataSource, /\/samples\/theme-card-birthday\.jpg/);
+  assert.match(pageSource, /page\.h1/);
+  assert.match(pageSource, /page\.heroCopy/);
+  assert.match(pageSource, /Create a birthday card/);
+  assert.match(pageSource, /href=\{page\.ctaHref\}/);
+  assert.match(pageSource, /FAQ: last-minute personalized birthday cards/);
+  assert.match(pageSource, /For when &quot;Happy Birthday&quot; is not enough/);
+  assert.match(
+    pageSource,
+    /Birthday cards for kids, partners, grandparents, friends, and pet lovers/,
+  );
+  assert.match(pageSource, /Ideas for same-day birthday messages/);
+  assert.match(pageSource, /Birthday message examples by recipient/);
+  assert.match(pageSource, /Happy birthday to the heart of our family/);
+  assert.match(pageSource, /favorite little adventurer/);
+  assert.match(pageSource, /We may be far apart today/);
+  assert.match(sitemapSource, /BIRTHDAY_CARD_SEO_PAGES/);
+  assert.match(sitemapSource, /`\$\{SITE_URL\}\$\{page\.path\}`/);
+  assert.match(cardsSource, /birthday-cards\/last-minute-personalized-birthday-card/);
+  assert.match(dynamicSlugSource, /BIRTHDAY_CARD_SEO_PAGES/);
+  assert.match(dynamicSlugSource, /birthdayCardPage\.path/);
+
+  const imagePath = "public/seo/birthday-cards/last-minute-personalized-birthday-card.webp";
+  assert.ok(existsSync(imagePath), "last-minute birthday card SEO image should exist");
+  assert.ok(
+    statSync(imagePath).size <= MAX_SEO_IMAGE_BYTES,
+    "last-minute birthday card SEO image should stay under 400 KB",
+  );
 });
