@@ -4,6 +4,7 @@ import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import ImpersonationBanner from "@/components/ImpersonationBanner";
+import FathersDayPopup from "@/components/landing/FathersDayPopup";
 import { getMessages } from "@/lib/i18n/locales";
 import { getRequestLocale } from "@/lib/i18n/server";
 import "./globals.css";
@@ -26,9 +27,7 @@ const SITE_NAME = "FamilyShoot";
 const TITLE = "AI Family Photo Generator | FamilyShoot";
 const DESCRIPTION =
   "Turn scattered iPhone photos into a frame-worthy family portrait or holiday card in about two minutes. Pick a vibe, upload references, and keep what you love.";
-const OG_IMAGE_URL =
-  process.env.NEXT_PUBLIC_OG_IMAGE_URL ??
-  "https://deifos.github.io/images/familyphoto-og-banner.webp";
+const OG_IMAGE_URL = process.env.NEXT_PUBLIC_OG_IMAGE_URL ?? "/og/familyshoot-share.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -196,6 +195,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ImpersonationBanner />
           {children}
+          <FathersDayPopup />
         </NextIntlClientProvider>
         <script
           type="application/ld+json"

@@ -109,7 +109,7 @@ const samples = [
     w: 1200,
     h: 1600,
     palette: ["#c9b88c", "#58432a", "#1c140c"],
-    caption: "Leibovitz studio",
+    caption: "Studio",
     subtitle: "",
   },
   {
@@ -183,7 +183,7 @@ const samples = [
     w: 1200,
     h: 1500,
     palette: ["#c6b28a", "#4b3622", "#12100b"],
-    caption: "Leibovitz studio",
+    caption: "Studio",
     subtitle: "Editorial",
   },
   {
