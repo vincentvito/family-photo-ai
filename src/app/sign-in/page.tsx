@@ -74,9 +74,7 @@ export default async function SignInPage({
               </em>
               .
             </h2>
-            <p className="mt-5 max-w-sm text-[color:var(--color-ink-muted)]">
-              {messages.body}
-            </p>
+            <p className="mt-5 max-w-sm text-[color:var(--color-ink-muted)]">{messages.body}</p>
           </div>
 
           <div className="relative h-[300px] max-w-[560px] sm:h-[360px]">

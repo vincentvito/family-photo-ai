@@ -43,10 +43,12 @@ export async function listRoster(userId: string) {
     photoByPerson.set(photo.personId, photo);
   }
 
-  return people.map((person): RosterEntry => ({
-    person: stripRosterPersonNotes(person),
-    photos: photoByPerson.has(person.id) ? [photoByPerson.get(person.id)!] : [],
-  }));
+  return people.map(
+    (person): RosterEntry => ({
+      person: stripRosterPersonNotes(person),
+      photos: photoByPerson.has(person.id) ? [photoByPerson.get(person.id)!] : [],
+    }),
+  );
 }
 
 export async function addPerson(input: {

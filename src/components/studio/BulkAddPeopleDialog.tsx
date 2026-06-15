@@ -115,10 +115,7 @@ export default function BulkAddPeopleDialog({
     setDrafts((current) => [...current, ...nextFiles.map(createDraft)]);
   };
 
-  const updateDraft = (
-    id: string,
-    patch: Partial<Pick<PersonDraft, "name" | "role">>,
-  ) => {
+  const updateDraft = (id: string, patch: Partial<Pick<PersonDraft, "name" | "role">>) => {
     setDrafts((current) =>
       current.map((draft) =>
         draft.id === id ? { ...draft, ...patch, error: null, status: "idle" } : draft,

@@ -720,7 +720,7 @@ export const THEMES: Theme[] = [
       "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -786,7 +786,7 @@ export const THEMES: Theme[] = [
       "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -830,7 +830,7 @@ export const THEMES: Theme[] = [
       "A sun-washed family vacation portrait with postcard color, retro stripes, summer linens, and soft film-camera nostalgia.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-cape-cod-summer.png",
+    coverImage: "/samples/theme-retro-summer-postcard.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -840,7 +840,7 @@ export const THEMES: Theme[] = [
       camera:
         "35mm film camera with a 40mm lens, relaxed eye-level vacation portrait framing, postcard-balanced spacing with readable faces and a hint of scenic context",
       composition:
-        "natural grouped portrait with gentle diagonal spacing, clean margins for a printed postcard crop, no app interface, no stickers, no readable captions",
+        "gentle diagonal spacing, clean printed-postcard margins, no app interface, no stickers, no readable captions",
       lighting:
         "warm late-afternoon sunlight with soft bounce fill, mild rosy highlight warmth, gentle haze and crisp facial detail without heavy filter effects",
       style:
@@ -856,7 +856,7 @@ export const THEMES: Theme[] = [
       "A bright playroom keepsake portrait with wooden blocks, storybooks, handmade toys, soft primary color, and childlike wonder.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-newborn.jpg",
+    coverImage: "/samples/theme-toy-box-keepsake-portrait.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -866,11 +866,11 @@ export const THEMES: Theme[] = [
       camera:
         "digital medium-format camera with a 45mm lens, low seated-level framing, playful environmental portrait perspective with clean face readability",
       composition:
-        "parents and children grouped naturally among simple playroom props, balanced floor-level geometry, visible hands and uncluttered toy-box details",
+        "balanced floor-level rug geometry, clear sightlines through the toy details, visible hands and uncluttered toy-box texture",
       lighting:
         "large soft window light with gentle wall bounce, bright catchlights, pastel shadow detail and no harsh flash",
       style:
-        "premium family lifestyle photography, soft primary colors, warm cream, maple wood, gentle blue and red accents, tactile nursery textures, print-ready keepsake polish",
+        "premium keepsake lifestyle photography, soft primary colors, warm cream, maple wood, gentle blue and red accents, tactile nursery textures, print-ready polish",
       safety:
         "generic handmade toys only, no branded toy shapes, no franchise characters, no studio names, no mascot characters, no logos, no readable text",
     },
@@ -882,7 +882,7 @@ export const THEMES: Theme[] = [
       "A crisp cool-blue lake portrait with airy dock light, linen and denim styling, glacier-blue accents, and calm editorial freshness.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-lake-house.jpg",
+    coverImage: "/samples/theme-cool-blue-lake-day.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -892,7 +892,7 @@ export const THEMES: Theme[] = [
       camera:
         "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing, waterline and sky used as clean graphic layers",
       composition:
-        "relaxed grouped portrait with premium negative space, faces held in the brighter third, dock or shoreline lines guiding toward the cast",
+        "premium negative space, faces held in the brighter third, dock or shoreline lines guiding into the frame",
       lighting:
         "clean natural morning light, cool sky fill, subtle water bounce, dewy highlight freshness and crisp skin detail",
       style:
@@ -908,7 +908,7 @@ export const THEMES: Theme[] = [
       "A warm library portrait with oversized knits, vintage blazers, book props, handwritten card details, and soft literary intimacy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-graduation.jpg",
+    coverImage: "/samples/theme-poetcore-family-library-portrait.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -918,7 +918,7 @@ export const THEMES: Theme[] = [
       camera:
         "medium-format portrait camera with a 55mm lens, vertical waist-up to knee-up framing, intimate study-room depth and clear face priority",
       composition:
-        "selected cast gathered near a reading chair, desk or shelves, triangular portrait arrangement with book and letter details kept secondary",
+        "triangular portrait arrangement near a reading chair, desk or shelves, with book and letter details kept secondary",
       lighting:
         "soft window light through sheer curtains, warm desk-lamp glow, gentle amber fill across wood shelves and flattering falloff on faces",
       style:
@@ -1036,7 +1036,7 @@ export const THEMES: Theme[] = [
       "Cream leather seats, glowing cabin windows, designer-travel polish. The family as a rich-but-warm private jet editorial.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/private-jet-family.png",
+    coverImage: "/samples/best-family-photo-prompts/private-jet-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1058,7 +1058,7 @@ export const THEMES: Theme[] = [
       "A pre-game squad photo on the pitch. Matching jerseys, stadium lights, muddy boots, serious game faces.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1080,7 +1080,7 @@ export const THEMES: Theme[] = [
       "Clean white studio, fashion-campaign light, and a different exaggerated expression on every face.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1102,7 +1102,7 @@ export const THEMES: Theme[] = [
       "Hair, socks, toys and snacks floating in a bright space-station portrait with Earth outside the window.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    coverImage: "/samples/best-family-photo-prompts/zero-gravity-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1124,7 +1124,7 @@ export const THEMES: Theme[] = [
       "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    coverImage: "/samples/best-family-photo-prompts/western-wanted-family.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1146,7 +1146,7 @@ export const THEMES: Theme[] = [
       "A dreamy portrait on a soft cloud at blue-pink sunrise, pastel glow, pajamas, robes, and sky magic.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    coverImage: "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1168,7 +1168,7 @@ export const THEMES: Theme[] = [
       "The family as the mascots on a giant colorful breakfast cereal box, glossy, loud, and supermarket-ready.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    coverImage: "/samples/best-family-photo-prompts/cereal-box-family.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1695,7 +1695,7 @@ export const THEMES: Theme[] = [
       "An elegant celebration card with geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-new-years.jpg",
+    coverImage: "/samples/theme-neo-deco-celebration-card.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
@@ -1704,15 +1704,15 @@ export const THEMES: Theme[] = [
       scene:
         "a refined celebration-card set with art-deco-inspired geometric arches, brass and chrome accents, cream wall panels, polished floor reflections and a clean greeting area",
       camera:
-        "digital medium-format camera with a 65mm portrait lens, vertical card framing, selected cast placed low or to one side with deliberate negative space for greeting text",
+        "digital medium-format camera with a 65mm portrait lens, vertical card framing with deliberate negative space for greeting text",
       composition:
-        "balanced arch geometry, tasteful evening attire, centered vertical rhythm and a readable card layout with faces kept clear of typography space",
+        "balanced arch geometry, centered vertical rhythm and a readable card layout with faces kept clear of typography space",
       lighting:
         "soft cinematic key light, warm brass glints, gentle chrome rim highlights, controlled festive sparkle and flattering face fill",
       style:
         "neo-deco editorial card design, cream, black, gold, tomato red or emerald accent palette, crisp geometry, polished print finish",
       safety:
-        "no speakeasy cues, no alcohol props, no gambling references, no adult-nightlife setting, no logos, no readable venue text, no watermark",
+        "no speakeasy cues, no alcohol props, no gambling references, no nightlife setting, no logos, no readable venue text, no watermark",
     },
   },
   {
@@ -1722,22 +1722,22 @@ export const THEMES: Theme[] = [
       "A soft summer picnic card with crochet texture accents, raffia basket details, gingham, citrus color, and natural dewy light.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-backyard-picnic.jpg",
+    coverImage: "/samples/theme-crochet-raffia-picnic-card.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
       assetType: "A 3:2 soft summer picnic-card family portrait",
       scene:
-        "a sunny picnic setup with a gingham blanket, crochet texture accents, raffia basket and hat details, Cloud Dancer cream textiles, fruit, flowers and a clean card greeting area",
+        "a sunny picnic setup with a gingham blanket, crochet texture accents, raffia basket and hat details, warm cream textiles, fruit, flowers and a clean card greeting area",
       camera:
-        "Leica M10 with a 35mm lens, blanket-level lifestyle framing, selected cast balanced with picnic textures and negative space for greeting text",
+        "Leica M10 with a 35mm lens, blanket-level lifestyle framing with picnic textures balanced against negative space for greeting text",
       composition:
         "print-friendly card composition with the picnic blanket as a stable foreground grid, soft diagonal grouping and airy margin for typography",
       lighting:
         "natural dewy summer light, open-shade face fill, gentle sun rim through leaves, fresh highlight detail on woven textures",
       style:
-        "summer lifestyle card photography, Cloud Dancer cream base with citrus yellow, tomato red, lime and soft green accents, tactile crochet and raffia texture, polished print-ready finish",
+        "summer lifestyle card photography, warm cream base with citrus yellow, tomato red, lime and soft green accents, tactile crochet and raffia texture, polished print-ready finish",
       safety:
         "modest casual styling, no brands, no logos, no readable product labels, no text except user-supplied greeting, no watermark",
     },

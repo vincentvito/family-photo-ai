@@ -135,9 +135,7 @@ export async function startGeneration(
     return t?.category === "card";
   });
   const planCatalog = selectionIsCard ? THEMES : photoshootCatalog;
-  const vibePlan = parsed.customVibe
-    ? []
-    : buildVibeSelectionPlan(requestedThemeIds, planCatalog);
+  const vibePlan = parsed.customVibe ? [] : buildVibeSelectionPlan(requestedThemeIds, planCatalog);
   if (!parsed.customVibe && vibePlan.length === 0) {
     throw new Error("Pick a valid vibe.");
   }

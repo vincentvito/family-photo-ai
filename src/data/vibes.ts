@@ -195,11 +195,7 @@ export const VIBES: readonly Vibe[] = [
     image: "/samples/theme-galactic-family-adventure.png",
     shortDescription:
       "Twin-sun horizons, hangar light, desert-world atmosphere, and heroic adventure without franchise cosplay.",
-    related: [
-      "superhero-family-photos",
-      "national-park-family-photos",
-      "royal-family-portrait",
-    ],
+    related: ["superhero-family-photos", "national-park-family-photos", "royal-family-portrait"],
   },
   {
     slug: "iconic-crosswalk-album-cover-family-photos",
@@ -282,7 +278,7 @@ export const VIBES: readonly Vibe[] = [
       "sports day family photoshoot",
       "backyard games family photo",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     shortDescription:
       "Blank jerseys, lawn-game props, chalk lines, ribbons, sneakers, and bright field-day joy.",
     related: [
@@ -336,7 +332,7 @@ export const VIBES: readonly Vibe[] = [
       "summer studio family photoshoot",
       "bright color block family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     shortDescription:
       "High-key studio light, bold color blocks, glossy summer props, and commercial polish.",
     related: [
@@ -372,7 +368,7 @@ export const VIBES: readonly Vibe[] = [
       "postcard family photoshoot",
       "summer vacation family photo",
     ],
-    image: "/samples/theme-cape-cod-summer.png",
+    image: "/samples/theme-retro-summer-postcard.webp",
     shortDescription:
       "Sun-washed postcard color, retro stripes, linen layers, and soft film-camera vacation nostalgia.",
     related: [
@@ -390,7 +386,7 @@ export const VIBES: readonly Vibe[] = [
       "nursery family photoshoot",
       "childhood keepsake family photo",
     ],
-    image: "/samples/theme-card-newborn.jpg",
+    image: "/samples/theme-toy-box-keepsake-portrait.webp",
     shortDescription:
       "Wooden blocks, storybooks, handmade toys, soft primary color, and bright playroom wonder.",
     related: [
@@ -408,7 +404,7 @@ export const VIBES: readonly Vibe[] = [
       "blue summer family photoshoot",
       "coastal lake family photo",
     ],
-    image: "/samples/theme-lake-house.jpg",
+    image: "/samples/theme-cool-blue-lake-day.webp",
     shortDescription:
       "Crisp lake light, glacier-blue accents, linen and denim styling, and calm editorial freshness.",
     related: [
@@ -426,7 +422,7 @@ export const VIBES: readonly Vibe[] = [
       "literary family photoshoot",
       "cozy study family photo",
     ],
-    image: "/samples/theme-card-graduation.jpg",
+    image: "/samples/theme-poetcore-family-library-portrait.webp",
     shortDescription:
       "Warm shelves, oversized knits, vintage blazers, handwritten card details, and literary intimacy.",
     related: [
@@ -444,7 +440,7 @@ export const VIBES: readonly Vibe[] = [
       "elegant celebration family portrait",
       "geometric family greeting card",
     ],
-    image: "/samples/theme-card-new-years.jpg",
+    image: "/samples/theme-neo-deco-celebration-card.webp",
     shortDescription:
       "Geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
     related: [
@@ -462,7 +458,7 @@ export const VIBES: readonly Vibe[] = [
       "raffia picnic family portrait",
       "gingham picnic family photoshoot",
     ],
-    image: "/samples/theme-backyard-picnic.jpg",
+    image: "/samples/theme-crochet-raffia-picnic-card.webp",
     shortDescription:
       "Crochet texture, raffia basket details, gingham, citrus color, and natural dewy picnic light.",
     related: [
@@ -498,7 +494,7 @@ export const VIBES: readonly Vibe[] = [
       "private jet family photoshoot",
       "editorial family travel photo",
     ],
-    image: "/samples/best-family-photo-prompts/private-jet-family.png",
+    image: "/samples/best-family-photo-prompts/private-jet-family.webp",
     shortDescription:
       "Cream leather seats, cabin window glow, polished travel details, and your family in a luxury editorial.",
     related: [
@@ -516,7 +512,7 @@ export const VIBES: readonly Vibe[] = [
       "sports team family portrait",
       "stadium family photoshoot",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     shortDescription:
       "Stadium lights, blank jerseys, muddy boots, and your family posed like a pre-game squad photo.",
     related: [
@@ -534,7 +530,7 @@ export const VIBES: readonly Vibe[] = [
       "exaggerated face family portrait",
       "high key family studio photo",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     shortDescription:
       "A clean white studio portrait with fashion-campaign light and a different exaggerated expression on every face.",
     related: [
@@ -552,7 +548,7 @@ export const VIBES: readonly Vibe[] = [
       "floating family photo",
       "sci fi family photoshoot",
     ],
-    image: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    image: "/samples/best-family-photo-prompts/zero-gravity-family.webp",
     shortDescription:
       "Hair, toys, socks, and snacks floating in a bright space-station portrait with Earth outside the window.",
     related: [
@@ -570,7 +566,7 @@ export const VIBES: readonly Vibe[] = [
       "cowboy family photo",
       "old west family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    image: "/samples/best-family-photo-prompts/western-wanted-family.webp",
     shortDescription:
       "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
     related: [
@@ -588,7 +584,7 @@ export const VIBES: readonly Vibe[] = [
       "dreamy family photo",
       "pastel sky family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
     shortDescription:
       "A dreamy portrait on a soft cloud at blue-pink sunrise, with pastel glow, cozy robes, and sky magic.",
     related: [
@@ -606,14 +602,10 @@ export const VIBES: readonly Vibe[] = [
       "cartoon packaging family photo",
       "family mascot illustration",
     ],
-    image: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    image: "/samples/best-family-photo-prompts/cereal-box-family.webp",
     shortDescription:
       "Your family as cheerful mascots on a glossy breakfast cereal box, bright, playful, and supermarket-ready.",
-    related: [
-      "pixar-family-photos",
-      "cartoon-family-photos",
-      "noughties-family-throwback-photos",
-    ],
+    related: ["pixar-family-photos", "cartoon-family-photos", "noughties-family-throwback-photos"],
   },
   {
     slug: "lego-family-photos",

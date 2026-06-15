@@ -720,9 +720,7 @@ async function UsersList({
                 <span className="hidden text-xs text-[color:var(--color-ink-faint)] sm:inline">
                   {formatRelative(u.createdAt)}
                 </span>
-                {u.id !== currentUserId && (
-                  <ImpersonateButton userId={u.id} email={u.email} />
-                )}
+                {u.id !== currentUserId && <ImpersonateButton userId={u.id} email={u.email} />}
                 {canManageRoles && u.id !== currentUserId && (
                   <UserAdminRoleButton userId={u.id} email={u.email} isAdmin={userIsAdmin} />
                 )}
