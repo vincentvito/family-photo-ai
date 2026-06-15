@@ -36,12 +36,6 @@ test("roster serialization strips stored person notes", () => {
 
   const publicPerson = stripRosterPersonNotes(person);
 
-  assert.deepEqual(Object.keys(publicPerson).sort(), [
-    "createdAt",
-    "id",
-    "name",
-    "role",
-    "userId",
-  ]);
+  assert.deepEqual(Object.keys(publicPerson).sort(), ["createdAt", "id", "name", "role", "userId"]);
   assert.equal("notes" in publicPerson, false);
 });

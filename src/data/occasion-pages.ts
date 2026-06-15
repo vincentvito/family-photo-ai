@@ -1,3 +1,5 @@
+import { BIRTHDAY_CARD_SEO_PAGES } from "./birthday-card-seo-pages";
+
 export type OccasionPage = {
   slug: string;
   name: string;
@@ -11,6 +13,8 @@ export type OccasionPage = {
   whatIsBody: string;
   ctaLabel: string;
   related: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 };
 
 export const OCCASION_PAGES: readonly OccasionPage[] = [
@@ -200,6 +204,7 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
       "birthday-family-cards",
     ],
   },
+  ...BIRTHDAY_CARD_SEO_PAGES,
 ] as const;
 
 export const occasionPageBySlug = (slug: string) =>

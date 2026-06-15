@@ -67,7 +67,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validationError(parsed.error) }, { status: 400 });
   }
   try {
-    if (isTempRosterUserId(owner.userId) && (await tempRosterPersonCount(owner.userId)) >= TEMP_ROSTER_PERSON_CAP) {
+    if (
+      isTempRosterUserId(owner.userId) &&
+      (await tempRosterPersonCount(owner.userId)) >= TEMP_ROSTER_PERSON_CAP
+    ) {
       return NextResponse.json(
         { error: `Temporary rosters can include up to ${TEMP_ROSTER_PERSON_CAP} people.` },
         { status: 400 },

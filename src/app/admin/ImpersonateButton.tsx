@@ -4,13 +4,7 @@ import { useState, useTransition } from "react";
 import { authClient } from "@/lib/auth-client";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
-export default function ImpersonateButton({
-  userId,
-  email,
-}: {
-  userId: string;
-  email: string;
-}) {
+export default function ImpersonateButton({ userId, email }: { userId: string; email: string }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();

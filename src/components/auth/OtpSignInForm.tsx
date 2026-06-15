@@ -131,9 +131,7 @@ export default function OtpSignInForm({ nextPath = "/studio/album" }: { nextPath
           {t("titleBefore")}{" "}
           <em className="serif-italic text-[color:var(--color-coral)]">{t("titleEmphasis")}</em>.
         </h1>
-        <p className="mt-4 text-[color:var(--color-ink-muted)]">
-          {t("body")}
-        </p>
+        <p className="mt-4 text-[color:var(--color-ink-muted)]">{t("body")}</p>
       </div>
 
       <label className="mt-8 flex gap-3 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)] px-4 py-3 text-sm text-[color:var(--color-ink-muted)]">
