@@ -12,7 +12,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "custom birthday photo cards online",
       "personalized birthday cards with photos",
     ],
-    image: "/seo/birthday-cards/birthday-card-generator.svg",
+    image: "/seo/birthday-cards/birthday-card-generator.webp",
     shortDescription:
       "Create a personalized birthday card from family photos, with a free preview before unlocking the high-resolution file.",
     h1: "AI birthday card generator with photo",
@@ -41,7 +41,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "photo birthday cards for kids",
       "personalized birthday cards for kids",
     ],
-    image: "/seo/birthday-cards/birthday-card-ideas-for-kids.svg",
+    image: "/seo/birthday-cards/birthday-card-ideas-for-kids.webp",
     shortDescription:
       "Kid-friendly birthday card ideas using their own photo, age, name, balloons, posters, and family keepsake layouts.",
     h1: "Birthday card ideas for kids using their own photos",
@@ -69,7 +69,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "custom birthday photo cards online",
       "personalized birthday cards with photos",
     ],
-    image: "/seo/birthday-cards/birthday-photo-card-ideas.svg",
+    image: "/seo/birthday-cards/birthday-photo-card-ideas.webp",
     shortDescription:
       "Birthday photo card ideas for kids, parents, partners, friends, milestones, invitations, and printable family keepsakes.",
     h1: "Birthday photo card ideas that look personal",
@@ -97,7 +97,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "1st birthday card design",
       "1st birthday photo card",
     ],
-    image: "/seo/birthday-cards/1st-birthday-card.svg",
+    image: "/seo/birthday-cards/1st-birthday-card.webp",
     shortDescription:
       "Create a first birthday photo card or invitation with the baby's name, age, family photo, and milestone message.",
     h1: "1st birthday card with photo, name, and milestone style",
@@ -125,7 +125,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "birthday photo card with name",
       "custom birthday card with face",
     ],
-    image: "/seo/birthday-cards/birthday-card-with-photo-and-name.svg",
+    image: "/seo/birthday-cards/birthday-card-with-photo-and-name.webp",
     shortDescription:
       "Make a personalized birthday card with the person's photo, name, age, and message in one polished design.",
     h1: "Birthday card with photo and name online",
@@ -153,7 +153,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "personalized birthday cards for her",
       "birthday photo card ideas",
     ],
-    image: "/seo/birthday-cards/birthday-card-ideas-for-adults.svg",
+    image: "/seo/birthday-cards/birthday-card-ideas-for-adults.webp",
     shortDescription:
       "Adult birthday card ideas for partners, parents, friends, milestone birthdays, and family photo gifts.",
     h1: "Birthday card ideas for adults that feel personal, not generic",
@@ -181,7 +181,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "birthday cards for mom from kids",
       "birthday cards for mom printable",
     ],
-    image: "/seo/birthday-cards/birthday-card-for-mom.svg",
+    image: "/seo/birthday-cards/birthday-card-for-mom.webp",
     shortDescription:
       "Create a birthday card for Mom from kids or family photos, with a personalized message and free preview.",
     h1: "Birthday card for Mom from family photos",
@@ -209,7 +209,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "birthday cards for dad from kids",
       "birthday cards for dad funny",
     ],
-    image: "/seo/birthday-cards/birthday-card-for-dad.svg",
+    image: "/seo/birthday-cards/birthday-card-for-dad.webp",
     shortDescription:
       "Create a birthday card for Dad from kids or family photos, with a custom message, name, and free preview.",
     h1: "Birthday card for Dad from family photos",
@@ -238,7 +238,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "birthday invitation cards for girl",
       "birthday invitation cards online free",
     ],
-    image: "/seo/birthday-cards/birthday-invitation-card-with-photo.svg",
+    image: "/seo/birthday-cards/birthday-invitation-card-with-photo.webp",
     shortDescription:
       "Create a birthday invitation card with a custom photo, party text, age, name, and preview-first workflow.",
     h1: "Birthday invitation card with photo",

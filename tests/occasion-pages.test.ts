@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import test from "node:test";
 
 import { OCCASION_PAGES } from "../src/data/occasion-pages";
@@ -16,8 +16,11 @@ const requiredBirthdaySeoSlugs = [
   "birthday-invitation-card-with-photo",
 ];
 
+const MAX_BIRTHDAY_SEO_IMAGE_BYTES = 400 * 1024;
+
 test("birthday card SEO pages exist with generated page copy and image content", () => {
   const bySlug = new Map(OCCASION_PAGES.map((page) => [page.slug, page]));
+  const birthdaySeoImagePaths = new Set<string>();
 
   for (const slug of requiredBirthdaySeoSlugs) {
     const page = bySlug.get(slug);
@@ -38,11 +41,20 @@ test("birthday card SEO pages exist with generated page copy and image content",
       `${slug} should include original landing-page body copy`,
     );
     assert.ok(page.related.length >= 4, `${slug} should include internal links`);
-    assert.match(page.image, new RegExp(`/seo/birthday-cards/${slug}\\.svg$`));
+    assert.match(page.image, new RegExp(`/seo/birthday-cards/${slug}\\.webp$`));
+    assert.equal(
+      birthdaySeoImagePaths.has(page.image),
+      false,
+      `${slug} should use a distinct SEO image`,
+    );
+    birthdaySeoImagePaths.add(page.image);
 
-    const imageSource = readFileSync(`public/seo/birthday-cards/${slug}.svg`, "utf8");
-    assert.match(imageSource, /FamilyShoot/i, `${slug} should have generated image content`);
-    assert.match(imageSource, /Free preview before high-res unlock/i);
+    const projectImagePath = page.image.replace(/^\/+/, "public/");
+    assert.ok(existsSync(projectImagePath), `${page.image} should exist`);
+    assert.ok(
+      statSync(projectImagePath).size <= MAX_BIRTHDAY_SEO_IMAGE_BYTES,
+      `${page.image} should stay under 400 KB`,
+    );
   }
 });
 

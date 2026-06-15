@@ -98,6 +98,8 @@ export async function generateMetadata({
   if (!r) return {};
 
   const { item, category } = r;
+  const isBirthdayCardSeoPage =
+    category === "occasion" && item.image.startsWith("/seo/birthday-cards/");
   const title =
     category === "vibe"
       ? `${item.name} Family Portrait | AI Generated from Your Photos | FamilyShoot`
@@ -113,6 +115,9 @@ export async function generateMetadata({
       : item.shortDescription;
   const url = `/${slug}`;
   const image = item.image;
+  const imageAlt = isBirthdayCardSeoPage
+    ? `${item.name} birthday card sample`
+    : `${item.name} family portrait sample`;
 
   return {
     title,
@@ -128,7 +133,7 @@ export async function generateMetadata({
           url: `${SITE_URL}${image}`,
           width: 1200,
           height: 1500,
-          alt: `${item.name} family portrait sample`,
+          alt: imageAlt,
         },
       ],
     },
@@ -144,7 +149,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const { category, item } = r;
   const extraImages = category === "vibe" ? (item as Vibe).extraImages : undefined;
   const isFathersDay = category === "occasion" && item.slug === "fathers-day";
-  const usesCenteredBirthdayHero =
+  const isBirthdayCardSeoPage =
     category === "occasion" && item.image.startsWith("/seo/birthday-cards/");
 
   const hubMeta =
@@ -188,8 +193,12 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         : category === "occasion"
           ? [
               {
-                q: `Can I preview my ${item.name} portrait before paying?`,
-                a: "Yes. Start with a free watermarked preview. Unlock the high-resolution, print-ready version only if you like the result.",
+                q: isBirthdayCardSeoPage
+                  ? `Can I preview my ${item.name} before paying?`
+                  : `Can I preview my ${item.name} portrait before paying?`,
+                a: isBirthdayCardSeoPage
+                  ? "Yes. Start with a free watermarked preview. Unlock the high-resolution, print-ready card or invitation only if you like the result."
+                  : "Yes. Start with a free watermarked preview. Unlock the high-resolution, print-ready version only if you like the result.",
               },
               {
                 q: "Do all family members need to be in the same photo?",
@@ -277,7 +286,11 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         h1={h1}
         intro={intro}
         heroImage={item.image}
-        heroAlt={`${item.name} family portrait sample`}
+        heroAlt={
+          isBirthdayCardSeoPage
+            ? `${item.name} birthday card sample`
+            : `${item.name} family portrait sample`
+        }
         extraImages={extraImages}
         extraImageLabel={`${item.name} family portrait sample variation`}
         whatIsTitle={whatIsTitle}
@@ -306,7 +319,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         }
         sourceImages={isFathersDay ? FATHERS_DAY_SOURCE_IMAGES : undefined}
         sampleImages={isFathersDay ? FATHERS_DAY_SAMPLE_IMAGES : undefined}
-        heroLayout={usesCenteredBirthdayHero ? "centered" : "split"}
+        heroLayout={isBirthdayCardSeoPage ? "centered" : "split"}
       />
     </>
   );

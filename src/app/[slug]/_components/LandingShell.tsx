@@ -376,7 +376,7 @@ export function LandingShell({
         <section className="mx-auto mt-20 max-w-3xl px-6 text-center">
           <h2 className="text-3xl font-semibold tracking-tight">Ready to make yours?</h2>
           <p className="mt-3 text-[color:var(--color-ink-muted)]">
-            A few selfies in, a frame-worthy family portrait out. About two minutes.
+            A few selfies in, a frame-worthy family portrait or card out. About two minutes.
           </p>
           <div className="mt-6">
             <Link href={ctaHref} className="btn btn-coral">
