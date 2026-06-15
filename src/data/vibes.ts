@@ -195,11 +195,7 @@ export const VIBES: readonly Vibe[] = [
     image: "/samples/theme-galactic-family-adventure.png",
     shortDescription:
       "Twin-sun horizons, hangar light, desert-world atmosphere, and heroic adventure without franchise cosplay.",
-    related: [
-      "superhero-family-photos",
-      "national-park-family-photos",
-      "royal-family-portrait",
-    ],
+    related: ["superhero-family-photos", "national-park-family-photos", "royal-family-portrait"],
   },
   {
     slug: "iconic-crosswalk-album-cover-family-photos",
@@ -282,7 +278,7 @@ export const VIBES: readonly Vibe[] = [
       "sports day family photoshoot",
       "backyard games family photo",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     shortDescription:
       "Blank jerseys, lawn-game props, chalk lines, ribbons, sneakers, and bright field-day joy.",
     related: [
@@ -336,7 +332,7 @@ export const VIBES: readonly Vibe[] = [
       "summer studio family photoshoot",
       "bright color block family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     shortDescription:
       "High-key studio light, bold color blocks, glossy summer props, and commercial polish.",
     related: [
@@ -361,6 +357,114 @@ export const VIBES: readonly Vibe[] = [
       "watercolor-storybook-family-photos",
       "slow-travel-summer-picnic-family-photos",
       "fluffy-cloud-family-photos",
+    ],
+  },
+  {
+    slug: "retro-summer-postcard-family-photos",
+    name: "Retro Summer Postcard",
+    keyword: "retro summer postcard family photo",
+    secondaryKeywords: [
+      "nostalgic summer family portrait",
+      "postcard family photoshoot",
+      "summer vacation family photo",
+    ],
+    image: "/samples/theme-retro-summer-postcard.webp",
+    shortDescription:
+      "Sun-washed postcard color, retro stripes, linen layers, and soft film-camera vacation nostalgia.",
+    related: [
+      "cape-cod-family-photos",
+      "golden-hour-beach-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+    ],
+  },
+  {
+    slug: "toy-box-keepsake-family-photos",
+    name: "Toy-Box Keepsake Portrait",
+    keyword: "toy box family portrait",
+    secondaryKeywords: [
+      "playroom family portrait",
+      "nursery family photoshoot",
+      "childhood keepsake family photo",
+    ],
+    image: "/samples/theme-toy-box-keepsake-portrait.webp",
+    shortDescription:
+      "Wooden blocks, storybooks, handmade toys, soft primary color, and bright playroom wonder.",
+    related: [
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "cool-blue-lake-day-family-photos",
+    name: "Cool Blue Lake Day",
+    keyword: "cool blue lake family photo",
+    secondaryKeywords: [
+      "lake dock family portrait",
+      "blue summer family photoshoot",
+      "coastal lake family photo",
+    ],
+    image: "/samples/theme-cool-blue-lake-day.webp",
+    shortDescription:
+      "Crisp lake light, glacier-blue accents, linen and denim styling, and calm editorial freshness.",
+    related: [
+      "lake-house-family-photos",
+      "dockside-family-weekend-photos",
+      "coastal-grandmother-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-family-library-photos",
+    name: "Poetcore Family Library Portrait",
+    keyword: "poetcore family library portrait",
+    secondaryKeywords: [
+      "library family portrait",
+      "literary family photoshoot",
+      "cozy study family photo",
+    ],
+    image: "/samples/theme-poetcore-family-library-portrait.webp",
+    shortDescription:
+      "Warm shelves, oversized knits, vintage blazers, handwritten card details, and literary intimacy.",
+    related: [
+      "sunday-sofa-family-photos",
+      "graduation-card-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "neo-deco-celebration-card-family-photos",
+    name: "Neo Deco Celebration Card",
+    keyword: "neo deco celebration family card",
+    secondaryKeywords: [
+      "art deco family card",
+      "elegant celebration family portrait",
+      "geometric family greeting card",
+    ],
+    image: "/samples/theme-neo-deco-celebration-card.webp",
+    shortDescription:
+      "Geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
+    related: [
+      "new-years-card-family-photos",
+      "birthday-card-family-photos",
+      "runway-editorial-family-photos",
+    ],
+  },
+  {
+    slug: "crochet-raffia-picnic-card-family-photos",
+    name: "Crochet & Raffia Picnic Card",
+    keyword: "crochet raffia picnic family card",
+    secondaryKeywords: [
+      "summer picnic family card",
+      "raffia picnic family portrait",
+      "gingham picnic family photoshoot",
+    ],
+    image: "/samples/theme-crochet-raffia-picnic-card.webp",
+    shortDescription:
+      "Crochet texture, raffia basket details, gingham, citrus color, and natural dewy picnic light.",
+    related: [
+      "backyard-picnic-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+      "retro-summer-postcard-family-photos",
     ],
   },
   {
@@ -390,7 +494,7 @@ export const VIBES: readonly Vibe[] = [
       "private jet family photoshoot",
       "editorial family travel photo",
     ],
-    image: "/samples/best-family-photo-prompts/private-jet-family.png",
+    image: "/samples/best-family-photo-prompts/private-jet-family.webp",
     shortDescription:
       "Cream leather seats, cabin window glow, polished travel details, and your family in a luxury editorial.",
     related: [
@@ -408,7 +512,7 @@ export const VIBES: readonly Vibe[] = [
       "sports team family portrait",
       "stadium family photoshoot",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.png",
+    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
     shortDescription:
       "Stadium lights, blank jerseys, muddy boots, and your family posed like a pre-game squad photo.",
     related: [
@@ -426,7 +530,7 @@ export const VIBES: readonly Vibe[] = [
       "exaggerated face family portrait",
       "high key family studio photo",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.png",
+    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
     shortDescription:
       "A clean white studio portrait with fashion-campaign light and a different exaggerated expression on every face.",
     related: [
@@ -444,7 +548,7 @@ export const VIBES: readonly Vibe[] = [
       "floating family photo",
       "sci fi family photoshoot",
     ],
-    image: "/samples/best-family-photo-prompts/zero-gravity-family.png",
+    image: "/samples/best-family-photo-prompts/zero-gravity-family.webp",
     shortDescription:
       "Hair, toys, socks, and snacks floating in a bright space-station portrait with Earth outside the window.",
     related: [
@@ -462,7 +566,7 @@ export const VIBES: readonly Vibe[] = [
       "cowboy family photo",
       "old west family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/western-wanted-family.png",
+    image: "/samples/best-family-photo-prompts/western-wanted-family.webp",
     shortDescription:
       "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
     related: [
@@ -480,7 +584,7 @@ export const VIBES: readonly Vibe[] = [
       "dreamy family photo",
       "pastel sky family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.png",
+    image: "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
     shortDescription:
       "A dreamy portrait on a soft cloud at blue-pink sunrise, with pastel glow, cozy robes, and sky magic.",
     related: [
@@ -498,14 +602,10 @@ export const VIBES: readonly Vibe[] = [
       "cartoon packaging family photo",
       "family mascot illustration",
     ],
-    image: "/samples/best-family-photo-prompts/cereal-box-family.png",
+    image: "/samples/best-family-photo-prompts/cereal-box-family.webp",
     shortDescription:
       "Your family as cheerful mascots on a glossy breakfast cereal box, bright, playful, and supermarket-ready.",
-    related: [
-      "pixar-family-photos",
-      "cartoon-family-photos",
-      "noughties-family-throwback-photos",
-    ],
+    related: ["pixar-family-photos", "cartoon-family-photos", "noughties-family-throwback-photos"],
   },
   {
     slug: "lego-family-photos",

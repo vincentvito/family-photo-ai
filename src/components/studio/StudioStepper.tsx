@@ -48,7 +48,13 @@ const steps: {
     matches: /^\/studio\/refine/,
     color: "plum",
   },
-  { id: "keep", labelKey: "keep", href: "/studio/album", matches: /^\/studio\/album/, color: "ink" },
+  {
+    id: "keep",
+    labelKey: "keep",
+    href: "/studio/album",
+    matches: /^\/studio\/album/,
+    color: "ink",
+  },
 ];
 
 export default function StudioStepper() {

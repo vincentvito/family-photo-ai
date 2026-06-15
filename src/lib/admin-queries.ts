@@ -357,7 +357,9 @@ export async function getUsersPage(page = 1, pageSize = 20, search = "") {
     : undefined;
 
   const countQuery = db.select({ count: sql<number>`count(*)::int` }).from(userTable);
-  const [{ count: totalUsers }] = searchWhere ? await countQuery.where(searchWhere) : await countQuery;
+  const [{ count: totalUsers }] = searchWhere
+    ? await countQuery.where(searchWhere)
+    : await countQuery;
 
   const total = Number(totalUsers ?? 0);
   const totalPages = Math.max(1, Math.ceil(total / safePageSize));

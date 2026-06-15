@@ -5,11 +5,12 @@ type TrendingAnnouncementBarProps = {
 };
 
 const fallbackVibes = [
-  { id: "golden-hour-beach", name: "Golden Hour Beach" },
-  { id: "leibovitz-studio", name: "Studio" },
-  { id: "christmas-morning", name: "Christmas Morning" },
-  { id: "watercolor-storybook", name: "Watercolor Storybook" },
-  { id: "pixar", name: "Pixar-Inspired Family" },
+  { id: "retro-summer-postcard", name: "Retro Summer Postcard" },
+  { id: "cool-blue-lake-day", name: "Cool Blue Lake Day" },
+  { id: "toy-box-keepsake-portrait", name: "Toy-Box Keepsake" },
+  { id: "poetcore-family-library-portrait", name: "Poetcore Library" },
+  { id: "neo-deco-celebration-card", name: "Neo Deco Card" },
+  { id: "crochet-raffia-picnic-card", name: "Crochet Picnic Card" },
 ];
 
 export default function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementBarProps) {
@@ -23,7 +24,9 @@ export default function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementB
         className="group flex h-10 items-center overflow-hidden text-xs font-semibold uppercase tracking-[0.12em] sm:text-sm"
         aria-label="View trending FamilyShoot vibes"
       >
-        <span className="shrink-0 px-4 text-[color:var(--color-butter)] sm:px-6">Trending now 🔥</span>
+        <span className="shrink-0 px-4 text-[color:var(--color-butter)] sm:px-6">
+          Trending now 🔥
+        </span>
         <span className="marquee-mask flex min-w-0 flex-1 overflow-hidden">
           <span className="marquee-track flex shrink-0 items-center gap-5 whitespace-nowrap [--marquee-duration:36s]">
             {tickerItems.map((vibe, index) => (

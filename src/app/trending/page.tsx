@@ -50,7 +50,9 @@ function themeImage(row: ThemeRankingRow) {
 
 function themeDescription(row: ThemeRankingRow) {
   if (row.category === "custom") return "User-described custom vibe from a real in-app shoot.";
-  return THEME_BY_ID.get(row.themeId)?.blurb ?? "A real in-app vibe from recent FamilyShoot photoshoots.";
+  return (
+    THEME_BY_ID.get(row.themeId)?.blurb ?? "A real in-app vibe from recent FamilyShoot photoshoots."
+  );
 }
 
 export default async function TrendingPage() {
@@ -77,7 +79,8 @@ export default async function TrendingPage() {
               Most-used family photo vibes.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-              Ranked from real photoshoots in the app. If there is no usage data yet, we show an empty state instead of inventing trend numbers.
+              Ranked from real photoshoots in the app. If there is no usage data yet, we show an
+              empty state instead of inventing trend numbers.
             </p>
           </div>
         </header>
@@ -85,14 +88,19 @@ export default async function TrendingPage() {
         <section className="mx-auto mt-12 max-w-6xl px-6">
           {error ? (
             <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
-              <h2 className="serif text-2xl tracking-[-0.02em]">Trending data is not available yet.</h2>
-              <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">{error}</p>
+              <h2 className="serif text-2xl tracking-[-0.02em]">
+                Trending data is not available yet.
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                {error}
+              </p>
             </div>
           ) : rows.length === 0 ? (
             <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
               <h2 className="serif text-2xl tracking-[-0.02em]">No trending vibes yet.</h2>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                Once families create photoshoots, this page will rank the most-used vibes from the real generation analytics table.
+                Once families create photoshoots, this page will rank the most-used vibes from the
+                real generation analytics table.
               </p>
             </div>
           ) : (

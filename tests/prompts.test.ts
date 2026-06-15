@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync, statSync } from "node:fs";
 import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
@@ -7,6 +8,16 @@ import { THEME_VARIATION_PROMPTS, getThemeVariationPrompts } from "../src/lib/th
 import { VIBES } from "../src/data/vibes";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
+const MAX_FEATURED_SAMPLE_IMAGE_BYTES = 400 * 1024;
+
+function assertOptimizedSampleImage(imagePath: string) {
+  const projectPath = imagePath.replace(/^\/+/, "public/");
+  assert.ok(existsSync(projectPath), `${imagePath} should exist in public assets`);
+  assert.ok(
+    statSync(projectPath).size <= MAX_FEATURED_SAMPLE_IMAGE_BYTES,
+    `${imagePath} should stay under 400 KB for landing and SEO pages`,
+  );
+}
 
 test("Royal Family Portrait preserves two adults plus one selected pet while ignoring notes", () => {
   const prompt = buildGenerationPrompt(
@@ -184,6 +195,12 @@ const WEEKLY_TREND_THEME_IDS = [
   "sunset-festival-family-glow",
   "summer-color-pop-studio",
   "whimsical-adventure-postcard",
+  "retro-summer-postcard",
+  "toy-box-keepsake-portrait",
+  "cool-blue-lake-day",
+  "poetcore-family-library-portrait",
+  "neo-deco-celebration-card",
+  "crochet-raffia-picnic-card",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -193,13 +210,35 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "sunset-festival-family-glow-photos",
   "summer-color-pop-studio-family-photos",
   "whimsical-adventure-postcard-family-photos",
+  "retro-summer-postcard-family-photos",
+  "toy-box-keepsake-family-photos",
+  "cool-blue-lake-day-family-photos",
+  "poetcore-family-library-photos",
+  "neo-deco-celebration-card-family-photos",
+  "crochet-raffia-picnic-card-family-photos",
 ];
+
+const NEW_WEEKLY_TREND_PAIRS = [
+  ["retro-summer-postcard", "retro-summer-postcard-family-photos"],
+  ["toy-box-keepsake-portrait", "toy-box-keepsake-family-photos"],
+  ["cool-blue-lake-day", "cool-blue-lake-day-family-photos"],
+  ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
+  ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
+  ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+] as const;
+
+const NEW_WEEKLY_TREND_THEME_IDS_SET = new Set(NEW_WEEKLY_TREND_PAIRS.map(([themeId]) => themeId));
+
+const NEW_WEEKLY_CARD_THEME_IDS = new Set([
+  "neo-deco-celebration-card",
+  "crochet-raffia-picnic-card",
+]);
 
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
 
 const WEEKLY_BLOCKED_TERMS =
-  /\b(Barbie|Swift|Beyonce|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
+  /\b(Barbie|Swift|Beyonce|Beyoncé|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|Toy Story|Pixar|Disney|Minions|Moana|DreamWorks|Illumination|TikTok|Instagram|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
 
 test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
@@ -237,6 +276,7 @@ test("creative prompt ideas are selectable app themes with homepage-ready images
     const theme = getTheme(themeId);
     assert.notEqual(theme.category, "card");
     assert.ok(theme.coverImage.includes("/samples/best-family-photo-prompts/"));
+    assertOptimizedSampleImage(theme.coverImage);
     assert.equal(theme.provider, "nanobanana");
     assert.ok(
       THEME_VARIATION_PROMPTS[theme.id],
@@ -340,6 +380,90 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
       ].join(" "),
       WEEKLY_BLOCKED_TERMS,
     );
+  }
+
+  for (const [themeId, slug] of NEW_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const vibe = VIBES.find((entry) => entry.slug === slug)!;
+    assert.ok(theme.spec.safety?.trim(), `${themeId} should include a prompt safety section`);
+    assert.equal(
+      vibe.image,
+      theme.coverImage,
+      `${themeId} discovery image should match the selectable theme cover fallback`,
+    );
+    assertOptimizedSampleImage(theme.coverImage);
+
+    if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
+      assert.equal(theme.category, "card");
+      assert.equal(theme.acceptsCardText, true);
+    }
+  }
+
+  const newWeeklyImagePaths = NEW_WEEKLY_TREND_PAIRS.map(
+    ([themeId]) => getTheme(themeId).coverImage,
+  );
+  assert.equal(
+    new Set(newWeeklyImagePaths).size,
+    newWeeklyImagePaths.length,
+    "new weekly themes should use distinct sample images",
+  );
+
+  const existingThemeImagePaths = new Set(
+    THEMES.filter((theme) => !NEW_WEEKLY_TREND_THEME_IDS_SET.has(theme.id)).map(
+      (theme) => theme.coverImage,
+    ),
+  );
+  for (const imagePath of newWeeklyImagePaths) {
+    assert.equal(
+      existingThemeImagePaths.has(imagePath),
+      false,
+      `${imagePath} should not reuse an older theme cover`,
+    );
+  }
+});
+
+test("new weekly theme specs leave roster and card text details to the prompt composer", () => {
+  const adultOnlyRoster = [
+    {
+      personId: "adult-1",
+      name: "Adult One",
+      role: "adult" as const,
+      notes: null,
+      referencePaths: ["adult-one.jpg"],
+    },
+  ];
+
+  for (const [themeId] of NEW_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const stableSpecText = [
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+    ].join(" ");
+
+    assert.doesNotMatch(stableSpecText, /\bselected cast\b/i);
+    assert.doesNotMatch(stableSpecText, /\b(parents?|children|adults?|pets?|dogs?|cats?)\b/i);
+    assert.doesNotMatch(stableSpecText, /Cloud Dancer/i);
+
+    const prompt = buildGenerationPrompt(
+      theme,
+      adultOnlyRoster,
+      null,
+      theme.acceptsCardText ? "Happy Summer" : null,
+    );
+    assert.match(prompt, /Subjects: exactly one subject only: 1 adult\./i);
+    assert.doesNotMatch(prompt, /exactly .*children/i);
+    assert.doesNotMatch(prompt, /\b(dog|cat|pet)\b/i);
+
+    if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
+      assert.match(prompt, /render the exact text "Happy Summer"/);
+      assert.match(prompt, /No watermarks, no other text anywhere in the image\./);
+    } else {
+      assert.doesNotMatch(prompt, /render the exact text/i);
+    }
   }
 });
 

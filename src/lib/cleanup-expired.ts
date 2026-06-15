@@ -30,7 +30,10 @@ export async function cleanupExpiredStudio() {
       .where(
         or(
           lt(schema.people.createdAt, cutoff),
-          and(sql`${schema.people.userId} like 'temp:%'`, lt(schema.people.createdAt, tempRosterCutoff)),
+          and(
+            sql`${schema.people.userId} like 'temp:%'`,
+            lt(schema.people.createdAt, tempRosterCutoff),
+          ),
         ),
       ),
     db

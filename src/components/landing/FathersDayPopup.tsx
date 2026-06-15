@@ -88,8 +88,8 @@ export default function FathersDayPopup() {
           Dad is usually behind the camera. Put him in the portrait.
         </h2>
         <p className="mt-3 text-sm leading-6 text-[color:var(--color-ink-muted)]">
-          Create a personalized Father&apos;s Day family portrait or card from the photos you already
-          have.
+          Create a personalized Father&apos;s Day family portrait or card from the photos you
+          already have.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <LocalizedLink

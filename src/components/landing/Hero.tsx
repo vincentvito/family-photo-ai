@@ -89,10 +89,7 @@ function AwardBadge() {
   const t = useTranslations("Hero");
 
   return (
-    <div
-      className="relative w-full max-w-[220px] sm:max-w-[250px]"
-      aria-label={t("awardLabel")}
-    >
+    <div className="relative w-full max-w-[220px] sm:max-w-[250px]" aria-label={t("awardLabel")}>
       <div
         className="absolute inset-x-12 bottom-4 h-5 rounded-full bg-[color:rgba(242,107,74,0.1)] blur-xl"
         aria-hidden
@@ -303,7 +300,9 @@ function MobilePortraitSlider() {
         const delta = event.clientX - pointerStartX.current;
         paintDrag(Math.max(-72, Math.min(72, delta)));
       }}
-      onPointerUp={(event) => endDrag(true, event.clientX - (pointerStartX.current ?? event.clientX))}
+      onPointerUp={(event) =>
+        endDrag(true, event.clientX - (pointerStartX.current ?? event.clientX))
+      }
       onPointerLeave={() => endDrag(false)}
       onPointerCancel={() => endDrag(false)}
     >
