@@ -4,6 +4,8 @@ import Link from "next/link";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
 import { LAST_MINUTE_BIRTHDAY_CARD_PAGE as page } from "@/data/birthday-card-pages";
+import { CARDS } from "@/data/cards";
+import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { JsonLd } from "../../[slug]/_components/JsonLd";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
@@ -39,6 +41,35 @@ const faqs = [
     a: "It starts the current FamilyShoot creation flow where you can add people and pets, choose a card direction, and create a birthday-card image from your photos.",
   },
 ] as const;
+
+const relatedLinks = page.related
+  .map((href) => {
+    const slug = href.replace(/^\//u, "");
+    const card = CARDS.find((entry) => entry.slug === slug);
+    if (card) {
+      return {
+        href,
+        label: card.name,
+        description: card.shortDescription,
+        image: card.image,
+      };
+    }
+
+    const occasion = OCCASION_PAGES.find((entry) => entry.slug === slug);
+    if (occasion) {
+      return {
+        href,
+        label: occasion.name,
+        description: occasion.shortDescription,
+        image: occasion.image,
+      };
+    }
+
+    return null;
+  })
+  .filter((entry): entry is { href: string; label: string; description: string; image: string } =>
+    entry !== null,
+  );
 
 export const metadata: Metadata = {
   title: page.seoTitle,
@@ -147,7 +178,7 @@ export default function LastMinutePersonalizedBirthdayCardPage() {
         <section className="mx-auto mt-20 grid max-w-6xl gap-5 px-6 lg:grid-cols-3">
           <article className="rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-white/80 p-6 shadow-[var(--shadow-soft)]">
             <h2 className="text-2xl font-semibold tracking-tight">
-              For when “Happy Birthday” is not enough
+              For when &quot;Happy Birthday&quot; is not enough
             </h2>
             <p className="mt-4 leading-relaxed text-[color:var(--color-ink-muted)]">
               A generic greeting can feel thin when the birthday matters. Start with a photo that
@@ -198,7 +229,7 @@ export default function LastMinutePersonalizedBirthdayCardPage() {
                   {example.recipient}
                 </figcaption>
                 <blockquote className="mt-3 text-base leading-relaxed text-[color:var(--color-ink)]">
-                  “{example.message}”
+                  &quot;{example.message}&quot;
                 </blockquote>
               </figure>
             ))}
@@ -219,6 +250,37 @@ export default function LastMinutePersonalizedBirthdayCardPage() {
               </div>
             ))}
           </dl>
+        </section>
+
+        <section className="mx-auto mt-20 max-w-6xl px-6">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            More birthday card and gift ideas
+          </h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedLinks.map((related) => (
+              <Link
+                key={related.href}
+                href={related.href}
+                className="group overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-white shadow-[var(--shadow-soft)] transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-sand)]">
+                  <Image
+                    src={related.image}
+                    alt={`${related.label} sample`}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-sm font-semibold">{related.label}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+                    {related.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="mx-auto mt-20 max-w-3xl px-6 text-center">

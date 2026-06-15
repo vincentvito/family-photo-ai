@@ -24,7 +24,7 @@ export const LAST_MINUTE_BIRTHDAY_CARD_PAGE: BirthdayCardSeoPage = {
     "Forgot a birthday? Turn family, couple, kid, grandparent, or pet photos into a birthday card idea that feels personal instead of rushed.",
   ctaLabel: "Create a birthday card",
   ctaHref: "/studio/roster",
-  image: "/samples/theme-card-birthday.jpg",
+  image: "/seo/birthday-cards/last-minute-personalized-birthday-card.webp",
   related: [
     "/birthday-family-cards",
     "/anniversary-gift",
