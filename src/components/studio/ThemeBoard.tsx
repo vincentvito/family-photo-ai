@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID, getRequiredCardTextError } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import type { AspectRatio } from "@/lib/providers/types";
 import { authClient } from "@/lib/auth-client";
@@ -127,6 +128,8 @@ export default function ThemeBoard({
   const selectedCardTheme = selectedCardId
     ? (cards.find((theme) => theme.id === selectedCardId) ?? null)
     : null;
+  const selectedCardNeedsAgeText =
+    selectedCardTheme?.id === LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID;
   const availableShootThemes = useMemo(() => [...photoreal, ...stylized], [photoreal, stylized]);
   const availableShootThemeById = useMemo(
     () => new Map(availableShootThemes.map((theme) => [theme.id, theme])),
@@ -376,6 +379,11 @@ export default function ThemeBoard({
       setError("Select at least one person or pet with a reference photo to start the shoot.");
       return;
     }
+    const cardTextError = getRequiredCardTextError(selectedCardTheme, cardText);
+    if (cardTextError) {
+      setError(cardTextError);
+      return;
+    }
 
     const theme = selectedCardTheme;
     if (!generationAuthReady) {
@@ -386,6 +394,11 @@ export default function ThemeBoard({
   };
 
   const executeCardShoot = (theme: Theme) => {
+    const cardTextError = getRequiredCardTextError(theme, cardText);
+    if (cardTextError) {
+      setError(cardTextError);
+      return;
+    }
     setError(null);
     setActiveTheme(theme);
     setLaunchingCustom(false);
@@ -782,15 +795,24 @@ export default function ThemeBoard({
                         <label className="small-caps text-[color:var(--color-ink-muted)]">
                           Greeting / card text
                           <span className="ml-1 text-[0.7rem] normal-case tracking-normal opacity-70">
-                            (optional)
+                            {selectedCardNeedsAgeText ? "(required)" : "(optional)"}
                           </span>
                         </label>
                         <input
                           value={cardText}
                           onChange={(e) => setCardText(e.target.value)}
-                          placeholder={`e.g. "The Vitali Family - 2026"`}
+                          placeholder={
+                            selectedCardNeedsAgeText
+                              ? `e.g. "AVA ROSE - CHAPTER 7"`
+                              : `e.g. "The Vitali Family - 2026"`
+                          }
                           className="serif mt-2 w-full rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-4 py-2.5 text-lg outline-none transition-all focus:border-[color:var(--color-butter)] focus:shadow-[0_0_0_4px_rgba(255,210,122,0.35)]"
                         />
+                        {selectedCardNeedsAgeText && (
+                          <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
+                            Include the birthday age so the carved number matches the card.
+                          </p>
+                        )}
                       </div>
 
                       {roster.length > 0 && (

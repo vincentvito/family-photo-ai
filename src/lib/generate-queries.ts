@@ -4,7 +4,13 @@ import { and, eq, asc, inArray, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
-import { THEMES, buildCustomTheme, getTheme, withAspectRatioOverride } from "@/lib/themes";
+import {
+  THEMES,
+  buildCustomTheme,
+  getRequiredCardTextError,
+  getTheme,
+  withAspectRatioOverride,
+} from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 import { getThemeVariationPrompts } from "@/lib/theme-variations";
 import { buildVibeSelectionPlan } from "@/lib/vibe-selection-plan";
@@ -161,6 +167,10 @@ export async function startGeneration(
   }
   if (outputType === "photoshoot" && theme.category === "card") {
     throw new Error("Choose card output before using a card layout.");
+  }
+  const cardTextError = getRequiredCardTextError(theme, parsed.cardText ?? null);
+  if (cardTextError) {
+    throw new Error(cardTextError);
   }
 
   const roster = await loadRosterAsSubjects(actor.userId, parsed.subjectIds);

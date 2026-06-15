@@ -66,6 +66,22 @@ export type Theme = {
   acceptsCardText?: boolean;
 };
 
+export const LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID = "card-luxury-carved-number-birthday";
+
+export function getRequiredCardTextError(
+  theme: Pick<Theme, "id">,
+  cardText?: string | null,
+): string | null {
+  if (theme.id !== LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID) return null;
+
+  const trimmed = cardText?.trim() ?? "";
+  if (!trimmed) return "Add birthday card text with the age for this carved-number card.";
+  if (!/\d/u.test(trimmed)) {
+    return "Include the birthday age in the card text so the carved number is correct.";
+  }
+  return null;
+}
+
 export const THEMES: Theme[] = [
   // ─── Photoreal ───────────────────────────────────────────────────────
   {
@@ -1524,30 +1540,30 @@ export const THEMES: Theme[] = [
     },
   },
   {
-    id: "card-luxury-carved-number-birthday",
+    id: LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID,
     name: "Luxury Carved Number Birthday Poster",
     blurb:
       "A premium off-white paper wall with the birthday age carved deep into it, balloons and florals inside, and the child breaking the frame in a luxe 3D poster look.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-birthday.jpg",
+    coverImage: "/samples/theme-card-luxury-carved-number-birthday.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 3:4 professional luxury birthday poster card",
+      assetType: "A 2:3 professional luxury carved-number birthday card portrait",
       scene:
-        "Entire frame is a premium off-white luxury paper textured wall. A large birthday-age number is precisely carved into the wall with visible thickness, realistic inner depth and believable shadowed cut edges. Inside the carved number are soft balloons, subtle white flowers and an elegant bouquet arrangement. Subjects sit naturally in and partly out of the carved number, with the child or children laughing naturally and preserving reference facial features.",
+        "a premium off-white luxury paper textured wall with a large birthday-age number precisely carved into it, visible paper thickness, realistic inner depth, believable shadowed cut edges, soft balloons, subtle white flowers and an elegant bouquet arrangement inside the carved opening",
       composition:
-        "Clean minimalist luxury magazine-cover layout. The carved number dominates the frame, with face, shoulder, one hand or one foot allowed to extend outside the number to create a realistic 3D breakthrough effect. Typography belongs on the wall as tasteful serif birthday text using the exact user-provided card text when supplied; infer any age number from the supplied card text or occasion context only, never hardcode sample names or a sample age.",
+        "clean minimalist luxury magazine-cover layout with the carved number dominating the frame, realistic 3D breakthrough depth at the number edge, and calm wall space reserved for the supplied greeting",
       camera:
-        "Medium-format premium studio photography, sharp focus, realistic skin, straight-on poster framing, refined negative space for wall typography and print-ready 3:4 crop",
+        "medium-format premium studio photography, sharp focus, realistic skin, straight-on vertical card framing, refined negative space for wall typography and a print-ready 2:3 crop",
       lighting:
         "Warm cinematic sunlight from one side, soft rim light, realistic inner shadows inside the carved number, natural colors, no tree shadows and no fake-looking lighting",
       style:
         "Ultra-realistic high-end art direction, off-white textured paper, soft blue or palette-matched balloons, subtle white flowers, elegant celebration styling, luxury magazine-cover aesthetic, photorealistic skin, no AI artifacts",
       safety:
-        "no logos, no watermark, no extra people, no fake tree shadows, no garbled typography, no hardcoded names such as SKY LOU or POPPY MAE, no hardcoded age such as 4 or 6",
+        "no logos, no watermark, no extra people, no fake tree shadows, no garbled typography, no fixed sample names, no fixed sample age; if the supplied card text includes an age number, the carved number should match it",
     },
   },
   {
@@ -1796,6 +1812,7 @@ export function themesByCategory() {
       "card-eid",
       "card-dia-de-muertos",
       "card-birthday",
+      "card-luxury-carved-number-birthday",
       "card-anniversary",
       "card-save-the-date",
       "card-mothers-day",
