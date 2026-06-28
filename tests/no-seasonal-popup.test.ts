@@ -18,6 +18,8 @@ test("default email popup is mounted instead of the seasonal Father's Day popup"
   assert.match(popupSource, /First generation free/);
   assert.match(popupSource, /default_email_popup/);
   assert.match(popupSource, /marketingOptIn, setMarketingOptIn\] = useState\(true\)/);
+  assert.match(popupSource, /authClient\.useSession/);
+  assert.match(popupSource, /session\?\.user/);
 });
 
 test("desktop storyboard hero centers the title above the image row", () => {
@@ -30,6 +32,7 @@ test("desktop storyboard hero centers the title above the image row", () => {
   assert.match(storyboardSource, /className="mx-auto max-w-\[920px\] text-center"/);
   assert.match(storyboardSource, /<h1 className="serif mx-auto/);
   assert.match(storyboardSource, /lg:flex lg:flex-row lg:justify-center/);
+  assert.doesNotMatch(storyboardSource, /initial=\{\{ opacity: 0/);
   assert.doesNotMatch(storyboardSource, /lg:text-left/);
   assert.doesNotMatch(storyboardSource, /lg:grid-cols/);
 });

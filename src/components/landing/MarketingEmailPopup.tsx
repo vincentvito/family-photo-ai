@@ -37,6 +37,7 @@ function shouldShowForPath(pathname: string | null) {
 export default function MarketingEmailPopup() {
   const pathname = usePathname();
   const router = useRouter();
+  const { data: session, isPending: sessionPending } = authClient.useSession();
   const [visiblePathname, setVisiblePathname] = useState<string | null>(null);
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -49,6 +50,7 @@ export default function MarketingEmailPopup() {
   const normalizedEmail = email.trim().toLowerCase();
 
   useEffect(() => {
+    if (sessionPending || session?.user) return;
     if (!shouldShowForPath(pathname) || recentlyDismissed()) return;
 
     const timer = window.setTimeout(() => {
@@ -56,9 +58,9 @@ export default function MarketingEmailPopup() {
     }, SHOW_DELAY_MS);
 
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, session?.user, sessionPending]);
 
-  if (!pathname || visiblePathname !== pathname) return null;
+  if (session?.user || !pathname || visiblePathname !== pathname) return null;
 
   const close = () => {
     try {

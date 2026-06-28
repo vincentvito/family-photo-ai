@@ -453,7 +453,6 @@ function MobileStoryboard() {
 }
 
 function StoryboardHero() {
-  const reduce = useReducedMotion();
   const t = useTranslations("Hero");
 
   return (
@@ -470,7 +469,7 @@ function StoryboardHero() {
 
         <div className="mx-auto flex w-full max-w-[1480px] flex-col items-center gap-8 px-5 sm:px-8 lg:gap-10">
           <motion.div
-            initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="mx-auto max-w-[920px] text-center"
@@ -507,7 +506,7 @@ function StoryboardHero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: reduce ? 1 : 0.98, y: reduce ? 0 : 16 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
             className="relative mx-auto hidden w-full max-w-[1180px] flex-col items-center gap-5 lg:flex lg:flex-row lg:justify-center lg:gap-7"
