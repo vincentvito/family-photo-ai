@@ -453,7 +453,6 @@ function MobileStoryboard() {
 }
 
 function StoryboardHero() {
-  const reduce = useReducedMotion();
   const t = useTranslations("Hero");
 
   return (
@@ -468,22 +467,22 @@ function StoryboardHero() {
           }}
         />
 
-        <div className="mx-auto grid w-full max-w-[1480px] grid-cols-1 items-center gap-8 px-5 sm:px-8 lg:grid-cols-[0.52fr_1.48fr] lg:gap-2 xl:grid-cols-[0.48fr_1.52fr]">
+        <div className="mx-auto flex w-full max-w-[1480px] flex-col items-center gap-8 px-5 sm:px-8 lg:gap-10">
           <motion.div
-            initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto max-w-[440px] text-center lg:mx-0 lg:text-left"
+            className="mx-auto max-w-[920px] text-center"
           >
-            <span className="chip chip-coral mx-auto w-fit lg:mx-0">
+            <span className="chip chip-coral mx-auto w-fit">
               <span className="dot dot-coral" />
               {t("chip")}
             </span>
-            <h1 className="serif mx-auto mt-5 max-w-[10ch] text-[3rem] leading-[1.01] sm:text-6xl md:text-[4.65rem] lg:mx-0">
+            <h1 className="serif mx-auto mt-5 max-w-[11ch] text-[3rem] leading-[1.01] sm:text-6xl md:text-[4.65rem] lg:max-w-[12ch]">
               {t("title")}
             </h1>
             <MobileStoryboard />
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <LocalizedLink href="/studio/roster" className="btn btn-coral btn-lg">
                 {t("primaryCta")}
                 <svg
@@ -503,14 +502,14 @@ function StoryboardHero() {
                 {t("secondaryCta")}
               </a>
             </div>
-            <StatsBar className="mt-7 hidden lg:flex" />
+            <StatsBar className="mt-7 hidden justify-center lg:flex" />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: reduce ? 1 : 0.98, y: reduce ? 0 : 16 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto hidden w-full max-w-[980px] flex-col items-center gap-5 lg:flex lg:max-w-none lg:flex-row lg:justify-end lg:gap-7"
+            className="relative mx-auto hidden w-full max-w-[1180px] flex-col items-center gap-5 lg:flex lg:flex-row lg:justify-center lg:gap-7"
             aria-label="Four selfie uploads become three finished family portraits"
           >
             <div className="w-full max-w-[390px] lg:w-[32%]">

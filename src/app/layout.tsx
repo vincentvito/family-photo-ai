@@ -4,7 +4,7 @@ import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import ImpersonationBanner from "@/components/ImpersonationBanner";
-import FathersDayPopup from "@/components/landing/FathersDayPopup";
+import MarketingEmailPopup from "@/components/landing/MarketingEmailPopup";
 import { getMessages } from "@/lib/i18n/locales";
 import { getRequestLocale } from "@/lib/i18n/server";
 import "./globals.css";
@@ -195,7 +195,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ImpersonationBanner />
           {children}
-          <FathersDayPopup />
+          <MarketingEmailPopup />
         </NextIntlClientProvider>
         <script
           type="application/ld+json"
