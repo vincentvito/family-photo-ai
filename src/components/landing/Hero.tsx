@@ -452,6 +452,21 @@ function MobileStoryboard() {
   );
 }
 
+function HeroTitle({ className = "" }: { className?: string }) {
+  const t = useTranslations("Hero");
+  const titleLines = t.raw("titleLines") as string[];
+
+  return (
+    <h1 className={`serif ${className}`}>
+      {titleLines.map((line) => (
+        <span key={line} className="block sm:whitespace-nowrap">
+          {line}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
 function StoryboardHero() {
   const t = useTranslations("Hero");
 
@@ -478,9 +493,7 @@ function StoryboardHero() {
               <span className="dot dot-coral" />
               {t("chip")}
             </span>
-            <h1 className="serif mx-auto mt-5 max-w-[11ch] text-[3rem] leading-[1.01] sm:text-6xl md:text-[4.65rem] lg:max-w-[12ch]">
-              {t("title")}
-            </h1>
+            <HeroTitle className="mx-auto mt-5 w-fit max-w-full text-[2.55rem] leading-[1.01] sm:text-6xl md:text-[4.65rem]" />
             <MobileStoryboard />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <LocalizedLink href="/studio/roster" className="btn btn-coral btn-lg">
@@ -595,9 +608,7 @@ export function ClassicHero() {
               </span>
               <AwardBadge />
             </div>
-            <h1 className="serif mt-5 text-[3.05rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5rem]">
-              {t("title")}
-            </h1>
+            <HeroTitle className="mt-5 text-[3.05rem] leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-[5rem]" />
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
               {t("body")}
             </p>

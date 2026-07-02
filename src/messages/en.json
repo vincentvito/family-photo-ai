@@ -23,6 +23,7 @@
     "awardRank": "#1",
     "awardText": "family photo app",
     "title": "Turn everyday pics into family portraits.",
+    "titleLines": ["Turn everyday pics", "into family portraits."],
     "body": "Upload separate photos of your people and pets. FamilyShoot turns them into polished portraits in minutes.",
     "primaryCta": "Begin a shoot",
     "secondaryCta": "See the gallery",
