@@ -530,7 +530,7 @@ export const VIBES: readonly Vibe[] = [
       "nostalgic toy family photoshoot",
       "miniature toy world family photo",
     ],
-    image: "/samples/theme-toy-box-keepsake-portrait.webp",
+    image: "/samples/theme-time-travel-toy-shelf.webp",
     shortDescription:
       "A miniature shelf-world portrait with handmade toys, tiny time-capsule details, and warm nostalgia.",
     related: [

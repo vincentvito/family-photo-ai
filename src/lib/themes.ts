@@ -1081,23 +1081,24 @@ export const THEMES: Theme[] = [
       "A nostalgic shelf-world portrait with handmade toys, tiny eras, warm dust motes, and no branded characters.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/theme-toy-box-keepsake-portrait.webp",
+    coverImage: "/samples/theme-time-travel-toy-shelf.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
-      assetType: "A 3:2 whimsical miniature toy-shelf family portrait",
+      assetType:
+        "A 3:2 whimsical miniature toy-shelf portrait of the subjects transformed into handmade toy figurines",
       scene:
         "an imaginative toy shelf arranged like tiny time capsules, generic wooden toys, handmade blocks, blank book spines, paper stars and warm nostalgic keepsake objects",
       camera:
-        "miniature-world camera perspective with shallow shelf depth, readable faces, tactile toy details and gentle scale play",
+        "miniature-world camera perspective with shallow shelf depth, readable toy-figurine faces, tactile toy details and gentle scale play",
       composition:
-        "selected cast framed among shelf levels and toy vignettes, uncluttered face sightlines, decorative blank labels only",
+        "the subjects reimagined as a small handmade toy-figurine group framed among shelf levels and toy vignettes, uncluttered face sightlines, decorative blank labels only",
       lighting:
         "warm window beam through dust motes, soft shelf shadows, cozy amber fill and polished subject clarity",
       style:
-        "storybook miniature realism, maple wood, faded primary colors, cream paper and warm amber palette, handmade texture, print-ready charm",
+        "storybook miniature realism, carved wood and soft fabric doll textures, simplified button-like features adapted from each reference face, maple wood, faded primary colors, cream paper and warm amber palette, handmade texture, print-ready charm",
       safety:
-        "generic handmade toys only, no branded toys, no copyrighted characters, no logos, no readable book titles, no watermark",
+        "transform people into original handmade toy figurines, do not render full-size real human people, generic handmade toys only, no branded toys, no copyrighted characters, no logos, no readable book titles, no watermark",
     },
   },
   {

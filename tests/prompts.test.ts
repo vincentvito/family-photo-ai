@@ -456,15 +456,25 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
     "leibovitz-studio",
     "golden-hour-beach",
   ];
+  const coverImages = new Set<string>();
 
   for (const themeId of homepageThemeIds) {
-    const href = getThemeDetailHref(getTheme(themeId));
+    const theme = getTheme(themeId);
+    const href = getThemeDetailHref(theme);
     assert.match(href, /^\/[^?]+$/u, `${themeId} should link to an existing detail route`);
     assert.doesNotMatch(
       href,
       /^\/studio\/theme/u,
       `${themeId} should not skip to generation step 3`,
     );
+    assert.notEqual(href, "/vibes", `${themeId} should link to its own detail page`);
+    assert.notEqual(href, "/cards", `${themeId} should link to its own detail page`);
+    assert.equal(
+      coverImages.has(theme.coverImage),
+      false,
+      `${themeId} should not reuse another homepage vibe cover image`,
+    );
+    coverImages.add(theme.coverImage);
   }
 });
 
@@ -500,6 +510,10 @@ test("new weekly theme specs leave roster and card text details to the prompt co
     assert.doesNotMatch(stableSpecText, /\b(parents?|children|adults?|pets?|dogs?|cats?)\b/i);
     assert.doesNotMatch(stableSpecText, /Cloud Dancer/i);
 
+    for (const variation of getThemeVariationPrompts(theme.id, theme.category)) {
+      assert.doesNotMatch(variation, /\bselected cast\b/i);
+    }
+
     const prompt = buildGenerationPrompt(
       theme,
       adultOnlyRoster,
@@ -517,6 +531,27 @@ test("new weekly theme specs leave roster and card text details to the prompt co
       assert.doesNotMatch(prompt, /render the exact text/i);
     }
   }
+});
+
+test("time-travel toy shelf prompt transforms people into toy figurines", () => {
+  const prompt = buildGenerationPrompt(
+    getTheme("time-travel-toy-shelf"),
+    [
+      {
+        personId: "adult-1",
+        name: "Adult One",
+        role: "adult",
+        notes: null,
+        referencePaths: ["adult-one.jpg"],
+      },
+    ],
+    null,
+    null,
+  );
+
+  assert.match(prompt, /transformed into handmade toy figurines/i);
+  assert.match(prompt, /do not render full-size real human people/i);
+  assert.match(prompt, /theme-appropriate anatomy/i);
 });
 
 test("luxury carved-number birthday card is selectable, dynamic and guarded", () => {
