@@ -432,6 +432,132 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "butter-yellow-summer-family-photos",
+    name: "Butter Yellow Summer Portrait",
+    keyword: "butter yellow summer family photo",
+    secondaryKeywords: [
+      "yellow summer family portrait",
+      "butter yellow family photoshoot",
+      "summer linen family photo",
+    ],
+    image: "/samples/theme-cape-cod-summer.png",
+    shortDescription:
+      "Butter-yellow wardrobe notes, pale florals, linen, and soft summer light in a polished family portrait.",
+    related: [
+      "cape-cod-family-photos",
+      "scarf-garden-story-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "scarf-garden-story-family-photos",
+    name: "Scarf Garden Story",
+    keyword: "scarf garden family portrait",
+    secondaryKeywords: [
+      "garden family photoshoot",
+      "summer scarf family photo",
+      "romantic garden family portrait",
+    ],
+    image: "/samples/theme-orchard-picking.jpg",
+    shortDescription:
+      "Silk-scarf color, leafy garden paths, soft flowers, and dappled light for an airy summer keepsake.",
+    related: [
+      "butter-yellow-summer-family-photos",
+      "backyard-picnic-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "summer-color-hunt-family-photos",
+    name: "Summer Color Hunt",
+    keyword: "summer color hunt family photo",
+    secondaryKeywords: [
+      "colorful family photoshoot",
+      "family color scavenger hunt portrait",
+      "bright summer family photo",
+    ],
+    image: "/samples/theme-card-easter.jpg",
+    shortDescription:
+      "Flowers, fruit, color swatches, and bright discovery energy without brands, apps, or readable labels.",
+    related: [
+      "summer-color-pop-studio-family-photos",
+      "backyard-picnic-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "family-watch-party-photos",
+    name: "Family Watch Party",
+    keyword: "family watch party photo",
+    secondaryKeywords: [
+      "game day family portrait",
+      "living room watch party family photo",
+      "sports watch party family photoshoot",
+    ],
+    image: "/samples/theme-sunday-sofa.jpg",
+    shortDescription:
+      "A cozy living-room watch party with blank banners, snack bowls, pillows, and no real team marks.",
+    related: [
+      "backyard-sports-day-family-photos",
+      "sunday-sofa-family-photos",
+      "soccer-team-family-photos",
+    ],
+  },
+  {
+    slug: "ocean-explorer-card-family-photos",
+    name: "Ocean Explorer Card",
+    keyword: "ocean explorer family card",
+    secondaryKeywords: [
+      "ocean adventure family card",
+      "shoreline family greeting card",
+      "coastal explorer family photo",
+    ],
+    image: "/samples/theme-galactic-family-adventure.webp",
+    shortDescription:
+      "Tide-pool blues, shells, paper-map shapes, and clean greeting space for a family-safe adventure card.",
+    related: [
+      "cool-blue-lake-day-family-photos",
+      "hawaii-vacation-family-photos",
+      "cape-cod-family-photos",
+    ],
+  },
+  {
+    slug: "time-travel-toy-shelf-family-photos",
+    name: "Time-Travel Toy Shelf",
+    keyword: "time travel toy shelf family portrait",
+    secondaryKeywords: [
+      "toy shelf family portrait",
+      "nostalgic toy family photoshoot",
+      "miniature toy world family photo",
+    ],
+    image: "/samples/theme-time-travel-toy-shelf.webp",
+    shortDescription:
+      "A miniature shelf-world portrait with handmade toys, tiny time-capsule details, and warm nostalgia.",
+    related: [
+      "toy-box-keepsake-family-photos",
+      "noughties-family-throwback-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "retro-jazz-porch-family-photos",
+    name: "Retro Jazz Porch",
+    keyword: "retro jazz porch family photo",
+    secondaryKeywords: [
+      "porch family portrait",
+      "retro music family photoshoot",
+      "vintage porch family photo",
+    ],
+    image: "/samples/theme-70s-station-wagon.jpg",
+    shortDescription:
+      "Vintage radio warmth, porch shade, brass accents, striped details, and a relaxed backyard rhythm.",
+    related: [
+      "70s-station-wagon-family-photos",
+      "sunday-sofa-family-photos",
+      "vintage-polaroid-family-photos",
+    ],
+  },
+  {
     slug: "neo-deco-celebration-card-family-photos",
     name: "Neo Deco Celebration Card",
     keyword: "neo deco celebration family card",

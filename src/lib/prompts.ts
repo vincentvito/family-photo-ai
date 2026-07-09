@@ -35,7 +35,7 @@ export function buildGenerationPrompt(
     `Composition anchor: ${sentence(selectedCastLanguage(composition))}`,
     getReferenceMap(subjects),
     buildRosterDirective(subjects),
-    buildHardConstraints({ children, pets }),
+    buildHardConstraints({ children, pets, category: theme.category }),
     `Safety: ${sentence(selectedCastLanguage(safety))}`,
     sentence(FAMILY_POSITIVE_DIRECTIVE),
   ];
@@ -98,7 +98,8 @@ function sentence(text: string): string {
 function selectedCastLanguage(text: string): string {
   return text
     .replace(/\bselected cast\b/giu, "subjects")
-    .replace(/\bfamily\b/giu, "subjects")
+    .replace(/\bfamily-friendly\b/giu, "group-friendly")
+    .replace(/\bfamily\b/giu, "group")
     .replace(/\beveryone\b/giu, "the subjects");
 }
 
@@ -136,7 +137,19 @@ function getReferenceMap(subjects: Subject[]): string {
   ].join(" ");
 }
 
-function buildHardConstraints({ children, pets }: { children: number; pets: number }): string {
+function buildHardConstraints({
+  children,
+  pets,
+  category,
+}: {
+  children: number;
+  pets: number;
+  category: Theme["category"];
+}): string {
+  const anatomyRule =
+    category === "photoreal"
+      ? "Maintain coherent realistic anatomy, facial structure, limb proportions, and clean subject separation."
+      : "Maintain coherent theme-appropriate anatomy, facial structure, limb proportions, and clean subject separation.";
   const scaleRule =
     children > 0
       ? "Maintain realistic adult-child height differences."
@@ -145,7 +158,7 @@ function buildHardConstraints({ children, pets }: { children: number; pets: numb
   return [
     "Hard constraints:",
     "No background people, posters with faces, reflections of people, duplicated subjects, logos, text, or watermark.",
-    `Maintain coherent realistic anatomy, facial structure, limb proportions, and clean subject separation. ${scaleRule}`,
+    `${anatomyRule} ${scaleRule}`,
     pets > 0 ? "Selected pets must remain animals, not people, dolls, statues, or mascots." : "",
   ]
     .filter(Boolean)

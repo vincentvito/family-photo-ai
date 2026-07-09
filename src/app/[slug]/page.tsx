@@ -316,10 +316,10 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         ctaHref="/studio/roster"
         ctaLabel={
           category === "card"
-            ? `Make your ${item.name} card`
+            ? "Begin a Card"
             : category === "occasion"
               ? (item as OccasionPage).ctaLabel
-              : `Make your ${item.name} portrait`
+              : "Begin a Shoot"
         }
         breadcrumbs={breadcrumbs}
         keywordHighlights={
