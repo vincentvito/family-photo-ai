@@ -19,13 +19,17 @@ type OutputMode = "photoshoot" | "card";
 export default async function ThemePage({
   searchParams,
 }: {
-  searchParams: Promise<{ output?: string; card?: string }>;
+  searchParams: Promise<{ output?: string; card?: string; theme?: string }>;
 }) {
-  const { output, card } = await searchParams;
+  const { output, card, theme } = await searchParams;
   const outputMode: OutputMode = output === "card" ? "card" : "photoshoot";
   const themes = themesByCategory();
   const selectedCard =
     outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
+  const selectedTheme =
+    outputMode === "photoshoot" && theme
+      ? [...themes.photoreal, ...themes.stylized].find((entry) => entry.id === theme)
+      : null;
   const user = await getCurrentUser();
   const cookieStore = user ? null : await cookies();
   const tempOwner = user
@@ -103,6 +107,7 @@ export default async function ThemePage({
         isProSubscriber={isProSubscriber}
         subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
         isAuthenticated={Boolean(user)}
+        initialThemeId={selectedTheme?.id ?? null}
       />
     </main>
   );

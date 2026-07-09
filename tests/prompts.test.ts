@@ -478,6 +478,31 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
   }
 });
 
+test("theme cover images do not cross-wire different vibe descriptions", () => {
+  const coverByPath = new Map<string, string>();
+
+  for (const theme of THEMES) {
+    assert.ok(existsSync(theme.coverImage.replace(/^\/+/, "public/")), `${theme.coverImage} should exist`);
+    const previousTheme = coverByPath.get(theme.coverImage);
+    assert.equal(
+      previousTheme,
+      undefined,
+      `${theme.id} should not reuse ${theme.coverImage} from ${previousTheme}`,
+    );
+    coverByPath.set(theme.coverImage, theme.id);
+  }
+});
+
+test("deep-linked studio theme URLs preselect the requested vibe", () => {
+  const pageSource = readFileSync("src/app/studio/theme/page.tsx", "utf8");
+  const boardSource = readFileSync("src/components/studio/ThemeBoard.tsx", "utf8");
+
+  assert.match(pageSource, /theme\?: string/);
+  assert.match(pageSource, /initialThemeId=\{selectedTheme\?\.id \?\? null\}/);
+  assert.match(boardSource, /initialThemeId\?: string \| null/);
+  assert.match(boardSource, /initialThemeId \? \[initialThemeId\] : \[\]/);
+});
+
 test("vibe detail pages use a clear Begin a Shoot CTA", () => {
   const source = readFileSync("src/app/[slug]/page.tsx", "utf8");
   assert.match(source, /"Begin a Shoot"/);

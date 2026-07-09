@@ -260,7 +260,7 @@ export const VIBES: readonly Vibe[] = [
       "summer weekend family photo",
       "lake house family photoshoot",
     ],
-    image: "/samples/theme-lake-house.jpg",
+    image: "/samples/theme-dockside-family-weekend.webp",
     shortDescription:
       "Weathered dock planks, lake sparkle, towels, totes, and long-weekend summer ease.",
     related: [
@@ -278,7 +278,7 @@ export const VIBES: readonly Vibe[] = [
       "sports day family photoshoot",
       "backyard games family photo",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
+    image: "/samples/theme-backyard-sports-day-portrait.webp",
     shortDescription:
       "Blank jerseys, lawn-game props, chalk lines, ribbons, sneakers, and bright field-day joy.",
     related: [
@@ -296,7 +296,7 @@ export const VIBES: readonly Vibe[] = [
       "travel picnic family photoshoot",
       "meadow picnic family photo",
     ],
-    image: "/samples/theme-backyard-picnic.jpg",
+    image: "/samples/theme-slow-travel-summer-picnic.webp",
     shortDescription:
       "Checked blanket, market fruit, paper maps, wildflowers, and unhurried travel light.",
     related: [
@@ -314,7 +314,7 @@ export const VIBES: readonly Vibe[] = [
       "string lights family photoshoot",
       "summer festival family photo",
     ],
-    image: "/samples/theme-card-new-years.jpg",
+    image: "/samples/theme-sunset-festival-family-glow.webp",
     shortDescription:
       "String lights, paper lanterns, fabric flags, and golden-hour festival warmth.",
     related: [
@@ -332,7 +332,7 @@ export const VIBES: readonly Vibe[] = [
       "summer studio family photoshoot",
       "bright color block family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
+    image: "/samples/theme-summer-color-pop-studio.webp",
     shortDescription:
       "High-key studio light, bold color blocks, glossy summer props, and commercial polish.",
     related: [
@@ -350,7 +350,7 @@ export const VIBES: readonly Vibe[] = [
       "illustrated postcard family portrait",
       "adventure postcard family photoshoot",
     ],
-    image: "/samples/theme-watercolor-storybook.jpg",
+    image: "/samples/theme-whimsical-adventure-postcard.webp",
     shortDescription:
       "Painted skies, oversized luggage, map edges, and original storybook travel charm.",
     related: [
@@ -440,7 +440,7 @@ export const VIBES: readonly Vibe[] = [
       "butter yellow family photoshoot",
       "summer linen family photo",
     ],
-    image: "/samples/theme-cape-cod-summer.png",
+    image: "/samples/theme-butter-yellow-summer-portrait.webp",
     shortDescription:
       "Butter-yellow wardrobe notes, pale florals, linen, and soft summer light in a polished family portrait.",
     related: [
@@ -458,7 +458,7 @@ export const VIBES: readonly Vibe[] = [
       "summer scarf family photo",
       "romantic garden family portrait",
     ],
-    image: "/samples/theme-orchard-picking.jpg",
+    image: "/samples/theme-scarf-garden-story.webp",
     shortDescription:
       "Silk-scarf color, leafy garden paths, soft flowers, and dappled light for an airy summer keepsake.",
     related: [
@@ -476,7 +476,7 @@ export const VIBES: readonly Vibe[] = [
       "family color scavenger hunt portrait",
       "bright summer family photo",
     ],
-    image: "/samples/theme-card-easter.jpg",
+    image: "/samples/theme-summer-color-hunt.webp",
     shortDescription:
       "Flowers, fruit, color swatches, and bright discovery energy without brands, apps, or readable labels.",
     related: [
@@ -494,7 +494,7 @@ export const VIBES: readonly Vibe[] = [
       "living room watch party family photo",
       "sports watch party family photoshoot",
     ],
-    image: "/samples/theme-sunday-sofa.jpg",
+    image: "/samples/theme-family-watch-party.webp",
     shortDescription:
       "A cozy living-room watch party with blank banners, snack bowls, pillows, and no real team marks.",
     related: [
@@ -512,7 +512,7 @@ export const VIBES: readonly Vibe[] = [
       "shoreline family greeting card",
       "coastal explorer family photo",
     ],
-    image: "/samples/theme-galactic-family-adventure.webp",
+    image: "/samples/theme-ocean-explorer-card.webp",
     shortDescription:
       "Tide-pool blues, shells, paper-map shapes, and clean greeting space for a family-safe adventure card.",
     related: [
@@ -548,7 +548,7 @@ export const VIBES: readonly Vibe[] = [
       "retro music family photoshoot",
       "vintage porch family photo",
     ],
-    image: "/samples/theme-70s-station-wagon.jpg",
+    image: "/samples/theme-retro-jazz-porch.webp",
     shortDescription:
       "Vintage radio warmth, porch shade, brass accents, striped details, and a relaxed backyard rhythm.",
     related: [
