@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
-import { existsSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
+import { getThemeDetailHref } from "../src/lib/theme-detail-links";
 import { THEMES, getRequiredCardTextError, getTheme, themesByCategory } from "../src/lib/themes";
 import { THEME_VARIATION_PROMPTS, getThemeVariationPrompts } from "../src/lib/theme-variations";
 import { VIBES } from "../src/data/vibes";
@@ -196,7 +197,14 @@ const WEEKLY_TREND_THEME_IDS = [
   "summer-color-pop-studio",
   "whimsical-adventure-postcard",
   "retro-summer-postcard",
+  "butter-yellow-summer-portrait",
+  "scarf-garden-story",
+  "summer-color-hunt",
+  "family-watch-party",
+  "ocean-explorer-card",
   "toy-box-keepsake-portrait",
+  "time-travel-toy-shelf",
+  "retro-jazz-porch",
   "cool-blue-lake-day",
   "poetcore-family-library-portrait",
   "neo-deco-celebration-card",
@@ -211,7 +219,14 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "summer-color-pop-studio-family-photos",
   "whimsical-adventure-postcard-family-photos",
   "retro-summer-postcard-family-photos",
+  "butter-yellow-summer-family-photos",
+  "scarf-garden-story-family-photos",
+  "summer-color-hunt-family-photos",
+  "family-watch-party-photos",
+  "ocean-explorer-card-family-photos",
   "toy-box-keepsake-family-photos",
+  "time-travel-toy-shelf-family-photos",
+  "retro-jazz-porch-family-photos",
   "cool-blue-lake-day-family-photos",
   "poetcore-family-library-photos",
   "neo-deco-celebration-card-family-photos",
@@ -227,7 +242,7 @@ const NEW_WEEKLY_TREND_PAIRS = [
   ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
 ] as const;
 
-const NEW_WEEKLY_TREND_THEME_IDS_SET = new Set(NEW_WEEKLY_TREND_PAIRS.map(([themeId]) => themeId));
+const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
 
 const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
@@ -409,7 +424,7 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
   );
 
   const existingThemeImagePaths = new Set(
-    THEMES.filter((theme) => !NEW_WEEKLY_TREND_THEME_IDS_SET.has(theme.id)).map(
+    THEMES.filter((theme) => !WEEKLY_TREND_THEME_IDS_SET.has(theme.id)).map(
       (theme) => theme.coverImage,
     ),
   );
@@ -420,6 +435,43 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
       `${imagePath} should not reuse an older theme cover`,
     );
   }
+});
+
+test("homepage vibe cards resolve to detail pages before the studio flow", () => {
+  const homepageThemeIds = [
+    "retro-summer-postcard",
+    "butter-yellow-summer-portrait",
+    "scarf-garden-story",
+    "ocean-explorer-card",
+    "family-watch-party",
+    "toy-box-keepsake-portrait",
+    "time-travel-toy-shelf",
+    "retro-jazz-porch",
+    "cool-blue-lake-day",
+    "poetcore-family-library-portrait",
+    "neo-deco-celebration-card",
+    "crochet-raffia-picnic-card",
+    "private-jet-family",
+    "soccer-team-family",
+    "leibovitz-studio",
+    "golden-hour-beach",
+  ];
+
+  for (const themeId of homepageThemeIds) {
+    const href = getThemeDetailHref(getTheme(themeId));
+    assert.match(href, /^\/[^?]+$/u, `${themeId} should link to an existing detail route`);
+    assert.doesNotMatch(
+      href,
+      /^\/studio\/theme/u,
+      `${themeId} should not skip to generation step 3`,
+    );
+  }
+});
+
+test("vibe detail pages use a clear Begin a Shoot CTA", () => {
+  const source = readFileSync("src/app/[slug]/page.tsx", "utf8");
+  assert.match(source, /"Begin a Shoot"/);
+  assert.doesNotMatch(source, /Make your \$\{item\.name\} portrait/);
 });
 
 test("new weekly theme specs leave roster and card text details to the prompt composer", () => {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
+import { getThemeDetailHref } from "@/lib/theme-detail-links";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
 
@@ -12,7 +13,13 @@ type TrendingVibe = { id: string; name: string };
 
 const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
   { id: "retro-summer-postcard", badge: "Fresh weekly" },
+  { id: "butter-yellow-summer-portrait", badge: "Fresh weekly" },
+  { id: "scarf-garden-story", badge: "Fresh weekly" },
+  { id: "ocean-explorer-card", badge: "New card" },
+  { id: "family-watch-party", badge: "Fresh weekly" },
   { id: "toy-box-keepsake-portrait", badge: "Fresh weekly" },
+  { id: "time-travel-toy-shelf", badge: "Fresh weekly" },
+  { id: "retro-jazz-porch", badge: "Fresh weekly" },
   { id: "cool-blue-lake-day", badge: "Fresh weekly" },
   { id: "poetcore-family-library-portrait", badge: "Fresh weekly" },
   { id: "neo-deco-celebration-card", badge: "New card" },
@@ -74,15 +81,14 @@ const categoryLabel: Record<Theme["category"], string> = {
 function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?: string }) {
   const aspect = aspectClass[theme.aspectRatio] ?? "aspect-[4/5]";
   const chip = categoryChip[theme.category];
-  const href =
-    theme.category === "card" ? "/studio/theme?output=card" : "/studio/theme?output=photoshoot";
+  const href = getThemeDetailHref(theme);
 
   return (
     <motion.div
       className="group relative overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]"
       whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
     >
-      <Link href={href} className="block" aria-label={`Try the ${theme.name} vibe`}>
+      <Link href={href} className="block" aria-label={`View ${theme.name} examples`}>
         <div className="warm-noise relative overflow-hidden">
           <div
             className={`${aspect} w-full bg-[color:var(--color-line)] bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]`}

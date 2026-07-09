@@ -943,6 +943,189 @@ export const THEMES: Theme[] = [
         "original library setting, no author likeness, no public-figure resemblance, no readable copyrighted text, no brand logos, no watermark",
     },
   },
+  {
+    id: "butter-yellow-summer-portrait",
+    name: "Butter Yellow Summer Portrait",
+    blurb:
+      "Soft butter-yellow wardrobe notes, pale florals, sunlit linen, and relaxed summer brightness with a polished editorial finish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cape-cod-summer.png",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 bright summer editorial family photograph",
+      scene:
+        "a sunny porch, garden path or coastal cottage setting with pale florals, linen textures, woven baskets and butter-yellow wardrobe accents",
+      camera:
+        "digital medium-format camera with a 55mm lens, relaxed eye-level portrait perspective, crisp faces with airy summer context",
+      composition:
+        "loose editorial grouping with breathable negative space, natural hand placement, clean sightlines and no crowded prop styling",
+      lighting:
+        "soft late-morning sunlight filtered through white curtains or light foliage, creamy bounce fill and gentle highlight rolloff",
+      style:
+        "premium summer lifestyle photography, butter yellow, white linen, hydrangea blue, leaf green and warm cream palette, natural skin texture, print-ready polish",
+      safety:
+        "modest summer wardrobe, no brand logos, no readable text, no celebrity likeness, no political symbols, no watermark",
+    },
+  },
+  {
+    id: "scarf-garden-story",
+    name: "Scarf Garden Story",
+    blurb:
+      "A breezy garden portrait with silk-scarf color, climbing greenery, dappled light, and storybook-summer ease.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-orchard-picking.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 garden-editorial family photograph",
+      scene:
+        "a leafy garden walkway with climbing greenery, simple flowers, linen layers and silk-scarf-inspired color accents used as wardrobe or picnic details",
+      camera:
+        "Fuji GFX medium format with a 63mm lens, vertical environmental portrait framing, faces prioritized against soft garden depth",
+      composition:
+        "gentle S-curve garden path composition, selected cast held in the brighter center third, scarf details secondary and not covering faces",
+      lighting:
+        "dappled open-shade sunlight, soft leaf-filtered highlights, warm garden bounce and clean facial detail",
+      style:
+        "romantic summer editorial photography, sage, poppy red, cream, pale yellow and soft blue accents, tactile fabric texture, refined keepsake finish",
+      safety:
+        "original scarf and garden styling only, no luxury-brand patterns, no logos, no readable text, no celebrity resemblance, no watermark",
+    },
+  },
+  {
+    id: "summer-color-hunt",
+    name: "Summer Color Hunt",
+    blurb:
+      "A playful outdoor color-search portrait with swatches, flowers, fruit, and bright discovery energy without app or brand cues.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-easter.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 playful outdoor color-hunt family photograph",
+      scene:
+        "a garden, park or backyard setup with simple color swatches, flowers, fruit bowls and chalk-free discovery props arranged like a family color scavenger hunt",
+      camera:
+        "commercial lifestyle camera with a 35mm lens, active eye-level framing with enough space for gestures and readable faces",
+      composition:
+        "bright color clusters balanced around the selected cast, props clearly secondary, no boards, posters or readable labels",
+      lighting:
+        "clear open-shade summer daylight, crisp catchlights, gentle grass bounce and clean saturated accents without harsh contrast",
+      style:
+        "fresh lifestyle photography, tomato red, lemon yellow, sky blue, leaf green and white accents, cheerful editorial polish, natural expressions",
+      safety:
+        "generic color-play setup, no social app interface, no logos, no readable text, no branded packaging, no watermark",
+    },
+  },
+  {
+    id: "family-watch-party",
+    name: "Family Watch Party",
+    blurb:
+      "A cozy game-day living room portrait with blank banners, snacks, pillows, and team-color energy without real teams or logos.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-sunday-sofa.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cozy family watch-party photograph",
+      scene:
+        "a comfortable living room arranged for a family watch party, sofa blankets, snack bowls, blank pennants, color-block pillows and a soft TV glow with no visible screen content",
+      camera:
+        "documentary lifestyle camera with a 35mm lens, sofa-level environmental portrait framing, readable faces and warm room context",
+      composition:
+        "layered sofa grouping with snack table foreground kept tidy, blank decor areas only, no readable signs or scoreboards",
+      lighting:
+        "soft window light mixed with gentle screen-like blue fill and warm lamp glow, balanced skin tones and clear subject separation",
+      style:
+        "premium at-home lifestyle photography, navy, cream, red, green and warm wood palette, cozy energetic finish, no team identifiers",
+      safety:
+        "fictional watch party only, no real teams, no league names, no logos, no alcohol cues, no readable text, no watermark",
+    },
+  },
+  {
+    id: "ocean-explorer-card",
+    name: "Ocean Explorer Card",
+    blurb:
+      "A bright adventure-card portrait with tide-pool blues, paper-map shapes, shells, and clean space for a greeting.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-galactic-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 ocean-adventure greeting-card family portrait",
+      scene:
+        "a family-friendly shoreline exploration scene with tide pools, shells, compass-like decorative shapes, paper-map edges and airy negative space for greeting text",
+      camera:
+        "polished card-art viewpoint with a gentle three-quarter shoreline perspective, readable faces and clean separation from decorative map details",
+      composition:
+        "stable greeting-card layout with open sky or pale sand reserved for typography, selected cast grouped away from the text area",
+      lighting:
+        "fresh coastal morning light, soft ocean bounce, bright catchlights and clear blue-green color separation",
+      style:
+        "premium illustrated-photo hybrid card art, sea glass blue, coral, sand, white and kelp green palette, print-ready texture and no fake readable labels",
+      safety:
+        "original ocean exploration styling only, no franchise adventure cues, no resort logos, no readable map text, no water-danger scene, no watermark",
+    },
+  },
+  {
+    id: "time-travel-toy-shelf",
+    name: "Time-Travel Toy Shelf",
+    blurb:
+      "A nostalgic shelf-world portrait with handmade toys, tiny eras, warm dust motes, and no branded characters.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-toy-box-keepsake-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical miniature toy-shelf family portrait",
+      scene:
+        "an imaginative toy shelf arranged like tiny time capsules, generic wooden toys, handmade blocks, blank book spines, paper stars and warm nostalgic keepsake objects",
+      camera:
+        "miniature-world camera perspective with shallow shelf depth, readable faces, tactile toy details and gentle scale play",
+      composition:
+        "selected cast framed among shelf levels and toy vignettes, uncluttered face sightlines, decorative blank labels only",
+      lighting:
+        "warm window beam through dust motes, soft shelf shadows, cozy amber fill and polished subject clarity",
+      style:
+        "storybook miniature realism, maple wood, faded primary colors, cream paper and warm amber palette, handmade texture, print-ready charm",
+      safety:
+        "generic handmade toys only, no branded toys, no copyrighted characters, no logos, no readable book titles, no watermark",
+    },
+  },
+  {
+    id: "retro-jazz-porch",
+    name: "Retro Jazz Porch",
+    blurb:
+      "A relaxed porch portrait with vintage radio warmth, brass accents, striped shade, and family-safe backyard rhythm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-70s-station-wagon.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 retro porch family photograph",
+      scene:
+        "a shaded front porch or backyard stoop with a vintage-style radio, blank record sleeves, woven chairs, potted plants, brass-toned accents and striped awning shade",
+      camera:
+        "35mm film camera with a 45mm lens, relaxed porch-level portrait framing, readable faces with tactile home details",
+      composition:
+        "casual seated-and-standing porch arrangement, music props kept decorative, no readable album art or performer references",
+      lighting:
+        "late-afternoon porch shade with warm side light, soft amber bounce from wood surfaces and gentle filmic contrast",
+      style:
+        "retro editorial photography, olive, rust, cream, brass, denim and warm wood palette, subtle film grain, cozy musical mood",
+      safety:
+        "original music-inspired porch scene, no musician likeness, no album covers, no venue logos, no readable text, no alcohol cues, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {

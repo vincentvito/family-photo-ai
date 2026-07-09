@@ -127,6 +127,48 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Library-aisle frame: selected cast standing between shelves with book stacks secondary, messenger satchel texture and quiet literary editorial mood.",
     "Close letter-card crop: selected cast waist-up beside parchment-toned cards and shelves, wool and tweed details, soft amber falloff and clear faces.",
   ],
+  "butter-yellow-summer-portrait": [
+    "Porch-linen portrait: selected cast gathered on a sunny porch with butter-yellow accents, pale florals and white linen, airy late-morning light and readable faces.",
+    "Garden-path candid: selected cast walking through soft greenery with woven basket details, yellow wardrobe notes secondary, natural hands and crisp summer polish.",
+    "Coastal-cottage frame: selected cast near hydrangeas or a pale cottage wall, warm cream palette, relaxed editorial spacing and no visible branding.",
+    "Tight butter-yellow crop: waist-up selected-cast grouping against bright floral and linen texture, creamy bounce fill, natural skin detail and clean background.",
+  ],
+  "scarf-garden-story": [
+    "Scarf-path portrait: selected cast on a leafy garden path with silk-scarf color accents, dappled light and faces held in the clear center third.",
+    "Garden-table candid: selected cast leaning around a simple outdoor table with scarf fabric and flowers secondary, warm open shade and refined summer mood.",
+    "Climbing-greenery frame: selected cast standing near trellis leaves and soft blossoms, scarf details moving lightly, vertical editorial composition and no logos.",
+    "Close scarf-color crop: waist-up selected-cast grouping with sage, red and pale yellow fabric accents, romantic garden bokeh and crisp subject separation.",
+  ],
+  "summer-color-hunt": [
+    "Swatch-garden portrait: selected cast arranged near simple color swatches, flowers and fruit bowls, props secondary and no readable labels.",
+    "Color-search candid: selected cast reaching toward bright garden color clusters, active lifestyle framing, cheerful open-shade light and clean faces.",
+    "Backyard discovery frame: selected cast in a tidy backyard color-hunt setup with red, blue, yellow and green accents, no boards or logos.",
+    "Tight color-pop crop: selected cast waist-up against flowers and fruit color blocks, crisp catchlights and polished summer lifestyle finish.",
+  ],
+  "family-watch-party": [
+    "Sofa watch-party portrait: selected cast grouped on a cozy sofa with blank pennants, snack bowls and pillows, warm lamp glow and no screen content.",
+    "Game-day snack candid: selected cast leaning around a tidy coffee table, color-block decor and soft TV-like fill, no scoreboards or team marks.",
+    "Blank-banner living room: selected cast framed beneath plain banners and blankets, layered sofa geometry, energetic expressions and no readable text.",
+    "Close cheering crop: waist-up selected-cast grouping with cozy pillows and soft blue-warm mixed light, family-safe excitement and clean subject separation.",
+  ],
+  "ocean-explorer-card": [
+    "Tide-pool card proof: selected cast grouped beside tide pools and shells with open sky reserved for greeting text, sea-glass palette and clean faces.",
+    "Map-edge shoreline: selected cast framed by decorative paper-map edges and compass-like shapes, no readable map text and airy card margin.",
+    "Shell-path adventure: selected cast walking along a calm shoreline with shells and sand details, bright coastal light and safe shallow-water context.",
+    "Close explorer card crop: selected cast waist-up against pale sand and blue water, coral accents, typography space held clear and no resort logos.",
+  ],
+  "time-travel-toy-shelf": [
+    "Shelf-world portrait: selected cast framed among handmade wooden toys and blank book spines, warm dust-mote light and miniature keepsake scale.",
+    "Toy-era vignette: selected cast near tiny generic time-capsule objects, paper stars and blocks, clear faces and no branded character shapes.",
+    "Low shelf adventure: selected cast walking or sitting along shelf levels with soft primary colors, tactile handmade texture and decorative blank labels.",
+    "Close toy-shelf crop: waist-up selected-cast grouping between maple wood toys and faded paper details, cozy amber fill and storybook miniature charm.",
+  ],
+  "retro-jazz-porch": [
+    "Porch-radio portrait: selected cast gathered near a vintage-style radio and woven chairs, late-afternoon shade, brass accents and no performer references.",
+    "Stoop rhythm candid: selected cast relaxed on a backyard stoop with potted plants and striped shade, warm film grain and clear faces.",
+    "Blank-record-sleeve frame: selected cast beside decorative blank record sleeves and porch plants, music props secondary and no readable album art.",
+    "Close porch-jazz crop: waist-up selected-cast grouping with olive, rust and cream tones, soft amber side light and cozy musical mood.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: selected cast placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: selected cast in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
