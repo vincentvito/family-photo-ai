@@ -209,6 +209,12 @@ const WEEKLY_TREND_THEME_IDS = [
   "poetcore-family-library-portrait",
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "butter-yellow-summer-card",
+  "joyful-photo-dump",
+  "storybook-ocean-quest",
+  "poetcore-porch",
+  "future-glow-family",
+  "heirloom-pin-portrait",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -231,6 +237,12 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "poetcore-family-library-photos",
   "neo-deco-celebration-card-family-photos",
   "crochet-raffia-picnic-card-family-photos",
+  "butter-yellow-summer-card-family-photos",
+  "joyful-photo-dump-family-photos",
+  "storybook-ocean-quest-family-photos",
+  "poetcore-porch-family-photos",
+  "future-glow-family-photos",
+  "heirloom-pin-portrait-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -240,6 +252,12 @@ const NEW_WEEKLY_TREND_PAIRS = [
   ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
   ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
   ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+  ["butter-yellow-summer-card", "butter-yellow-summer-card-family-photos"],
+  ["joyful-photo-dump", "joyful-photo-dump-family-photos"],
+  ["storybook-ocean-quest", "storybook-ocean-quest-family-photos"],
+  ["poetcore-porch", "poetcore-porch-family-photos"],
+  ["future-glow-family", "future-glow-family-photos"],
+  ["heirloom-pin-portrait", "heirloom-pin-portrait-family-photos"],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -247,7 +265,23 @@ const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
 const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "butter-yellow-summer-card",
 ]);
+
+const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<(typeof NEW_WEEKLY_TREND_PAIRS)[number][0], readonly string[]> = {
+  "retro-summer-postcard": ["postcard", "summer"],
+  "toy-box-keepsake-portrait": ["wooden blocks", "keepsake"],
+  "cool-blue-lake-day": ["cool-blue", "lake"],
+  "poetcore-family-library-portrait": ["library", "letter"],
+  "neo-deco-celebration-card": ["geometric", "card"],
+  "crochet-raffia-picnic-card": ["crochet", "raffia"],
+  "butter-yellow-summer-card": ["butter-yellow", "negative space"],
+  "joyful-photo-dump": ["mid-laugh", "soft flash"],
+  "storybook-ocean-quest": ["tide pools", "watercolor"],
+  "poetcore-porch": ["porch", "stationery"],
+  "future-glow-family": ["opalescent", "chrome"],
+  "heirloom-pin-portrait": ["heirloom", "brooch"],
+};
 
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
@@ -408,6 +442,26 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
     );
     assertOptimizedSampleImage(theme.coverImage);
 
+    const markerText = [
+      theme.name,
+      theme.blurb,
+      theme.spec.assetType,
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+      getThemeVariationPrompts(theme.id, theme.category).join(" "),
+      vibe.name,
+      vibe.keyword,
+      vibe.shortDescription,
+      vibe.secondaryKeywords.join(" "),
+    ].join(" ");
+    for (const marker of REQUIRED_WEEKLY_TREND_PROMPT_MARKERS[themeId]) {
+      assert.match(markerText, new RegExp(marker, "i"), `${themeId} should preserve ${marker}`);
+    }
+
     if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
       assert.equal(theme.category, "card");
       assert.equal(theme.acceptsCardText, true);
@@ -439,6 +493,12 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "butter-yellow-summer-card",
+    "joyful-photo-dump",
+    "storybook-ocean-quest",
+    "poetcore-porch",
+    "future-glow-family",
+    "heirloom-pin-portrait",
     "retro-summer-postcard",
     "butter-yellow-summer-portrait",
     "scarf-garden-story",
