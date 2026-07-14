@@ -52,6 +52,7 @@ import {
   isActiveSubscriptionStatus,
 } from "@/lib/billing-queries";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
+import { isOwnedLocationReferencePath } from "@/lib/location-reference";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
@@ -130,6 +131,12 @@ export async function startGeneration(
 ) {
   const parsed = StartGenerationInput.parse(input);
   const admin = await isAdmin();
+  if (
+    parsed.locationReferencePath &&
+    !isOwnedLocationReferencePath(parsed.locationReferencePath, actor.userId)
+  ) {
+    throw new Error("Invalid location reference.");
+  }
   const requestedThemeIds = parsed.themeIds?.length
     ? parsed.themeIds
     : parsed.themeId

@@ -18,6 +18,7 @@ type ExportOption = {
   sub: string;
   query: string;
   basePath: string;
+  method: "GET" | "POST";
   fileName: (imageId: string) => string;
 };
 
@@ -28,6 +29,7 @@ const EXPORT_OPTIONS: ExportOption[] = [
     sub: "Best for phones, sharing, and quick saves",
     query: "",
     basePath: "/api/images",
+    method: "GET",
     fileName: (imageId) => `family-photo-${imageId}.jpg`,
   },
   {
@@ -36,6 +38,7 @@ const EXPORT_OPTIONS: ExportOption[] = [
     sub: "Upscaled to 2400 x 3000 px",
     query: "?target=8x10",
     basePath: "/api/upscale",
+    method: "POST",
     fileName: () => "portrait-8x10.jpg",
   },
   {
@@ -44,6 +47,7 @@ const EXPORT_OPTIONS: ExportOption[] = [
     sub: "Upscaled to 4800 x 6000 px",
     query: "?target=16x20",
     basePath: "/api/upscale",
+    method: "POST",
     fileName: () => "portrait-16x20.jpg",
   },
 ];
@@ -69,7 +73,9 @@ export default function ExportMenu({
       setActiveExport(option.id);
       setError(null);
       try {
-        const res = await fetch(`${option.basePath}/${imageId}${option.query}`);
+        const res = await fetch(`${option.basePath}/${imageId}${option.query}`, {
+          method: option.method,
+        });
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
           throw new Error(data.error || `Export failed (${res.status})`);

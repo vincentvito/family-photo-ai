@@ -1,14 +1,23 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { startGeneration } from "@/lib/generate-queries";
+import { isRateLimited } from "@/lib/request-limits";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
+
+const GENERATIONS_PER_MINUTE = 2;
 
 export async function POST(req: Request) {
   const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+  if (await isRateLimited(`ai:generate:${user.id}`, GENERATIONS_PER_MINUTE)) {
+    return NextResponse.json(
+      { error: "Too many generation attempts. Try again in a minute." },
+      { status: 429 },
+    );
   }
   const json = await req.json().catch(() => null);
   if (!json) {
