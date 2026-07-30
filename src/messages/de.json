@@ -17,6 +17,7 @@
     "closeMenuShort": "Menü schließen"
   },
   "Hero": {
+    "titleLines": ["Von chaotischen Handyfotos", "zu schönen Familienporträts"],
     "chip": "KI-Familienfoto-Generator",
     "awardLabel": "Top-Empfehlung für Familienfotoshootings",
     "awardEyebrow": "Top-Empfehlung",

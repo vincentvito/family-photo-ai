@@ -454,7 +454,13 @@ function MobileStoryboard() {
 
 function HeroTitle({ className = "" }: { className?: string }) {
   const t = useTranslations("Hero");
-  const titleLines = t.raw("titleLines") as string[];
+  const rawTitleLines = t.has("titleLines") ? t.raw("titleLines") : null;
+  const titleLines =
+    Array.isArray(rawTitleLines) &&
+    rawTitleLines.length > 0 &&
+    rawTitleLines.every((line): line is string => typeof line === "string")
+      ? rawTitleLines
+      : [t("title")];
 
   return (
     <h1 className={`serif ${className}`}>

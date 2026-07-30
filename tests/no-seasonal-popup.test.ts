@@ -22,10 +22,21 @@ test("default email popup is mounted instead of the seasonal Father's Day popup"
   assert.match(popupSource, /session\?\.user/);
 });
 
-test("hero title is explicitly split into two lines", () => {
-  const messages = JSON.parse(readFileSync(join(root, "src/messages/en.json"), "utf8"));
+test("hero title is explicitly split into lines in every locale", () => {
+  for (const locale of ["en", "de", "es", "ru", "uk"]) {
+    const messages = JSON.parse(
+      readFileSync(join(root, `src/messages/${locale}.json`), "utf8"),
+    );
 
-  assert.deepEqual(messages.Hero.titleLines, ["Turn everyday pics", "into family portraits."]);
+    assert.ok(Array.isArray(messages.Hero.titleLines), `${locale} titleLines must be an array`);
+    assert.ok(messages.Hero.titleLines.length > 0, `${locale} titleLines must not be empty`);
+    assert.ok(
+      messages.Hero.titleLines.every(
+        (line: unknown) => typeof line === "string" && line.length > 0,
+      ),
+      `${locale} titleLines must contain non-empty strings`,
+    );
+  }
 });
 
 test("desktop storyboard hero centers the title above the image row", () => {

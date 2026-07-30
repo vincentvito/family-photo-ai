@@ -17,6 +17,7 @@
     "closeMenuShort": "Cerrar menú"
   },
   "Hero": {
+    "titleLines": ["De fotos desordenadas del móvil", "a hermosos retratos familiares"],
     "chip": "Generador de fotos familiares con IA",
     "awardLabel": "La mejor opción para sesiones de fotos familiares",
     "awardEyebrow": "Mejor opción",
