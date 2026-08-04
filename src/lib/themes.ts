@@ -20,8 +20,8 @@ export type ThemeCategory = "photoreal" | "stylized" | "card";
  *   belong in any spec field.
  *
  * - The composer rewrites occurrences of "family"/"everyone" inside these
- *   fields to "selected cast". Either word is fine; prefer "family" in
- *   prose since it reads naturally.
+ *   fields to neutral "group"/"subjects" wording. Either original word is
+ *   fine; prefer "family" in prose since it reads naturally.
  *
  * - If you write a roster detail into a spec field anyway it will fight
  *   the dynamic roster directive and the model may add or substitute

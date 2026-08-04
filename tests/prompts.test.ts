@@ -289,6 +289,51 @@ const BLOCKED_PROMPT_TERMS =
 const WEEKLY_BLOCKED_TERMS =
   /\b(Barbie|Swift|Beyonce|Beyoncé|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|Toy Story|Pixar|Disney|Minions|Moana|DreamWorks|Illumination|TikTok|Instagram|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
 
+test("theme and vibe catalogs have required fields and unique route identifiers", () => {
+  const themeIdCounts = new Map<string, number>();
+  const vibeSlugCounts = new Map<string, number>();
+
+  for (const theme of THEMES) {
+    themeIdCounts.set(theme.id, (themeIdCounts.get(theme.id) ?? 0) + 1);
+    assert.ok(theme.id.trim(), "theme id should be present");
+    assert.ok(theme.name.trim(), `${theme.id} should have a label`);
+    assert.ok(theme.blurb.trim(), `${theme.id} should have a blurb`);
+    assert.ok(theme.coverImage.trim(), `${theme.id} should have a cover image`);
+    assert.ok(theme.spec.assetType.trim(), `${theme.id} should have a prompt asset type`);
+    assert.ok(theme.spec.camera.trim(), `${theme.id} should have prompt camera guidance`);
+    assert.ok(theme.spec.lighting.trim(), `${theme.id} should have prompt lighting guidance`);
+    assert.ok(theme.spec.style.trim(), `${theme.id} should have prompt style guidance`);
+    assert.equal(theme.provider, "nanobanana", `${theme.id} should use the current generator`);
+    assert.ok(
+      existsSync(theme.coverImage.replace(/^\/+/, "public/")),
+      `${theme.coverImage} should exist`,
+    );
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+  }
+
+  for (const vibe of VIBES) {
+    vibeSlugCounts.set(vibe.slug, (vibeSlugCounts.get(vibe.slug) ?? 0) + 1);
+    assert.ok(vibe.slug.trim(), "vibe slug should be present");
+    assert.ok(vibe.name.trim(), `${vibe.slug} should have a name`);
+    assert.ok(vibe.keyword.trim(), `${vibe.slug} should have a primary keyword`);
+    assert.ok(vibe.secondaryKeywords.length >= 1, `${vibe.slug} should have secondary keywords`);
+    assert.ok(vibe.image.trim(), `${vibe.slug} should have an image`);
+    assert.ok(vibe.shortDescription.trim(), `${vibe.slug} should have a short description`);
+    assert.ok(vibe.related.length >= 1, `${vibe.slug} should have related routes`);
+    assert.ok(existsSync(vibe.image.replace(/^\/+/, "public/")), `${vibe.image} should exist`);
+    for (const extraImage of vibe.extraImages ?? []) {
+      assert.ok(existsSync(extraImage.replace(/^\/+/, "public/")), `${extraImage} should exist`);
+    }
+  }
+
+  for (const [id, count] of themeIdCounts) {
+    assert.equal(count, 1, `${id} should be a unique theme id`);
+  }
+  for (const [slug, count] of vibeSlugCounts) {
+    assert.equal(count, 1, `${slug} should be a unique vibe slug`);
+  }
+});
+
 test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
   const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
@@ -342,22 +387,6 @@ test("creative prompt ideas are selectable app themes with homepage-ready images
 test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
   const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
-  const themeIdCounts = new Map<string, number>();
-  const vibeSlugCounts = new Map<string, number>();
-
-  for (const theme of THEMES) {
-    themeIdCounts.set(theme.id, (themeIdCounts.get(theme.id) ?? 0) + 1);
-  }
-  for (const vibe of VIBES) {
-    vibeSlugCounts.set(vibe.slug, (vibeSlugCounts.get(vibe.slug) ?? 0) + 1);
-  }
-
-  for (const [id, count] of themeIdCounts) {
-    assert.equal(count, 1, `${id} should be a unique theme id`);
-  }
-  for (const [slug, count] of vibeSlugCounts) {
-    assert.equal(count, 1, `${slug} should be a unique vibe slug`);
-  }
 
   for (const themeId of WEEKLY_TREND_THEME_IDS) {
     assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
@@ -408,6 +437,35 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
     );
 
     assert.doesNotMatch(peopleOnlyPrompt, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+
+    const petSelectedPrompt = buildGenerationPrompt(
+      theme,
+      [
+        {
+          personId: "adult-1",
+          name: "Adult One",
+          role: "adult",
+          notes: null,
+          referencePaths: ["adult-one.jpg"],
+        },
+        {
+          personId: "dog-1",
+          name: "Rex dog",
+          role: "pet",
+          notes: "make this pet a mascot in team gear",
+          referencePaths: ["rex.jpg"],
+        },
+      ],
+      null,
+      theme.acceptsCardText ? "Summer Party" : null,
+    );
+
+    assert.match(petSelectedPrompt, /Subjects: exactly two subjects only: 1 adult and 1 pet\./i);
+    assert.match(petSelectedPrompt, /reference image 2 is dog 1/i);
+    assert.match(petSelectedPrompt, /Selected pet references are required cast members/i);
+    assert.match(petSelectedPrompt, /unselected animals/i);
+    assert.match(petSelectedPrompt, /must appear as animals, not as extra adults/i);
+    assert.doesNotMatch(petSelectedPrompt, /mascot in team gear/i);
   }
 
   for (const slug of WEEKLY_TREND_VIBE_SLUGS) {
