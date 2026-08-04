@@ -3,28 +3,29 @@
 import { useState, useRef, useCallback } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
+import { useTranslations } from "next-intl";
 
 type Pair = { before: string; after: string; label: string };
 
-const pairs: Pair[] = [
+const pairImages = [
   {
     before: "/samples/before-wes-anderson-family.jpg",
     after: "/samples/after-wes-anderson-family.jpg",
-    label: "Wes Anderson Symmetry - 4 uploads to one portrait",
   },
   {
     before: "/samples/before-watercolor-family.jpg",
     after: "/samples/after-watercolor-family.jpg",
-    label: "Watercolor Storybook - 3 uploads to one illustration",
   },
   {
     before: "/samples/before-pixar-family.jpg",
     after: "/samples/after-pixar-family.jpg",
-    label: "Pixar Family - 4 uploads to one animated portrait",
   },
 ];
 
 export default function BeforeAfter() {
+  const t = useTranslations("Landing.BeforeAfter");
+  const pairLabels = t.raw("pairLabels") as string[];
+  const pairs: Pair[] = pairImages.map((pair, index) => ({ ...pair, label: pairLabels[index] }));
   const [pairIndex, setPairIndex] = useState(0);
   const [split, setSplit] = useState(52);
   const reduceMotion = useReducedMotion();
@@ -57,21 +58,19 @@ export default function BeforeAfter() {
             <div>
               <span className="chip chip-coral">
                 <span className="dot dot-coral" />
-                Family portrait from separate photos
+                {t("chip")}
               </span>
               <h2 className="serif mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                Upload everyone separately,
+                {t("titleBefore")}
                 <br />
-                get one <em className="serif-italic text-[color:var(--color-coral)]">
-                  natural
+                {t("titleMiddle")}{" "}
+                <em className="serif-italic text-[color:var(--color-coral)]">
+                  {t("titleEmphasis")}
                 </em>{" "}
-                portrait.
+                {t("titleAfter")}
               </h2>
             </div>
-            <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              A practical AI family photo combiner for the real-life problem: one parent has the
-              kids, another has the pet, and nobody is looking at the same camera.
-            </p>
+            <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">{t("body")}</p>
           </div>
         </Reveal>
 
@@ -121,7 +120,7 @@ export default function BeforeAfter() {
               }}
               role="slider"
               tabIndex={0}
-              aria-label={`${pair.label} before and after comparison`}
+              aria-label={t("comparisonLabel", { label: pair.label })}
               aria-valuemin={6}
               aria-valuemax={94}
               aria-valuenow={Math.round(split)}
@@ -141,7 +140,7 @@ export default function BeforeAfter() {
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url(${pair.after})` }}
-                    aria-label="After"
+                    aria-label={t("after")}
                   />
                   <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -149,16 +148,16 @@ export default function BeforeAfter() {
                       backgroundImage: `url(${pair.before})`,
                       clipPath: `inset(0 ${100 - split}% 0 0)`,
                     }}
-                    aria-label="Before"
+                    aria-label={t("before")}
                   />
                 </motion.div>
               </AnimatePresence>
 
               <span className="chip absolute left-4 top-4 z-20 border border-[color:rgba(255,255,255,0.72)] bg-[color:rgba(31,26,36,0.82)] text-[color:var(--color-bg)] shadow-[var(--shadow-md)] backdrop-blur">
-                Before
+                {t("before")}
               </span>
               <span className="chip chip-coral absolute right-4 top-4 z-20 shadow-[var(--shadow-sm)]">
-                After
+                {t("after")}
               </span>
 
               <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 rounded-full border border-[color:rgba(255,255,255,0.7)] bg-[color:rgba(255,255,255,0.82)] p-1 shadow-[var(--shadow-md)] backdrop-blur">
@@ -177,7 +176,7 @@ export default function BeforeAfter() {
                         ? "bg-[color:var(--color-coral)] text-white shadow-[var(--shadow-sm)]"
                         : "text-[color:var(--color-ink-muted)] hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
                     }`}
-                    aria-label={`Show ${pairOption.label}`}
+                    aria-label={t("showPair", { label: pairOption.label })}
                     aria-pressed={i === pairIndex}
                   >
                     {i + 1}

@@ -1,30 +1,13 @@
 "use client";
 
 import Reveal from "@/components/motion/Reveal";
+import { useTranslations } from "next-intl";
 
 type Pillar = {
   title: string;
   body: string;
   icon: "lock" | "trash" | "shield";
 };
-
-const pillars: Pillar[] = [
-  {
-    title: "Only for your shoot",
-    body: "Your uploads are used to create the portraits, cards, refinements, and downloads you ask for. We do not use them to train FamilyShoot.",
-    icon: "lock",
-  },
-  {
-    title: "Easy to remove",
-    body: "You can delete reference photos and finished images from your studio wherever the app offers a delete action.",
-    icon: "trash",
-  },
-  {
-    title: "Not stored forever",
-    body: "Images stay available for 14 days on one-time packs or 90 days on Pro, and inactive accounts with no shoots left may be cleared after a reminder email.",
-    icon: "shield",
-  },
-];
 
 function Icon({ kind }: { kind: Pillar["icon"] }) {
   if (kind === "lock") {
@@ -81,6 +64,12 @@ function Icon({ kind }: { kind: Pillar["icon"] }) {
 }
 
 export default function TrustPrivacy() {
+  const t = useTranslations("Landing.TrustPrivacy");
+  const translatedPillars = t.raw("pillars") as { title: string; body: string }[];
+  const pillars: Pillar[] = translatedPillars.map((pillar, index) => ({
+    ...pillar,
+    icon: (["lock", "trash", "shield"] as const)[index],
+  }));
   return (
     <section
       className="relative px-6 py-24 sm:px-8 sm:py-32"
@@ -94,11 +83,14 @@ export default function TrustPrivacy() {
           <div className="max-w-3xl">
             <span className="chip chip-sage">
               <span className="dot dot-sage" />
-              On privacy
+              {t("chip")}
             </span>
             <h2 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-              Your family is yours.{" "}
-              <em className="serif-italic text-[color:var(--color-sage-deep)]">Full stop</em>.
+              {t("titleBefore")}{" "}
+              <em className="serif-italic text-[color:var(--color-sage-deep)]">
+                {t("titleEmphasis")}
+              </em>
+              .
             </h2>
           </div>
         </Reveal>

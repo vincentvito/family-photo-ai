@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import Reveal from "@/components/motion/Reveal";
 import { getThemeDetailHref } from "@/lib/theme-detail-links";
 import { THEMES } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
+import { useTranslations } from "next-intl";
 
 type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
@@ -72,13 +73,19 @@ const categoryChip: Record<Theme["category"], { chip: string; dot: string }> = {
   card: { chip: "chip-butter", dot: "dot-butter" },
 };
 
-const categoryLabel: Record<Theme["category"], string> = {
-  photoreal: "Photographic",
-  stylized: "Stylized",
-  card: "For a card",
-};
-
-function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?: string }) {
+function ThemeTile({
+  theme,
+  badge,
+  note,
+  categoryLabels,
+  viewLabel,
+}: {
+  theme: Theme;
+  badge?: string;
+  note?: string;
+  categoryLabels: Record<Theme["category"], string>;
+  viewLabel: string;
+}) {
   const aspect = aspectClass[theme.aspectRatio] ?? "aspect-[4/5]";
   const chip = categoryChip[theme.category];
   const href = getThemeDetailHref(theme);
@@ -88,7 +95,7 @@ function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?
       className="group relative overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]"
       whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
     >
-      <Link href={href} className="block" aria-label={`View ${theme.name} examples`}>
+      <Link href={href} className="block" aria-label={`${viewLabel} ${theme.name}`}>
         <div className="warm-noise relative overflow-hidden">
           <div
             className={`${aspect} w-full bg-[color:var(--color-line)] bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]`}
@@ -108,7 +115,7 @@ function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <span className={`chip ${chip.chip}`}>
             <span className={`dot ${chip.dot}`} />
-            {categoryLabel[theme.category]}
+            {categoryLabels[theme.category]}
           </span>
           {note && (
             <span className="hidden text-right text-xs font-semibold text-[color:var(--color-ink-muted)] sm:inline">
@@ -122,6 +129,12 @@ function ThemeTile({ theme, badge, note }: { theme: Theme; badge?: string; note?
 }
 
 export default function Gallery({ trendingVibes = [] }: { trendingVibes?: TrendingVibe[] }) {
+  const t = useTranslations("Landing.Gallery");
+  const categoryLabels: Record<Theme["category"], string> = {
+    photoreal: t("categories.photographic"),
+    stylized: t("categories.stylized"),
+    card: t("categories.card"),
+  };
   const [expanded, setExpanded] = useState(false);
   const featuredItems = buildFeaturedItems(trendingVibes);
   const featured = featuredItems.flatMap((item) => {
@@ -145,25 +158,28 @@ export default function Gallery({ trendingVibes = [] }: { trendingVibes?: Trendi
             <div>
               <span className="chip chip-sage">
                 <span className="dot dot-sage" />
-                Family photoshoot ideas
+                {t("chip")}
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                Choose from 100+ curated styles,
+                {t("titleBefore")}
                 <br />
-                or create your own.
+                {t("titleAfter")}
               </h2>
             </div>
-            <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">
-              Browse family photo ideas for holidays, cards, studio portraits, beach sessions,
-              storybook art, and everything between. Click any to try it on your family.
-            </p>
+            <p className="max-w-sm text-sm text-[color:var(--color-ink-muted)]">{t("body")}</p>
           </div>
         </Reveal>
 
         <div className="masonry-3 mt-12">
           {featured.map((item, i) => (
             <Reveal key={item.theme.id} delay={i * 0.03}>
-              <ThemeTile theme={item.theme} badge={item.badge} note={item.note} />
+              <ThemeTile
+                theme={item.theme}
+                badge={item.badge}
+                note={item.note}
+                categoryLabels={categoryLabels}
+                viewLabel={t("viewLabel")}
+              />
             </Reveal>
           ))}
 
@@ -177,7 +193,11 @@ export default function Gallery({ trendingVibes = [] }: { trendingVibes?: Trendi
                   exit={{ opacity: 0, y: 12 }}
                   transition={{ duration: 0.42, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <ThemeTile theme={theme} />
+                  <ThemeTile
+                    theme={theme}
+                    categoryLabels={categoryLabels}
+                    viewLabel={t("viewLabel")}
+                  />
                 </motion.div>
               ))}
           </AnimatePresence>
@@ -203,11 +223,11 @@ export default function Gallery({ trendingVibes = [] }: { trendingVibes?: Trendi
                 >
                   <path d="M18 15l-6-6-6 6" />
                 </svg>
-                Show fewer
+                {t("showFewer")}
               </>
             ) : (
               <>
-                Show all {THEMES.length} vibes
+                {t("showAll", { count: THEMES.length })}
                 <svg
                   className="h-4 w-4"
                   viewBox="0 0 24 24"

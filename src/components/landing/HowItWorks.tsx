@@ -2,6 +2,7 @@
 
 import Reveal from "@/components/motion/Reveal";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 type Step = {
   n: number;
@@ -11,31 +12,15 @@ type Step = {
   visual: "roster" | "vibe" | "keep";
 };
 
-const steps: Step[] = [
-  {
-    n: 1,
-    title: "Your roster",
-    body: "Upload a handful of reference photos of everyone - adults, little ones, and any selected family pets. We use them as visual guides so each portrait stays close to the people you love.",
-    chip: "coral",
-    visual: "roster",
-  },
-  {
-    n: 2,
-    title: "Pick a vibe",
-    body: "Choose a theme - Golden Hour Beach, a cabin in October, Studio, a Pixar family. You pick the feeling; we handle the rest.",
-    chip: "sage",
-    visual: "vibe",
-  },
-  {
-    n: 3,
-    title: "Yours to keep",
-    body: 'Favorite the ones you love. Nudge anything that isn\'t quite right ("more smiling", "swap the navy jacket"). Print, frame, or slip into a card.',
-    chip: "butter",
-    visual: "keep",
-  },
-];
-
 export default function HowItWorks() {
+  const t = useTranslations("Landing.HowItWorks");
+  const translatedSteps = t.raw("steps") as { title: string; body: string }[];
+  const steps: Step[] = translatedSteps.map((step, index) => ({
+    ...step,
+    n: index + 1,
+    chip: (["coral", "sage", "butter"] as const)[index],
+    visual: (["roster", "vibe", "keep"] as const)[index],
+  }));
   return (
     <section id="how" className="relative overflow-hidden px-6 py-20 sm:px-8 sm:py-28">
       <div
@@ -48,15 +33,18 @@ export default function HowItWorks() {
             <div>
               <span className="chip chip-plum">
                 <span className="dot dot-plum" />
-                How it works
+                {t("chip")}
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                Three steps. About{" "}
-                <em className="serif-italic text-[color:var(--color-plum)]">two minutes</em>.
+                {t("titleBefore")}{" "}
+                <em className="serif-italic text-[color:var(--color-plum)]">
+                  {t("titleEmphasis")}
+                </em>
+                .
               </h2>
             </div>
             <p className="max-w-md text-[color:var(--color-ink-muted)] md:justify-self-end md:text-right">
-              Simple enough for a toddler&apos;s nap-time. Polished enough to frame.
+              {t("body")}
             </p>
           </div>
         </Reveal>
@@ -68,10 +56,10 @@ export default function HowItWorks() {
                 className="group flex h-full min-h-[560px] flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]"
                 whileHover={{ y: -4, transition: { type: "spring", stiffness: 320, damping: 22 } }}
               >
-                <StepVisual kind={s.visual} />
+                <StepVisual kind={s.visual} t={t} />
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <span className={`chip chip-${s.chip} w-fit`}>
-                    Step {String(s.n).padStart(2, "0")}
+                    {t("stepLabel")} {String(s.n).padStart(2, "0")}
                   </span>
                   <h3 className="serif mt-6 text-3xl leading-tight tracking-[-0.02em]">
                     {s.title}
@@ -89,7 +77,7 @@ export default function HowItWorks() {
   );
 }
 
-function StepVisual({ kind }: { kind: Step["visual"] }) {
+function StepVisual({ kind, t }: { kind: Step["visual"]; t: ReturnType<typeof useTranslations> }) {
   if (kind === "roster") {
     const selfies = [
       {
@@ -123,7 +111,7 @@ function StepVisual({ kind }: { kind: Step["visual"] }) {
         ))}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(255,240,232,0),rgba(255,240,232,0.96))]" />
         <span className="chip chip-coral absolute bottom-5 left-5 bg-[color:rgba(255,255,255,0.86)] backdrop-blur">
-          3 selfies uploaded
+          {t("visuals.uploaded")}
         </span>
       </div>
     );
@@ -153,7 +141,7 @@ function StepVisual({ kind }: { kind: Step["visual"] }) {
         </div>
         <div className="absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,rgba(235,242,236,0),rgba(235,242,236,0.98))]" />
         <span className="chip chip-sage absolute bottom-5 left-5 bg-[color:rgba(255,255,255,0.86)] backdrop-blur">
-          Moodboard locked
+          {t("visuals.moodboard")}
         </span>
       </div>
     );
@@ -167,12 +155,12 @@ function StepVisual({ kind }: { kind: Step["visual"] }) {
           style={{ backgroundImage: "url(/samples/after-watercolor-family.jpg)" }}
         />
         <p className="absolute inset-x-0 bottom-4 text-center font-[var(--font-fraunces)] text-sm italic text-[color:var(--color-ink-muted)]">
-          Print-ready favorite
+          {t("visuals.favorite")}
         </p>
       </div>
       <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(255,246,225,0),rgba(255,246,225,0.98))]" />
       <span className="chip chip-butter absolute bottom-5 left-5 bg-[color:rgba(255,255,255,0.86)] backdrop-blur">
-        Final portrait out
+        {t("visuals.final")}
       </span>
     </div>
   );

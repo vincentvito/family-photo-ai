@@ -1,12 +1,14 @@
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import BrandLogo from "@/components/brand/BrandLogo";
 import { VIBES } from "@/data/vibes";
 import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { BIRTHDAY_CARD_PAGES } from "@/data/birthday-card-pages";
+import { getTranslations } from "next-intl/server";
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("Landing.Footer");
   return (
     <footer
       className="relative overflow-hidden rounded-t-[2.5rem] px-6 py-20 sm:px-8 sm:py-24"
@@ -16,37 +18,36 @@ export default function Footer() {
         <div>
           <BrandLogo size="md" tone="light" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-[color:rgba(251,248,243,0.7)]">
-            An AI family photo generator for frame-worthy portraits and holiday cards from the
-            photos you already have.
+            {t("body")}
           </p>
           <div className="mt-6">
             <Link href="/studio/roster" className="btn btn-coral btn-sm">
-              Start a free preview
+              {t("startPreview")}
             </Link>
           </div>
         </div>
 
         <div>
-          <p className="small-caps text-[color:rgba(251,248,243,0.55)]">Product</p>
+          <p className="small-caps text-[color:rgba(251,248,243,0.55)]">{t("product")}</p>
           <ul className="mt-4 space-y-2.5 text-sm text-[color:rgba(251,248,243,0.85)]">
             <li>
               <Link href="/#gallery" className="hover:text-white transition-colors">
-                Gallery
+                {t("gallery")}
               </Link>
             </li>
             <li>
               <Link href="/trending" className="hover:text-white transition-colors">
-                Trending 🔥
+                {t("trending")} 🔥
               </Link>
             </li>
             <li>
               <Link href="/#how" className="hover:text-white transition-colors">
-                How it works
+                {t("how")}
               </Link>
             </li>
             <li>
               <Link href="/#pricing" className="hover:text-white transition-colors">
-                Pricing
+                {t("pricing")}
               </Link>
             </li>
             <li>
@@ -56,7 +57,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/blog" className="hover:text-white transition-colors">
-                Blog
+                {t("blog")}
               </Link>
             </li>
             <li>
@@ -64,23 +65,23 @@ export default function Footer() {
                 href="/best-family-photo-prompts"
                 className="hover:text-white transition-colors"
               >
-                Best prompts to create a family photo
+                {t("bestPrompts")}
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <p className="small-caps text-[color:rgba(251,248,243,0.55)]">Care</p>
+          <p className="small-caps text-[color:rgba(251,248,243,0.55)]">{t("care")}</p>
           <ul className="mt-4 space-y-2.5 text-sm text-[color:rgba(251,248,243,0.85)]">
             <li>
               <Link href="/privacy" className="hover:text-white transition-colors">
-                Privacy
+                {t("privacy")}
               </Link>
             </li>
             <li>
               <Link href="/terms" className="hover:text-white transition-colors">
-                Terms
+                {t("terms")}
               </Link>
             </li>
             <li>
@@ -88,7 +89,7 @@ export default function Footer() {
                 href="mailto:hi@familyphotoshoot.ai"
                 className="hover:text-white transition-colors"
               >
-                Contact
+                {t("contact")}
               </a>
             </li>
           </ul>
@@ -97,39 +98,43 @@ export default function Footer() {
 
       <div className="mx-auto mt-16 max-w-6xl border-t border-[color:rgba(251,248,243,0.1)] pt-10">
         <nav
-          aria-label="Browse all"
+          aria-label={t("browseAll")}
           className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
         >
-          <HubPill href="/vibes" label="See all vibes" count={VIBES.length} />
-          <HubPill href="/trending" label="Trending vibes" />
-          <HubPill href="/cards" label="See all cards" count={CARDS.length} />
-          <HubPill href="/birthday-cards" label="Birthday card ideas" count={BIRTHDAY_CARD_PAGES.length} />
-          <HubPill href="/occasions" label="Occasion pages" count={OCCASION_PAGES.length} />
-          <HubPill href="/styles" label="See all styles" count={STYLES.length} />
+          <HubPill href="/vibes" label={t("allVibes")} count={VIBES.length} />
+          <HubPill href="/trending" label={t("trendingVibes")} />
+          <HubPill href="/cards" label={t("allCards")} count={CARDS.length} />
+          <HubPill
+            href="/birthday-cards"
+            label={t("birthdayIdeas")}
+            count={BIRTHDAY_CARD_PAGES.length}
+          />
+          <HubPill href="/occasions" label={t("occasionPages")} count={OCCASION_PAGES.length} />
+          <HubPill href="/styles" label={t("allStyles")} count={STYLES.length} />
         </nav>
 
         <div className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <FooterLinkGroup
-            title="Family portrait vibes"
+            title={t("vibeGroup")}
             items={VIBES.map((v) => ({ href: `/${v.slug}`, label: v.name }))}
           />
           <FooterLinkGroup
-            title="Family photo cards"
+            title={t("cardGroup")}
             items={CARDS.map((c) => ({ href: `/${c.slug}`, label: c.name }))}
           />
           <FooterLinkGroup
-            title="Birthday card ideas"
+            title={t("birthdayGroup")}
             items={BIRTHDAY_CARD_PAGES.map((page) => ({
               href: `/birthday-cards/${page.slug}`,
               label: page.name,
             }))}
           />
           <FooterLinkGroup
-            title="Occasion pages"
+            title={t("occasionGroup")}
             items={OCCASION_PAGES.map((page) => ({ href: `/${page.slug}`, label: page.name }))}
           />
           <FooterLinkGroup
-            title="Portrait art styles"
+            title={t("styleGroup")}
             items={STYLES.map((s) => ({ href: `/${s.slug}`, label: s.name }))}
           />
         </div>
@@ -137,9 +142,9 @@ export default function Footer() {
 
       <div className="mx-auto mt-16 flex max-w-6xl flex-col items-start justify-between gap-4 border-t border-[color:rgba(251,248,243,0.1)] pt-8 sm:flex-row sm:items-center">
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">
-          © {new Date().getFullYear()} Family Photoshoot. Made with care for families.
+          © {new Date().getFullYear()} {t("copyright")}
         </p>
-        <p className="text-xs text-[color:rgba(251,248,243,0.5)]">A paid-only family studio.</p>
+        <p className="text-xs text-[color:rgba(251,248,243,0.5)]">{t("paidStudio")}</p>
       </div>
     </footer>
   );

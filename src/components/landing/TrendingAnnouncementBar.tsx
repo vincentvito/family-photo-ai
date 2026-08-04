@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
+import { getTranslations } from "next-intl/server";
 
 type TrendingAnnouncementBarProps = {
   vibes: { id: string; name: string }[];
@@ -13,7 +14,8 @@ const fallbackVibes = [
   { id: "crochet-raffia-picnic-card", name: "Crochet Picnic Card" },
 ];
 
-export default function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementBarProps) {
+export default async function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementBarProps) {
+  const t = await getTranslations("Landing.TrendingBar");
   const visibleVibes = vibes.length > 0 ? vibes : fallbackVibes;
   const tickerItems = [...visibleVibes, ...visibleVibes];
 
@@ -22,10 +24,10 @@ export default function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementB
       <Link
         href="/trending"
         className="group flex h-10 items-center overflow-hidden text-xs font-semibold uppercase tracking-[0.12em] sm:text-sm"
-        aria-label="View trending FamilyShoot vibes"
+        aria-label={t("ariaLabel")}
       >
         <span className="shrink-0 px-4 text-[color:var(--color-butter)] sm:px-6">
-          Trending now 🔥
+          {t("label")} 🔥
         </span>
         <span className="marquee-mask flex min-w-0 flex-1 overflow-hidden">
           <span className="marquee-track flex shrink-0 items-center gap-5 whitespace-nowrap [--marquee-duration:36s]">

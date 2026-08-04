@@ -70,7 +70,7 @@
     "buyAsGift": "Buy as gift",
     "openingGiftCheckout": "Opening gift checkout...",
     "proBadge": "Pro",
-    "perMonth": "/month",
+    "perMonth": "per month",
     "proSub": "Built for creators, photographers, and repeat family-card work.",
     "openingSubscription": "Opening subscription...",
     "subscribeMonthly": "Subscribe monthly",
@@ -108,6 +108,237 @@
       "Downloadable, print-ready files",
       "Priority access to new styles and templates"
     ]
+  },
+  "Landing": {
+    "Seo": {
+      "title": "AI Family Photo Generator | FamilyShoot",
+      "description": "Turn separate phone photos into a polished family portrait or holiday card in minutes. Start with a free watermarked preview."
+    },
+    "BeforeAfter": {
+      "chip": "Family portrait from separate photos",
+      "titleBefore": "Upload everyone separately,",
+      "titleMiddle": "get one",
+      "titleEmphasis": "natural",
+      "titleAfter": "portrait.",
+      "body": "A practical AI family photo combiner for real life: one parent has the kids, another has the pet, and nobody is looking at the same camera.",
+      "before": "Before",
+      "after": "After",
+      "comparisonLabel": "{label} before and after comparison",
+      "showPair": "Show {label}",
+      "pairLabels": [
+        "Wes Anderson symmetry — 4 uploads to one portrait",
+        "Watercolor storybook — 3 uploads to one illustration",
+        "Animated family — 4 uploads to one portrait"
+      ]
+    },
+    "Gallery": {
+      "chip": "Family photoshoot ideas",
+      "titleBefore": "Choose from 100+ curated styles,",
+      "titleAfter": "or create your own.",
+      "body": "Browse family photo ideas for holidays, cards, studio portraits, beach sessions, storybook art, and everything between. Choose any style to try it on your family.",
+      "viewLabel": "View examples for",
+      "showFewer": "Show fewer",
+      "showAll": "Show all {count} vibes",
+      "categories": { "photographic": "Photographic", "stylized": "Stylized", "card": "For a card" }
+    },
+    "OccasionCards": {
+      "chip": "AI family holiday card generator",
+      "titleBefore": "Make a card from the photos you",
+      "titleEmphasis": "already have",
+      "body": "Create a holiday, Christmas, or greeting card from the photos you already have. No studio date, matching outfits, or perfect group shot required.",
+      "cta": "Make a free card preview",
+      "occasionChip": "Occasion pages",
+      "occasionTitle": "Create portraits for every family occasion",
+      "occasionBody": "Turn family photos into personalized portraits for birthdays, holidays, reunions, anniversaries, and gifts.",
+      "occasionCta": "Browse all occasions"
+    },
+    "FathersDay": {
+      "chip": "Father's Day portraits",
+      "title": "Make Dad the family portrait he never gets to be in.",
+      "body": "Upload separate phone photos of the kids, parents, grandparents, or pets. Get a polished Father's Day portrait or card in about two minutes.",
+      "cta": "Create a Father's Day portrait",
+      "preview": "Free watermarked preview first.",
+      "finalAlt": "Finished Father's Day portrait with Dad, two children, Grandma, and a golden retriever",
+      "cardLabel": "Father's Day card",
+      "cardCaption": "One polished keepsake portrait.",
+      "tiles": [
+        { "label": "Dad", "alt": "Phone selfie of Dad wearing glasses in warm car light" },
+        { "label": "Kids", "alt": "Phone selfie of two smiling children at home" },
+        { "label": "Grandma", "alt": "Phone selfie of Grandma in a cozy kitchen" },
+        { "label": "Pet", "alt": "Phone photo of a golden retriever in the living room" }
+      ]
+    },
+    "HowItWorks": {
+      "chip": "How it works",
+      "titleBefore": "Three steps. About",
+      "titleEmphasis": "two minutes",
+      "body": "Simple enough for a toddler's nap-time. Polished enough to frame.",
+      "stepLabel": "Step",
+      "steps": [
+        {
+          "title": "Your roster",
+          "body": "Upload reference photos of the adults, children, and selected pets. We use them as visual guides so each portrait stays close to the people you love."
+        },
+        {
+          "title": "Pick a vibe",
+          "body": "Choose a theme such as Golden Hour Beach, an autumn cabin, a studio portrait, or an animated family. You choose the feeling; we handle the rest."
+        },
+        {
+          "title": "Yours to keep",
+          "body": "Favorite the images you love, refine anything that is not quite right, then print, frame, or add the result to a card."
+        }
+      ],
+      "visuals": {
+        "uploaded": "3 selfies uploaded",
+        "moodboard": "Moodboard locked",
+        "favorite": "Print-ready favorite",
+        "final": "Final portrait ready"
+      }
+    },
+    "TrustPrivacy": {
+      "chip": "On privacy",
+      "titleBefore": "Your family is yours.",
+      "titleEmphasis": "Full stop",
+      "pillars": [
+        {
+          "title": "Only for your shoot",
+          "body": "Your uploads are used to create the portraits, cards, refinements, and downloads you request. We do not use them to train FamilyShoot."
+        },
+        {
+          "title": "Easy to remove",
+          "body": "You can delete reference photos and finished images from your studio wherever the app offers a delete action."
+        },
+        {
+          "title": "Not stored forever",
+          "body": "Images remain available for 14 days on one-time packs or 90 days on Pro. Inactive accounts with no shoots left may be cleared after a reminder email."
+        }
+      ]
+    },
+    "GiftCredits": {
+      "chip": "Gift credits",
+      "title": "Send a photo shoot to someone you love.",
+      "body": "Buy credits for a parent, partner, grandparent, or friend. We create a private gift code and link so you can share it by text, email, or card.",
+      "buy": "Buy a gift",
+      "redeem": "Redeem a code",
+      "shareable": "Shareable link",
+      "giftLabel": "FamilyShoot gift",
+      "shoots": "photo shoots",
+      "note": "A portrait gift for the people who are impossible to shop for.",
+      "steps": [
+        {
+          "title": "Choose a pack",
+          "body": "Pick one, three, or eight photo shoots and select Buy as gift."
+        },
+        {
+          "title": "Copy the link",
+          "body": "After checkout, the gift code and redeem link stay on your Gifts page."
+        },
+        {
+          "title": "They redeem it",
+          "body": "Your loved one signs in, opens the link, and adds the shoots to their account."
+        }
+      ]
+    },
+    "Faq": {
+      "chip": "FAQ",
+      "title": "A few careful details before you start.",
+      "items": [
+        {
+          "question": "What is an AI family photo generator?",
+          "answer": "It creates a finished family portrait from everyday photos you already have. FamilyShoot uses your uploads as visual references, then turns them into a polished portrait, illustration, or card."
+        },
+        {
+          "question": "Can I make a family portrait from separate photos?",
+          "answer": "Yes. Upload separate photos of each person, child, or selected pet, and FamilyShoot combines them into one natural family portrait."
+        },
+        {
+          "question": "Why do some images not look exactly like us?",
+          "answer": "AI creates a new picture instead of copying faces. Clear, front-facing reference photos with shoulders or full body visible produce the best likeness."
+        },
+        {
+          "question": "What kind of reference photo works best?",
+          "answer": "Use a clear, well-lit photo facing the camera with at least the shoulders visible. Full-body photos also help with height, build, and posture."
+        },
+        {
+          "question": "Can I add a pet or someone missing from the original photo?",
+          "answer": "Yes. Add them to your roster with their own reference photos, then include them in the shoot."
+        },
+        {
+          "question": "Can I make holiday or Christmas cards?",
+          "answer": "Yes. FamilyShoot includes styles for Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, birthdays, new babies, graduations, and more."
+        },
+        {
+          "question": "Do I pay before seeing the result?",
+          "answer": "No. Create a watermarked preview first and pay only if you want the high-resolution files."
+        },
+        {
+          "question": "Can I try it for free?",
+          "answer": "Yes. Your first shoot can be created as a watermarked preview. Buy credits only if you want to unlock it."
+        },
+        {
+          "question": "Can I buy FamilyShoot credits as a gift?",
+          "answer": "Yes. Choose Buy as gift on a one-time pack and receive a private gift code and redeem link."
+        },
+        {
+          "question": "Do you email the gift code to the recipient?",
+          "answer": "Not automatically. The buyer copies the code or link and shares it directly by text, email, or card."
+        },
+        {
+          "question": "How does someone redeem a gift code?",
+          "answer": "They sign in, open the redeem link or enter the code on the Gift credits page, and the shoots are added to their account."
+        },
+        {
+          "question": "Can I get a refund after a shoot is created?",
+          "answer": "Paid shoots cannot be refunded after generation has run. If something breaks or the shoot fails, contact us and we will help."
+        },
+        {
+          "question": "How long are my photos stored?",
+          "answer": "Photos are kept for 14 days on one-time packs and 90 days on FamilyShoot Pro."
+        },
+        {
+          "question": "What happens to inactive accounts?",
+          "answer": "Accounts with no shoots left may be removed after 30 inactive days. We send a reminder first."
+        },
+        {
+          "question": "Do you use my photos to train AI models?",
+          "answer": "We do not use your photos to train FamilyShoot. They are processed only to create the images and downloads you request."
+        },
+        {
+          "question": "Can I delete something sooner?",
+          "answer": "Yes. You can remove reference photos and finished images wherever the studio offers a delete action."
+        }
+      ]
+    },
+    "Footer": {
+      "body": "An AI family photo generator for frame-worthy portraits and holiday cards from photos you already have.",
+      "startPreview": "Start a free preview",
+      "product": "Product",
+      "gallery": "Gallery",
+      "trending": "Trending",
+      "how": "How it works",
+      "pricing": "Pricing",
+      "blog": "Blog",
+      "bestPrompts": "Best prompts to create a family photo",
+      "care": "Care",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "contact": "Contact",
+      "browseAll": "Browse all",
+      "allVibes": "See all vibes",
+      "trendingVibes": "Trending vibes",
+      "allCards": "See all cards",
+      "birthdayIdeas": "Birthday card ideas",
+      "occasionPages": "Occasion pages",
+      "allStyles": "See all styles",
+      "vibeGroup": "Family portrait vibes",
+      "cardGroup": "Family photo cards",
+      "birthdayGroup": "Birthday card ideas",
+      "occasionGroup": "Occasion pages",
+      "styleGroup": "Portrait art styles",
+      "copyright": "Family Photoshoot. Made with care for families.",
+      "paidStudio": "A paid-only family studio."
+    },
+    "TrendingBar": { "label": "Trending now", "ariaLabel": "View trending FamilyShoot vibes" }
   },
   "SignIn": {
     "backHome": "Back home",

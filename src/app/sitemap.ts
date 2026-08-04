@@ -5,6 +5,8 @@ import { CARDS } from "@/data/cards";
 import { STYLES } from "@/data/styles";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { BIRTHDAY_CARD_PAGES, BIRTHDAY_CARD_SEO_PAGES } from "@/data/birthday-card-pages";
+import { LOCALES } from "@/lib/i18n/locales";
+import { absoluteLocalizedUrl, LOCALIZED_INDEX_PATHS } from "@/lib/i18n/seo";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
@@ -13,7 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = getAllBlogPosts();
 
   return [
-    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    ...LOCALIZED_INDEX_PATHS.flatMap((pathname) =>
+      LOCALES.map((locale) => ({
+        url: absoluteLocalizedUrl(pathname, locale, SITE_URL),
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: locale === "en" ? 1 : 0.9,
+      })),
+    ),
     { url: `${SITE_URL}/vibes`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/trending`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/gallery`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },

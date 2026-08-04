@@ -110,7 +110,7 @@ test("valentine's day uses a dedicated valentine image", () => {
 test("footer links to occasion pages and the occasions hub", () => {
   const footerSource = readFileSync("src/components/landing/Footer.tsx", "utf8");
 
-  assert.match(footerSource, /Occasion pages/);
+  assert.match(footerSource, /t\("occasionPages"\)/);
   assert.match(footerSource, /href=\"\/occasions\"/);
   assert.match(footerSource, /OCCASION_PAGES\.map/);
   assert.match(footerSource, /href: `\/\$\{page\.slug\}`/);
@@ -127,7 +127,7 @@ test("occasions hub is a route that lists every occasion page", () => {
 test("homepage card section deep-links priority occasion pages", () => {
   const source = readFileSync("src/components/landing/OccasionCards.tsx", "utf8");
 
-  assert.match(source, /Create portraits for every family occasion/);
+  assert.match(source, /t\("occasionTitle"\)/);
   assert.match(source, /FEATURED_OCCASION_SLUGS/);
   assert.match(source, /last-minute-personalized-birthday-card/);
   assert.match(source, /fathers-day/);
@@ -155,10 +155,7 @@ test("last-minute personalized birthday card page has approved SEO, CTA, sitemap
     dataSource,
     /Create a thoughtful personalized birthday card using family, kid, couple, grandparent, or pet photos\./,
   );
-  assert.match(
-    dataSource,
-    /Last-minute personalized birthday cards that still feel thoughtful/,
-  );
+  assert.match(dataSource, /Last-minute personalized birthday cards that still feel thoughtful/);
   assert.match(dataSource, /Forgot a birthday\?/);
   assert.match(dataSource, /\/seo\/birthday-cards\/last-minute-personalized-birthday-card\.webp/);
   assert.doesNotMatch(dataSource, /\/samples\/theme-card-birthday\.jpg/);

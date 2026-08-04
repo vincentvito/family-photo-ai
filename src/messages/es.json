@@ -70,7 +70,7 @@
     "buyAsGift": "Comprar como regalo",
     "openingGiftCheckout": "Abriendo compra de regalo...",
     "proBadge": "Pro",
-    "perMonth": "/mes",
+    "perMonth": "al mes",
     "proSub": "Creado para creadores, fotógrafos y trabajos recurrentes de tarjetas familiares.",
     "openingSubscription": "Abriendo suscripción...",
     "subscribeMonthly": "Suscribirse mensualmente",
@@ -108,6 +108,241 @@
       "Archivos descargables listos para imprimir",
       "Acceso prioritario a nuevos estilos y plantillas"
     ]
+  },
+  "Landing": {
+    "Seo": {
+      "title": "Generador de fotos familiares con IA | FamilyShoot",
+      "description": "Convierte fotos separadas del móvil en un retrato familiar o una tarjeta en pocos minutos. Empieza con una vista previa gratuita."
+    },
+    "BeforeAfter": {
+      "chip": "Retrato familiar a partir de fotos separadas",
+      "titleBefore": "Sube a cada persona por separado,",
+      "titleMiddle": "obtén un retrato",
+      "titleEmphasis": "natural",
+      "titleAfter": "de toda la familia.",
+      "body": "Una forma práctica de combinar fotos familiares: una persona tiene las fotos de los niños, otra la de la mascota y nadie mira a cámara al mismo tiempo.",
+      "before": "Antes",
+      "after": "Después",
+      "comparisonLabel": "Comparación de antes y después: {label}",
+      "showPair": "Mostrar {label}",
+      "pairLabels": [
+        "Simetría al estilo Wes Anderson — 4 fotos en un retrato",
+        "Cuento en acuarela — 3 fotos en una ilustración",
+        "Familia animada — 4 fotos en un retrato"
+      ]
+    },
+    "Gallery": {
+      "chip": "Ideas para fotos familiares",
+      "titleBefore": "Elige entre más de 100 estilos seleccionados",
+      "titleAfter": "o crea el tuyo.",
+      "body": "Descubre ideas para fiestas, tarjetas, retratos de estudio, sesiones en la playa y arte de cuento. Prueba cualquier estilo con tu familia.",
+      "viewLabel": "Ver ejemplos de",
+      "showFewer": "Mostrar menos",
+      "showAll": "Mostrar los {count} estilos",
+      "categories": {
+        "photographic": "Fotográfico",
+        "stylized": "Estilizado",
+        "card": "Para una tarjeta"
+      }
+    },
+    "OccasionCards": {
+      "chip": "Generador de tarjetas familiares con IA",
+      "titleBefore": "Crea una tarjeta con las fotos que",
+      "titleEmphasis": "ya tienes",
+      "body": "Crea una tarjeta navideña, festiva o de felicitación con tus fotos. No necesitas cita en un estudio, ropa a juego ni una foto grupal perfecta.",
+      "cta": "Crear una vista previa gratis",
+      "occasionChip": "Ocasiones",
+      "occasionTitle": "Retratos para cada ocasión familiar",
+      "occasionBody": "Convierte fotos familiares en retratos personalizados para cumpleaños, fiestas, reuniones, aniversarios y regalos.",
+      "occasionCta": "Ver todas las ocasiones"
+    },
+    "FathersDay": {
+      "chip": "Retratos para el Día del Padre",
+      "title": "Regálale a papá el retrato familiar en el que nunca consigue salir.",
+      "body": "Sube fotos separadas de niños, padres, abuelos o mascotas. Obtén un retrato o una tarjeta para el Día del Padre en unos dos minutos.",
+      "cta": "Crear un retrato para papá",
+      "preview": "Primero, una vista previa gratuita con marca de agua.",
+      "finalAlt": "Retrato terminado del Día del Padre con papá, dos niños, la abuela y un golden retriever",
+      "cardLabel": "Tarjeta del Día del Padre",
+      "cardCaption": "Un retrato especial para conservar.",
+      "tiles": [
+        { "label": "Papá", "alt": "Selfie de papá con gafas y luz cálida en el coche" },
+        { "label": "Niños", "alt": "Selfie de dos niños sonrientes en casa" },
+        { "label": "Abuela", "alt": "Selfie de la abuela en una cocina acogedora" },
+        { "label": "Mascota", "alt": "Foto de un golden retriever en el salón" }
+      ]
+    },
+    "HowItWorks": {
+      "chip": "Cómo funciona",
+      "titleBefore": "Tres pasos. Unos",
+      "titleEmphasis": "dos minutos",
+      "body": "Tan sencillo como para hacerlo durante la siesta. Tan bonito como para enmarcarlo.",
+      "stepLabel": "Paso",
+      "steps": [
+        {
+          "title": "Tu familia",
+          "body": "Sube fotos de referencia de adultos, niños y mascotas. Las usamos como guía visual para que el retrato se parezca a las personas que quieres."
+        },
+        {
+          "title": "Elige un estilo",
+          "body": "Elige una escena: playa al atardecer, cabaña de otoño, retrato de estudio o familia animada. Tú eliges el ambiente; nosotros hacemos el resto."
+        },
+        {
+          "title": "Listo para guardar",
+          "body": "Marca tus favoritos, ajusta lo que no quede bien y después imprime, enmarca o añade el resultado a una tarjeta."
+        }
+      ],
+      "visuals": {
+        "uploaded": "3 selfies subidos",
+        "moodboard": "Estilo elegido",
+        "favorite": "Favorito listo para imprimir",
+        "final": "Retrato terminado"
+      }
+    },
+    "TrustPrivacy": {
+      "chip": "Privacidad",
+      "titleBefore": "Tu familia es tuya.",
+      "titleEmphasis": "Sin excepciones",
+      "pillars": [
+        {
+          "title": "Solo para tu sesión",
+          "body": "Tus fotos se usan para crear los retratos, tarjetas, ajustes y descargas que solicitas. No las usamos para entrenar FamilyShoot."
+        },
+        {
+          "title": "Fácil de eliminar",
+          "body": "Puedes eliminar las fotos de referencia y las imágenes terminadas cuando el estudio muestre la opción de borrar."
+        },
+        {
+          "title": "No se guardan para siempre",
+          "body": "Las imágenes están disponibles 14 días con paquetes individuales o 90 días con Pro. Las cuentas inactivas sin sesiones pueden eliminarse después de un aviso."
+        }
+      ]
+    },
+    "GiftCredits": {
+      "chip": "Créditos para regalar",
+      "title": "Regala una sesión de fotos a alguien especial.",
+      "body": "Compra créditos para padres, pareja, abuelos o amigos. Creamos un código privado y un enlace para que lo compartas por mensaje, correo o tarjeta.",
+      "buy": "Comprar un regalo",
+      "redeem": "Canjear un código",
+      "shareable": "Enlace para compartir",
+      "giftLabel": "Regalo FamilyShoot",
+      "shoots": "sesiones de fotos",
+      "note": "Un retrato especial para esas personas que ya lo tienen todo.",
+      "steps": [
+        {
+          "title": "Elige un paquete",
+          "body": "Elige una, tres u ocho sesiones y selecciona Comprar como regalo."
+        },
+        {
+          "title": "Copia el enlace",
+          "body": "Después del pago, el código y el enlace permanecen en tu página de regalos."
+        },
+        {
+          "title": "Canjean el regalo",
+          "body": "La persona inicia sesión, abre el enlace y añade las sesiones a su cuenta."
+        }
+      ]
+    },
+    "Faq": {
+      "chip": "Preguntas frecuentes",
+      "title": "Algunos detalles importantes antes de empezar.",
+      "items": [
+        {
+          "question": "¿Qué es un generador de fotos familiares con IA?",
+          "answer": "Crea un retrato familiar terminado a partir de fotos cotidianas. FamilyShoot usa tus imágenes como referencias para producir un retrato, una ilustración o una tarjeta."
+        },
+        {
+          "question": "¿Puedo crear un retrato familiar con fotos separadas?",
+          "answer": "Sí. Sube fotos de cada persona, niño o mascota y FamilyShoot las combina en un retrato familiar natural."
+        },
+        {
+          "question": "¿Por qué algunas imágenes no se parecen exactamente a nosotros?",
+          "answer": "La IA crea una imagen nueva en lugar de copiar rostros. Las fotos claras, de frente y con los hombros o el cuerpo visibles ofrecen el mejor parecido."
+        },
+        {
+          "question": "¿Qué foto de referencia funciona mejor?",
+          "answer": "Usa una foto clara y bien iluminada, mirando a cámara y con al menos los hombros visibles. Las fotos de cuerpo entero también ayudan."
+        },
+        {
+          "question": "¿Puedo añadir una mascota o una persona que no aparece en la foto original?",
+          "answer": "Sí. Añádela a tu grupo con sus propias fotos de referencia e inclúyela en la sesión."
+        },
+        {
+          "question": "¿Puedo crear tarjetas navideñas o festivas?",
+          "answer": "Sí. Hay estilos para Navidad, Janucá, Diwali, Eid, Año Nuevo Lunar, Pascua, cumpleaños y muchas más ocasiones."
+        },
+        {
+          "question": "¿Pago antes de ver el resultado?",
+          "answer": "No. Crea primero una vista previa con marca de agua y paga solo si quieres los archivos en alta resolución."
+        },
+        {
+          "question": "¿Puedo probarlo gratis?",
+          "answer": "Sí. Tu primera sesión puede crearse como vista previa gratuita con marca de agua."
+        },
+        {
+          "question": "¿Puedo regalar créditos de FamilyShoot?",
+          "answer": "Sí. Selecciona Comprar como regalo en un paquete individual y recibirás un código privado y un enlace."
+        },
+        {
+          "question": "¿Enviáis el código a la persona destinataria?",
+          "answer": "No automáticamente. Tú copias el código o enlace y lo compartes por mensaje, correo electrónico o tarjeta."
+        },
+        {
+          "question": "¿Cómo se canjea un código de regalo?",
+          "answer": "La persona inicia sesión, abre el enlace o introduce el código en la página de regalos. Las sesiones se añaden a su cuenta."
+        },
+        {
+          "question": "¿Puedo recibir un reembolso después de crear una sesión?",
+          "answer": "Las sesiones pagadas no se reembolsan después de generar las imágenes. Si ocurre un error técnico, ponte en contacto con nosotros."
+        },
+        {
+          "question": "¿Cuánto tiempo se guardan mis fotos?",
+          "answer": "Durante 14 días con paquetes individuales y 90 días con FamilyShoot Pro."
+        },
+        {
+          "question": "¿Qué ocurre con las cuentas inactivas?",
+          "answer": "Las cuentas sin sesiones pueden eliminarse tras 30 días de inactividad. Enviamos un aviso antes."
+        },
+        {
+          "question": "¿Usáis mis fotos para entrenar modelos de IA?",
+          "answer": "No. Solo se procesan para crear las imágenes y descargas que solicitas."
+        },
+        {
+          "question": "¿Puedo eliminar algo antes?",
+          "answer": "Sí. Puedes borrar fotos de referencia e imágenes terminadas cuando el estudio muestre la opción correspondiente."
+        }
+      ]
+    },
+    "Footer": {
+      "body": "Un generador de fotos familiares con IA para crear retratos y tarjetas especiales con las fotos que ya tienes.",
+      "startPreview": "Empezar una vista previa gratis",
+      "product": "Producto",
+      "gallery": "Galería",
+      "trending": "Tendencias",
+      "how": "Cómo funciona",
+      "pricing": "Precios",
+      "blog": "Blog",
+      "bestPrompts": "Mejores indicaciones para fotos familiares",
+      "care": "Ayuda",
+      "privacy": "Privacidad",
+      "terms": "Condiciones",
+      "contact": "Contacto",
+      "browseAll": "Explorar todo",
+      "allVibes": "Ver todos los estilos",
+      "trendingVibes": "Estilos en tendencia",
+      "allCards": "Ver todas las tarjetas",
+      "birthdayIdeas": "Tarjetas de cumpleaños",
+      "occasionPages": "Ocasiones",
+      "allStyles": "Ver estilos artísticos",
+      "vibeGroup": "Estilos de retrato familiar",
+      "cardGroup": "Tarjetas con fotos familiares",
+      "birthdayGroup": "Tarjetas de cumpleaños",
+      "occasionGroup": "Ocasiones",
+      "styleGroup": "Estilos artísticos",
+      "copyright": "Family Photoshoot. Creado con cariño para las familias.",
+      "paidStudio": "Un estudio familiar de pago."
+    },
+    "TrendingBar": { "label": "Tendencias", "ariaLabel": "Ver estilos de FamilyShoot en tendencia" }
   },
   "SignIn": {
     "backHome": "Volver al inicio",

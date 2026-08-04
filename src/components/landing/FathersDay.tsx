@@ -1,33 +1,29 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
+import { useTranslations } from "next-intl";
 
-const sourceTiles = [
+const sourceImages = [
   {
-    label: "Dad",
     src: "/landing/fathers-day/fathers-day-dad-selfie.webp",
-    alt: "Phone selfie of Dad wearing glasses in warm car light",
   },
   {
-    label: "Kids",
     src: "/landing/fathers-day/fathers-day-kids-selfie.webp",
-    alt: "Phone selfie of two smiling children at home",
   },
   {
-    label: "Grandma",
     src: "/landing/fathers-day/fathers-day-grandma-selfie.webp",
-    alt: "Phone selfie of Grandma in a cozy kitchen",
   },
   {
-    label: "Pet",
     src: "/landing/fathers-day/fathers-day-pet-selfie.webp",
-    alt: "Phone photo of a golden retriever in the living room",
   },
 ];
 
 export default function FathersDay() {
+  const t = useTranslations("Landing.FathersDay");
+  const translatedTiles = t.raw("tiles") as { label: string; alt: string }[];
+  const sourceTiles = sourceImages.map((image, index) => ({ ...image, ...translatedTiles[index] }));
   return (
     <section className="px-6 py-16 sm:px-8 sm:py-24" aria-labelledby="fathers-day-heading">
       <div className="mx-auto grid max-w-6xl items-center gap-10 rounded-[var(--radius-2xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-lg)] sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-10">
@@ -35,24 +31,23 @@ export default function FathersDay() {
           <div>
             <span className="chip chip-butter">
               <span className="dot dot-butter" />
-              Father&apos;s Day Portraits
+              {t("chip")}
             </span>
             <h2
               id="fathers-day-heading"
               className="serif mt-4 max-w-2xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl"
             >
-              Make Dad the family portrait he never gets to be in.
+              {t("title")}
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-[color:var(--color-ink-muted)] sm:text-lg">
-              Upload separate phone photos of the kids, parents, grandparents, or pets. Get a
-              polished Father&apos;s Day portrait or card in about two minutes.
+              {t("body")}
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link href="/studio/roster" className="btn btn-coral btn-lg spring-press">
-                Create Father&apos;s Day Portrait
+                {t("cta")}
               </Link>
               <span className="text-sm font-semibold text-[color:var(--color-ink-muted)]">
-                Free watermarked preview first.
+                {t("preview")}
               </span>
             </div>
           </div>
@@ -100,7 +95,7 @@ export default function FathersDay() {
                 <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-bg)]">
                   <Image
                     src="/landing/fathers-day/fathers-day-final.webp"
-                    alt="Finished Father's Day portrait with Dad, two children, Grandma, and a golden retriever"
+                    alt={t("finalAlt")}
                     fill
                     sizes="(min-width: 1024px) 260px, (min-width: 640px) 42vw, 82vw"
                     className="object-cover"
@@ -108,11 +103,9 @@ export default function FathersDay() {
                 </div>
                 <figcaption className="border-t border-[color:rgba(31,26,36,0.09)] bg-[color:rgba(251,248,243,0.96)] p-4">
                   <p className="small-caps text-[color:var(--color-coral-deep)]">
-                    Father&apos;s Day Card
+                    {t("cardLabel")}
                   </p>
-                  <p className="serif mt-1 text-xl leading-tight sm:text-2xl">
-                    One polished keepsake portrait.
-                  </p>
+                  <p className="serif mt-1 text-xl leading-tight sm:text-2xl">{t("cardCaption")}</p>
                 </figcaption>
               </figure>
             </div>

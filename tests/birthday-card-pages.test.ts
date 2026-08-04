@@ -24,10 +24,7 @@ test("birthday-card growth pages exist with clear metadata and CTAs", () => {
     assert.ok(page.related.length >= 3, `${slug} should link to related pages`);
     assert.ok(page.ctaLabel.length >= 12, `${slug} should have a clear CTA`);
     const expectedImageSlug = slug === "partners" ? "birthday-card-partners" : slug;
-    assert.match(
-      page.image,
-      new RegExp(`/seo/birthday-cards/${expectedImageSlug}\\.webp$`),
-    );
+    assert.match(page.image, new RegExp(`/seo/birthday-cards/${expectedImageSlug}\\.webp$`));
     assert.equal(imagePaths.has(page.image), false, `${slug} should use a distinct hero image`);
     imagePaths.add(page.image);
 
@@ -70,7 +67,7 @@ test("birthday-card routes and sitemap include every growth page", () => {
 test("footer links to birthday-card hub and pages", () => {
   const footerSource = readFileSync("src/components/landing/Footer.tsx", "utf8");
 
-  assert.match(footerSource, /Birthday card ideas/);
+  assert.match(footerSource, /t\("birthdayIdeas"\)/);
   assert.match(footerSource, /href=\"\/birthday-cards\"/);
   assert.match(footerSource, /BIRTHDAY_CARD_PAGES\.map/);
   assert.match(footerSource, /href: `\/birthday-cards\/\$\{page\.slug\}`/);

@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { THEMES } from "@/lib/themes";
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
+import { useTranslations } from "next-intl";
 
 const OCCASION_IDS = [
   "card-christmas",
@@ -49,6 +50,7 @@ const featuredOccasionPages = FEATURED_OCCASION_SLUGS.map((slug) => {
 }).filter(Boolean);
 
 export default function OccasionCards() {
+  const t = useTranslations("Landing.OccasionCards");
   return (
     <section id="cards" className="px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
@@ -57,20 +59,22 @@ export default function OccasionCards() {
             <div>
               <span className="chip chip-butter">
                 <span className="dot dot-butter" />
-                AI family holiday card generator
+                {t("chip")}
               </span>
               <h2 className="serif mt-4 max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] sm:text-6xl">
-                Make a card from the photos you{" "}
-                <em className="serif-italic text-[color:var(--color-coral)]">already have</em>.
+                {t("titleBefore")}{" "}
+                <em className="serif-italic text-[color:var(--color-coral)]">
+                  {t("titleEmphasis")}
+                </em>
+                .
               </h2>
             </div>
             <div className="max-w-sm">
               <p className="text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                Create a family holiday card, Christmas card photo, or greeting card from the photos
-                you already have. No studio date, matching outfits, or perfect group shot required.
+                {t("body")}
               </p>
               <Link href="/studio/roster" className="btn btn-coral mt-5">
-                Make a free card preview
+                {t("cta")}
                 <svg
                   className="h-4 w-4"
                   viewBox="0 0 24 24"
@@ -121,17 +125,16 @@ export default function OccasionCards() {
           <div className="mt-12 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-white/80 p-6 shadow-[var(--shadow-soft)] sm:p-8">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl">
-                <p className="small-caps text-[color:var(--color-coral)]">Occasion pages</p>
+                <p className="small-caps text-[color:var(--color-coral)]">{t("occasionChip")}</p>
                 <h3 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
-                  Create portraits for every family occasion
+                  {t("occasionTitle")}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-                  Turn family photos into personalized portraits for birthdays, holidays, reunions,
-                  anniversaries, and gifts. Each page has its own preview-first CTA.
+                  {t("occasionBody")}
                 </p>
               </div>
               <Link href="/occasions" className="btn btn-coral shrink-0">
-                Browse all occasions
+                {t("occasionCta")}
               </Link>
             </div>
 

@@ -1,13 +1,14 @@
 "use client";
 
 import Reveal from "@/components/motion/Reveal";
+import { useTranslations } from "next-intl";
 
 type FaqItem = {
   question: string;
   answer: string;
 };
 
-const faqs: FaqItem[] = [
+const englishFaqs: FaqItem[] = [
   {
     question: "What is an AI family photo generator?",
     answer:
@@ -91,6 +92,8 @@ const faqs: FaqItem[] = [
 ];
 
 export default function Faq() {
+  const t = useTranslations("Landing.Faq");
+  const faqs = (t.raw("items") as FaqItem[] | undefined) ?? englishFaqs;
   return (
     <section id="faq" className="px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
@@ -98,10 +101,10 @@ export default function Faq() {
           <div className="max-w-3xl">
             <span className="chip chip-sage">
               <span className="dot dot-sage" />
-              FAQ
+              {t("chip")}
             </span>
             <h2 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-              A few careful details before you start.
+              {t("title")}
             </h2>
           </div>
         </Reveal>

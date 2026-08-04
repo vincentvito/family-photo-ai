@@ -7,6 +7,7 @@ import ImpersonationBanner from "@/components/ImpersonationBanner";
 import MarketingEmailPopup from "@/components/landing/MarketingEmailPopup";
 import { getMessages } from "@/lib/i18n/locales";
 import { getRequestLocale } from "@/lib/i18n/server";
+import { absoluteLocalizedUrl, languageAlternates } from "@/lib/i18n/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,7 +30,7 @@ const DESCRIPTION =
   "Turn scattered iPhone photos into a frame-worthy family portrait or holiday card in about two minutes. Pick a vibe, upload references, and keep what you love.";
 const OG_IMAGE_URL = process.env.NEXT_PUBLIC_OG_IMAGE_URL ?? "/og/familyshoot-share.png";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
@@ -117,6 +118,47 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const seo = getMessages(locale).Landing.Seo;
+  const canonical = absoluteLocalizedUrl("/", locale, SITE_URL);
+
+  return {
+    ...baseMetadata,
+    title: {
+      default: seo.title,
+      template: "%s · FamilyShoot",
+    },
+    description: seo.description,
+    alternates: {
+      canonical,
+      languages: languageAlternates("/", SITE_URL),
+    },
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      title: seo.title,
+      description: seo.description,
+      url: canonical,
+      locale,
+      images: [
+        {
+          url: OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: "FamilyShoot - turn everyday family selfies into polished portraits and cards.",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [OG_IMAGE_URL],
+    },
+  };
+}
+
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#fbf8f3" },
@@ -146,48 +188,18 @@ const SITE_JSONLD = {
   description: DESCRIPTION,
 };
 
-const FAQ_JSONLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is an AI family photo generator?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "It is a way to create a finished family portrait from everyday photos you already have. FamilyShoot uses your uploads as visual references, then turns them into a polished portrait, illustration, or card.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I make a family portrait from separate photos?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Upload separate photos of each person, child, or selected pet, and FamilyShoot combines them into one natural family portrait.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I make AI holiday cards or Christmas cards?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. FamilyShoot includes holiday and occasion card styles for Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, birthdays, new babies, graduations, and more.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How long are my photos stored?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Generated photos and reference uploads are kept for 14 days for one-time packs. FamilyShoot Pro shoots are kept for 90 days.",
-      },
-    },
-  ],
-};
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getRequestLocale();
   const messages = getMessages(locale);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: messages.Landing.Faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
 
   return (
     <html lang={locale} className={`${inter.variable} ${fraunces.variable}`}>
@@ -207,7 +219,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSONLD) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <Script
           src="https://feedbackbasket.com/api/widget/script/cmosomkpt000004jjnork17r2"

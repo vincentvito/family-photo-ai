@@ -70,7 +70,7 @@
     "buyAsGift": "Als Geschenk kaufen",
     "openingGiftCheckout": "Geschenk-Checkout wird geöffnet...",
     "proBadge": "Pro",
-    "perMonth": "/Monat",
+    "perMonth": "pro Monat",
     "proSub": "Gemacht für Creator, Fotografen und regelmäßige Familienkarten-Projekte.",
     "openingSubscription": "Abo wird geöffnet...",
     "subscribeMonthly": "Monatlich abonnieren",
@@ -108,6 +108,241 @@
       "Herunterladbare, druckfertige Dateien",
       "Priorisierter Zugang zu neuen Stilen und Vorlagen"
     ]
+  },
+  "Landing": {
+    "Seo": {
+      "title": "KI-Familienfoto-Generator | FamilyShoot",
+      "description": "Verwandle einzelne Handyfotos in wenigen Minuten in ein professionelles Familienporträt oder eine Grußkarte. Starte mit einer kostenlosen Vorschau."
+    },
+    "BeforeAfter": {
+      "chip": "Familienporträt aus einzelnen Fotos",
+      "titleBefore": "Alle einzeln hochladen,",
+      "titleMiddle": "ein",
+      "titleEmphasis": "natürliches",
+      "titleAfter": "Porträt erhalten.",
+      "body": "Ein praktischer KI-Foto-Kombinierer für den Familienalltag: Ein Elternteil hat die Kinderfotos, jemand anderes das Haustier, und nie schauen alle gleichzeitig in die Kamera.",
+      "before": "Vorher",
+      "after": "Nachher",
+      "comparisonLabel": "Vorher-Nachher-Vergleich: {label}",
+      "showPair": "{label} anzeigen",
+      "pairLabels": [
+        "Wes-Anderson-Symmetrie — 4 Uploads für ein Porträt",
+        "Aquarell-Bilderbuch — 3 Uploads für eine Illustration",
+        "Animierte Familie — 4 Uploads für ein Porträt"
+      ]
+    },
+    "Gallery": {
+      "chip": "Ideen für Familienfotos",
+      "titleBefore": "Wähle aus über 100 kuratierten Stilen",
+      "titleAfter": "oder erstelle deinen eigenen.",
+      "body": "Entdecke Ideen für Feiertage, Karten, Studioporträts, Strandfotos und Bilderbuchkunst. Probiere jeden Stil mit deiner Familie aus.",
+      "viewLabel": "Beispiele ansehen für",
+      "showFewer": "Weniger anzeigen",
+      "showAll": "Alle {count} Stile anzeigen",
+      "categories": {
+        "photographic": "Fotografisch",
+        "stylized": "Stilisiert",
+        "card": "Für eine Karte"
+      }
+    },
+    "OccasionCards": {
+      "chip": "KI-Generator für Familiengrußkarten",
+      "titleBefore": "Erstelle eine Karte aus Fotos, die du",
+      "titleEmphasis": "bereits hast",
+      "body": "Erstelle Weihnachts-, Festtags- oder Grußkarten aus vorhandenen Fotos. Kein Studiotermin, Partnerlook oder perfektes Gruppenfoto nötig.",
+      "cta": "Kostenlose Kartenvorschau erstellen",
+      "occasionChip": "Anlässe",
+      "occasionTitle": "Porträts für jeden Familienanlass",
+      "occasionBody": "Verwandle Familienfotos in persönliche Porträts für Geburtstage, Feiertage, Treffen, Jahrestage und Geschenke.",
+      "occasionCta": "Alle Anlässe ansehen"
+    },
+    "FathersDay": {
+      "chip": "Porträts zum Vatertag",
+      "title": "Schenke Papa das Familienporträt, auf dem er sonst immer fehlt.",
+      "body": "Lade einzelne Handyfotos von Kindern, Eltern, Großeltern oder Haustieren hoch. Erhalte in etwa zwei Minuten ein Vatertagsporträt oder eine Karte.",
+      "cta": "Vatertagsporträt erstellen",
+      "preview": "Zuerst kostenlose Vorschau mit Wasserzeichen.",
+      "finalAlt": "Fertiges Vatertagsporträt mit Vater, zwei Kindern, Großmutter und Golden Retriever",
+      "cardLabel": "Vatertagskarte",
+      "cardCaption": "Ein liebevoll gestaltetes Erinnerungsbild.",
+      "tiles": [
+        { "label": "Papa", "alt": "Handy-Selfie des Vaters im warmen Autolicht" },
+        { "label": "Kinder", "alt": "Handy-Selfie von zwei lächelnden Kindern zu Hause" },
+        { "label": "Oma", "alt": "Handy-Selfie der Großmutter in einer gemütlichen Küche" },
+        { "label": "Haustier", "alt": "Handyfoto eines Golden Retrievers im Wohnzimmer" }
+      ]
+    },
+    "HowItWorks": {
+      "chip": "So funktioniert es",
+      "titleBefore": "Drei Schritte. Etwa",
+      "titleEmphasis": "zwei Minuten",
+      "body": "Einfach genug für die Mittagspause. Schön genug für den Bilderrahmen.",
+      "stepLabel": "Schritt",
+      "steps": [
+        {
+          "title": "Deine Personen",
+          "body": "Lade Referenzfotos von Erwachsenen, Kindern und ausgewählten Haustieren hoch. Sie dienen als visuelle Vorlage für ein vertrautes Ergebnis."
+        },
+        {
+          "title": "Stil auswählen",
+          "body": "Wähle eine Stimmung wie goldener Strand, Herbsthütte, Studioporträt oder animierte Familie. Du bestimmst das Gefühl; wir erledigen den Rest."
+        },
+        {
+          "title": "Für dich zum Behalten",
+          "body": "Markiere deine Favoriten, verfeinere Details und drucke oder rahme das Ergebnis oder verwende es für eine Karte."
+        }
+      ],
+      "visuals": {
+        "uploaded": "3 Selfies hochgeladen",
+        "moodboard": "Moodboard gewählt",
+        "favorite": "Druckfertiger Favorit",
+        "final": "Porträt ist fertig"
+      }
+    },
+    "TrustPrivacy": {
+      "chip": "Datenschutz",
+      "titleBefore": "Deine Familie gehört dir.",
+      "titleEmphasis": "Ohne Wenn und Aber",
+      "pillars": [
+        {
+          "title": "Nur für dein Shooting",
+          "body": "Deine Uploads werden nur für die gewünschten Porträts, Karten, Bearbeitungen und Downloads verwendet. Wir trainieren FamilyShoot nicht damit."
+        },
+        {
+          "title": "Einfach zu löschen",
+          "body": "Referenzfotos und fertige Bilder kannst du überall dort löschen, wo das Studio eine Löschfunktion anbietet."
+        },
+        {
+          "title": "Nicht für immer gespeichert",
+          "body": "Bilder bleiben bei Einzelpaketen 14 Tage und bei Pro 90 Tage verfügbar. Inaktive Konten ohne Shootings können nach einer Erinnerung gelöscht werden."
+        }
+      ]
+    },
+    "GiftCredits": {
+      "chip": "Guthaben verschenken",
+      "title": "Verschenke ein Fotoshooting an einen lieben Menschen.",
+      "body": "Kaufe Guthaben für Eltern, Partner, Großeltern oder Freunde. Du erhältst einen privaten Geschenkcode und Link zum persönlichen Teilen.",
+      "buy": "Geschenk kaufen",
+      "redeem": "Code einlösen",
+      "shareable": "Teilbarer Link",
+      "giftLabel": "FamilyShoot-Geschenk",
+      "shoots": "Fotoshootings",
+      "note": "Ein persönliches Porträtgeschenk für Menschen, die schon alles haben.",
+      "steps": [
+        {
+          "title": "Paket wählen",
+          "body": "Wähle ein, drei oder acht Shootings und dann Als Geschenk kaufen."
+        },
+        {
+          "title": "Link kopieren",
+          "body": "Geschenkcode und Einlösungslink bleiben nach dem Kauf auf deiner Geschenkeseite."
+        },
+        {
+          "title": "Geschenk einlösen",
+          "body": "Die beschenkte Person meldet sich an, öffnet den Link und fügt die Shootings ihrem Konto hinzu."
+        }
+      ]
+    },
+    "Faq": {
+      "chip": "FAQ",
+      "title": "Wichtige Details, bevor du beginnst.",
+      "items": [
+        {
+          "question": "Was ist ein KI-Familienfoto-Generator?",
+          "answer": "Er erstellt aus vorhandenen Alltagsfotos ein fertiges Familienporträt. FamilyShoot nutzt deine Uploads als visuelle Referenzen für Porträts, Illustrationen oder Karten."
+        },
+        {
+          "question": "Kann ich ein Familienporträt aus einzelnen Fotos erstellen?",
+          "answer": "Ja. Lade für jede Person, jedes Kind oder Haustier eigene Fotos hoch; FamilyShoot verbindet sie zu einem natürlichen Familienporträt."
+        },
+        {
+          "question": "Warum sehen manche Bilder nicht genau wie wir aus?",
+          "answer": "KI erzeugt ein neues Bild, statt Gesichter zu kopieren. Klare, frontale Referenzfotos mit sichtbaren Schultern oder Körper liefern die beste Ähnlichkeit."
+        },
+        {
+          "question": "Welche Referenzfotos eignen sich am besten?",
+          "answer": "Nutze ein klares, gut beleuchtetes Foto mit Blick in die Kamera und sichtbaren Schultern. Ganzkörperfotos helfen zusätzlich bei Größe und Haltung."
+        },
+        {
+          "question": "Kann ich ein Haustier oder eine fehlende Person hinzufügen?",
+          "answer": "Ja. Füge sie mit eigenen Referenzfotos zu deiner Personenliste hinzu und wähle sie für das Shooting aus."
+        },
+        {
+          "question": "Kann ich Weihnachts- oder Festtagskarten erstellen?",
+          "answer": "Ja. Es gibt Stile für Weihnachten, Chanukka, Diwali, Eid, Neujahr, Ostern, Geburtstage und viele weitere Anlässe."
+        },
+        {
+          "question": "Muss ich bezahlen, bevor ich das Ergebnis sehe?",
+          "answer": "Nein. Erstelle zuerst eine Vorschau mit Wasserzeichen und bezahle nur, wenn du die hochauflösenden Dateien möchtest."
+        },
+        {
+          "question": "Kann ich es kostenlos ausprobieren?",
+          "answer": "Ja. Dein erstes Shooting kann als kostenlose Vorschau mit Wasserzeichen erstellt werden."
+        },
+        {
+          "question": "Kann ich FamilyShoot-Guthaben verschenken?",
+          "answer": "Ja. Wähle bei einem Einzelpaket Als Geschenk kaufen und du erhältst einen privaten Code und Einlösungslink."
+        },
+        {
+          "question": "Sendet ihr den Geschenkcode an die empfangende Person?",
+          "answer": "Nicht automatisch. Du kopierst den Code oder Link und teilst ihn selbst per Nachricht, E-Mail oder Karte."
+        },
+        {
+          "question": "Wie wird ein Geschenkcode eingelöst?",
+          "answer": "Die Person meldet sich an, öffnet den Link oder gibt den Code auf der Geschenkeseite ein. Danach werden die Shootings gutgeschrieben."
+        },
+        {
+          "question": "Kann ich nach der Erstellung eine Erstattung erhalten?",
+          "answer": "Nach der Bildgenerierung können bezahlte Shootings nicht erstattet werden. Bei einem technischen Fehler helfen wir dir selbstverständlich."
+        },
+        {
+          "question": "Wie lange werden meine Fotos gespeichert?",
+          "answer": "Bei Einzelpaketen 14 Tage und bei FamilyShoot Pro 90 Tage."
+        },
+        {
+          "question": "Was passiert mit inaktiven Konten?",
+          "answer": "Konten ohne verbleibende Shootings können nach 30 inaktiven Tagen gelöscht werden. Vorher senden wir eine Erinnerung."
+        },
+        {
+          "question": "Verwendet ihr meine Fotos zum Trainieren von KI?",
+          "answer": "Nein. Deine Fotos werden nur verarbeitet, um die von dir angeforderten Bilder und Downloads zu erstellen."
+        },
+        {
+          "question": "Kann ich Inhalte früher löschen?",
+          "answer": "Ja. Referenzfotos und fertige Bilder können überall dort gelöscht werden, wo das Studio eine Löschfunktion anbietet."
+        }
+      ]
+    },
+    "Footer": {
+      "body": "Ein KI-Familienfoto-Generator für rahmenwürdige Porträts und Festtagskarten aus vorhandenen Fotos.",
+      "startPreview": "Kostenlose Vorschau starten",
+      "product": "Produkt",
+      "gallery": "Galerie",
+      "trending": "Im Trend",
+      "how": "So funktioniert es",
+      "pricing": "Preise",
+      "blog": "Blog",
+      "bestPrompts": "Die besten Prompts für Familienfotos",
+      "care": "Service",
+      "privacy": "Datenschutz",
+      "terms": "Bedingungen",
+      "contact": "Kontakt",
+      "browseAll": "Alles entdecken",
+      "allVibes": "Alle Stile",
+      "trendingVibes": "Aktuelle Trends",
+      "allCards": "Alle Karten",
+      "birthdayIdeas": "Geburtstagskarten",
+      "occasionPages": "Anlässe",
+      "allStyles": "Alle Kunststile",
+      "vibeGroup": "Familienporträt-Stile",
+      "cardGroup": "Familienfotokarten",
+      "birthdayGroup": "Geburtstagskarten",
+      "occasionGroup": "Anlässe",
+      "styleGroup": "Porträt-Kunststile",
+      "copyright": "Family Photoshoot. Mit Sorgfalt für Familien gemacht.",
+      "paidStudio": "Ein kostenpflichtiges Familienstudio."
+    },
+    "TrendingBar": { "label": "Jetzt im Trend", "ariaLabel": "Aktuelle FamilyShoot-Stile ansehen" }
   },
   "SignIn": {
     "backHome": "Zur Startseite",
