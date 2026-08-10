@@ -133,6 +133,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Coastal-cottage frame: subjects near hydrangeas or a pale cottage wall, warm cream palette, relaxed editorial spacing and no visible branding.",
     "Tight butter-yellow crop: waist-up subject grouping against bright floral and linen texture, creamy bounce fill, natural skin detail and clean background.",
   ],
+  "butter-yellow-picnic": [
+    "Blanket-laugh portrait: subjects seated on soft linen picnic blankets with butter-yellow accents, basket and flowers secondary, golden grass light and readable faces.",
+    "Lemonade-passing candid: subjects sharing generic lemonade cups or fruit near the blanket edge, relaxed hands, warm backlight and no readable labels.",
+    "Backyard picnic proof: subjects arranged in a sunny grass or garden setting with pale florals and woven texture, breathable editorial spacing and bright print color.",
+    "Tight yellow picnic crop: waist-up grouping against linen, flowers and warm greenery, creamy bounce fill, clear subject separation and natural skin detail.",
+  ],
+  "neo-deco-family-portrait": [
+    "Fan-arch studio portrait: subjects staggered beneath geometric fan arches with brass glints, tasteful formal styling and warm readable faces.",
+    "Velvet-panel frame: subjects arranged near velvet texture and chrome accents, vertical portrait polish, controlled shadows and no venue signage.",
+    "Symmetric deco proof: subjects centered within cream-black-gold arch geometry, full-to-three-quarter bodies when natural and refined studio glow.",
+    "Close glamour crop: shoulder-to-knee grouping with fan lines behind, emerald or deep plum accents secondary, crisp catchlights and polished print finish.",
+  ],
+  "storybook-pen-pals": [
+    "Writing-desk portrait: subjects gathered near a wooden desk with letters, blank stamps and drawings secondary, soft window light and cozy paper texture.",
+    "Library-letter candid: subjects leaning around shelves and stationery details, vintage knits and blazers, warm lamp glow and readable faces.",
+    "Card-holding keepsake: subjects holding blank cards or simple drawings toward the camera, private text absent, intimate storybook-editorial warmth.",
+    "Close pen-pal crop: waist-up grouping beside parchment-toned envelopes and books, wool texture, soft amber falloff and clean subject separation.",
+  ],
+  "mystic-outlands-adventure": [
+    "Moss-trail portrait: subjects standing on a safe misty trail with moss and ferns, earth-tone explorer layers, readable faces and stable footing.",
+    "Forest-clearing candid: subjects gathered in a fog-softened clearing with satchel details secondary, diffused green light and grounded wonder.",
+    "Highland-path proof: subjects smaller within rolling mist and weathered stones, no edge danger, soft gold fill and print-ready landscape depth.",
+    "Close outlands crop: waist-up grouping with fog, moss and scarf texture behind, gentle adventurous expressions and clear face priority.",
+  ],
+  "galactic-glow-family-adventure": [
+    "Backyard stargazing glow: subjects gathered under a starry sky with blankets and soft holographic accents, cozy practical light and readable faces.",
+    "Moon-dust studio proof: subjects arranged in an original cosmic studio set with pearl shimmer and broad sky context, grounded poses and no symbols.",
+    "Opalescent crew portrait: subjects grouped like a gentle space-adventure crew with luminous props secondary, clean silhouettes and warm front fill.",
+    "Tight cosmic crop: waist-up grouping against lavender-blue star bokeh, moon-dust shimmer, clear catchlights and polished family keepsake finish.",
+  ],
   "scarf-garden-story": [
     "Scarf-path portrait: subjects on a leafy garden path with silk-scarf color accents, dappled light and faces held in the clear center third.",
     "Garden-table candid: subjects leaning around a simple outdoor table with scarf fabric and flowers secondary, warm open shade and refined summer mood.",
@@ -522,6 +552,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Pumpkin-light portrait: tighter grouping lit from below by jack-o-lanterns, clean dusk text area.",
     "Doorway-costume card: subjects framed by porch door and wheat wreath, text in foggy side space.",
     "Wide porch scene: pumpkins leading foreground, subjects off-center, spooky-soft negative space above.",
+  ],
+  "cozy-summerween-card": [
+    "Twinkle-porch card: subjects on a cozy porch with pumpkins and warm string lights, clean greeting space above or to one side.",
+    "Living-room pumpkin portrait: subjects gathered near plaid blankets, friendly paper decor and candy bowls with blank wrappers, soft lamp glow and readable faces.",
+    "Friendly decor proof: subjects framed by paper bats and sheet-ghost motifs, playful accessories secondary, generous card typography area.",
+    "Close summerween crop: waist-up grouping with pumpkin orange and plum accents, warm cream negative space and cute seasonal glow.",
   ],
   "card-thanksgiving": [
     "Harvest-table card: subjects around long table, upper-right greeting space in warm background.",

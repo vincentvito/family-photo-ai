@@ -970,6 +970,136 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "butter-yellow-picnic",
+    name: "Butter Yellow Picnic",
+    blurb:
+      "A golden-hour picnic portrait with butter-yellow accents, soft linens, flowers, lemonade, and relaxed summer laughter.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-backyard-picnic.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 golden-hour picnic family photograph",
+      scene:
+        "a sunlit backyard or grassy park picnic with soft linen blankets, butter-yellow accents, flowers, lemonade, simple picnic basket details and bright late-summer greenery",
+      camera:
+        "digital medium-format camera with a 55mm lens, blanket-level lifestyle portrait framing with candid gestures and crisp readable faces",
+      composition:
+        "relaxed picnic grouping, blanket texture anchoring the foreground, clean sightlines, props secondary and no crowded food styling",
+      lighting:
+        "warm golden-hour backlight, creamy grass-bounced fill, gentle rim highlights on hair and shoulders, bright print-ready color without harsh glare",
+      style:
+        "premium summer lifestyle photography, butter yellow, white linen, pale floral, fresh green and warm cream palette, natural skin detail, wholesome keepsake polish",
+      safety:
+        "generic picnic scene, simple drinks only, no brand logos, no readable labels, no political symbols, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "neo-deco-family-portrait",
+    name: "Neo Deco Family Portrait",
+    blurb:
+      "A tasteful formal portrait with geometric fan arches, brass and chrome accents, velvet texture, and warm studio glamour.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-neo-deco-celebration-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 elegant neo-deco studio family portrait",
+      scene:
+        "a refined studio set with art-deco-inspired fan arches, geometric wall panels, brass and chrome accents, velvet texture, polished floor details and tasteful formal styling",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical formal portrait framing with controlled depth and clear face priority",
+      composition:
+        "balanced symmetrical arch geometry, staggered formal portrait arrangement, negative space shaped by the geometric backdrop",
+      lighting:
+        "warm cinematic studio key light, soft fill, brass glints, gentle chrome rim highlights and controlled shadow detail",
+      style:
+        "neo-deco editorial portrait photography, cream, black, gold, emerald and deep plum accent palette, tasteful glamour, polished print finish",
+      safety:
+        "no nightlife setting, no alcohol props, no gambling references, no brand logos, no readable venue text, no designer references, no watermark",
+    },
+  },
+  {
+    id: "storybook-pen-pals",
+    name: "Storybook Pen Pals",
+    blurb:
+      "A cozy letters-and-library portrait with vintage stationery, blank stamps, drawings, soft knits, and warm window light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-family-library-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 cozy storybook pen-pal family portrait",
+      scene:
+        "a home library or writing desk with handwritten letters, blank stamps, vintage stationery, simple drawings, books, oversized knits, blazers and soft lived-in paper texture",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical desk-side framing, intimate environmental depth and readable faces",
+      composition:
+        "warm triangular arrangement around the writing surface or shelves, letter and drawing details secondary, clear open space free of readable private information",
+      lighting:
+        "soft window light through sheer curtains, warm desk-lamp glow, gentle amber bounce from wood shelves and flattering facial falloff",
+      style:
+        "storybook editorial photography, parchment, walnut, moss green, oxblood, cream and faded blue palette, tactile paper grain, polished holiday-card potential",
+      safety:
+        "fictional stationery only, no real postal logos, no readable addresses, no private data, no copyrighted book text, no brand logos, no watermark",
+    },
+  },
+  {
+    id: "mystic-outlands-adventure",
+    name: "Mystic Outlands Adventure",
+    blurb:
+      "A misty highland or enchanted-forest adventure with moss, soft fog, earth tones, and gentle explorer styling.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-watercolor-storybook.jpg",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 misty outlands adventure family photograph",
+      scene:
+        "a safe highland trail or enchanted forest clearing with moss, ferns, soft fog, weathered stones, earth-tone layers, scarves, satchels and grounded traveler details",
+      camera:
+        "documentary adventure photographer perspective with a 35mm lens, eye-level environmental portrait framing with readable faces and stable trail footing",
+      composition:
+        "gentle path-leading composition, subjects held away from edges and hazards, layered forest depth with props and landscape kept secondary",
+      lighting:
+        "diffused overcast daylight through mist, soft green forest bounce, subtle warm fill on faces and delicate fog glow in the background",
+      style:
+        "magical but grounded outdoor photography, moss green, peat brown, lichen gray, heather, cream and muted gold palette, natural texture, print-ready wonder",
+      safety:
+        "safe trail setting only, no dangerous ledges, no fast water, no weapons, no scary creatures, no ominous threat, no logos, no watermark",
+    },
+  },
+  {
+    id: "galactic-glow-family-adventure",
+    name: "Galactic Glow Family Adventure",
+    blurb:
+      "A cozy cosmic adventure with opalescent glow, stargazing wonder, moon-dust shimmer, and soft holographic accents.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-galactic-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 opalescent cosmic family adventure portrait",
+      scene:
+        "a dreamy backyard stargazing setup or original cosmic studio set with starry sky, moon-dust shimmer, soft holographic accents, blankets, lantern-like glow and near-future wonder",
+      camera:
+        "digital cinema portrait camera with a 40mm lens, low eye-level adventure framing with sky context and clear readable faces",
+      composition:
+        "cozy crew grouping under a broad star field, luminous props kept secondary, clean silhouette separation and stable grounded poses",
+      lighting:
+        "soft blue-violet sky glow, pearly front fill, warm practical sparkle, gentle rim light and controlled highlights on holographic accents",
+      style:
+        "original cosmic lifestyle photography, opal, lavender, midnight blue, pearl, silver and warm amber palette, futuristic but cozy print-ready finish",
+      safety:
+        "original space-adventure design only, no franchise symbols, no recognizable characters, no weapons, no military insignia, no logos, no text, no watermark",
+    },
+  },
+  {
     id: "scarf-garden-story",
     name: "Scarf Garden Story",
     blurb:
@@ -1876,6 +2006,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "cozy-summerween-card",
+    name: "Cozy Summerween Card",
+    blurb:
+      "A cute early-Halloween card with pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-card-halloween.jpg",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 cozy summerween-card family portrait",
+      scene:
+        "a warm porch or living-room card setup with pumpkins, twinkle lights, paper bats, friendly sheet-ghost decor motifs, plaid blankets, candy bowls with blank wrappers and playful generic accessories",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical greeting-card framing with deliberate negative space for card text",
+      composition:
+        "cozy card layout with pumpkins and lights framing the lower corners, faces clear of typography space, props secondary and gentle",
+      lighting:
+        "soft porch-hour or lamplight glow, warm pumpkin-like practical light, gentle fill on faces and clean shadow detail",
+      style:
+        "cute summerween card photography, pumpkin orange, ink black, plum purple, butter yellow and warm cream palette, cozy print-ready finish",
+      safety:
+        "playful seasonal decor only, no scary monsters, no jump-scare cues, no sharp props, no copyrighted costumes, no logos, no readable labels, no watermark",
+    },
+  },
+  {
     id: "card-thanksgiving",
     name: "Thanksgiving Card",
     blurb: "A harvest table in amber light. Gratitude, a full spread, hands clasped.",
@@ -2153,6 +2310,7 @@ export function themesByCategory() {
       "card-lunar-new-year",
       "card-eid",
       "card-dia-de-muertos",
+      "cozy-summerween-card",
       "card-birthday",
       "card-luxury-carved-number-birthday",
       "card-anniversary",
