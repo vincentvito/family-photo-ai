@@ -24,6 +24,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1041.0",
     "@aws-sdk/s3-request-presigner": "^3.1041.0",
+    "@rolino/nextjs-blog": "0.5.0-beta.0",
     "archiver": "^7.0.1",
     "better-auth": "^1.6.23",
     "clsx": "^2.1.1",
