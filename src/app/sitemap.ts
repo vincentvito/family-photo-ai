@@ -7,12 +7,16 @@ import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { BIRTHDAY_CARD_PAGES, BIRTHDAY_CARD_SEO_PAGES } from "@/data/birthday-card-pages";
 import { LOCALES } from "@/lib/i18n/locales";
 import { absoluteLocalizedUrl, LOCALIZED_INDEX_PATHS } from "@/lib/i18n/seo";
+import { getPublishedBlogSitemapEntries } from "@/lib/rolino-blog";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const blogPosts = getAllBlogPosts();
+  const localBlogUrls = new Set(blogPosts.map((post) => `${SITE_URL}/blog/${post.slug}`));
+  const rolinoBlogEntries = (await getPublishedBlogSitemapEntries())
+    .filter((entry: { url: string }) => !localBlogUrls.has(entry.url));
 
   return [
     ...LOCALIZED_INDEX_PATHS.flatMap((pathname) =>
@@ -81,6 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...blogPosts.map((post) => ({
       url: `${SITE_URL}/blog/${post.slug}`,
       lastModified: new Date(`${post.date}T00:00:00`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    ...rolinoBlogEntries.map((entry: { url: string; lastModified: string }) => ({
+      url: entry.url,
+      lastModified: new Date(entry.lastModified),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),

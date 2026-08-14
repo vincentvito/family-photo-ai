@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import MarkdownContent from "@/components/blog/MarkdownContent";
 import Footer from "@/components/landing/Footer";
 import Nav from "@/components/landing/Nav";
-import { formatPostDate, getAllBlogSlugs, getBlogPost, getRelatedPosts } from "@/lib/blog";
+import { formatPostDate, getAllBlogSlugs, getRelatedPosts } from "@/lib/blog";
+import { getPublishedBlogPost } from "@/lib/rolino-blog";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -20,11 +21,13 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const result = await getPublishedBlogPost(slug);
 
-  if (!post) {
+  if (!result || "redirect" in result) {
     return { title: "Post Not Found" };
   }
+
+  const { post } = result;
 
   return {
     title: post.title,
@@ -55,11 +58,17 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const result = await getPublishedBlogPost(slug);
 
-  if (!post) {
+  if (!result) {
     notFound();
   }
+
+  if ("redirect" in result) {
+    permanentRedirect(`/blog/${result.redirect.to}`);
+  }
+
+  const { post } = result;
 
   const relatedPosts = getRelatedPosts(slug, post.tags, 3);
   const structuredData = {
@@ -81,7 +90,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     },
     datePublished: post.date,
     dateModified: post.date,
-    image: post.image ? `${SITE_URL}${post.image}` : undefined,
+    image: post.image ? new URL(post.image, SITE_URL).toString() : undefined,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${SITE_URL}/blog/${slug}`,

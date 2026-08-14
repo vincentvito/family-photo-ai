@@ -15,6 +15,25 @@ npm run dev
 
 Open http://localhost:3010.
 
+## Rolino Blog delivery
+
+FamilyShoot keeps its existing local articles and can also read published articles from Rolino.
+Configure these server-only values locally and in Vercel:
+
+- `ROLINO_URL=https://getrolino.com`
+- `ROLINO_BLOG_SITE_ID`
+- `ROLINO_BLOG_DELIVERY_TOKEN`
+- `ROLINO_BLOG_WEBHOOK_SECRET`
+
+Get the site ID, delivery token, and webhook secret from the FamilyShoot site connection in
+Rolino Blog Settings. Set its production revalidation endpoint to
+`https://familyshoot.com/api/rolino/revalidate`. Do not expose any of these values with a
+`NEXT_PUBLIC_` prefix.
+
+Without these values, FamilyShoot continues to serve its local Blog content. With them, `/blog`,
+`/blog/[slug]`, and `sitemap.xml` also include published Rolino articles. Signed publication events
+refresh the affected cache tags through `/api/rolino/revalidate` without a new deployment.
+
 ### Trying it with no API key
 
 Set `NEXT_PUBLIC_MOCK_MODE=1` in `.env`. The app produces warm placeholder cards

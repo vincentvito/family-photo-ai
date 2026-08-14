@@ -3,7 +3,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import Footer from "@/components/landing/Footer";
 import Nav from "@/components/landing/Nav";
-import { formatPostDate, getAllBlogPosts } from "@/lib/blog";
+import { formatPostDate } from "@/lib/blog";
+import { getAllPublishedBlogPosts } from "@/lib/rolino-blog";
 
 export const metadata: Metadata = {
   title: "Family Photo Ideas & AI Portrait Tips",
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  const posts = getAllBlogPosts();
+export default async function BlogPage() {
+  const posts = await getAllPublishedBlogPosts();
 
   return (
     <>
