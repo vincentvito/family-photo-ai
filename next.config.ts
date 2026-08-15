@@ -3,6 +3,16 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const config: NextConfig = {
   serverExternalPackages: ["sharp"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.getrolino.com",
+        port: "",
+        pathname: "/blog/**",
+      },
+    ],
+  },
   async redirects() {
     return [{ source: "/cards-landing", destination: "/cards", permanent: true }];
   },

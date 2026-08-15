@@ -37,3 +37,12 @@ test("Rolino Blog delivery covers list, article, sitemap, and signed revalidatio
   assert.match(sitemap, /getPublishedBlogSitemapEntries/);
   assert.match(revalidationRoute, /createRolinoRevalidationHandler/);
 });
+
+test("Rolino Blog media is accepted and duplicate article h1 headings are omitted", () => {
+  const nextConfig = read("next.config.ts");
+  const markdown = read("src/components/blog/MarkdownContent.tsx");
+
+  assert.match(nextConfig, /hostname: "media\.getrolino\.com"/);
+  assert.match(nextConfig, /pathname: "\/blog\/\*\*"/);
+  assert.match(markdown, /trimmed\.startsWith\("# "\)/);
+});

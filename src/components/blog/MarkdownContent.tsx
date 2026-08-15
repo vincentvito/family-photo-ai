@@ -77,6 +77,13 @@ function toBlocks(content: string): Block[] {
       continue;
     }
 
+    // The article page already renders the canonical title as its only h1.
+    if (trimmed.startsWith("# ")) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
     if (trimmed.startsWith("## ")) {
       flushParagraph();
       flushList();
