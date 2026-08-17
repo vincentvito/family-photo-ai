@@ -1127,6 +1127,164 @@ export const THEMES: Theme[] = [
         "original music-inspired porch scene, no musician likeness, no album covers, no venue logos, no readable text, no alcohol cues, no watermark",
     },
   },
+  {
+    id: "butter-yellow-picnic",
+    name: "Butter Yellow Picnic",
+    blurb:
+      "A warm late-summer picnic portrait with butter-yellow accents, cream linens, fresh fruit, soft flowers, and golden family light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-butter-yellow-picnic.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm late-summer picnic family photograph",
+      scene:
+        "a sunny park or garden picnic with a soft cream blanket, fresh fruit, simple flowers, woven basket details, airy greenery and butter-yellow wardrobe accents",
+      camera:
+        "digital medium-format camera with a 50mm lens, relaxed blanket-level editorial portrait framing with readable faces and natural hand placement",
+      composition:
+        "gentle picnic-blanket geometry, relaxed grouping with breathable negative space and props kept secondary to faces",
+      lighting:
+        "soft golden-hour sunlight filtered through leaves, creamy blanket bounce fill, warm rim highlights and polished natural skin detail",
+      style:
+        "premium family lifestyle photography, butter yellow, cream, soft white, leaf green, pale blue and fresh fruit color accents, subtle film grain, print-ready warmth",
+      safety:
+        "wholesome picnic styling only, no alcohol cues, no brand logos, no readable labels, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "paprika-plaid-autumn",
+    name: "Paprika Plaid Autumn",
+    blurb:
+      "A pre-fall portrait in paprika, brick red, camel, denim, and subtle plaid layers with cozy outdoor warmth.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-paprika-plaid-autumn.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cozy pre-fall family photograph",
+      scene:
+        "an early autumn path or porch with warm leaves, rustic wood, soft grasses, transitional layers, subtle neutral plaid and check textures",
+      camera:
+        "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing with warm environmental depth and crisp faces",
+      composition:
+        "staggered fall portrait arrangement, clean sightlines through leaf texture, natural spacing and visible hands",
+      lighting:
+        "soft overcast-golden afternoon light, warm leaf bounce, gentle rim highlights and balanced shadow detail for print",
+      style:
+        "warm pre-fall editorial photography, paprika, burnt orange, brick red, camel, denim blue, cream and walnut palette, refined natural grain",
+      safety:
+        "generic plaid and check patterns only, no designer references, no logos, no readable text, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "summerween-pumpkin-glow",
+    name: "Summerween Pumpkin Glow",
+    blurb:
+      "A cute early-Halloween card with pastel pumpkins, friendly porch decorations, soft twilight, and warm lantern glow.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-summerween-pumpkin-glow.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 cute Summerween greeting-card family portrait",
+      scene:
+        "a warm porch at soft twilight with pastel pumpkins, friendly tiny ghost decorations, summer flowers, lanterns and clean greeting-card negative space",
+      camera:
+        "polished card-art camera perspective with a gentle eye-level porch composition, readable faces and clear separation from decorative pumpkins",
+      composition:
+        "stable family-card layout with open pale wall or twilight sky reserved for supplied greeting text, decorations framing the edges",
+      lighting:
+        "warm porch lantern glow mixed with soft lavender twilight, flattering face fill, gentle pumpkin highlights and cozy print contrast",
+      style:
+        "cute seasonal card photography, peach, pumpkin orange, butter yellow, lavender, cream and soft green palette, whimsical and age-appropriate polish",
+      safety:
+        "playful porch decorations only, no frightening masks, no sharp props, no injury effects, no threatening scene, no famous character costumes, no logos, no watermark",
+    },
+  },
+  {
+    id: "storybook-forest-family-adventure",
+    name: "Storybook Forest Family Adventure",
+    blurb:
+      "A warm enchanted-forest adventure with oversized friendly trees, mossy paths, wildflowers, and original storybook polish.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-storybook-forest-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original storybook-forest family adventure portrait",
+      scene:
+        "an enchanted forest path with oversized friendly trees, moss, wildflowers, warm sunbeams, rounded roots and cozy adventure wardrobe details",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter path perspective, readable faces and clear character silhouettes",
+      composition:
+        "curving forest path leading through the frame, friendly tree shapes creating a natural arch, open light around the selected group",
+      lighting:
+        "warm magical sunlight through leaves, soft golden rim highlights, luminous green bounce and cheerful color separation",
+      style:
+        "polished illustrated-photo hybrid with gouache texture, moss green, bark brown, butter yellow, wildflower color and warm paper tones, family-safe adventure charm",
+      safety:
+        "original forest adventure only, no movie or book character cues, no recognizable costumes, no battle props, no dark ritual symbols, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "y3k-chrome-family-future",
+    name: "Y3K Chrome Family Future",
+    blurb:
+      "A soft optimistic future portrait with chrome accessories, pearly white studio shapes, and gentle holographic highlights.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-y3k-chrome-family-future.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 soft futuristic studio family portrait",
+      scene:
+        "a pearly white near-future studio with rounded modern shapes, chrome and silver accessories, soft reflective surfaces and gentle holographic highlights",
+      camera:
+        "digital medium-format studio camera with a 55mm lens, clean eye-level editorial framing with crisp faces and glossy environmental depth",
+      composition:
+        "optimistic studio grouping with rounded architecture, balanced chrome accents, clean negative space and uncluttered sightlines",
+      lighting:
+        "large pearly softboxes, subtle holographic rim highlights, controlled chrome reflections and smooth flattering face fill",
+      style:
+        "soft Y3K-inspired future photography, silver, pearl white, pale blue, lavender, soft chrome and clean glass palette, modest styling and print-ready polish",
+      safety:
+        "optimistic future styling only, no dystopian setting, no battle armor, no body distortion, no battle props, no brand logos, no text, no watermark",
+    },
+  },
+  {
+    id: "polka-dot-porch-party",
+    name: "Polka Dot Porch Party",
+    blurb:
+      "A cheerful porch-party card with polka-dot details, bows, ribbons, pastel flowers, cake-table charm, and clean greeting space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-polka-dot-porch-party.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 cheerful porch-party greeting-card family portrait",
+      scene:
+        "a bright front porch or backyard cake-table setup with polka-dot fabric details, bows, ribbons, pastel flowers, simple dessert stands and clean white greeting space",
+      camera:
+        "polished lifestyle-card camera perspective with relaxed eye-level framing, readable faces and soft party details around the edges",
+      composition:
+        "print-friendly card layout with pale wall or sky reserved for supplied greeting text, party table details kept secondary",
+      lighting:
+        "fresh open-shade summer daylight, bright catchlights, soft porch bounce and gentle pastel highlight detail",
+      style:
+        "cheerful summer card photography, white, blush pink, sky blue, butter yellow, mint and clean red accents, polished family keepsake finish",
+      safety:
+        "generic party styling only, no branded packaging, no readable labels, no logos, no celebrity likeness, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {

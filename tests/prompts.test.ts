@@ -209,6 +209,12 @@ const WEEKLY_TREND_THEME_IDS = [
   "poetcore-family-library-portrait",
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "butter-yellow-picnic",
+  "paprika-plaid-autumn",
+  "summerween-pumpkin-glow",
+  "storybook-forest-family-adventure",
+  "y3k-chrome-family-future",
+  "polka-dot-porch-party",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -231,6 +237,12 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "poetcore-family-library-photos",
   "neo-deco-celebration-card-family-photos",
   "crochet-raffia-picnic-card-family-photos",
+  "butter-yellow-picnic-family-photos",
+  "paprika-plaid-autumn-family-photos",
+  "summerween-pumpkin-glow-family-photos",
+  "storybook-forest-family-adventure-photos",
+  "y3k-chrome-family-future-photos",
+  "polka-dot-porch-party-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -240,6 +252,12 @@ const NEW_WEEKLY_TREND_PAIRS = [
   ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
   ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
   ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+  ["butter-yellow-picnic", "butter-yellow-picnic-family-photos"],
+  ["paprika-plaid-autumn", "paprika-plaid-autumn-family-photos"],
+  ["summerween-pumpkin-glow", "summerween-pumpkin-glow-family-photos"],
+  ["storybook-forest-family-adventure", "storybook-forest-family-adventure-photos"],
+  ["y3k-chrome-family-future", "y3k-chrome-family-future-photos"],
+  ["polka-dot-porch-party", "polka-dot-porch-party-family-photos"],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -247,6 +265,8 @@ const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
 const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "summerween-pumpkin-glow",
+  "polka-dot-porch-party",
 ]);
 
 const BLOCKED_PROMPT_TERMS =
@@ -440,6 +460,12 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
     "retro-summer-postcard",
+    "butter-yellow-picnic",
+    "paprika-plaid-autumn",
+    "summerween-pumpkin-glow",
+    "storybook-forest-family-adventure",
+    "y3k-chrome-family-future",
+    "polka-dot-porch-party",
     "butter-yellow-summer-portrait",
     "scarf-garden-story",
     "ocean-explorer-card",

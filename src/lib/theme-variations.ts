@@ -169,6 +169,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Blank-record-sleeve frame: subjects beside decorative blank record sleeves and porch plants, music props secondary and no readable album art.",
     "Close porch-jazz crop: waist-up subject grouping with olive, rust and cream tones, soft amber side light and cozy musical mood.",
   ],
+  "butter-yellow-picnic": [
+    "Blanket fruit portrait: subjects seated around a cream picnic blanket with fruit, flowers and butter-yellow fabric accents, warm faces centered and props secondary.",
+    "Garden-path picnic candid: subjects near a sunny garden path with a woven basket and pale blooms, natural gestures and golden leaf-filtered light.",
+    "Wide meadow keepsake: subjects smaller within an airy late-summer meadow picnic, blanket geometry visible and plenty of soft green negative space.",
+    "Tight yellow-linen crop: waist-up subject grouping with butter-yellow wardrobe notes, cream linen texture and warm floral bokeh behind.",
+  ],
+  "paprika-plaid-autumn": [
+    "Leaf-path portrait: subjects on an early autumn path in paprika, camel, denim and subtle plaid layers, warm leaves framing readable faces.",
+    "Porch-layer candid: subjects gathered near rustic porch steps with soft check textures and scarves, natural hands and cozy pre-fall light.",
+    "Wide orchard-edge frame: subjects placed along a grass-and-leaf edge with brick red accents, clean sky and warm seasonal depth.",
+    "Close plaid texture crop: waist-up subject grouping with paprika and camel layers, neutral plaid details secondary and soft amber leaf bokeh.",
+  ],
+  "summerween-pumpkin-glow": [
+    "Pastel porch card: subjects grouped beside pastel pumpkins and friendly tiny ghost decorations, open pale porch wall reserved for supplied greeting text.",
+    "Lantern-step portrait: subjects on porch steps with warm lanterns and summer flowers, pumpkins framing the lower edge and twilight glow behind.",
+    "Wide pumpkin card proof: subjects smaller in a cozy porch scene with clean sky or siding space above, playful decorations kept soft and cute.",
+    "Close pumpkin-glow crop: waist-up subject grouping with peach pumpkins, lavender twilight and warm lantern highlights, clear face separation.",
+  ],
+  "storybook-forest-family-adventure": [
+    "Forest-path adventure: subjects walking along a curved mossy path beneath friendly oversized trees, sunbeams and wildflowers leading the eye.",
+    "Tree-arch portrait: subjects gathered under a natural root-and-branch arch with warm golden light, cozy adventure layers and readable faces.",
+    "Wide storybook clearing: subjects smaller in a luminous forest clearing with rounded trees, wildflowers and a welcoming illustrated-card mood.",
+    "Close woodland keepsake: waist-up subject grouping with bark texture, moss, leaves and soft golden bokeh, gentle wonder without scary details.",
+  ],
+  "y3k-chrome-family-future": [
+    "Pearly studio portrait: subjects in a rounded white future studio with chrome accents and soft holographic highlights, clean faces and modest styling.",
+    "Chrome lounge candid: subjects near curved seats and reflective silver details, relaxed optimistic expressions and controlled pearly reflections.",
+    "Wide future proof: subjects smaller inside a clean white futuristic room with rounded architecture, pale blue glow and generous negative space.",
+    "Tight holographic crop: waist-up subject grouping with silver accessories, soft lavender-blue rim light and glossy but natural skin detail.",
+  ],
+  "polka-dot-porch-party": [
+    "Porch cake-card proof: subjects grouped near a simple cake table with polka-dot fabric, flowers and open white wall reserved for supplied greeting text.",
+    "Ribbon-party candid: subjects on a bright porch with bows, ribbons and pastel dots at the edges, natural laughter and fresh open shade.",
+    "Wide backyard card: subjects smaller within a porch or backyard party setup, pale negative space above and tidy dessert details below.",
+    "Close dotted keepsake: waist-up subject grouping with blush, sky blue and butter-yellow polka-dot accents, soft flowers and crisp catchlights.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
