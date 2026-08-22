@@ -25,7 +25,7 @@ if (!args.userId && !args.email && !args.customerId) {
 }
 
 const stripe = new Stripe(stripeKey, {
-  apiVersion: "2026-04-22.dahlia",
+  apiVersion: "2026-07-29.dahlia",
   typescript: true,
 });
 const db = postgres(databaseUrl, {

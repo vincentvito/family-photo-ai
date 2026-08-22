@@ -27,6 +27,12 @@ async function ensureOwnedImage(userId: string, imageId: string) {
   return row.image;
 }
 
+export async function readOwnedSourceImage(userId: string, imageId: string): Promise<Buffer> {
+  const image = await ensureOwnedImage(userId, imageId);
+  const sourceKey = `generations/${image.generationId}/${image.fileName}`;
+  return readStoredImage(sourceKey);
+}
+
 const pendingUpscales = new Map<string, Promise<{ key: string }>>();
 
 export async function upscaleImage(input: {

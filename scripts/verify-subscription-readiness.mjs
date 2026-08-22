@@ -38,7 +38,7 @@ record(
 let stripe = null;
 if (process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2026-04-22.dahlia",
+    apiVersion: "2026-07-29.dahlia",
     typescript: true,
   });
 }

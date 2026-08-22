@@ -26,7 +26,7 @@ if (!secretKey) {
 }
 
 const stripe = new Stripe(secretKey, {
-  apiVersion: "2026-04-22.dahlia",
+  apiVersion: "2026-07-29.dahlia",
   typescript: true,
 });
 

@@ -45,6 +45,21 @@ export type PlatformStats = {
   images: { total: number };
 };
 
+export type TrendPoint = {
+  key: string;
+  label: string;
+  value: number;
+};
+
+export type SignupTrends = {
+  weekly: TrendPoint[];
+  monthly: TrendPoint[];
+  thisWeek: number;
+  previousWeek: number;
+  thisMonth: number;
+  previousMonth: number;
+};
+
 export type PackageSalesStats = {
   totals: {
     packagesSold: number;
@@ -198,6 +213,87 @@ export async function getPlatformStats(): Promise<PlatformStats> {
     },
     images: { total: totalImages },
   };
+}
+
+export async function getSignupTrends(now = new Date()): Promise<SignupTrends> {
+  const weekly = buildWeekPeriods(now, 12);
+  const monthly = buildMonthPeriods(now, 12);
+  const earliest = new Date(Math.min(weekly[0].start.getTime(), monthly[0].start.getTime()));
+  const rows = await db
+    .select({ createdAt: userTable.createdAt })
+    .from(userTable)
+    .where(gte(userTable.createdAt, earliest));
+
+  const weeklyCounts = new Map(weekly.map((period) => [period.key, 0]));
+  const monthlyCounts = new Map(monthly.map((period) => [period.key, 0]));
+
+  for (const row of rows) {
+    const date = new Date(row.createdAt);
+    const weekKey = dateKey(startOfUtcWeek(date));
+    const monthKey = monthDateKey(date);
+    if (weeklyCounts.has(weekKey)) weeklyCounts.set(weekKey, (weeklyCounts.get(weekKey) ?? 0) + 1);
+    if (monthlyCounts.has(monthKey)) {
+      monthlyCounts.set(monthKey, (monthlyCounts.get(monthKey) ?? 0) + 1);
+    }
+  }
+
+  const weeklyPoints = weekly.map((period) => ({
+    key: period.key,
+    label: period.start.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+    value: weeklyCounts.get(period.key) ?? 0,
+  }));
+  const monthlyPoints = monthly.map((period) => ({
+    key: period.key,
+    label: period.start.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }),
+    value: monthlyCounts.get(period.key) ?? 0,
+  }));
+
+  return {
+    weekly: weeklyPoints,
+    monthly: monthlyPoints,
+    thisWeek: weeklyPoints.at(-1)?.value ?? 0,
+    previousWeek: weeklyPoints.at(-2)?.value ?? 0,
+    thisMonth: monthlyPoints.at(-1)?.value ?? 0,
+    previousMonth: monthlyPoints.at(-2)?.value ?? 0,
+  };
+}
+
+function buildWeekPeriods(now: Date, count: number) {
+  const current = startOfUtcWeek(now);
+  return Array.from({ length: count }, (_, index) => {
+    const start = new Date(current);
+    start.setUTCDate(start.getUTCDate() - (count - index - 1) * 7);
+    return { key: dateKey(start), start };
+  });
+}
+
+function buildMonthPeriods(now: Date, count: number) {
+  const current = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  return Array.from({ length: count }, (_, index) => {
+    const start = new Date(
+      Date.UTC(current.getUTCFullYear(), current.getUTCMonth() - (count - index - 1), 1),
+    );
+    return { key: monthDateKey(start), start };
+  });
+}
+
+function startOfUtcWeek(date: Date) {
+  const start = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const daysSinceMonday = (start.getUTCDay() + 6) % 7;
+  start.setUTCDate(start.getUTCDate() - daysSinceMonday);
+  return start;
+}
+
+function dateKey(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function monthDateKey(date: Date) {
+  return date.toISOString().slice(0, 7);
 }
 
 export async function getPreviewFunnelStats(limit = 8): Promise<PreviewFunnelStats> {

@@ -67,6 +67,7 @@ export async function POST(req: Request) {
     email: session.user.email,
   });
   const checkout = await stripe.checkout.sessions.create({
+    integration_identifier: "familyshoot-credits-kqmxvtda",
     mode: "payment",
     customer: customerId,
     line_items: [{ price: priceId, quantity: 1 }],
@@ -148,6 +149,7 @@ async function createProCheckout({
   const priceId = getProPlanPriceId();
   const customerId = await getOrCreateStripeCustomer({ userId, email });
   const checkout = await stripe.checkout.sessions.create({
+    integration_identifier: "familyshoot-pro-hjrwpxnc",
     mode: "subscription",
     customer: customerId,
     line_items: [{ price: priceId, quantity: 1 }],

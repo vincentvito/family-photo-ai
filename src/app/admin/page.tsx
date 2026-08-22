@@ -10,22 +10,31 @@ import {
   getPlatformStats,
   getPreviewFunnelStats,
   getRecentGenerations,
+  getSignupTrends,
   getThemeRanking,
   getUsersPage,
 } from "@/lib/admin-queries";
+import { getStripeSalesAnalytics } from "@/lib/stripe-admin-analytics";
+import {
+  AnalyticsMetric,
+  AnalyticsTrendPanel,
+  TrendDelta,
+} from "@/components/admin/AnalyticsPrimitives";
 import DefaultModelPicker from "./DefaultModelPicker";
 import CreditGrantForm from "./CreditGrantForm";
 import UserAdminRoleButton from "./UserAdminRoleButton";
 import ImpersonateButton from "./ImpersonateButton";
+import TrendChart from "./TrendChart";
 
 export const dynamic = "force-dynamic";
 
 const ADMIN_TABS = [
-  { id: "overview", label: "Overview", description: "Health and runtime controls." },
+  { id: "overview", label: "Overview", description: "Growth, sales, and platform health." },
   { id: "previews", label: "Previews", description: "Free-preview funnel." },
   { id: "billing", label: "Billing", description: "Credits, sales, and grants." },
   { id: "content", label: "Content", description: "Themes and recent photoshoots." },
   { id: "users", label: "Users", description: "Recent signups." },
+  { id: "settings", label: "Settings", description: "Generation defaults." },
 ] as const;
 const ROLE_MANAGER_EMAILS = new Set(["vlad.palacio@gmail.com"]);
 
@@ -73,7 +82,7 @@ export default async function AdminOverviewPage({
   return (
     <div className="space-y-10">
       <section>
-        <h1 className="serif text-3xl tracking-[-0.025em]">Overview</h1>
+        <h1 className="serif text-3xl tracking-[-0.025em]">{activeMeta.label}</h1>
         <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">{activeMeta.description}</p>
         <AdminTabs activeTab={activeTab} />
       </section>
@@ -83,6 +92,7 @@ export default async function AdminOverviewPage({
       {activeTab === "billing" && <BillingTab />}
       {activeTab === "content" && <ContentTab />}
       {activeTab === "users" && <UsersTab pageParam={params?.page} queryParam={params?.q} />}
+      {activeTab === "settings" && <SettingsTab />}
     </div>
   );
 }
@@ -123,18 +133,46 @@ function OverviewTab() {
         </Suspense>
       </section>
 
-      <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
-        <h2 className="serif text-xl tracking-[-0.02em]">Default model</h2>
-        <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
-          What everyone runs on unless an admin overrides per-shoot.
-        </p>
-        <div className="mt-5">
-          <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
-            <DefaultModelSection />
+      <section>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="small-caps text-[color:var(--color-coral-deep)]">Growth and sales</p>
+            <h2 className="serif mt-1 text-2xl tracking-[-0.025em]">Momentum at a glance</h2>
+          </div>
+          <p className="max-w-md text-sm text-[color:var(--color-ink-muted)]">
+            Calendar periods use UTC. Sales come directly from the Stripe balance ledger.
+          </p>
+        </div>
+        <div className="mt-5 space-y-5">
+          <Suspense fallback={<AnalyticsChartsSkeleton />}>
+            <SignupTrendsSection />
+          </Suspense>
+          <Suspense fallback={<StripeSalesSkeleton />}>
+            <StripeSalesSection />
           </Suspense>
         </div>
       </section>
     </div>
+  );
+}
+
+function SettingsTab() {
+  return (
+    <section className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
+      <div className="max-w-2xl">
+        <p className="small-caps text-[color:var(--color-coral-deep)]">Image generation</p>
+        <h2 className="serif mt-1 text-2xl tracking-[-0.02em]">Default model</h2>
+        <p className="mt-2 text-sm leading-6 text-[color:var(--color-ink-muted)]">
+          Choose the model used for new photoshoots. An admin can still select a different model for
+          an individual shoot.
+        </p>
+        <div className="mt-6">
+          <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
+            <DefaultModelSection />
+          </Suspense>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -626,6 +664,89 @@ async function StatsCards() {
   );
 }
 
+async function SignupTrendsSection() {
+  const trends = await getSignupTrends();
+  return (
+    <div className="grid gap-5 xl:grid-cols-2">
+      <AnalyticsTrendPanel
+        eyebrow="Weekly signups"
+        value={trends.thisWeek}
+        previous={trends.previousWeek}
+        comparison="vs previous week"
+      >
+        <TrendChart title="Weekly signups over 12 weeks" points={trends.weekly} color="coral" />
+      </AnalyticsTrendPanel>
+      <AnalyticsTrendPanel
+        eyebrow="Monthly signups"
+        value={trends.thisMonth}
+        previous={trends.previousMonth}
+        comparison="vs previous month"
+      >
+        <TrendChart title="Monthly signups over 12 months" points={trends.monthly} color="sage" />
+      </AnalyticsTrendPanel>
+    </div>
+  );
+}
+
+async function StripeSalesSection() {
+  const sales = await getStripeSalesAnalytics();
+  if (!sales.available) {
+    return (
+      <div className="panel-butter p-6">
+        <h3 className="serif text-xl">Stripe sales are not connected</h3>
+        <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">{sales.message}</p>
+      </div>
+    );
+  }
+
+  return (
+    <article className="dark-surface overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line-dark)] px-5 py-6 shadow-[var(--shadow-md)] sm:px-7">
+      <div className="flex flex-wrap items-start justify-between gap-5">
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="small-caps text-[color:var(--color-plum-soft)]">Actual Stripe sales</p>
+            <span className={sales.mode === "live" ? "chip chip-sage" : "chip chip-butter"}>
+              <span className={sales.mode === "live" ? "dot dot-sage" : "dot dot-butter"} />
+              {sales.mode === "live" ? "Live data" : "Test data"}
+            </span>
+          </div>
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <span className="text-4xl font-semibold tabular-nums tracking-[-0.035em]">
+              {formatMoney(sales.thisMonthCents)}
+            </span>
+            <TrendDelta
+              current={sales.thisMonthCents}
+              previous={sales.previousMonthCents}
+              label="vs previous month"
+              dark
+            />
+          </div>
+          <p className="mt-1 text-sm text-[color:var(--color-plum-soft)]">Net sales this month</p>
+        </div>
+        <div className="grid grid-cols-2 gap-x-7 gap-y-4 sm:grid-cols-4">
+          <AnalyticsMetric label="This week" value={formatMoney(sales.thisWeekCents)} />
+          <AnalyticsMetric label="12-week sales" value={formatMoney(sales.totals.netSalesCents)} />
+          <AnalyticsMetric label="Refunds" value={formatMoney(sales.totals.refundsCents)} />
+          <AnalyticsMetric label="After fees" value={formatMoney(sales.totals.netAfterFeesCents)} />
+        </div>
+      </div>
+      <div className="mt-7 border-t border-[color:var(--color-line-dark)] pt-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[color:var(--color-plum-soft)]">
+          <span>{sales.totals.salesCount.toLocaleString()} successful sales in this window</span>
+          <span>USD · refunds removed · Stripe fees shown separately</span>
+        </div>
+        <TrendChart
+          title="Stripe net sales over 12 weeks"
+          points={sales.weekly}
+          color="butter"
+          dark
+          valueFormat="currency"
+        />
+      </div>
+    </article>
+  );
+}
+
 async function DefaultModelSection() {
   const defaultModel = await getDefaultModel();
   return <DefaultModelPicker initial={defaultModel} />;
@@ -895,6 +1016,25 @@ function StatsSkeleton() {
         />
       ))}
     </div>
+  );
+}
+
+function AnalyticsChartsSkeleton() {
+  return (
+    <div className="grid gap-5 xl:grid-cols-2">
+      {Array.from({ length: 2 }).map((_, index) => (
+        <div
+          key={index}
+          className="developing h-80 rounded-[var(--radius-xl)] border border-[color:var(--color-line)]"
+        />
+      ))}
+    </div>
+  );
+}
+
+function StripeSalesSkeleton() {
+  return (
+    <div className="h-96 rounded-[var(--radius-xl)] bg-[color:var(--color-bg-dark)] opacity-90" />
   );
 }
 
