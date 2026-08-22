@@ -8,7 +8,7 @@ export type StripeSalesAnalytics =
   | {
       available: true;
       mode: "live" | "test";
-      currency: "USD";
+      currency: string;
       weekly: StripeSalesPoint[];
       totals: {
         grossCents: number;
@@ -50,10 +50,13 @@ export async function getStripeSalesAnalytics(now = new Date()): Promise<StripeS
 
   try {
     const { stripe } = await import("@/lib/stripe");
+    const account = await stripe.account.retrieveCurrent();
+    const currency = account.default_currency?.toLowerCase();
+    if (!currency) throw new Error("Stripe account has no default currency.");
     const transactions = await stripe.balanceTransactions
       .list({
         created: { gte: Math.floor(queryStart.getTime() / 1000) },
-        currency: "usd",
+        currency,
         limit: 100,
       })
       .autoPagingToArray({ limit: 10_000 });
@@ -86,7 +89,7 @@ export async function getStripeSalesAnalytics(now = new Date()): Promise<StripeS
     return {
       available: true,
       mode: secretKey.includes("_live_") ? "live" : "test",
-      currency: "USD",
+      currency,
       weekly,
       totals,
       thisWeekCents: periodNetSales(salesTransactions, currentWeek.start, currentWeek.end),

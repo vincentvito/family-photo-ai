@@ -17,12 +17,7 @@ type TrendChartPoint = {
 };
 
 const NUMBER_FORMAT = new Intl.NumberFormat("en-US");
-const COMPACT_USD_FORMAT = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  notation: "compact",
-  maximumFractionDigits: 1,
-});
+const COMPACT_CURRENCY_FORMATTERS = new Map<string, Intl.NumberFormat>();
 
 export default function TrendChart({
   title,
@@ -30,12 +25,14 @@ export default function TrendChart({
   color,
   dark = false,
   valueFormat = "number",
+  currency = "USD",
 }: {
   title: string;
   points: TrendChartPoint[];
   color: "coral" | "sage" | "butter";
   dark?: boolean;
   valueFormat?: "number" | "currency";
+  currency?: string;
 }) {
   const colors = {
     coral: { line: "var(--color-coral)", fill: "var(--color-coral-soft)" },
@@ -44,7 +41,10 @@ export default function TrendChart({
   }[color];
   const gridColor = dark ? "var(--color-line-dark)" : "var(--color-line)";
   const labelColor = dark ? "var(--color-plum-soft)" : "var(--color-ink-muted)";
-  const formatValue = valueFormat === "currency" ? formatCompactMoney : formatNumber;
+  const formatValue =
+    valueFormat === "currency"
+      ? (value: number) => formatCompactMoney(value, currency)
+      : formatNumber;
   const metricName = valueFormat === "currency" ? "Sales" : "Signups";
 
   return (
@@ -113,6 +113,17 @@ function formatNumber(value: number) {
   return NUMBER_FORMAT.format(value);
 }
 
-function formatCompactMoney(cents: number) {
-  return COMPACT_USD_FORMAT.format(cents / 100);
+function formatCompactMoney(cents: number, currency: string) {
+  const normalizedCurrency = currency.toUpperCase();
+  let formatter = COMPACT_CURRENCY_FORMATTERS.get(normalizedCurrency);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: normalizedCurrency,
+      notation: "compact",
+      maximumFractionDigits: 1,
+    });
+    COMPACT_CURRENCY_FORMATTERS.set(normalizedCurrency, formatter);
+  }
+  return formatter.format(cents / 100);
 }

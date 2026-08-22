@@ -66,6 +66,14 @@ function formatMoney(cents: number) {
   return (cents % 100 === 0 ? MONEY_WHOLE : MONEY_CENTS).format(cents / 100);
 }
 
+function formatStripeMoney(cents: number, currency: string) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    maximumFractionDigits: cents % 100 === 0 ? 0 : 2,
+  }).format(cents / 100);
+}
+
 function resolveTab(value: string | undefined): AdminTab {
   return ADMIN_TABS.some((tab) => tab.id === value) ? (value as AdminTab) : "overview";
 }
@@ -712,7 +720,7 @@ async function StripeSalesSection() {
           </div>
           <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <span className="text-4xl font-semibold tabular-nums tracking-[-0.035em]">
-              {formatMoney(sales.thisMonthCents)}
+              {formatStripeMoney(sales.thisMonthCents, sales.currency)}
             </span>
             <TrendDelta
               current={sales.thisMonthCents}
@@ -724,16 +732,30 @@ async function StripeSalesSection() {
           <p className="mt-1 text-sm text-[color:var(--color-plum-soft)]">Net sales this month</p>
         </div>
         <div className="grid grid-cols-2 gap-x-7 gap-y-4 sm:grid-cols-4">
-          <AnalyticsMetric label="This week" value={formatMoney(sales.thisWeekCents)} />
-          <AnalyticsMetric label="12-week sales" value={formatMoney(sales.totals.netSalesCents)} />
-          <AnalyticsMetric label="Refunds" value={formatMoney(sales.totals.refundsCents)} />
-          <AnalyticsMetric label="After fees" value={formatMoney(sales.totals.netAfterFeesCents)} />
+          <AnalyticsMetric
+            label="This week"
+            value={formatStripeMoney(sales.thisWeekCents, sales.currency)}
+          />
+          <AnalyticsMetric
+            label="12-week sales"
+            value={formatStripeMoney(sales.totals.netSalesCents, sales.currency)}
+          />
+          <AnalyticsMetric
+            label="Refunds"
+            value={formatStripeMoney(sales.totals.refundsCents, sales.currency)}
+          />
+          <AnalyticsMetric
+            label="After fees"
+            value={formatStripeMoney(sales.totals.netAfterFeesCents, sales.currency)}
+          />
         </div>
       </div>
       <div className="mt-7 border-t border-[color:var(--color-line-dark)] pt-5">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[color:var(--color-plum-soft)]">
           <span>{sales.totals.salesCount.toLocaleString()} successful sales in this window</span>
-          <span>USD · refunds removed · Stripe fees shown separately</span>
+          <span>
+            {sales.currency.toUpperCase()} · refunds removed · Stripe fees shown separately
+          </span>
         </div>
         <TrendChart
           title="Stripe net sales over 12 weeks"
@@ -741,6 +763,7 @@ async function StripeSalesSection() {
           color="butter"
           dark
           valueFormat="currency"
+          currency={sales.currency}
         />
       </div>
     </article>
