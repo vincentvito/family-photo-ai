@@ -74,6 +74,10 @@ function formatStripeMoney(cents: number, currency: string) {
   }).format(cents / 100);
 }
 
+function formatSalesCount(count: number) {
+  return `${count.toLocaleString()} ${count === 1 ? "sale" : "sales"}`;
+}
+
 function resolveTab(value: string | undefined): AdminTab {
   return ADMIN_TABS.some((tab) => tab.id === value) ? (value as AdminTab) : "overview";
 }
@@ -88,7 +92,7 @@ export default async function AdminOverviewPage({
   const activeMeta = ADMIN_TABS.find((tab) => tab.id === activeTab) ?? ADMIN_TABS[0];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-7">
       <section>
         <h1 className="serif text-3xl tracking-[-0.025em]">{activeMeta.label}</h1>
         <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">{activeMeta.description}</p>
@@ -134,7 +138,7 @@ function AdminTabs({ activeTab }: { activeTab: AdminTab }) {
 
 function OverviewTab() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-7">
       <section>
         <Suspense fallback={<StatsSkeleton />}>
           <StatsCards />
@@ -142,21 +146,21 @@ function OverviewTab() {
       </section>
 
       <section>
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
             <p className="small-caps text-[color:var(--color-coral-deep)]">Growth and sales</p>
             <h2 className="serif mt-1 text-2xl tracking-[-0.025em]">Momentum at a glance</h2>
           </div>
-          <p className="max-w-md text-sm text-[color:var(--color-ink-muted)]">
-            Calendar periods use UTC. Sales come directly from the Stripe balance ledger.
+          <p className="text-xs text-[color:var(--color-ink-muted)]">
+            UTC periods · live Stripe balance ledger
           </p>
         </div>
-        <div className="mt-5 space-y-5">
-          <Suspense fallback={<AnalyticsChartsSkeleton />}>
-            <SignupTrendsSection />
-          </Suspense>
+        <div className="mt-4 space-y-4">
           <Suspense fallback={<StripeSalesSkeleton />}>
             <StripeSalesSection />
+          </Suspense>
+          <Suspense fallback={<AnalyticsChartsSkeleton />}>
+            <SignupTrendsSection />
           </Suspense>
         </div>
       </section>
@@ -655,17 +659,21 @@ async function StatsCards() {
   ];
 
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
       {cards.map((c) => (
         <div
           key={c.label}
-          className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]"
+          className="min-h-24 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-4 py-3.5 shadow-[var(--shadow-sm)]"
         >
           <div className="small-caps text-[color:var(--color-ink-muted)]">{c.label}</div>
-          <div className="mt-3 text-3xl font-semibold tabular-nums tracking-tight">
+          <div className="mt-1.5 text-2xl font-semibold tabular-nums tracking-tight">
             {c.value.toLocaleString()}
           </div>
-          {c.sub && <p className="mt-1 text-xs text-[color:var(--color-ink-muted)]">{c.sub}</p>}
+          {c.sub && (
+            <p className="mt-0.5 text-[0.7rem] leading-4 text-[color:var(--color-ink-muted)]">
+              {c.sub}
+            </p>
+          )}
         </div>
       ))}
     </div>
@@ -675,7 +683,7 @@ async function StatsCards() {
 async function SignupTrendsSection() {
   const trends = await getSignupTrends();
   return (
-    <div className="grid gap-5 xl:grid-cols-2">
+    <div className="grid gap-4 xl:grid-cols-2">
       <AnalyticsTrendPanel
         eyebrow="Weekly signups"
         value={trends.thisWeek}
@@ -708,8 +716,8 @@ async function StripeSalesSection() {
   }
 
   return (
-    <article className="dark-surface overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line-dark)] px-5 py-6 shadow-[var(--shadow-md)] sm:px-7">
-      <div className="flex flex-wrap items-start justify-between gap-5">
+    <article className="dark-surface overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line-dark)] px-5 py-5 shadow-[var(--shadow-md)] sm:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <p className="small-caps text-[color:var(--color-plum-soft)]">Actual Stripe sales</p>
@@ -718,8 +726,8 @@ async function StripeSalesSection() {
               {sales.mode === "live" ? "Live data" : "Test data"}
             </span>
           </div>
-          <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <span className="text-4xl font-semibold tabular-nums tracking-[-0.035em]">
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <span className="text-3xl font-semibold tabular-nums tracking-[-0.035em] sm:text-4xl">
               {formatStripeMoney(sales.thisMonthCents, sales.currency)}
             </span>
             <TrendDelta
@@ -729,16 +737,20 @@ async function StripeSalesSection() {
               dark
             />
           </div>
-          <p className="mt-1 text-sm text-[color:var(--color-plum-soft)]">Net sales this month</p>
+          <p className="mt-1 text-sm text-[color:var(--color-plum-soft)]">
+            Net sales this month · {formatSalesCount(sales.thisMonthSalesCount)}
+          </p>
         </div>
-        <div className="grid grid-cols-2 gap-x-7 gap-y-4 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
           <AnalyticsMetric
             label="This week"
             value={formatStripeMoney(sales.thisWeekCents, sales.currency)}
+            detail={formatSalesCount(sales.thisWeekSalesCount)}
           />
           <AnalyticsMetric
             label="12-week sales"
             value={formatStripeMoney(sales.totals.netSalesCents, sales.currency)}
+            detail={formatSalesCount(sales.totals.salesCount)}
           />
           <AnalyticsMetric
             label="Refunds"
@@ -750,7 +762,7 @@ async function StripeSalesSection() {
           />
         </div>
       </div>
-      <div className="mt-7 border-t border-[color:var(--color-line-dark)] pt-5">
+      <div className="mt-5 border-t border-[color:var(--color-line-dark)] pt-4">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[color:var(--color-plum-soft)]">
           <span>{sales.totals.salesCount.toLocaleString()} successful sales in this window</span>
           <span>
@@ -1031,11 +1043,11 @@ async function CustomVibesList() {
 
 function StatsSkeleton() {
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
       {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
-          className="h-28 rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/40"
+          className="h-24 rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/40"
         />
       ))}
     </div>
@@ -1044,11 +1056,11 @@ function StatsSkeleton() {
 
 function AnalyticsChartsSkeleton() {
   return (
-    <div className="grid gap-5 xl:grid-cols-2">
+    <div className="grid gap-4 xl:grid-cols-2">
       {Array.from({ length: 2 }).map((_, index) => (
         <div
           key={index}
-          className="developing h-80 rounded-[var(--radius-xl)] border border-[color:var(--color-line)]"
+          className="developing h-64 rounded-[var(--radius-xl)] border border-[color:var(--color-line)]"
         />
       ))}
     </div>
@@ -1057,7 +1069,7 @@ function AnalyticsChartsSkeleton() {
 
 function StripeSalesSkeleton() {
   return (
-    <div className="h-96 rounded-[var(--radius-xl)] bg-[color:var(--color-bg-dark)] opacity-90" />
+    <div className="h-80 rounded-[var(--radius-xl)] bg-[color:var(--color-bg-dark)] opacity-90" />
   );
 }
 

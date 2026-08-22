@@ -19,8 +19,10 @@ export type StripeSalesAnalytics =
         salesCount: number;
       };
       thisWeekCents: number;
+      thisWeekSalesCount: number;
       previousWeekCents: number;
       thisMonthCents: number;
+      thisMonthSalesCount: number;
       previousMonthCents: number;
     }
   | {
@@ -85,6 +87,14 @@ export async function getStripeSalesAnalytics(now = new Date()): Promise<StripeS
     const previousWeek = weeks.at(-2)!;
     const currentMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
     const nextMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+    const currentWeekSales = periodSales(salesTransactions, currentWeek.start, currentWeek.end);
+    const previousWeekSales = periodSales(salesTransactions, previousWeek.start, previousWeek.end);
+    const currentMonthSales = periodSales(salesTransactions, currentMonthStart, nextMonthStart);
+    const previousMonthSales = periodSales(
+      salesTransactions,
+      previousMonthStart,
+      currentMonthStart,
+    );
 
     return {
       available: true,
@@ -92,10 +102,12 @@ export async function getStripeSalesAnalytics(now = new Date()): Promise<StripeS
       currency,
       weekly,
       totals,
-      thisWeekCents: periodNetSales(salesTransactions, currentWeek.start, currentWeek.end),
-      previousWeekCents: periodNetSales(salesTransactions, previousWeek.start, previousWeek.end),
-      thisMonthCents: periodNetSales(salesTransactions, currentMonthStart, nextMonthStart),
-      previousMonthCents: periodNetSales(salesTransactions, previousMonthStart, currentMonthStart),
+      thisWeekCents: currentWeekSales.netSalesCents,
+      thisWeekSalesCount: currentWeekSales.salesCount,
+      previousWeekCents: previousWeekSales.netSalesCents,
+      thisMonthCents: currentMonthSales.netSalesCents,
+      thisMonthSalesCount: currentMonthSales.salesCount,
+      previousMonthCents: previousMonthSales.netSalesCents,
     };
   } catch (error) {
     console.error("Stripe admin analytics failed", error);
@@ -137,7 +149,7 @@ function accumulate(
   return result;
 }
 
-function periodNetSales(
+function periodSales(
   transactions: Array<{
     amount: number;
     fee: number;
@@ -153,7 +165,7 @@ function periodNetSales(
       const created = transaction.created * 1000;
       return created >= start.getTime() && created < end.getTime();
     }),
-  ).netSalesCents;
+  );
 }
 
 function buildWeekPeriods(now: Date, count: number) {

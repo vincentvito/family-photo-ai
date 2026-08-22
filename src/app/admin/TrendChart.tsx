@@ -48,7 +48,7 @@ export default function TrendChart({
   const metricName = valueFormat === "currency" ? "Sales" : "Signups";
 
   return (
-    <div className="mt-5 h-[230px] w-full" role="img" aria-label={title}>
+    <div className="mt-3 h-[190px] w-full" role="img" aria-label={title}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={points}
@@ -70,7 +70,7 @@ export default function TrendChart({
             tickLine={false}
             tick={{ fill: labelColor, fontSize: 11 }}
             tickFormatter={formatValue}
-            width={46}
+            width={valueFormat === "currency" ? 68 : 46}
           />
           <Tooltip
             cursor={{ stroke: gridColor, strokeDasharray: "3 5" }}

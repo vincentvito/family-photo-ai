@@ -14,11 +14,11 @@ export function AnalyticsTrendPanel({
   children: React.ReactNode;
 }) {
   return (
-    <article className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-5 pt-5 pb-3 shadow-[var(--shadow-sm)] sm:px-6">
+    <article className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-5 pt-4 pb-2 shadow-[var(--shadow-sm)]">
       <div className="flex items-end justify-between gap-4">
         <div>
           <div className="small-caps text-[color:var(--color-ink-muted)]">{eyebrow}</div>
-          <div className="mt-2 text-4xl font-semibold tabular-nums tracking-[-0.035em]">
+          <div className="mt-1.5 text-3xl font-semibold tabular-nums tracking-[-0.035em]">
             {value.toLocaleString()}
           </div>
         </div>
@@ -29,7 +29,15 @@ export function AnalyticsTrendPanel({
   );
 }
 
-export function AnalyticsMetric({ label, value }: { label: string; value: string }) {
+export function AnalyticsMetric({
+  label,
+  value,
+  detail,
+}: {
+  label: string;
+  value: string;
+  detail?: string;
+}) {
   return (
     <div>
       <div className="text-[0.68rem] font-semibold tracking-[0.12em] text-[color:var(--color-plum-soft)] uppercase">
@@ -38,6 +46,11 @@ export function AnalyticsMetric({ label, value }: { label: string; value: string
       <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--color-bg)]">
         {value}
       </div>
+      {detail && (
+        <div className="mt-0.5 text-[0.68rem] tabular-nums text-[color:var(--color-plum-soft)]">
+          {detail}
+        </div>
+      )}
     </div>
   );
 }
