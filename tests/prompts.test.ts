@@ -209,6 +209,12 @@ const WEEKLY_TREND_THEME_IDS = [
   "poetcore-family-library-portrait",
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "back-to-school-storybook-morning",
+  "tiny-boo-crew",
+  "vintage-pumpkin-patch-postcard",
+  "editorial-jewel-tone-fall-portrait",
+  "dino-explorer-family-adventure",
+  "golden-late-summer-beach-legacy",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -231,6 +237,12 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "poetcore-family-library-photos",
   "neo-deco-celebration-card-family-photos",
   "crochet-raffia-picnic-card-family-photos",
+  "back-to-school-storybook-morning-family-photos",
+  "tiny-boo-crew-family-photos",
+  "vintage-pumpkin-patch-postcard-family-photos",
+  "editorial-jewel-tone-fall-portrait-family-photos",
+  "dino-explorer-family-adventure-family-photos",
+  "golden-late-summer-beach-legacy-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -240,6 +252,18 @@ const NEW_WEEKLY_TREND_PAIRS = [
   ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
   ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
   ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+  ["back-to-school-storybook-morning", "back-to-school-storybook-morning-family-photos"],
+  ["tiny-boo-crew", "tiny-boo-crew-family-photos"],
+  ["vintage-pumpkin-patch-postcard", "vintage-pumpkin-patch-postcard-family-photos"],
+  [
+    "editorial-jewel-tone-fall-portrait",
+    "editorial-jewel-tone-fall-portrait-family-photos",
+  ],
+  ["dino-explorer-family-adventure", "dino-explorer-family-adventure-family-photos"],
+  [
+    "golden-late-summer-beach-legacy",
+    "golden-late-summer-beach-legacy-family-photos",
+  ],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -455,6 +479,12 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
     "soccer-team-family",
     "leibovitz-studio",
     "golden-hour-beach",
+    "back-to-school-storybook-morning",
+    "tiny-boo-crew",
+    "vintage-pumpkin-patch-postcard",
+    "editorial-jewel-tone-fall-portrait",
+    "dino-explorer-family-adventure",
+    "golden-late-summer-beach-legacy",
   ];
   const coverImages = new Set<string>();
 
