@@ -185,13 +185,13 @@
         },
         {
           "title": "Yours to keep",
-          "body": "Favorite the images you love, refine anything that is not quite right, then print, frame, or add the result to a card."
+          "body": "Rate the images with thumbs up or down, refine anything that is not quite right, then print, frame, or add the result to a card."
         }
       ],
       "visuals": {
         "uploaded": "3 selfies uploaded",
         "moodboard": "Moodboard locked",
-        "favorite": "Print-ready favorite",
+        "favorite": "Print-ready pick",
         "final": "Final portrait ready"
       }
     },

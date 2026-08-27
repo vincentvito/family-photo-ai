@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { startGeneration } from "@/lib/generate-queries";
 import { isRateLimited } from "@/lib/request-limits";
+import { GenerationProviderError, toPublicGenerationFailure } from "@/lib/generation-errors";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -31,9 +32,10 @@ export async function POST(req: Request) {
     const needsCredits =
       message === "Your free preview is one-time. Add credits before starting another one." ||
       message === "Buy a photo pack before starting a shoot.";
+    const providerFailure = err instanceof GenerationProviderError;
     return NextResponse.json(
-      { error: message, needsCredits },
-      { status: needsCredits ? 402 : 500 },
+      { error: providerFailure ? toPublicGenerationFailure(err) : message, needsCredits },
+      { status: needsCredits ? 402 : providerFailure ? 503 : 500 },
     );
   }
 }

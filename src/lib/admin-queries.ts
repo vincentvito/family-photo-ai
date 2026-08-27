@@ -4,11 +4,16 @@ import { GENERATION_MODEL_IDS, type GenerationModelId } from "@/lib/replicate/mo
 import { formatGiftCode } from "@/lib/gift-code";
 import { PRICING_PACKS, getPricingPack } from "@/lib/pricing-packs";
 import { studioCutoffDate } from "@/lib/retention";
+import { retainedGenerationCondition } from "@/lib/retention-queries";
 import { THEMES } from "@/lib/themes";
+import { CARD_ART_STYLES } from "@/lib/card-art-styles";
 import { user as userTable } from "@/../db/auth-schema";
 
 const SETTINGS_ROW_ID = "default";
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
+const ART_STYLE_BY_ID = new Map<string, (typeof CARD_ART_STYLES)[number]>(
+  CARD_ART_STYLES.map((style) => [style.id, style]),
+);
 
 export async function getDefaultModel(): Promise<GenerationModelId> {
   const [row] = await db
@@ -89,6 +94,36 @@ export type CustomVibeSample = {
   description: string;
   status: "pending" | "done" | "error";
   createdAt: Date;
+};
+
+export type ImageFeedbackStats = {
+  totals: { likes: number; dislikes: number; rated: number; dislikeRate: number };
+  styles: {
+    key: string;
+    themeId: string;
+    themeName: string;
+    category: "photoreal" | "stylized" | "card" | "custom" | "unknown";
+    artStyleId: string | null;
+    artStyleName: string | null;
+    likes: number;
+    dislikes: number;
+    rated: number;
+    dislikeRate: number;
+  }[];
+  recentDislikes: {
+    id: string;
+    generationId: string;
+    themeId: string;
+    themeName: string;
+    artStyleName: string | null;
+    model: string;
+    aspectRatio: string;
+    refineInstruction: string | null;
+    customVibeDescription: string | null;
+    isRefinement: boolean;
+    ratedAt: Date | null;
+    createdAt: Date;
+  }[];
 };
 
 export type CreditGrantStats = {
@@ -711,6 +746,102 @@ export async function getThemeRanking(limit = 20): Promise<ThemeRankingRow[]> {
       lastUsedAt: row.lastUsedAt ? new Date(row.lastUsedAt) : null,
     };
   });
+}
+
+export async function getImageFeedbackStats(recentLimit = 18): Promise<ImageFeedbackStats> {
+  const effectiveThemeId = sql<string>`coalesce(${schema.images.themeId}, ${schema.generations.themeId})`;
+  const [styleRows, recentRows] = await Promise.all([
+    db
+      .select({
+        themeId: effectiveThemeId,
+        artStyleId: schema.images.artStyleId,
+        likes: sql<number>`count(*) filter (where ${schema.images.rating} = 'up')::int`,
+        dislikes: sql<number>`count(*) filter (where ${schema.images.rating} = 'down')::int`,
+        rated: sql<number>`count(${schema.images.rating})::int`,
+      })
+      .from(schema.images)
+      .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+      .where(sql`${schema.images.rating} is not null`)
+      .groupBy(effectiveThemeId, schema.images.artStyleId),
+    db
+      .select({
+        id: schema.images.id,
+        generationId: schema.images.generationId,
+        themeId: effectiveThemeId,
+        artStyleId: schema.images.artStyleId,
+        model: schema.generations.model,
+        aspectRatio: schema.images.aspectRatio,
+        refineInstruction: schema.images.refineInstruction,
+        parentImageId: schema.images.parentImageId,
+        customVibeDescription: schema.generations.customVibeDescription,
+        ratedAt: schema.images.ratedAt,
+        createdAt: schema.images.createdAt,
+      })
+      .from(schema.images)
+      .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+      .where(and(eq(schema.images.rating, "down"), retainedGenerationCondition()))
+      .orderBy(desc(schema.images.ratedAt), desc(schema.images.createdAt))
+      .limit(recentLimit),
+  ]);
+
+  const styles = styleRows
+    .map((row) => {
+      const theme = row.themeId === "custom" ? null : THEME_BY_ID.get(row.themeId);
+      const artStyle = row.artStyleId ? ART_STYLE_BY_ID.get(row.artStyleId) : null;
+      const likes = Number(row.likes ?? 0);
+      const dislikes = Number(row.dislikes ?? 0);
+      const rated = Number(row.rated ?? 0);
+      return {
+        key: `${row.themeId}:${row.artStyleId ?? "default"}`,
+        themeId: row.themeId,
+        themeName: row.themeId === "custom" ? "Custom vibe" : (theme?.name ?? row.themeId),
+        category: (theme?.category ??
+          (row.themeId === "custom"
+            ? "custom"
+            : "unknown")) as ImageFeedbackStats["styles"][number]["category"],
+        artStyleId: row.artStyleId,
+        artStyleName: artStyle?.name ?? (row.artStyleId ? row.artStyleId : null),
+        likes,
+        dislikes,
+        rated,
+        dislikeRate: rated > 0 ? Math.round((dislikes / rated) * 100) : 0,
+      };
+    })
+    .sort((a, b) => b.dislikes - a.dislikes || b.dislikeRate - a.dislikeRate);
+
+  const totals = styles.reduce(
+    (sum, row) => ({
+      likes: sum.likes + row.likes,
+      dislikes: sum.dislikes + row.dislikes,
+      rated: sum.rated + row.rated,
+      dislikeRate: 0,
+    }),
+    { likes: 0, dislikes: 0, rated: 0, dislikeRate: 0 },
+  );
+  totals.dislikeRate = totals.rated > 0 ? Math.round((totals.dislikes / totals.rated) * 100) : 0;
+
+  return {
+    totals,
+    styles,
+    recentDislikes: recentRows.map((row) => {
+      const theme = row.themeId === "custom" ? null : THEME_BY_ID.get(row.themeId);
+      const artStyle = row.artStyleId ? ART_STYLE_BY_ID.get(row.artStyleId) : null;
+      return {
+        id: row.id,
+        generationId: row.generationId,
+        themeId: row.themeId,
+        themeName: row.themeId === "custom" ? "Custom vibe" : (theme?.name ?? row.themeId),
+        artStyleName: artStyle?.name ?? (row.artStyleId ? row.artStyleId : null),
+        model: row.model,
+        aspectRatio: row.aspectRatio,
+        refineInstruction: row.refineInstruction,
+        customVibeDescription: row.customVibeDescription,
+        isRefinement: row.parentImageId !== null,
+        ratedAt: row.ratedAt,
+        createdAt: row.createdAt,
+      };
+    }),
+  };
 }
 
 export async function getCustomVibeSamples(limit = 25): Promise<CustomVibeSample[]> {

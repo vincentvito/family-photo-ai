@@ -7,6 +7,7 @@ import {
   timestamp,
   index,
   uniqueIndex,
+  check,
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
@@ -82,23 +83,37 @@ export const generations = familyphotoai.table(
   ],
 );
 
-export const images = familyphotoai.table("images", {
-  id: id(),
-  generationId: text("generation_id")
-    .notNull()
-    .references(() => generations.id, { onDelete: "cascade" }),
-  fileName: text("file_name").notNull(),
-  width: integer("width").notNull(),
-  height: integer("height").notNull(),
-  aspectRatio: text("aspect_ratio").notNull(),
-  isFavorite: boolean("is_favorite").notNull().default(false),
-  parentImageId: text("parent_image_id"),
-  rootImageId: text("root_image_id"),
-  refineInstruction: text("refine_instruction"),
-  /** Source Replicate prediction ID for variants from the initial fan-out. */
-  replicatePredictionId: text("replicate_prediction_id").unique(),
-  createdAt: createdAt(),
-});
+export const images = familyphotoai.table(
+  "images",
+  {
+    id: id(),
+    generationId: text("generation_id")
+      .notNull()
+      .references(() => generations.id, { onDelete: "cascade" }),
+    fileName: text("file_name").notNull(),
+    width: integer("width").notNull(),
+    height: integer("height").notNull(),
+    aspectRatio: text("aspect_ratio").notNull(),
+    isFavorite: boolean("is_favorite").notNull().default(false),
+    rating: text("rating", { enum: ["up", "down"] }),
+    ratedAt: timestamp("rated_at"),
+    /** Exact vibe used for this output slot. Falls back to the generation vibe on legacy rows. */
+    themeId: text("theme_id"),
+    /** Exact card art treatment used for this output slot, when applicable. */
+    artStyleId: text("art_style_id"),
+    parentImageId: text("parent_image_id"),
+    rootImageId: text("root_image_id"),
+    refineInstruction: text("refine_instruction"),
+    /** Source Replicate prediction ID for variants from the initial fan-out. */
+    replicatePredictionId: text("replicate_prediction_id").unique(),
+    createdAt: createdAt(),
+  },
+  (table) => [
+    check("images_rating_check", sql`${table.rating} is null or ${table.rating} in ('up', 'down')`),
+    index("images_rating_rated_at_idx").on(table.rating, table.ratedAt.desc()),
+    index("images_theme_id_idx").on(table.themeId),
+  ],
+);
 
 export const imageShares = familyphotoai.table(
   "image_shares",
@@ -130,12 +145,16 @@ export const refinementHistory = familyphotoai.table("refinement_history", {
   createdAt: createdAt(),
 });
 
-export const albums = familyphotoai.table("albums", {
-  id: id(),
-  userId: text("user_id").notNull(),
-  name: text("name").notNull().default("My Album"),
-  createdAt: createdAt(),
-});
+export const albums = familyphotoai.table(
+  "albums",
+  {
+    id: id(),
+    userId: text("user_id").notNull(),
+    name: text("name").notNull().default("My Album"),
+    createdAt: createdAt(),
+  },
+  (table) => [uniqueIndex("albums_user_id_unique_idx").on(table.userId)],
+);
 
 /**
  * Singleton row keyed by id="default" holding admin-tunable runtime settings.
@@ -147,16 +166,20 @@ export const appSettings = familyphotoai.table("app_settings", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const albumImages = familyphotoai.table("album_images", {
-  id: id(),
-  albumId: text("album_id")
-    .notNull()
-    .references(() => albums.id, { onDelete: "cascade" }),
-  imageId: text("image_id")
-    .notNull()
-    .references(() => images.id, { onDelete: "cascade" }),
-  addedAt: timestamp("added_at").notNull().defaultNow(),
-});
+export const albumImages = familyphotoai.table(
+  "album_images",
+  {
+    id: id(),
+    albumId: text("album_id")
+      .notNull()
+      .references(() => albums.id, { onDelete: "cascade" }),
+    imageId: text("image_id")
+      .notNull()
+      .references(() => images.id, { onDelete: "cascade" }),
+    addedAt: timestamp("added_at").notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex("album_images_album_image_unique_idx").on(table.albumId, table.imageId)],
+);
 
 export const creditTransactions = familyphotoai.table("credit_transactions", {
   id: id(),

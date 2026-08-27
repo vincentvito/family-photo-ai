@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
+import sharp from "sharp";
 import { db, schema } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth-helpers";
-import { deleteStoredImage, deleteStoredPrefix, readStoredImage } from "@/lib/storage";
+import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
+import {
+  deleteStoredImage,
+  deleteStoredPrefix,
+  isStoredImageMissingError,
+  readStoredImage,
+} from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { addPreviewWatermark } from "@/lib/watermark";
@@ -10,19 +16,24 @@ import { addPreviewWatermark } from "@/lib/watermark";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
   if (!user) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
   const { id } = await params;
+  const admin = await isAdmin();
+  const wantsAdminThumbnail =
+    admin && new URL(req.url).searchParams.get("variant") === "admin-thumbnail";
 
-  const photo = await db
-    .select({ photo: schema.photos })
-    .from(schema.photos)
-    .innerJoin(schema.people, eq(schema.photos.personId, schema.people.id))
-    .where(and(eq(schema.photos.id, id), eq(schema.people.userId, user.id)))
-    .limit(1);
+  const photo = wantsAdminThumbnail
+    ? []
+    : await db
+        .select({ photo: schema.photos })
+        .from(schema.photos)
+        .innerJoin(schema.people, eq(schema.photos.personId, schema.people.id))
+        .where(and(eq(schema.photos.id, id), eq(schema.people.userId, user.id)))
+        .limit(1);
 
   let key: string | null = null;
   let shouldWatermark = false;
@@ -38,7 +49,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       .from(schema.images)
       .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
       .leftJoin(schema.creditUsages, eq(schema.creditUsages.generationId, schema.generations.id))
-      .where(and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)))
+      .where(
+        admin
+          ? eq(schema.images.id, id)
+          : and(eq(schema.images.id, id), eq(schema.generations.userId, user.id)),
+      )
       .limit(1);
     if (image[0]) {
       const { image: storedImage, generation } = image[0];
@@ -54,16 +69,35 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return new NextResponse("Not found", { status: 404 });
   }
 
-  const original = await readStoredImage(key);
-  const data = shouldWatermark ? await addPreviewWatermark(original) : original;
+  let original: Buffer;
+  try {
+    original = await readStoredImage(key);
+  } catch (error) {
+    if (isStoredImageMissingError(error)) {
+      return new NextResponse("Not found", { status: 404 });
+    }
+    console.error(`Failed to read stored image ${id}`, error);
+    return new NextResponse("Image temporarily unavailable", { status: 502 });
+  }
+
+  const displayImage = shouldWatermark ? await addPreviewWatermark(original) : original;
+  const data = wantsAdminThumbnail
+    ? await sharp(displayImage)
+        .rotate()
+        .resize({ width: 640, height: 480, fit: "cover", withoutEnlargement: true })
+        .webp({ quality: 78 })
+        .toBuffer()
+    : displayImage;
   return new NextResponse(data as unknown as BodyInit, {
     headers: {
-      "Content-Type": shouldWatermark
-        ? "image/jpeg"
-        : key.endsWith(".png")
-          ? "image/png"
-          : "image/jpeg",
-      "Cache-Control": "private, no-store",
+      "Content-Type": wantsAdminThumbnail
+        ? "image/webp"
+        : shouldWatermark
+          ? "image/jpeg"
+          : key.endsWith(".png")
+            ? "image/png"
+            : "image/jpeg",
+      "Cache-Control": wantsAdminThumbnail ? "private, max-age=3600" : "private, no-store",
     },
   });
 }

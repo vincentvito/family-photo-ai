@@ -97,8 +97,8 @@ function AlbumTile({ item }: { item: Item }) {
 
       <ConfirmDialog
         open={removeOpen}
-        title="Remove from favorites?"
-        description="This only removes the image from your favorites. The generated image stays in the shoot."
+        title="Remove from album?"
+        description="This removes the thumbs up and takes the image out of your album. The generated image stays in the shoot."
         confirmLabel="Remove"
         cancelLabel="Cancel"
         tone="danger"

@@ -33,7 +33,7 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">
           {state.isPreview
             ? "Four watermarked preview images. Open any image to view it larger, then unlock this exact shoot when it feels right. "
-            : "Four starting images. Open any image to view it larger, or heart your keepers for the album. "}
+            : "Four starting images. Open any image to view it larger, then use thumbs up or down to rate it. Liked images also go to your album. "}
           This shoot stays available for{" "}
           {daysLeft === 1 ? "1 more day" : `${Math.min(daysLeft, retentionDays)} days`}.
         </p>

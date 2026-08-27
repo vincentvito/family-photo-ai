@@ -6,6 +6,7 @@ import {
   getCustomVibeSamples,
   getDefaultModel,
   getGiftCodeSalesStats,
+  getImageFeedbackStats,
   getPackageSalesStats,
   getPlatformStats,
   getPreviewFunnelStats,
@@ -25,6 +26,7 @@ import CreditGrantForm from "./CreditGrantForm";
 import UserAdminRoleButton from "./UserAdminRoleButton";
 import ImpersonateButton from "./ImpersonateButton";
 import TrendChart from "./TrendChart";
+import AdminFeedbackImage from "@/components/admin/AdminFeedbackImage";
 
 export const dynamic = "force-dynamic";
 
@@ -276,6 +278,10 @@ function BillingTab() {
 function ContentTab() {
   return (
     <div className="space-y-10">
+      <Suspense fallback={<FeedbackSkeleton />}>
+        <ImageFeedbackSection />
+      </Suspense>
+
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-6 shadow-[var(--shadow-sm)]">
           <div className="flex items-end justify-between gap-3">
@@ -1006,6 +1012,173 @@ async function ThemeRankingList() {
   );
 }
 
+async function ImageFeedbackSection() {
+  const feedback = await getImageFeedbackStats(18);
+  const metrics = [
+    {
+      label: "Rated images",
+      value: feedback.totals.rated,
+      className:
+        "rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]",
+    },
+    { label: "Thumbs up", value: feedback.totals.likes, className: "panel-sage" },
+    { label: "Thumbs down", value: feedback.totals.dislikes, className: "panel-coral" },
+    {
+      label: "Dislike rate",
+      value: `${feedback.totals.dislikeRate}%`,
+      className: "panel-butter",
+    },
+  ] as const;
+
+  return (
+    <section className="space-y-5">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="small-caps text-[color:var(--color-coral-deep)]">Image feedback</p>
+          <h2 className="serif mt-1 text-2xl tracking-[-0.025em]">What is not working</h2>
+          <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+            Direct ratings from generated and regenerated images.
+          </p>
+        </div>
+        <p className="text-xs text-[color:var(--color-ink-faint)]">
+          A thumbs up also adds the image to the customer album.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+        {metrics.map((metric) => (
+          <div key={metric.label} className={`${metric.className} min-h-24 p-4`}>
+            <div className="small-caps opacity-70">{metric.label}</div>
+            <div className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.035em]">
+              {typeof metric.value === "number" ? metric.value.toLocaleString() : metric.value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {feedback.totals.rated === 0 ? (
+        <div className="rounded-[var(--radius-xl)] border border-dashed border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] p-8 text-center">
+          <h3 className="serif text-xl">No image ratings yet</h3>
+          <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+            Likes and dislikes will appear here after customers rate their images.
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-6 xl:grid-cols-[0.78fr_1.22fr]">
+          <article className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
+            <h3 className="serif text-xl tracking-[-0.02em]">Vibes with dislikes</h3>
+            <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+              Sorted by total thumbs down. Use the rate to compare different rating volumes.
+            </p>
+            <ul className="mt-4 divide-y divide-[color:var(--color-line)]">
+              {feedback.styles.slice(0, 12).map((style) => (
+                <li key={style.key} className="grid grid-cols-[1fr_auto] gap-4 py-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold">{style.themeName}</p>
+                    <p className="mt-0.5 truncate text-xs text-[color:var(--color-ink-muted)]">
+                      {style.artStyleName ?? style.category}
+                    </p>
+                  </div>
+                  <div className="text-right tabular-nums">
+                    <p className="text-sm font-semibold text-[color:var(--color-coral-deep)]">
+                      {style.dislikes} down · {style.dislikeRate}%
+                    </p>
+                    <p className="mt-0.5 text-xs text-[color:var(--color-ink-faint)]">
+                      {style.likes} up · {style.rated} rated
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article className="rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <h3 className="serif text-xl tracking-[-0.02em]">Recent disliked images</h3>
+                <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+                  The newest retained images with a thumbs down.
+                </p>
+              </div>
+              <span className="chip chip-coral">{feedback.recentDislikes.length} shown</span>
+            </div>
+
+            {feedback.recentDislikes.length === 0 ? (
+              <p className="mt-5 text-sm text-[color:var(--color-ink-muted)]">
+                No disliked image files are still available.
+              </p>
+            ) : (
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {feedback.recentDislikes.map((image) => (
+                  <figure
+                    key={image.id}
+                    className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line)] bg-[color:var(--color-bg)]"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--color-line)]/40">
+                      <AdminFeedbackImage
+                        imageId={image.id}
+                        alt={`Disliked ${image.themeName} image`}
+                      />
+                      <span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-[color:var(--color-coral-deep)] text-white shadow-[var(--shadow-sm)]">
+                        <AdminThumbDownIcon />
+                      </span>
+                    </div>
+                    <figcaption className="p-3.5">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold">{image.themeName}</p>
+                          <p className="mt-0.5 truncate text-xs text-[color:var(--color-ink-muted)]">
+                            {image.artStyleName ?? "Default treatment"}
+                          </p>
+                        </div>
+                        <span className="shrink-0 text-xs text-[color:var(--color-ink-faint)]">
+                          {formatRelative(image.ratedAt ?? image.createdAt)}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <span className="chip chip-plum">{image.model}</span>
+                        <span className="chip chip-butter">{image.aspectRatio}</span>
+                        {image.isRefinement && <span className="chip chip-sage">regenerated</span>}
+                      </div>
+                      {(image.refineInstruction || image.customVibeDescription) && (
+                        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[color:var(--color-ink-muted)]">
+                          {image.refineInstruction
+                            ? `Instruction: ${image.refineInstruction}`
+                            : `Custom vibe: ${image.customVibeDescription}`}
+                        </p>
+                      )}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+          </article>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function AdminThumbDownIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="rotate-180"
+    >
+      <path d="M7 10v11H3V10h4Z" />
+      <path d="M7 19h10.4a2 2 0 0 0 1.95-1.55l1.15-5A2 2 0 0 0 18.55 10H14l.8-4.1A2.43 2.43 0 0 0 10.4 4.1L7 10" />
+    </svg>
+  );
+}
+
 async function CustomVibesList() {
   const samples = await getCustomVibeSamples(25);
   if (samples.length === 0) {
@@ -1134,5 +1307,25 @@ function ListSkeleton() {
         </li>
       ))}
     </ul>
+  );
+}
+
+function FeedbackSkeleton() {
+  return (
+    <section>
+      <div className="h-7 w-56 rounded bg-[color:var(--color-line)]/60" />
+      <div className="mt-5 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-24 rounded-[var(--radius-lg)] bg-[color:var(--color-line)]/40"
+          />
+        ))}
+      </div>
+      <div className="mt-6 grid gap-6 xl:grid-cols-[0.78fr_1.22fr]">
+        <div className="h-80 rounded-[var(--radius-xl)] bg-[color:var(--color-line)]/35" />
+        <div className="h-80 rounded-[var(--radius-xl)] bg-[color:var(--color-line)]/35" />
+      </div>
+    </section>
   );
 }

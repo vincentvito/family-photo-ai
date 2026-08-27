@@ -173,6 +173,20 @@ export async function readStoredImage(key: string): Promise<Buffer> {
   return streamToBuffer(res.Body);
 }
 
+export function isStoredImageMissingError(error: unknown): boolean {
+  if (!error || typeof error !== "object") {
+    return /(?:no such key|object missing|not found)/iu.test(String(error ?? ""));
+  }
+  const record = error as Record<string, unknown>;
+  const metadata = record.$metadata as { httpStatusCode?: number } | undefined;
+  return (
+    record.name === "NoSuchKey" ||
+    record.Code === "NoSuchKey" ||
+    metadata?.httpStatusCode === 404 ||
+    /(?:no such key|object missing|not found)/iu.test(String(record.message ?? ""))
+  );
+}
+
 /**
  * True if an R2 object exists at the given key.
  */

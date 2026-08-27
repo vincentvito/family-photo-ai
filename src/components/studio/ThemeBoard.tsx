@@ -128,8 +128,7 @@ export default function ThemeBoard({
   const selectedCardTheme = selectedCardId
     ? (cards.find((theme) => theme.id === selectedCardId) ?? null)
     : null;
-  const selectedCardNeedsAgeText =
-    selectedCardTheme?.id === LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID;
+  const selectedCardNeedsAgeText = selectedCardTheme?.id === LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID;
   const availableShootThemes = useMemo(() => [...photoreal, ...stylized], [photoreal, stylized]);
   const availableShootThemeById = useMemo(
     () => new Map(availableShootThemes.map((theme) => [theme.id, theme])),
@@ -492,7 +491,7 @@ export default function ThemeBoard({
             ? ` We'll fill the remaining ${remainingVibeSlots} ${remainingVibeSlots === 1 ? "slot" : "slots"} with recommended vibes automatically.`
             : " We'll use your 4 selected vibes."
         : "";
-    return `We'll create 4 ${label} (${ratio}) ${noun}.${vibeNote}${previewNote} You can favorite, regenerate, or try another vibe after.${styleNote}`;
+    return `We'll create 4 ${label} (${ratio}) ${noun}.${vibeNote}${previewNote} You can rate, regenerate, or try another vibe after.${styleNote}`;
   })();
 
   return (

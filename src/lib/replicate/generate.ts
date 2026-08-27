@@ -24,7 +24,19 @@ export type PredictionSlot = {
   retries: number;
   basePrompt?: string;
   variationPrompt?: string;
+  themeId?: string;
+  artStyleId?: string;
 };
+
+export function resolvePredictionRetryContext(
+  slot: PredictionSlot,
+  generation: { prompt: string; themeId: string },
+) {
+  return {
+    basePrompt: slot.basePrompt ?? generation.prompt,
+    themeId: slot.themeId ?? generation.themeId,
+  };
+}
 
 type CompositionMode = {
   cropType: string;
@@ -69,7 +81,7 @@ export async function createGenerationPredictions(
         : undefined,
   }));
 
-  const ids = await Promise.all(
+  const results = await Promise.allSettled(
     slotInputs.map((slot, i) =>
       createSinglePrediction({
         modelId: args.modelId,
@@ -81,6 +93,19 @@ export async function createGenerationPredictions(
       }),
     ),
   );
+
+  const rejected = results.find(
+    (result): result is PromiseRejectedResult => result.status === "rejected",
+  );
+  if (rejected) {
+    const createdIds = results.flatMap((result) =>
+      result.status === "fulfilled" ? [result.value] : [],
+    );
+    await Promise.allSettled(createdIds.map((id) => cancelPrediction(id)));
+    throw rejected.reason;
+  }
+
+  const ids = results.map((result) => (result as PromiseFulfilledResult<string>).value);
 
   return {
     slots: ids.map((id, index) => ({
@@ -94,6 +119,11 @@ export async function createGenerationPredictions(
         : {}),
     })),
   };
+}
+
+async function cancelPrediction(predictionId: string): Promise<void> {
+  const client = await getReplicateClient();
+  await client.predictions.cancel(predictionId);
 }
 
 /**

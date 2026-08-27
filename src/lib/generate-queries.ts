@@ -33,6 +33,7 @@ import {
   createSinglePrediction,
   fetchPredictionImage,
   reconcilePrediction,
+  resolvePredictionRetryContext,
   type PredictionSlot,
 } from "@/lib/replicate/generate";
 import {
@@ -53,6 +54,12 @@ import {
 } from "@/lib/billing-queries";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 import { isOwnedLocationReferencePath } from "@/lib/location-reference";
+import {
+  GenerationProviderError,
+  isProviderRateLimitError,
+  publicGenerationErrorMessage,
+  toPublicGenerationFailure,
+} from "@/lib/generation-errors";
 
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
@@ -83,7 +90,9 @@ const CardArtStyleIdSchema = z.enum([...CARD_ART_STYLE_IDS] as [
 ]);
 const CardSlotStyleSchema = z.union([CardArtStyleIdSchema, z.literal("default")]);
 
-async function markGenerationErrorAndRefundCredit(generationId: string, errorMessage: string) {
+async function markGenerationErrorAndRefundCredit(generationId: string, error: unknown) {
+  const errorMessage = toPublicGenerationFailure(error);
+  console.error(`Generation ${generationId} failed`, error);
   await db.transaction(async (tx) => {
     await tx
       .update(schema.generations)
@@ -288,6 +297,8 @@ export async function startGeneration(
   if (isMockModeEnabled()) {
     return startMockGeneration({
       theme,
+      plannedThemes,
+      cardArtStyleIds,
       prompt,
       roster: effectiveRoster,
       input: parsed,
@@ -323,17 +334,20 @@ export async function startGeneration(
     variants: VARIANT_COUNT,
     variationPrompts,
     modelId,
-  }).catch(async (err) => {
-    await markGenerationErrorAndRefundCredit(
-      generation.id,
-      err instanceof Error ? err.message : "Failed to start predictions",
-    );
-    throw err;
+  }).catch(async (error) => {
+    await markGenerationErrorAndRefundCredit(generation.id, error);
+    throw new GenerationProviderError();
   });
+
+  const trackedSlots: PredictionSlot[] = slots.map((slot, index) => ({
+    ...slot,
+    themeId: plannedThemes[index % plannedThemes.length]?.id ?? theme.id,
+    ...(cardArtStyleIds?.[index] ? { artStyleId: cardArtStyleIds[index] } : {}),
+  }));
 
   await db
     .update(schema.generations)
-    .set({ replicatePredictionIds: JSON.stringify(slots) })
+    .set({ replicatePredictionIds: JSON.stringify(trackedSlots) })
     .where(eq(schema.generations.id, generation.id));
 
   return { generationId: generation.id };
@@ -432,10 +446,17 @@ export async function getGenerationState(generationId: string, userId: string) {
     isGenerationUnlocked(generationId, userId),
   ]);
 
+  const currentGeneration = refreshed ?? generation;
   return {
-    generation: refreshed ?? generation,
+    generation: {
+      ...currentGeneration,
+      errorMessage: publicGenerationErrorMessage(
+        currentGeneration.status,
+        currentGeneration.errorMessage,
+      ),
+    },
     images: pickChainHeads(images),
-    isPreview: Boolean((refreshed ?? generation).freePreview) && !isUnlocked,
+    isPreview: Boolean(currentGeneration.freePreview) && !isUnlocked,
   };
 }
 
@@ -509,6 +530,8 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
               height: saved.height,
               aspectRatio: generation.aspectRatio ?? "3:2",
               replicatePredictionId: slot.id,
+              themeId: slot.themeId ?? generation.themeId,
+              artStyleId: slot.artStyleId ?? null,
             })
             .onConflictDoNothing({ target: schema.images.replicatePredictionId });
           completedNow += 1;
@@ -525,9 +548,14 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
           }
         }
         // status === "starting" | "processing": leave for next poll
-      } catch (err) {
+      } catch (error) {
+        if (isProviderRateLimitError(error)) {
+          finalErrors.push(toPublicGenerationFailure(error));
+          console.error(`reconcileGeneration: provider rejected retry for slot ${slot.id}`, error);
+          return;
+        }
         // Network / R2 / db errors don't burn the retry budget — try again next poll.
-        console.warn(`reconcileGeneration: slot ${slot.id} threw, will retry next poll`, err);
+        console.warn(`reconcileGeneration: slot ${slot.id} threw, will retry next poll`, error);
       }
     }),
   );
@@ -550,7 +578,7 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
     } else {
       await markGenerationErrorAndRefundCredit(
         generation.id,
-        finalErrors[0] ?? "All variants failed",
+        finalErrors[0] ?? new Error("All variants failed"),
       );
     }
     revalidatePath(`/studio/generate/${generation.id}`);
@@ -571,13 +599,14 @@ async function retrySlot(
       ? generation.model
       : "gpt-image-2"
   ) as GenerationModelId;
+  const retryContext = resolvePredictionRetryContext(slot, generation);
   return createSinglePrediction({
     modelId,
-    basePrompt: generation.prompt,
+    basePrompt: retryContext.basePrompt,
     variantIndex: slotIndex,
     aspectRatio: (generation.aspectRatio ?? "3:2") as AspectRatio,
     variationPrompt: slot.variationPrompt,
-    variationPrompts: getRetryVariationPrompts(generation.themeId),
+    variationPrompts: getRetryVariationPrompts(retryContext.themeId),
     imageUrls,
   });
 }
@@ -610,6 +639,9 @@ function parseSlots(raw: string | null): PredictionSlot[] {
         if (typeof entry.variationPrompt === "string") {
           slot.variationPrompt = entry.variationPrompt;
         }
+        if (typeof entry.basePrompt === "string") slot.basePrompt = entry.basePrompt;
+        if (typeof entry.themeId === "string") slot.themeId = entry.themeId;
+        if (typeof entry.artStyleId === "string") slot.artStyleId = entry.artStyleId;
         return [slot];
       }
       return [];
@@ -621,6 +653,8 @@ function parseSlots(raw: string | null): PredictionSlot[] {
 
 async function startMockGeneration({
   theme,
+  plannedThemes,
+  cardArtStyleIds,
   prompt,
   roster,
   input,
@@ -628,6 +662,8 @@ async function startMockGeneration({
   modelId,
 }: {
   theme: Theme;
+  plannedThemes: readonly Theme[];
+  cardArtStyleIds: readonly CardArtStyleId[] | null;
   prompt: string;
   roster: Subject[];
   input: z.infer<typeof StartGenerationInput>;
@@ -669,7 +705,7 @@ async function startMockGeneration({
       locationReferencePath: input.locationReferencePath ?? null,
     });
 
-    for (const img of result.images) {
+    for (const [index, img] of result.images.entries()) {
       const saved = await saveGeneratedImage(
         img.buffer,
         generation.id,
@@ -681,6 +717,8 @@ async function startMockGeneration({
         width: img.width ?? saved.width,
         height: img.height ?? saved.height,
         aspectRatio: theme.aspectRatio,
+        themeId: plannedThemes[index % plannedThemes.length]?.id ?? theme.id,
+        artStyleId: cardArtStyleIds?.[index] ?? null,
       });
     }
 
@@ -689,10 +727,7 @@ async function startMockGeneration({
       .set({ status: "done" })
       .where(eq(schema.generations.id, generation.id));
   } catch (err) {
-    await markGenerationErrorAndRefundCredit(
-      generation.id,
-      err instanceof Error ? err.message : "Mock generation failed",
-    );
+    await markGenerationErrorAndRefundCredit(generation.id, err);
     throw err;
   }
 

@@ -7,6 +7,7 @@ import type { getRefineState } from "@/lib/refine-queries";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ExportMenu from "@/components/studio/ExportMenu";
 import ShareButton from "@/components/studio/ShareButton";
+import ImageRatingControl from "@/components/studio/ImageRatingControl";
 
 type State = NonNullable<Awaited<ReturnType<typeof getRefineState>>>;
 type TimelineStep = State["timeline"][number];
@@ -69,12 +70,10 @@ export default function RefineStage({ initialState }: { initialState: State }) {
   const [state, setState] = useState(initialState);
   const [instruction, setInstruction] = useState("");
   const [regenerating, startRegeneration] = useTransition();
-  const [favoritePending, startFavorite] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleteDialogImageId, setDeleteDialogImageId] = useState<string | null>(null);
   const [deletingImageId, setDeletingImageId] = useState<string | null>(null);
-  const [fav, setFav] = useState(state.image.isFavorite);
   const [lightboxImageId, setLightboxImageId] = useState<string | null>(null);
   const router = useRouter();
   const closeLightbox = useCallback(() => setLightboxImageId(null), []);
@@ -99,30 +98,10 @@ export default function RefineStage({ initialState }: { initialState: State }) {
         const next = await fetchRefineState(newId);
         if (next) {
           setState(next);
-          setFav(next.image.isFavorite);
           router.replace(`/studio/refine/${newId}`);
         }
       } catch (e) {
         setError(e instanceof Error ? e.message : "The regeneration did not land.");
-      }
-    });
-  };
-
-  const flipFavorite = () => {
-    startFavorite(async () => {
-      const previous = fav;
-      setFav(!previous);
-      try {
-        const res = await fetch("/api/album/favorite", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ imageId: state.image.id }),
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const body = (await res.json()) as { isFavorite: boolean };
-        setFav(body.isFavorite);
-      } catch {
-        setFav(previous);
       }
     });
   };
@@ -140,7 +119,6 @@ export default function RefineStage({ initialState }: { initialState: State }) {
       const next = await fetchRefineState(nextStateId);
       if (next) {
         setState(next);
-        setFav(next.image.isFavorite);
         router.replace(`/studio/refine/${next.image.id}`);
       } else {
         router.replace(`/studio/refine/${sourceImageId}`);
@@ -205,15 +183,12 @@ export default function RefineStage({ initialState }: { initialState: State }) {
                 {state.refinesUsed} of {state.refinesMax} used - {regenerationsLeft} left
               </span>
             </div>
-            <button
-              type="button"
-              onClick={flipFavorite}
-              disabled={favoritePending}
-              className={`btn btn-sm ${fav ? "btn-coral" : "btn-ghost"}`}
-            >
-              <HeartIcon filled={fav} small />
-              {fav ? "Loved" : "Love it"}
-            </button>
+            <ImageRatingControl
+              key={state.image.id}
+              imageId={state.image.id}
+              initialRating={state.image.rating ?? (state.image.isFavorite ? "up" : null)}
+              variant="inline"
+            />
           </div>
 
           <div className="mt-5">
@@ -317,7 +292,7 @@ export default function RefineStage({ initialState }: { initialState: State }) {
       <ConfirmDialog
         open={deleteDialogImageId !== null}
         title="Delete this take?"
-        description="This removes the regenerated image from your shoot, album favorites, and Cloudflare storage."
+        description="This removes the regenerated image from your shoot, album, and Cloudflare storage."
         confirmLabel="Delete"
         cancelLabel="Cancel"
         tone="danger"
@@ -519,21 +494,6 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function HeartIcon({ filled, small }: { filled: boolean; small?: boolean }) {
-  const size = small ? 14 : 20;
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
-      <path
-        d="M12 21s-7.5-4.35-9.5-9.5C1 7.5 4 4 7.5 4c1.9 0 3.6 1 4.5 2.5C12.9 5 14.6 4 16.5 4 20 4 23 7.5 21.5 11.5 19.5 16.65 12 21 12 21z"
-        fill={filled ? "currentColor" : "none"}
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 

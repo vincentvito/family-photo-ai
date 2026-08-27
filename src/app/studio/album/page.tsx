@@ -67,7 +67,7 @@ export default async function AlbumPage() {
             </span>
             <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Still in the studio.</h2>
             <p className="mt-2 max-w-xl text-sm text-[color:var(--color-ink-muted)]">
-              Open any active shoot to favorite, refine, or download before it expires.
+              Open any active shoot to rate, refine, or download before it expires.
             </p>
           </div>
           <Link href="/studio/output" className="btn btn-ghost btn-sm">
@@ -139,7 +139,7 @@ function EmptyAlbum() {
       </div>
       <p className="serif mt-6 text-3xl tracking-[-0.02em]">Nothing kept yet.</p>
       <p className="mt-3 max-w-md text-[color:var(--color-ink-muted)]">
-        Heart portraits from any shoot to build your album. Shoots stay available for{" "}
+        Give a portrait a thumbs up to add it to your album. Shoots stay available for{" "}
         {STUDIO_RETENTION_DAYS} days, or {PRO_STUDIO_RETENTION_DAYS} days for Pro shoots.
       </p>
       <Link href="/studio/roster" className="btn btn-coral mt-7">

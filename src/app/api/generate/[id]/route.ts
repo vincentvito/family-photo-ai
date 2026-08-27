@@ -16,7 +16,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     if (!state) return NextResponse.json({ error: "not found" }, { status: 404 });
     return NextResponse.json(state);
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error(`Failed to refresh generation ${id}`, err);
+    return NextResponse.json({ error: "Could not refresh this shoot." }, { status: 500 });
   }
 }

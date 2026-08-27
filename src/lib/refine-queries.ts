@@ -4,6 +4,7 @@ import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
 import { saveGeneratedImage } from "@/lib/storage";
 import { studioCutoffDate } from "@/lib/retention";
+import { GenerationProviderError } from "@/lib/generation-errors";
 import { REFINE_CAP, LEGACY_REFINE_CAP, type PackTier } from "@/lib/pricing-packs";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 import {
@@ -300,6 +301,9 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
     history: historyRows,
     originalVariationPrompt: originalSlot.originalVariationPrompt,
     variantIndex: originalSlot.variantIndex,
+  }).catch((error) => {
+    console.error(`Regeneration failed for image ${baseImage.id}`, error);
+    throw new GenerationProviderError();
   });
 
   if (!regenerated) throw new Error("Regeneration returned no image");
@@ -354,6 +358,8 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
         rootImageId,
         refineInstruction: parsed.instruction,
         replicatePredictionId: regenerated.predictionId ?? null,
+        themeId: baseImage.themeId ?? generation.themeId,
+        artStyleId: baseImage.artStyleId,
       })
       .returning();
 

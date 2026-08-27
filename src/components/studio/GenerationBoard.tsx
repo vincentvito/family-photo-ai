@@ -9,10 +9,10 @@ import type { AspectRatio } from "@/lib/providers/types";
 import Confetti from "@/components/motion/Confetti";
 import ExportMenu from "@/components/studio/ExportMenu";
 import ShareButton from "@/components/studio/ShareButton";
+import ImageRatingControl from "@/components/studio/ImageRatingControl";
+import { GENERATION_TEMPORARILY_UNAVAILABLE_MESSAGE } from "@/lib/generation-errors";
 
 type State = Awaited<ReturnType<typeof getGenerationState>>;
-
-type FavoriteResponse = { isFavorite: boolean };
 
 async function fetchGenerationState(id: string): Promise<State> {
   const res = await fetch(`/api/generate/${id}`, { cache: "no-store" });
@@ -138,8 +138,8 @@ export default function GenerationBoard({
   // Rotating loading message
   const [messageIdx, setMessageIdx] = useState(0);
   useEffect(() => {
-    const done = state?.generation.status === "done";
-    if (done) return;
+    const terminal = state?.generation.status === "done" || state?.generation.status === "error";
+    if (terminal) return;
     const t = setInterval(() => setMessageIdx((i) => (i + 1) % loadingMessages.length), 2600);
     return () => clearInterval(t);
   }, [state?.generation.status]);
@@ -215,7 +215,7 @@ export default function GenerationBoard({
       {err && (
         <div className="mb-8 rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-5 text-sm text-[color:var(--color-coral-deep)]">
           <p className="font-semibold">Shoot ended early</p>
-          <p className="mt-1">{generation.errorMessage ?? "Unknown error."}</p>
+          <p className="mt-1">{GENERATION_TEMPORARILY_UNAVAILABLE_MESSAGE}</p>
           <div className="mt-3">
             <Link href="/studio/output" className="btn btn-sm btn-coral">
               Try another format
@@ -246,11 +246,13 @@ export default function GenerationBoard({
             )}
             <p className="text-sm text-[color:var(--color-ink-muted)]">
               {done ? (
-                <>
-                  All four ready.{" "}
-                  <span className="text-[color:var(--color-ink)]">Tap the heart</span> on the ones
-                  you love.
-                </>
+                images.length >= 4 ? (
+                  <>All four ready. Use thumbs up or down to tell us which images work for you.</>
+                ) : (
+                  <>
+                    {images.length} of 4 images are ready. You can keep these or try another format.
+                  </>
+                )
               ) : err ? (
                 "Shoot ended early."
               ) : (
@@ -295,47 +297,49 @@ export default function GenerationBoard({
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        {slots.map((img, i) => (
-          <div
-            key={i}
-            className={`group relative ${aspectCls} overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]`}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {img ? (
-                <motion.div
-                  key={`img-${img.id}`}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <ImageTile
-                    imageId={img.id}
-                    isFavorite={img.isFavorite}
-                    isPreview={isPreview}
-                    onRegenerateClick={openRegenerate}
-                    onOpenLightbox={openLightbox}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key={`skel-${i}`}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <DevelopingTile index={i} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+      {!err && (
+        <div className="grid gap-5 sm:grid-cols-2">
+          {slots.map((img, i) => (
+            <div
+              key={i}
+              className={`group relative ${aspectCls} overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] shadow-[var(--shadow-md)]`}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {img ? (
+                  <motion.div
+                    key={`img-${img.id}`}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <ImageTile
+                      imageId={img.id}
+                      isFavorite={img.isFavorite}
+                      rating={img.rating}
+                      isPreview={isPreview}
+                      onRegenerateClick={openRegenerate}
+                      onOpenLightbox={openLightbox}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={`${done ? "unavailable" : "skel"}-${i}`}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    {done ? <UnavailableTile index={i} /> : <DevelopingTile index={i} />}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* Confetti overlay on completion */}
-            {celebratedAt && i === 0 && <Confetti key={celebratedAt} count={22} />}
-          </div>
-        ))}
-      </div>
+              {celebratedAt && i === 0 && <Confetti key={celebratedAt} count={22} />}
+            </div>
+          ))}
+        </div>
+      )}
 
       <ImageLightbox imageId={lightboxImageId} isPreview={isPreview} onClose={closeLightbox} />
     </div>
@@ -345,38 +349,18 @@ export default function GenerationBoard({
 const ImageTile = memo(function ImageTile({
   imageId,
   isFavorite,
+  rating,
   isPreview,
   onRegenerateClick,
   onOpenLightbox,
 }: {
   imageId: string;
   isFavorite: boolean;
+  rating: "up" | "down" | null;
   isPreview: boolean;
   onRegenerateClick: (imageId: string) => void;
   onOpenLightbox: (imageId: string) => void;
 }) {
-  const [fav, setFav] = useState(isFavorite);
-  const [pending, start] = useTransition();
-
-  const flip = () => {
-    start(async () => {
-      const previous = fav;
-      setFav(!previous);
-      try {
-        const res = await fetch("/api/album/favorite", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ imageId }),
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const body = (await res.json()) as FavoriteResponse;
-        setFav(body.isFavorite);
-      } catch {
-        setFav(previous);
-      }
-    });
-  };
-
   return (
     <div className="group relative h-full w-full">
       <button
@@ -437,25 +421,7 @@ const ImageTile = memo(function ImageTile({
         </span>
       )}
 
-      <motion.button
-        type="button"
-        onClick={flip}
-        disabled={pending}
-        className={`absolute right-3 top-3 z-20 flex h-11 w-11 touch-manipulation items-center justify-center rounded-full shadow-[var(--shadow-md)] transition-colors ${
-          fav
-            ? "bg-[color:var(--color-coral)] text-white"
-            : "bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
-        }`}
-        initial={false}
-        animate={{ scale: fav ? 1 : 0.96 }}
-        transition={{ type: "spring", stiffness: 420, damping: 18 }}
-        whileTap={{ scale: 0.85 }}
-        whileHover={{ scale: 1.06 }}
-        aria-pressed={fav}
-        aria-label={fav ? "Remove from favorites" : "Love this image"}
-      >
-        <HeartIcon filled={fav} />
-      </motion.button>
+      <ImageRatingControl imageId={imageId} initialRating={rating ?? (isFavorite ? "up" : null)} />
     </div>
   );
 });
@@ -478,6 +444,19 @@ function DevelopingTile({ index }: { index: number }) {
         <div className="rounded-full border border-white/55 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--color-ink-muted)] shadow-[var(--shadow-sm)] backdrop-blur-sm">
           Developing - {index + 1}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function UnavailableTile({ index }: { index: number }) {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-[color:var(--color-bg)] p-6 text-center">
+      <div>
+        <p className="serif text-xl text-[color:var(--color-ink)]">Take {index + 1} unavailable</p>
+        <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          This image could not be completed.
+        </p>
       </div>
     </div>
   );
@@ -571,20 +550,5 @@ function ImageLightbox({
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function HeartIcon({ filled, small }: { filled: boolean; small?: boolean }) {
-  const size = small ? 14 : 20;
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
-      <path
-        d="M12 21s-7.5-4.35-9.5-9.5C1 7.5 4 4 7.5 4c1.9 0 3.6 1 4.5 2.5C12.9 5 14.6 4 16.5 4 20 4 23 7.5 21.5 11.5 19.5 16.65 12 21 12 21z"
-        fill={filled ? "currentColor" : "none"}
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

@@ -1,62 +1,97 @@
 import { db, schema } from "@/lib/db";
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { studioCutoffDate } from "@/lib/retention";
 import { retainedGenerationCondition } from "@/lib/retention-queries";
 
 export async function toggleFavorite(userId: string, imageId: string) {
-  const [imageRow, [album]] = await Promise.all([
-    db
-      .select({ image: schema.images, generation: schema.generations })
-      .from(schema.images)
-      .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
-      .where(and(eq(schema.images.id, imageId), eq(schema.generations.userId, userId)))
-      .limit(1)
-      .then((rows) => rows[0]),
-    db.select().from(schema.albums).where(eq(schema.albums.userId, userId)).limit(1),
-  ]);
+  const [imageRow] = await db
+    .select({ image: schema.images, generation: schema.generations })
+    .from(schema.images)
+    .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .where(and(eq(schema.images.id, imageId), eq(schema.generations.userId, userId)))
+    .limit(1);
   if (!imageRow) throw new Error("Image not found");
   const { image, generation } = imageRow;
   if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) {
     throw new Error("This shoot has expired.");
   }
 
-  const nextFav = !image.isFavorite;
-  const albumRow = album ?? (await db.insert(schema.albums).values({ userId }).returning())[0];
+  const result = await setImageRating(userId, imageId, image.isFavorite ? null : "up");
+  return result.isFavorite;
+}
 
-  if (nextFav) {
-    const [, existing] = await Promise.all([
-      db
-        .update(schema.images)
-        .set({ isFavorite: true })
-        .where(and(eq(schema.images.id, imageId), eq(schema.images.generationId, generation.id))),
-      db
-        .select({ id: schema.albumImages.id })
-        .from(schema.albumImages)
-        .where(
-          and(eq(schema.albumImages.albumId, albumRow.id), eq(schema.albumImages.imageId, imageId)),
-        )
-        .limit(1),
-    ]);
-    if (existing.length === 0) {
-      await db.insert(schema.albumImages).values({ albumId: albumRow.id, imageId });
-    }
-  } else {
-    await Promise.all([
-      db
-        .update(schema.images)
-        .set({ isFavorite: false })
-        .where(and(eq(schema.images.id, imageId), eq(schema.images.generationId, generation.id))),
-      db
-        .delete(schema.albumImages)
-        .where(
-          and(eq(schema.albumImages.albumId, albumRow.id), eq(schema.albumImages.imageId, imageId)),
-        ),
-    ]);
+export type ImageRating = "up" | "down" | null;
+
+export function getImageRatingEffects(rating: ImageRating) {
+  return {
+    isFavorite: rating === "up",
+    shouldBeInAlbum: rating === "up",
+  };
+}
+
+export async function setImageRating(userId: string, imageId: string, rating: ImageRating) {
+  const [row] = await db
+    .select({ image: schema.images, generation: schema.generations })
+    .from(schema.images)
+    .innerJoin(schema.generations, eq(schema.images.generationId, schema.generations.id))
+    .where(and(eq(schema.images.id, imageId), eq(schema.generations.userId, userId)))
+    .limit(1);
+
+  if (!row) throw new Error("Image not found");
+  if (row.generation.createdAt < studioCutoffDate(new Date(), row.generation.packTier)) {
+    throw new Error("This shoot has expired.");
   }
 
+  const { isFavorite, shouldBeInAlbum } = getImageRatingEffects(rating);
+  await db.transaction(async (tx) => {
+    // Serialize first-album creation for this user. The unique indexes are the
+    // final guard, while the lock also prevents split albums under concurrent likes.
+    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${userId}))`);
+
+    await tx
+      .update(schema.images)
+      .set({ rating, ratedAt: rating ? new Date() : null, isFavorite })
+      .where(and(eq(schema.images.id, imageId), eq(schema.images.generationId, row.generation.id)));
+
+    const [album] = await tx
+      .select()
+      .from(schema.albums)
+      .where(eq(schema.albums.userId, userId))
+      .limit(1);
+
+    if (shouldBeInAlbum) {
+      const [insertedAlbum] = album
+        ? []
+        : await tx
+            .insert(schema.albums)
+            .values({ userId })
+            .onConflictDoNothing({ target: schema.albums.userId })
+            .returning();
+      const albumRow =
+        album ??
+        insertedAlbum ??
+        (await tx.select().from(schema.albums).where(eq(schema.albums.userId, userId)).limit(1))[0];
+      if (!albumRow) throw new Error("Could not create album");
+
+      await tx
+        .insert(schema.albumImages)
+        .values({ albumId: albumRow.id, imageId })
+        .onConflictDoNothing({
+          target: [schema.albumImages.albumId, schema.albumImages.imageId],
+        });
+    } else if (album) {
+      await tx
+        .delete(schema.albumImages)
+        .where(
+          and(eq(schema.albumImages.albumId, album.id), eq(schema.albumImages.imageId, imageId)),
+        );
+    }
+  });
+
   revalidatePath("/studio/album");
-  return nextFav;
+  revalidatePath(`/studio/generate/${row.generation.id}`);
+  return { rating, isFavorite };
 }
 
 export async function getAlbum(userId: string) {

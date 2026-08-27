@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { refineImage } from "@/lib/refine-queries";
 import { isRateLimited } from "@/lib/request-limits";
+import { GenerationProviderError, toPublicGenerationFailure } from "@/lib/generation-errors";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -28,6 +29,10 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const providerFailure = err instanceof GenerationProviderError;
+    return NextResponse.json(
+      { error: providerFailure ? toPublicGenerationFailure(err) : message },
+      { status: providerFailure ? 503 : 500 },
+    );
   }
 }
