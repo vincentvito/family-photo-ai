@@ -144,9 +144,25 @@ export default async function Footer() {
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">
           © {new Date().getFullYear()} {t("copyright")}
         </p>
+        <TinyshelfBadge />
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">{t("paidStudio")}</p>
       </div>
     </footer>
+  );
+}
+
+export function TinyshelfBadge() {
+  return (
+    <a href="https://www.tinyshelf.co/?ref=familyshoot.com" title="Featured on tinyshelf">
+      {/* The badge is served as an SVG by Tinyshelf and does not need image optimization. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="https://www.tinyshelf.co/badge/tinyshelf-badge-light-5ca4026a.svg"
+        alt="Featured on tinyshelf"
+        width={216}
+        height={64}
+      />
+    </a>
   );
 }
 
