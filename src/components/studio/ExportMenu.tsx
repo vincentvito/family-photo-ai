@@ -188,7 +188,7 @@ export default function ExportMenu({
                               className="spring-press flex w-full items-center justify-between gap-4 rounded-[var(--radius-md)] bg-[color:var(--color-ink)] px-4 py-4 text-left text-[color:var(--color-bg)] transition-transform hover:-translate-y-0.5 disabled:opacity-65"
                             >
                               <div className="min-w-0">
-                                <p className="serif text-lg leading-tight">Put it on something</p>
+                                <p className="serif text-lg leading-tight">Print your photo</p>
                                 <p className="mt-0.5 text-xs text-[color:rgba(251,248,243,0.72)]">
                                   Shirts, sweaters, cards, and gifts
                                 </p>
