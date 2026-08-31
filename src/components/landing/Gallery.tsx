@@ -13,6 +13,12 @@ type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
 
 const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
+  { id: "burgundy-orchard-portrait", badge: "Fresh weekly" },
+  { id: "poetcore-letter-portrait", badge: "Fresh weekly" },
+  { id: "opalescent-future-family", badge: "Fresh weekly" },
+  { id: "heirloom-brooch-studio", badge: "Fresh weekly" },
+  { id: "whimsical-big-top-family", badge: "Fresh weekly" },
+  { id: "lantern-glow-gathering", badge: "Fresh weekly" },
   { id: "retro-summer-postcard", badge: "Fresh weekly" },
   { id: "butter-yellow-summer-portrait", badge: "Fresh weekly" },
   { id: "scarf-garden-story", badge: "Fresh weekly" },

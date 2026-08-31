@@ -8,6 +8,7 @@ const DETAIL_SLUG_OVERRIDES: Record<string, string> = {
   "royal-family-portrait": "royal-family-portrait",
   "toy-box-keepsake-portrait": "toy-box-keepsake-family-photos",
   "poetcore-family-library-portrait": "poetcore-family-library-photos",
+  "heirloom-brooch-studio": "heirloom-brooch-family-photos",
   "family-watch-party": "family-watch-party-photos",
 };
 
