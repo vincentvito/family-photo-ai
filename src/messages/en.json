@@ -141,6 +141,39 @@
       "showAll": "Show all {count} vibes",
       "categories": { "photographic": "Photographic", "stylized": "Stylized", "card": "For a card" }
     },
+    "PrintKeepsakes": {
+      "chip": "Printed keepsakes",
+      "titleBefore": "Your favorite portrait, made",
+      "titleEmphasis": "real",
+      "body": "Once you have the portrait you love, save a shop-ready file and place it on framed art, mugs, totes, shirts, or greeting cards.",
+      "steps": {
+        "create": {
+          "title": "Create it",
+          "body": "Bring your family together in one portrait."
+        },
+        "download": {
+          "title": "Save your favorite",
+          "body": "Download the unlocked portrait as a print-ready file."
+        },
+        "print": {
+          "title": "Choose a keepsake",
+          "body": "Upload it in our shop and choose what you want to make."
+        }
+      },
+      "cta": "Create a free preview",
+      "fulfillment": "Our Printify-powered shop handles payment, printing, delivery, and order support. Prices are in USD.",
+      "keepsakeNote": "Made for more than the camera roll",
+      "labels": {
+        "wallArt": "Framed wall art",
+        "mugsTotes": "Mugs & totes",
+        "shirtsCards": "Shirts & cards"
+      },
+      "images": {
+        "frame": "Watercolor family portrait displayed as framed wall art in a warm home",
+        "mugTote": "Watercolor family portrait printed on a canvas tote bag and ceramic mug",
+        "shirtCards": "Watercolor family portrait printed on a T-shirt and greeting cards"
+      }
+    },
     "OccasionCards": {
       "chip": "AI family holiday card generator",
       "titleBefore": "Make a card from the photos you",

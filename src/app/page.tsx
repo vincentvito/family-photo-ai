@@ -1,6 +1,7 @@
 import Hero from "@/components/landing/Hero";
 import BeforeAfter from "@/components/landing/BeforeAfter";
 import Gallery from "@/components/landing/Gallery";
+import PrintKeepsakes from "@/components/landing/PrintKeepsakes";
 import OccasionCards from "@/components/landing/OccasionCards";
 import FathersDay from "@/components/landing/FathersDay";
 import HowItWorks from "@/components/landing/HowItWorks";
@@ -45,6 +46,7 @@ export default async function HomePage({
         <Hero />
         <BeforeAfter />
         <Gallery trendingVibes={trendingVibes} />
+        <PrintKeepsakes />
         <OccasionCards />
         <FathersDay />
         <HowItWorks />

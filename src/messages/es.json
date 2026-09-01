@@ -145,6 +145,39 @@
         "card": "Para una tarjeta"
       }
     },
+    "PrintKeepsakes": {
+      "chip": "Recuerdos impresos",
+      "titleBefore": "Tu retrato favorito se vuelve",
+      "titleEmphasis": "real",
+      "body": "Cuando tengas el retrato que te encanta, guarda un archivo listo para imprimir y úsalo en cuadros, tazas, bolsas, camisetas o tarjetas.",
+      "steps": {
+        "create": {
+          "title": "Crea el retrato",
+          "body": "Reúne a tu familia en un solo retrato."
+        },
+        "download": {
+          "title": "Guarda tu favorito",
+          "body": "Descarga el retrato desbloqueado en un archivo listo para imprimir."
+        },
+        "print": {
+          "title": "Elige un recuerdo",
+          "body": "Súbelo a nuestra tienda y elige lo que quieres crear."
+        }
+      },
+      "cta": "Crear una vista previa gratis",
+      "fulfillment": "Nuestra tienda con tecnología de Printify gestiona el pago, la impresión, la entrega y la ayuda con los pedidos. Los precios están en USD.",
+      "keepsakeNote": "Hecho para salir del carrete",
+      "labels": {
+        "wallArt": "Cuadro enmarcado",
+        "mugsTotes": "Tazas y bolsas",
+        "shirtsCards": "Camisetas y tarjetas"
+      },
+      "images": {
+        "frame": "Retrato familiar en acuarela expuesto como cuadro enmarcado en un hogar cálido",
+        "mugTote": "Retrato familiar en acuarela impreso en una bolsa de tela y una taza de cerámica",
+        "shirtCards": "Retrato familiar en acuarela impreso en una camiseta y tarjetas"
+      }
+    },
     "OccasionCards": {
       "chip": "Generador de tarjetas familiares con IA",
       "titleBefore": "Crea una tarjeta con las fotos que",

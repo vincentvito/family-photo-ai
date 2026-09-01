@@ -145,6 +145,39 @@
         "card": "Für eine Karte"
       }
     },
+    "PrintKeepsakes": {
+      "chip": "Gedruckte Erinnerungsstücke",
+      "titleBefore": "Dein Lieblingsporträt wird",
+      "titleEmphasis": "greifbar",
+      "body": "Wenn du dein Lieblingsporträt gefunden hast, speichere eine druckfertige Datei und gestalte damit gerahmte Bilder, Tassen, Taschen, Shirts oder Grußkarten.",
+      "steps": {
+        "create": {
+          "title": "Porträt erstellen",
+          "body": "Bringe deine Familie in einem gemeinsamen Porträt zusammen."
+        },
+        "download": {
+          "title": "Favorit speichern",
+          "body": "Lade das freigeschaltete Porträt als druckfertige Datei herunter."
+        },
+        "print": {
+          "title": "Produkt auswählen",
+          "body": "Lade die Datei in unserem Shop hoch und wähle dein Erinnerungsstück."
+        }
+      },
+      "cta": "Kostenlose Vorschau erstellen",
+      "fulfillment": "Unser Printify-Shop übernimmt Zahlung, Druck, Lieferung und Bestellservice. Die Preise sind in US-Dollar.",
+      "keepsakeNote": "Für mehr als nur die Kamerarolle",
+      "labels": {
+        "wallArt": "Gerahmtes Wandbild",
+        "mugsTotes": "Tassen & Taschen",
+        "shirtsCards": "Shirts & Karten"
+      },
+      "images": {
+        "frame": "Aquarell-Familienporträt als gerahmtes Wandbild in einem warmen Zuhause",
+        "mugTote": "Aquarell-Familienporträt auf einer Stofftasche und einer Keramiktasse",
+        "shirtCards": "Aquarell-Familienporträt auf einem T-Shirt und Grußkarten"
+      }
+    },
     "OccasionCards": {
       "chip": "KI-Generator für Familiengrußkarten",
       "titleBefore": "Erstelle eine Karte aus Fotos, die du",
