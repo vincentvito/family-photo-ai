@@ -109,7 +109,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <article className="mx-auto max-w-3xl">
           <Link
             href="/blog"
-            className="text-sm font-medium text-[color:var(--color-coral-deep)] transition-colors hover:text-[color:var(--color-ink)]"
+            className="text-sm font-semibold text-[color:var(--color-plum)] underline decoration-[color:var(--color-coral)] underline-offset-4 transition-colors hover:text-[color:var(--color-ink)]"
           >
             Back to blog
           </Link>
@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <MarkdownContent content={post.content} />
 
           <div className="mt-12 rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-tinted-coral)] p-6 sm:p-8">
-            <p className="small-caps text-[color:var(--color-coral-deep)]">Make one now</p>
+            <p className="small-caps text-[color:var(--color-plum)]">Make one now</p>
             <h2 className="mt-3 text-3xl leading-tight">
               Turn your photos into a family portrait.
             </h2>
@@ -158,7 +158,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               version that feels most like your family.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/studio/roster" className="btn btn-coral btn-sm">
+              <Link href="/studio/roster" className="btn btn-ink btn-sm">
                 Start a shoot
               </Link>
               <Link href="/blog" className="btn btn-ghost btn-sm">

@@ -500,7 +500,7 @@
   }
   .chip-butter {
     background-color: var(--color-butter-soft);
-    color: #8a6a1f;
+    color: #6b4f12;
   }
   .chip-plum {
     background-color: #e9defb;
@@ -571,8 +571,10 @@
     color: var(--color-ink);
   }
   .blog-content a {
-    color: var(--color-coral-deep);
+    color: var(--color-plum);
     text-decoration: underline;
+    text-decoration-color: var(--color-coral);
+    text-decoration-thickness: 0.08em;
     text-underline-offset: 0.2em;
   }
   .blog-content strong {
