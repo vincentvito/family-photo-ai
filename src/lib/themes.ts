@@ -1546,6 +1546,162 @@ export const THEMES: Theme[] = [
         "generic party styling only, no branded packaging, no readable labels, no logos, no celebrity likeness, no watermark",
     },
   },
+  {
+    id: "back-to-school-storybook-morning",
+    name: "Back-to-School Storybook Morning",
+    blurb:
+      "Warm first-day nostalgia on porch steps with blank card props, backpack details, soft morning light, and proud candid smiles.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-back-to-school-storybook-morning.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm back-to-school lifestyle family photograph",
+      scene:
+        "a cozy porch, front steps or generic school-step setting with blank chalkboard-style card props, simple backpacks, tidy entry details and end-of-summer greenery",
+      camera:
+        "documentary lifestyle camera with a 45mm lens, eye-level environmental portrait framing, readable faces with porch and step details held in soft focus",
+      composition:
+        "gentle hand-holding and shoulder-to-shoulder spacing, blank prop areas kept secondary, no readable cards, signs or school identifiers",
+      lighting:
+        "soft golden morning light from one side, warm porch bounce, bright catchlights, gentle late-summer haze and clean skin detail",
+      style:
+        "storybook lifestyle photography, denim blue, backpack canvas, warm cream, leaf green and pencil-yellow accents, subtle film grain, print-ready keepsake finish",
+      safety:
+        "generic school-morning scene only, no real school names, no readable writing, no logos, no brands, no team marks, no franchise characters, no watermark",
+    },
+  },
+  {
+    id: "tiny-boo-crew",
+    name: "Tiny Boo Crew",
+    blurb:
+      "A cute non-scary seasonal portrait with pastel pumpkins, friendly sheet-ghost decor, cozy layers, and soft candy color.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-tiny-boo-crew.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cute non-scary seasonal family photograph",
+      scene:
+        "a cozy porch or bright studio with pastel pumpkins, smiling carved-pumpkin decor, simple friendly sheet-ghost decorations, soft candy-color props and warm home texture",
+      camera:
+        "digital medium-format camera with a 50mm lens, clean lifestyle portrait perspective, decorations framing the group without crowding faces",
+      composition:
+        "soft seated-and-standing portrait arrangement with cheerful decor around the edges, uncluttered face sightlines and stable print margins",
+      lighting:
+        "large soft window light mixed with warm porch glow, pastel highlight rolloff, bright catchlights and gentle shadow detail",
+      style:
+        "cozy cute seasonal photography, pale orange, lavender, cream, peach, soft black and candy-pink accents, matching sweaters or pajamas, polished keepsake finish",
+      safety:
+        "cute and non-scary only, gentle decor, no startling tone, no fright-character styling, no licensed masks, no occult seriousness, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "vintage-pumpkin-patch-postcard",
+    name: "Vintage Pumpkin Patch Postcard",
+    blurb:
+      "A nostalgic pumpkin-patch keepsake with early-postcard charm, muted orange, cream paper, sepia warmth, and gentle fall texture.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-vintage-pumpkin-patch-postcard.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 vintage hand-tinted pumpkin-patch postcard family portrait",
+      scene:
+        "a nostalgic pumpkin patch with painted-vine details, cream paper borders, decorative seasonal cutout motifs, harvest textures and an early-postcard studio-backdrop feeling",
+      camera:
+        "antique portrait-camera perspective with a normal lens, straight-on keepsake framing, readable faces inside a balanced postcard layout",
+      composition:
+        "centered portrait grouping within a blank decorative border, pumpkins and vines kept secondary, no readable slogans or postcard lettering",
+      lighting:
+        "soft amber studio daylight, gentle sepia falloff, creamy highlights and low-contrast shadows like an aged hand-tinted print",
+      style:
+        "early-1900s postcard-inspired finish, muted pumpkin orange, cream, sepia, faded sage and warm brown palette, subtle paper texture, hand-painted edge details",
+      safety:
+        "original vintage harvest scene, no readable slogans, no occult seriousness, no scary haunted-house mood, no copyrighted characters, no logos, no watermark",
+    },
+  },
+  {
+    id: "editorial-jewel-tone-fall-portrait",
+    name: "Editorial Jewel-Tone Fall Portrait",
+    blurb:
+      "A refined fall magazine portrait with burgundy, royal purple, butter yellow, peach, turquoise accents, layered knits, and softened tailoring.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-editorial-jewel-tone-fall-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 refined jewel-tone fall editorial family portrait",
+      scene:
+        "a warm studio, townhouse stoop or city-park fall setting with rich fabric texture, clean background depth, seasonal leaves and understated editorial polish",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical magazine framing, crisp faces with elegant environmental compression",
+      composition:
+        "clean magazine-cover geometry with staggered shoulder lines, refined negative space, visible hands and no crowded fashion staging",
+      lighting:
+        "large diffused key light with warm fall bounce, subtle rim on knitwear and tailoring, polished catchlights and controlled contrast",
+      style:
+        "luxury fall editorial photography, burgundy, royal purple, butter yellow, juicy peach, turquoise and electric-blue accents balanced with warm neutrals, natural skin texture, print-ready finish",
+      safety:
+        "original editorial styling only, no brand or runway references, no celebrity likeness, no revealing wardrobe cues, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "dino-explorer-family-adventure",
+    name: "Dino Explorer Family Adventure",
+    blurb:
+      "A friendly discovery portrait with museum fossils, oversized ferns, canvas layers, explorer hats, and prehistoric wonder without danger.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-dino-explorer-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 family-friendly dino explorer adventure photograph",
+      scene:
+        "a natural-history museum hall or lush prehistoric-inspired set with fossil props, oversized ferns, rock texture, canvas explorer accessories and friendly distant silhouette decor",
+      camera:
+        "adventure-lifestyle camera with a 35mm lens, low eye-level environmental portrait perspective, faces readable with discovery-set depth behind",
+      composition:
+        "balanced expedition portrait with fossil props and ferns framing the edges, clear subject separation, no chase scene or threat geometry",
+      lighting:
+        "warm museum skylight mixed with green fern bounce, amber rim highlights, soft atmospheric depth and clean readable faces",
+      style:
+        "polished adventure lifestyle photography, khaki, moss green, amber, slate, cream and warm leather accents, realistic set texture, print-ready wonder",
+      safety:
+        "original prehistoric-inspired discovery scene only, no franchise names, no named characters, no theme-park marks, no danger, no chase scene, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "golden-late-summer-beach-legacy",
+    name: "Golden Late-Summer Beach Legacy",
+    blurb:
+      "A fine-art beach portrait with glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and legacy calm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-golden-late-summer-beach-legacy.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 fine-art late-summer beach family photograph",
+      scene:
+        "a quiet sunrise or sunset shoreline with wet sand glow, dune grass, calm horizon, windswept fabric texture, soft neutral layers and warm late-summer atmosphere",
+      camera:
+        "Contax 645 medium format with an 80mm lens, elegant eye-level environmental portrait framing, horizon clean and low with refined negative space",
+      composition:
+        "relaxed hand-holding and generational-feeling spacing only from the selected roster, clean horizon line, modest wardrobe movement and gallery-print margins",
+      lighting:
+        "low golden sun near the horizon, soft water-bounced fill, luminous rim light on hair and fabric, gentle haze with crisp facial detail",
+      style:
+        "fine-art beach portrait photography, soft neutrals, warm greens, earth tones, pale gold and sea-glass accents, natural film grain, luxury print finish",
+      safety:
+        "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {

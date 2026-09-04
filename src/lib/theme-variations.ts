@@ -265,6 +265,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Wide backyard card: subjects smaller within a porch or backyard party setup, pale negative space above and tidy dessert details below.",
     "Close dotted keepsake: waist-up subject grouping with blush, sky blue and butter-yellow polka-dot accents, soft flowers and crisp catchlights.",
   ],
+  "back-to-school-storybook-morning": [
+    "Porch-step morning proof: subjects on warm front steps with simple backpacks and one blank chalkboard-style card, soft sunrise side light and proud candid smiles.",
+    "Hand-hold walkway frame: subjects walking toward a generic school-step or porch setting, backpack straps visible, greenery behind and no readable signs.",
+    "Close first-day keepsake: waist-up subject grouping near a blank card prop and tidy entry details, denim and cream styling, warm morning catchlights.",
+    "Wide storybook steps: subjects smaller within the porch or school-step geometry, blank prop areas secondary, late-summer greenery and print-ready margins.",
+  ],
+  "tiny-boo-crew": [
+    "Pastel porch portrait: subjects arranged among pale pumpkins and friendly sheet-ghost decorations, cozy sweaters, bright smiles and no scary shadows.",
+    "Candy-color studio proof: subjects in matching soft layers against peach, lavender and cream seasonal decor, smiling carved-pumpkin details secondary.",
+    "Cozy pajama close crop: waist-up subject grouping with pastel pumpkins at the edges, warm window light and cute non-scary seasonal charm.",
+    "Wide cute porch scene: subjects framed by friendly fabric ghost shapes and soft pumpkin clusters, clean face sightlines and cheerful print margins.",
+  ],
+  "vintage-pumpkin-patch-postcard": [
+    "Blank-border patch portrait: subjects centered inside an aged cream postcard border, pumpkins and painted vines around them, no readable lettering.",
+    "Hand-tinted harvest proof: subjects seated or standing in a nostalgic pumpkin patch, sepia warmth, muted orange accents and decorative cutout motifs.",
+    "Close sepia keepsake: waist-up subject grouping with faded paper texture, pumpkin shapes secondary, gentle smiles and antique studio falloff.",
+    "Wide painted-postcard scene: subjects smaller within harvest rows and blank ornamental border space, cream paper texture and soft early-postcard color.",
+  ],
+  "editorial-jewel-tone-fall-portrait": [
+    "Studio jewel portrait: subjects staggered in layered knits and softened tailoring, burgundy and royal purple anchors with butter-yellow accents.",
+    "City-park editorial frame: subjects near autumn leaves and stone texture, turquoise and peach details, polished magazine light and clean background depth.",
+    "Close texture crop: waist-up subject grouping with rich knit, velvet-like and wool textures, jewel-tone palette and natural skin detail.",
+    "Wide cover composition: subjects placed with refined negative space, electric-blue accent detail, warm fall bounce and elegant print-ready geometry.",
+  ],
+  "dino-explorer-family-adventure": [
+    "Museum fossil proof: subjects in simple explorer hats near fossil props and fern shadows, warm skylight and friendly discovery energy.",
+    "Fern expedition frame: subjects standing in a lush prehistoric-inspired set with oversized greenery and distant silhouette decor, no danger cues.",
+    "Close explorer keepsake: waist-up subject grouping with canvas layers, magnifier or map-edge props, amber light and clear faces.",
+    "Wide discovery hall: subjects smaller in a natural-history hall with ferns, rock texture and fossil displays, balanced adventure spacing.",
+  ],
+  "golden-late-summer-beach-legacy": [
+    "Horizon hand-hold proof: subjects walking along wet reflective sand, soft neutral layers moving in the breeze, clean low horizon and gold rim light.",
+    "Dune-grass portrait: subjects gathered near sea oats and warm green grasses, relaxed spacing, pale linen texture and sunset haze.",
+    "Close legacy crop: waist-up subject grouping with windswept fabric, sea-glass background bokeh, natural skin detail and calm fine-art mood.",
+    "Wide shoreline heirloom: subjects smaller against glowing water and sky, earth-tone styling, generous negative space and gallery-print margins.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",

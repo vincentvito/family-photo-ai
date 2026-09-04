@@ -900,6 +900,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "back-to-school-storybook-morning-family-photos",
+    name: "Back-to-School Storybook Morning",
+    keyword: "back to school family photo",
+    secondaryKeywords: [
+      "first day family portrait",
+      "school morning family photoshoot",
+      "storybook porch family photo",
+    ],
+    image: "/samples/theme-back-to-school-storybook-morning.webp",
+    shortDescription:
+      "Warm porch-step nostalgia, simple backpacks, blank card props, soft morning light, and proud candid smiles.",
+    related: [
+      "toy-box-keepsake-family-photos",
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "tiny-boo-crew-family-photos",
+    name: "Tiny Boo Crew",
+    keyword: "cute seasonal family portrait",
+    secondaryKeywords: [
+      "pastel pumpkin family photo",
+      "cute pumpkin porch portrait",
+      "matching sweater family photoshoot",
+    ],
+    image: "/samples/theme-tiny-boo-crew.webp",
+    shortDescription:
+      "Pastel pumpkins, friendly sheet-ghost decor, cozy layers, soft candy color, and bright smiles.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "autumn-cabin-family-photos",
+      "thanksgiving-card-family-photos",
+    ],
+  },
+  {
+    slug: "vintage-pumpkin-patch-postcard-family-photos",
+    name: "Vintage Pumpkin Patch Postcard",
+    keyword: "vintage pumpkin patch family portrait",
+    secondaryKeywords: [
+      "pumpkin patch family photoshoot",
+      "vintage fall family photo",
+      "postcard autumn family portrait",
+    ],
+    image: "/samples/theme-vintage-pumpkin-patch-postcard.webp",
+    shortDescription:
+      "Muted pumpkin orange, cream paper, sepia warmth, hand-tinted harvest texture, and postcard charm.",
+    related: [
+      "tiny-boo-crew-family-photos",
+      "retro-summer-postcard-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "editorial-jewel-tone-fall-portrait-family-photos",
+    name: "Editorial Jewel-Tone Fall Portrait",
+    keyword: "jewel tone fall family portrait",
+    secondaryKeywords: [
+      "editorial fall family photo",
+      "fall fashion family photoshoot",
+      "burgundy family portrait",
+    ],
+    image: "/samples/theme-editorial-jewel-tone-fall-portrait.webp",
+    shortDescription:
+      "Burgundy, royal purple, butter yellow, peach, turquoise accents, layered knits, and refined fall polish.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "poetcore-family-library-photos",
+      "scarf-garden-story-family-photos",
+    ],
+  },
+  {
+    slug: "dino-explorer-family-adventure-family-photos",
+    name: "Dino Explorer Family Adventure",
+    keyword: "dino explorer family photo",
+    secondaryKeywords: [
+      "museum adventure family portrait",
+      "fossil explorer family photoshoot",
+      "prehistoric adventure family photo",
+    ],
+    image: "/samples/theme-dino-explorer-family-adventure.webp",
+    shortDescription:
+      "Museum fossils, oversized ferns, canvas layers, explorer hats, and friendly discovery-set wonder.",
+    related: [
+      "national-park-family-photos",
+      "galactic-family-adventure-photos",
+      "time-travel-toy-shelf-family-photos",
+    ],
+  },
+  {
+    slug: "golden-late-summer-beach-legacy-family-photos",
+    name: "Golden Late-Summer Beach Legacy",
+    keyword: "late summer beach family portrait",
+    secondaryKeywords: [
+      "fine art beach family photo",
+      "golden beach family photoshoot",
+      "legacy beach family portrait",
+    ],
+    image: "/samples/theme-golden-late-summer-beach-legacy.webp",
+    shortDescription:
+      "Glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and heirloom calm.",
+    related: [
+      "golden-hour-beach-family-photos",
+      "cape-cod-family-photos",
+      "cool-blue-lake-day-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",
