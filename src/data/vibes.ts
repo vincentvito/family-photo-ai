@@ -566,7 +566,7 @@ export const VIBES: readonly Vibe[] = [
       "art deco inspired family photoshoot",
       "elegant studio family portrait",
     ],
-    image: "/samples/theme-neo-deco-celebration-card.webp",
+    image: "/samples/theme-neo-deco-family-portrait.webp",
     shortDescription:
       "Geometric fan arches, brass and chrome accents, velvet texture, and tasteful studio glamour.",
     related: [
@@ -584,7 +584,7 @@ export const VIBES: readonly Vibe[] = [
       "cozy library family photoshoot",
       "stationery family photo",
     ],
-    image: "/samples/theme-poetcore-family-library-portrait.webp",
+    image: "/samples/theme-storybook-pen-pals.webp",
     shortDescription:
       "Vintage stationery, blank stamps, drawings, soft knits, and warm library-window light.",
     related: [
@@ -602,7 +602,7 @@ export const VIBES: readonly Vibe[] = [
       "highland adventure family photoshoot",
       "enchanted trail family photo",
     ],
-    image: "/samples/theme-watercolor-storybook.jpg",
+    image: "/samples/theme-mystic-outlands-adventure.webp",
     shortDescription:
       "Moss, soft fog, earth tones, gentle explorer styling, and safe storybook-trail wonder.",
     related: [
@@ -620,7 +620,7 @@ export const VIBES: readonly Vibe[] = [
       "stargazing family photoshoot",
       "holographic family adventure photo",
     ],
-    image: "/samples/theme-galactic-family-adventure.webp",
+    image: "/samples/theme-galactic-glow-family-adventure.webp",
     shortDescription:
       "Opalescent cosmic glow, stargazing wonder, moon-dust shimmer, and cozy future-adventure polish.",
     related: [
@@ -638,7 +638,7 @@ export const VIBES: readonly Vibe[] = [
       "pumpkin family photo card",
       "early halloween family card",
     ],
-    image: "/samples/theme-card-halloween.jpg",
+    image: "/samples/theme-cozy-summerween-card.webp",
     shortDescription:
       "Pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth for a cute seasonal card.",
     related: [

@@ -1132,7 +1132,7 @@ export const THEMES: Theme[] = [
       "A tasteful formal portrait with geometric fan arches, brass and chrome accents, velvet texture, and warm studio glamour.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-neo-deco-celebration-card.webp",
+    coverImage: "/samples/theme-neo-deco-family-portrait.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1158,7 +1158,7 @@ export const THEMES: Theme[] = [
       "A cozy letters-and-library portrait with vintage stationery, blank stamps, drawings, soft knits, and warm window light.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-poetcore-family-library-portrait.webp",
+    coverImage: "/samples/theme-storybook-pen-pals.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1184,7 +1184,7 @@ export const THEMES: Theme[] = [
       "A misty highland or enchanted-forest adventure with moss, soft fog, earth tones, and gentle explorer styling.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-watercolor-storybook.jpg",
+    coverImage: "/samples/theme-mystic-outlands-adventure.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1210,7 +1210,7 @@ export const THEMES: Theme[] = [
       "A cozy cosmic adventure with opalescent glow, stargazing wonder, moon-dust shimmer, and soft holographic accents.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-galactic-family-adventure.webp",
+    coverImage: "/samples/theme-galactic-glow-family-adventure.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -2613,7 +2613,7 @@ export const THEMES: Theme[] = [
       "A cute early-Halloween card with pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-halloween.jpg",
+    coverImage: "/samples/theme-cozy-summerween-card.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
