@@ -32,6 +32,7 @@ export default function PrintButton({
   useEffect(() => {
     if (!open) return;
 
+    const trigger = triggerRef.current;
     const previousFocus =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     closeButtonRef.current?.focus();
@@ -50,7 +51,7 @@ export default function PrintButton({
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      (previousFocus ?? triggerRef.current)?.focus();
+      (previousFocus ?? trigger)?.focus();
     };
   }, [close, open]);
 
