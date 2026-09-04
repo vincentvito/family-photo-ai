@@ -4,9 +4,15 @@ import test from "node:test";
 
 import { buildGenerationPrompt } from "../src/lib/prompts";
 import { getThemeDetailHref } from "../src/lib/theme-detail-links";
+import { getThemeStudioHref } from "../src/lib/theme-links";
 import { THEMES, getRequiredCardTextError, getTheme, themesByCategory } from "../src/lib/themes";
 import { THEME_VARIATION_PROMPTS, getThemeVariationPrompts } from "../src/lib/theme-variations";
+import { CARDS } from "../src/data/cards";
+import { BIRTHDAY_CARD_SEO_PAGES } from "../src/data/birthday-card-pages";
+import { OCCASION_PAGES } from "../src/data/occasion-pages";
+import { STYLES } from "../src/data/styles";
 import { VIBES } from "../src/data/vibes";
+import sharp from "sharp";
 
 const royalFamilyPortrait = getTheme("royal-family-portrait");
 const MAX_THEME_SAMPLE_IMAGE_BYTES = 400 * 1024;
@@ -190,6 +196,12 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "butter-yellow-picnic",
+  "neo-deco-family-portrait",
+  "storybook-pen-pals",
+  "mystic-outlands-adventure",
+  "galactic-glow-family-adventure",
+  "cozy-summerween-card",
   "dockside-family-weekend",
   "backyard-sports-day-portrait",
   "slow-travel-summer-picnic",
@@ -207,11 +219,40 @@ const WEEKLY_TREND_THEME_IDS = [
   "retro-jazz-porch",
   "cool-blue-lake-day",
   "poetcore-family-library-portrait",
+  "burgundy-orchard-portrait",
+  "poetcore-letter-portrait",
+  "opalescent-future-family",
+  "heirloom-brooch-studio",
+  "whimsical-big-top-family",
+  "lantern-glow-gathering",
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "butter-yellow-summer-card",
+  "joyful-photo-dump",
+  "storybook-ocean-quest",
+  "poetcore-porch",
+  "future-glow-family",
+  "heirloom-pin-portrait",
+  "paprika-plaid-autumn",
+  "summerween-pumpkin-glow",
+  "storybook-forest-family-adventure",
+  "y3k-chrome-family-future",
+  "polka-dot-porch-party",
+  "back-to-school-storybook-morning",
+  "tiny-boo-crew",
+  "vintage-pumpkin-patch-postcard",
+  "editorial-jewel-tone-fall-portrait",
+  "dino-explorer-family-adventure",
+  "golden-late-summer-beach-legacy",
 ];
 
-const WEEKLY_TREND_VIBE_SLUGS = [
+const WEEKLY_TREND_DETAIL_SLUGS = [
+  "butter-yellow-picnic-family-photos",
+  "neo-deco-family-portrait-photos",
+  "storybook-pen-pals-family-photos",
+  "mystic-outlands-adventure-family-photos",
+  "galactic-glow-family-adventure-photos",
+  "cozy-summerween-family-cards",
   "dockside-family-weekend-photos",
   "backyard-sports-day-family-photos",
   "slow-travel-summer-picnic-family-photos",
@@ -223,14 +264,37 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "scarf-garden-story-family-photos",
   "summer-color-hunt-family-photos",
   "family-watch-party-photos",
-  "ocean-explorer-card-family-photos",
+  "ocean-explorer-family-cards",
   "toy-box-keepsake-family-photos",
   "time-travel-toy-shelf-family-photos",
   "retro-jazz-porch-family-photos",
   "cool-blue-lake-day-family-photos",
   "poetcore-family-library-photos",
-  "neo-deco-celebration-card-family-photos",
-  "crochet-raffia-picnic-card-family-photos",
+  "burgundy-orchard-family-photos",
+  "poetcore-letter-family-photos",
+  "opalescent-future-family-photos",
+  "heirloom-brooch-family-photos",
+  "whimsical-big-top-family-photos",
+  "lantern-glow-gathering-family-photos",
+  "neo-deco-celebration-family-cards",
+  "crochet-raffia-picnic-family-cards",
+  "butter-yellow-summer-family-cards",
+  "joyful-photo-dump-family-photos",
+  "storybook-ocean-quest-family-photos",
+  "poetcore-porch-family-photos",
+  "future-glow-family-photos",
+  "heirloom-pin-portrait-family-photos",
+  "paprika-plaid-autumn-family-photos",
+  "summerween-pumpkin-glow-family-cards",
+  "storybook-forest-family-adventure-photos",
+  "y3k-chrome-family-future-photos",
+  "polka-dot-porch-party-family-cards",
+  "back-to-school-storybook-morning-family-photos",
+  "tiny-boo-crew-family-photos",
+  "vintage-pumpkin-patch-postcard-family-photos",
+  "editorial-jewel-tone-fall-portrait-family-photos",
+  "dino-explorer-family-adventure-family-photos",
+  "golden-late-summer-beach-legacy-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -238,8 +302,40 @@ const NEW_WEEKLY_TREND_PAIRS = [
   ["toy-box-keepsake-portrait", "toy-box-keepsake-family-photos"],
   ["cool-blue-lake-day", "cool-blue-lake-day-family-photos"],
   ["poetcore-family-library-portrait", "poetcore-family-library-photos"],
-  ["neo-deco-celebration-card", "neo-deco-celebration-card-family-photos"],
-  ["crochet-raffia-picnic-card", "crochet-raffia-picnic-card-family-photos"],
+  ["burgundy-orchard-portrait", "burgundy-orchard-family-photos"],
+  ["poetcore-letter-portrait", "poetcore-letter-family-photos"],
+  ["opalescent-future-family", "opalescent-future-family-photos"],
+  ["heirloom-brooch-studio", "heirloom-brooch-family-photos"],
+  ["whimsical-big-top-family", "whimsical-big-top-family-photos"],
+  ["lantern-glow-gathering", "lantern-glow-gathering-family-photos"],
+  ["neo-deco-celebration-card", "neo-deco-celebration-family-cards"],
+  ["crochet-raffia-picnic-card", "crochet-raffia-picnic-family-cards"],
+  ["butter-yellow-summer-card", "butter-yellow-summer-family-cards"],
+  ["joyful-photo-dump", "joyful-photo-dump-family-photos"],
+  ["storybook-ocean-quest", "storybook-ocean-quest-family-photos"],
+  ["poetcore-porch", "poetcore-porch-family-photos"],
+  ["future-glow-family", "future-glow-family-photos"],
+  ["heirloom-pin-portrait", "heirloom-pin-portrait-family-photos"],
+] as const;
+
+const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
+  ["butter-yellow-picnic", "butter-yellow-picnic-family-photos"],
+  ["neo-deco-family-portrait", "neo-deco-family-portrait-photos"],
+  ["storybook-pen-pals", "storybook-pen-pals-family-photos"],
+  ["mystic-outlands-adventure", "mystic-outlands-adventure-family-photos"],
+  ["galactic-glow-family-adventure", "galactic-glow-family-adventure-photos"],
+  ["cozy-summerween-card", "cozy-summerween-family-cards"],
+  ["paprika-plaid-autumn", "paprika-plaid-autumn-family-photos"],
+  ["summerween-pumpkin-glow", "summerween-pumpkin-glow-family-cards"],
+  ["storybook-forest-family-adventure", "storybook-forest-family-adventure-photos"],
+  ["y3k-chrome-family-future", "y3k-chrome-family-future-photos"],
+  ["polka-dot-porch-party", "polka-dot-porch-party-family-cards"],
+  ["back-to-school-storybook-morning", "back-to-school-storybook-morning-family-photos"],
+  ["tiny-boo-crew", "tiny-boo-crew-family-photos"],
+  ["vintage-pumpkin-patch-postcard", "vintage-pumpkin-patch-postcard-family-photos"],
+  ["editorial-jewel-tone-fall-portrait", "editorial-jewel-tone-fall-portrait-family-photos"],
+  ["dino-explorer-family-adventure", "dino-explorer-family-adventure-family-photos"],
+  ["golden-late-summer-beach-legacy", "golden-late-summer-beach-legacy-family-photos"],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -247,13 +343,89 @@ const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
 const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
+  "butter-yellow-summer-card",
 ]);
+
+const CURRENT_TASK_CARD_THEME_IDS = new Set([
+  "cozy-summerween-card",
+  "summerween-pumpkin-glow",
+  "polka-dot-porch-party",
+]);
+
+const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
+  (typeof NEW_WEEKLY_TREND_PAIRS)[number][0],
+  readonly string[]
+> = {
+  "retro-summer-postcard": ["postcard", "summer"],
+  "toy-box-keepsake-portrait": ["wooden blocks", "keepsake"],
+  "cool-blue-lake-day": ["cool-blue", "lake"],
+  "poetcore-family-library-portrait": ["library", "letter"],
+  "burgundy-orchard-portrait": ["burgundy", "orchard"],
+  "poetcore-letter-portrait": ["letter", "writing-room"],
+  "opalescent-future-family": ["opalescent", "future"],
+  "heirloom-brooch-studio": ["heirloom", "brooch"],
+  "whimsical-big-top-family": ["big-top", "bunting"],
+  "lantern-glow-gathering": ["lantern", "blue-hour"],
+  "neo-deco-celebration-card": ["geometric", "card"],
+  "crochet-raffia-picnic-card": ["crochet", "raffia"],
+  "butter-yellow-summer-card": ["butter-yellow", "negative space"],
+  "joyful-photo-dump": ["mid-laugh", "soft flash"],
+  "storybook-ocean-quest": ["tide pools", "watercolor"],
+  "poetcore-porch": ["porch", "stationery"],
+  "future-glow-family": ["opalescent", "chrome"],
+  "heirloom-pin-portrait": ["heirloom", "brooch"],
+};
 
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
 
 const WEEKLY_BLOCKED_TERMS =
   /\b(Barbie|Swift|Beyonce|Beyoncé|Marvel|DC Comics|Super Bowl|World Cup|Olympics|NBA|NFL|MLB|FIFA|Nike|Adidas|Coca-Cola|Toy Story|Pixar|Disney|Minions|Moana|DreamWorks|Illumination|TikTok|Instagram|beer|wine|cocktail|weapon|gun|blood|gore|horror|sexy|sexual)\b/i;
+
+test("theme and vibe catalogs have required fields and unique route identifiers", () => {
+  const themeIdCounts = new Map<string, number>();
+  const vibeSlugCounts = new Map<string, number>();
+
+  for (const theme of THEMES) {
+    themeIdCounts.set(theme.id, (themeIdCounts.get(theme.id) ?? 0) + 1);
+    assert.ok(theme.id.trim(), "theme id should be present");
+    assert.ok(theme.name.trim(), `${theme.id} should have a label`);
+    assert.ok(theme.blurb.trim(), `${theme.id} should have a blurb`);
+    assert.ok(theme.coverImage.trim(), `${theme.id} should have a cover image`);
+    assert.ok(theme.spec.assetType.trim(), `${theme.id} should have a prompt asset type`);
+    assert.ok(theme.spec.camera.trim(), `${theme.id} should have prompt camera guidance`);
+    assert.ok(theme.spec.lighting.trim(), `${theme.id} should have prompt lighting guidance`);
+    assert.ok(theme.spec.style.trim(), `${theme.id} should have prompt style guidance`);
+    assert.equal(theme.provider, "nanobanana", `${theme.id} should use the current generator`);
+    assert.ok(
+      existsSync(theme.coverImage.replace(/^\/+/, "public/")),
+      `${theme.coverImage} should exist`,
+    );
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+  }
+
+  for (const vibe of VIBES) {
+    vibeSlugCounts.set(vibe.slug, (vibeSlugCounts.get(vibe.slug) ?? 0) + 1);
+    assert.ok(vibe.slug.trim(), "vibe slug should be present");
+    assert.ok(vibe.name.trim(), `${vibe.slug} should have a name`);
+    assert.ok(vibe.keyword.trim(), `${vibe.slug} should have a primary keyword`);
+    assert.ok(vibe.secondaryKeywords.length >= 1, `${vibe.slug} should have secondary keywords`);
+    assert.ok(vibe.image.trim(), `${vibe.slug} should have an image`);
+    assert.ok(vibe.shortDescription.trim(), `${vibe.slug} should have a short description`);
+    assert.ok(vibe.related.length >= 1, `${vibe.slug} should have related routes`);
+    assert.ok(existsSync(vibe.image.replace(/^\/+/, "public/")), `${vibe.image} should exist`);
+    for (const extraImage of vibe.extraImages ?? []) {
+      assert.ok(existsSync(extraImage.replace(/^\/+/, "public/")), `${extraImage} should exist`);
+    }
+  }
+
+  for (const [id, count] of themeIdCounts) {
+    assert.equal(count, 1, `${id} should be a unique theme id`);
+  }
+  for (const [slug, count] of vibeSlugCounts) {
+    assert.equal(count, 1, `${slug} should be a unique vibe slug`);
+  }
+});
 
 test("trend-led vibes are valid catalog themes with variation prompts and SEO entries", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
@@ -307,23 +479,8 @@ test("creative prompt ideas are selectable app themes with homepage-ready images
 
 test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated", () => {
   const themeIds = new Set(THEMES.map((theme) => theme.id));
-  const vibeSlugs = new Set(VIBES.map((vibe) => vibe.slug));
-  const themeIdCounts = new Map<string, number>();
-  const vibeSlugCounts = new Map<string, number>();
-
-  for (const theme of THEMES) {
-    themeIdCounts.set(theme.id, (themeIdCounts.get(theme.id) ?? 0) + 1);
-  }
-  for (const vibe of VIBES) {
-    vibeSlugCounts.set(vibe.slug, (vibeSlugCounts.get(vibe.slug) ?? 0) + 1);
-  }
-
-  for (const [id, count] of themeIdCounts) {
-    assert.equal(count, 1, `${id} should be a unique theme id`);
-  }
-  for (const [slug, count] of vibeSlugCounts) {
-    assert.equal(count, 1, `${slug} should be a unique vibe slug`);
-  }
+  const discoveryPages = [...VIBES, ...CARDS];
+  const discoverySlugs = new Set(discoveryPages.map((page) => page.slug));
 
   for (const themeId of WEEKLY_TREND_THEME_IDS) {
     assert.ok(themeIds.has(themeId), `${themeId} should be a normal selectable theme`);
@@ -374,24 +531,53 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
     );
 
     assert.doesNotMatch(peopleOnlyPrompt, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+
+    const petSelectedPrompt = buildGenerationPrompt(
+      theme,
+      [
+        {
+          personId: "adult-1",
+          name: "Adult One",
+          role: "adult",
+          notes: null,
+          referencePaths: ["adult-one.jpg"],
+        },
+        {
+          personId: "dog-1",
+          name: "Rex dog",
+          role: "pet",
+          notes: "make this pet a mascot in team gear",
+          referencePaths: ["rex.jpg"],
+        },
+      ],
+      null,
+      theme.acceptsCardText ? "Summer Party" : null,
+    );
+
+    assert.match(petSelectedPrompt, /Subjects: exactly two subjects only: 1 adult and 1 pet\./i);
+    assert.match(petSelectedPrompt, /reference image 2 is dog 1/i);
+    assert.match(petSelectedPrompt, /Selected pet references are required cast members/i);
+    assert.match(petSelectedPrompt, /unselected animals/i);
+    assert.match(petSelectedPrompt, /must appear as animals, not as extra adults/i);
+    assert.doesNotMatch(petSelectedPrompt, /mascot in team gear/i);
   }
 
-  for (const slug of WEEKLY_TREND_VIBE_SLUGS) {
-    assert.ok(vibeSlugs.has(slug), `${slug} should be present on SEO/discovery vibe surfaces`);
-    const vibe = VIBES.find((entry) => entry.slug === slug)!;
-    assert.ok(vibe.name.trim(), `${slug} should have a name`);
-    assert.ok(vibe.keyword.trim(), `${slug} should have a primary keyword`);
-    assert.ok(vibe.secondaryKeywords.length >= 3, `${slug} should have secondary keywords`);
-    assert.ok(vibe.image.startsWith("/samples/"), `${slug} should use owned sample art`);
-    assert.ok(vibe.shortDescription.trim(), `${slug} should have a short description`);
-    assert.ok(vibe.related.length >= 3, `${slug} should expose related routes`);
+  for (const slug of WEEKLY_TREND_DETAIL_SLUGS) {
+    assert.ok(discoverySlugs.has(slug), `${slug} should have an SEO discovery page`);
+    const page = discoveryPages.find((entry) => entry.slug === slug)!;
+    assert.ok(page.name.trim(), `${slug} should have a name`);
+    assert.ok(page.keyword.trim(), `${slug} should have a primary keyword`);
+    assert.ok(page.secondaryKeywords.length >= 3, `${slug} should have secondary keywords`);
+    assert.ok(page.image.startsWith("/samples/"), `${slug} should use owned sample art`);
+    assert.ok(page.shortDescription.trim(), `${slug} should have a short description`);
+    assert.ok(page.related.length >= 3, `${slug} should expose related routes`);
     assert.doesNotMatch(
       [
-        vibe.name,
-        vibe.keyword,
-        vibe.shortDescription,
-        vibe.secondaryKeywords.join(" "),
-        vibe.related.join(" "),
+        page.name,
+        page.keyword,
+        page.shortDescription,
+        page.secondaryKeywords.join(" "),
+        page.related.join(" "),
       ].join(" "),
       WEEKLY_BLOCKED_TERMS,
     );
@@ -399,18 +585,58 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
 
   for (const [themeId, slug] of NEW_WEEKLY_TREND_PAIRS) {
     const theme = getTheme(themeId);
-    const vibe = VIBES.find((entry) => entry.slug === slug)!;
+    const page = discoveryPages.find((entry) => entry.slug === slug)!;
     assert.ok(theme.spec.safety?.trim(), `${themeId} should include a prompt safety section`);
     assert.equal(
-      vibe.image,
+      page.image,
       theme.coverImage,
       `${themeId} discovery image should match the selectable theme cover fallback`,
     );
     assertOptimizedSampleImage(theme.coverImage);
 
+    const markerText = [
+      theme.name,
+      theme.blurb,
+      theme.spec.assetType,
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+      getThemeVariationPrompts(theme.id, theme.category).join(" "),
+      page.name,
+      page.keyword,
+      page.shortDescription,
+      page.secondaryKeywords.join(" "),
+    ].join(" ");
+    for (const marker of REQUIRED_WEEKLY_TREND_PROMPT_MARKERS[themeId]) {
+      assert.match(markerText, new RegExp(marker, "i"), `${themeId} should preserve ${marker}`);
+    }
+
     if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
       assert.equal(theme.category, "card");
       assert.equal(theme.acceptsCardText, true);
+    }
+  }
+
+  for (const [themeId, slug] of CURRENT_TASK_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const page = discoveryPages.find((entry) => entry.slug === slug)!;
+
+    assert.ok(theme.spec.safety?.trim(), `${themeId} should include a prompt safety section`);
+    assert.equal(
+      page.image,
+      theme.coverImage,
+      `${themeId} discovery image should match the selectable theme cover fallback`,
+    );
+    assertOptimizedSampleImage(theme.coverImage);
+
+    if (CURRENT_TASK_CARD_THEME_IDS.has(themeId)) {
+      assert.equal(theme.category, "card");
+      assert.equal(theme.acceptsCardText, true);
+    } else {
+      assert.notEqual(theme.category, "card");
     }
   }
 
@@ -439,22 +665,50 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "butter-yellow-picnic",
+    "paprika-plaid-autumn",
+    "summerween-pumpkin-glow",
+    "storybook-forest-family-adventure",
+    "y3k-chrome-family-future",
+    "polka-dot-porch-party",
+    "neo-deco-family-portrait",
+    "storybook-pen-pals",
+    "mystic-outlands-adventure",
+    "galactic-glow-family-adventure",
+    "cozy-summerween-card",
+    "butter-yellow-summer-card",
+    "joyful-photo-dump",
+    "storybook-ocean-quest",
+    "poetcore-porch",
+    "future-glow-family",
+    "heirloom-pin-portrait",
     "retro-summer-postcard",
     "butter-yellow-summer-portrait",
     "scarf-garden-story",
-    "ocean-explorer-card",
     "family-watch-party",
     "toy-box-keepsake-portrait",
     "time-travel-toy-shelf",
     "retro-jazz-porch",
     "cool-blue-lake-day",
     "poetcore-family-library-portrait",
+    "burgundy-orchard-portrait",
+    "poetcore-letter-portrait",
+    "opalescent-future-family",
+    "heirloom-brooch-studio",
+    "whimsical-big-top-family",
+    "lantern-glow-gathering",
     "neo-deco-celebration-card",
     "crochet-raffia-picnic-card",
     "private-jet-family",
     "soccer-team-family",
     "leibovitz-studio",
     "golden-hour-beach",
+    "back-to-school-storybook-morning",
+    "tiny-boo-crew",
+    "vintage-pumpkin-patch-postcard",
+    "editorial-jewel-tone-fall-portrait",
+    "dino-explorer-family-adventure",
+    "golden-late-summer-beach-legacy",
   ];
   const coverImages = new Set<string>();
 
@@ -476,6 +730,97 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
     );
     coverImages.add(theme.coverImage);
   }
+});
+
+test("theme cover images do not cross-wire different vibe descriptions", () => {
+  const coverByPath = new Map<string, string>();
+
+  for (const theme of THEMES) {
+    assert.ok(
+      existsSync(theme.coverImage.replace(/^\/+/, "public/")),
+      `${theme.coverImage} should exist`,
+    );
+    const previousTheme = coverByPath.get(theme.coverImage);
+    assert.equal(
+      previousTheme,
+      undefined,
+      `${theme.id} should not reuse ${theme.coverImage} from ${previousTheme}`,
+    );
+    coverByPath.set(theme.coverImage, theme.id);
+  }
+});
+
+test("card themes use card discovery pages and canonical studio links", () => {
+  const cardThemes = THEMES.filter((theme) => theme.category === "card");
+  const cardPagesByThemeId = new Map(
+    CARDS.flatMap((card) => (card.themeId ? [[card.themeId, card] as const] : [])),
+  );
+
+  assert.equal(cardPagesByThemeId.size, cardThemes.length);
+
+  for (const theme of cardThemes) {
+    const card = cardPagesByThemeId.get(theme.id);
+    assert.ok(card, `${theme.id} should have one card discovery page`);
+    assert.match(card.slug, /-family-cards$/u);
+    assert.equal(getThemeDetailHref(theme), `/${card.slug}`);
+    assert.equal(
+      getThemeStudioHref(theme),
+      `/studio/theme?output=card&card=${encodeURIComponent(theme.id)}`,
+    );
+    assert.equal(
+      VIBES.some((vibe) => vibe.slug === card.slug),
+      false,
+      `${card.slug} must not be stored in the vibe catalog`,
+    );
+  }
+
+  for (const card of CARDS) {
+    if (!card.themeId) continue;
+    assert.equal(getTheme(card.themeId).category, "card");
+  }
+});
+
+test("all discovery-page related links resolve", () => {
+  const discoveryPages = [...VIBES, ...CARDS, ...STYLES, ...OCCASION_PAGES];
+  const slugs = new Set(discoveryPages.map((page) => page.slug));
+
+  for (const page of BIRTHDAY_CARD_SEO_PAGES) {
+    slugs.add(page.path.replace(/^\/+/, ""));
+  }
+
+  for (const page of discoveryPages) {
+    for (const relatedSlug of page.related ?? []) {
+      assert.ok(slugs.has(relatedSlug), `${page.slug} links to missing page ${relatedSlug}`);
+    }
+  }
+});
+
+test("new and replaced theme previews match their declared aspect ratio", async () => {
+  const expectedRatios = { "3:2": 3 / 2, "2:3": 2 / 3, "1:1": 1, "4:5": 4 / 5, "16:9": 16 / 9 };
+  const checkedThemeIds = [...WEEKLY_TREND_THEME_IDS, "card-anniversary"];
+
+  for (const themeId of checkedThemeIds) {
+    const theme = getTheme(themeId);
+    const metadata = await sharp(theme.coverImage.replace(/^\/+/, "public/")).metadata();
+    assert.ok(metadata.width && metadata.height, `${theme.id} preview should have dimensions`);
+    const actualRatio = metadata.width / metadata.height;
+    const expectedRatio = expectedRatios[theme.aspectRatio];
+    const relativeDifference = Math.abs(actualRatio - expectedRatio) / expectedRatio;
+    assert.ok(
+      relativeDifference <= 0.02,
+      `${theme.id} preview is ${metadata.width}x${metadata.height}, expected ${theme.aspectRatio}`,
+    );
+  }
+});
+
+test("deep-linked studio theme URLs preselect the requested vibe", () => {
+  const pageSource = readFileSync("src/app/studio/theme/page.tsx", "utf8");
+  const boardSource = readFileSync("src/components/studio/ThemeBoard.tsx", "utf8");
+
+  assert.match(pageSource, /theme\?: string/);
+  assert.match(pageSource, /initialThemeId=\{selectedTheme\?\.id \?\? null\}/);
+  assert.match(boardSource, /initialThemeId\?: string \| null/);
+  assert.match(boardSource, /initialThemeId \? \[initialThemeId\] : \[\]/);
 });
 
 test("vibe detail pages use a clear Begin a Shoot CTA", () => {
@@ -525,6 +870,42 @@ test("new weekly theme specs leave roster and card text details to the prompt co
     assert.doesNotMatch(prompt, /\b(dog|cat|pet)\b/i);
 
     if (NEW_WEEKLY_CARD_THEME_IDS.has(themeId)) {
+      assert.match(prompt, /render the exact text "Happy Summer"/);
+      assert.match(prompt, /No watermarks, no other text anywhere in the image\./);
+    } else {
+      assert.doesNotMatch(prompt, /render the exact text/i);
+    }
+  }
+
+  for (const [themeId] of CURRENT_TASK_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const stableSpecText = [
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+    ].join(" ");
+
+    assert.doesNotMatch(stableSpecText, /\bselected cast\b/i);
+    assert.doesNotMatch(stableSpecText, /\b(parents?|children|adults?|pets?|dogs?|cats?)\b/i);
+
+    for (const variation of getThemeVariationPrompts(theme.id, theme.category)) {
+      assert.doesNotMatch(variation, /\bselected cast\b/i);
+    }
+
+    const prompt = buildGenerationPrompt(
+      theme,
+      adultOnlyRoster,
+      null,
+      theme.acceptsCardText ? "Happy Summer" : null,
+    );
+    assert.match(prompt, /Subjects: exactly one subject only: 1 adult\./i);
+    assert.doesNotMatch(prompt, /exactly .*children/i);
+    assert.doesNotMatch(prompt, /\b(dog|cat|pet)\b/i);
+
+    if (CURRENT_TASK_CARD_THEME_IDS.has(themeId)) {
       assert.match(prompt, /render the exact text "Happy Summer"/);
       assert.match(prompt, /No watermarks, no other text anywhere in the image\./);
     } else {

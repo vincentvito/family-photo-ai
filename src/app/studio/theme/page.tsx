@@ -10,7 +10,9 @@ import {
 import { canStartFreePreview } from "@/lib/generate-queries";
 import { listRoster } from "@/lib/roster-queries";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { getTempRosterOwnerFromCookieValue, TEMP_ROSTER_COOKIE } from "@/lib/temp-roster";
+import { getThemeStudioHref } from "@/lib/theme-links";
 
 export const dynamic = "force-dynamic";
 
@@ -19,13 +21,21 @@ type OutputMode = "photoshoot" | "card";
 export default async function ThemePage({
   searchParams,
 }: {
-  searchParams: Promise<{ output?: string; card?: string }>;
+  searchParams: Promise<{ output?: string; card?: string; theme?: string }>;
 }) {
-  const { output, card } = await searchParams;
-  const outputMode: OutputMode = output === "card" ? "card" : "photoshoot";
+  const { output, card, theme } = await searchParams;
   const themes = themesByCategory();
-  const selectedCard =
-    outputMode === "card" && card ? themes.card.find((theme) => theme.id === card) : null;
+  const legacyTheme = theme
+    ? [...themes.photoreal, ...themes.stylized, ...themes.card].find((entry) => entry.id === theme)
+    : null;
+  const requestedCard = card ? themes.card.find((entry) => entry.id === card) : null;
+
+  if (legacyTheme?.category === "card") redirect(getThemeStudioHref(legacyTheme));
+  if (requestedCard && output !== "card") redirect(getThemeStudioHref(requestedCard));
+
+  const outputMode: OutputMode = output === "card" ? "card" : "photoshoot";
+  const selectedCard = outputMode === "card" && requestedCard ? requestedCard : null;
+  const selectedTheme = outputMode === "photoshoot" ? legacyTheme : null;
   const user = await getCurrentUser();
   const cookieStore = user ? null : await cookies();
   const tempOwner = user
@@ -103,6 +113,7 @@ export default async function ThemePage({
         isProSubscriber={isProSubscriber}
         subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
         isAuthenticated={Boolean(user)}
+        initialThemeId={selectedTheme?.id ?? null}
       />
     </main>
   );

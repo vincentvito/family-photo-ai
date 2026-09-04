@@ -331,7 +331,12 @@ export default async function GalleryPage({
                   the people, pets, and style inside the studio.
                 </p>
                 <div className="mt-auto pt-8">
-                  <GalleryCta themeId={selectedCreation.themeId} />
+                  <GalleryCta
+                    themeId={selectedCreation.themeId}
+                    themeCategory={
+                      THEME_BY_ID.get(selectedCreation.themeId)?.category ?? "photoreal"
+                    }
+                  />
                 </div>
               </div>
             </div>

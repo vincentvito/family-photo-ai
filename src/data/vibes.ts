@@ -260,7 +260,7 @@ export const VIBES: readonly Vibe[] = [
       "summer weekend family photo",
       "lake house family photoshoot",
     ],
-    image: "/samples/theme-lake-house.jpg",
+    image: "/samples/theme-dockside-family-weekend.webp",
     shortDescription:
       "Weathered dock planks, lake sparkle, towels, totes, and long-weekend summer ease.",
     related: [
@@ -278,7 +278,7 @@ export const VIBES: readonly Vibe[] = [
       "sports day family photoshoot",
       "backyard games family photo",
     ],
-    image: "/samples/best-family-photo-prompts/soccer-team-family.webp",
+    image: "/samples/theme-backyard-sports-day-portrait.webp",
     shortDescription:
       "Blank jerseys, lawn-game props, chalk lines, ribbons, sneakers, and bright field-day joy.",
     related: [
@@ -296,7 +296,7 @@ export const VIBES: readonly Vibe[] = [
       "travel picnic family photoshoot",
       "meadow picnic family photo",
     ],
-    image: "/samples/theme-backyard-picnic.jpg",
+    image: "/samples/theme-slow-travel-summer-picnic.webp",
     shortDescription:
       "Checked blanket, market fruit, paper maps, wildflowers, and unhurried travel light.",
     related: [
@@ -314,7 +314,7 @@ export const VIBES: readonly Vibe[] = [
       "string lights family photoshoot",
       "summer festival family photo",
     ],
-    image: "/samples/theme-card-new-years.jpg",
+    image: "/samples/theme-sunset-festival-family-glow.webp",
     shortDescription:
       "String lights, paper lanterns, fabric flags, and golden-hour festival warmth.",
     related: [
@@ -332,7 +332,7 @@ export const VIBES: readonly Vibe[] = [
       "summer studio family photoshoot",
       "bright color block family portrait",
     ],
-    image: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
+    image: "/samples/theme-summer-color-pop-studio.webp",
     shortDescription:
       "High-key studio light, bold color blocks, glossy summer props, and commercial polish.",
     related: [
@@ -350,7 +350,7 @@ export const VIBES: readonly Vibe[] = [
       "illustrated postcard family portrait",
       "adventure postcard family photoshoot",
     ],
-    image: "/samples/theme-watercolor-storybook.jpg",
+    image: "/samples/theme-whimsical-adventure-postcard.webp",
     shortDescription:
       "Painted skies, oversized luggage, map edges, and original storybook travel charm.",
     related: [
@@ -427,8 +427,116 @@ export const VIBES: readonly Vibe[] = [
       "Warm shelves, oversized knits, vintage blazers, handwritten card details, and literary intimacy.",
     related: [
       "sunday-sofa-family-photos",
-      "graduation-card-family-photos",
+      "graduation-family-cards",
       "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "burgundy-orchard-family-photos",
+    name: "Burgundy Orchard Portrait",
+    keyword: "burgundy orchard family portrait",
+    secondaryKeywords: [
+      "orchard family photoshoot",
+      "burgundy family portrait",
+      "autumn orchard family photo",
+    ],
+    image: "/samples/theme-burgundy-orchard-portrait.webp",
+    shortDescription:
+      "Deep orchard reds, cream knits, weathered crates, and late-season countryside warmth.",
+    related: [
+      "autumn-cabin-family-photos",
+      "scarf-garden-story-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-letter-family-photos",
+    name: "Poetcore Letter Portrait",
+    keyword: "poetcore letter family portrait",
+    secondaryKeywords: [
+      "letter writing family portrait",
+      "poetcore family photoshoot",
+      "stationery family photo",
+    ],
+    image: "/samples/theme-poetcore-letter-portrait.webp",
+    shortDescription:
+      "Blank stationery, sealed envelopes, pressed flowers, tweed, wool, and quiet writing-room intimacy.",
+    related: [
+      "poetcore-family-library-photos",
+      "sunday-sofa-family-photos",
+      "heirloom-brooch-family-photos",
+    ],
+  },
+  {
+    slug: "opalescent-future-family-photos",
+    name: "Opalescent Future Family",
+    keyword: "opalescent future family portrait",
+    secondaryKeywords: [
+      "near future family portrait",
+      "iridescent family photoshoot",
+      "futuristic family photo",
+    ],
+    image: "/samples/theme-opalescent-future-family.webp",
+    shortDescription:
+      "Pearl light, translucent panels, sculptural wardrobe, and optimistic iridescent color.",
+    related: [
+      "zero-gravity-family-photos",
+      "fluffy-cloud-family-photos",
+      "summer-color-pop-studio-family-photos",
+    ],
+  },
+  {
+    slug: "heirloom-brooch-family-photos",
+    name: "Heirloom Brooch Studio",
+    keyword: "heirloom brooch family portrait",
+    secondaryKeywords: [
+      "heirloom studio family portrait",
+      "brooch family photoshoot",
+      "timeless formal family photo",
+    ],
+    image: "/samples/theme-heirloom-brooch-studio.webp",
+    shortDescription:
+      "Velvet, pearl pins, antique-gold brooch accents, painterly light, and keepsake formality.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "renaissance-oil-family-photos",
+      "poetcore-letter-family-photos",
+    ],
+  },
+  {
+    slug: "whimsical-big-top-family-photos",
+    name: "Whimsical Big-Top Family",
+    keyword: "whimsical big top family portrait",
+    secondaryKeywords: [
+      "big top family photoshoot",
+      "theatrical family portrait",
+      "storybook stage family photo",
+    ],
+    image: "/samples/theme-whimsical-big-top-family.webp",
+    shortDescription:
+      "Canvas stripes, round risers, bunting, warm bulbs, and playful storybook polish.",
+    related: [
+      "whimsical-adventure-postcard-family-photos",
+      "pop-icon-stage-family-photos",
+      "summer-color-pop-studio-family-photos",
+    ],
+  },
+  {
+    slug: "lantern-glow-gathering-family-photos",
+    name: "Lantern Glow Gathering",
+    keyword: "lantern glow family gathering portrait",
+    secondaryKeywords: [
+      "lantern family photoshoot",
+      "evening garden family portrait",
+      "cozy gathering family photo",
+    ],
+    image: "/samples/theme-lantern-glow-gathering.webp",
+    shortDescription:
+      "Paper lanterns, woven mats, blankets, garden greenery, and warm blue-hour glow.",
+    related: [
+      "sunset-festival-family-glow-photos",
+      "backyard-picnic-family-photos",
+      "crochet-raffia-picnic-family-cards",
     ],
   },
   {
@@ -440,13 +548,85 @@ export const VIBES: readonly Vibe[] = [
       "butter yellow family photoshoot",
       "summer linen family photo",
     ],
-    image: "/samples/theme-cape-cod-summer.png",
+    image: "/samples/theme-butter-yellow-summer-portrait.webp",
     shortDescription:
       "Butter-yellow wardrobe notes, pale florals, linen, and soft summer light in a polished family portrait.",
     related: [
       "cape-cod-family-photos",
       "scarf-garden-story-family-photos",
       "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "neo-deco-family-portrait-photos",
+    name: "Neo Deco Family Portrait",
+    keyword: "neo deco family portrait",
+    secondaryKeywords: [
+      "geometric family portrait",
+      "art deco inspired family photoshoot",
+      "elegant studio family portrait",
+    ],
+    image: "/samples/theme-neo-deco-family-portrait.webp",
+    shortDescription:
+      "Geometric fan arches, brass and chrome accents, velvet texture, and tasteful studio glamour.",
+    related: [
+      "neo-deco-celebration-family-cards",
+      "runway-editorial-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-pen-pals-family-photos",
+    name: "Storybook Pen Pals",
+    keyword: "storybook pen pals family portrait",
+    secondaryKeywords: [
+      "letter writing family portrait",
+      "cozy library family photoshoot",
+      "stationery family photo",
+    ],
+    image: "/samples/theme-storybook-pen-pals.webp",
+    shortDescription:
+      "Vintage stationery, blank stamps, drawings, soft knits, and warm library-window light.",
+    related: [
+      "poetcore-family-library-photos",
+      "watercolor-storybook-family-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "mystic-outlands-adventure-family-photos",
+    name: "Mystic Outlands Adventure",
+    keyword: "mystic outlands family adventure portrait",
+    secondaryKeywords: [
+      "misty forest family portrait",
+      "highland adventure family photoshoot",
+      "enchanted trail family photo",
+    ],
+    image: "/samples/theme-mystic-outlands-adventure.webp",
+    shortDescription:
+      "Moss, soft fog, earth tones, gentle explorer styling, and safe storybook-trail wonder.",
+    related: [
+      "national-park-family-photos",
+      "whimsical-adventure-postcard-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "galactic-glow-family-adventure-photos",
+    name: "Galactic Glow Family Adventure",
+    keyword: "galactic glow family adventure portrait",
+    secondaryKeywords: [
+      "cosmic family portrait",
+      "stargazing family photoshoot",
+      "holographic family adventure photo",
+    ],
+    image: "/samples/theme-galactic-glow-family-adventure.webp",
+    shortDescription:
+      "Opalescent cosmic glow, stargazing wonder, moon-dust shimmer, and cozy future-adventure polish.",
+    related: [
+      "galactic-family-adventure-photos",
+      "zero-gravity-family-photos",
+      "fluffy-cloud-family-photos",
     ],
   },
   {
@@ -458,12 +638,48 @@ export const VIBES: readonly Vibe[] = [
       "summer scarf family photo",
       "romantic garden family portrait",
     ],
-    image: "/samples/theme-orchard-picking.jpg",
+    image: "/samples/theme-scarf-garden-story.webp",
     shortDescription:
       "Silk-scarf color, leafy garden paths, soft flowers, and dappled light for an airy summer keepsake.",
     related: [
       "butter-yellow-summer-family-photos",
       "backyard-picnic-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "joyful-photo-dump-family-photos",
+    name: "Joyful Photo Dump",
+    keyword: "joyful photo dump family portrait",
+    secondaryKeywords: [
+      "candid family photo dump portrait",
+      "mid laugh family photoshoot",
+      "soft flash family portrait",
+    ],
+    image: "/samples/theme-joyful-photo-dump.webp",
+    shortDescription:
+      "Mid-laugh family energy, tiny movement, hands-on-shoulders closeness, and polished soft-flash snapshot charm.",
+    related: [
+      "vintage-polaroid-family-photos",
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-ocean-quest-family-photos",
+    name: "Storybook Ocean Quest",
+    keyword: "storybook ocean quest family portrait",
+    secondaryKeywords: [
+      "tide pool family adventure portrait",
+      "watercolor ocean family photo",
+      "shoreline storybook family photoshoot",
+    ],
+    image: "/samples/theme-storybook-ocean-quest.webp",
+    shortDescription:
+      "Watercolor ocean blues, tide-pool wonder, seashell details, sketchbook props, and safe shoreline adventure.",
+    related: [
+      "ocean-explorer-family-cards",
+      "cool-blue-lake-day-family-photos",
       "watercolor-storybook-family-photos",
     ],
   },
@@ -476,13 +692,31 @@ export const VIBES: readonly Vibe[] = [
       "family color scavenger hunt portrait",
       "bright summer family photo",
     ],
-    image: "/samples/theme-card-easter.jpg",
+    image: "/samples/theme-summer-color-hunt.webp",
     shortDescription:
       "Flowers, fruit, color swatches, and bright discovery energy without brands, apps, or readable labels.",
     related: [
       "summer-color-pop-studio-family-photos",
       "backyard-picnic-family-photos",
       "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-porch-family-photos",
+    name: "Poetcore Porch",
+    keyword: "poetcore porch family portrait",
+    secondaryKeywords: [
+      "cozy porch family photoshoot",
+      "literary porch family portrait",
+      "vintage cardigan family photo",
+    ],
+    image: "/samples/theme-poetcore-porch.webp",
+    shortDescription:
+      "Vintage layers, satchel and stationery props, late-afternoon porch light, and handwritten-letter mood without readable text.",
+    related: [
+      "poetcore-family-library-photos",
+      "retro-jazz-porch-family-photos",
+      "sunday-sofa-family-photos",
     ],
   },
   {
@@ -494,31 +728,13 @@ export const VIBES: readonly Vibe[] = [
       "living room watch party family photo",
       "sports watch party family photoshoot",
     ],
-    image: "/samples/theme-sunday-sofa.jpg",
+    image: "/samples/theme-family-watch-party.webp",
     shortDescription:
       "A cozy living-room watch party with blank banners, snack bowls, pillows, and no real team marks.",
     related: [
       "backyard-sports-day-family-photos",
       "sunday-sofa-family-photos",
       "soccer-team-family-photos",
-    ],
-  },
-  {
-    slug: "ocean-explorer-card-family-photos",
-    name: "Ocean Explorer Card",
-    keyword: "ocean explorer family card",
-    secondaryKeywords: [
-      "ocean adventure family card",
-      "shoreline family greeting card",
-      "coastal explorer family photo",
-    ],
-    image: "/samples/theme-galactic-family-adventure.webp",
-    shortDescription:
-      "Tide-pool blues, shells, paper-map shapes, and clean greeting space for a family-safe adventure card.",
-    related: [
-      "cool-blue-lake-day-family-photos",
-      "hawaii-vacation-family-photos",
-      "cape-cod-family-photos",
     ],
   },
   {
@@ -548,7 +764,7 @@ export const VIBES: readonly Vibe[] = [
       "retro music family photoshoot",
       "vintage porch family photo",
     ],
-    image: "/samples/theme-70s-station-wagon.jpg",
+    image: "/samples/theme-retro-jazz-porch.webp",
     shortDescription:
       "Vintage radio warmth, porch shade, brass accents, striped details, and a relaxed backyard rhythm.",
     related: [
@@ -558,39 +774,219 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "neo-deco-celebration-card-family-photos",
-    name: "Neo Deco Celebration Card",
-    keyword: "neo deco celebration family card",
+    slug: "future-glow-family-photos",
+    name: "Future Glow Family",
+    keyword: "future glow family portrait",
     secondaryKeywords: [
-      "art deco family card",
-      "elegant celebration family portrait",
-      "geometric family greeting card",
+      "futuristic family photoshoot",
+      "opalescent family portrait",
+      "cool blue studio family photo",
     ],
-    image: "/samples/theme-neo-deco-celebration-card.webp",
+    image: "/samples/theme-future-glow-family.webp",
     shortDescription:
-      "Geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
+      "Pearl highlights, opalescent accessories, subtle chrome, and optimistic blue-lilac studio glow.",
     related: [
-      "new-years-card-family-photos",
-      "birthday-card-family-photos",
+      "zero-gravity-family-photos",
+      "summer-color-pop-studio-family-photos",
       "runway-editorial-family-photos",
     ],
   },
   {
-    slug: "crochet-raffia-picnic-card-family-photos",
-    name: "Crochet & Raffia Picnic Card",
-    keyword: "crochet raffia picnic family card",
+    slug: "heirloom-pin-portrait-family-photos",
+    name: "Heirloom Pin Portrait",
+    keyword: "heirloom pin family portrait",
     secondaryKeywords: [
-      "summer picnic family card",
-      "raffia picnic family portrait",
-      "gingham picnic family photoshoot",
+      "multi generation family portrait",
+      "brooch family photoshoot",
+      "elegant heirloom family photo",
     ],
-    image: "/samples/theme-crochet-raffia-picnic-card.webp",
+    image: "/samples/theme-heirloom-pin-portrait.webp",
     shortDescription:
-      "Crochet texture, raffia basket details, gingham, citrus color, and natural dewy picnic light.",
+      "Elegant neutral tailoring, heirloom brooch accents, subtle gold and crystal, and warm home-studio polish.",
+    related: [
+      "royal-family-portrait",
+      "annie-leibovitz-family-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "butter-yellow-picnic-family-photos",
+    name: "Butter Yellow Picnic",
+    keyword: "butter yellow picnic family photo",
+    secondaryKeywords: [
+      "butter yellow family picnic portrait",
+      "summer picnic family photoshoot",
+      "yellow picnic family portrait",
+    ],
+    image: "/samples/theme-butter-yellow-picnic.webp",
+    shortDescription:
+      "Cream blankets, fresh fruit, soft flowers, and butter-yellow accents in warm late-summer light.",
     related: [
       "backyard-picnic-family-photos",
       "slow-travel-summer-picnic-family-photos",
       "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "paprika-plaid-autumn-family-photos",
+    name: "Paprika Plaid Autumn",
+    keyword: "paprika plaid autumn family photo",
+    secondaryKeywords: [
+      "plaid autumn family portrait",
+      "paprika fall family photoshoot",
+      "pre fall family portrait",
+    ],
+    image: "/samples/theme-paprika-plaid-autumn.webp",
+    shortDescription:
+      "Paprika, brick red, camel, denim, and subtle plaid layers with cozy pre-fall warmth.",
+    related: [
+      "autumn-cabin-family-photos",
+      "orchard-picking-family-photos",
+      "poetcore-family-library-photos",
+    ],
+  },
+  {
+    slug: "storybook-forest-family-adventure-photos",
+    name: "Storybook Forest Family Adventure",
+    keyword: "storybook forest family portrait",
+    secondaryKeywords: [
+      "forest adventure family photo",
+      "storybook family photoshoot",
+      "enchanted forest family portrait",
+    ],
+    image: "/samples/theme-storybook-forest-family-adventure.webp",
+    shortDescription:
+      "Friendly oversized trees, mossy paths, wildflowers, and warm original storybook adventure polish.",
+    related: [
+      "watercolor-storybook-family-photos",
+      "whimsical-adventure-postcard-family-photos",
+      "toy-box-keepsake-family-photos",
+    ],
+  },
+  {
+    slug: "y3k-chrome-family-future-photos",
+    name: "Y3K Chrome Family Future",
+    keyword: "y3k chrome family portrait",
+    secondaryKeywords: [
+      "chrome family photoshoot",
+      "futuristic family portrait",
+      "silver future family photo",
+    ],
+    image: "/samples/theme-y3k-chrome-family-future.webp",
+    shortDescription:
+      "Chrome accessories, pearly white studio shapes, and gentle holographic highlights in an optimistic future portrait.",
+    related: [
+      "zero-gravity-family-photos",
+      "summer-color-pop-studio-family-photos",
+      "neo-deco-celebration-family-cards",
+    ],
+  },
+  {
+    slug: "back-to-school-storybook-morning-family-photos",
+    name: "Back-to-School Storybook Morning",
+    keyword: "back to school family photo",
+    secondaryKeywords: [
+      "first day family portrait",
+      "school morning family photoshoot",
+      "storybook porch family photo",
+    ],
+    image: "/samples/theme-back-to-school-storybook-morning.webp",
+    shortDescription:
+      "Warm porch-step nostalgia, simple backpacks, blank card props, soft morning light, and proud candid smiles.",
+    related: [
+      "toy-box-keepsake-family-photos",
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "tiny-boo-crew-family-photos",
+    name: "Tiny Boo Crew",
+    keyword: "cute seasonal family portrait",
+    secondaryKeywords: [
+      "pastel pumpkin family photo",
+      "cute pumpkin porch portrait",
+      "matching sweater family photoshoot",
+    ],
+    image: "/samples/theme-tiny-boo-crew.webp",
+    shortDescription:
+      "Pastel pumpkins, friendly sheet-ghost decor, cozy layers, soft candy color, and bright smiles.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "autumn-cabin-family-photos",
+      "thanksgiving-family-cards",
+    ],
+  },
+  {
+    slug: "vintage-pumpkin-patch-postcard-family-photos",
+    name: "Vintage Pumpkin Patch Postcard",
+    keyword: "vintage pumpkin patch family portrait",
+    secondaryKeywords: [
+      "pumpkin patch family photoshoot",
+      "vintage fall family photo",
+      "postcard autumn family portrait",
+    ],
+    image: "/samples/theme-vintage-pumpkin-patch-postcard.webp",
+    shortDescription:
+      "Muted pumpkin orange, cream paper, sepia warmth, hand-tinted harvest texture, and postcard charm.",
+    related: [
+      "tiny-boo-crew-family-photos",
+      "retro-summer-postcard-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "editorial-jewel-tone-fall-portrait-family-photos",
+    name: "Editorial Jewel-Tone Fall Portrait",
+    keyword: "jewel tone fall family portrait",
+    secondaryKeywords: [
+      "editorial fall family photo",
+      "fall fashion family photoshoot",
+      "burgundy family portrait",
+    ],
+    image: "/samples/theme-editorial-jewel-tone-fall-portrait.webp",
+    shortDescription:
+      "Burgundy, royal purple, butter yellow, peach, turquoise accents, layered knits, and refined fall polish.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "poetcore-family-library-photos",
+      "scarf-garden-story-family-photos",
+    ],
+  },
+  {
+    slug: "dino-explorer-family-adventure-family-photos",
+    name: "Dino Explorer Family Adventure",
+    keyword: "dino explorer family photo",
+    secondaryKeywords: [
+      "museum adventure family portrait",
+      "fossil explorer family photoshoot",
+      "prehistoric adventure family photo",
+    ],
+    image: "/samples/theme-dino-explorer-family-adventure.webp",
+    shortDescription:
+      "Museum fossils, oversized ferns, canvas layers, explorer hats, and friendly discovery-set wonder.",
+    related: [
+      "national-park-family-photos",
+      "galactic-family-adventure-photos",
+      "time-travel-toy-shelf-family-photos",
+    ],
+  },
+  {
+    slug: "golden-late-summer-beach-legacy-family-photos",
+    name: "Golden Late-Summer Beach Legacy",
+    keyword: "late summer beach family portrait",
+    secondaryKeywords: [
+      "fine art beach family photo",
+      "golden beach family photoshoot",
+      "legacy beach family portrait",
+    ],
+    image: "/samples/theme-golden-late-summer-beach-legacy.webp",
+    shortDescription:
+      "Glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and heirloom calm.",
+    related: [
+      "golden-hour-beach-family-photos",
+      "cape-cod-family-photos",
+      "cool-blue-lake-day-family-photos",
     ],
   },
   {

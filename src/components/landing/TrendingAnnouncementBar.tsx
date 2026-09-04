@@ -6,12 +6,12 @@ type TrendingAnnouncementBarProps = {
 };
 
 const fallbackVibes = [
-  { id: "retro-summer-postcard", name: "Retro Summer Postcard" },
-  { id: "cool-blue-lake-day", name: "Cool Blue Lake Day" },
-  { id: "toy-box-keepsake-portrait", name: "Toy-Box Keepsake" },
-  { id: "poetcore-family-library-portrait", name: "Poetcore Library" },
-  { id: "neo-deco-celebration-card", name: "Neo Deco Card" },
-  { id: "crochet-raffia-picnic-card", name: "Crochet Picnic Card" },
+  { id: "butter-yellow-picnic", name: "Butter Yellow Picnic" },
+  { id: "paprika-plaid-autumn", name: "Paprika Plaid Autumn" },
+  { id: "summerween-pumpkin-glow", name: "Summerween Pumpkin Glow" },
+  { id: "storybook-forest-family-adventure", name: "Storybook Forest" },
+  { id: "y3k-chrome-family-future", name: "Y3K Chrome Future" },
+  { id: "polka-dot-porch-party", name: "Polka Dot Porch Party" },
 ];
 
 export default async function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementBarProps) {

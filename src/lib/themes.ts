@@ -20,8 +20,8 @@ export type ThemeCategory = "photoreal" | "stylized" | "card";
  *   belong in any spec field.
  *
  * - The composer rewrites occurrences of "family"/"everyone" inside these
- *   fields to "selected cast". Either word is fine; prefer "family" in
- *   prose since it reads naturally.
+ *   fields to neutral "group"/"subjects" wording. Either original word is
+ *   fine; prefer "family" in prose since it reads naturally.
  *
  * - If you write a roster detail into a spec field anyway it will fight
  *   the dynamic roster directive and the model may add or substitute
@@ -714,7 +714,7 @@ export const THEMES: Theme[] = [
       "Weathered planks, lake light, striped towels, canvas totes, and the easy rhythm of a long summer weekend by the dock.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-lake-house.jpg",
+    coverImage: "/samples/theme-dockside-family-weekend.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -736,7 +736,7 @@ export const THEMES: Theme[] = [
       "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
+    coverImage: "/samples/theme-backyard-sports-day-portrait.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -758,7 +758,7 @@ export const THEMES: Theme[] = [
       "A checked blanket, market fruit, linen layers, paper maps, wildflowers, and unhurried travel light on a warm afternoon.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-backyard-picnic.jpg",
+    coverImage: "/samples/theme-slow-travel-summer-picnic.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -780,7 +780,7 @@ export const THEMES: Theme[] = [
       "String lights, paper lanterns, food-stall color, face-safe sparkle, and golden-hour festival warmth without the late-night edge.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-new-years.jpg",
+    coverImage: "/samples/theme-sunset-festival-family-glow.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -802,7 +802,7 @@ export const THEMES: Theme[] = [
       "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
+    coverImage: "/samples/theme-summer-color-pop-studio.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -824,7 +824,7 @@ export const THEMES: Theme[] = [
       "A playful original travel postcard come to life with painted skies, oversized luggage, map edges, and storybook-adventure charm.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/theme-watercolor-storybook.jpg",
+    coverImage: "/samples/theme-whimsical-adventure-postcard.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -944,13 +944,169 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "burgundy-orchard-portrait",
+    name: "Burgundy Orchard Portrait",
+    blurb:
+      "Deep orchard reds, cream knits, weathered crates, and late-season countryside warmth with a polished editorial finish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-burgundy-orchard-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 late-season orchard family portrait",
+      scene:
+        "a quiet countryside orchard with burgundy foliage, dark-red fruit, weathered wooden crates, cream blankets, mossy grass and walnut-toned autumn details",
+      camera:
+        "medium-format camera with an 80mm portrait lens, eye-level environmental framing with readable faces and orchard rows held softly behind",
+      composition:
+        "gentle triangular grouping, crate and blanket details kept secondary, clean orchard depth and print-friendly margins",
+      lighting:
+        "soft overcast golden-afternoon light, warm foliage bounce, delicate rim highlights and clear natural skin detail",
+      style:
+        "editorial countryside photography, burgundy, oxblood, moss green, cream, walnut and muted gold palette, subtle film grain, gallery-print polish",
+      safety:
+        "modest seasonal styling, original orchard setting, no brand labels, no readable signage, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "poetcore-letter-portrait",
+    name: "Poetcore Letter Portrait",
+    blurb:
+      "A warm writing-room portrait with blank stationery, sealed envelopes, pressed flowers, tweed, wool, and quiet literary intimacy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-letter-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 intimate literary writing-room family portrait",
+      scene:
+        "a quiet writing room with a wood desk, blank cream stationery, sealed envelopes, pressed flowers, shelves, wool textures, tweed layers and warm walnut details",
+      camera:
+        "digital medium-format portrait camera with a 65mm lens, vertical waist-up to knee-up framing with face priority and desk details in soft depth",
+      composition:
+        "balanced desk-side portrait geometry, blank stationery reserved as clean negative space only, letter props secondary and uncluttered",
+      lighting:
+        "soft window light mixed with a warm desk-lamp glow, gentle amber falloff, creamy highlights and refined shadow detail",
+      style:
+        "poetcore editorial photography, parchment, oxblood, moss green, walnut, ivory and muted brass palette, tactile paper and wool texture, print-ready finish",
+      safety:
+        "original literary setting, no author likeness, no public-figure resemblance, no readable writing, no brand logos, no watermark",
+    },
+  },
+  {
+    id: "opalescent-future-family",
+    name: "Opalescent Future Family",
+    blurb:
+      "A serene near-future family portrait with pearl light, translucent panels, sculptural wardrobe, and soft iridescent color.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-opalescent-future-family.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 opalescent near-future family portrait",
+      scene:
+        "a serene near-future studio atrium with translucent opal panels, pearl acrylic furniture, soft botanical forms, luminous blank surfaces and clean reflective architecture",
+      camera:
+        "premium editorial camera perspective with a 50mm lens feel, straight-on airy framing with readable faces and gentle architectural depth",
+      composition:
+        "calm symmetrical spacing softened by curved opal forms, open luminous negative space and clean subject separation",
+      lighting:
+        "pearly daylight diffused through translucent panels, soft cyan and rose rim reflections, warm face fill and controlled highlights",
+      style:
+        "clean photoreal-futurist editorial finish, pearl white, opal cyan, soft rose, lavender, mint and warm ivory palette, elegant optimistic mood",
+      safety:
+        "original future setting, no dystopian cues, no weapons, no military styling, no screen text, no logos, no watermark",
+    },
+  },
+  {
+    id: "heirloom-brooch-studio",
+    name: "Heirloom Brooch Studio",
+    blurb:
+      "A timeless studio portrait with velvet, pearl pins, antique-gold brooch accents, painterly light, and keepsake formality.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-heirloom-brooch-studio.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 heirloom studio family portrait",
+      scene:
+        "a refined portrait studio with a warm gray painted canvas backdrop, antique velvet chair, small jewelry tray, pearl pins, generic brooch accents and timeless formal textures",
+      camera:
+        "medium-format studio portrait camera with a 90mm lens, vertical classical framing, crisp faces and tasteful accessory detail",
+      composition:
+        "classic triangular arrangement around the velvet chair, jewelry details secondary, clean negative space and stable studio floor shadows",
+      lighting:
+        "large soft painterly key light from camera-right, gentle fill, subtle shoulder rim and controlled falloff across the painted backdrop",
+      style:
+        "heirloom editorial studio photography, muted ruby, pearl, charcoal, ivory, antique gold and warm gray palette, refined retouch, archival print finish",
+      safety:
+        "original studio styling, no monograms, no crest symbols, no brand jewelry marks, no readable text, no logos, no watermark",
+    },
+  },
+  {
+    id: "whimsical-big-top-family",
+    name: "Whimsical Big-Top Family",
+    blurb:
+      "A cheerful big-top inspired family portrait with canvas stripes, round risers, bunting, warm bulbs, and playful storybook polish.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-whimsical-big-top-family.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical big-top inspired family portrait",
+      scene:
+        "a cheerful vintage big-top inspired studio set with cream canvas stripes, bunting, round risers, paper stars, velvet stools and warm bulb glow",
+      camera:
+        "storybook editorial camera viewpoint with a 45mm lens feel, medium-wide framing with readable faces and colorful set depth",
+      composition:
+        "playful staggered riser arrangement, curved stripe geometry, open stage-floor margins and clean sightlines through the props",
+      lighting:
+        "bright warm theatrical key light, soft fill, golden bulb bokeh and clear friendly facial detail without harsh shadows",
+      style:
+        "polished storybook-photo hybrid, coral, teal, butter yellow, cream, ruby and warm gold palette, joyful family-safe theatrical charm",
+      safety:
+        "no scary circus cues, no masks, no clown styling, no fire props, no readable signs, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "lantern-glow-gathering",
+    name: "Lantern Glow Gathering",
+    blurb:
+      "A cozy early-evening gathering with paper lanterns, woven mats, blankets, garden greenery, and warm blue-hour glow.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-lantern-glow-gathering.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 warm lantern-lit family gathering portrait",
+      scene:
+        "a calm outdoor garden courtyard at early evening with paper lanterns, woven mats, warm blankets, simple ceramic cups, leafy branches and crowd-free depth",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical environmental framing with readable faces and lantern glow surrounding the group",
+      composition:
+        "cozy seated-or-standing gathering geometry, lanterns used as soft foreground and background glow, clean negative space in the blue-hour sky",
+      lighting:
+        "amber lantern glow mixed with blue-hour ambient light, warm face fill, soft rim on hair and gentle bokeh highlights",
+      style:
+        "premium evening lifestyle photography, amber, coral, sage, warm cream, soft brown and twilight blue palette, gentle film grain, print-ready warmth",
+      safety:
+        "family-safe gathering mood, no alcohol cues, no drug cues, no flame hazards, no readable signs, no logos, no watermark",
+    },
+  },
+  {
     id: "butter-yellow-summer-portrait",
     name: "Butter Yellow Summer Portrait",
     blurb:
       "Soft butter-yellow wardrobe notes, pale florals, sunlit linen, and relaxed summer brightness with a polished editorial finish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-cape-cod-summer.png",
+    coverImage: "/samples/theme-butter-yellow-summer-portrait.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -970,13 +1126,117 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "neo-deco-family-portrait",
+    name: "Neo Deco Family Portrait",
+    blurb:
+      "A tasteful formal portrait with geometric fan arches, brass and chrome accents, velvet texture, and warm studio glamour.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-neo-deco-family-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 elegant neo-deco studio family portrait",
+      scene:
+        "a refined studio set with art-deco-inspired fan arches, geometric wall panels, brass and chrome accents, velvet texture, polished floor details and tasteful formal styling",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical formal portrait framing with controlled depth and clear face priority",
+      composition:
+        "balanced symmetrical arch geometry, staggered formal portrait arrangement, negative space shaped by the geometric backdrop",
+      lighting:
+        "warm cinematic studio key light, soft fill, brass glints, gentle chrome rim highlights and controlled shadow detail",
+      style:
+        "neo-deco editorial portrait photography, cream, black, gold, emerald and deep plum accent palette, tasteful glamour, polished print finish",
+      safety:
+        "no nightlife setting, no alcohol props, no gambling references, no brand logos, no readable venue text, no designer references, no watermark",
+    },
+  },
+  {
+    id: "storybook-pen-pals",
+    name: "Storybook Pen Pals",
+    blurb:
+      "A cozy letters-and-library portrait with vintage stationery, blank stamps, drawings, soft knits, and warm window light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-storybook-pen-pals.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 cozy storybook pen-pal family portrait",
+      scene:
+        "a home library or writing desk with handwritten letters, blank stamps, vintage stationery, simple drawings, books, oversized knits, blazers and soft lived-in paper texture",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical desk-side framing, intimate environmental depth and readable faces",
+      composition:
+        "warm triangular arrangement around the writing surface or shelves, letter and drawing details secondary, clear open space free of readable private information",
+      lighting:
+        "soft window light through sheer curtains, warm desk-lamp glow, gentle amber bounce from wood shelves and flattering facial falloff",
+      style:
+        "storybook editorial photography, parchment, walnut, moss green, oxblood, cream and faded blue palette, tactile paper grain, polished holiday-card potential",
+      safety:
+        "fictional stationery only, no real postal logos, no readable addresses, no private data, no copyrighted book text, no brand logos, no watermark",
+    },
+  },
+  {
+    id: "mystic-outlands-adventure",
+    name: "Mystic Outlands Adventure",
+    blurb:
+      "A misty highland or enchanted-forest adventure with moss, soft fog, earth tones, and gentle explorer styling.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-mystic-outlands-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 misty outlands adventure family photograph",
+      scene:
+        "a safe highland trail or enchanted forest clearing with moss, ferns, soft fog, weathered stones, earth-tone layers, scarves, satchels and grounded traveler details",
+      camera:
+        "documentary adventure photographer perspective with a 35mm lens, eye-level environmental portrait framing with readable faces and stable trail footing",
+      composition:
+        "gentle path-leading composition, subjects held away from edges and hazards, layered forest depth with props and landscape kept secondary",
+      lighting:
+        "diffused overcast daylight through mist, soft green forest bounce, subtle warm fill on faces and delicate fog glow in the background",
+      style:
+        "magical but grounded outdoor photography, moss green, peat brown, lichen gray, heather, cream and muted gold palette, natural texture, print-ready wonder",
+      safety:
+        "safe trail setting only, no dangerous ledges, no fast water, no weapons, no scary creatures, no ominous threat, no logos, no watermark",
+    },
+  },
+  {
+    id: "galactic-glow-family-adventure",
+    name: "Galactic Glow Family Adventure",
+    blurb:
+      "A cozy cosmic adventure with opalescent glow, stargazing wonder, moon-dust shimmer, and soft holographic accents.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-galactic-glow-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 opalescent cosmic family adventure portrait",
+      scene:
+        "a dreamy backyard stargazing setup or original cosmic studio set with starry sky, moon-dust shimmer, soft holographic accents, blankets, lantern-like glow and near-future wonder",
+      camera:
+        "digital cinema portrait camera with a 40mm lens, low eye-level adventure framing with sky context and clear readable faces",
+      composition:
+        "cozy crew grouping under a broad star field, luminous props kept secondary, clean silhouette separation and stable grounded poses",
+      lighting:
+        "soft blue-violet sky glow, pearly front fill, warm practical sparkle, gentle rim light and controlled highlights on holographic accents",
+      style:
+        "original cosmic lifestyle photography, opal, lavender, midnight blue, pearl, silver and warm amber palette, futuristic but cozy print-ready finish",
+      safety:
+        "original space-adventure design only, no franchise symbols, no recognizable characters, no weapons, no military insignia, no logos, no text, no watermark",
+    },
+  },
+  {
     id: "scarf-garden-story",
     name: "Scarf Garden Story",
     blurb:
       "A breezy garden portrait with silk-scarf color, climbing greenery, dappled light, and storybook-summer ease.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-orchard-picking.jpg",
+    coverImage: "/samples/theme-scarf-garden-story.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -996,13 +1256,92 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "butter-yellow-summer-card",
+    name: "Butter Yellow Summer Card",
+    blurb:
+      "Warm cream, butter-yellow accents, linen textures, soft summer light, and clean print-ready card space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-butter-yellow-summer-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 warm summer family greeting-card portrait",
+      scene:
+        "a sun-washed cream porch, garden wall or airy cottage entry with pale flowers, linen textures, cotton layers, woven details and butter-yellow accent styling",
+      camera:
+        "digital medium-format camera with a 55mm lens, vertical card-ready portrait framing, crisp faces and refined lifestyle polish",
+      composition:
+        "balanced portrait-card layout with generous pale negative space reserved for typography, relaxed grouping, clear sightlines and no cluttered prop styling",
+      lighting:
+        "soft summer daylight filtered through white curtains or open shade, creamy bounce fill, gentle highlight rolloff and natural skin detail",
+      style:
+        "premium warm-weather card photography, butter yellow, sun-washed cream, white linen, pale floral green and soft gold palette, natural fabric texture, print-ready finish",
+      safety:
+        "original summer-card styling only, modest wardrobe, no swimwear-forward posing, no neon, no logos, no readable text besides provided card text, no watermark",
+    },
+  },
+  {
+    id: "joyful-photo-dump",
+    name: "Joyful Photo Dump",
+    blurb:
+      "A polished candid family portrait with mid-laugh energy, soft flash, tiny motion, and layered snapshot-card charm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-joyful-photo-dump.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 polished candid social-native family portrait",
+      scene:
+        "a bright home entry, sunlit stoop or clean sidewalk moment with layered blank snapshot cards, casual outfit texture and cheerful everyday movement",
+      camera:
+        "35mm lifestyle camera at close eye level, spontaneous mid-laugh framing with hands on shoulders and readable faces",
+      composition:
+        "organized snapshot-card layering behind the portrait, face-first grouping, gentle off-center crop and no collage elements covering expressions",
+      lighting:
+        "soft direct flash balanced with daylight, bright catchlights, controlled shadows and crisp facial detail with only subtle motion in hair or fabric",
+      style:
+        "premium casual flash photography, clean neutrals, denim blue, cream, soft green and warm skin tones, social-native polish, print-ready clarity",
+      safety:
+        "original candid-photo styling only, no celebrity likeness, no platform logos, no song names, no audio references, no alcohol cues, no readable text, no watermark",
+    },
+  },
+  {
+    id: "storybook-ocean-quest",
+    name: "Storybook Ocean Quest",
+    blurb:
+      "A bright tide-pool adventure with watercolor ocean blues, seashell props, sketchbook details, and safe shoreline wonder.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-storybook-ocean-quest.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 bright watercolor storybook family adventure portrait",
+      scene:
+        "a safe shallow shoreline beside tide pools with seashells, sea-glass color, blank sketchbook pages, paper-map shapes and clear coastal sky",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter shoreline perspective, readable faces and stable shallow-water posture",
+      composition:
+        "open-sky storybook layout with decorative shell and seaweed border details, the portrait action kept away from deeper water and clear central face space",
+      lighting:
+        "luminous coastal daylight, bright watercolor sky wash, soft ocean bounce and cheerful blue-green color separation",
+      style:
+        "watercolor and colored-pencil storybook rendering, ocean blue, sea-glass green, coral, sand, cream and sunlit yellow palette, polished printable keepsake texture",
+      safety:
+        "original ocean-story styling only, no franchise characters, no protected character cues, no deep-water danger, no cultural costume styling, no logos, no readable text, no watermark",
+    },
+  },
+  {
     id: "summer-color-hunt",
     name: "Summer Color Hunt",
     blurb:
       "A playful outdoor color-search portrait with swatches, flowers, fruit, and bright discovery energy without app or brand cues.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-easter.jpg",
+    coverImage: "/samples/theme-summer-color-hunt.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1022,13 +1361,39 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "poetcore-porch",
+    name: "Poetcore Porch",
+    blurb:
+      "A cozy porch or garden-bench portrait with vintage layers, satchel details, stationery props, and late-afternoon letter mood.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-porch.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 cozy literary-porch family portrait",
+      scene:
+        "a covered porch, garden bench or library-window threshold with soft plants, a satchel, generic books, stationery, blank letter paper and vintage blazer-cardigan layers",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical porch-level framing, intimate environmental depth and clear face priority",
+      composition:
+        "relaxed seated-and-standing porch arrangement, props kept secondary, clean blank paper areas and no book covers facing camera",
+      lighting:
+        "late-afternoon porch shade with warm side light, soft window glow, gentle amber bounce and flattering falloff on faces",
+      style:
+        "warm literary editorial photography, tweed, wool, cardigan knit, parchment, garden green and walnut palette, handwritten-letter mood without readable marks, gallery-print finish",
+      safety:
+        "original cozy-porch styling only, no gloomy academic darkness, no author likeness, no smoking cues, no alcohol cues, no copyrighted book covers, no readable text, no watermark",
+    },
+  },
+  {
     id: "family-watch-party",
     name: "Family Watch Party",
     blurb:
       "A cozy game-day living room portrait with blank banners, snacks, pillows, and team-color energy without real teams or logos.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-sunday-sofa.jpg",
+    coverImage: "/samples/theme-family-watch-party.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1051,27 +1416,27 @@ export const THEMES: Theme[] = [
     id: "ocean-explorer-card",
     name: "Ocean Explorer Card",
     blurb:
-      "A bright adventure-card portrait with tide-pool blues, paper-map shapes, shells, and clean space for a greeting.",
+      "A cinematic deep-sea family expedition in classic walking suits, with clear helmet portraits and room for a greeting.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-galactic-family-adventure.webp",
+    coverImage: "/samples/theme-ocean-explorer-card.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 3:2 ocean-adventure greeting-card family portrait",
+      assetType: "A 3:2 cinematic deep-sea expedition greeting-card family portrait",
       scene:
-        "a family-friendly shoreline exploration scene with tide pools, shells, compass-like decorative shapes, paper-map edges and airy negative space for greeting text",
+        "the selected family walking together across a luminous deep-ocean floor in substantial classic atmospheric diving suits with large round brass-and-glass helmets, surrounded by pale sand, small coral formations, sea grass, gentle fish, drifting bubbles and a distant research submersible",
       camera:
-        "polished card-art viewpoint with a gentle three-quarter shoreline perspective, readable faces and clean separation from decorative map details",
+        "cinematic eye-level full-body family portrait with the subjects large in frame, each real face clearly visible and brightly lit through a clean helmet window",
       composition:
-        "stable greeting-card layout with open sky or pale sand reserved for typography, selected cast grouped away from the text area",
+        "the family occupies roughly 65 percent of the frame height as the clear focal point, walking together with natural connection and distinct body separation; modest uncluttered blue-water space remains for optional greeting text",
       lighting:
-        "fresh coastal morning light, soft ocean bounce, bright catchlights and clear blue-green color separation",
+        "luminous underwater sunbeams, clear flattering face light inside every helmet, warm brass reflections and crisp blue-green water separation",
       style:
-        "premium illustrated-photo hybrid card art, sea glass blue, coral, sand, white and kelp green palette, print-ready texture and no fake readable labels",
+        "premium photorealistic editorial adventure photography, realistic heavy canvas suits, aged brass fittings, thick glass, deep ocean blue, sea-glass cyan, pale sand and restrained coral accents",
       safety:
-        "original ocean exploration styling only, no franchise adventure cues, no resort logos, no readable map text, no water-danger scene, no watermark",
+        "safe and wondrous family expedition, original unbranded diving equipment, no distress, no threatening animals, no frightening imagery, no tiny silhouettes, no stationery mockup, no logos, no text except the user-supplied greeting, no watermark",
     },
   },
   {
@@ -1108,7 +1473,7 @@ export const THEMES: Theme[] = [
       "A relaxed porch portrait with vintage radio warmth, brass accents, striped shade, and family-safe backyard rhythm.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-70s-station-wagon.jpg",
+    coverImage: "/samples/theme-retro-jazz-porch.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1125,6 +1490,372 @@ export const THEMES: Theme[] = [
         "retro editorial photography, olive, rust, cream, brass, denim and warm wood palette, subtle film grain, cozy musical mood",
       safety:
         "original music-inspired porch scene, no musician likeness, no album covers, no venue logos, no readable text, no alcohol cues, no watermark",
+    },
+  },
+  {
+    id: "future-glow-family",
+    name: "Future Glow Family",
+    blurb:
+      "A clean optimistic tech-family portrait with pearl highlights, opalescent accessories, subtle chrome, and cool blue-lilac light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-future-glow-family.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 clean futuristic studio family portrait",
+      scene:
+        "a bright modern studio with soft curved panels, pearl surfaces, subtle chrome accents, cool blue-lilac glow and playful metallic accessories",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical studio framing, polished face-first arrangement and clean negative space",
+      composition:
+        "optimistic tech-portrait layout with curved architectural lines behind the group, metallic accessories kept secondary and natural body proportions preserved",
+      lighting:
+        "cool blue and lilac studio key light with soft warm fill, pearlescent rim highlights, controlled chrome reflections and clean catchlights",
+      style:
+        "near-future editorial photography, pearl white, opalescent pink, cool blue, soft lilac and subtle silver palette, natural skin texture, premium print finish",
+      safety:
+        "original future-studio styling only, no franchise cues, no aliens, no weapons, no dystopian atmosphere, no metallic skin distortion, no nightclub styling, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "heirloom-pin-portrait",
+    name: "Heirloom Pin Portrait",
+    blurb:
+      "An elegant multi-generation family portrait with heirloom pin accents, neutral tailoring, subtle gold, and warm home-studio polish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-heirloom-pin-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 elegant multi-generation family portrait",
+      scene:
+        "a warm studio or refined home interior with neutral tailoring, heirloom brooch and pin accents, subtle gold-crystal details, soft drapery and quiet framed-art shapes",
+      camera:
+        "medium-format portrait camera with a 75mm lens, vertical formal-yet-warm framing, refined seated-and-standing arrangement and crisp faces",
+      composition:
+        "premium print-ready portrait geometry with graceful tiering, uncluttered background, clear hands and subtle jewelry accents visible without dominating",
+      lighting:
+        "warm studio key light with soft fill, gentle home-interior shadows, gold-toned practical glow and polished skin detail",
+      style:
+        "premium heirloom portrait photography, ivory, taupe, warm gray, champagne gold and soft crystal highlights, neutral tailoring, timeless gallery-print finish",
+      safety:
+        "original heirloom styling only, no luxury brands, no funeral styling, no political insignia, no military insignia, no religious symbols unless user-provided, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "butter-yellow-picnic",
+    name: "Butter Yellow Picnic",
+    blurb:
+      "A warm late-summer picnic portrait with butter-yellow accents, cream linens, fresh fruit, soft flowers, and golden family light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-butter-yellow-picnic.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm late-summer picnic family photograph",
+      scene:
+        "a sunny park or garden picnic with a soft cream blanket, fresh fruit, simple flowers, woven basket details, airy greenery and butter-yellow wardrobe accents",
+      camera:
+        "digital medium-format camera with a 50mm lens, relaxed blanket-level editorial portrait framing with readable faces and natural hand placement",
+      composition:
+        "gentle picnic-blanket geometry, relaxed grouping with breathable negative space and props kept secondary to faces",
+      lighting:
+        "soft golden-hour sunlight filtered through leaves, creamy blanket bounce fill, warm rim highlights and polished natural skin detail",
+      style:
+        "premium family lifestyle photography, butter yellow, cream, soft white, leaf green, pale blue and fresh fruit color accents, subtle film grain, print-ready warmth",
+      safety:
+        "wholesome picnic styling only, no alcohol cues, no brand logos, no readable labels, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "paprika-plaid-autumn",
+    name: "Paprika Plaid Autumn",
+    blurb:
+      "A pre-fall portrait in paprika, brick red, camel, denim, and subtle plaid layers with cozy outdoor warmth.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-paprika-plaid-autumn.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cozy pre-fall family photograph",
+      scene:
+        "an early autumn path or porch with warm leaves, rustic wood, soft grasses, transitional layers, subtle neutral plaid and check textures",
+      camera:
+        "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing with warm environmental depth and crisp faces",
+      composition:
+        "staggered fall portrait arrangement, clean sightlines through leaf texture, natural spacing and visible hands",
+      lighting:
+        "soft overcast-golden afternoon light, warm leaf bounce, gentle rim highlights and balanced shadow detail for print",
+      style:
+        "warm pre-fall editorial photography, paprika, burnt orange, brick red, camel, denim blue, cream and walnut palette, refined natural grain",
+      safety:
+        "generic plaid and check patterns only, no designer references, no logos, no readable text, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "summerween-pumpkin-glow",
+    name: "Summerween Pumpkin Glow",
+    blurb:
+      "A cute early-Halloween card with pastel pumpkins, friendly porch decorations, soft twilight, and warm lantern glow.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-summerween-pumpkin-glow.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 cute Summerween greeting-card family portrait",
+      scene:
+        "a warm porch at soft twilight with pastel pumpkins, friendly tiny ghost decorations, summer flowers, lanterns and clean greeting-card negative space",
+      camera:
+        "polished card-art camera perspective with a gentle eye-level porch composition, readable faces and clear separation from decorative pumpkins",
+      composition:
+        "stable family-card layout with open pale wall or twilight sky reserved for supplied greeting text, decorations framing the edges",
+      lighting:
+        "warm porch lantern glow mixed with soft lavender twilight, flattering face fill, gentle pumpkin highlights and cozy print contrast",
+      style:
+        "cute seasonal card photography, peach, pumpkin orange, butter yellow, lavender, cream and soft green palette, whimsical and age-appropriate polish",
+      safety:
+        "playful porch decorations only, no frightening masks, no sharp props, no injury effects, no threatening scene, no famous character costumes, no logos, no watermark",
+    },
+  },
+  {
+    id: "storybook-forest-family-adventure",
+    name: "Storybook Forest Family Adventure",
+    blurb:
+      "A warm enchanted-forest adventure with oversized friendly trees, mossy paths, wildflowers, and original storybook polish.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-storybook-forest-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original storybook-forest family adventure portrait",
+      scene:
+        "an enchanted forest path with oversized friendly trees, moss, wildflowers, warm sunbeams, rounded roots and cozy adventure wardrobe details",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter path perspective, readable faces and clear character silhouettes",
+      composition:
+        "curving forest path leading through the frame, friendly tree shapes creating a natural arch, open light around the selected group",
+      lighting:
+        "warm magical sunlight through leaves, soft golden rim highlights, luminous green bounce and cheerful color separation",
+      style:
+        "polished illustrated-photo hybrid with gouache texture, moss green, bark brown, butter yellow, wildflower color and warm paper tones, family-safe adventure charm",
+      safety:
+        "original forest adventure only, no movie or book character cues, no recognizable costumes, no battle props, no dark ritual symbols, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "y3k-chrome-family-future",
+    name: "Y3K Chrome Family Future",
+    blurb:
+      "A soft optimistic future portrait with chrome accessories, pearly white studio shapes, and gentle holographic highlights.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-y3k-chrome-family-future.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 soft futuristic studio family portrait",
+      scene:
+        "a pearly white near-future studio with rounded modern shapes, chrome and silver accessories, soft reflective surfaces and gentle holographic highlights",
+      camera:
+        "digital medium-format studio camera with a 55mm lens, clean eye-level editorial framing with crisp faces and glossy environmental depth",
+      composition:
+        "optimistic studio grouping with rounded architecture, balanced chrome accents, clean negative space and uncluttered sightlines",
+      lighting:
+        "large pearly softboxes, subtle holographic rim highlights, controlled chrome reflections and smooth flattering face fill",
+      style:
+        "soft Y3K-inspired future photography, silver, pearl white, pale blue, lavender, soft chrome and clean glass palette, modest styling and print-ready polish",
+      safety:
+        "optimistic future styling only, no dystopian setting, no battle armor, no body distortion, no battle props, no brand logos, no text, no watermark",
+    },
+  },
+  {
+    id: "polka-dot-porch-party",
+    name: "Polka Dot Porch Party",
+    blurb:
+      "A cheerful porch-party card with polka-dot details, bows, ribbons, pastel flowers, cake-table charm, and clean greeting space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-polka-dot-porch-party.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 cheerful porch-party greeting-card family portrait",
+      scene:
+        "a bright front porch or backyard cake-table setup with polka-dot fabric details, bows, ribbons, pastel flowers, simple dessert stands and clean white greeting space",
+      camera:
+        "polished lifestyle-card camera perspective with relaxed eye-level framing, readable faces and soft party details around the edges",
+      composition:
+        "print-friendly card layout with pale wall or sky reserved for supplied greeting text, party table details kept secondary",
+      lighting:
+        "fresh open-shade summer daylight, bright catchlights, soft porch bounce and gentle pastel highlight detail",
+      style:
+        "cheerful summer card photography, white, blush pink, sky blue, butter yellow, mint and clean red accents, polished family keepsake finish",
+      safety:
+        "generic party styling only, no branded packaging, no readable labels, no logos, no celebrity likeness, no watermark",
+    },
+  },
+  {
+    id: "back-to-school-storybook-morning",
+    name: "Back-to-School Storybook Morning",
+    blurb:
+      "Warm first-day nostalgia on porch steps with blank card props, backpack details, soft morning light, and proud candid smiles.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-back-to-school-storybook-morning.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm back-to-school lifestyle family photograph",
+      scene:
+        "a cozy porch, front steps or generic school-step setting with blank chalkboard-style card props, simple backpacks, tidy entry details and end-of-summer greenery",
+      camera:
+        "documentary lifestyle camera with a 45mm lens, eye-level environmental portrait framing, readable faces with porch and step details held in soft focus",
+      composition:
+        "gentle hand-holding and shoulder-to-shoulder spacing, blank prop areas kept secondary, no readable cards, signs or school identifiers",
+      lighting:
+        "soft golden morning light from one side, warm porch bounce, bright catchlights, gentle late-summer haze and clean skin detail",
+      style:
+        "storybook lifestyle photography, denim blue, backpack canvas, warm cream, leaf green and pencil-yellow accents, subtle film grain, print-ready keepsake finish",
+      safety:
+        "generic school-morning scene only, no real school names, no readable writing, no logos, no brands, no team marks, no franchise characters, no watermark",
+    },
+  },
+  {
+    id: "tiny-boo-crew",
+    name: "Tiny Boo Crew",
+    blurb:
+      "A cute non-scary seasonal portrait with pastel pumpkins, friendly sheet-ghost decor, cozy layers, and soft candy color.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-tiny-boo-crew.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cute non-scary seasonal family photograph",
+      scene:
+        "a cozy porch or bright studio with pastel pumpkins, smiling carved-pumpkin decor, simple friendly sheet-ghost decorations, soft candy-color props and warm home texture",
+      camera:
+        "digital medium-format camera with a 50mm lens, clean lifestyle portrait perspective, decorations framing the group without crowding faces",
+      composition:
+        "soft seated-and-standing portrait arrangement with cheerful decor around the edges, uncluttered face sightlines and stable print margins",
+      lighting:
+        "large soft window light mixed with warm porch glow, pastel highlight rolloff, bright catchlights and gentle shadow detail",
+      style:
+        "cozy cute seasonal photography, pale orange, lavender, cream, peach, soft black and candy-pink accents, matching sweaters or pajamas, polished keepsake finish",
+      safety:
+        "cute and non-scary only, gentle decor, no startling tone, no fright-character styling, no licensed masks, no occult seriousness, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "vintage-pumpkin-patch-postcard",
+    name: "Vintage Pumpkin Patch Postcard",
+    blurb:
+      "A nostalgic pumpkin-patch keepsake with early-postcard charm, muted orange, cream paper, sepia warmth, and gentle fall texture.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-vintage-pumpkin-patch-postcard.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 vintage hand-tinted pumpkin-patch postcard family portrait",
+      scene:
+        "a nostalgic pumpkin patch with painted-vine details, cream paper borders, decorative seasonal cutout motifs, harvest textures and an early-postcard studio-backdrop feeling",
+      camera:
+        "antique portrait-camera perspective with a normal lens, straight-on keepsake framing, readable faces inside a balanced postcard layout",
+      composition:
+        "centered portrait grouping within a blank decorative border, pumpkins and vines kept secondary, no readable slogans or postcard lettering",
+      lighting:
+        "soft amber studio daylight, gentle sepia falloff, creamy highlights and low-contrast shadows like an aged hand-tinted print",
+      style:
+        "early-1900s postcard-inspired finish, muted pumpkin orange, cream, sepia, faded sage and warm brown palette, subtle paper texture, hand-painted edge details",
+      safety:
+        "original vintage harvest scene, no readable slogans, no occult seriousness, no scary haunted-house mood, no copyrighted characters, no logos, no watermark",
+    },
+  },
+  {
+    id: "editorial-jewel-tone-fall-portrait",
+    name: "Editorial Jewel-Tone Fall Portrait",
+    blurb:
+      "A refined fall magazine portrait with burgundy, royal purple, butter yellow, peach, turquoise accents, layered knits, and softened tailoring.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-editorial-jewel-tone-fall-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 refined jewel-tone fall editorial family portrait",
+      scene:
+        "a warm studio, townhouse stoop or city-park fall setting with rich fabric texture, clean background depth, seasonal leaves and understated editorial polish",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical magazine framing, crisp faces with elegant environmental compression",
+      composition:
+        "clean magazine-cover geometry with staggered shoulder lines, refined negative space, visible hands and no crowded fashion staging",
+      lighting:
+        "large diffused key light with warm fall bounce, subtle rim on knitwear and tailoring, polished catchlights and controlled contrast",
+      style:
+        "luxury fall editorial photography, burgundy, royal purple, butter yellow, juicy peach, turquoise and electric-blue accents balanced with warm neutrals, natural skin texture, print-ready finish",
+      safety:
+        "original editorial styling only, no brand or runway references, no celebrity likeness, no revealing wardrobe cues, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "dino-explorer-family-adventure",
+    name: "Dino Explorer Family Adventure",
+    blurb:
+      "A friendly discovery portrait with museum fossils, oversized ferns, canvas layers, explorer hats, and prehistoric wonder without danger.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-dino-explorer-family-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 family-friendly dino explorer adventure photograph",
+      scene:
+        "a natural-history museum hall or lush prehistoric-inspired set with fossil props, oversized ferns, rock texture, canvas explorer accessories and friendly distant silhouette decor",
+      camera:
+        "adventure-lifestyle camera with a 35mm lens, low eye-level environmental portrait perspective, faces readable with discovery-set depth behind",
+      composition:
+        "balanced expedition portrait with fossil props and ferns framing the edges, clear subject separation, no chase scene or threat geometry",
+      lighting:
+        "warm museum skylight mixed with green fern bounce, amber rim highlights, soft atmospheric depth and clean readable faces",
+      style:
+        "polished adventure lifestyle photography, khaki, moss green, amber, slate, cream and warm leather accents, realistic set texture, print-ready wonder",
+      safety:
+        "original prehistoric-inspired discovery scene only, no franchise names, no named characters, no theme-park marks, no danger, no chase scene, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "golden-late-summer-beach-legacy",
+    name: "Golden Late-Summer Beach Legacy",
+    blurb:
+      "A fine-art beach portrait with glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and legacy calm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-golden-late-summer-beach-legacy.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 fine-art late-summer beach family photograph",
+      scene:
+        "a quiet sunrise or sunset shoreline with wet sand glow, dune grass, calm horizon, windswept fabric texture, soft neutral layers and warm late-summer atmosphere",
+      camera:
+        "Contax 645 medium format with an 80mm lens, elegant eye-level environmental portrait framing, horizon clean and low with refined negative space",
+      composition:
+        "relaxed hand-holding and generational-feeling spacing only from the selected roster, clean horizon line, modest wardrobe movement and gallery-print margins",
+      lighting:
+        "low golden sun near the horizon, soft water-bounced fill, luminous rim light on hair and fabric, gentle haze with crisp facial detail",
+      style:
+        "fine-art beach portrait photography, soft neutrals, warm greens, earth tones, pale gold and sea-glass accents, natural film grain, luxury print finish",
+      safety:
+        "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
     },
   },
 
@@ -1876,6 +2607,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "cozy-summerween-card",
+    name: "Cozy Summerween Card",
+    blurb:
+      "A cute early-Halloween card with pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-summerween-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 cozy summerween-card family portrait",
+      scene:
+        "a warm porch or living-room card setup with pumpkins, twinkle lights, paper bats, friendly sheet-ghost decor motifs, plaid blankets, candy bowls with blank wrappers and playful generic accessories",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical greeting-card framing with deliberate negative space for card text",
+      composition:
+        "cozy card layout with pumpkins and lights framing the lower corners, faces clear of typography space, props secondary and gentle",
+      lighting:
+        "soft porch-hour or lamplight glow, warm pumpkin-like practical light, gentle fill on faces and clean shadow detail",
+      style:
+        "cute summerween card photography, pumpkin orange, ink black, plum purple, butter yellow and warm cream palette, cozy print-ready finish",
+      safety:
+        "playful seasonal decor only, no scary monsters, no jump-scare cues, no sharp props, no copyrighted costumes, no logos, no readable labels, no watermark",
+    },
+  },
+  {
     id: "card-thanksgiving",
     name: "Thanksgiving Card",
     blurb: "A harvest table in amber light. Gratitude, a full spread, hands clasped.",
@@ -2037,7 +2795,7 @@ export const THEMES: Theme[] = [
       "A romantic anniversary portrait with soft flowers, candlelight and elegant space for a message.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-save-the-date.jpg",
+    coverImage: "/samples/theme-card-anniversary.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
@@ -2153,6 +2911,13 @@ export function themesByCategory() {
       "card-lunar-new-year",
       "card-eid",
       "card-dia-de-muertos",
+      "cozy-summerween-card",
+      "summerween-pumpkin-glow",
+      "polka-dot-porch-party",
+      "butter-yellow-summer-card",
+      "ocean-explorer-card",
+      "neo-deco-celebration-card",
+      "crochet-raffia-picnic-card",
       "card-birthday",
       "card-luxury-carved-number-birthday",
       "card-anniversary",
