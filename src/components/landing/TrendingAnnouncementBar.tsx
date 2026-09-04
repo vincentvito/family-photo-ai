@@ -7,11 +7,11 @@ type TrendingAnnouncementBarProps = {
 
 const fallbackVibes = [
   { id: "butter-yellow-picnic", name: "Butter Yellow Picnic" },
-  { id: "neo-deco-family-portrait", name: "Neo Deco Portrait" },
-  { id: "storybook-pen-pals", name: "Storybook Pen Pals" },
-  { id: "mystic-outlands-adventure", name: "Mystic Outlands" },
-  { id: "galactic-glow-family-adventure", name: "Galactic Glow" },
-  { id: "cozy-summerween-card", name: "Cozy Summerween Card" },
+  { id: "paprika-plaid-autumn", name: "Paprika Plaid Autumn" },
+  { id: "summerween-pumpkin-glow", name: "Summerween Pumpkin Glow" },
+  { id: "storybook-forest-family-adventure", name: "Storybook Forest" },
+  { id: "y3k-chrome-family-future", name: "Y3K Chrome Future" },
+  { id: "polka-dot-porch-party", name: "Polka Dot Porch Party" },
 ];
 
 export default async function TrendingAnnouncementBar({ vibes }: TrendingAnnouncementBarProps) {

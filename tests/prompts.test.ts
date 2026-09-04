@@ -221,6 +221,11 @@ const WEEKLY_TREND_THEME_IDS = [
   "poetcore-porch",
   "future-glow-family",
   "heirloom-pin-portrait",
+  "paprika-plaid-autumn",
+  "summerween-pumpkin-glow",
+  "storybook-forest-family-adventure",
+  "y3k-chrome-family-future",
+  "polka-dot-porch-party",
 ];
 
 const WEEKLY_TREND_VIBE_SLUGS = [
@@ -255,6 +260,11 @@ const WEEKLY_TREND_VIBE_SLUGS = [
   "poetcore-porch-family-photos",
   "future-glow-family-photos",
   "heirloom-pin-portrait-family-photos",
+  "paprika-plaid-autumn-family-photos",
+  "summerween-pumpkin-glow-family-photos",
+  "storybook-forest-family-adventure-photos",
+  "y3k-chrome-family-future-photos",
+  "polka-dot-porch-party-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -279,6 +289,11 @@ const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
   ["mystic-outlands-adventure", "mystic-outlands-adventure-family-photos"],
   ["galactic-glow-family-adventure", "galactic-glow-family-adventure-photos"],
   ["cozy-summerween-card", "cozy-summerween-card-family-photos"],
+  ["paprika-plaid-autumn", "paprika-plaid-autumn-family-photos"],
+  ["summerween-pumpkin-glow", "summerween-pumpkin-glow-family-photos"],
+  ["storybook-forest-family-adventure", "storybook-forest-family-adventure-photos"],
+  ["y3k-chrome-family-future", "y3k-chrome-family-future-photos"],
+  ["polka-dot-porch-party", "polka-dot-porch-party-family-photos"],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -287,6 +302,12 @@ const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
   "butter-yellow-summer-card",
+]);
+
+const CURRENT_TASK_CARD_THEME_IDS = new Set([
+  "cozy-summerween-card",
+  "summerween-pumpkin-glow",
+  "polka-dot-porch-party",
 ]);
 
 const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
@@ -306,8 +327,6 @@ const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
   "future-glow-family": ["opalescent", "chrome"],
   "heirloom-pin-portrait": ["heirloom", "brooch"],
 };
-
-const CURRENT_TASK_CARD_THEME_IDS = new Set(["cozy-summerween-card"]);
 
 const BLOCKED_PROMPT_TERMS =
   /Michael Jackson|Star Wars|Jedi|lightsaber|Disney|Lucasfilm|Beatles|Abbey Road|Devil Wears Prada|Darth|Yoda|Mandalorian/i;
@@ -598,6 +617,11 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
     "butter-yellow-picnic",
+    "paprika-plaid-autumn",
+    "summerween-pumpkin-glow",
+    "storybook-forest-family-adventure",
+    "y3k-chrome-family-future",
+    "polka-dot-porch-party",
     "neo-deco-family-portrait",
     "storybook-pen-pals",
     "mystic-outlands-adventure",

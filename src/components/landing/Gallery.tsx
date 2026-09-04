@@ -14,6 +14,11 @@ type TrendingVibe = { id: string; name: string };
 
 const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
   { id: "butter-yellow-picnic", badge: "Fresh weekly" },
+  { id: "paprika-plaid-autumn", badge: "Fresh weekly" },
+  { id: "summerween-pumpkin-glow", badge: "New card" },
+  { id: "storybook-forest-family-adventure", badge: "Fresh weekly" },
+  { id: "y3k-chrome-family-future", badge: "Fresh weekly" },
+  { id: "polka-dot-porch-party", badge: "New card" },
   { id: "neo-deco-family-portrait", badge: "Fresh weekly" },
   { id: "storybook-pen-pals", badge: "Fresh weekly" },
   { id: "mystic-outlands-adventure", badge: "Fresh weekly" },

@@ -450,24 +450,6 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "butter-yellow-picnic-family-photos",
-    name: "Butter Yellow Picnic",
-    keyword: "butter yellow picnic family photo",
-    secondaryKeywords: [
-      "yellow picnic family portrait",
-      "summer picnic family photoshoot",
-      "golden hour picnic family photo",
-    ],
-    image: "/samples/theme-backyard-picnic.jpg",
-    shortDescription:
-      "Golden-hour picnic light, butter-yellow accents, soft linens, flowers, and bright summer laughter.",
-    related: [
-      "slow-travel-summer-picnic-family-photos",
-      "butter-yellow-summer-family-photos",
-      "backyard-picnic-family-photos",
-    ],
-  },
-  {
     slug: "neo-deco-family-portrait-photos",
     name: "Neo Deco Family Portrait",
     keyword: "neo deco family portrait",
@@ -807,6 +789,114 @@ export const VIBES: readonly Vibe[] = [
       "backyard-picnic-family-photos",
       "slow-travel-summer-picnic-family-photos",
       "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "butter-yellow-picnic-family-photos",
+    name: "Butter Yellow Picnic",
+    keyword: "butter yellow picnic family photo",
+    secondaryKeywords: [
+      "butter yellow family picnic portrait",
+      "summer picnic family photoshoot",
+      "yellow picnic family portrait",
+    ],
+    image: "/samples/theme-butter-yellow-picnic.webp",
+    shortDescription:
+      "Cream blankets, fresh fruit, soft flowers, and butter-yellow accents in warm late-summer light.",
+    related: [
+      "backyard-picnic-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "paprika-plaid-autumn-family-photos",
+    name: "Paprika Plaid Autumn",
+    keyword: "paprika plaid autumn family photo",
+    secondaryKeywords: [
+      "plaid autumn family portrait",
+      "paprika fall family photoshoot",
+      "pre fall family portrait",
+    ],
+    image: "/samples/theme-paprika-plaid-autumn.webp",
+    shortDescription:
+      "Paprika, brick red, camel, denim, and subtle plaid layers with cozy pre-fall warmth.",
+    related: [
+      "autumn-cabin-family-photos",
+      "orchard-picking-family-photos",
+      "poetcore-family-library-photos",
+    ],
+  },
+  {
+    slug: "summerween-pumpkin-glow-family-photos",
+    name: "Summerween Pumpkin Glow",
+    keyword: "summerween pumpkin family card",
+    secondaryKeywords: [
+      "cute pumpkin family card",
+      "summerween family portrait",
+      "early Halloween family card",
+    ],
+    image: "/samples/theme-summerween-pumpkin-glow.webp",
+    shortDescription:
+      "Pastel pumpkins, friendly porch decorations, soft twilight, and warm lantern glow for a cute seasonal card.",
+    related: [
+      "halloween-card-family-photos",
+      "polka-dot-porch-party-family-photos",
+      "crochet-raffia-picnic-card-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-forest-family-adventure-photos",
+    name: "Storybook Forest Family Adventure",
+    keyword: "storybook forest family portrait",
+    secondaryKeywords: [
+      "forest adventure family photo",
+      "storybook family photoshoot",
+      "enchanted forest family portrait",
+    ],
+    image: "/samples/theme-storybook-forest-family-adventure.webp",
+    shortDescription:
+      "Friendly oversized trees, mossy paths, wildflowers, and warm original storybook adventure polish.",
+    related: [
+      "watercolor-storybook-family-photos",
+      "whimsical-adventure-postcard-family-photos",
+      "toy-box-keepsake-family-photos",
+    ],
+  },
+  {
+    slug: "y3k-chrome-family-future-photos",
+    name: "Y3K Chrome Family Future",
+    keyword: "y3k chrome family portrait",
+    secondaryKeywords: [
+      "chrome family photoshoot",
+      "futuristic family portrait",
+      "silver future family photo",
+    ],
+    image: "/samples/theme-y3k-chrome-family-future.webp",
+    shortDescription:
+      "Chrome accessories, pearly white studio shapes, and gentle holographic highlights in an optimistic future portrait.",
+    related: [
+      "zero-gravity-family-photos",
+      "summer-color-pop-studio-family-photos",
+      "neo-deco-celebration-card-family-photos",
+    ],
+  },
+  {
+    slug: "polka-dot-porch-party-family-photos",
+    name: "Polka Dot Porch Party",
+    keyword: "polka dot porch party family card",
+    secondaryKeywords: [
+      "polka dot family card",
+      "porch party family portrait",
+      "pastel party family card",
+    ],
+    image: "/samples/theme-polka-dot-porch-party.webp",
+    shortDescription:
+      "Polka-dot details, bows, ribbons, flowers, and pastel porch-party charm with clean greeting space.",
+    related: [
+      "birthday-card-family-photos",
+      "summerween-pumpkin-glow-family-photos",
+      "crochet-raffia-picnic-card-family-photos",
     ],
   },
   {
