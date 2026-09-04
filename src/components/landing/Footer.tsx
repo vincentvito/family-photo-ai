@@ -144,7 +144,10 @@ export default async function Footer() {
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">
           © {new Date().getFullYear()} {t("copyright")}
         </p>
-        <TinyshelfBadge />
+        <div className="flex items-center gap-3">
+          <TinyshelfBadge />
+          <LaunchLlamaBadge />
+        </div>
         <p className="text-xs text-[color:rgba(251,248,243,0.5)]">{t("paidStudio")}</p>
       </div>
     </footer>
@@ -153,7 +156,12 @@ export default async function Footer() {
 
 export function TinyshelfBadge() {
   return (
-    <a href="https://www.tinyshelf.co/?ref=familyshoot.com" title="Featured on tinyshelf">
+    <a
+      href="https://www.tinyshelf.co/?ref=familyshoot.com"
+      title="Featured on tinyshelf"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {/* The badge is served as an SVG by Tinyshelf and does not need image optimization. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -161,6 +169,28 @@ export function TinyshelfBadge() {
         alt="Featured on tinyshelf"
         width={216}
         height={64}
+        className="h-10 w-36 object-contain"
+      />
+    </a>
+  );
+}
+
+export function LaunchLlamaBadge() {
+  return (
+    <a
+      href="https://tools.launchllama.co?utm_source=badge&utm_medium=referral"
+      title="As seen on Launch Llama Newsletter"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {/* The badge is served by Launch Llama and does not need image optimization. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="https://tools.launchllama.co/featured-badge-white.png?v=2"
+        alt="As seen on Launch Llama Newsletter"
+        width={200}
+        height={50}
+        className="h-10 w-36 object-contain"
       />
     </a>
   );
