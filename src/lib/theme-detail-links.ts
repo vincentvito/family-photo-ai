@@ -8,10 +8,14 @@ const DETAIL_SLUG_OVERRIDES: Record<string, string> = {
   "royal-family-portrait": "royal-family-portrait",
   "toy-box-keepsake-portrait": "toy-box-keepsake-family-photos",
   "poetcore-family-library-portrait": "poetcore-family-library-photos",
+  "heirloom-brooch-studio": "heirloom-brooch-family-photos",
   "family-watch-party": "family-watch-party-photos",
 };
 
-const DETAIL_SLUGS = new Set([...VIBES.map((vibe) => vibe.slug), ...CARDS.map((card) => card.slug)]);
+const DETAIL_SLUGS = new Set([
+  ...VIBES.map((vibe) => vibe.slug),
+  ...CARDS.map((card) => card.slug),
+]);
 
 function candidateSlugs(themeId: string) {
   return [

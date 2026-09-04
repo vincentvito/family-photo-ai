@@ -432,6 +432,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "burgundy-orchard-family-photos",
+    name: "Burgundy Orchard Portrait",
+    keyword: "burgundy orchard family portrait",
+    secondaryKeywords: [
+      "orchard family photoshoot",
+      "burgundy family portrait",
+      "autumn orchard family photo",
+    ],
+    image: "/samples/theme-burgundy-orchard-portrait.webp",
+    shortDescription:
+      "Deep orchard reds, cream knits, weathered crates, and late-season countryside warmth.",
+    related: [
+      "autumn-cabin-family-photos",
+      "scarf-garden-story-family-photos",
+      "slow-travel-summer-picnic-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-letter-family-photos",
+    name: "Poetcore Letter Portrait",
+    keyword: "poetcore letter family portrait",
+    secondaryKeywords: [
+      "letter writing family portrait",
+      "poetcore family photoshoot",
+      "stationery family photo",
+    ],
+    image: "/samples/theme-poetcore-letter-portrait.webp",
+    shortDescription:
+      "Blank stationery, sealed envelopes, pressed flowers, tweed, wool, and quiet writing-room intimacy.",
+    related: [
+      "poetcore-family-library-photos",
+      "sunday-sofa-family-photos",
+      "heirloom-brooch-family-photos",
+    ],
+  },
+  {
+    slug: "opalescent-future-family-photos",
+    name: "Opalescent Future Family",
+    keyword: "opalescent future family portrait",
+    secondaryKeywords: [
+      "near future family portrait",
+      "iridescent family photoshoot",
+      "futuristic family photo",
+    ],
+    image: "/samples/theme-opalescent-future-family.webp",
+    shortDescription:
+      "Pearl light, translucent panels, sculptural wardrobe, and optimistic iridescent color.",
+    related: [
+      "zero-gravity-family-photos",
+      "fluffy-cloud-family-photos",
+      "summer-color-pop-studio-family-photos",
+    ],
+  },
+  {
+    slug: "heirloom-brooch-family-photos",
+    name: "Heirloom Brooch Studio",
+    keyword: "heirloom brooch family portrait",
+    secondaryKeywords: [
+      "heirloom studio family portrait",
+      "brooch family photoshoot",
+      "timeless formal family photo",
+    ],
+    image: "/samples/theme-heirloom-brooch-studio.webp",
+    shortDescription:
+      "Velvet, pearl pins, antique-gold brooch accents, painterly light, and keepsake formality.",
+    related: [
+      "annie-leibovitz-family-photos",
+      "renaissance-oil-family-photos",
+      "poetcore-letter-family-photos",
+    ],
+  },
+  {
+    slug: "whimsical-big-top-family-photos",
+    name: "Whimsical Big-Top Family",
+    keyword: "whimsical big top family portrait",
+    secondaryKeywords: [
+      "big top family photoshoot",
+      "theatrical family portrait",
+      "storybook stage family photo",
+    ],
+    image: "/samples/theme-whimsical-big-top-family.webp",
+    shortDescription:
+      "Canvas stripes, round risers, bunting, warm bulbs, and playful storybook polish.",
+    related: [
+      "whimsical-adventure-postcard-family-photos",
+      "pop-icon-stage-family-photos",
+      "summer-color-pop-studio-family-photos",
+    ],
+  },
+  {
+    slug: "lantern-glow-gathering-family-photos",
+    name: "Lantern Glow Gathering",
+    keyword: "lantern glow family gathering portrait",
+    secondaryKeywords: [
+      "lantern family photoshoot",
+      "evening garden family portrait",
+      "cozy gathering family photo",
+    ],
+    image: "/samples/theme-lantern-glow-gathering.webp",
+    shortDescription:
+      "Paper lanterns, woven mats, blankets, garden greenery, and warm blue-hour glow.",
+    related: [
+      "sunset-festival-family-glow-photos",
+      "backyard-picnic-family-photos",
+      "crochet-raffia-picnic-card-family-photos",
+    ],
+  },
+  {
     slug: "butter-yellow-summer-family-photos",
     name: "Butter Yellow Summer Portrait",
     keyword: "butter yellow summer family photo",

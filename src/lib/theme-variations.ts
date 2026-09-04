@@ -127,6 +127,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Library-aisle frame: subjects standing between shelves with book stacks secondary, messenger satchel texture and quiet literary editorial mood.",
     "Close letter-card crop: subjects waist-up beside parchment-toned cards and shelves, wool and tweed details, soft amber falloff and clear faces.",
   ],
+  "burgundy-orchard-portrait": [
+    "Crate-side orchard portrait: subjects gathered near weathered crates and cream blankets, burgundy foliage behind, relaxed hands and clear face priority.",
+    "Orchard-row walk: subjects moving gently along the tree rows with dark-red fruit and mossy grass, full-to-three-quarter bodies and soft countryside depth.",
+    "Blanket keepsake frame: subjects seated or kneeling around a cream blanket under low branches, walnut and oxblood details secondary, warm editorial polish.",
+    "Tight burgundy crop: waist-up subject grouping with deep foliage bokeh, muted gold rim light, natural smiles and clean print-ready margins.",
+  ],
+  "poetcore-letter-portrait": [
+    "Desk-letter portrait: subjects arranged around a wood writing desk with blank stationery and sealed envelopes, paper texture visible but unreadable.",
+    "Window-note candid: subjects leaning near sheer-curtain window light with pressed flowers and blank cards nearby, warm lamp depth and clear faces.",
+    "Shelf-and-desk frame: subjects standing or seated between shelves and a writing table, tweed and wool texture secondary, intimate literary spacing.",
+    "Close parchment crop: waist-up subject grouping beside clean blank paper and envelopes, soft amber falloff, face priority and no readable writing.",
+  ],
+  "opalescent-future-family": [
+    "Atrium sofa portrait: subjects seated or standing near pearl acrylic furniture, translucent opal panels behind, airy architecture and readable faces.",
+    "Curved-panel frame: subjects staggered within luminous curved panels, cyan and rose reflections held softly, full-to-three-quarter bodies when natural.",
+    "Botanical future candid: subjects gathered near clean sculptural greenery and opal surfaces, gentle interaction, warm expressions and uncluttered depth.",
+    "Tight iridescent crop: waist-up subject grouping with pearly bokeh and mint-lavender glow, clean high-end finish and open luminous margins.",
+  ],
+  "heirloom-brooch-studio": [
+    "Velvet-chair tableau: subjects arranged around an antique velvet chair with small generic brooch accents secondary, classic triangular studio composition.",
+    "Pearl-pin close portrait: waist-up grouping with pearl and antique-gold accessory details, painterly side light, warm gray backdrop and readable faces.",
+    "Standing heirloom frame: subjects staggered in timeless formal textures, jewelry tray off to one side, clean floor shadows and archival studio polish.",
+    "Seated keepsake crop: subjects close together around the chair arms, muted ruby and ivory wardrobe notes, soft rim light and calm formal expressions.",
+  ],
+  "whimsical-big-top-family": [
+    "Riser-stage portrait: subjects arranged on round risers under cream canvas stripes, bunting and paper stars framing the cheerful set.",
+    "Velvet-stool candid: subjects gathered around plush stools with playful theatrical gestures, warm bulb bokeh and clean face readability.",
+    "Wide canvas proof: subjects smaller within the big-top inspired set, curved stripe geometry visible, open stage-floor margins and no readable signage.",
+    "Close storybook crop: waist-up subject grouping with coral, teal and butter-yellow accents, soft theatrical light and friendly polished charm.",
+  ],
+  "lantern-glow-gathering": [
+    "Garden-mat portrait: subjects gathered on woven mats with blankets and ceramic cups nearby, lanterns glowing softly around the courtyard.",
+    "Blue-hour standing frame: subjects standing beneath paper lanterns and leafy branches, twilight sky negative space and warm readable faces.",
+    "Lantern-table candid: subjects leaning into a cozy gathering moment near a low table, amber glow and crowd-free garden depth.",
+    "Tight glow crop: waist-up subject grouping with lantern bokeh, sage and coral accents, soft blue-hour rim and polished evening warmth.",
+  ],
   "butter-yellow-summer-portrait": [
     "Porch-linen portrait: subjects gathered on a sunny porch with butter-yellow accents, pale florals and white linen, airy late-morning light and readable faces.",
     "Garden-path candid: subjects walking through soft greenery with woven basket details, yellow wardrobe notes secondary, natural hands and crisp summer polish.",

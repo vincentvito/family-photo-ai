@@ -944,6 +944,162 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "burgundy-orchard-portrait",
+    name: "Burgundy Orchard Portrait",
+    blurb:
+      "Deep orchard reds, cream knits, weathered crates, and late-season countryside warmth with a polished editorial finish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-burgundy-orchard-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 late-season orchard family portrait",
+      scene:
+        "a quiet countryside orchard with burgundy foliage, dark-red fruit, weathered wooden crates, cream blankets, mossy grass and walnut-toned autumn details",
+      camera:
+        "medium-format camera with an 80mm portrait lens, eye-level environmental framing with readable faces and orchard rows held softly behind",
+      composition:
+        "gentle triangular grouping, crate and blanket details kept secondary, clean orchard depth and print-friendly margins",
+      lighting:
+        "soft overcast golden-afternoon light, warm foliage bounce, delicate rim highlights and clear natural skin detail",
+      style:
+        "editorial countryside photography, burgundy, oxblood, moss green, cream, walnut and muted gold palette, subtle film grain, gallery-print polish",
+      safety:
+        "modest seasonal styling, original orchard setting, no brand labels, no readable signage, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "poetcore-letter-portrait",
+    name: "Poetcore Letter Portrait",
+    blurb:
+      "A warm writing-room portrait with blank stationery, sealed envelopes, pressed flowers, tweed, wool, and quiet literary intimacy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-letter-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 intimate literary writing-room family portrait",
+      scene:
+        "a quiet writing room with a wood desk, blank cream stationery, sealed envelopes, pressed flowers, shelves, wool textures, tweed layers and warm walnut details",
+      camera:
+        "digital medium-format portrait camera with a 65mm lens, vertical waist-up to knee-up framing with face priority and desk details in soft depth",
+      composition:
+        "balanced desk-side portrait geometry, blank stationery reserved as clean negative space only, letter props secondary and uncluttered",
+      lighting:
+        "soft window light mixed with a warm desk-lamp glow, gentle amber falloff, creamy highlights and refined shadow detail",
+      style:
+        "poetcore editorial photography, parchment, oxblood, moss green, walnut, ivory and muted brass palette, tactile paper and wool texture, print-ready finish",
+      safety:
+        "original literary setting, no author likeness, no public-figure resemblance, no readable writing, no brand logos, no watermark",
+    },
+  },
+  {
+    id: "opalescent-future-family",
+    name: "Opalescent Future Family",
+    blurb:
+      "A serene near-future family portrait with pearl light, translucent panels, sculptural wardrobe, and soft iridescent color.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-opalescent-future-family.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 opalescent near-future family portrait",
+      scene:
+        "a serene near-future studio atrium with translucent opal panels, pearl acrylic furniture, soft botanical forms, luminous blank surfaces and clean reflective architecture",
+      camera:
+        "premium editorial camera perspective with a 50mm lens feel, straight-on airy framing with readable faces and gentle architectural depth",
+      composition:
+        "calm symmetrical spacing softened by curved opal forms, open luminous negative space and clean subject separation",
+      lighting:
+        "pearly daylight diffused through translucent panels, soft cyan and rose rim reflections, warm face fill and controlled highlights",
+      style:
+        "clean photoreal-futurist editorial finish, pearl white, opal cyan, soft rose, lavender, mint and warm ivory palette, elegant optimistic mood",
+      safety:
+        "original future setting, no dystopian cues, no weapons, no military styling, no screen text, no logos, no watermark",
+    },
+  },
+  {
+    id: "heirloom-brooch-studio",
+    name: "Heirloom Brooch Studio",
+    blurb:
+      "A timeless studio portrait with velvet, pearl pins, antique-gold brooch accents, painterly light, and keepsake formality.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-heirloom-brooch-studio.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 heirloom studio family portrait",
+      scene:
+        "a refined portrait studio with a warm gray painted canvas backdrop, antique velvet chair, small jewelry tray, pearl pins, generic brooch accents and timeless formal textures",
+      camera:
+        "medium-format studio portrait camera with a 90mm lens, vertical classical framing, crisp faces and tasteful accessory detail",
+      composition:
+        "classic triangular arrangement around the velvet chair, jewelry details secondary, clean negative space and stable studio floor shadows",
+      lighting:
+        "large soft painterly key light from camera-right, gentle fill, subtle shoulder rim and controlled falloff across the painted backdrop",
+      style:
+        "heirloom editorial studio photography, muted ruby, pearl, charcoal, ivory, antique gold and warm gray palette, refined retouch, archival print finish",
+      safety:
+        "original studio styling, no monograms, no crest symbols, no brand jewelry marks, no readable text, no logos, no watermark",
+    },
+  },
+  {
+    id: "whimsical-big-top-family",
+    name: "Whimsical Big-Top Family",
+    blurb:
+      "A cheerful big-top inspired family portrait with canvas stripes, round risers, bunting, warm bulbs, and playful storybook polish.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-whimsical-big-top-family.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical big-top inspired family portrait",
+      scene:
+        "a cheerful vintage big-top inspired studio set with cream canvas stripes, bunting, round risers, paper stars, velvet stools and warm bulb glow",
+      camera:
+        "storybook editorial camera viewpoint with a 45mm lens feel, medium-wide framing with readable faces and colorful set depth",
+      composition:
+        "playful staggered riser arrangement, curved stripe geometry, open stage-floor margins and clean sightlines through the props",
+      lighting:
+        "bright warm theatrical key light, soft fill, golden bulb bokeh and clear friendly facial detail without harsh shadows",
+      style:
+        "polished storybook-photo hybrid, coral, teal, butter yellow, cream, ruby and warm gold palette, joyful family-safe theatrical charm",
+      safety:
+        "no scary circus cues, no masks, no clown styling, no fire props, no readable signs, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "lantern-glow-gathering",
+    name: "Lantern Glow Gathering",
+    blurb:
+      "A cozy early-evening gathering with paper lanterns, woven mats, blankets, garden greenery, and warm blue-hour glow.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-lantern-glow-gathering.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 warm lantern-lit family gathering portrait",
+      scene:
+        "a calm outdoor garden courtyard at early evening with paper lanterns, woven mats, warm blankets, simple ceramic cups, leafy branches and crowd-free depth",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical environmental framing with readable faces and lantern glow surrounding the group",
+      composition:
+        "cozy seated-or-standing gathering geometry, lanterns used as soft foreground and background glow, clean negative space in the blue-hour sky",
+      lighting:
+        "amber lantern glow mixed with blue-hour ambient light, warm face fill, soft rim on hair and gentle bokeh highlights",
+      style:
+        "premium evening lifestyle photography, amber, coral, sage, warm cream, soft brown and twilight blue palette, gentle film grain, print-ready warmth",
+      safety:
+        "family-safe gathering mood, no alcohol cues, no drug cues, no flame hazards, no readable signs, no logos, no watermark",
+    },
+  },
+  {
     id: "butter-yellow-summer-portrait",
     name: "Butter Yellow Summer Portrait",
     blurb:
