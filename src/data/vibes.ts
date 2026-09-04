@@ -468,6 +468,60 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "butter-yellow-summer-card-family-photos",
+    name: "Butter Yellow Summer Card",
+    keyword: "butter yellow summer family card",
+    secondaryKeywords: [
+      "butter yellow family photo card",
+      "summer linen family card",
+      "yellow summer portrait card",
+    ],
+    image: "/samples/theme-butter-yellow-summer-card.webp",
+    shortDescription:
+      "Warm cream, butter-yellow accents, linen textures, soft summer light, and clean print-ready card space.",
+    related: [
+      "butter-yellow-summer-family-photos",
+      "scarf-garden-story-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "joyful-photo-dump-family-photos",
+    name: "Joyful Photo Dump",
+    keyword: "joyful photo dump family portrait",
+    secondaryKeywords: [
+      "candid family photo dump portrait",
+      "mid laugh family photoshoot",
+      "soft flash family portrait",
+    ],
+    image: "/samples/theme-joyful-photo-dump.webp",
+    shortDescription:
+      "Mid-laugh family energy, tiny movement, hands-on-shoulders closeness, and polished soft-flash snapshot charm.",
+    related: [
+      "vintage-polaroid-family-photos",
+      "noughties-family-throwback-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-ocean-quest-family-photos",
+    name: "Storybook Ocean Quest",
+    keyword: "storybook ocean quest family portrait",
+    secondaryKeywords: [
+      "tide pool family adventure portrait",
+      "watercolor ocean family photo",
+      "shoreline storybook family photoshoot",
+    ],
+    image: "/samples/theme-storybook-ocean-quest.webp",
+    shortDescription:
+      "Watercolor ocean blues, tide-pool wonder, seashell details, sketchbook props, and safe shoreline adventure.",
+    related: [
+      "ocean-explorer-card-family-photos",
+      "cool-blue-lake-day-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
     slug: "summer-color-hunt-family-photos",
     name: "Summer Color Hunt",
     keyword: "summer color hunt family photo",
@@ -483,6 +537,24 @@ export const VIBES: readonly Vibe[] = [
       "summer-color-pop-studio-family-photos",
       "backyard-picnic-family-photos",
       "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "poetcore-porch-family-photos",
+    name: "Poetcore Porch",
+    keyword: "poetcore porch family portrait",
+    secondaryKeywords: [
+      "cozy porch family photoshoot",
+      "literary porch family portrait",
+      "vintage cardigan family photo",
+    ],
+    image: "/samples/theme-poetcore-porch.webp",
+    shortDescription:
+      "Vintage layers, satchel and stationery props, late-afternoon porch light, and handwritten-letter mood without readable text.",
+    related: [
+      "poetcore-family-library-photos",
+      "retro-jazz-porch-family-photos",
+      "sunday-sofa-family-photos",
     ],
   },
   {
@@ -555,6 +627,42 @@ export const VIBES: readonly Vibe[] = [
       "70s-station-wagon-family-photos",
       "sunday-sofa-family-photos",
       "vintage-polaroid-family-photos",
+    ],
+  },
+  {
+    slug: "future-glow-family-photos",
+    name: "Future Glow Family",
+    keyword: "future glow family portrait",
+    secondaryKeywords: [
+      "futuristic family photoshoot",
+      "opalescent family portrait",
+      "cool blue studio family photo",
+    ],
+    image: "/samples/theme-future-glow-family.webp",
+    shortDescription:
+      "Pearl highlights, opalescent accessories, subtle chrome, and optimistic blue-lilac studio glow.",
+    related: [
+      "zero-gravity-family-photos",
+      "summer-color-pop-studio-family-photos",
+      "runway-editorial-family-photos",
+    ],
+  },
+  {
+    slug: "heirloom-pin-portrait-family-photos",
+    name: "Heirloom Pin Portrait",
+    keyword: "heirloom pin family portrait",
+    secondaryKeywords: [
+      "multi generation family portrait",
+      "brooch family photoshoot",
+      "elegant heirloom family photo",
+    ],
+    image: "/samples/theme-heirloom-pin-portrait.webp",
+    shortDescription:
+      "Elegant neutral tailoring, heirloom brooch accents, subtle gold and crystal, and warm home-studio polish.",
+    related: [
+      "royal-family-portrait",
+      "annie-leibovitz-family-photos",
+      "sunday-sofa-family-photos",
     ],
   },
   {

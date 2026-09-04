@@ -139,11 +139,35 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Climbing-greenery frame: subjects standing near trellis leaves and soft blossoms, scarf details moving lightly, vertical editorial composition and no logos.",
     "Close scarf-color crop: waist-up subject grouping with sage, red and pale yellow fabric accents, romantic garden bokeh and crisp subject separation.",
   ],
+  "butter-yellow-summer-card": [
+    "Cream-porch greeting card: subjects grouped low in the frame on a sun-washed cream porch, butter-yellow wardrobe accents, pale blank space above or beside them for provided card text.",
+    "Garden-wall card proof: subjects gathered near pale flowers and linen textures, soft summer light, clear typography area in cream wall or sky, no fake words.",
+    "Yellow-lens candid card: subjects mid-smile with one optional yellow-lens sunglass accessory, airy cotton layers, relaxed hands and a clean print-ready margin.",
+    "Tight butter-card crop: waist-up grouping with butter-yellow and cream fabric texture, warm bounce fill, crisp faces and a reserved blank greeting zone.",
+  ],
+  "joyful-photo-dump": [
+    "Mid-laugh front-step frame: subjects leaning close with hands on shoulders, soft flash sparkle, tiny hair movement and layered blank snapshot cards behind.",
+    "Stacked-snapshot portrait: one polished main portrait over clean blank photo-card shapes, faces unobstructed, candid off-center crop and bright daylight.",
+    "Shoulder-squeeze candid: subjects gathered in a cheerful doorway moment, gentle motion in fabric, crisp expressions and casual flash-photo polish.",
+    "Close social-native crop: waist-up grouping with warm direct flash, clean background, layered photo edges secondary and no chaotic collage effects.",
+  ],
+  "storybook-ocean-quest": [
+    "Tide-pool discovery: subjects crouched or standing safely beside shallow tide pools, seashells and sketchbook details nearby, bright watercolor ocean blues.",
+    "Shell-border quest card: subjects framed by decorative shells and seaweed, open sky above, safe shoreline posture and cheerful storybook adventure mood.",
+    "Sketchbook shoreline: subjects exploring beside blank sketchbook pages and paper-map shapes, sea-glass palette, readable faces and no readable marks.",
+    "Close ocean-story crop: waist-up subject grouping against pale sand and blue water, watercolor texture, shell accents and clear printable negative space.",
+  ],
   "summer-color-hunt": [
     "Swatch-garden portrait: subjects arranged near simple color swatches, flowers and fruit bowls, props secondary and no readable labels.",
     "Color-search candid: subjects reaching toward bright garden color clusters, active lifestyle framing, cheerful open-shade light and clean faces.",
     "Backyard discovery frame: subjects in a tidy backyard color-hunt setup with red, blue, yellow and green accents, no boards or logos.",
     "Tight color-pop crop: subjects waist-up against flowers and fruit color blocks, crisp catchlights and polished summer lifestyle finish.",
+  ],
+  "poetcore-porch": [
+    "Porch-letter portrait: subjects gathered on a covered porch beside blank stationery, satchel and generic books, vintage cardigan layers and late-afternoon glow.",
+    "Garden-bench reading mood: subjects relaxed near a garden bench with books and folded blank paper secondary, warm side light and clear faces.",
+    "Library-window threshold: subjects framed by a porch window or doorway, tweed and knit texture, amber window glow and props kept below face level.",
+    "Close stationery crop: waist-up grouping with blank letter paper, pencils and satchel details, soft porch shade and handwritten mood without readable text.",
   ],
   "family-watch-party": [
     "Sofa watch-party portrait: subjects grouped on a cozy sofa with blank pennants, snack bowls and pillows, warm lamp glow and no screen content.",
@@ -168,6 +192,18 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Stoop rhythm candid: subjects relaxed on a backyard stoop with potted plants and striped shade, warm film grain and clear faces.",
     "Blank-record-sleeve frame: subjects beside decorative blank record sleeves and porch plants, music props secondary and no readable album art.",
     "Close porch-jazz crop: waist-up subject grouping with olive, rust and cream tones, soft amber side light and cozy musical mood.",
+  ],
+  "future-glow-family": [
+    "Pearl-studio portrait: subjects arranged against curved pearl panels, cool blue-lilac glow, subtle chrome accessories and natural human skin texture.",
+    "Opalescent close crop: waist-up grouping with playful metallic details, soft rim highlights, clean studio negative space and crisp readable faces.",
+    "Chrome-arc family frame: subjects positioned along gentle futuristic arches, polished white floor reflections, optimistic tech mood and no screen text.",
+    "Cool-glow seated proof: relaxed seated-and-standing arrangement in a clean studio, lilac side light, pearl highlights and accessories kept tasteful.",
+  ],
+  "heirloom-pin-portrait": [
+    "Warm home-studio portrait: subjects arranged in graceful tiers with heirloom brooch accents, neutral tailoring, soft drapery and subtle gold glow.",
+    "Seated heirloom composition: one seated anchor with others arranged around, pin details visible, quiet framed-art shapes behind and premium print polish.",
+    "Close pin-detail crop: waist-up grouping with brooch and crystal highlights secondary, warm studio fill, clear hands and natural expressions.",
+    "Formal relaxed frame: full-to-three-quarter portrait in a refined home interior, neutral palette, champagne-gold accents and timeless gallery composition.",
   ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
