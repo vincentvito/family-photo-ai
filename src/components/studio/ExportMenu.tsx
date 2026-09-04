@@ -3,9 +3,6 @@
 import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import MerchandiseHandoff from "@/components/studio/MerchandiseHandoff";
-import { trackMerchEvent } from "@/lib/analytics/client";
-import { canShowMerchandise, getPublicMerchStoreConfig } from "@/lib/merch-store";
 
 type ExportMenuProps = {
   imageId: string;
@@ -55,8 +52,6 @@ const EXPORT_OPTIONS: ExportOption[] = [
   },
 ];
 
-const MERCH_STORE = getPublicMerchStoreConfig();
-
 export default function ExportMenu({
   imageId,
   previewOnly = false,
@@ -67,7 +62,6 @@ export default function ExportMenu({
   const [open, setOpen] = useState(false);
   const [activeExport, setActiveExport] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [view, setView] = useState<"files" | "merch">("files");
   const isIcon = triggerVariant === "icon";
   const exportOptions = previewOnly
     ? EXPORT_OPTIONS.filter((option) => option.id === "original")
@@ -106,14 +100,11 @@ export default function ExportMenu({
 
   const close = useCallback(() => {
     setOpen(false);
-    setView("files");
   }, []);
   const openMenu = useCallback(() => {
     setOpen(true);
     setError(null);
-    setView("files");
   }, []);
-  const showMerchandise = canShowMerchandise(previewOnly, MERCH_STORE);
 
   const overlay =
     typeof document === "undefined"
@@ -129,7 +120,7 @@ export default function ExportMenu({
                 transition={{ duration: 0.18 }}
                 role="dialog"
                 aria-modal="true"
-                aria-label={view === "merch" ? "Print portrait on a product" : "Export portrait"}
+                aria-label="Export portrait"
               >
                 <motion.div
                   className="absolute inset-0 bg-[color:rgba(31,26,36,0.45)] backdrop-blur-[2px]"
@@ -145,7 +136,7 @@ export default function ExportMenu({
                   <div className="flex items-center justify-between">
                     <span className="chip chip-coral">
                       <span className="dot dot-coral" />
-                      {view === "merch" ? "Shop" : "Export"}
+                      Export
                     </span>
                     <button
                       type="button"
@@ -156,64 +147,28 @@ export default function ExportMenu({
                       <CloseIcon />
                     </button>
                   </div>
-                  {view === "files" ? (
-                    <>
-                      <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Pick a file.</h2>
-                      {previewOnly && (
-                        <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
-                          Preview downloads use the watermarked original file. Unlock this
-                          photoshoot for print sizes.
-                        </p>
-                      )}
+                  <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Pick a file.</h2>
+                  {previewOnly && (
+                    <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+                      Preview downloads use the watermarked original file. Unlock this photoshoot
+                      for print sizes.
+                    </p>
+                  )}
 
-                      <ul className="mt-6 space-y-2.5">
-                        {exportOptions.map((option) => (
-                          <ExportRow
-                            key={option.id}
-                            option={option}
-                            pending={activeExport === option.id}
-                            disabled={activeExport !== null}
-                            onDownload={() => void downloadFile(option)}
-                          />
-                        ))}
-                        {showMerchandise && MERCH_STORE.enabled ? (
-                          <li className="pt-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                trackMerchEvent("merch_handoff_opened");
-                                setView("merch");
-                              }}
-                              disabled={activeExport !== null}
-                              className="spring-press flex w-full items-center justify-between gap-4 rounded-[var(--radius-md)] bg-[color:var(--color-ink)] px-4 py-4 text-left text-[color:var(--color-bg)] transition-transform hover:-translate-y-0.5 disabled:opacity-65"
-                            >
-                              <div className="min-w-0">
-                                <p className="serif text-lg leading-tight">Print your photo</p>
-                                <p className="mt-0.5 text-xs text-[color:rgba(251,248,243,0.72)]">
-                                  Shirts, sweaters, cards, and gifts
-                                </p>
-                              </div>
-                              <span className="flex shrink-0 items-center gap-1 text-xs font-semibold">
-                                Shop
-                                <ArrowIcon />
-                              </span>
-                            </button>
-                          </li>
-                        ) : null}
-                      </ul>
-                      {error && (
-                        <p className="mt-4 text-sm text-[color:var(--color-coral-deep)]">{error}</p>
-                      )}
-                    </>
-                  ) : MERCH_STORE.enabled ? (
-                    <div className="mt-2">
-                      <MerchandiseHandoff
-                        imageId={imageId}
-                        storeUrl={MERCH_STORE.storeUrl}
-                        onBack={() => setView("files")}
+                  <ul className="mt-6 space-y-2.5">
+                    {exportOptions.map((option) => (
+                      <ExportRow
+                        key={option.id}
+                        option={option}
+                        pending={activeExport === option.id}
+                        disabled={activeExport !== null}
+                        onDownload={() => void downloadFile(option)}
                       />
-                    </div>
-                  ) : null}
+                    ))}
+                  </ul>
+                  {error && (
+                    <p className="mt-4 text-sm text-[color:var(--color-coral-deep)]">{error}</p>
+                  )}
                 </motion.div>
               </motion.div>
             )}

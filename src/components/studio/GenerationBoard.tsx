@@ -8,6 +8,7 @@ import type { getGenerationState } from "@/lib/generate-queries";
 import type { AspectRatio } from "@/lib/providers/types";
 import Confetti from "@/components/motion/Confetti";
 import ExportMenu from "@/components/studio/ExportMenu";
+import PrintButton from "@/components/studio/PrintButton";
 import ShareButton from "@/components/studio/ShareButton";
 import ImageRatingControl from "@/components/studio/ImageRatingControl";
 import { GENERATION_TEMPORARILY_UNAVAILABLE_MESSAGE } from "@/lib/generation-errors";
@@ -408,6 +409,11 @@ const ImageTile = memo(function ImageTile({
             previewOnly={isPreview}
             triggerClassName="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
           />
+          <PrintButton
+            imageId={imageId}
+            previewOnly={isPreview}
+            triggerClassName="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
+          />
           <ShareButton
             imageId={imageId}
             className="btn btn-sm pointer-events-auto bg-white/90 text-[color:var(--color-ink)] hover:bg-white"
@@ -520,6 +526,12 @@ function ImageLightbox({
                 </span>
               )}
               <ExportMenu
+                imageId={imageId}
+                previewOnly={isPreview}
+                triggerVariant="icon"
+                triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
+              <PrintButton
                 imageId={imageId}
                 previewOnly={isPreview}
                 triggerVariant="icon"

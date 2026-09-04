@@ -1694,6 +1694,78 @@ export const VIBES: readonly Vibe[] = [
       "golden-hour-beach-family-photos",
     ],
   },
+  {
+    slug: "halloween-night-95-family-photos",
+    name: "Halloween Night '95",
+    keyword: "90s Halloween family photo",
+    secondaryKeywords: [
+      "nostalgic Halloween family portrait",
+      "direct flash costume photo",
+      "suburban Halloween family picture",
+    ],
+    image: "/samples/theme-halloween-night-95.webp",
+    shortDescription:
+      "Direct flash, homemade costumes, porch lights, and pumpkin buckets in a family-album Halloween from 1995.",
+    related: [
+      "trick-or-treat-chaos-family-photos",
+      "vintage-costume-studio-family-photos",
+      "haunted-family-manor-family-photos",
+    ],
+  },
+  {
+    slug: "haunted-family-manor-family-photos",
+    name: "Haunted Family Manor",
+    keyword: "gothic Halloween family portrait",
+    secondaryKeywords: [
+      "haunted manor family photo",
+      "elegant gothic family portrait",
+      "candlelight Halloween portrait",
+    ],
+    image: "/samples/theme-haunted-family-manor.webp",
+    shortDescription:
+      "Candlelight, ancestral paintings, velvet, and deep burgundy turn your family into a frame-worthy gothic dynasty.",
+    related: [
+      "vintage-costume-studio-family-photos",
+      "halloween-night-95-family-photos",
+      "film-noir-family-photos",
+    ],
+  },
+  {
+    slug: "trick-or-treat-chaos-family-photos",
+    name: "Trick-or-Treat Chaos",
+    keyword: "trick or treat family photo",
+    secondaryKeywords: [
+      "Halloween family action portrait",
+      "documentary costume family photo",
+      "blue hour trick or treat picture",
+    ],
+    image: "/samples/theme-trick-or-treat-chaos.webp",
+    shortDescription:
+      "Running feet, candy spills, slipping costume pieces, and parents close behind at glowing blue hour.",
+    related: [
+      "halloween-night-95-family-photos",
+      "vintage-costume-studio-family-photos",
+      "haunted-family-manor-family-photos",
+    ],
+  },
+  {
+    slug: "vintage-costume-studio-family-photos",
+    name: "Vintage Costume Studio",
+    keyword: "vintage Halloween family portrait",
+    secondaryKeywords: [
+      "retro costume studio photo",
+      "paper moon Halloween portrait",
+      "old fashioned Halloween family photo",
+    ],
+    image: "/samples/theme-vintage-costume-studio.webp",
+    shortDescription:
+      "Paper moons, black-cat cutouts, painted scenery, and subtle film wear create a timeless costume-studio portrait.",
+    related: [
+      "halloween-night-95-family-photos",
+      "haunted-family-manor-family-photos",
+      "vintage-polaroid-family-photos",
+    ],
+  },
 ] as const;
 
 export const vibeBySlug = (slug: string) => VIBES.find((v) => v.slug === slug);

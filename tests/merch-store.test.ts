@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   canShowMerchandise,
@@ -43,4 +44,18 @@ test("locked previews never show the merchandise action", () => {
   assert.equal(canShowMerchandise(true, enabled), false);
   assert.equal(canShowMerchandise(false, enabled), true);
   assert.equal(canShowMerchandise(false, { enabled: false, reason: "disabled" }), false);
+});
+
+test("print is wired as a direct image action and no longer part of export", () => {
+  const exportMenu = readFileSync("src/components/studio/ExportMenu.tsx", "utf8");
+  const printButton = readFileSync("src/components/studio/PrintButton.tsx", "utf8");
+  const actionSurfaces = [
+    "src/components/studio/GenerationBoard.tsx",
+    "src/components/studio/AlbumGrid.tsx",
+    "src/components/studio/RefineStage.tsx",
+  ].map((path) => readFileSync(path, "utf8"));
+
+  assert.doesNotMatch(exportMenu, /MerchandiseHandoff|Print your photo/);
+  assert.match(printButton, /canShowMerchandise\(previewOnly, merchStore\)/);
+  for (const source of actionSurfaces) assert.match(source, /<PrintButton/);
 });
