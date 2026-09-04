@@ -13,6 +13,12 @@ type FeaturedItem = { id: string; badge?: string; note?: string };
 type TrendingVibe = { id: string; name: string };
 
 const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
+  { id: "butter-yellow-picnic", badge: "Fresh weekly" },
+  { id: "neo-deco-family-portrait", badge: "Fresh weekly" },
+  { id: "storybook-pen-pals", badge: "Fresh weekly" },
+  { id: "mystic-outlands-adventure", badge: "Fresh weekly" },
+  { id: "galactic-glow-family-adventure", badge: "Fresh weekly" },
+  { id: "cozy-summerween-card", badge: "New card" },
   { id: "butter-yellow-summer-card", badge: "New card" },
   { id: "joyful-photo-dump", badge: "Fresh weekly" },
   { id: "storybook-ocean-quest", badge: "Fresh weekly" },
@@ -22,11 +28,11 @@ const WEEKLY_TREND_ITEMS: FeaturedItem[] = [
   { id: "retro-summer-postcard", badge: "Fresh weekly" },
   { id: "butter-yellow-summer-portrait", badge: "Fresh weekly" },
   { id: "scarf-garden-story", badge: "Fresh weekly" },
-  { id: "ocean-explorer-card", badge: "New card" },
   { id: "family-watch-party", badge: "Fresh weekly" },
   { id: "toy-box-keepsake-portrait", badge: "Fresh weekly" },
   { id: "time-travel-toy-shelf", badge: "Fresh weekly" },
   { id: "retro-jazz-porch", badge: "Fresh weekly" },
+  { id: "ocean-explorer-card", badge: "New card" },
   { id: "cool-blue-lake-day", badge: "Fresh weekly" },
   { id: "poetcore-family-library-portrait", badge: "Fresh weekly" },
   { id: "neo-deco-celebration-card", badge: "New card" },

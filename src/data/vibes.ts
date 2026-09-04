@@ -450,6 +450,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "butter-yellow-picnic-family-photos",
+    name: "Butter Yellow Picnic",
+    keyword: "butter yellow picnic family photo",
+    secondaryKeywords: [
+      "yellow picnic family portrait",
+      "summer picnic family photoshoot",
+      "golden hour picnic family photo",
+    ],
+    image: "/samples/theme-backyard-picnic.jpg",
+    shortDescription:
+      "Golden-hour picnic light, butter-yellow accents, soft linens, flowers, and bright summer laughter.",
+    related: [
+      "slow-travel-summer-picnic-family-photos",
+      "butter-yellow-summer-family-photos",
+      "backyard-picnic-family-photos",
+    ],
+  },
+  {
+    slug: "neo-deco-family-portrait-photos",
+    name: "Neo Deco Family Portrait",
+    keyword: "neo deco family portrait",
+    secondaryKeywords: [
+      "geometric family portrait",
+      "art deco inspired family photoshoot",
+      "elegant studio family portrait",
+    ],
+    image: "/samples/theme-neo-deco-celebration-card.webp",
+    shortDescription:
+      "Geometric fan arches, brass and chrome accents, velvet texture, and tasteful studio glamour.",
+    related: [
+      "neo-deco-celebration-card-family-photos",
+      "runway-editorial-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-pen-pals-family-photos",
+    name: "Storybook Pen Pals",
+    keyword: "storybook pen pals family portrait",
+    secondaryKeywords: [
+      "letter writing family portrait",
+      "cozy library family photoshoot",
+      "stationery family photo",
+    ],
+    image: "/samples/theme-poetcore-family-library-portrait.webp",
+    shortDescription:
+      "Vintage stationery, blank stamps, drawings, soft knits, and warm library-window light.",
+    related: [
+      "poetcore-family-library-photos",
+      "watercolor-storybook-family-photos",
+      "sunday-sofa-family-photos",
+    ],
+  },
+  {
+    slug: "mystic-outlands-adventure-family-photos",
+    name: "Mystic Outlands Adventure",
+    keyword: "mystic outlands family adventure portrait",
+    secondaryKeywords: [
+      "misty forest family portrait",
+      "highland adventure family photoshoot",
+      "enchanted trail family photo",
+    ],
+    image: "/samples/theme-watercolor-storybook.jpg",
+    shortDescription:
+      "Moss, soft fog, earth tones, gentle explorer styling, and safe storybook-trail wonder.",
+    related: [
+      "national-park-family-photos",
+      "whimsical-adventure-postcard-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "galactic-glow-family-adventure-photos",
+    name: "Galactic Glow Family Adventure",
+    keyword: "galactic glow family adventure portrait",
+    secondaryKeywords: [
+      "cosmic family portrait",
+      "stargazing family photoshoot",
+      "holographic family adventure photo",
+    ],
+    image: "/samples/theme-galactic-family-adventure.webp",
+    shortDescription:
+      "Opalescent cosmic glow, stargazing wonder, moon-dust shimmer, and cozy future-adventure polish.",
+    related: [
+      "galactic-family-adventure-photos",
+      "zero-gravity-family-photos",
+      "fluffy-cloud-family-photos",
+    ],
+  },
+  {
+    slug: "cozy-summerween-card-family-photos",
+    name: "Cozy Summerween Card",
+    keyword: "cozy summerween family card",
+    secondaryKeywords: [
+      "cute halloween family card",
+      "pumpkin family photo card",
+      "early halloween family card",
+    ],
+    image: "/samples/theme-card-halloween.jpg",
+    shortDescription:
+      "Pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth for a cute seasonal card.",
+    related: [
+      "halloween-card-family-photos",
+      "autumn-cabin-family-photos",
+      "retro-summer-postcard-family-photos",
+    ],
+  },
+  {
     slug: "scarf-garden-story-family-photos",
     name: "Scarf Garden Story",
     keyword: "scarf garden family portrait",
