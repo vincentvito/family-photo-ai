@@ -80,6 +80,7 @@ export default function ThemeBoard({
   isProSubscriber,
   subscriptionRenewalDate,
   isAuthenticated,
+  initialThemeId = null,
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -93,6 +94,7 @@ export default function ThemeBoard({
   isProSubscriber: boolean;
   subscriptionRenewalDate: string | null;
   isAuthenticated: boolean;
+  initialThemeId?: string | null;
 }) {
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
@@ -101,7 +103,9 @@ export default function ThemeBoard({
     Array.from({ length: CARD_STYLE_SLOT_COUNT }, () => DEFAULT_CARD_ART_STYLE_ID),
   );
   const [activeTheme, setActiveTheme] = useState<Theme | null>(null);
-  const [selectedThemeIds, setSelectedThemeIds] = useState<string[]>([]);
+  const [selectedThemeIds, setSelectedThemeIds] = useState<string[]>(() =>
+    initialThemeId ? [initialThemeId] : [],
+  );
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
 
   const [customDescription, setCustomDescription] = useState("");

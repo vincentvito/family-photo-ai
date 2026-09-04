@@ -714,7 +714,7 @@ export const THEMES: Theme[] = [
       "Weathered planks, lake light, striped towels, canvas totes, and the easy rhythm of a long summer weekend by the dock.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-lake-house.jpg",
+    coverImage: "/samples/theme-dockside-family-weekend.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -736,7 +736,7 @@ export const THEMES: Theme[] = [
       "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/soccer-team-family.webp",
+    coverImage: "/samples/theme-backyard-sports-day-portrait.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -758,7 +758,7 @@ export const THEMES: Theme[] = [
       "A checked blanket, market fruit, linen layers, paper maps, wildflowers, and unhurried travel light on a warm afternoon.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-backyard-picnic.jpg",
+    coverImage: "/samples/theme-slow-travel-summer-picnic.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -780,7 +780,7 @@ export const THEMES: Theme[] = [
       "String lights, paper lanterns, food-stall color, face-safe sparkle, and golden-hour festival warmth without the late-night edge.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-new-years.jpg",
+    coverImage: "/samples/theme-sunset-festival-family-glow.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -802,7 +802,7 @@ export const THEMES: Theme[] = [
       "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
+    coverImage: "/samples/theme-summer-color-pop-studio.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -824,7 +824,7 @@ export const THEMES: Theme[] = [
       "A playful original travel postcard come to life with painted skies, oversized luggage, map edges, and storybook-adventure charm.",
     category: "stylized",
     provider: "nanobanana",
-    coverImage: "/samples/theme-watercolor-storybook.jpg",
+    coverImage: "/samples/theme-whimsical-adventure-postcard.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -950,7 +950,7 @@ export const THEMES: Theme[] = [
       "Soft butter-yellow wardrobe notes, pale florals, sunlit linen, and relaxed summer brightness with a polished editorial finish.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-cape-cod-summer.png",
+    coverImage: "/samples/theme-butter-yellow-summer-portrait.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -976,7 +976,7 @@ export const THEMES: Theme[] = [
       "A breezy garden portrait with silk-scarf color, climbing greenery, dappled light, and storybook-summer ease.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-orchard-picking.jpg",
+    coverImage: "/samples/theme-scarf-garden-story.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {
@@ -1002,7 +1002,7 @@ export const THEMES: Theme[] = [
       "A playful outdoor color-search portrait with swatches, flowers, fruit, and bright discovery energy without app or brand cues.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-easter.jpg",
+    coverImage: "/samples/theme-summer-color-hunt.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1028,7 +1028,7 @@ export const THEMES: Theme[] = [
       "A cozy game-day living room portrait with blank banners, snacks, pillows, and team-color energy without real teams or logos.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-sunday-sofa.jpg",
+    coverImage: "/samples/theme-family-watch-party.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -1054,7 +1054,7 @@ export const THEMES: Theme[] = [
       "A bright adventure-card portrait with tide-pool blues, paper-map shapes, shells, and clean space for a greeting.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-galactic-family-adventure.webp",
+    coverImage: "/samples/theme-ocean-explorer-card.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     acceptsCardText: true,
@@ -1108,7 +1108,7 @@ export const THEMES: Theme[] = [
       "A relaxed porch portrait with vintage radio warmth, brass accents, striped shade, and family-safe backyard rhythm.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-70s-station-wagon.jpg",
+    coverImage: "/samples/theme-retro-jazz-porch.webp",
     aspectRatio: "3:2",
     supportsPets: true,
     spec: {
@@ -2037,7 +2037,7 @@ export const THEMES: Theme[] = [
       "A romantic anniversary portrait with soft flowers, candlelight and elegant space for a message.",
     category: "card",
     provider: "nanobanana",
-    coverImage: "/samples/theme-card-save-the-date.jpg",
+    coverImage: "/samples/theme-card-anniversary.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     acceptsCardText: true,
