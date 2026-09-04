@@ -2413,6 +2413,112 @@ export const THEMES: Theme[] = [
     },
   },
 
+  // ─── Halloween ──────────────────────────────────────────────────────
+  {
+    id: "halloween-night-95",
+    name: "Halloween Night '95",
+    blurb:
+      "Direct-flash film, homemade costumes, porch lights, plastic pumpkin buckets, and nostalgic suburban Halloween charm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-halloween-night-95.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 candid 1990s direct-flash family photograph",
+      scene:
+        "a suburban front porch on Halloween night in 1995, homemade costumes, glowing porch lamps, carved pumpkins, plastic pumpkin candy buckets, fallen leaves and simple period-appropriate decorations",
+      camera:
+        "compact 35mm point-and-shoot camera at family eye level, close environmental group framing, direct on-camera flash, spontaneous posture and slightly imperfect snapshot timing",
+      composition:
+        "the selected family fills the frame as the clear subject, with readable faces, full costume details and enough porch context to establish the night",
+      lighting:
+        "hard direct flash on faces and costumes, warm tungsten porch lights behind, deep blue-black evening shadows and small red-eye-era color quirks without obscuring identity",
+      style:
+        "authentic mid-1990s consumer color film, modest grain, warm color cast, slight corner falloff, honest skin texture and nostalgic family-album charm",
+      safety:
+        "friendly homemade costumes only, no franchise characters, no logos, no frightening masks covering faces, no sharp props, no readable labels, no watermark",
+    },
+  },
+  {
+    id: "haunted-family-manor",
+    name: "Haunted Family Manor",
+    blurb:
+      "An elegant gothic family portrait with candlelight, ancestral paintings, deep burgundy, and frame-worthy mystery.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-haunted-family-manor.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 elegant gothic editorial family portrait",
+      scene:
+        "a grand old manor drawing room with dark carved wood, tall candles, velvet curtains, faded ancestral paintings, a stone fireplace and restrained autumn branches",
+      camera:
+        "medium-format portrait camera with an 80mm lens, formal vertical group composition, subjects arranged at different heights with every face clear and dignified",
+      composition:
+        "the selected family dominates the portrait in a balanced heirloom arrangement, framed by paintings and candlelight without being lost in the room",
+      lighting:
+        "sculpted candlelight and soft window-blue fill, warm highlights on faces, deep burgundy shadows and gentle chiaroscuro with visible eye detail",
+      style:
+        "luxury gothic fashion editorial, black, oxblood, antique gold and parchment palette, velvet and lace texture, timeless fine-art print finish",
+      safety:
+        "mysterious but family-friendly, no distress, no graphic imagery, no threatening figures, no occult symbols, no covered faces, no logos, no watermark",
+    },
+  },
+  {
+    id: "trick-or-treat-chaos",
+    name: "Trick-or-Treat Chaos",
+    blurb:
+      "Running feet, candy spills, slipping masks, and parents close behind in a joyful blue-hour Halloween documentary frame.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-trick-or-treat-chaos.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 documentary-style Halloween family action photograph",
+      scene:
+        "a lively residential sidewalk at blue hour during trick-or-treating, porch lights glowing, candy tumbling from a bucket, costume pieces shifting, dry leaves underfoot and family members moving together between houses",
+      camera:
+        "full-frame documentary camera with a 28mm lens, low moving perspective close to the action, layered family motion with the nearest faces kept recognizable",
+      composition:
+        "the selected family remains the clear story across the frame, with dynamic diagonals, visible hands and feet, natural separation and no unrelated crowd taking focus",
+      lighting:
+        "cool blue-hour ambient light, warm porch practicals, gentle bounced flash on faces and subtle motion blur limited to hands, feet and flying candy",
+      style:
+        "honest family photojournalism, cinematic but unposed, navy, amber, pumpkin orange and leaf-brown palette, tactile costumes and natural expressions",
+      safety:
+        "joyful supervised neighborhood action, no traffic danger, no falls, no frightening face coverings, no branded costumes, no logos, no watermark",
+    },
+  },
+  {
+    id: "vintage-costume-studio",
+    name: "Vintage Costume Studio",
+    blurb:
+      "A 1920s-to-1950s Halloween studio portrait with a paper moon, black-cat cutouts, painted scenery, and gentle film wear.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-vintage-costume-studio.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 vintage Halloween studio family photograph",
+      scene:
+        "a theatrical early-to-mid-20th-century portrait studio with a hand-painted midnight backdrop, large crescent paper moon, flat black-cat cutouts, paper stars, small pumpkins and simple handmade costumes",
+      camera:
+        "large-format studio camera with a normal portrait lens, formal front-facing vertical group arrangement, deliberate still posture and clear uncovered faces",
+      composition:
+        "the selected family fills the frame in a classic card-portrait arrangement, with the paper moon and painted scenery supporting rather than replacing the people",
+      lighting:
+        "single broad tungsten studio key, soft painted shadows, gentle face fill and restrained edge falloff like an old portrait studio print",
+      style:
+        "1920s-to-1950s Halloween-card aesthetic, hand-tinted charcoal-black, faded orange, cream and moon-yellow palette, subtle silver-gelatin grain, paper texture and light print wear",
+      safety:
+        "charming historical costume styling, no frightening expressions, no sharp props, no real-world political symbols, no logos, no readable text, no watermark",
+    },
+  },
+
   // ─── Cards / Occasions ──────────────────────────────────────────────
   {
     id: "card-christmas",

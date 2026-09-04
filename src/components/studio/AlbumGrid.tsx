@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ExportMenu from "@/components/studio/ExportMenu";
+import PrintButton from "@/components/studio/PrintButton";
 import ShareButton from "@/components/studio/ShareButton";
 
 type Item = {
@@ -86,6 +87,11 @@ function AlbumTile({ item }: { item: Item }) {
               imageId={item.image.id}
               previewOnly={item.generation.freePreview && !item.creditUsageId}
               triggerClassName="spring-press flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-coral)] hover:text-[color:var(--color-coral-deep)]"
+            />
+            <PrintButton
+              imageId={item.image.id}
+              previewOnly={item.generation.freePreview && !item.creditUsageId}
+              triggerClassName="spring-press flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold text-[color:var(--color-ink-muted)] transition-colors hover:bg-[color:var(--color-bg-tinted-butter)] hover:text-[color:var(--color-ink)]"
             />
             <ShareButton
               imageId={item.image.id}

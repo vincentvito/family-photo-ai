@@ -403,6 +403,30 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Morning-window portrait: tighter warm pajama grouping with tree bokeh behind and cool window fill from one side.",
     "Present-opening action: family leaning into a shared present reveal, hands overlapping, ribbon and paper creating lively foreground.",
   ],
+  "halloween-night-95": [
+    "Porch snapshot: subjects crowd together near a glowing porch light with pumpkin buckets held low, direct flash, clear faces and a spontaneous family-album pose.",
+    "Driveway costume lineup: subjects stand in homemade costumes among fallen leaves and simple decorations, compact-camera flash and warm houses behind.",
+    "Candy-check candid: subjects lean toward open pumpkin buckets together, flash catching their expressions while the suburban street falls into blue-black shadow.",
+    "Doorstep departure: subjects turn back toward the camera before trick-or-treating, porch pumpkins and period details visible with imperfect 1990s snapshot framing.",
+  ],
+  "haunted-family-manor": [
+    "Ancestral gallery portrait: subjects arranged beneath faded paintings with candles at different heights, formal posture and clear dignified faces.",
+    "Velvet settee portrait: subjects seated and standing around a burgundy velvet settee, carved wood and candlelight framing the heirloom composition.",
+    "Fireplace gathering: subjects grouped near a dark stone fireplace with autumn branches and warm face light against cool manor shadows.",
+    "Grand stair portrait: subjects arranged across the first steps of a carved staircase, elegant black-and-burgundy wardrobe and restrained gothic atmosphere.",
+  ],
+  "trick-or-treat-chaos": [
+    "Sidewalk rush: subjects move together toward camera as candy spills from one bucket, low documentary angle, clear nearest faces and glowing porches behind.",
+    "Mask adjustment candid: subjects pause mid-walk to fix a slipping costume piece, natural laughter, blue-hour street light and warm porch bokeh.",
+    "Candy scramble: subjects crouch and reach together for wrapped candy on a leaf-covered sidewalk, visible hands, playful motion and safe family proximity.",
+    "House-to-house run: subjects cross a front walk together with pumpkin buckets swinging, layered motion, readable faces and no unrelated crowd taking focus.",
+  ],
+  "vintage-costume-studio": [
+    "Paper-moon portrait: subjects arranged around a large crescent paper moon against a painted midnight backdrop, uncovered faces and gentle hand-tinted color.",
+    "Black-cat cutout set: subjects pose with flat cat silhouettes, paper stars and small pumpkins, formal old-studio posture and subtle print wear.",
+    "Painted cloud tableau: subjects stand and sit across a theatrical cloud-and-moon set in simple handmade period costumes, clear faces and soft tungsten light.",
+    "Close vintage card portrait: subjects fill a vertical frame beneath a paper moon, faded orange and cream accents, silver-gelatin grain and worn paper edges.",
+  ],
   "card-christmas": [
     "Front-step hero card: subjects on the porch steps beside the wreath, clean negative space on the left for greeting text.",
     "Doorway glow card: subjects gathered in the open doorway, warm interior light behind, snow and pines framing the edges.",

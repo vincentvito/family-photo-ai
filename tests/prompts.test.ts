@@ -346,6 +346,13 @@ const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "butter-yellow-summer-card",
 ]);
 
+const HALLOWEEN_THEME_PAIRS = [
+  ["halloween-night-95", "halloween-night-95-family-photos", "direct-flash"],
+  ["haunted-family-manor", "haunted-family-manor-family-photos", "candlelight"],
+  ["trick-or-treat-chaos", "trick-or-treat-chaos-family-photos", "blue[- ]hour"],
+  ["vintage-costume-studio", "vintage-costume-studio-family-photos", "paper moon"],
+] as const;
+
 const CURRENT_TASK_CARD_THEME_IDS = new Set([
   "cozy-summerween-card",
   "summerween-pumpkin-glow",
@@ -750,6 +757,27 @@ test("theme cover images do not cross-wire different vibe descriptions", () => {
   }
 });
 
+test("Halloween vibes are selectable family shoots with matching discovery pages", () => {
+  for (const [themeId, slug, promptMarker] of HALLOWEEN_THEME_PAIRS) {
+    const theme = getTheme(themeId);
+    const vibe = VIBES.find((entry) => entry.slug === slug);
+
+    assert.notEqual(theme.category, "card");
+    assert.equal(theme.provider, "nanobanana");
+    assert.equal(theme.supportsPets, true);
+    assert.ok(theme.spec.safety?.trim());
+    assert.equal(getThemeVariationPrompts(theme.id, theme.category).length, 4);
+    assert.match(
+      [theme.blurb, theme.spec.scene, theme.spec.camera, theme.spec.lighting].join(" "),
+      new RegExp(promptMarker, "i"),
+    );
+    assert.ok(vibe, `${themeId} should have a discovery page`);
+    assert.equal(vibe.image, theme.coverImage);
+    assert.equal(getThemeDetailHref(theme), `/${slug}`);
+    assertOptimizedSampleImage(theme.coverImage);
+  }
+});
+
 test("card themes use card discovery pages and canonical studio links", () => {
   const cardThemes = THEMES.filter((theme) => theme.category === "card");
   const cardPagesByThemeId = new Map(
@@ -797,7 +825,11 @@ test("all discovery-page related links resolve", () => {
 
 test("new and replaced theme previews match their declared aspect ratio", async () => {
   const expectedRatios = { "3:2": 3 / 2, "2:3": 2 / 3, "1:1": 1, "4:5": 4 / 5, "16:9": 16 / 9 };
-  const checkedThemeIds = [...WEEKLY_TREND_THEME_IDS, "card-anniversary"];
+  const checkedThemeIds = [
+    ...WEEKLY_TREND_THEME_IDS,
+    ...HALLOWEEN_THEME_PAIRS.map(([themeId]) => themeId),
+    "card-anniversary",
+  ];
 
   for (const themeId of checkedThemeIds) {
     const theme = getTheme(themeId);

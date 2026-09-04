@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { trackMerchEvent } from "@/lib/analytics/client";
 
 type Status = "idle" | "preparing" | "ready" | "error";
@@ -9,58 +9,80 @@ export default function MerchandiseHandoff({
   imageId,
   storeUrl,
   onBack,
+  autoPrepare = false,
 }: {
   imageId: string;
   storeUrl: string;
-  onBack: () => void;
+  onBack?: () => void;
+  autoPrepare?: boolean;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const autoStarted = useRef(false);
+  const preparing = useRef(false);
 
-  const prepareDownload = useCallback(async () => {
-    if (status === "preparing") return;
-    setStatus("preparing");
-    setError(null);
+  const prepareDownload = useCallback(
+    async (signal?: AbortSignal) => {
+      if (preparing.current) return;
+      preparing.current = true;
+      setStatus("preparing");
+      setError(null);
 
-    try {
-      const response = await fetch(`/api/export/merch/${imageId}`, { method: "POST" });
-      if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(body.error ?? `Download failed (${response.status})`);
+      try {
+        const response = await fetch(`/api/export/merch/${imageId}`, { method: "POST", signal });
+        if (!response.ok) {
+          const body = (await response.json().catch(() => ({}))) as { error?: string };
+          throw new Error(body.error ?? `Download failed (${response.status})`);
+        }
+
+        const blob = await response.blob();
+        if (signal?.aborted) return;
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = objectUrl;
+        link.download = "familyshoot-merch-ready.jpg";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(objectUrl), 0);
+
+        setStatus("ready");
+        trackMerchEvent("merch_asset_downloaded");
+      } catch (downloadError) {
+        if (downloadError instanceof DOMException && downloadError.name === "AbortError") return;
+        setStatus("error");
+        setError(
+          downloadError instanceof Error
+            ? downloadError.message
+            : "We could not prepare this portrait.",
+        );
+      } finally {
+        preparing.current = false;
       }
+    },
+    [imageId],
+  );
 
-      const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = objectUrl;
-      link.download = "familyshoot-merch-ready.jpg";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(objectUrl);
-
-      setStatus("ready");
-      trackMerchEvent("merch_asset_downloaded");
-    } catch (downloadError) {
-      setStatus("error");
-      setError(
-        downloadError instanceof Error
-          ? downloadError.message
-          : "We could not prepare this portrait.",
-      );
-    }
-  }, [imageId, status]);
+  useEffect(() => {
+    if (!autoPrepare || autoStarted.current) return;
+    autoStarted.current = true;
+    const controller = new AbortController();
+    void prepareDownload(controller.signal);
+    return () => controller.abort();
+  }, [autoPrepare, prepareDownload]);
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={onBack}
-        className="spring-press -ml-1 inline-flex items-center gap-1 text-xs font-semibold text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
-      >
-        <BackIcon />
-        Back to files
-      </button>
+      {onBack ? (
+        <button
+          type="button"
+          onClick={onBack}
+          className="spring-press -ml-1 inline-flex items-center gap-1 text-xs font-semibold text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
+        >
+          <BackIcon />
+          Back to files
+        </button>
+      ) : null}
 
       <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-[color:var(--color-coral-deep)]">
         Printify-powered shop

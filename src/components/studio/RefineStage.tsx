@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { getRefineState } from "@/lib/refine-queries";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ExportMenu from "@/components/studio/ExportMenu";
+import PrintButton from "@/components/studio/PrintButton";
 import ShareButton from "@/components/studio/ShareButton";
 import ImageRatingControl from "@/components/studio/ImageRatingControl";
 
@@ -160,6 +161,10 @@ export default function RefineStage({ initialState }: { initialState: State }) {
               Original
             </span>
             <ExportMenu
+              imageId={sourceImageId}
+              triggerClassName="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
+            />
+            <PrintButton
               imageId={sourceImageId}
               triggerClassName="spring-press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
             />
@@ -381,6 +386,10 @@ function GalleryTile({
             imageId={step.imageId}
             triggerClassName="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
           />
+          <PrintButton
+            imageId={step.imageId}
+            triggerClassName="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white"
+          />
           <ShareButton
             imageId={step.imageId}
             className="spring-press pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[color:var(--color-ink)] shadow-[var(--shadow-sm)] transition-colors hover:bg-white disabled:opacity-60"
@@ -472,6 +481,11 @@ function ImageLightbox({ imageId, onClose }: { imageId: string | null; onClose: 
             />
             <div className="absolute right-3 top-3 flex gap-2">
               <ExportMenu
+                imageId={imageId}
+                triggerVariant="icon"
+                triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
+              />
+              <PrintButton
                 imageId={imageId}
                 triggerVariant="icon"
                 triggerClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[color:var(--color-ink)] shadow-[var(--shadow-md)] transition-colors hover:bg-white"
