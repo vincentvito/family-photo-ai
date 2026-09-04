@@ -427,7 +427,7 @@ export const VIBES: readonly Vibe[] = [
       "Warm shelves, oversized knits, vintage blazers, handwritten card details, and literary intimacy.",
     related: [
       "sunday-sofa-family-photos",
-      "graduation-card-family-photos",
+      "graduation-family-cards",
       "annie-leibovitz-family-photos",
     ],
   },
@@ -536,7 +536,7 @@ export const VIBES: readonly Vibe[] = [
     related: [
       "sunset-festival-family-glow-photos",
       "backyard-picnic-family-photos",
-      "crochet-raffia-picnic-card-family-photos",
+      "crochet-raffia-picnic-family-cards",
     ],
   },
   {
@@ -570,7 +570,7 @@ export const VIBES: readonly Vibe[] = [
     shortDescription:
       "Geometric fan arches, brass and chrome accents, velvet texture, and tasteful studio glamour.",
     related: [
-      "neo-deco-celebration-card-family-photos",
+      "neo-deco-celebration-family-cards",
       "runway-editorial-family-photos",
       "annie-leibovitz-family-photos",
     ],
@@ -630,24 +630,6 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "cozy-summerween-card-family-photos",
-    name: "Cozy Summerween Card",
-    keyword: "cozy summerween family card",
-    secondaryKeywords: [
-      "cute halloween family card",
-      "pumpkin family photo card",
-      "early halloween family card",
-    ],
-    image: "/samples/theme-cozy-summerween-card.webp",
-    shortDescription:
-      "Pumpkins, twinkle lights, friendly decor motifs, and cozy porch warmth for a cute seasonal card.",
-    related: [
-      "halloween-card-family-photos",
-      "autumn-cabin-family-photos",
-      "retro-summer-postcard-family-photos",
-    ],
-  },
-  {
     slug: "scarf-garden-story-family-photos",
     name: "Scarf Garden Story",
     keyword: "scarf garden family portrait",
@@ -663,24 +645,6 @@ export const VIBES: readonly Vibe[] = [
       "butter-yellow-summer-family-photos",
       "backyard-picnic-family-photos",
       "watercolor-storybook-family-photos",
-    ],
-  },
-  {
-    slug: "butter-yellow-summer-card-family-photos",
-    name: "Butter Yellow Summer Card",
-    keyword: "butter yellow summer family card",
-    secondaryKeywords: [
-      "butter yellow family photo card",
-      "summer linen family card",
-      "yellow summer portrait card",
-    ],
-    image: "/samples/theme-butter-yellow-summer-card.webp",
-    shortDescription:
-      "Warm cream, butter-yellow accents, linen textures, soft summer light, and clean print-ready card space.",
-    related: [
-      "butter-yellow-summer-family-photos",
-      "scarf-garden-story-family-photos",
-      "retro-summer-postcard-family-photos",
     ],
   },
   {
@@ -714,7 +678,7 @@ export const VIBES: readonly Vibe[] = [
     shortDescription:
       "Watercolor ocean blues, tide-pool wonder, seashell details, sketchbook props, and safe shoreline adventure.",
     related: [
-      "ocean-explorer-card-family-photos",
+      "ocean-explorer-family-cards",
       "cool-blue-lake-day-family-photos",
       "watercolor-storybook-family-photos",
     ],
@@ -771,24 +735,6 @@ export const VIBES: readonly Vibe[] = [
       "backyard-sports-day-family-photos",
       "sunday-sofa-family-photos",
       "soccer-team-family-photos",
-    ],
-  },
-  {
-    slug: "ocean-explorer-card-family-photos",
-    name: "Ocean Explorer Card",
-    keyword: "ocean explorer family card",
-    secondaryKeywords: [
-      "ocean adventure family card",
-      "shoreline family greeting card",
-      "coastal explorer family photo",
-    ],
-    image: "/samples/theme-ocean-explorer-card.webp",
-    shortDescription:
-      "Tide-pool blues, shells, paper-map shapes, and clean greeting space for a family-safe adventure card.",
-    related: [
-      "cool-blue-lake-day-family-photos",
-      "hawaii-vacation-family-photos",
-      "cape-cod-family-photos",
     ],
   },
   {
@@ -864,42 +810,6 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "neo-deco-celebration-card-family-photos",
-    name: "Neo Deco Celebration Card",
-    keyword: "neo deco celebration family card",
-    secondaryKeywords: [
-      "art deco family card",
-      "elegant celebration family portrait",
-      "geometric family greeting card",
-    ],
-    image: "/samples/theme-neo-deco-celebration-card.webp",
-    shortDescription:
-      "Geometric arches, brass and chrome accents, cream-black-gold polish, and tasteful festive glamour.",
-    related: [
-      "new-years-card-family-photos",
-      "birthday-card-family-photos",
-      "runway-editorial-family-photos",
-    ],
-  },
-  {
-    slug: "crochet-raffia-picnic-card-family-photos",
-    name: "Crochet & Raffia Picnic Card",
-    keyword: "crochet raffia picnic family card",
-    secondaryKeywords: [
-      "summer picnic family card",
-      "raffia picnic family portrait",
-      "gingham picnic family photoshoot",
-    ],
-    image: "/samples/theme-crochet-raffia-picnic-card.webp",
-    shortDescription:
-      "Crochet texture, raffia basket details, gingham, citrus color, and natural dewy picnic light.",
-    related: [
-      "backyard-picnic-family-photos",
-      "slow-travel-summer-picnic-family-photos",
-      "retro-summer-postcard-family-photos",
-    ],
-  },
-  {
     slug: "butter-yellow-picnic-family-photos",
     name: "Butter Yellow Picnic",
     keyword: "butter yellow picnic family photo",
@@ -936,24 +846,6 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
-    slug: "summerween-pumpkin-glow-family-photos",
-    name: "Summerween Pumpkin Glow",
-    keyword: "summerween pumpkin family card",
-    secondaryKeywords: [
-      "cute pumpkin family card",
-      "summerween family portrait",
-      "early Halloween family card",
-    ],
-    image: "/samples/theme-summerween-pumpkin-glow.webp",
-    shortDescription:
-      "Pastel pumpkins, friendly porch decorations, soft twilight, and warm lantern glow for a cute seasonal card.",
-    related: [
-      "halloween-card-family-photos",
-      "polka-dot-porch-party-family-photos",
-      "crochet-raffia-picnic-card-family-photos",
-    ],
-  },
-  {
     slug: "storybook-forest-family-adventure-photos",
     name: "Storybook Forest Family Adventure",
     keyword: "storybook forest family portrait",
@@ -986,25 +878,7 @@ export const VIBES: readonly Vibe[] = [
     related: [
       "zero-gravity-family-photos",
       "summer-color-pop-studio-family-photos",
-      "neo-deco-celebration-card-family-photos",
-    ],
-  },
-  {
-    slug: "polka-dot-porch-party-family-photos",
-    name: "Polka Dot Porch Party",
-    keyword: "polka dot porch party family card",
-    secondaryKeywords: [
-      "polka dot family card",
-      "porch party family portrait",
-      "pastel party family card",
-    ],
-    image: "/samples/theme-polka-dot-porch-party.webp",
-    shortDescription:
-      "Polka-dot details, bows, ribbons, flowers, and pastel porch-party charm with clean greeting space.",
-    related: [
-      "birthday-card-family-photos",
-      "summerween-pumpkin-glow-family-photos",
-      "crochet-raffia-picnic-card-family-photos",
+      "neo-deco-celebration-family-cards",
     ],
   },
   {
@@ -1040,7 +914,7 @@ export const VIBES: readonly Vibe[] = [
     related: [
       "vintage-pumpkin-patch-postcard-family-photos",
       "autumn-cabin-family-photos",
-      "thanksgiving-card-family-photos",
+      "thanksgiving-family-cards",
     ],
   },
   {

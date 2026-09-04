@@ -1,4 +1,6 @@
 export type Card = {
+  /** Selectable studio theme represented by this discovery page. */
+  themeId?: string;
   slug: string;
   name: string;
   keyword: string;
@@ -13,6 +15,7 @@ export type Card = {
 
 export const CARDS: readonly Card[] = [
   {
+    themeId: "card-christmas",
     slug: "christmas-family-cards",
     name: "Christmas",
     keyword: "christmas family photo cards",
@@ -52,6 +55,7 @@ export const CARDS: readonly Card[] = [
     related: ["christmas-family-cards", "new-years-family-cards", "thanksgiving-family-cards"],
   },
   {
+    themeId: "card-hanukkah",
     slug: "hanukkah-family-cards",
     name: "Hanukkah",
     keyword: "hanukkah family cards",
@@ -68,6 +72,7 @@ export const CARDS: readonly Card[] = [
     related: ["christmas-family-cards", "new-years-family-cards"],
   },
   {
+    themeId: "card-diwali",
     slug: "diwali-family-cards",
     name: "Diwali",
     keyword: "diwali family cards",
@@ -80,6 +85,7 @@ export const CARDS: readonly Card[] = [
     related: ["eid-family-cards", "lunar-new-year-family-cards", "nowruz-family-cards"],
   },
   {
+    themeId: "card-eid",
     slug: "eid-family-cards",
     name: "Eid",
     keyword: "eid family cards",
@@ -92,6 +98,7 @@ export const CARDS: readonly Card[] = [
     related: ["diwali-family-cards", "nowruz-family-cards", "lunar-new-year-family-cards"],
   },
   {
+    themeId: "card-lunar-new-year",
     slug: "lunar-new-year-family-cards",
     name: "Lunar New Year",
     keyword: "lunar new year family cards",
@@ -108,6 +115,7 @@ export const CARDS: readonly Card[] = [
     related: ["nowruz-family-cards", "diwali-family-cards", "eid-family-cards"],
   },
   {
+    themeId: "card-nowruz",
     slug: "nowruz-family-cards",
     name: "Nowruz",
     keyword: "nowruz family cards",
@@ -120,6 +128,7 @@ export const CARDS: readonly Card[] = [
     related: ["lunar-new-year-family-cards", "eid-family-cards", "diwali-family-cards"],
   },
   {
+    themeId: "card-dia-de-muertos",
     slug: "dia-de-muertos-family-cards",
     name: "Dia de Muertos",
     keyword: "dia de los muertos family cards",
@@ -136,6 +145,7 @@ export const CARDS: readonly Card[] = [
     related: ["halloween-family-cards", "thanksgiving-family-cards"],
   },
   {
+    themeId: "card-easter",
     slug: "easter-family-cards",
     name: "Easter",
     keyword: "easter family cards",
@@ -148,6 +158,7 @@ export const CARDS: readonly Card[] = [
     related: ["mothers-day-family-cards", "fathers-day-family-cards", "graduation-family-cards"],
   },
   {
+    themeId: "card-halloween",
     slug: "halloween-family-cards",
     name: "Halloween",
     keyword: "halloween family cards",
@@ -160,6 +171,7 @@ export const CARDS: readonly Card[] = [
     related: ["thanksgiving-family-cards", "dia-de-muertos-family-cards", "christmas-family-cards"],
   },
   {
+    themeId: "card-thanksgiving",
     slug: "thanksgiving-family-cards",
     name: "Thanksgiving",
     keyword: "thanksgiving family cards",
@@ -172,6 +184,7 @@ export const CARDS: readonly Card[] = [
     related: ["christmas-family-cards", "halloween-family-cards", "new-years-family-cards"],
   },
   {
+    themeId: "card-new-years",
     slug: "new-years-family-cards",
     name: "New Year",
     keyword: "new year family cards",
@@ -184,6 +197,7 @@ export const CARDS: readonly Card[] = [
     related: ["christmas-family-cards", "lunar-new-year-family-cards", "thanksgiving-family-cards"],
   },
   {
+    themeId: "card-mothers-day",
     slug: "mothers-day-family-cards",
     name: "Mother's Day",
     keyword: "mothers day family cards",
@@ -196,6 +210,7 @@ export const CARDS: readonly Card[] = [
     related: ["fathers-day-family-cards", "easter-family-cards", "graduation-family-cards"],
   },
   {
+    themeId: "card-fathers-day",
     slug: "fathers-day-family-cards",
     name: "Father's Day",
     keyword: "fathers day family cards",
@@ -209,6 +224,7 @@ export const CARDS: readonly Card[] = [
     related: ["mothers-day-family-cards", "graduation-family-cards", "birthday-family-cards"],
   },
   {
+    themeId: "card-graduation",
     slug: "graduation-family-cards",
     name: "Graduation",
     keyword: "graduation family cards",
@@ -221,6 +237,7 @@ export const CARDS: readonly Card[] = [
     related: ["birthday-family-cards", "mothers-day-family-cards", "fathers-day-family-cards"],
   },
   {
+    themeId: "card-birthday",
     slug: "birthday-family-cards",
     name: "Birthday",
     keyword: "birthday family cards",
@@ -238,6 +255,7 @@ export const CARDS: readonly Card[] = [
     ],
   },
   {
+    themeId: "card-newborn",
     slug: "newborn-family-cards",
     name: "Newborn Announcement",
     keyword: "newborn announcement cards",
@@ -254,6 +272,7 @@ export const CARDS: readonly Card[] = [
     related: ["save-the-date-family-cards", "birthday-family-cards", "graduation-family-cards"],
   },
   {
+    themeId: "card-save-the-date",
     slug: "save-the-date-family-cards",
     name: "Save the Date",
     keyword: "save the date cards",
@@ -268,6 +287,192 @@ export const CARDS: readonly Card[] = [
     greeting: "Save the Date",
     shortDescription: "Elegant type, soft palette, your people pictured perfectly.",
     related: ["newborn-family-cards", "graduation-family-cards", "birthday-family-cards"],
+  },
+  {
+    themeId: "card-anniversary",
+    slug: "anniversary-family-cards",
+    name: "Anniversary",
+    keyword: "anniversary family cards",
+    secondaryKeywords: [
+      "anniversary photo card",
+      "family anniversary card",
+      "personalized anniversary card",
+    ],
+    image: "/samples/theme-card-anniversary.webp",
+    accent: "#9b7543",
+    accentSoft: "#f8efdf",
+    greeting: "Happy Anniversary",
+    shortDescription:
+      "Soft flowers, candlelight, and an elegant family portrait with room for your message.",
+    related: ["save-the-date-family-cards", "mothers-day-family-cards", "birthday-family-cards"],
+  },
+  {
+    themeId: "card-luxury-carved-number-birthday",
+    slug: "luxury-carved-number-birthday-family-cards",
+    name: "Luxury Carved-Number Birthday",
+    keyword: "luxury personalized birthday card",
+    secondaryKeywords: [
+      "carved number birthday card",
+      "personalized age birthday card",
+      "luxury family birthday card",
+    ],
+    image: "/samples/theme-card-luxury-carved-number-birthday.webp",
+    accent: "#8a6a8f",
+    accentSoft: "#f2eaf4",
+    greeting: "Happy Birthday",
+    shortDescription:
+      "A sculpted birthday-age design with flowers, balloons, and personalized card text.",
+    related: [
+      "birthday-family-cards",
+      "graduation-family-cards",
+      "polka-dot-porch-party-family-cards",
+    ],
+  },
+  {
+    themeId: "cozy-summerween-card",
+    slug: "cozy-summerween-family-cards",
+    name: "Cozy Summerween",
+    keyword: "cozy summerween family card",
+    secondaryKeywords: [
+      "cute halloween family card",
+      "pumpkin family photo card",
+      "early halloween family card",
+    ],
+    image: "/samples/theme-cozy-summerween-card.webp",
+    accent: "#9a654b",
+    accentSoft: "#f8e9df",
+    greeting: "Happy Summerween",
+    shortDescription:
+      "Pumpkins, twinkle lights, friendly decorations, and cozy porch warmth for a seasonal card.",
+    related: [
+      "halloween-family-cards",
+      "summerween-pumpkin-glow-family-cards",
+      "vintage-pumpkin-patch-postcard-family-photos",
+    ],
+  },
+  {
+    themeId: "butter-yellow-summer-card",
+    slug: "butter-yellow-summer-family-cards",
+    name: "Butter Yellow Summer",
+    keyword: "butter yellow summer family card",
+    secondaryKeywords: [
+      "butter yellow family photo card",
+      "summer linen family card",
+      "yellow summer portrait card",
+    ],
+    image: "/samples/theme-butter-yellow-summer-card.webp",
+    accent: "#9a761c",
+    accentSoft: "#fff5cf",
+    greeting: "Hello Summer",
+    shortDescription:
+      "Warm cream, butter-yellow accents, linen textures, and clean space for a summer greeting.",
+    related: [
+      "butter-yellow-summer-family-photos",
+      "crochet-raffia-picnic-family-cards",
+      "save-the-date-family-cards",
+    ],
+  },
+  {
+    themeId: "ocean-explorer-card",
+    slug: "ocean-explorer-family-cards",
+    name: "Ocean Explorer",
+    keyword: "ocean explorer family card",
+    secondaryKeywords: [
+      "deep sea family adventure card",
+      "diving suit family portrait",
+      "underwater explorer family photo",
+    ],
+    image: "/samples/theme-ocean-explorer-card.webp",
+    accent: "#35758f",
+    accentSoft: "#e1f2f6",
+    greeting: "Adventure Runs Deep",
+    shortDescription:
+      "Your family walks the deep-sea floor in classic diving suits, with clear helmet portraits and cinematic underwater light.",
+    related: ["cape-cod-family-photos", "hawaii-family-photos", "save-the-date-family-cards"],
+  },
+  {
+    themeId: "neo-deco-celebration-card",
+    slug: "neo-deco-celebration-family-cards",
+    name: "Neo Deco Celebration",
+    keyword: "neo deco celebration family card",
+    secondaryKeywords: [
+      "art deco family card",
+      "elegant celebration family portrait",
+      "geometric family greeting card",
+    ],
+    image: "/samples/theme-neo-deco-celebration-card.webp",
+    accent: "#705d7b",
+    accentSoft: "#f0eaf3",
+    greeting: "Celebrate",
+    shortDescription:
+      "Geometric arches, brass and chrome accents, and cream-black-gold celebration polish.",
+    related: ["new-years-family-cards", "birthday-family-cards", "anniversary-family-cards"],
+  },
+  {
+    themeId: "crochet-raffia-picnic-card",
+    slug: "crochet-raffia-picnic-family-cards",
+    name: "Crochet & Raffia Picnic",
+    keyword: "crochet raffia picnic family card",
+    secondaryKeywords: [
+      "summer picnic family card",
+      "raffia picnic family portrait",
+      "gingham picnic family card",
+    ],
+    image: "/samples/theme-crochet-raffia-picnic-card.webp",
+    accent: "#ad704a",
+    accentSoft: "#f8eadf",
+    greeting: "Together",
+    shortDescription:
+      "Crochet texture, raffia details, gingham, citrus color, and natural picnic light.",
+    related: [
+      "butter-yellow-summer-family-cards",
+      "backyard-picnic-family-photos",
+      "save-the-date-family-cards",
+    ],
+  },
+  {
+    themeId: "summerween-pumpkin-glow",
+    slug: "summerween-pumpkin-glow-family-cards",
+    name: "Summerween Pumpkin Glow",
+    keyword: "summerween pumpkin family card",
+    secondaryKeywords: [
+      "cute pumpkin family card",
+      "summerween family card",
+      "early Halloween family card",
+    ],
+    image: "/samples/theme-summerween-pumpkin-glow.webp",
+    accent: "#ad6747",
+    accentSoft: "#fbe9df",
+    greeting: "Happy Summerween",
+    shortDescription:
+      "Pastel pumpkins, friendly porch decorations, soft twilight, and warm lantern glow.",
+    related: [
+      "halloween-family-cards",
+      "cozy-summerween-family-cards",
+      "polka-dot-porch-party-family-cards",
+    ],
+  },
+  {
+    themeId: "polka-dot-porch-party",
+    slug: "polka-dot-porch-party-family-cards",
+    name: "Polka Dot Porch Party",
+    keyword: "polka dot porch party family card",
+    secondaryKeywords: [
+      "polka dot family card",
+      "porch party family card",
+      "pastel party family card",
+    ],
+    image: "/samples/theme-polka-dot-porch-party.webp",
+    accent: "#ae6179",
+    accentSoft: "#f9e8ee",
+    greeting: "Let’s Celebrate",
+    shortDescription:
+      "Polka dots, bows, ribbons, flowers, and pastel porch-party charm with greeting space.",
+    related: [
+      "birthday-family-cards",
+      "summerween-pumpkin-glow-family-cards",
+      "crochet-raffia-picnic-family-cards",
+    ],
   },
 ] as const;
 

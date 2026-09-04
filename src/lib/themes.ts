@@ -1416,7 +1416,7 @@ export const THEMES: Theme[] = [
     id: "ocean-explorer-card",
     name: "Ocean Explorer Card",
     blurb:
-      "A bright adventure-card portrait with tide-pool blues, paper-map shapes, shells, and clean space for a greeting.",
+      "A cinematic deep-sea family expedition in classic walking suits, with clear helmet portraits and room for a greeting.",
     category: "card",
     provider: "nanobanana",
     coverImage: "/samples/theme-ocean-explorer-card.webp",
@@ -1424,19 +1424,19 @@ export const THEMES: Theme[] = [
     supportsPets: true,
     acceptsCardText: true,
     spec: {
-      assetType: "A 3:2 ocean-adventure greeting-card family portrait",
+      assetType: "A 3:2 cinematic deep-sea expedition greeting-card family portrait",
       scene:
-        "a family-friendly shoreline exploration scene with tide pools, shells, compass-like decorative shapes, paper-map edges and airy negative space for greeting text",
+        "the selected family walking together across a luminous deep-ocean floor in substantial classic atmospheric diving suits with large round brass-and-glass helmets, surrounded by pale sand, small coral formations, sea grass, gentle fish, drifting bubbles and a distant research submersible",
       camera:
-        "polished card-art viewpoint with a gentle three-quarter shoreline perspective, readable faces and clean separation from decorative map details",
+        "cinematic eye-level full-body family portrait with the subjects large in frame, each real face clearly visible and brightly lit through a clean helmet window",
       composition:
-        "stable greeting-card layout with open sky or pale sand reserved for typography, selected cast grouped away from the text area",
+        "the family occupies roughly 65 percent of the frame height as the clear focal point, walking together with natural connection and distinct body separation; modest uncluttered blue-water space remains for optional greeting text",
       lighting:
-        "fresh coastal morning light, soft ocean bounce, bright catchlights and clear blue-green color separation",
+        "luminous underwater sunbeams, clear flattering face light inside every helmet, warm brass reflections and crisp blue-green water separation",
       style:
-        "premium illustrated-photo hybrid card art, sea glass blue, coral, sand, white and kelp green palette, print-ready texture and no fake readable labels",
+        "premium photorealistic editorial adventure photography, realistic heavy canvas suits, aged brass fittings, thick glass, deep ocean blue, sea-glass cyan, pale sand and restrained coral accents",
       safety:
-        "original ocean exploration styling only, no franchise adventure cues, no resort logos, no readable map text, no water-danger scene, no watermark",
+        "safe and wondrous family expedition, original unbranded diving equipment, no distress, no threatening animals, no frightening imagery, no tiny silhouettes, no stationery mockup, no logos, no text except the user-supplied greeting, no watermark",
     },
   },
   {
@@ -2912,6 +2912,12 @@ export function themesByCategory() {
       "card-eid",
       "card-dia-de-muertos",
       "cozy-summerween-card",
+      "summerween-pumpkin-glow",
+      "polka-dot-porch-party",
+      "butter-yellow-summer-card",
+      "ocean-explorer-card",
+      "neo-deco-celebration-card",
+      "crochet-raffia-picnic-card",
       "card-birthday",
       "card-luxury-carved-number-birthday",
       "card-anniversary",

@@ -17,6 +17,10 @@ const DETAIL_SLUGS = new Set([
   ...CARDS.map((card) => card.slug),
 ]);
 
+const CARD_DETAIL_SLUG_BY_THEME_ID = new Map(
+  CARDS.flatMap((card) => (card.themeId ? [[card.themeId, card.slug] as const] : [])),
+);
+
 function candidateSlugs(themeId: string) {
   return [
     DETAIL_SLUG_OVERRIDES[themeId],
@@ -29,7 +33,12 @@ function candidateSlugs(themeId: string) {
 }
 
 export function getThemeDetailHref(theme: Pick<Theme, "id" | "category">) {
+  if (theme.category === "card") {
+    const cardSlug = CARD_DETAIL_SLUG_BY_THEME_ID.get(theme.id);
+    return cardSlug ? `/${cardSlug}` : "/cards";
+  }
+
   const slug = candidateSlugs(theme.id).find((candidate) => DETAIL_SLUGS.has(candidate));
   if (slug) return `/${slug}`;
-  return theme.category === "card" ? "/cards" : "/vibes";
+  return "/vibes";
 }

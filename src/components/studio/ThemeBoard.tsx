@@ -25,6 +25,7 @@ import {
 } from "@/lib/replicate/models";
 import { uploadLocationReference } from "@/lib/upload-client";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
+import { getThemeStudioHref } from "@/lib/theme-links";
 
 type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
@@ -273,7 +274,7 @@ export default function ThemeBoard({
   const launch = (theme: Theme) => {
     setError(null);
     if (outputMode === "card") {
-      router.push(`/studio/theme?output=card&card=${encodeURIComponent(theme.id)}`);
+      router.push(getThemeStudioHref(theme));
       return;
     }
     if (!canCreateShoot) {

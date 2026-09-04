@@ -5,6 +5,7 @@ import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
 import { getThemeRanking, type ThemeRankingRow } from "@/lib/admin-queries";
 import { THEMES } from "@/lib/themes";
+import { getThemeStudioHref } from "@/lib/theme-links";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
@@ -107,7 +108,7 @@ export default async function TrendingPage() {
             <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((row, index) => {
                 const theme = THEME_BY_ID.get(row.themeId);
-                const href = theme ? `/studio/theme?theme=${theme.id}` : "/studio/theme";
+                const href = theme ? getThemeStudioHref(theme) : "/studio/theme";
                 return (
                   <li key={row.themeId}>
                     <Link

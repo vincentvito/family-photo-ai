@@ -236,10 +236,10 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close cheering crop: waist-up subject grouping with cozy pillows and soft blue-warm mixed light, group-safe excitement and clean subject separation.",
   ],
   "ocean-explorer-card": [
-    "Tide-pool card proof: subjects grouped beside tide pools and shells with open sky reserved for greeting text, sea-glass palette and clean faces.",
-    "Map-edge shoreline: subjects framed by decorative paper-map edges and compass-like shapes, no readable map text and airy card margin.",
-    "Shell-path adventure: subjects walking along a calm shoreline with shells and sand details, bright coastal light and safe shallow-water context.",
-    "Close explorer card crop: subjects waist-up against pale sand and blue water, coral accents, typography space held clear and no resort logos.",
+    "Deep-sea family walk: the full selected family walks toward camera across pale ocean-floor sand in classic brass-helmet diving suits, with clear faces, natural connection and open blue water for greeting text.",
+    "Coral expedition portrait: the selected family pauses together beside a small coral formation in substantial atmospheric diving suits, with luminous sunbeams, distinct full bodies and a distant research submersible.",
+    "Underwater discovery moment: the selected family explores gentle sea grass and small fish together, each face brightly visible through a clean round helmet window and every person large in frame.",
+    "Close deep-ocean explorer crop: the selected family forms a connected three-quarter portrait in canvas-and-brass diving suits, with warm helmet reflections, crisp blue water and modest clear greeting space.",
   ],
   "time-travel-toy-shelf": [
     "Shelf-world toy portrait: subjects transformed into handmade wooden-and-fabric figurines among wooden toys and blank book spines, warm dust-mote light and miniature keepsake scale.",
