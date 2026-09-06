@@ -135,7 +135,7 @@ export default function EditPersonDialog({
             <div className="flex items-center justify-between">
               <span className="chip chip-coral">
                 <span className="dot dot-coral" />
-                Edit roster entry
+                Edit My Family member
               </span>
               <button
                 onClick={onClose}

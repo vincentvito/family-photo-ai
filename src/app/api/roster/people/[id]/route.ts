@@ -9,7 +9,7 @@ import type { NextRequest } from "next/server";
 export const runtime = "nodejs";
 
 function validationError(error: z.ZodError) {
-  return error.issues[0]?.message ?? "Please check the roster details and try again.";
+  return error.issues[0]?.message ?? "Please check the My Family details and try again.";
 }
 
 async function getRosterOwner(req: NextRequest): Promise<RosterOwner | null> {

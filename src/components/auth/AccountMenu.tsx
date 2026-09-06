@@ -53,7 +53,7 @@ export default function AccountMenu({ email, isAdmin }: { email: string; isAdmin
             onClick={() => setOpen(false)}
             className="mt-2 block rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-tinted-sage)]"
           >
-            Roster
+            My Family
           </Link>
           <Link
             href="/studio/album"

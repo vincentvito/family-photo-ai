@@ -22,7 +22,7 @@ const TEMP_ROSTER_PERSON_CAP = 10;
 const ANON_ROSTER_POSTS_PER_MINUTE = 12;
 
 function validationError(error: z.ZodError) {
-  return error.issues[0]?.message ?? "Please check the roster details and try again.";
+  return error.issues[0]?.message ?? "Please check the My Family details and try again.";
 }
 
 async function getRosterOwner(req: NextRequest): Promise<RosterOwner | null> {
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error("roster.list failed", err);
     return NextResponse.json(
-      { error: "Could not load roster. Please try again." },
+      { error: "Could not load My Family. Please try again." },
       { status: 500 },
     );
   }
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   if (!user && (await isRateLimited(`anon:roster:create:${ip}`, ANON_ROSTER_POSTS_PER_MINUTE))) {
     return NextResponse.json(
-      { error: "Too many roster changes. Try again in a minute." },
+      { error: "Too many changes to My Family. Try again in a minute." },
       { status: 429 },
     );
   }
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       (await tempRosterPersonCount(owner.userId)) >= TEMP_ROSTER_PERSON_CAP
     ) {
       return NextResponse.json(
-        { error: `Temporary rosters can include up to ${TEMP_ROSTER_PERSON_CAP} people.` },
+        { error: `My Family can temporarily include up to ${TEMP_ROSTER_PERSON_CAP} people.` },
         { status: 400 },
       );
     }

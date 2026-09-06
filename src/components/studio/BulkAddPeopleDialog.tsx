@@ -210,7 +210,7 @@ export default function BulkAddPeopleDialog({
 
     if (failed === 0) {
       onNotice?.(
-        `Added ${saved} ${saved === 1 ? "person" : "people"} to the roster with reference photos.`,
+        `Added ${saved} ${saved === 1 ? "person" : "people"} to My Family with reference photos.`,
       );
       resetAndClose();
       return;
@@ -274,7 +274,7 @@ export default function BulkAddPeopleDialog({
                   <div>
                     <span className="chip chip-coral">
                       <span className="dot dot-coral" />
-                      Bulk roster
+                      Add My Family members
                     </span>
                     <h2 className="serif mt-3 text-3xl tracking-[-0.02em]">Add up to 10 people</h2>
                   </div>
@@ -428,7 +428,7 @@ export default function BulkAddPeopleDialog({
                 <p className="text-sm text-[color:var(--color-ink-muted)]">
                   {completedCount > 0
                     ? `${completedCount}/${drafts.length} saved`
-                    : "Review names before adding them to the roster."}
+                    : "Review names before adding them to My Family."}
                 </p>
                 <div className="flex items-center justify-end gap-3">
                   <button

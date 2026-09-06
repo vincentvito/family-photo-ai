@@ -25,7 +25,7 @@
     "title": "Turn everyday pics into family portraits.",
     "titleLines": ["Turn everyday pics", "into family portraits."],
     "body": "Upload separate photos of your people and pets. FamilyShoot turns them into polished portraits in minutes.",
-    "primaryCta": "Begin a shoot",
+    "primaryCta": "Create my free preview",
     "secondaryCta": "See the gallery",
     "customers": "5,000+ happy customers",
     "rating": "4.8 star rating",
@@ -209,7 +209,7 @@
       "stepLabel": "Step",
       "steps": [
         {
-          "title": "Your roster",
+          "title": "My Family",
           "body": "Upload reference photos of the adults, children, and selected pets. We use them as visual guides so each portrait stays close to the people you love."
         },
         {
@@ -294,7 +294,7 @@
         },
         {
           "question": "Can I add a pet or someone missing from the original photo?",
-          "answer": "Yes. Add them to your roster with their own reference photos, then include them in the shoot."
+          "answer": "Yes. Add them to My Family with their own reference photos, then include them in the shoot."
         },
         {
           "question": "Can I make holiday or Christmas cards?",
@@ -412,7 +412,7 @@
     "badCode": "That code did not work."
   },
   "Studio": {
-    "roster": "Roster",
+    "roster": "My Family",
     "format": "Format",
     "vibe": "Vibe",
     "create": "Create",

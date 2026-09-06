@@ -1368,7 +1368,9 @@ function InlineGenerationAuthGate({
       });
 
       if (!consent || !consent.ok) {
-        setError("You are signed in, but we could not attach this roster. Please try again.");
+        setError(
+          "You are signed in, but we could not save these My Family members to your account. Please try again.",
+        );
         return;
       }
 
@@ -1410,7 +1412,7 @@ function InlineGenerationAuthGate({
               Enter your email to start.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-              If you already have an account, we&apos;ll load your roster and credits. Once the code
+              If you already have an account, we&apos;ll load My Family and your credits. Once the code
               checks out, this shoot starts automatically.
             </p>
           </div>

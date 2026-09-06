@@ -25,7 +25,7 @@
     "awardText": "app de fotos familiares",
     "title": "De fotos desordenadas del móvil a hermosos retratos familiares",
     "body": "Sube fotos separadas de cada miembro de la familia, elige un estilo y recibe hermosas fotos familiares con IA listas para imprimir en unos dos minutos.",
-    "primaryCta": "Empezar una sesión",
+    "primaryCta": "Crear mi vista previa gratis",
     "secondaryCta": "Ver la galería",
     "customers": "Más de 5.000 clientes felices",
     "rating": "Calificación de 4,8 estrellas",
@@ -213,7 +213,7 @@
       "stepLabel": "Paso",
       "steps": [
         {
-          "title": "Tu familia",
+          "title": "Mi familia",
           "body": "Sube fotos de referencia de adultos, niños y mascotas. Las usamos como guía visual para que el retrato se parezca a las personas que quieres."
         },
         {
@@ -416,7 +416,7 @@
     "badCode": "Ese código no funcionó."
   },
   "Studio": {
-    "roster": "Personas",
+    "roster": "Mi familia",
     "format": "Formato",
     "vibe": "Estilo",
     "create": "Crear",

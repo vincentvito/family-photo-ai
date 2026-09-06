@@ -20,34 +20,19 @@ const customerFaces = [
 
 const mobileVibeSlides = [
   {
-    src: "/ai-landing/hero-vibe-golden-hour-beach.webp",
-    alt: "Golden Hour Beach family portrait made from the selfie uploads",
+    src: "/ai-landing/hero-preview-studio.webp",
+    alt: "Editorial studio portrait of the same parents, son, and golden retriever",
+    label: "Studio Portrait",
+  },
+  {
+    src: "/ai-landing/hero-preview-stacked-love.webp",
+    alt: "Black-and-white Stacked Love portrait of the same parents, son, and golden retriever against a white backdrop",
+    label: "Stacked Love",
+  },
+  {
+    src: "/ai-landing/hero-preview-beach.webp",
+    alt: "The same parents and son walking hand in hand along the beach at golden hour, with their golden retriever trotting ahead",
     label: "Golden Hour Beach",
-  },
-  {
-    src: "/ai-landing/hero-vibe-wes-anderson.webp",
-    alt: "Wes Anderson Symmetry family portrait made from the selfie uploads",
-    label: "Wes Anderson",
-  },
-  {
-    src: "/ai-landing/hero-vibe-watercolor-storybook.webp",
-    alt: "Watercolor Storybook family portrait made from the selfie uploads",
-    label: "Watercolor Storybook",
-  },
-  {
-    src: "/ai-landing/hero-vibe-christmas-morning.webp",
-    alt: "Christmas Morning family portrait made from the selfie uploads",
-    label: "Christmas Morning",
-  },
-  {
-    src: "/ai-landing/hero-vibe-royal-family-portrait.webp",
-    alt: "Royal Family Portrait made from the selfie uploads",
-    label: "Royal Family Portrait",
-  },
-  {
-    src: "/ai-landing/hero-vibe-superhero-family.webp",
-    alt: "Superhero Family portrait made from the selfie uploads",
-    label: "Superhero Family",
   },
 ];
 
@@ -550,8 +535,8 @@ function StoryboardHero() {
                 What you can make
               </p>
               <StoryboardImage
-                src="/ai-landing/hero-vibe-triptych.webp"
-                alt="Three polished FamilyShoot vibe portraits made from the selfie uploads"
+                src="/ai-landing/hero-vibe-studio-stacked-beach.webp"
+                alt="The same family in an editorial studio portrait, white-backdrop Stacked Love portrait, and a candid golden-hour beach walk with their dog"
                 className="aspect-[7/4] rotate-1"
                 sizes="(min-width: 1024px) 680px, 92vw"
               />

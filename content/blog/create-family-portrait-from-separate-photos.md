@@ -98,7 +98,7 @@ If you only have imperfect photos, use the clearest ones you can find and genera
 
 FamilyShoot keeps the process simple because the hardest part should be choosing the photos, not learning prompt engineering.
 
-Start by adding each family member to your roster. Upload a clear reference photo for each person, then choose the vibe or occasion for the final image. FamilyShoot generates portrait options from those references, and you keep the version that feels most like your family.
+Start by adding each family member to My Family. Upload a clear reference photo for each person, then choose the vibe or occasion for the final image. FamilyShoot generates portrait options from those references, and you keep the version that feels most like your family.
 
 The workflow is designed for people who want:
 
@@ -108,7 +108,7 @@ The workflow is designed for people who want:
 - A family holiday card generator.
 - A realistic portrait without a traditional photoshoot.
 
-When your reference photos are ready, [start a FamilyShoot roster](/studio/roster) and build the portrait from there.
+When your reference photos are ready, [open My Family](/studio/roster) and build the portrait from there.
 
 ## Holiday cards are the highest-pressure version
 

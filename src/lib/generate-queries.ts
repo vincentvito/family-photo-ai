@@ -192,7 +192,7 @@ export async function startGeneration(
     if (parsed.subjectIds && parsed.subjectIds.length > 0) {
       throw new Error("Pick at least one person or pet with a reference photo.");
     }
-    throw new Error("Your roster is empty. Add at least one person with a reference photo.");
+    throw new Error("My Family is empty. Add at least one person with a reference photo.");
   }
   const withReference = roster.filter((subject) => subject.referencePaths.length > 0);
   if (withReference.length === 0) {

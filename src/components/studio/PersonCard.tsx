@@ -232,7 +232,7 @@ export default function PersonCard({
       <ConfirmDialog
         open={removePersonOpen}
         title={`Remove ${person.name}?`}
-        description="This deletes their reference photos from storage and removes them from the roster. Generated portraits keep them for now."
+        description="This deletes their reference photos from storage and removes them from My Family. Generated portraits keep them for now."
         confirmLabel="Remove"
         tone="danger"
         pending={pending}

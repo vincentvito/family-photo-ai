@@ -46,9 +46,9 @@ Good reference photos usually have:
 - No sunglasses or face-covering accessories.
 - A current photo for babies, toddlers, and kids.
 
-For pets, only include a pet reference if you want the pet in the final portrait. Otherwise, keep the roster focused on people.
+For pets, only include a pet reference if you want the pet in the final portrait. Otherwise, keep My Family focused on people.
 
-When you are ready, the [roster step](/studio/roster) is where you add each person and keep the references organized before choosing a portrait or card style.
+When you are ready, the [My Family step](/studio/roster) is where you add each person and keep the references organized before choosing a portrait or card style.
 
 ## Pick a final purpose before choosing the style
 
@@ -106,7 +106,7 @@ Before you start, gather:
 
 Then choose your vibe, generate a few options, and keep the one that feels most like your family.
 
-You can [start with your family roster](/studio/roster), or browse the [FamilyShoot blog](/blog) for more portrait and card planning notes.
+You can [start with My Family](/studio/roster), or browse the [FamilyShoot blog](/blog) for more portrait and card planning notes.
 
 ## The takeaway
 
