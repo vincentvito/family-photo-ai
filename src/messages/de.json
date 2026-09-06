@@ -25,7 +25,7 @@
     "awardText": "Familienfoto-App",
     "title": "Von chaotischen Handyfotos zu schönen Familienporträts",
     "body": "Lade einzelne Fotos jedes Familienmitglieds hoch, wähle einen Stil und erhalte in etwa zwei Minuten schöne KI-Familienfotos zum Ausdrucken.",
-    "primaryCta": "Shooting beginnen",
+    "primaryCta": "Meine kostenlose Vorschau erstellen",
     "secondaryCta": "Galerie ansehen",
     "customers": "5.000+ glückliche Kundinnen und Kunden",
     "rating": "4,8-Sterne-Bewertung",
@@ -213,7 +213,7 @@
       "stepLabel": "Schritt",
       "steps": [
         {
-          "title": "Deine Personen",
+          "title": "Meine Familie",
           "body": "Lade Referenzfotos von Erwachsenen, Kindern und ausgewählten Haustieren hoch. Sie dienen als visuelle Vorlage für ein vertrautes Ergebnis."
         },
         {
@@ -416,7 +416,7 @@
     "badCode": "Dieser Code hat nicht funktioniert."
   },
   "Studio": {
-    "roster": "Personen",
+    "roster": "Meine Familie",
     "format": "Format",
     "vibe": "Stil",
     "create": "Erstellen",

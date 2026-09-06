@@ -111,4 +111,4 @@ Then choose your references and start simple. You can always generate another va
 
 For an AI family photo, clear reference photos matter more than perfect outfits. Choose visible faces, avoid distracting logos, pick a color mood, and match the final style to the way you plan to use the image.
 
-When your references are ready, [build your FamilyShoot roster](/studio/roster) and turn them into a coordinated portrait.
+When your references are ready, [add your family in My Family](/studio/roster) and turn them into a coordinated portrait.

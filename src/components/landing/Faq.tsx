@@ -22,7 +22,7 @@ const englishFaqs: FaqItem[] = [
   {
     question: "Why do some images not look exactly like us?",
     answer:
-      "AI creates a new picture from your roster photos rather than copying and pasting faces. It has to imagine new lighting, angles, expressions, and outfits, so it can sometimes soften a feature, mix up a detail, or miss someone's likeness. Clear, front-facing reference photos with shoulders or full body visible help, and you can regenerate a take when one does not feel right.",
+      "AI creates a new picture from your photos in My Family rather than copying and pasting faces. It has to imagine new lighting, angles, expressions, and outfits, so it can sometimes soften a feature, mix up a detail, or miss someone's likeness. Clear, front-facing reference photos with shoulders or full body visible help, and you can regenerate a take when one does not feel right.",
   },
   {
     question: "What kind of reference photo works best?",
@@ -32,7 +32,7 @@ const englishFaqs: FaqItem[] = [
   {
     question: "Can I add a pet or someone missing from the original photo?",
     answer:
-      "Yes. Add them to your roster with their own reference photos, then include them in the shoot. This works well for adding a pet, a child, or a family member who was not in the same picture.",
+      "Yes. Add them to My Family with their own reference photos, then include them in the shoot. This works well for adding a pet, a child, or a family member who was not in the same picture.",
   },
   {
     question: "Can I make AI holiday cards or Christmas cards?",

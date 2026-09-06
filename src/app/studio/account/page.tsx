@@ -87,7 +87,7 @@ export default async function AccountPage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/studio/roster" className="btn btn-coral">
-                Back to roster
+                Back to My Family
               </Link>
               {active ? (
                 <ManageBillingButton className="btn btn-sage" />

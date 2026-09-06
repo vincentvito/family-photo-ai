@@ -270,8 +270,8 @@ export default function GenerationBoard({
           </div>
           {!err && (
             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-[color:var(--color-ink-faint)]">
-              AI can miss a likeness, even with good roster photos. If a take feels off, regenerate
-              it or try a clearer reference photo.
+              AI can miss a likeness, even with good reference photos in My Family. If a take feels
+              off, regenerate it or try a clearer reference photo.
             </p>
           )}
         </div>

@@ -284,7 +284,7 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
 
   const subjects = parseSubjects(generation.subjectSnapshot);
   if (subjects.length === 0) {
-    throw new Error("This shoot is missing its original roster snapshot.");
+    throw new Error("This shoot is missing its original My Family snapshot.");
   }
   const aspectRatio = isAspectRatio(generation.aspectRatio)
     ? generation.aspectRatio

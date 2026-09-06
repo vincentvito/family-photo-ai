@@ -31,11 +31,11 @@ export default function RosterPageClient({
       const res = await fetch("/api/roster/people", { cache: "no-store" });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(body.error || `Roster failed (${res.status})`);
+        throw new Error(body.error || `Could not load My Family (${res.status})`);
       }
       setRoster(body.roster ?? []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Roster failed.");
+      setError(err instanceof Error ? err.message : "Could not load My Family.");
     }
   }, []);
 
@@ -58,7 +58,7 @@ export default function RosterPageClient({
         <div>
           <span className="chip chip-coral">
             <span className="dot dot-coral" />
-            Step 01 · Roster
+            Step 01 · My Family
           </span>
           <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
             Who&apos;s in the{" "}
@@ -214,7 +214,7 @@ function CheckoutSuccessBanner({ pro }: { pro: boolean }) {
             {pro ? "Your monthly shoots are ready." : "Your new shoots are ready."}
           </p>
           <p className="mt-1 text-sm text-[color:var(--color-ink-muted)]">
-            Add or review your roster, then start the next photoshoot.
+            Add or review members in My Family, then start the next photoshoot.
           </p>
         </div>
         <Link href="/studio/output" className="btn btn-sage shrink-0">
@@ -231,7 +231,7 @@ function EmptyState() {
       <div className="relative h-24 w-32">
         <Image src="/illustrations/empty-roster.svg" alt="" fill className="object-contain" />
       </div>
-      <p className="serif mt-4 text-2xl tracking-[-0.02em]">No one on the roster yet.</p>
+      <p className="serif mt-4 text-2xl tracking-[-0.02em]">No one in My Family yet.</p>
       <p className="mt-2 max-w-md text-sm text-[color:var(--color-ink-muted)]">
         Start with yourself - add one person and choose a reference photo now, or add the photo
         later.

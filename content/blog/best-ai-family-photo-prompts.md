@@ -135,4 +135,4 @@ That is enough. The references do the identity work. The prompt gives the final 
 
 The best AI family photo prompts are practical. They name the subject, setting, mood, and purpose without burying the image in extra instructions.
 
-Choose a clear direction, upload strong references, and let the portrait stay focused on the family. When you are ready, [start a FamilyShoot roster](/studio/roster) and turn the prompt into a finished image.
+Choose a clear direction, upload strong references, and let the portrait stay focused on the family. When you are ready, [open My Family](/studio/roster) and turn the prompt into a finished image.

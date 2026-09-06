@@ -103,10 +103,10 @@ Before you start, gather:
 - A simple pose idea.
 - A final purpose: wall portrait, card, gift, or keepsake.
 
-Then build your roster, choose a style, and generate a few options. Keep the image where the pet looks like part of the family instead of a sticker added afterward.
+Then add your family in My Family, choose a style, and generate a few options. Keep the image where the pet looks like part of the family instead of a sticker added afterward.
 
 ## The takeaway
 
 An AI family photo with pets works best when the pet is treated like a real subject: clear reference, believable pose, simple scene, and enough room in the frame.
 
-When you are ready, [start a FamilyShoot roster](/studio/roster), add each person, include your pet, and make a portrait that feels complete.
+When you are ready, [open My Family](/studio/roster), add each person, include your pet, and make a portrait that feels complete.

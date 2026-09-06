@@ -144,7 +144,7 @@ export default function AddPersonDialog({
               <div className="flex items-center justify-between">
                 <span className="chip chip-coral">
                   <span className="dot dot-coral" />
-                  Add to roster
+                  Add to My Family
                 </span>
                 <button
                   onClick={close}
@@ -315,7 +315,7 @@ export default function AddPersonDialog({
                   Cancel
                 </button>
                 <button onClick={submit} disabled={pending} className="btn btn-coral">
-                  {pending ? "Adding..." : "Add to roster"}
+                  {pending ? "Adding..." : "Add to My Family"}
                 </button>
               </div>
             </motion.div>

@@ -115,4 +115,4 @@ If you are sending digital cards, you can move faster, but it is still worth gen
 
 An AI Christmas card photo generator works best when you treat the image like a real card photo: clear references, simple seasonal details, a print-friendly crop, and enough room for the layout.
 
-You do not need one perfect group picture. You need good individual photos and a clear card direction. When you are ready, [start with FamilyShoot cards](/cards) or [build a family roster](/studio/roster) and make the Christmas card image from the photos you already have.
+You do not need one perfect group picture. You need good individual photos and a clear card direction. When you are ready, [start with FamilyShoot cards](/cards) or [add your family in My Family](/studio/roster) and make the Christmas card image from the photos you already have.
