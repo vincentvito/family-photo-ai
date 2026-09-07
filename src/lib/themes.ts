@@ -638,7 +638,35 @@ export const THEMES: Theme[] = [
       lighting:
         "low twin-sun golden backlight, cool blue hangar fill, glowing rim light on shoulders and hair, atmospheric dust haze with readable skin tones",
       style:
-        "original space-opera production still, sand, bronze, indigo and starlight palette, practical weathered travel wardrobe, no franchise symbols, no glowing weapon props, no character costumes",
+        "original space-opera production still, sand, bronze, indigo and starlight palette, practical weathered travel wardrobe, no franchise symbols, no glowing combat props, no character costumes",
+      safety:
+        "original space-adventure design only, no franchise symbols, no recognizable characters, no battle props, no military insignia, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "little-boo-pastel-halloween",
+    name: "Little Boo Pastel Halloween",
+    blurb:
+      "A cute pastel Halloween portrait with pale pumpkins, friendly sheet-ghost decorations, cozy layers, and soft candy color.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-little-boo-pastel-halloween.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cute pastel Halloween family photograph",
+      scene:
+        "a cozy porch or bright studio with pastel pumpkins, smiling carved-pumpkin decor, simple friendly sheet-ghost decorations, soft candy-color props and warm home texture",
+      camera:
+        "digital medium-format camera with a 50mm lens, clean lifestyle portrait perspective, decorations framing the group without crowding faces",
+      composition:
+        "soft seated-and-standing portrait arrangement with cheerful decor around the edges, uncluttered face sightlines and stable print margins",
+      lighting:
+        "large soft window light mixed with warm porch glow, pastel highlight rolloff, bright catchlights and gentle shadow detail",
+      style:
+        "cozy cute seasonal photography, pale orange, lavender, cream, peach, soft black and candy-pink accents, matching sweaters or pajamas, polished keepsake finish",
+      safety:
+        "cute and non-scary only, gentle decor, no startling tone, no fright-character styling, no licensed masks, no occult seriousness, no logos, no text, no watermark",
     },
   },
   {
@@ -1152,6 +1180,32 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "neo-deco-holiday-portrait",
+    name: "Neo Deco Holiday Portrait",
+    blurb:
+      "A polished holiday portrait with geometric fan arches, brass and chrome accents, velvet texture, winter greenery, and warm studio glamour.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-neo-deco-holiday-portrait.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 elegant neo-deco holiday family portrait",
+      scene:
+        "a refined holiday studio set with art-deco-inspired fan arches, geometric wall panels, brass and chrome accents, velvet texture, subtle winter greenery and polished floor details",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical formal portrait framing with controlled depth and clear face priority",
+      composition:
+        "balanced symmetrical arch geometry, staggered formal portrait arrangement, negative space shaped by the geometric backdrop and greenery",
+      lighting:
+        "warm cinematic studio key light, soft fill, brass glints, gentle chrome rim highlights and controlled festive sparkle",
+      style:
+        "neo-deco holiday editorial photography, cream, black, gold, evergreen, cranberry and deep plum accent palette, tasteful glamour, polished print finish",
+      safety:
+        "original holiday studio styling only, no nightlife setting, no gambling references, no brand logos, no readable venue text, no designer references, no watermark",
+    },
+  },
+  {
     id: "storybook-pen-pals",
     name: "Storybook Pen Pals",
     blurb:
@@ -1621,6 +1675,32 @@ export const THEMES: Theme[] = [
         "cute seasonal card photography, peach, pumpkin orange, butter yellow, lavender, cream and soft green palette, whimsical and age-appropriate polish",
       safety:
         "playful porch decorations only, no frightening masks, no sharp props, no injury effects, no threatening scene, no famous character costumes, no logos, no watermark",
+    },
+  },
+  {
+    id: "woodland-storybook-companions",
+    name: "Woodland Storybook Companions",
+    blurb:
+      "A warm woodland storybook portrait with friendly oversized trees, mossy paths, wildflowers, cozy adventure layers, and soft illustrated polish.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-woodland-storybook-companions.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original woodland storybook family portrait",
+      scene:
+        "an enchanted woodland path with oversized friendly trees, moss, wildflowers, warm sunbeams, rounded roots and cozy adventure wardrobe details",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter path perspective, readable faces and clear character silhouettes",
+      composition:
+        "curving woodland path leading through the frame, friendly tree shapes creating a natural arch and open light around the group",
+      lighting:
+        "warm magical sunlight through leaves, soft golden rim highlights, luminous green bounce and cheerful color separation",
+      style:
+        "polished illustrated-photo hybrid with gouache texture, moss green, bark brown, butter yellow, wildflower color and warm paper tones, family-safe adventure charm",
+      safety:
+        "original woodland story only, no movie or book character cues, no recognizable costumes, no battle props, no dark ritual symbols, no logos, no text, no watermark",
     },
   },
   {
@@ -2740,6 +2820,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "cozy-vintage-halloween-card",
+    name: "Cozy Vintage Halloween Card",
+    blurb:
+      "A cozy Halloween card with hand-tinted postcard warmth, pumpkins, porch glow, friendly decorations, and space for a greeting.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-vintage-halloween-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 cozy vintage Halloween-card family portrait",
+      scene:
+        "a nostalgic porch or pumpkin-patch card scene with hand-tinted postcard warmth, carved pumpkins, soft garland, cozy blankets, amber lantern glow and clean greeting-card negative space",
+      camera:
+        "medium-format portrait camera with a 55mm lens, vertical card-ready framing, readable faces and gentle vintage depth",
+      composition:
+        "stable portrait-card layout with warm blank wall, sky or paper-border space reserved for supplied greeting text, decorations framing the edges",
+      lighting:
+        "soft amber porch light mixed with blue-hour dusk, gentle pumpkin glow, flattering face fill and low-contrast printable shadow detail",
+      style:
+        "vintage postcard-inspired card photography, muted pumpkin orange, sepia, cream, faded sage and soft black palette, subtle paper texture, polished print finish",
+      safety:
+        "friendly seasonal styling only, no frightening masks, no injury effects, no threatening scene, no occult seriousness, no famous character costumes, no logos, no watermark",
+    },
+  },
+  {
     id: "card-thanksgiving",
     name: "Thanksgiving Card",
     blurb: "A harvest table in amber light. Gratitude, a full spread, hands clasped.",
@@ -2804,6 +2911,33 @@ export const THEMES: Theme[] = [
         "neo-deco editorial card design, cream, black, gold, tomato red or emerald accent palette, crisp geometry, polished print finish",
       safety:
         "no speakeasy cues, no alcohol props, no gambling references, no nightlife setting, no logos, no readable venue text, no watermark",
+    },
+  },
+  {
+    id: "poetcore-letterpress-family-card",
+    name: "Poetcore Letterpress Family Card",
+    blurb:
+      "A tactile literary card with letterpress paper texture, blank stationery, pressed flowers, warm shelves, and refined greeting space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-poetcore-letterpress-family-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 poetcore letterpress family greeting-card portrait",
+      scene:
+        "a quiet writing-room card scene with letterpress paper texture, blank cream stationery, sealed envelopes, pressed flowers, warm shelves, wool textures, tweed layers and walnut details",
+      camera:
+        "digital medium-format portrait camera with a 65mm lens, vertical card framing with face priority and tactile paper details in soft depth",
+      composition:
+        "balanced card layout with letterpress-textured negative space reserved for supplied greeting text, blank stationery secondary and uncluttered",
+      lighting:
+        "soft window light mixed with a warm desk-lamp glow, gentle amber falloff, creamy highlights and refined shadow detail",
+      style:
+        "poetcore editorial card photography, letterpress paper, parchment, oxblood, moss green, walnut, ivory and muted brass palette, tactile print texture, keepsake finish",
+      safety:
+        "original literary card setting, no author likeness, no public-figure resemblance, no readable writing except supplied greeting text, no brand logos, no watermark",
     },
   },
   {
@@ -3017,12 +3151,14 @@ export function themesByCategory() {
       "card-lunar-new-year",
       "card-eid",
       "card-dia-de-muertos",
+      "cozy-vintage-halloween-card",
       "cozy-summerween-card",
       "summerween-pumpkin-glow",
       "polka-dot-porch-party",
       "butter-yellow-summer-card",
       "ocean-explorer-card",
       "neo-deco-celebration-card",
+      "poetcore-letterpress-family-card",
       "crochet-raffia-picnic-card",
       "card-birthday",
       "card-luxury-carved-number-birthday",

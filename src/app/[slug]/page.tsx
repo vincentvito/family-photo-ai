@@ -319,7 +319,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             ? "Begin a Card"
             : category === "occasion"
               ? (item as OccasionPage).ctaLabel
-              : "Create my free preview"
+              : "Begin a Shoot"
         }
         breadcrumbs={breadcrumbs}
         keywordHighlights={

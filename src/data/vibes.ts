@@ -192,10 +192,28 @@ export const VIBES: readonly Vibe[] = [
       "space opera family portrait",
       "desert planet family photo",
     ],
-    image: "/samples/theme-galactic-family-adventure.png",
+    image: "/samples/theme-galactic-family-adventure.webp",
     shortDescription:
       "Twin-sun horizons, hangar light, desert-world atmosphere, and heroic adventure without franchise cosplay.",
     related: ["superhero-family-photos", "national-park-family-photos", "royal-family-portrait"],
+  },
+  {
+    slug: "little-boo-pastel-halloween-family-photos",
+    name: "Little Boo Pastel Halloween",
+    keyword: "pastel halloween family portrait",
+    secondaryKeywords: [
+      "cute halloween family photo",
+      "pastel pumpkin family photoshoot",
+      "little boo family portrait",
+    ],
+    image: "/samples/theme-little-boo-pastel-halloween.webp",
+    shortDescription:
+      "Pastel pumpkins, friendly sheet-ghost decor, cozy layers, soft candy color, and bright smiles.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "cozy-vintage-halloween-family-cards",
+      "autumn-cabin-family-photos",
+    ],
   },
   {
     slug: "iconic-crosswalk-album-cover-family-photos",
@@ -576,6 +594,24 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "neo-deco-holiday-portrait-family-photos",
+    name: "Neo Deco Holiday Portrait",
+    keyword: "neo deco holiday family portrait",
+    secondaryKeywords: [
+      "art deco holiday family photo",
+      "geometric holiday family portrait",
+      "glam holiday family photoshoot",
+    ],
+    image: "/samples/theme-neo-deco-holiday-portrait.webp",
+    shortDescription:
+      "Geometric fan arches, brass and chrome, winter greenery, velvet texture, and warm studio glamour.",
+    related: [
+      "neo-deco-celebration-family-cards",
+      "christmas-family-cards",
+      "new-years-family-cards",
+    ],
+  },
+  {
     slug: "storybook-pen-pals-family-photos",
     name: "Storybook Pen Pals",
     keyword: "storybook pen pals family portrait",
@@ -861,6 +897,24 @@ export const VIBES: readonly Vibe[] = [
       "watercolor-storybook-family-photos",
       "whimsical-adventure-postcard-family-photos",
       "toy-box-keepsake-family-photos",
+    ],
+  },
+  {
+    slug: "woodland-storybook-companions-family-photos",
+    name: "Woodland Storybook Companions",
+    keyword: "woodland storybook family portrait",
+    secondaryKeywords: [
+      "storybook woodland family photo",
+      "enchanted forest family portrait",
+      "woodland family photoshoot",
+    ],
+    image: "/samples/theme-woodland-storybook-companions.webp",
+    shortDescription:
+      "Friendly oversized trees, mossy paths, wildflowers, cozy adventure layers, and soft illustrated polish.",
+    related: [
+      "storybook-forest-family-adventure-photos",
+      "watercolor-storybook-family-photos",
+      "whimsical-adventure-postcard-family-photos",
     ],
   },
   {
