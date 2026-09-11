@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { PricingPackId } from "@/lib/pricing-packs";
+import { getCheckoutDestination } from "@/lib/checkout-client";
 
 export default function CheckoutButton({
   packId,
@@ -12,6 +13,9 @@ export default function CheckoutButton({
   className,
   pendingLabel = "Opening checkout...",
   onError,
+  disabled = false,
+  autoStart = false,
+  onPendingChange,
 }: {
   packId?: PricingPackId;
   planId?: string;
@@ -21,43 +25,67 @@ export default function CheckoutButton({
   className: string;
   pendingLabel?: string;
   onError?: (message: string) => void;
+  disabled?: boolean;
+  autoStart?: boolean;
+  onPendingChange?: (pending: boolean) => void;
 }) {
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const inFlight = useRef(false);
+  const autoStarted = useRef(false);
 
-  async function startCheckout() {
+  const startCheckout = useCallback(async () => {
+    if (disabled || inFlight.current) return;
+    inFlight.current = true;
     setPending(true);
+    onPendingChange?.(true);
+    setError(null);
     onError?.("");
 
-    const res = await fetch("/api/stripe/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(
-        planId
-          ? { planId, unlockGenerationId }
-          : { packId, unlockGenerationId, ...(gift ? { gift: {} } : {}) },
-      ),
-    });
-
-    if (res.status === 401) {
+    const finish = () => {
+      inFlight.current = false;
       setPending(false);
-      window.location.assign(`/sign-in?next=${encodeURIComponent("/#pricing")}`);
-      return;
-    }
+      onPendingChange?.(false);
+    };
 
-    const data = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
-    if (!res.ok || !data?.url) {
-      onError?.(data?.error ?? "Checkout could not start.");
-      setPending(false);
-      return;
+    try {
+      const url = await getCheckoutDestination(
+        { packId, planId, unlockGenerationId, gift },
+        window.location.pathname,
+      );
+      window.location.assign(url);
+      window.setTimeout(finish, 1000);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Checkout could not start. Please try again.";
+      setError(message);
+      onError?.(message);
+      finish();
     }
+  }, [disabled, gift, onError, onPendingChange, packId, planId, unlockGenerationId]);
 
-    window.location.assign(data.url);
-    window.setTimeout(() => setPending(false), 1000);
-  }
+  useEffect(() => {
+    if (!autoStart || disabled || autoStarted.current) return;
+    autoStarted.current = true;
+    void startCheckout();
+  }, [autoStart, disabled, startCheckout]);
 
   return (
-    <button type="button" onClick={startCheckout} disabled={pending} className={className}>
-      {pending ? pendingLabel : children}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={startCheckout}
+        disabled={pending || disabled}
+        aria-busy={pending}
+        className={className}
+      >
+        {pending ? pendingLabel : children}
+      </button>
+      {error && !onError && (
+        <p role="alert" className="mt-3 text-sm text-[color:var(--color-coral-deep)]">
+          {error}
+        </p>
+      )}
+    </>
   );
 }

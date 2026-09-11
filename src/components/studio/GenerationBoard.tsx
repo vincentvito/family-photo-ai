@@ -12,6 +12,7 @@ import PrintButton from "@/components/studio/PrintButton";
 import ShareButton from "@/components/studio/ShareButton";
 import ImageRatingControl from "@/components/studio/ImageRatingControl";
 import { GENERATION_TEMPORARILY_UNAVAILABLE_MESSAGE } from "@/lib/generation-errors";
+import PreviewPurchasePanel from "@/components/billing/PreviewPurchasePanel";
 
 type State = Awaited<ReturnType<typeof getGenerationState>>;
 
@@ -71,6 +72,7 @@ export default function GenerationBoard({
   const status = state?.generation.status;
   const imagesLength = state?.images.length ?? 0;
   const unlockReturn = searchParams.get("unlock");
+  const checkoutReturned = unlockReturn === "success" || unlockReturn === "pro-success";
   useEffect(() => {
     stateRef.current = state;
   }, [state]);
@@ -98,7 +100,7 @@ export default function GenerationBoard({
   }, [generationId, status, imagesLength]);
 
   useEffect(() => {
-    if (!unlockReturn || !stateRef.current?.isPreview) {
+    if (!checkoutReturned || !stateRef.current?.isPreview) {
       setFinishingCheckoutUnlock(false);
       return;
     }
@@ -134,7 +136,7 @@ export default function GenerationBoard({
       window.clearInterval(interval);
       window.clearTimeout(timeout);
     };
-  }, [generationId, router, unlockReturn]);
+  }, [generationId, router, checkoutReturned]);
 
   // Rotating loading message
   const [messageIdx, setMessageIdx] = useState(0);
@@ -157,60 +159,34 @@ export default function GenerationBoard({
 
   return (
     <div className="mt-10">
-      {isPreview && (
-        <div className="mb-8 flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-butter)] bg-[color:var(--color-bg-tinted-butter)] px-5 py-4 shadow-[var(--shadow-sm)] sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <span className="chip chip-butter">Free preview</span>
-            <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-              {finishingCheckoutUnlock
-                ? "Finishing your unlock. The watermark will disappear here in a moment."
-                : "These images are watermarked. Buy credits to unlock this photoshoot, or choose a larger pack and keep the remaining credits."}
-            </p>
-            {unlockError && (
-              <p className="mt-2 text-sm font-semibold text-[color:var(--color-coral-deep)]">
-                {unlockError}
-              </p>
-            )}
-          </div>
-          <div className="flex shrink-0 flex-wrap gap-2">
-            <Link
-              href={`/?unlockGenerationId=${encodeURIComponent(generationId)}#pricing`}
-              className="btn btn-coral btn-sm"
-            >
-              Buy credits to unlock
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                setUnlockError(null);
-                startUnlock(async () => {
-                  const res = await fetch(`/api/generate/${generationId}/unlock`, {
-                    method: "POST",
-                  });
-                  const body = (await res.json().catch(() => ({}))) as {
-                    error?: string;
-                    needsCredits?: boolean;
-                  };
-                  if (!res.ok) {
-                    setUnlockError(body.error ?? "Could not unlock preview.");
-                    return;
-                  }
-                  const next = await fetchGenerationState(generationId);
-                  setState(next);
-                  router.replace(`/studio/generate/${generationId}`, { scroll: false });
-                });
-              }}
-              disabled={unlocking || finishingCheckoutUnlock}
-              className="btn btn-ghost btn-sm"
-            >
-              {finishingCheckoutUnlock
-                ? "Finishing..."
-                : unlocking
-                  ? "Unlocking..."
-                  : "I have credits"}
-            </button>
-          </div>
-        </div>
+      {isPreview && !err && (
+        <PreviewPurchasePanel
+          generationId={generationId}
+          ready={done && images.length >= 4}
+          checkingPayment={finishingCheckoutUnlock}
+          checkoutReturned={checkoutReturned}
+          unlocking={unlocking}
+          error={unlockError}
+          onError={(message) => setUnlockError(message || null)}
+          onUnlock={() => {
+            setUnlockError(null);
+            startUnlock(async () => {
+              try {
+                const res = await fetch(`/api/generate/${generationId}/unlock`, { method: "POST" });
+                const body = (await res.json().catch(() => ({}))) as { error?: string };
+                if (!res.ok) {
+                  setUnlockError(body.error ?? "Could not unlock preview. Please try again.");
+                  return;
+                }
+                const next = await fetchGenerationState(generationId);
+                setState(next);
+                router.replace(`/studio/generate/${generationId}`, { scroll: false });
+              } catch {
+                setUnlockError("We couldn’t connect. Please try unlocking again.");
+              }
+            });
+          }}
+        />
       )}
 
       {err && (
