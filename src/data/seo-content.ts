@@ -1,6 +1,10 @@
 import type { Vibe } from "./vibes";
 import type { Card } from "./cards";
 import type { ArtStyle } from "./styles";
+import {
+  MAX_SHOT_SUBJECTS,
+  SHOT_SUBJECT_CONSISTENCY_WARNING_THRESHOLD,
+} from "../lib/generation-limits";
 
 export type FaqItem = { q: string; a: string };
 
@@ -8,8 +12,7 @@ const vibeSeoCopy: Record<string, { intro: string; whatIs: string; faqs?: FaqIte
   "royal-family-portrait": {
     intro:
       "Make a royal family portrait from regular phone selfies in about two minutes. Upload each person once, add a pet if you want, and FamilyShoot places your family inside a polished palace-style portrait with crowns, velvet, warm light, and a frame-ready finish.",
-    whatIs:
-      "A royal family portrait turns your uploaded selfies into a regal group image with formal posture, ceremonial wardrobe, ornate interiors, and polished portrait lighting. It is a strong choice for families who want something funny enough to share, but refined enough to print.\n\nFamilyShoot keeps the workflow practical. You can include up to five family members, or use four people and a pet. The finished portrait is high resolution, so it can become wall art, a gift, or the image on a family card.",
+    whatIs: `A royal family portrait turns your uploaded photos into a regal group image with formal posture, ceremonial wardrobe, ornate interiors, and polished portrait lighting. Try parents and children gathered around a velvet chair, or include the family dog beside the throne.\n\nYou can select up to ${MAX_SHOT_SUBJECTS} people or pets for one portrait. Groups of ${SHOT_SUBJECT_CONSISTENCY_WARNING_THRESHOLD} or fewer usually give more consistent likeness. Start with a free watermarked preview on your first shoot, then unlock the high-resolution file if you want to print or share it.`,
     faqs: [
       {
         q: "Can I include a pet in a royal family portrait?",
@@ -23,9 +26,9 @@ const vibeSeoCopy: Record<string, { intro: string; whatIs: string; faqs?: FaqIte
   },
   "disney-world-family-photos": {
     intro:
-      "Create a theme park family photo from selfies without needing everyone together in one perfect vacation shot. FamilyShoot builds a bright castle-plaza portrait with up to five family members, cheerful vacation styling, and a printable finish.",
+      "Create a theme park family photo from separate phone photos. Choose a bright castle-plaza setting and cheerful vacation styling, then try a free watermarked preview on your first shoot.",
     whatIs:
-      "A Disney World style family photo captures the feeling of a castle vacation portrait: sunny plaza light, bright outfits, cheerful snacks, fireworks haze, and the whole family close together. The page is designed for families who came home with lots of phone photos but no single clean group portrait.\n\nFamilyShoot uses your uploaded references to keep each person recognizable, then creates a new family portrait in a generic theme-park setting. The result avoids logos and copyrighted characters, so it feels magical without depending on protected artwork.",
+      "A Disney World style family photo captures the feeling of a castle vacation portrait: sunny plaza light, bright outfits, cheerful snacks, fireworks haze, and the family close together. It works with the separate phone photos you brought home, even if you missed a group shot.\n\nFamilyShoot uses those photos as visual references to create a new portrait in a theme-park inspired setting. Check everyone's likeness in the preview before unlocking the file. This is an original generated keepsake, not an official park photograph.",
     faqs: [
       {
         q: "Is this an official Disney photo?",
@@ -33,13 +36,13 @@ const vibeSeoCopy: Record<string, { intro: string; whatIs: string; faqs?: FaqIte
       },
       {
         q: "How many people can be in the theme park portrait?",
-        a: "FamilyShoot supports up to five family members in one generated portrait. That keeps the faces readable and matches the upload flow inside the app.",
+        a: `You can select up to ${MAX_SHOT_SUBJECTS} people or pets. Groups of ${SHOT_SUBJECT_CONSISTENCY_WARNING_THRESHOLD} or fewer usually give more consistent likeness. Add at least one clear reference photo for each person or pet you select.`,
       },
     ],
   },
   "national-park-family-photos": {
     intro:
-      "Turn everyday selfies into a national park family photo with granite cliffs, pine forest, trail layers, and clean morning light. Use up to five people, or four people and a pet, to create a print-ready outdoor family portrait.",
+      "Turn everyday phone photos into a national park family portrait with granite cliffs, pine forest, trail layers, and clean morning light. Include the people and pets you want in the scene, then unlock your favorite result for downloading and printing.",
     whatIs:
       "A national park family photo places your family in the kind of scenic overlook portrait people hope to capture on a big trip. Think trail clothes, soft alpine light, pine air, and a dramatic landscape behind everyone, without needing to plan the hike or coordinate a photographer.\n\nThis vibe is useful for outdoor families, holiday gifts, travel albums, and grandparents who want everyone in one image. Pets fit naturally here too, especially dogs on leash in the foreground.",
     faqs: [
@@ -55,7 +58,7 @@ const vibeSeoCopy: Record<string, { intro: string; whatIs: string; faqs?: FaqIte
   },
   "hawaii-family-photos": {
     intro:
-      "Make a Hawaii family photo from the selfies you already have. FamilyShoot creates a warm island portrait with beach light, palms, leis, lava rock, and up to five family members together in one finished image.",
+      "Make a Hawaii family photo from the phone photos you already have. FamilyShoot creates a new island-inspired portrait with beach light, palms, leis, and your selected family members together in one image.",
     whatIs:
       "A Hawaii family photo captures the vacation portrait people often want but rarely get cleanly: everyone looking good, ocean in the background, soft sunset light, and relaxed island clothing. It works well for travel memories, family cards, framed gifts, or a keepsake when the real trip photos are scattered across phones.\n\nFamilyShoot builds the final image from your references rather than editing one existing group shot. That means each person can come from a different selfie, then appear together in one cohesive beach portrait.",
     faqs: [
@@ -65,13 +68,13 @@ const vibeSeoCopy: Record<string, { intro: string; whatIs: string; faqs?: FaqIte
       },
       {
         q: "Can this work for grandparents and kids together?",
-        a: "Yes. A five-person setup, such as two adults, two children, and one grandparent, fits the app limit and keeps faces large enough for a strong portrait.",
+        a: `Yes. Upload a clear reference photo for each person and select them for the shoot. Two adults, two children, and one grandparent is one possible group. You can include up to ${MAX_SHOT_SUBJECTS} people or pets, though smaller groups usually give more consistent likeness.`,
       },
     ],
   },
   "cape-cod-family-photos": {
     intro:
-      "Create a Cape Cod family photo with cedar shingles, hydrangeas, dune grass, navy stripes, and soft New England beach light. Use up to five people, or four people and a dog, for a calm coastal portrait.",
+      "Create a Cape Cod family photo with cedar shingles, hydrangeas, dune grass, navy stripes, and soft New England beach light. Bring separate photos of your family and dog together in a new coastal portrait.",
     whatIs:
       "A Cape Cod family photo is a coastal New England portrait with weathered cottages, hydrangeas, sandy paths, white fences, and calm water in the background. It is less dramatic than a sunset beach shot and more like a relaxed summer keepsake you would frame at home.\n\nThis vibe is especially good for families who like classic coastal styling: cream sweaters, linen, navy stripes, bare feet, and an easy expression. Pets fit naturally into the scene, especially a dog seated at the family’s feet.",
     faqs: [
@@ -91,83 +94,82 @@ export const vibeFaqs = (v: Vibe): FaqItem[] => [
   ...(vibeSeoCopy[v.slug]?.faqs ?? []),
   {
     q: `How do I make a ${v.name} family portrait from my photos?`,
-    a: `Upload five to ten selfies of each family member. FamilyShoot trains a private model on each face, then renders your family in the ${v.name} look. The whole thing takes about two minutes. You do not need a single good group photo.`,
+    a: `Add at least one clear, well-lit reference photo for each person or pet in My Family, then choose ${v.name}. FamilyShoot uses those photos as visual guides to create a new portrait. Your first shoot can start as a free watermarked preview; unlock the high-resolution files if you like the result.`,
   },
   {
     q: `Do I need a professional ${v.name.toLowerCase()} photo to start?`,
-    a: `No. Regular phone selfies are exactly what we need. Different angles, different lighting, taken on different days. Skip the matching outfits and the staged photoshoot.`,
+    a: "No. A clear phone photo is enough to start. For people, choose a front-facing photo with at least the shoulders visible; a full-body photo can also help with height and posture. Everyone can come from a separate photo.",
   },
   {
-    q: `How is this different from a Ghibli or Pixar filter on ChatGPT or a free AI tool?`,
-    a: `Filters edit one photo at a time and rarely keep faces consistent across a family. FamilyShoot trains on each person, then composes the whole family in one ${v.name} scene with believable likeness, posture, and light.`,
+    q: "Does FamilyShoot edit an existing group photo or create a new portrait?",
+    a: `It creates a new ${v.name} portrait from your reference photos. People and pets can come from separate pictures. The lighting, clothing, setting, and poses are generated, so check each person's likeness in the preview.`,
   },
   {
     q: `Can I print a ${v.name} family portrait or order a card with it?`,
-    a: `Yes. Every render is high resolution and ready for wall prints. You can also turn it into a printed family card with one click.`,
+    a: "After unlocking a portrait, download the high-resolution file for printing. You can upload it to our Printify-powered shop for available keepsakes or use a printer of your choice. Physical products are ordered and paid for separately from your FamilyShoot shoot.",
   },
   {
     q: `Is my family photo data private?`,
-    a: `Your uploads and the model trained on your family are private to your account. We do not use your photos to train shared models or sell anything to anyone.`,
+    a: "We do not use your photos to train FamilyShoot. Your uploads are processed to create the portraits, cards, refinements, and downloads you request, including processing by our image-generation providers. You can remove reference photos and finished images through the delete options in your studio.",
   },
 ];
 
 export const cardFaqs = (c: Card): FaqItem[] => [
   {
     q: `How do I make a ${c.name} family card without a perfect family photo?`,
-    a: `Upload five to ten selfies of each person. FamilyShoot generates a ${c.name.toLowerCase()}-themed family photo with everyone in frame, then drops it into a printable card layout. About two minutes start to finish.`,
+    a: `Add at least one clear reference photo for each person or pet, choose a ${c.name} card theme, and enter your greeting in the card text field. FamilyShoot creates new card images from those references. Your first shoot can start as a free watermarked preview.`,
   },
   {
     q: `Do you print and mail the ${c.name} card?`,
-    a: `Yes. Order printed cards on premium paper, or download the high-resolution file and print it anywhere. Digital share links are free.`,
+    a: "FamilyShoot creates the digital card image. After unlocking it, download the file and upload it to our Printify-powered shop for available printed products, or use a printer of your choice. The shop handles its own checkout, printing, delivery, and order support.",
   },
   {
-    q: `Can I edit the greeting and add our family name to the ${c.name} card?`,
-    a: `Yes. Every card is fully customizable. Change the greeting, add names, swap colors, pick a layout. The AI handles the family photo, you handle the words.`,
+    q: `Can I add a greeting and our family name to the ${c.name} card?`,
+    a: "Yes. Enter a short greeting and names in the Greeting / card text field before starting the shoot. You can also choose an art style for each card variation. The words become part of the generated image, so check spelling and readability before downloading or printing; there is no separate text or layout editor.",
   },
   {
-    q: `How is this different from Minted, Shutterfly, or Vistaprint photo cards?`,
-    a: `Those services need you to already have a great family photo. FamilyShoot generates the family photo for you, then makes the card. No photographer, no matching outfits, no "everyone please smile at the same time".`,
+    q: "Do I need a finished family photo before making a card?",
+    a: "No. Each person or pet can come from a different photo. FamilyShoot uses those references to create a new family scene and card image together, so you can start without a group photo.",
   },
   {
     q: `When should I order ${c.name} cards to get them in time?`,
-    a: `Card generation takes minutes. Printed cards typically ship within three to five business days. Digital cards arrive in your inbox the same day.`,
+    a: "Allow time to create the card and check the faces and greeting. Once the result is ready and unlocked, you can download it from your studio. For physical cards, check the print provider's production and delivery estimate for your destination before ordering.",
   },
 ];
 
 export const styleFaqs = (s: ArtStyle): FaqItem[] => [
   {
     q: `How do I turn a family photo into a ${s.name.toLowerCase()} portrait?`,
-    a: `Upload five to ten selfies of each family member. FamilyShoot generates a ${s.name.toLowerCase()} family portrait in about two minutes. No artist commission, no two-week wait.`,
+    a: `Add at least one clear reference photo for each person or pet, then choose the ${s.name} style. FamilyShoot uses the photos as visual guides to create a new portrait. Start with a free watermarked preview on your first shoot, then unlock the high-resolution files if you want to keep them.`,
   },
   {
-    q: `Is this the same quality as a hand-painted ${s.name.toLowerCase()} portrait from photo services like Paint Your Life or PortraitFlip?`,
-    a: `The finish is comparable, the turnaround is minutes instead of weeks, and the price is a fraction. You get high-resolution files for printing and framing.`,
+    q: "Is this a hand-painted portrait or a digital image?",
+    a: `It is an AI-created digital image in the ${s.name} style. You can preview the finish and likeness before unlocking the high-resolution file. Any canvas or framed version is a print of that image, not an original hand-painted work.`,
   },
   {
     q: `Can I print my ${s.name.toLowerCase()} family portrait on canvas?`,
-    a: `Yes. Every render is high resolution and ready for canvas, framed prints, or a printed card.`,
+    a: "Yes. After unlocking the portrait, download the high-resolution file and choose a canvas or other print product from a print provider. Check that the file dimensions and crop suit the size you want before ordering.",
   },
   {
     q: `Do you need a perfect family photo to make the ${s.name.toLowerCase()} portrait?`,
-    a: `No. Regular phone selfies are enough. Different angles and lighting actually help us capture each person better.`,
+    a: "No. Use a clear, well-lit phone photo for each person or pet. Front-facing photos with shoulders or full body visible help with likeness and proportions. The photos can be taken separately.",
   },
   {
     q: `Is the ${s.name.toLowerCase()} portrait actually unique to my family or just a filter?`,
-    a: `Unique. We train a private model on each face and compose your family together in the ${s.name.toLowerCase()} style. It is not a one-size filter.`,
+    a: `FamilyShoot creates a new ${s.name} portrait using your family's photos as references. It does not train a private model on each face. The style changes the appearance of the whole scene, and likeness can vary, so review the result before unlocking it.`,
   },
 ];
 
 export const vibeIntro = (v: Vibe) =>
   vibeSeoCopy[v.slug]?.intro ??
-  `A ${v.keyword} from your phone in about two minutes. Upload a handful of regular selfies of each family member and FamilyShoot will render your whole family in the ${v.name} look, ready to print or turn into a card. No photoshoot, no matching outfits, no waiting on a custom commission.`;
+  `Create a ${v.keyword} from the phone photos you already have. Add a clear reference photo for each person or pet, choose ${v.name}, and see them together in a new portrait. Try a free watermarked preview on your first shoot, then unlock the high-resolution files for downloading and printing.`;
 
 export const vibeWhatIsBody = (v: Vibe) =>
   vibeSeoCopy[v.slug]?.whatIs ??
-  `A ${v.keyword} captures your family in the visual language of ${v.name}: color, lighting, posture, and mood you would expect from that world. FamilyShoot trains a private model on each face you upload, then composes the whole family in one ${v.name} scene. ` +
-    `\n\nThe result is high resolution and ready for wall prints, digital sharing, or a printed family card. Two minutes from upload to finished portrait.`;
+  `A ${v.keyword} brings your selected family members into a new scene with the colors, lighting, and atmosphere of ${v.name}. FamilyShoot uses each person's or pet's uploaded photos as visual references; everyone can come from a different picture.\n\nChoose clear photos, check each face in the result, and unlock the high-resolution file when you are happy with it. You can then download it for sharing or upload it to a print provider for a card or framed keepsake.`;
 
 export const cardIntro = (c: Card) =>
-  `${c.keyword.replace(/^\w/, (ch) => ch.toUpperCase())} that show your whole family at their best, without scheduling a photoshoot or wrangling everyone into matching outfits. Drop in selfies you already have, FamilyShoot generates the family photo, and the ${c.name} card is ready to print or share in minutes.`;
+  `Create ${c.keyword} from separate photos of your family and pets. Choose a ${c.name} theme, add a short greeting, and try a free watermarked preview on your first shoot. Unlock your favorite result to download the high-resolution card image for sharing or printing.`;
 
 export const styleIntro = (s: ArtStyle) =>
-  `A ${s.keyword} generated from the photos you already have. Same hand-painted look as a custom commission. Minutes instead of weeks, a fraction of the cost, ready for printing, framing, or sending as a card.`;
+  `Create a ${s.keyword} from your own phone photos. FamilyShoot uses your references to create a new digital portrait in the ${s.name} style. Try a free watermarked preview on your first shoot, then unlock the high-resolution file for sharing or printing.`;

@@ -6,11 +6,14 @@ import { CARDS, cardBySlug } from "@/data/cards";
 import { STYLES, styleBySlug } from "@/data/styles";
 import { OCCASION_PAGES, occasionPageBySlug, type OccasionPage } from "@/data/occasion-pages";
 import { BIRTHDAY_CARD_SEO_PAGES } from "@/data/birthday-card-pages";
+import { STYLE_PROMPT_EXAMPLES } from "@/data/style-prompt-examples";
+import { getPromptStudioHref } from "@/lib/theme-links";
 import {
   vibeFaqs,
   cardFaqs,
   styleFaqs,
   vibeIntro,
+  vibeWhatIsBody,
   cardIntro,
   styleIntro,
   type FaqItem,
@@ -102,13 +105,15 @@ export async function generateMetadata({
   const isBirthdayCardSeoPage =
     category === "occasion" && item.image.startsWith("/seo/birthday-cards/");
   const title =
-    category === "vibe"
-      ? `${item.name} Family Portrait | AI Generated from Your Photos | FamilyShoot`
-      : category === "card"
-        ? `${item.name} Family Cards | AI Photo Cards in Minutes | FamilyShoot`
-        : category === "occasion"
-          ? ((item as OccasionPage).metaTitle ?? `${(item as OccasionPage).h1} | FamilyShoot`)
-          : `${item.name} Family Portrait from Photo | Custom AI Painting | FamilyShoot`;
+    category === "vibe" && STYLE_PROMPT_EXAMPLES[slug]
+      ? `${item.name} Family Portraits from Photos | FamilyShoot`
+      : category === "vibe"
+        ? `${item.name} Family Portrait | AI Generated from Your Photos | FamilyShoot`
+        : category === "card"
+          ? `${item.name} Family Cards | AI Photo Cards in Minutes | FamilyShoot`
+          : category === "occasion"
+            ? ((item as OccasionPage).metaTitle ?? `${(item as OccasionPage).h1} | FamilyShoot`)
+            : `${item.name} Family Portrait from Photo | Custom AI Painting | FamilyShoot`;
 
   const description =
     category === "occasion"
@@ -121,7 +126,7 @@ export async function generateMetadata({
     : `${item.name} family portrait sample`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: `${SITE_URL}${url}` },
     openGraph: {
@@ -148,6 +153,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!r) notFound();
 
   const { category, item } = r;
+  const promptExamples = STYLE_PROMPT_EXAMPLES[slug] ?? [];
   const extraImages = category === "vibe" ? (item as Vibe).extraImages : undefined;
   const isFathersDay = category === "occasion" && item.slug === "fathers-day";
   const isBirthdayCardSeoPage =
@@ -223,15 +229,14 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
   const whatIsBody =
     category === "vibe"
-      ? `A ${item.keyword} captures your family in the visual language of ${item.name}: color, lighting, posture, and mood you would expect from that world. FamilyShoot trains a private model on each face you upload, then composes the whole family in one ${item.name} scene. ` +
-        `\n\nThe result is high resolution and ready for wall prints, digital sharing, or a printed family card. Two minutes from upload to finished portrait.`
+      ? vibeWhatIsBody(item as never)
       : category === "card"
-        ? `A ${item.keyword.replace(/^\w/, (ch) => ch.toUpperCase())} on FamilyShoot is a printable family card with a generated, photo-realistic family image baked in. You do not need a perfect family photo to start. Upload selfies of each person, pick a ${item.name} design, and the card is ready to send or print.` +
-          `\n\nUnlike Minted, Vistaprint, or Shutterfly, we do not assume you already have the family photo. We generate it. The card design, the family, and the print are produced in one flow.`
+        ? `FamilyShoot creates a new ${item.name} card image from separate photos of your family and pets. Add a clear reference photo for each person or pet, choose a card theme and art style, and enter a short greeting before starting the shoot.` +
+          `\n\nYour first shoot can start as a free watermarked preview. Check the faces and text before unlocking the high-resolution files. You can then download a card image for sharing or upload it to a print provider. Physical products have a separate checkout, with production and delivery estimates from that provider.`
         : category === "occasion"
           ? (item as OccasionPage).whatIsBody
-          : `A ${item.keyword} renders your family in a ${item.name.toLowerCase()} finish that mirrors a hand-painted commission. Brushwork, color, and composition are calibrated to the medium. FamilyShoot generates each portrait from the selfies you upload, so the family looks like itself, not like a stock illustration.` +
-            `\n\nHand-painted portrait services like Paint Your Life and PortraitFlip take two to four weeks and cost hundreds of dollars. FamilyShoot delivers a comparable ${item.name.toLowerCase()} finish in minutes.`;
+          : `A ${item.keyword} is a new digital image made from your family's reference photos in the ${item.name} style. Each person or pet can come from a separate picture. Clear photos help guide likeness and proportions as the style changes the scene's colors, textures, and lighting.` +
+            `\n\nReview the faces and finish in your first free watermarked preview. If you want to keep the result, unlock the high-resolution file and download it for sharing or printing. Check the image size and crop with your chosen print provider before ordering.`;
 
   const related: RelatedLink[] = item.related
     .slice(0, 4)
@@ -302,6 +307,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             : `${item.name} family portrait sample`
         }
         extraImages={extraImages}
+        promptExamples={promptExamples}
+        promptStyleName={item.name}
         extraImageLabel={`${item.name} family portrait sample variation`}
         whatIsTitle={whatIsTitle}
         whatIsBody={whatIsBody}
@@ -313,18 +320,27 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
           hubLabel: otherCategoryLabel,
           sample: crossSample,
         }}
-        ctaHref="/studio/roster"
+        ctaHref={
+          promptExamples[0] ? getPromptStudioHref(promptExamples[0].prompt) : "/studio/roster"
+        }
         ctaLabel={
-          category === "card"
-            ? "Begin a Card"
-            : category === "occasion"
-              ? (item as OccasionPage).ctaLabel
-              : "Create my free preview"
+          promptExamples.length > 0
+            ? "Create this look"
+            : category === "card"
+              ? "Begin a Card"
+              : category === "occasion"
+                ? (item as OccasionPage).ctaLabel
+                : "Create my free preview"
         }
         breadcrumbs={breadcrumbs}
         keywordHighlights={
           category === "occasion"
-            ? [(item as OccasionPage).keyword, ...(item as OccasionPage).secondaryKeywords]
+            ? [
+                "Separate photos welcome",
+                "People and pets",
+                "Free first preview",
+                "Paid high-resolution downloads",
+              ]
             : undefined
         }
         sourceImages={isFathersDay ? FATHERS_DAY_SOURCE_IMAGES : undefined}

@@ -17,14 +17,15 @@
     "closeMenuShort": "Menü schließen"
   },
   "Hero": {
-    "titleLines": ["Von chaotischen Handyfotos", "zu schönen Familienporträts"],
+    "titleLines": ["KI-Familienporträts", "aus einzelnen Fotos."],
     "chip": "KI-Familienfoto-Generator",
     "awardLabel": "Top-Empfehlung für Familienfotoshootings",
     "awardEyebrow": "Top-Empfehlung",
     "awardRank": "#1",
     "awardText": "Familienfoto-App",
-    "title": "Von chaotischen Handyfotos zu schönen Familienporträts",
-    "body": "Lade einzelne Fotos jedes Familienmitglieds hoch, wähle einen Stil und erhalte in etwa zwei Minuten schöne KI-Familienfotos zum Ausdrucken.",
+    "title": "KI-Familienporträts aus einzelnen Fotos.",
+    "body": "Bringe Eltern, Kinder und Haustiere auf einem neuen Porträt zusammen. Lade ein klares Foto jeder Person oder jedes Haustiers hoch, wähle einen Stil und probiere deine erste Vorschau mit Wasserzeichen kostenlos aus.",
+    "previewNote": "Lade zuerst Fotos hoch. Bestätige vor der Erstellung deine E-Mail-Adresse. Hochauflösende Downloads sind kostenpflichtig.",
     "primaryCta": "Meine kostenlose Vorschau erstellen",
     "secondaryCta": "Galerie ansehen",
     "customers": "5.000+ glückliche Kundinnen und Kunden",
@@ -111,8 +112,37 @@
   },
   "Landing": {
     "Seo": {
-      "title": "KI-Familienfoto-Generator | FamilyShoot",
-      "description": "Verwandle einzelne Handyfotos in wenigen Minuten in ein professionelles Familienporträt oder eine Grußkarte. Starte mit einer kostenlosen Vorschau."
+      "title": "KI-Familienfoto-Generator aus einzelnen Fotos | FamilyShoot",
+      "description": "Erstelle KI-Familienporträts aus einzelnen Fotos von Eltern, Kindern und Haustieren. Probiere deine erste Vorschau mit Wasserzeichen kostenlos aus. Hochauflösende Downloads sind kostenpflichtig."
+    },
+    "LookCollection": {
+      "favoritesChip": "Die beliebtesten Stile",
+      "favoritesTitle": "Stile, die Familien immer wieder wählen.",
+      "favoritesBody": "Diese Stile wurden bei allen abgeschlossenen Fotoshootings am häufigsten erstellt.",
+      "curatedChip": "Für dich ausgewählt",
+      "curatedTitle": "Ein schöner Anfang für dein Familienporträt.",
+      "curatedBody": "Vom klassischen Studioporträt bis zum Zeichentrickabenteuer: Starte mit einem dieser sorgfältig ausgewählten Stile.",
+      "browseLink": "{count} weitere Stile entdecken",
+      "catalogChip": "Noch mehr entdecken",
+      "catalogTitle": "Finde den nächsten Stil für deine Familie.",
+      "catalogBody": "Entdecke {count} weitere Porträtstile und Karten. Unsere neuesten Ergänzungen findest du zuerst. Suche nach Kulisse, Anlass oder Stil.",
+      "searchLabel": "Stile suchen",
+      "searchPlaceholder": "Zum Beispiel Cozy Library oder Minecraft",
+      "all": "Alle Stile",
+      "photoreal": "Fotoporträts",
+      "stylized": "Illustration & Zeichentrick",
+      "card": "Grußkarten",
+      "results": "{shown} von {count} Stilen angezeigt",
+      "emptyTitle": "Keine Stile gefunden",
+      "emptyBody": "Versuche eine andere Suche oder entdecke die ganze Auswahl.",
+      "reset": "Filter zurücksetzen",
+      "loadMore": "Weitere Stile anzeigen",
+      "create": "In diesem Stil erstellen",
+      "createNamed": "In diesem Stil erstellen: {name}",
+      "details": "Beispiele ansehen",
+      "detailsNamed": "Beispiele ansehen: {name}",
+      "rank": "Favorit Nr. {rank}",
+      "imageAlt": "Familienporträt im Stil „{name}“"
     },
     "BeforeAfter": {
       "chip": "Familienporträt aus einzelnen Fotos",
@@ -373,7 +403,7 @@
       "occasionGroup": "Anlässe",
       "styleGroup": "Porträt-Kunststile",
       "copyright": "Family Photoshoot. Mit Sorgfalt für Familien gemacht.",
-      "paidStudio": "Ein kostenpflichtiges Familienstudio."
+      "paidStudio": "Erste Vorschau kostenlos. Hochauflösende Downloads kostenpflichtig."
     },
     "TrendingBar": { "label": "Jetzt im Trend", "ariaLabel": "Aktuelle FamilyShoot-Stile ansehen" }
   },

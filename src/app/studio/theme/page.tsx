@@ -13,6 +13,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getTempRosterOwnerFromCookieValue, TEMP_ROSTER_COOKIE } from "@/lib/temp-roster";
 import { getThemeStudioHref } from "@/lib/theme-links";
+import {
+  getStudioIntentDestination,
+  getStudioIntentHref,
+  parseStudioIntent,
+} from "@/lib/studio-intent";
+import { localizePath } from "@/lib/i18n/locales";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,21 +28,31 @@ type OutputMode = "photoshoot" | "card";
 export default async function ThemePage({
   searchParams,
 }: {
-  searchParams: Promise<{ output?: string; card?: string; theme?: string }>;
+  searchParams: Promise<{
+    output?: string | string[];
+    card?: string | string[];
+    theme?: string | string[];
+    prompt?: string | string[];
+  }>;
 }) {
-  const { output, card, theme } = await searchParams;
+  const params = await searchParams;
+  const { output, card } = params;
+  const locale = await getRequestLocale();
   const themes = themesByCategory();
-  const legacyTheme = theme
-    ? [...themes.photoreal, ...themes.stylized, ...themes.card].find((entry) => entry.id === theme)
-    : null;
-  const requestedCard = card ? themes.card.find((entry) => entry.id === card) : null;
+  const allThemes = [...themes.photoreal, ...themes.stylized, ...themes.card];
+  const intent = parseStudioIntent(params, allThemes);
+  const selected =
+    intent?.kind === "theme"
+      ? (allThemes.find((entry) => entry.id === intent.themeId) ?? null)
+      : null;
+  const outputMode: OutputMode = intent?.output ?? (output === "card" ? "card" : "photoshoot");
+  const selectedCard = selected?.category === "card" ? selected : null;
+  const selectedTheme = selected && selected.category !== "card" ? selected : null;
+  const initialPrompt = intent?.kind === "prompt" ? intent.prompt : "";
 
-  if (legacyTheme?.category === "card") redirect(getThemeStudioHref(legacyTheme));
-  if (requestedCard && output !== "card") redirect(getThemeStudioHref(requestedCard));
-
-  const outputMode: OutputMode = output === "card" ? "card" : "photoshoot";
-  const selectedCard = outputMode === "card" && requestedCard ? requestedCard : null;
-  const selectedTheme = outputMode === "photoshoot" ? legacyTheme : null;
+  if (selectedCard && (card !== selectedCard.id || output !== "card")) {
+    redirect(localizePath(getThemeStudioHref(selectedCard), locale));
+  }
   const user = await getCurrentUser();
   const cookieStore = user ? null : await cookies();
   const tempOwner = user
@@ -54,6 +71,13 @@ export default async function ThemePage({
       user ? getCurrentSubscription(user.id) : Promise.resolve(null),
     ]);
   const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
+
+  if (intent) {
+    const destination = getStudioIntentDestination(intent, rosterRows);
+    if (destination !== getStudioIntentHref(intent)) {
+      redirect(localizePath(destination, locale));
+    }
+  }
 
   const roster: RosterMember[] = rosterRows.map(({ person, photos }) => ({
     id: person.id,
@@ -101,6 +125,7 @@ export default async function ThemePage({
       </div>
 
       <ThemeBoard
+        key={intent ? getStudioIntentHref(intent) : outputMode}
         photoreal={themes.photoreal}
         stylized={themes.stylized}
         cards={themes.card}
@@ -114,6 +139,8 @@ export default async function ThemePage({
         subscriptionRenewalDate={subscription?.currentPeriodEnd?.toISOString() ?? null}
         isAuthenticated={Boolean(user)}
         initialThemeId={selectedTheme?.id ?? null}
+        initialCardId={selectedCard?.id ?? null}
+        initialPrompt={initialPrompt}
       />
     </main>
   );

@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { type Locale, localizePath, stripLocalePrefix } from "@/lib/i18n/locales";
+import { getStudioNavigationHref, studioSearchParamsFromUrl } from "@/lib/studio-intent";
 
 const steps: {
   id: string;
@@ -61,6 +62,7 @@ export default function StudioStepper() {
   const locale = useLocale() as Locale;
   const t = useTranslations("Studio");
   const pathname = usePathname() ?? "";
+  const searchParams = studioSearchParamsFromUrl(useSearchParams());
   const activeIdx = steps.findIndex((s) => s.matches.test(stripLocalePrefix(pathname)));
 
   return (
@@ -74,7 +76,11 @@ export default function StudioStepper() {
           return (
             <li key={s.id} className="relative">
               <Link
-                href={canClick ? localizePath(s.href, locale) : "#"}
+                href={
+                  canClick
+                    ? localizePath(getStudioNavigationHref(s.href, searchParams), locale)
+                    : "#"
+                }
                 aria-current={active ? "step" : undefined}
                 className={`relative z-10 flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-[0.04em] transition-colors ${
                   active

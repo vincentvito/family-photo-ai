@@ -72,7 +72,7 @@ const relatedLinks = page.related
   );
 
 export const metadata: Metadata = {
-  title: page.seoTitle,
+  title: { absolute: page.seoTitle },
   description: page.metaDescription,
   alternates: { canonical: `${SITE_URL}${page.path}` },
   openGraph: {

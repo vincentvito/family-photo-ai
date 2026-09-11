@@ -33,7 +33,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     image: "/seo/birthday-cards/kids-birthday-card-maker.webp",
     h1: "Personalized kids birthday cards made from family moments",
     intro:
-      "Turn favorite family, party, portrait, or pet photos into a birthday card idea that feels made for the child, not picked from a shelf. Start with playful styles like Minecraft, storybook garden, or a soft birthday portrait with balloons and big age-number energy.",
+      "Turn photos of the birthday child, family, or pets into a personal birthday card. Choose a birthday layout with a natural portrait, soft Watercolor art, or a playful Storybook style, then add the child's name, age, and a short greeting.",
     ctaLabel: "Create a birthday card",
     sections: [
       {
@@ -42,15 +42,15 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
       },
       {
         title: "Card ideas for sons, daughters, nieces, nephews, and classmates",
-        body: "Use FamilyShoot for a birthday card from parents, grandparents, aunties, uncles, cousins, classmates, or family friends. Start from the photos you already have and make the card feel personal.",
+        body: "For a son or daughter, try a birthday-age layout with their portrait. For a niece or nephew, include cousins in an illustrated card. For a classmate, keep it simple with the birthday child's photo and a cheerful wish. Add separate reference photos for each person you want to include.",
       },
       {
         title: "Birthday message examples for kids",
-        body: "Keep the message short, warm, and age-appropriate. Add a family memory, a nickname, or a small wish for the year ahead.",
+        body: 'Use the Greeting / card text field for the child\'s name, age, and a short wish, such as "Happy 7th Birthday, Ava! Keep being curious, brave, and completely you." The field allows up to 120 characters. Include the age when choosing a carved-number birthday layout.',
       },
       {
-        title: "Add family, pets, hobbies, or party memories",
-        body: "The card can lean into a party theme, a favorite pet, a sports moment, a sibling photo, or a simple portrait. The point is not to look generic. It should look like their birthday.",
+        title: "Choose who appears and check the preview",
+        body: "Select the child, siblings, relatives, or pets you want on the card. Use clear photos where each face is easy to see. Before unlocking the download, check the child's likeness, the spelling of their name, the age, and the birthday message.",
       },
     ],
     styleEyebrow: "Three kid-ready design styles",
@@ -90,11 +90,11 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
       },
       {
         q: "Can I make a birthday card for my son or daughter?",
-        a: "Yes. The page is built for parents, grandparents, relatives, and friends making cards for sons, daughters, nieces, nephews, classmates, and little friends.",
+        a: "Yes. Start with a clear photo of your child, choose a birthday card layout, and add their name, age, and message. You can also include siblings, relatives, or pets from separate photos.",
       },
       {
-        q: "Where does the Create a birthday card button go?",
-        a: "It opens the current FamilyShoot creation flow so you can start with the photos you already have.",
+        q: "How do I start making a birthday card?",
+        a: "Add the people or pets you want to include and upload their reference photos. Then choose card output, select a birthday layout and art styles, and enter your greeting. Review the generated preview before unlocking a high-resolution download.",
       },
     ],
     related: [
@@ -125,11 +125,11 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
       },
       {
         title: "Grandma birthday message examples",
-        body: "Keep the note specific. Mention what she taught the family, a recent memory, or a small thing everyone loves about her.",
+        body: 'Keep the note specific. Mention what she taught the family, a recent memory, or a small thing everyone loves about her. Try "Happy Birthday, Grandma! Your stories and hugs make every visit special. Love from all of us." Add the message in the Greeting / card text field.',
       },
       {
         title: "Built for keepsake cards and birthday posts",
-        body: "Use the final idea as a printed birthday card, a digital surprise, or a starting point for a social post from the family after approval.",
+        body: "Preview the card and check each face and the greeting before unlocking the high-resolution download. Send the image as a digital birthday surprise, use it in a family birthday post, or arrange printing with your preferred printer.",
       },
     ],
     messageExamples: [
@@ -148,7 +148,7 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
       },
       {
         q: "Is this only for printed cards?",
-        a: "No. Families can use the idea for a printed card, a digital birthday surprise, or a social birthday post after they approve the final creative.",
+        a: "No. You can share the downloaded image in a message or birthday post. If you want a physical card, use the high-resolution download and arrange printing yourself.",
       },
     ],
     related: [
@@ -167,46 +167,46 @@ export const BIRTHDAY_CARD_PAGES: readonly BirthdayCardPage[] = [
     h1: "A simple birthday-card add-on for your clients",
     intro:
       "FamilyShoot gives families a personal birthday-card idea they can pair with a cake order, birthday shoot, party package, or celebration gift.",
-    ctaLabel: "Request a sample birthday-card pack",
+    ctaLabel: "Create a sample birthday card",
     sections: [
       {
         title: "For cake decorators",
-        body: "After the cake is picked up or photographed, families already have a birthday moment worth turning into a card. FamilyShoot can be a light add-on recommendation, not another heavy service to manage.",
+        body: "Give families a personal card idea to go with a cake order. They can use a clear portrait of the birthday person, choose a birthday layout, and add a name, age, and message before previewing the result.",
       },
       {
         title: "For kids' party planners",
-        body: "Party planners can give families a simple next step after the event: turn the birthday photos, family portraits, and pet moments into a personal card idea.",
+        body: "Suggest a birthday photo card as part of the celebration. Families can create an invitation with a short party message or make a keepsake greeting from portraits taken at the event.",
       },
       {
         title: "For family photographers",
-        body: "Birthday mini-sessions and cake-smash shoots already create the source material. FamilyShoot can help clients reuse those images as birthday-card concepts.",
+        body: "Clients can use clear portraits from birthday mini-sessions and cake-smash shoots as references for a personalized card. A birthday-age layout or Watercolor art style gives them another way to enjoy their photos.",
       },
       {
         title: "For pet birthday creators",
-        body: "Pet birthday accounts and photographers can use the same idea for families who want the dog or cat included in the birthday-card moment.",
+        body: "Families can add a dog or cat from a clear reference photo and select the pet for the card. Try a birthday greeting from the pet, or include them beside the birthday person in a family portrait.",
       },
       {
         title: "How to share it with clients",
-        body: "This is not a replacement for your service. It is a small personal add-on families can use after they already have birthday photos, cake photos, party portraits, or pet celebration pictures.",
+        body: "Create a sample using your own reference photos, choose a birthday layout, and check the preview. Share the FamilyShoot link with clients who would enjoy making their own card. They can choose the people, pets, art styles, and greeting for their celebration.",
       },
     ],
     messageExamples: [
-      "FamilyShoot helps families turn birthday photos into a personal card idea.",
-      "A small add-on after a cake order, birthday shoot, or party package.",
-      "Useful for kids, grandparents, pets, milestone birthdays, and long-distance family.",
+      "Want a card to go with the cake? Try a birthday portrait with your child's name and age on FamilyShoot.",
+      "Turn a portrait from your birthday shoot into a personalized card. Choose a style and preview it on FamilyShoot.",
+      "Include the whole family, even from separate photos, in a birthday card for someone special.",
     ],
     faqs: [
       {
         q: "Is FamilyShoot replacing photographers, planners, or cake decorators?",
-        a: "No. It is positioned as a small personal add-on families can use after they already have birthday photos, cake photos, party portraits, or pet celebration pictures.",
+        a: "No. Families can use FamilyShoot alongside a cake order, party, or photography session to create a digital birthday card from their reference photos.",
       },
       {
-        q: "Who is this partner page for?",
+        q: "Who can share FamilyShoot with clients?",
         a: "Cake decorators, kids' party planners, family photographers, children's event venues, and pet birthday creators who want a simple birthday-card add-on to share with clients.",
       },
       {
-        q: "Can partners request examples before sharing it?",
-        a: "Yes. The page CTA asks for a sample birthday-card pack so partners can review the idea before recommending it.",
+        q: "Can I try a sample before sharing it with clients?",
+        a: "Yes. Start with your own reference photos, choose a birthday card layout, and create a preview to review the result before recommending FamilyShoot. The creation flow lets you choose who appears, select art styles, and add a greeting.",
       },
     ],
     related: [

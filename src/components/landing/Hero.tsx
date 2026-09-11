@@ -450,7 +450,7 @@ function HeroTitle({ className = "" }: { className?: string }) {
   return (
     <h1 className={`serif ${className}`}>
       {titleLines.map((line) => (
-        <span key={line} className="block sm:whitespace-nowrap">
+        <span key={line} className="block">
           {line}
         </span>
       ))}
@@ -485,6 +485,9 @@ function StoryboardHero() {
               {t("chip")}
             </span>
             <HeroTitle className="mx-auto mt-5 w-fit max-w-full text-[2.55rem] leading-[1.01] sm:text-6xl md:text-[4.65rem]" />
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--color-ink-muted)] sm:text-lg">
+              {t("body")}
+            </p>
             <MobileStoryboard />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <LocalizedLink href="/studio/roster" className="btn btn-coral btn-lg">
@@ -506,6 +509,9 @@ function StoryboardHero() {
                 {t("secondaryCta")}
               </a>
             </div>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              {t("previewNote")}
+            </p>
             <StatsBar className="mt-7 hidden justify-center lg:flex" />
           </motion.div>
 
@@ -624,7 +630,7 @@ export function ClassicHero() {
               </a>
             </div>
             <p className="mt-3 text-sm font-medium text-[color:var(--color-ink-muted)]">
-              No credit card required. Add an email only when you are ready to generate.
+              {t("previewNote")}
             </p>
             <StatsBar className="mt-8 hidden sm:flex" />
           </motion.div>

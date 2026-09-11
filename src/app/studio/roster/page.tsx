@@ -3,15 +3,34 @@ import RosterPageClient from "@/components/studio/RosterPageClient";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { cookies } from "next/headers";
 import { getTempRosterOwnerFromCookieValue, TEMP_ROSTER_COOKIE } from "@/lib/temp-roster";
+import { THEMES } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
+import {
+  getStudioIntentHref,
+  parseStudioIntent,
+  type StudioSearchParams,
+} from "@/lib/studio-intent";
 
 export const dynamic = "force-dynamic";
 
 export default async function RosterPage({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string }>;
+  searchParams: Promise<StudioSearchParams>;
 }) {
-  const { checkout } = await searchParams;
+  const params = await searchParams;
+  const checkout = typeof params.checkout === "string" ? params.checkout : undefined;
+  const intent = parseStudioIntent(params, THEMES);
+  const selectedTheme =
+    intent?.kind === "theme" ? THEMES.find((theme) => theme.id === intent.themeId) : null;
+  const creationIntent = intent
+    ? {
+        href: getStudioIntentHref(intent),
+        label: selectedTheme ? getThemeDisplayName(selectedTheme) : "your custom scene",
+        ...(selectedTheme ? { image: selectedTheme.coverImage } : {}),
+        ...(intent.kind === "prompt" ? { prompt: intent.prompt } : {}),
+      }
+    : undefined;
   const user = await getCurrentUser();
   if (user) {
     const roster = await listRoster(user.id);
@@ -21,6 +40,7 @@ export default async function RosterPage({
         checkoutStatus={checkout}
         canPreviewPhotos
         isAuthenticated
+        creationIntent={creationIntent}
       />
     );
   }
@@ -34,6 +54,7 @@ export default async function RosterPage({
       checkoutStatus={checkout}
       canPreviewPhotos={false}
       isAuthenticated={false}
+      creationIntent={creationIntent}
     />
   );
 }

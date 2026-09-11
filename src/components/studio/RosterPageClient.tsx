@@ -8,17 +8,22 @@ import type { RosterEntry } from "@/lib/roster-queries";
 import RosterGrid from "@/components/studio/RosterGrid";
 import AddPersonDialog from "@/components/studio/AddPersonDialog";
 import BulkAddPeopleDialog from "@/components/studio/BulkAddPeopleDialog";
+import LocalizedLink from "@/components/i18n/LocalizedLink";
+
+type CreationIntent = { href: string; label: string; image?: string; prompt?: string };
 
 export default function RosterPageClient({
   initialRoster,
   checkoutStatus,
   canPreviewPhotos,
   isAuthenticated,
+  creationIntent,
 }: {
   initialRoster: RosterEntry[];
   checkoutStatus?: string;
   canPreviewPhotos: boolean;
   isAuthenticated: boolean;
+  creationIntent?: CreationIntent;
 }) {
   const [roster, setRoster] = useState<RosterEntry[]>(initialRoster);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +57,32 @@ export default function RosterPageClient({
       }`}
     >
       {showCheckoutSuccess && <CheckoutSuccessBanner pro={checkoutStatus === "pro-success"} />}
-      {!isAuthenticated && <ReturningAccountBanner />}
+      {!isAuthenticated && <ReturningAccountBanner nextHref={creationIntent?.href} />}
+      {creationIntent && (
+        <section className="mb-6 flex items-center gap-4 rounded-[var(--radius-lg)] border border-[color:var(--color-sage)] bg-[color:var(--color-bg-tinted-sage)] p-4 sm:p-5">
+          {creationIntent.image && (
+            <Image
+              src={creationIntent.image}
+              alt=""
+              width={80}
+              height={96}
+              className="h-24 w-20 shrink-0 rounded-[var(--radius-sm)] object-cover"
+            />
+          )}
+          <div className="min-w-0">
+            <p className="small-caps text-[color:var(--color-sage-deep)]">Your chosen look</p>
+            <h2 className="serif mt-1 text-2xl">Continue with {creationIntent.label}</h2>
+            <p className="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+              Add your family photos, then we&apos;ll bring you back to this look.
+            </p>
+            {creationIntent.prompt && (
+              <p className="mt-2 line-clamp-3 text-sm italic text-[color:var(--color-ink-muted)]">
+                {creationIntent.prompt}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -112,13 +142,13 @@ export default function RosterPageClient({
             ? "Add at least one person to continue."
             : `${roster.length} ${roster.length === 1 ? "person" : "people"} · ${peopleWithPhotos}/${roster.length} reference photos`}
         </p>
-        <Link
-          href="/studio/output"
+        <LocalizedLink
+          href={creationIntent?.href ?? "/studio/output"}
           aria-disabled={!canContinue}
           className={`btn btn-lg ${canContinue ? "btn-coral" : "btn-ghost"}`}
           style={canContinue ? undefined : { opacity: 0.5, pointerEvents: "none" }}
         >
-          Start photoshoot
+          {creationIntent ? "Continue with this look" : "Start photoshoot"}
           <svg
             className="h-4 w-4"
             viewBox="0 0 24 24"
@@ -131,13 +161,13 @@ export default function RosterPageClient({
           >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
-        </Link>
+        </LocalizedLink>
       </div>
     </main>
   );
 }
 
-function ReturningAccountBanner() {
+function ReturningAccountBanner({ nextHref = "/studio/roster" }: { nextHref?: string }) {
   return (
     <section className="mb-6 overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] px-5 py-4 shadow-[var(--shadow-md)] sm:px-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -153,7 +183,10 @@ function ReturningAccountBanner() {
             Sign in to bring back your saved people, credits, album, and reference photos.
           </p>
         </div>
-        <Link href="/sign-in?next=/studio/roster" className="btn btn-coral shrink-0">
+        <LocalizedLink
+          href={`/sign-in?next=${encodeURIComponent(nextHref)}`}
+          className="btn btn-coral shrink-0"
+        >
           I already have an account
           <svg
             className="h-4 w-4"
@@ -167,7 +200,7 @@ function ReturningAccountBanner() {
           >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
-        </Link>
+        </LocalizedLink>
       </div>
     </section>
   );

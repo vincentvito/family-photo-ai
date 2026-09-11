@@ -133,16 +133,16 @@ export function Hero() {
               AI family holiday card generator
             </div>
             <h1 className="h-hero" style={{ margin: 0 }}>
-              Five selfies. One{" "}
+              Your photos. One{" "}
               <em className="serif-italic" style={{ color: "var(--coral)" }}>
                 card-perfect
               </em>{" "}
               family.
             </h1>
             <p className="body-lg" style={{ margin: "18px auto 0", maxWidth: "36rem" }}>
-              Drop in the photos you already have — the one where Dad&apos;s at the airport, the one
-              of just the kids in pajamas — and we&apos;ll turn them into a printed-paper holiday
-              card in about two minutes.
+              Upload one clear photo per person or pet to create a digital holiday card. Your first
+              watermarked preview is free; pay to unlock the high-resolution file when you like the
+              result.
             </p>
           </div>
         </Reveal>
@@ -185,7 +185,7 @@ export function Hero() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Print-ready 5×7&quot;
+                  Digital card preview
                 </div>
               </div>
             </div>

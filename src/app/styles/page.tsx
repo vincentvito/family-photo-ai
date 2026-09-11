@@ -8,7 +8,9 @@ import { STYLES } from "@/data/styles";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "Family Portrait Art Styles: Watercolor, Oil Painting, Storybook | FamilyShoot",
+  title: {
+    absolute: "Family Portrait Art Styles: Watercolor, Oil Painting, Storybook | FamilyShoot",
+  },
   description:
     "Hand-painted-look family portraits from your photos. Watercolor, oil painting, colored pencil, storybook, clay 3D, and studio photoshoot. Minutes, not weeks.",
   alternates: { canonical: `${SITE_URL}/styles` },

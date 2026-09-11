@@ -3044,24 +3044,31 @@ export function themesByCategory() {
   };
 }
 
+// Stored as an exact composition line in custom base prompts, so provider
+// assembly and retries can recognize prompt-directed framing without adding
+// generation-schema fields or guessing the medium from user keywords.
+export const CUSTOM_SCENE_COMPOSITION_DIRECTIVE =
+  "Custom scene direction: preserve the user's requested composition and framing; use per-output variations only to fill unspecified choices without changing the requested medium, viewpoint or crop.";
+
 /**
  * Build a PromptSpec for a custom user-described vibe.
  *
- * The user's free-form description is carried on the synthetic Theme's
- * `blurb` (see `buildCustomTheme`), which the prompt composer reads as the
- * "Theme atmosphere" sentence. The spec below contributes tasteful
- * photographic defaults (optics, light, film stock) that sit alongside
- * the user's creative direction.
+ * The composer includes the user's description from the synthetic Theme's
+ * `blurb` in the scene. Keep the spec medium-neutral so illustrations,
+ * voxel scenes and other requested styles do not inherit photographic
+ * constraints. The model resolves the conditional photo fallback; keyword
+ * matching cannot reliably identify every medium a user might describe.
  */
 function buildCustomSpec(opts: { aspectRatio: AspectRatio }): PromptSpec {
   return {
-    assetType: `A ${opts.aspectRatio} cinematic color photograph`,
+    assetType: `A ${opts.aspectRatio} portrait in the medium requested by the user's scene description`,
     camera:
-      "tasteful documentary framing, a 50mm-equivalent field of view, eye-level composition, shallow depth of field",
+      "follow the viewpoint, crop, framing and depth of field requested in the scene; interpret camera directions as composition guidance for the requested medium, and choose readable framing only where unspecified",
     lighting:
-      "soft natural light appropriate to the described scene, gentle directional key with subtle fill, honest tonality on skin",
+      "follow the scene's requested lighting and shading, rendered consistently with its medium; where unspecified, use gentle light that keeps faces readable",
     style:
-      "Kodak Portra 400 emulation, subtle natural film grain, warm-neutral editorial palette, no oversaturation",
+      "follow the user's requested medium, visual style, textures, palette and level of abstraction; only when no medium or visual style is specified, use a natural photographic portrait; do not add photographic skin texture, lens blur or film grain to a requested illustration or render",
+    composition: CUSTOM_SCENE_COMPOSITION_DIRECTIVE,
   };
 }
 
@@ -3071,7 +3078,9 @@ export function buildCustomTheme(opts: { description: string; aspectRatio: Aspec
     id: "custom",
     name: "Custom vibe",
     blurb: opts.description,
-    category: "photoreal",
+    // Reuse the flexible anatomy branch for any user-requested medium. This
+    // does not add custom themes to the static catalog or turn them into cards.
+    category: "stylized",
     provider: "nanobanana",
     coverImage: "",
     aspectRatio: opts.aspectRatio,

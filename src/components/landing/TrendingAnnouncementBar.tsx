@@ -1,5 +1,6 @@
 import Link from "@/components/i18n/LocalizedLink";
 import { getTranslations } from "next-intl/server";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 
 type TrendingAnnouncementBarProps = {
   vibes: { id: string; name: string }[];
@@ -34,7 +35,7 @@ export default async function TrendingAnnouncementBar({ vibes }: TrendingAnnounc
             {tickerItems.map((vibe, index) => (
               <span key={`${vibe.id}-${index}`} className="inline-flex items-center gap-5">
                 <span className="text-[color:var(--color-bg)]/90 transition-colors group-hover:text-white">
-                  {vibe.name}
+                  {getThemeDisplayName(vibe)}
                 </span>
                 <span className="text-[color:var(--color-coral)]" aria-hidden>
                   {"\u2022"}

@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { LUXURY_CARVED_NUMBER_BIRTHDAY_THEME_ID, getRequiredCardTextError } from "@/lib/themes";
 import type { Theme } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 import type { AspectRatio } from "@/lib/providers/types";
 import { authClient } from "@/lib/auth-client";
 import ThemeCard from "./ThemeCard";
@@ -25,7 +26,11 @@ import {
 } from "@/lib/replicate/models";
 import { uploadLocationReference } from "@/lib/upload-client";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
-import { getThemeStudioHref } from "@/lib/theme-links";
+import {
+  getThemeStudioHref,
+  MAX_STUDIO_PROMPT_LENGTH,
+  normalizeStudioPrompt,
+} from "@/lib/theme-links";
 
 type ShapeId = "portrait" | "square" | "wide";
 type ShapePick = "auto" | ShapeId;
@@ -82,6 +87,8 @@ export default function ThemeBoard({
   subscriptionRenewalDate,
   isAuthenticated,
   initialThemeId = null,
+  initialCardId = null,
+  initialPrompt = "",
 }: {
   photoreal: Theme[];
   stylized: Theme[];
@@ -96,6 +103,8 @@ export default function ThemeBoard({
   subscriptionRenewalDate: string | null;
   isAuthenticated: boolean;
   initialThemeId?: string | null;
+  initialCardId?: string | null;
+  initialPrompt?: string;
 }) {
   const [shape, setShape] = useState<ShapePick>("auto");
   const [wardrobe, setWardrobe] = useState("");
@@ -109,7 +118,9 @@ export default function ThemeBoard({
   );
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
 
-  const [customDescription, setCustomDescription] = useState("");
+  const [customDescription, setCustomDescription] = useState(
+    () => normalizeStudioPrompt(initialPrompt) ?? "",
+  );
   const [locationFile, setLocationFile] = useState<File | null>(null);
   const [locationPreview, setLocationPreview] = useState<string | null>(null);
   const [launchingCustom, setLaunchingCustom] = useState(false);
@@ -121,15 +132,16 @@ export default function ThemeBoard({
     () => isAuthenticated && creditBalance <= 0 && !canStartFreePreview,
   );
   const [cardsExpanded, setCardsExpanded] = useState(false);
-  const [mode, setMode] = useState<"curated" | "custom">("curated");
+  const [mode, setMode] = useState<"curated" | "custom">(() =>
+    outputMode === "photoshoot" && normalizeStudioPrompt(initialPrompt) ? "custom" : "curated",
+  );
   const [pendingShoot, setPendingShoot] = useState<PendingShoot | null>(null);
   const [authResume, setAuthResume] = useState<AuthResume | null>(null);
   const [generationAuthReady, setGenerationAuthReady] = useState(isAuthenticated);
   const subjectLimit = isAdmin ? null : MAX_SHOT_SUBJECTS;
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(() => new Set());
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCardId = outputMode === "card" ? searchParams.get("card") : null;
+  const selectedCardId = outputMode === "card" ? initialCardId : null;
   const selectedCardTheme = selectedCardId
     ? (cards.find((theme) => theme.id === selectedCardId) ?? null)
     : null;
@@ -290,9 +302,9 @@ export default function ThemeBoard({
   };
 
   const launchCustom = () => {
-    const trimmed = customDescription.trim();
-    if (trimmed.length < 4) {
-      setError("A sentence or two will do.");
+    const trimmed = normalizeStudioPrompt(customDescription);
+    if (!trimmed) {
+      setError(`Describe your scene in 4–${MAX_STUDIO_PROMPT_LENGTH} characters.`);
       return;
     }
     if (!canCreateShoot) {
@@ -466,7 +478,7 @@ export default function ThemeBoard({
   const confirmTitle = (() => {
     if (!pendingShoot) return "";
     if (pendingShoot.kind === "theme") {
-      const names = pendingShoot.themes.map((theme) => theme.name).join(", ");
+      const names = pendingShoot.themes.map(getThemeDisplayName).join(", ");
       return `Start with ${names}?`;
     }
     return "Start the custom shoot?";
@@ -779,7 +791,7 @@ export default function ThemeBoard({
                               Selected layout
                             </span>
                             <h2 className="serif mt-3 text-3xl leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
-                              {selectedCardTheme.name}
+                              {getThemeDisplayName(selectedCardTheme)}
                             </h2>
                           </div>
                         </div>
@@ -1008,12 +1020,17 @@ export default function ThemeBoard({
 
               <div className="mt-8 grid gap-8 md:grid-cols-[1.25fr_1fr]">
                 <div>
-                  <label className="small-caps text-[color:var(--color-ink-muted)]">
+                  <label
+                    htmlFor="custom-scene-prompt"
+                    className="small-caps text-[color:var(--color-ink-muted)]"
+                  >
                     Describe the moment
                   </label>
                   <textarea
+                    id="custom-scene-prompt"
                     value={customDescription}
                     onChange={(e) => setCustomDescription(e.target.value)}
+                    maxLength={MAX_STUDIO_PROMPT_LENGTH}
                     rows={6}
                     placeholder={`e.g. "Everyone reading in a sunroom on a rainy afternoon, slate and wool, wet windows, quiet."`}
                     className="serif mt-2 w-full resize-none rounded-[var(--radius-lg)] border border-[color:var(--color-coral-soft)] bg-[color:var(--color-bg-elevated)] p-4 text-lg leading-relaxed outline-none transition-all focus:border-[color:var(--color-coral)] focus:shadow-[var(--shadow-ring-coral)]"
@@ -1141,7 +1158,7 @@ export default function ThemeBoard({
             </p>
             {selectedThemes.length > 0 && (
               <p className="mt-2 truncate text-sm font-medium text-[color:var(--color-ink)]">
-                {selectedThemes.map((theme) => theme.name).join(" · ")}
+                {selectedThemes.map(getThemeDisplayName).join(" · ")}
               </p>
             )}
           </div>
@@ -1203,7 +1220,11 @@ export default function ThemeBoard({
               </div>
               <span className="chip chip-coral">Setting up your shoot</span>
               <p className="serif mt-4 text-4xl tracking-[-0.02em]">
-                {launchingCustom ? "A custom vibe" : (activeTheme?.name ?? "")}
+                {launchingCustom
+                  ? "A custom vibe"
+                  : activeTheme
+                    ? getThemeDisplayName(activeTheme)
+                    : ""}
               </p>
               <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
                 Warming up the studio lights…
@@ -1412,8 +1433,8 @@ function InlineGenerationAuthGate({
               Enter your email to start.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
-              If you already have an account, we&apos;ll load My Family and your credits. Once the code
-              checks out, this shoot starts automatically.
+              If you already have an account, we&apos;ll load My Family and your credits. Once the
+              code checks out, this shoot starts automatically.
             </p>
           </div>
           <button

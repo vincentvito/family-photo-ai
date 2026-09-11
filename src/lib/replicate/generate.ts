@@ -2,6 +2,7 @@ import { fetchOutputImage, getReplicateClient } from "./client";
 import { MODEL_CATALOG, type GenerationModelId, isAspectSupported } from "./models";
 import { publicUrl } from "@/lib/storage";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
+import { CUSTOM_SCENE_COMPOSITION_DIRECTIVE } from "@/lib/themes";
 
 export type StartPredictionsArgs = {
   prompt: string;
@@ -278,6 +279,15 @@ function buildVariantPrompt(
   variationPromptOverride?: string,
   variationPrompts?: readonly string[],
 ): string {
+  // Custom scenes already specify their creative direction. Recognize the
+  // composer-owned line (also persisted for retries), not words in the scene.
+  // Preset shot modes would otherwise impose new crops and photographic optics.
+  if (
+    basePrompt.split("\n").includes(`Composition anchor: ${CUSTOM_SCENE_COMPOSITION_DIRECTIVE}`)
+  ) {
+    return buildCustomVariantPrompt(basePrompt, variant);
+  }
+
   const rawVariationPrompt = normalizeVariationPrompt(
     variationPromptOverride ??
       (variationPrompts && variationPrompts.length > 0
@@ -310,6 +320,28 @@ function buildVariantPrompt(
     "Do not preserve the exact expression, smile shape, eyebrow tension, mouth shape, selfie emotion, or facial pose from the reference images.",
     "",
     `Scene-driven expressions: ${expressionDirection}`,
+  ]
+    .join("\n")
+    .replace(/—|â€”/g, "-");
+}
+
+function buildCustomVariantPrompt(basePrompt: string, variant: number): string {
+  const variationIdeas = [
+    "Create a clear first interpretation of the requested scene.",
+    "Where left unspecified, explore a small change in gesture or expression.",
+    "Where left unspecified, explore a small change in interaction or environmental detail.",
+    "Where left unspecified, explore a small change in arrangement or scene detail.",
+  ];
+
+  return [
+    "Base scene and identity:",
+    basePrompt,
+    "",
+    `Custom scene variation ${variant + 1}:`,
+    variationIdeas[variant % variationIdeas.length],
+    "The user's requested medium, style, framing, viewpoint, crop, lighting and expressions take precedence over variation suggestions. Preserve every specified detail; vary only unspecified choices.",
+    "Keep the exact selected subjects and their reference identities. Render recognizable features and coherent anatomy in the requested medium, including its intentional simplifications or abstraction.",
+    "When expressions are unspecified, choose expressions that fit the requested scene while keeping each subject recognizable.",
   ]
     .join("\n")
     .replace(/—|â€”/g, "-");

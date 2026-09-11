@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 import { OCCASION_PAGES } from "@/data/occasion-pages";
 import { THEMES } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 import Link from "@/components/i18n/LocalizedLink";
 import { useTranslations } from "next-intl";
 
@@ -110,7 +111,7 @@ export default function OccasionCards() {
                 />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <h3 className="serif text-3xl leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
-                    {theme.name.replace("Holiday Card — ", "")}
+                    {getThemeDisplayName(theme)}
                   </h3>
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/82">
                     {theme.blurb}

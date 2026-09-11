@@ -14,7 +14,10 @@ import "@/app/cards-landing/landing-cards.css";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "AI Family Photo Cards: Christmas, Hanukkah, Diwali, and Every Occasion | FamilyShoot",
+  title: {
+    absolute:
+      "AI Family Photo Cards: Christmas, Hanukkah, Diwali, and Every Occasion | FamilyShoot",
+  },
   description:
     "Family photo cards for every holiday and milestone, generated from selfies in minutes. Christmas, Hanukkah, Diwali, Eid, Lunar New Year, Easter, Halloween, Thanksgiving, save the date, and more.",
   alternates: { canonical: `${SITE_URL}/cards` },
@@ -42,8 +45,9 @@ export default function CardsHub() {
               Every family card occasion
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-muted)]">
-              Pick the holiday or milestone. Each card uses the same five-selfie flow and ships
-              printed or digital.
+              Pick the holiday or milestone, then upload one clear photo per person or pet. Create a
+              digital card with a free first watermarked preview and pay to unlock the
+              high-resolution download.
             </p>
           </header>
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

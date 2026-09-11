@@ -13,6 +13,7 @@ import Footer from "@/components/landing/Footer";
 import Nav from "@/components/landing/Nav";
 import TrendingAnnouncementBar from "@/components/landing/TrendingAnnouncementBar";
 import { getThemeRanking } from "@/lib/admin-queries";
+import { getHomepageThemeRanking } from "@/lib/homepage-theme-ranking";
 
 async function loadTrendingVibeNames() {
   try {
@@ -28,14 +29,25 @@ async function loadTrendingVibeNames() {
 
 export const dynamic = "force-dynamic";
 
+async function loadFavoriteThemeIds() {
+  try {
+    const rows = await getHomepageThemeRanking(6);
+    return rows.map((row) => row.themeId);
+  } catch (error) {
+    console.error("Unable to load homepage favorites", error);
+    return [];
+  }
+}
+
 export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{ unlockGenerationId?: string }>;
 }) {
-  const [{ unlockGenerationId }, trendingVibes] = await Promise.all([
+  const [{ unlockGenerationId }, trendingVibes, favoriteThemeIds] = await Promise.all([
     searchParams,
     loadTrendingVibeNames(),
+    loadFavoriteThemeIds(),
   ]);
 
   return (
@@ -45,7 +57,7 @@ export default async function HomePage({
       <main>
         <Hero />
         <BeforeAfter />
-        <Gallery trendingVibes={trendingVibes} />
+        <Gallery favoriteThemeIds={favoriteThemeIds} />
         <PrintKeepsakes />
         <OccasionCards />
         <FathersDay />

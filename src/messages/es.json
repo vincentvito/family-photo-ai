@@ -17,14 +17,15 @@
     "closeMenuShort": "Cerrar menú"
   },
   "Hero": {
-    "titleLines": ["De fotos desordenadas del móvil", "a hermosos retratos familiares"],
+    "titleLines": ["Retratos familiares con IA", "a partir de fotos separadas."],
     "chip": "Generador de fotos familiares con IA",
     "awardLabel": "La mejor opción para sesiones de fotos familiares",
     "awardEyebrow": "Mejor opción",
     "awardRank": "#1",
     "awardText": "app de fotos familiares",
-    "title": "De fotos desordenadas del móvil a hermosos retratos familiares",
-    "body": "Sube fotos separadas de cada miembro de la familia, elige un estilo y recibe hermosas fotos familiares con IA listas para imprimir en unos dos minutos.",
+    "title": "Retratos familiares con IA a partir de fotos separadas.",
+    "body": "Reúne a padres, hijos y mascotas en un nuevo retrato. Sube una foto clara de cada persona o mascota, elige un estilo y prueba gratis tu primera vista previa con marca de agua.",
+    "previewNote": "Primero añade las fotos. Verifica tu correo electrónico antes de generar la imagen. Las descargas en alta resolución son de pago.",
     "primaryCta": "Crear mi vista previa gratis",
     "secondaryCta": "Ver la galería",
     "customers": "Más de 5.000 clientes felices",
@@ -111,8 +112,37 @@
   },
   "Landing": {
     "Seo": {
-      "title": "Generador de fotos familiares con IA | FamilyShoot",
-      "description": "Convierte fotos separadas del móvil en un retrato familiar o una tarjeta en pocos minutos. Empieza con una vista previa gratuita."
+      "title": "Generador de fotos familiares con IA a partir de fotos separadas | FamilyShoot",
+      "description": "Crea retratos familiares con IA a partir de fotos separadas de padres, hijos y mascotas. Prueba gratis tu primera vista previa con marca de agua. Las descargas en alta resolución son de pago."
+    },
+    "LookCollection": {
+      "favoritesChip": "Los favoritos de siempre",
+      "favoritesTitle": "Los estilos que las familias vuelven a elegir.",
+      "favoritesBody": "Los estilos más creados por las familias en todas las sesiones de fotos completadas.",
+      "curatedChip": "Elegidos para ti",
+      "curatedTitle": "Bonitas ideas para empezar.",
+      "curatedBody": "Desde retratos clásicos de estudio hasta aventuras animadas, empieza con uno de estos estilos seleccionados para ti.",
+      "browseLink": "Explorar {count} estilos más",
+      "catalogChip": "Más por descubrir",
+      "catalogTitle": "Encuentra el próximo estilo para tu familia.",
+      "catalogBody": "Descubre {count} estilos de retratos y tarjetas más, empezando por nuestras últimas novedades. Busca por escenario, ocasión o estilo.",
+      "searchLabel": "Buscar estilos",
+      "searchPlaceholder": "Prueba Cozy Library o Minecraft",
+      "all": "Todos los estilos",
+      "photoreal": "Retratos fotográficos",
+      "stylized": "Ilustración y animación",
+      "card": "Tarjetas de felicitación",
+      "results": "Mostrando {shown} de {count} estilos",
+      "emptyTitle": "No se han encontrado estilos",
+      "emptyBody": "Prueba otra búsqueda o explora la colección completa.",
+      "reset": "Borrar filtros",
+      "loadMore": "Mostrar más estilos",
+      "create": "Crear con este estilo",
+      "createNamed": "Crear con este estilo: {name}",
+      "details": "Ver ejemplos",
+      "detailsNamed": "Ver ejemplos: {name}",
+      "rank": "Favorito n.º {rank}",
+      "imageAlt": "Ejemplo de retrato familiar: {name}"
     },
     "BeforeAfter": {
       "chip": "Retrato familiar a partir de fotos separadas",
@@ -373,7 +403,7 @@
       "occasionGroup": "Ocasiones",
       "styleGroup": "Estilos artísticos",
       "copyright": "Family Photoshoot. Creado con cariño para las familias.",
-      "paidStudio": "Un estudio familiar de pago."
+      "paidStudio": "Primera vista previa gratis. Descargas de alta resolución de pago."
     },
     "TrendingBar": { "label": "Tendencias", "ariaLabel": "Ver estilos de FamilyShoot en tendencia" }
   },

@@ -8,7 +8,7 @@ import { BIRTHDAY_CARD_PAGES } from "@/data/birthday-card-pages";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "Birthday Card Ideas for Kids, Grandma, and Partners | FamilyShoot",
+  title: { absolute: "Birthday Card Ideas for Kids, Grandma, and Partners | FamilyShoot" },
   description:
     "Browse FamilyShoot birthday-card pages for kids birthday cards, birthday cards for Grandma, and partner add-ons for cake decorators, party planners, and photographers.",
   alternates: { canonical: `${SITE_URL}/birthday-cards` },

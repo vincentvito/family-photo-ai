@@ -4,6 +4,7 @@ import Link from "next/link";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
 import { THEMES } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 import GalleryCta from "./GalleryCta";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
@@ -174,7 +175,7 @@ function themeCreation(input: ThemeCreationInput): GalleryCreation {
   return {
     slug: input.themeId,
     image: theme?.coverImage ?? "/samples/hero.jpg",
-    title: input.title ?? theme?.name ?? "Family creation",
+    title: input.title ?? (theme ? getThemeDisplayName(theme) : "Family creation"),
     description:
       input.description ??
       theme?.blurb ??
@@ -192,7 +193,7 @@ const customerCreations = [
 ];
 
 export const metadata: Metadata = {
-  title: "See What Others Created | FamilyShoot Gallery",
+  title: { absolute: "See What Others Created | FamilyShoot Gallery" },
   description:
     "Browse realistic FamilyShoot-style family portrait examples, trending vibes, and new vibe ideas made for framed prints, holiday cards, grandparents, birthdays, and everyday family moments.",
   alternates: { canonical: `${SITE_URL}/gallery` },

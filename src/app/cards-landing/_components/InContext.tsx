@@ -51,18 +51,19 @@ export function InContext() {
       <div style={{ maxWidth: "76rem", margin: "0 auto", padding: "0 1.5rem" }}>
         <div style={{ maxWidth: "44rem", marginBottom: 56 }}>
           <div className="small-caps" style={{ color: "var(--coral-deep)", marginBottom: 14 }}>
-            Print-ready
+            Print it your way
           </div>
           <h2 className="h-section">
-            Paper in hand.{" "}
+            Your card.{" "}
             <em className="serif-italic" style={{ color: "var(--coral)" }}>
-              Stamps
+              Your favorite
             </em>{" "}
-            in the mailbox.
+            printer.
           </h2>
           <p className="body-lg" style={{ marginTop: 18, maxWidth: "34rem" }}>
-            Every card downloads as a print-ready file sized for standard photo cards. Send to your
-            favorite printer, or order a fridge magnet from your phone.
+            After unlocking your high-resolution download, upload it to a separate printing
+            provider. Check the image crop and your chosen product&apos;s size requirements before
+            ordering; the printer handles printing and delivery.
           </p>
         </div>
         <div

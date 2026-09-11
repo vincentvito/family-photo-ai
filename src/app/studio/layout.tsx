@@ -9,6 +9,7 @@ import AccountMenu from "@/components/auth/AccountMenu";
 import BrandLogo from "@/components/brand/BrandLogo";
 import CreditBalanceBadge from "@/components/billing/CreditBalanceBadge";
 import StudioStepper from "@/components/studio/StudioStepper";
+import StudioNavigationLink from "@/components/studio/StudioNavigationLink";
 import { getMessages, localizePath } from "@/lib/i18n/locales";
 import { getRequestLocale } from "@/lib/i18n/server";
 
@@ -43,20 +44,20 @@ export default async function StudioLayout({ children }: { children: React.React
                 <AccountSlot session={session} />
               </>
             ) : (
-              <Link
-                href={localizePath("/sign-in?next=/studio/album", locale)}
+              <StudioNavigationLink
+                href="/sign-in?next=/studio/album"
                 className="btn btn-coral btn-sm"
               >
                 Sign in
-              </Link>
+              </StudioNavigationLink>
             )}
           </div>
         </div>
         <div className="border-t border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)]/55">
           <div className="mx-auto flex max-w-6xl flex-wrap justify-end gap-2 px-6 py-2 sm:px-8">
-            <Link href={localizePath("/studio/roster", locale)} className="btn btn-ghost btn-sm">
+            <StudioNavigationLink href="/studio/roster" className="btn btn-ghost btn-sm">
               {messages.roster}
-            </Link>
+            </StudioNavigationLink>
             {session && (
               <>
                 <Link href={localizePath("/studio/album", locale)} className="btn btn-ghost btn-sm">

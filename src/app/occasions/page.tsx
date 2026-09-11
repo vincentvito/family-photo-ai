@@ -8,7 +8,7 @@ import { OCCASION_PAGES } from "@/data/occasion-pages";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "Family Photo Cards, Birthday Cards, Gifts and Occasion Pages | FamilyShoot",
+  title: { absolute: "Family Photo Cards, Birthday Cards, Gifts and Occasion Pages | FamilyShoot" },
   description:
     "Browse FamilyShoot occasion pages for birthday cards, kids birthday photo cards, 1st birthday cards, Father's Day, Mother's Day, grandparents, reunions, and family gifts.",
   alternates: { canonical: `${SITE_URL}/occasions` },

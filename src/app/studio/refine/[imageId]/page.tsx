@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRefineState } from "@/lib/refine-queries";
 import { resolveTheme } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 import RefineStage from "@/components/studio/RefineStage";
 import { getCurrentUser } from "@/lib/auth-helpers";
 
@@ -29,7 +30,7 @@ export default async function RefinePage({ params }: { params: Promise<{ imageId
           </h1>
           {theme && (
             <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
-              {theme.name} - aspect {theme.aspectRatio}
+              {getThemeDisplayName(theme)} - aspect {theme.aspectRatio}
             </p>
           )}
         </div>

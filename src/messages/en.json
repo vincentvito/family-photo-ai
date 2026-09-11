@@ -22,9 +22,10 @@
     "awardEyebrow": "Top pick",
     "awardRank": "#1",
     "awardText": "family photo app",
-    "title": "Turn everyday pics into family portraits.",
-    "titleLines": ["Turn everyday pics", "into family portraits."],
-    "body": "Upload separate photos of your people and pets. FamilyShoot turns them into polished portraits in minutes.",
+    "title": "AI family portraits from separate photos.",
+    "titleLines": ["AI family portraits", "from separate photos."],
+    "body": "Bring parents, children and pets together in one new portrait. Upload a clear photo of each person or pet, choose a style, and try your first watermarked preview free.",
+    "previewNote": "Add photos first. Verify your email before generation. High-resolution downloads are paid.",
     "primaryCta": "Create my free preview",
     "secondaryCta": "See the gallery",
     "customers": "5,000+ happy customers",
@@ -111,8 +112,37 @@
   },
   "Landing": {
     "Seo": {
-      "title": "AI Family Photo Generator | FamilyShoot",
-      "description": "Turn separate phone photos into a polished family portrait or holiday card in minutes. Start with a free watermarked preview."
+      "title": "AI Family Photo Generator from Separate Photos | FamilyShoot",
+      "description": "Create AI family portraits from separate photos of parents, children and pets. Try your first watermarked preview free. High-resolution downloads are paid."
+    },
+    "LookCollection": {
+      "favoritesChip": "All-time favorites",
+      "favoritesTitle": "The looks families come back to.",
+      "favoritesBody": "The looks families have created most, across completed photoshoots.",
+      "curatedChip": "Selected for you",
+      "curatedTitle": "A few lovely places to start.",
+      "curatedBody": "From classic studio portraits to animated adventures, start with one of these handpicked looks.",
+      "browseLink": "Explore {count} more looks",
+      "catalogChip": "More to explore",
+      "catalogTitle": "Find your family’s next look.",
+      "catalogBody": "Discover {count} more portrait styles and cards, with our newest additions first. Search by setting, occasion or style.",
+      "searchLabel": "Search looks",
+      "searchPlaceholder": "Try beach, superhero or birthday",
+      "all": "All looks",
+      "photoreal": "Photo portraits",
+      "stylized": "Illustrated & animated",
+      "card": "Greeting cards",
+      "results": "Showing {shown} of {count} looks",
+      "emptyTitle": "No looks found",
+      "emptyBody": "Try another search or browse the full collection.",
+      "reset": "Clear filters",
+      "loadMore": "Show more looks",
+      "create": "Create this look",
+      "createNamed": "Create this look: {name}",
+      "details": "See examples",
+      "detailsNamed": "See examples: {name}",
+      "rank": "Favorite #{rank}",
+      "imageAlt": "{name} family portrait example"
     },
     "BeforeAfter": {
       "chip": "Family portrait from separate photos",
@@ -369,7 +399,7 @@
       "occasionGroup": "Occasion pages",
       "styleGroup": "Portrait art styles",
       "copyright": "Family Photoshoot. Made with care for families.",
-      "paidStudio": "A paid-only family studio."
+      "paidStudio": "Free first preview. Paid high-resolution downloads."
     },
     "TrendingBar": { "label": "Trending now", "ariaLabel": "View trending FamilyShoot vibes" }
   },

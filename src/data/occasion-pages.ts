@@ -54,9 +54,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Create the Mother's Day family portrait she actually wants",
     intro:
       "Turn separate phone photos into a warm Mother's Day portrait, card, or print-ready gift. Start with a free watermarked preview, then unlock only if it looks right.",
-    whatIsTitle: "Why Mother's Day deserves a dedicated page",
+    whatIsTitle: "A Mother's Day keepsake from everyday family photos",
     whatIsBody:
-      "Mother's Day is a gift-buying moment with urgency and emotion. Families do not always have one good photo with Mom, children, grandparents, and pets together. FamilyShoot solves that without a studio booking.\n\nThis page should send visitors straight into the creation flow with copy focused on gifts, cards, framed prints, and last-minute keepsakes.",
+      "Make a portrait of Mom with the children, a three-generation picture with Grandma, or a Mother's Day card featuring the family pet. Add each person or pet to My Family with a clear reference photo, then choose who to include and a portrait or card style. Separate photos work even when you do not have a recent picture together.\n\nStart with a free watermarked preview and check each face before paying to unlock the high-resolution files. Download your favorite for a card or print. For a physical gift from the shop, save the image first, then upload it and complete a separate checkout in the Printify-powered shop.",
     ctaLabel: "Create Mother's Day Portrait",
     related: [
       "mothers-day-family-cards",
@@ -80,9 +80,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Celebrate the women who hold the family together",
     intro:
       "Create a Women's Day portrait or card from the photos you already have. Bring mothers, grandmothers, daughters, sisters, and pets into one polished keepsake, with a free preview first.",
-    whatIsTitle: "Why Women's Day is a strong separate page",
+    whatIsTitle: "Celebrate generations of women in one portrait",
     whatIsBody:
-      "International Women's Day is not just a greeting-card occasion. It is a natural moment for families to celebrate mothers, grandmothers, daughters, sisters, and chosen family. The page can convert gift buyers looking for something more personal than flowers.\n\nKeep the CTA direct: create a family portrait, preview it for free, and unlock the high-resolution version when it feels right.",
+      "Bring a grandmother, mother, and daughter into one portrait, create a picture of sisters who live apart, or celebrate the women in your chosen family. Start with a clear, well-lit reference photo of each person, with their face and shoulders visible. Choose a portrait style that suits them, from a warm family scene to a colorful illustration.\n\nYour first photoshoot can be a free watermarked preview. Look closely at everyone's likeness before unlocking the high-resolution files. Download a portrait to share with a personal Women's Day message or print it as a keepsake.",
     ctaLabel: "Create Women's Day Portrait",
     related: ["mothers-day", "grandparents-day", "birthday-family-cards", "anniversary-gift"],
   },
@@ -101,9 +101,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Make Grandma and Grandpa the family portrait they keep asking for",
     intro:
       "Upload photos from different phones and create a print-ready portrait or card with kids, grandkids, grandparents, and pets together. Preview it free before unlocking.",
-    whatIsTitle: "Why Grandparents' Day should not be buried in generic cards",
+    whatIsTitle: "A portrait of grandparents and grandchildren, wherever they live",
     whatIsBody:
-      "Grandparents are one of the clearest gift audiences for FamilyShoot. They want the whole family in one frame, but the family is often split across cities and countries.\n\nThis page should work for Grandparents' Day, birthdays, Christmas gifts, and framed keepsakes, with the CTA pointing straight into the portrait creation flow.",
+      "Create a portrait of Grandma and Grandpa with the grandchildren, or a picture of a grandparent with a new baby they have not met yet. Upload separate reference photos so relatives can be included without being in the same room. You can select up to ten people or pets for one shoot; groups of five or fewer usually produce more consistent likenesses.\n\nChoose a portrait or card style and review the free watermarked preview before unlocking your first shoot. Save the high-resolution image for a printed keepsake. If you use the Printify-powered shop for a physical gift, upload the downloaded file and check delivery options during its separate checkout.",
     ctaLabel: "Create Grandparents' Portrait",
     related: ["mothers-day", "fathers-day", "christmas-family-cards", "family-reunion"],
   },
@@ -122,9 +122,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Create the family reunion photo even when everyone is not there",
     intro:
       "Bring relatives from different phones, cities, and years into one polished family portrait. Preview it free before unlocking the print-ready version.",
-    whatIsTitle: "Why family reunion needs a landing page",
+    whatIsTitle: "Make a reunion keepsake from separate family photos",
     whatIsBody:
-      "Family reunions create high intent because everyone wants a group photo, but someone is always missing, late, camera-shy, or living far away. FamilyShoot turns scattered source photos into a single keepsake.\n\nThis page can support reunion organizers, grandparents, cousins, and families planning prints or cards after the event.",
+      "Include a relative who missed the reunion or create a portrait of cousins who live in different cities. Add each person's clear reference photo to My Family, then select up to ten people or pets for one shoot. For a larger extended family, create several portraits of smaller groups; five or fewer subjects usually gives more consistent results.\n\nChoose a shared style for your reunion keepsakes and inspect every face in the preview. AI creates a new scene from your references, so the result is a personalized portrait rather than a record of the event. Your first shoot can be a free watermarked preview, with high-resolution downloads available after a paid unlock.",
     ctaLabel: "Create Family Reunion Portrait",
     related: [
       "grandparents-day",
@@ -148,9 +148,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Bring a deployed parent into the family portrait",
     intro:
       "Upload separate photos from home and away. FamilyShoot creates a respectful, print-ready family portrait or card with a free preview first.",
-    whatIsTitle: "Why deployed-family portraits are a separate use case",
+    whatIsTitle: "A family keepsake while you are apart",
     whatIsBody:
-      "This is one of FamilyShoot's strongest emotional reasons to exist: a parent can be serving overseas, traveling for work, or living far away and still be included in the family keepsake.\n\nThe page should avoid overclaiming and keep the tone respectful. The CTA should focus on trying a preview before paying.",
+      "Create a portrait of a deployed parent with their partner and children, or a family card to share while you are living apart. Use a clear reference photo of each person with their face and shoulders visible. Pick a portrait or card style that feels right for your family, and select the people or pets to include.\n\nFamilyShoot uses those photos as references to create a new image. Review the free watermarked preview carefully for likeness and clothing details, including any uniform details. Pay to unlock the high-resolution files only if you want to keep the result, then download the image to share or print.",
     ctaLabel: "Create Military Family Portrait",
     related: ["fathers-day", "mothers-day", "grandparents-day", "family-reunion"],
   },
@@ -169,9 +169,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Turn scattered family photos into an anniversary gift",
     intro:
       "Create a polished anniversary portrait or card from separate photos of the couple, kids, pets, or family members. Preview first, unlock when it feels gift-ready.",
-    whatIsTitle: "Why anniversaries deserve a separate page",
+    whatIsTitle: "Anniversary portrait ideas for couples and families",
     whatIsBody:
-      "Anniversaries are recurring gift moments with a clear buyer: spouses, children, and relatives looking for a personal keepsake. A dedicated page can speak to gift anxiety better than a generic AI portrait page.\n\nUse this page for wedding anniversaries, relationship milestones, and framed family keepsakes.",
+      "Make a portrait of the couple, include the children and a pet, or choose an illustrated style for a playful anniversary keepsake. Use clear reference photos that show each person as you want them represented, then add them to My Family and select who will appear in the shoot.\n\nPreview your first shoot free with a watermark and check the faces before paying to unlock the high-resolution files. Download the portrait for a card or print. To order a physical gift through the Printify-powered shop, save the image, upload it in the shop, and complete its separate checkout; allow time for printing and delivery.",
     ctaLabel: "Create Anniversary Portrait",
     related: [
       "birthday-cards/last-minute-personalized-birthday-card",
@@ -192,9 +192,9 @@ export const OCCASION_PAGES: readonly OccasionPage[] = [
     h1: "Make a Valentine's portrait with the people you love most",
     intro:
       "Create a sweet, family-safe Valentine's Day card or portrait from photos you already have. Great for couples, parents, kids, grandparents, and pets, with a free preview first.",
-    whatIsTitle: "Why Valentine's Day is worth its own page",
+    whatIsTitle: "Personal Valentine's portraits for the people you love",
     whatIsBody:
-      "Valentine's Day is a gift and card-buying moment, but FamilyShoot should own the family-safe angle rather than competing with generic romance cards. The hook is simple: make something personal with the people you love most.\n\nThe CTA should move users into a free preview quickly and avoid anything too couple-only or cheesy.",
+      "Create a Valentine's portrait of you and your partner, a card with the children for their grandparents, or a playful picture featuring your pet. Add a clear reference photo for each person or pet in My Family, then choose who to include and select a portrait or Valentine's card style.\n\nStart with a free watermarked preview and check that the faces and card details look right. Unlock the high-resolution files when you are happy with the result, then download your favorite to share with a personal message or print as a keepsake.",
     ctaLabel: "Create Valentine's Portrait",
     related: [
       "birthday-cards/last-minute-personalized-birthday-card",

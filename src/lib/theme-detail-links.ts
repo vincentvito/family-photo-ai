@@ -3,6 +3,7 @@ import { VIBES } from "@/data/vibes";
 import type { Theme } from "@/lib/themes";
 
 const DETAIL_SLUG_OVERRIDES: Record<string, string> = {
+  "ghibli-countryside": "ghibli-family-photos",
   "leibovitz-studio": "annie-leibovitz-family-photos",
   "national-geographic": "national-geographic-family-photos",
   "royal-family-portrait": "royal-family-portrait",

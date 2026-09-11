@@ -1,4 +1,13 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { THEMES } from "@/lib/themes";
+import {
+  getStudioIntentHref,
+  parseStudioIntent,
+  type StudioSearchParams,
+} from "@/lib/studio-intent";
+import { localizePath } from "@/lib/i18n/locales";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 const choices = [
   {
@@ -21,7 +30,14 @@ const choices = [
   },
 ] as const;
 
-export default function OutputPage() {
+export default async function OutputPage({
+  searchParams,
+}: {
+  searchParams: Promise<StudioSearchParams>;
+}) {
+  const intent = parseStudioIntent(await searchParams, THEMES);
+  if (intent) redirect(localizePath(getStudioIntentHref(intent), await getRequestLocale()));
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
       <div>

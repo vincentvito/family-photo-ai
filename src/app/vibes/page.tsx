@@ -8,7 +8,9 @@ import { VIBES } from "@/data/vibes";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 
 export const metadata: Metadata = {
-  title: "AI Family Portrait Vibes: Ghibli, Pixar, Wes Anderson and More | FamilyShoot",
+  title: {
+    absolute: "AI Family Portrait Vibes: Ghibli, Pixar, Wes Anderson and More | FamilyShoot",
+  },
   description:
     "Every family-portrait vibe FamilyShoot can render from your selfies. Studio Ghibli, Pixar, Wes Anderson, Slim Aarons, watercolor storybook, and more. About two minutes per portrait.",
   alternates: { canonical: `${SITE_URL}/vibes` },

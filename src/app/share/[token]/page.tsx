@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
     : "This shared FamilyShoot portrait is no longer available.";
 
   return {
-    title,
+    title: { absolute: title },
     description,
     robots: {
       index: false,

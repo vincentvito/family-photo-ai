@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
+import PromptExampleCard from "@/components/landing/PromptExampleCard";
 import type { FaqItem } from "@/data/seo-content";
+import type { StylePromptExample } from "@/data/style-prompt-examples";
 
 export type RelatedLink = { href: string; label: string; image: string };
 type ImageTile = { label: string; src: string; alt: string };
@@ -30,6 +32,8 @@ type Props = {
   sampleEyebrow?: string;
   sampleHeading?: string;
   heroLayout?: "split" | "centered";
+  promptExamples?: readonly StylePromptExample[];
+  promptStyleName?: string;
 };
 
 export function LandingShell({
@@ -54,8 +58,15 @@ export function LandingShell({
   sampleEyebrow = "Three Father's Day directions",
   sampleHeading = "Three Father's Day gifts you can make from simple phone photos.",
   heroLayout = "split",
+  promptExamples = [],
+  promptStyleName,
 }: Props) {
-  const sampleHref = sampleImages.length > 0 ? "#samples" : "/#gallery";
+  const sampleHref =
+    promptExamples.length > 0
+      ? "#prompt-examples"
+      : sampleImages.length > 0
+        ? "#samples"
+        : "/#gallery";
   const isCenteredHero = heroLayout === "centered";
 
   return (
@@ -99,7 +110,7 @@ export function LandingShell({
             {sampleImages.length > 0 && (
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] bg-[color:var(--color-bg-elevated)] px-3 py-1.5 text-xs font-semibold text-[color:var(--color-coral-deep)] shadow-[var(--shadow-sm)]">
                 <span className="dot dot-coral" />
-                Father&apos;s Day campaign
+                Father&apos;s Day keepsakes
               </div>
             )}
             <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
@@ -121,7 +132,7 @@ export function LandingShell({
                     ? "mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2"
                     : "mt-5 flex max-w-xl flex-wrap gap-2"
                 }
-                aria-label="Related birthday card searches"
+                aria-label="What you can do"
               >
                 {keywordHighlights.slice(0, 6).map((keyword) => (
                   <span
@@ -135,14 +146,16 @@ export function LandingShell({
             )}
             <div
               className={
-                isCenteredHero ? "mt-7 flex flex-wrap justify-center gap-3" : "mt-7 flex flex-wrap gap-3"
+                isCenteredHero
+                  ? "mt-7 flex flex-wrap justify-center gap-3"
+                  : "mt-7 flex flex-wrap gap-3"
               }
             >
               <Link href={ctaHref} className="btn btn-coral">
                 {ctaLabel}
               </Link>
               <Link href={sampleHref} className="btn btn-ghost">
-                See more samples
+                {promptExamples.length > 0 ? "See prompt and example" : "See more samples"}
               </Link>
             </div>
           </div>
@@ -182,6 +195,41 @@ export function LandingShell({
             )}
           </div>
         </section>
+
+        {promptExamples.length > 0 && (
+          <section id="prompt-examples" className="mx-auto mt-20 max-w-6xl scroll-mt-28 px-6">
+            <div className="mb-7 max-w-3xl">
+              <p className="small-caps text-[color:var(--color-coral)]">
+                Try the look with your photos
+              </p>
+              <h2 className="serif mt-3 text-3xl tracking-[-0.03em] sm:text-4xl">
+                {promptStyleName} family photo prompt and example
+              </h2>
+              <p className="mt-4 leading-relaxed text-[color:var(--color-ink-muted)]">
+                Use a clear, well-lit photo for each person or pet, with faces unobstructed. Choose
+                “Create this look” to fill in the scene prompt for a custom shoot. You can edit it
+                before generating your portrait.
+              </p>
+            </div>
+            <div className="space-y-6">
+              {promptExamples.map((example) => (
+                <PromptExampleCard key={example.id} example={example} wide />
+              ))}
+            </div>
+            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
+              The sample shows the look; results vary with your photos and prompt. Check every face
+              in your preview before unlocking the high-resolution files. For more scenes, browse
+              our{" "}
+              <Link
+                href="/best-family-photo-prompts"
+                className="font-semibold text-[color:var(--color-coral)] underline"
+              >
+                family photo prompt guide
+              </Link>
+              .
+            </p>
+          </section>
+        )}
 
         {sourceImages.length > 0 && (
           <section className="mx-auto mt-20 max-w-6xl px-6 sm:mt-24">

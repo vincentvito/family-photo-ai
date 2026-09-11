@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getGenerationState } from "@/lib/generate-queries";
 import { resolveTheme } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 import { studioDaysRemaining, studioRetentionDays } from "@/lib/retention";
 import GenerationBoard from "@/components/studio/GenerationBoard";
 import { getCurrentUser } from "@/lib/auth-helpers";
@@ -27,7 +28,7 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
           Step 03 · Your shoot
         </span>
         <h1 className="serif mt-4 text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl">
-          {theme.name}
+          {getThemeDisplayName(theme)}
           <em className="serif-italic text-[color:var(--color-coral)]">.</em>
         </h1>
         <p className="mt-4 max-w-xl text-[color:var(--color-ink-muted)]">

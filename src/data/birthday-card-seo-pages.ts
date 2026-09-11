@@ -20,7 +20,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Upload a photo, add the birthday name, age, or message, and turn it into a polished birthday card or poster. FamilyShoot is built for personalized photo birthday cards, not generic templates: start with a free watermarked preview and unlock only when it looks gift-ready.",
     whatIsTitle: "Make a birthday card from a real family photo, not a stock template",
     whatIsBody:
-      "Most birthday card makers start with a blank template and expect you to already have the perfect photo. FamilyShoot starts with the photos you actually have: separate selfies, kid photos, parent photos, pet photos, or one favorite picture of the birthday person.\n\nUse it for AI birthday cards, birthday posters, invitations, printable birthday photo cards, or digital birthday greetings. Add the name, age, and message, preview first, then unlock the high-resolution version when the card feels ready.",
+      'Start in FamilyShoot with a clear photo of the birthday person, or add separate photos of the family members and pets you want to include. Choose a birthday card layout and an art style such as Photoshoot, Watercolor, or Storybook.\n\nUse the Greeting / card text field for the name, age, and a short message. For example: "Happy 7th Birthday, Ava! Let the adventure begin." For a card with a carved birthday number, include the age in your text.\n\nCheck the faces, spelling, age, and text readability in your preview before unlocking the high-resolution download. You can share the downloaded image digitally or arrange printing yourself.',
     ctaLabel: "Create Birthday Card Preview",
     related: [
       "birthday-card-with-photo-and-name",
@@ -49,7 +49,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Skip generic cartoon cards. Turn a child's photo into a birthday poster, party invite, or printable keepsake with their name, age, and birthday message built into the design. Preview a card direction free before paying for the final file.",
     whatIsTitle: "The best kid birthday cards feel like the birthday child, not a template",
     whatIsBody:
-      "Strong birthday card ideas for kids usually have three things: the child's face, the birthday age, and a visual world they are excited to see. FamilyShoot can create poster-style cards, balloon scenes, magazine-cover birthday cards, storybook moments, and family cards from everyday photos.\n\nUse the page for searches like birthday cards ideas for kids, photo birthday cards for kids, boys birthday card ideas, girls birthday card ideas, and personalized birthday cards for kids. The CTA should lead directly into a free preview because parents need to see the face quality before trusting the result.",
+      'Try a birthday portrait with balloons and a big age number, a soft Watercolor card, or a Storybook illustration with the birthday child and their siblings. A pet can join the card too: add a clear reference photo and select them alongside the child.\n\nFor a seven-year-old, try "Happy 7th Birthday, Ava! Our favorite little adventurer." For a card from grandparents, use "Happy Birthday, Leo! Sending the biggest hugs from Grandma and Grandpa." Keep the greeting short so the name and birthday wish are easy to read.\n\nChoose a birthday layout in FamilyShoot, add your greeting, and preview the result. Check that the child looks recognizable and the name and age are correct before downloading or printing.',
     ctaLabel: "Create Kids Birthday Card",
     related: [
       "1st-birthday-card",
@@ -77,7 +77,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Use a real face, a real name, and a birthday message instead of another stock-card template. FamilyShoot turns your photos into custom birthday photo cards, posters, and invitations with a free preview-first flow.",
     whatIsTitle: "Photo birthday cards work best when the image carries the emotion",
     whatIsBody:
-      "A good birthday photo card can be sweet, funny, luxurious, kid-friendly, or grown-up, but the photo has to feel intentional. FamilyShoot helps create the photo and the card together, so users are not stuck hunting for a perfect existing family picture.\n\nGood content sections for this page include birthday cards for kids, milestone birthday cards, birthday cards for mom and dad, adult birthday cards, birthday invitations with photo, and printable birthday poster cards. Each section should link to the more specific page so the cluster can rank over time.",
+      'Match the card to the person receiving it. For a child, try a birthday-age design in Storybook style. For Mom or Dad, include the kids in a natural Photoshoot portrait. For a milestone birthday, use a carved-number layout with the birthday person at the center.\n\nPair the image with a short message: "Forty years of making life brighter. Happy Birthday, Maya!" or "Happy Birthday, Dad! Love from your favorite little team." You can include relatives from separate photos, so everyone does not need to be in the same original picture.\n\nIn FamilyShoot, use a clear, well-lit reference for each person, choose who appears on the card, and check the preview for recognizable faces and readable text. Unlock the high-resolution image when you are happy with the result.',
     ctaLabel: "Make Birthday Photo Card",
     related: [
       "birthday-card-generator",
@@ -102,10 +102,10 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Create a first birthday photo card or invitation with the baby's name, age, family photo, and milestone message.",
     h1: "1st birthday card with photo, name, and milestone style",
     intro:
-      "A first birthday card should feel like a keepsake, not a throwaway invite. Upload a baby photo or family photos, add the name and message, and create a 1st birthday card preview before unlocking the print-ready version.",
+      "Celebrate their first year with a card you can keep. Upload a baby photo or family photos, add the name and message, and create a 1st birthday card preview before unlocking the high-resolution download.",
     whatIsTitle: "A first birthday card is part invitation, part family keepsake",
     whatIsBody:
-      "First birthdays attract several search intents at once: card messages, invitations, boy/girl designs, photo cards, and milestone keepsakes. FamilyShoot should cover all of them with one practical page that helps parents create something personal quickly.\n\nRecommended content blocks: 1st birthday card for baby girl, 1st birthday card for baby boy, 1st birthday invitation with photo, message ideas from parents, and printable milestone poster cards. Keep the CTA preview-first because parents care most about whether the baby still looks like the baby.",
+      'A simple baby portrait, a soft Watercolor illustration, or a birthday design with a large number one can mark the first year. Use a recent, clear photo with the baby looking toward the camera, and add parents or siblings if you want a family keepsake.\n\nFor a greeting card, try "One whole year of loving you. Happy 1st Birthday, Noah!" For an invitation, try "Mia is turning ONE! Join us on 14 June at 2 pm." Keep the full address and RSVP details in the message you send with the image if they will not fit comfortably on the card.\n\nIn FamilyShoot, enter the name and age in the Greeting / card text field. Review the baby\'s likeness and every word in the preview before unlocking the download.',
     ctaLabel: "Create 1st Birthday Card",
     related: [
       "birthday-card-ideas-for-kids",
@@ -131,9 +131,9 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
     h1: "Birthday card with photo and name online",
     intro:
       "Add the birthday person's photo, name, age, and message to a card that actually looks designed. FamilyShoot creates a custom preview first, then lets you unlock the high-resolution file when the face and layout look right.",
-    whatIsTitle: "Name and photo personalization is the highest-intent birthday card search",
+    whatIsTitle: "Add a familiar face, their name, and a birthday wish",
     whatIsBody:
-      "People searching for a birthday card with photo and name are usually past the inspiration stage. They know what they want: a custom birthday card that includes the birthday person and personalized text. This is one of the strongest SEO-to-product fits for FamilyShoot.\n\nThe page should repeatedly answer practical questions: can I add a name, can I add the age, can I use one photo or multiple family photos, can I make it printable, and can I preview before paying. Link back to the AI birthday card generator and to kid, first birthday, mom, and dad pages.",
+      'Upload a clear photo of the birthday person to FamilyShoot, then choose a birthday card layout. You can also add separate photos of family members or pets and select the people you want in the finished card.\n\nType the name, age, and message together in the Greeting / card text field. Try "Happy 30th Birthday, Sophie! Here is to your next adventure." The text can be up to 120 characters, so a short greeting works best. If you choose a carved-number birthday layout, include the age so the design can use the right number.\n\nPreview the card and check the spelling of the name, the age, the faces, and the text. Once you unlock the high-resolution image, you can send it digitally or take the file to your preferred printer.',
     ctaLabel: "Make Photo and Name Card",
     related: [
       "birthday-card-generator",
@@ -161,7 +161,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "For adults, the best birthday cards usually come from memory, family, and inside jokes. Use FamilyShoot to create a personalized photo card for a partner, parent, friend, or milestone birthday with a free preview first.",
     whatIsTitle: "Adult birthday cards should lean into relationship and memory",
     whatIsBody:
-      "Generic adult birthday cards are a brutally competitive space. FamilyShoot's better wedge is personalized photo cards for people who want a family gift, partner gift, parent card, or milestone keepsake.\n\nThis page should point users to more specific searches: birthday card for mom, birthday card for dad, birthday card for husband, birthday card for wife, milestone birthday cards, funny family photo cards, and photo birthday card ideas. It should not pretend to replace every joke-card marketplace; it should own personal photo-driven cards.",
+      'For a partner, make a card with the two of you and a message about the year ahead. For a parent, bring the grown kids and grandchildren into one card from separate photos. For a friend celebrating a milestone, try a birthday-age layout with their portrait and a short inside joke.\n\nMessage ideas include "Happy 40th, Sam! Still my favorite person to get lost with," "Happy Birthday, Mom! All our love, from near and far," and "Another year of excellent stories. Happy Birthday, Alex!" Pick a greeting the recipient will recognize as yours.\n\nIn FamilyShoot, choose Photoshoot for a natural portrait or Watercolor for an illustrated keepsake. Check the faces and greeting in the preview before unlocking a version to share or print.',
     ctaLabel: "Create Adult Birthday Card",
     related: [
       "birthday-photo-card-ideas",
@@ -189,7 +189,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Make Mom a birthday card that includes the kids, family, pets, or favorite memories, even if everyone is in separate photos. Preview the card free before unlocking the high-resolution version.",
     whatIsTitle: "Mom birthday cards need emotion more than decoration",
     whatIsBody:
-      "Searches around birthday cards for mom split into from daughter, from son, from kids, funny, printable, and homemade-style ideas. FamilyShoot's strongest angle is a personal photo card that feels handmade in emotion but polished in output.\n\nUse this page for family-photo cards, kids-to-mom birthday messages, printable keepsakes, and last-minute gift creation. Link to birthday card with photo and name, birthday photo card ideas, and the main birthday card generator.",
+      'Make a card from the kids with their portraits, a card from a daughter or son with Mom included, or a greeting from the whole family. Add each person from a separate clear photo if you do not have a recent picture together. A natural Photoshoot style or soft Watercolor finish works well for a family keepsake.\n\nFrom a daughter or son, try "Happy Birthday, Mom! Thank you for always being in my corner." From the kids, try "Happy Birthday to our favorite hug giver. We love you, Mom!" A nickname or a shared memory will make the greeting feel more personal.\n\nIn FamilyShoot, choose the family members for the card, enter your message, and check the preview. Review the faces and spelling before unlocking the image to send to Mom or print yourself.',
     ctaLabel: "Create Mom Birthday Card",
     related: [
       "birthday-card-with-photo-and-name",
@@ -217,7 +217,7 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Turn simple phone photos into a birthday card Dad will actually keep. Add the kids, pets, a favorite family moment, or a custom message, then preview the result before unlocking high-res.",
     whatIsTitle: "Dad birthday cards can be funny, warm, or story-driven",
     whatIsBody:
-      "Searchers looking for birthday cards for dad often want something from daughter, from son, from kids, funny, printable, or handmade. FamilyShoot can turn those intents into a photo-led card that feels more personal than a store-bought joke card.\n\nUse this page to show examples like dad with kids, dad with dog, sports-inspired dad cards, relaxed family cards, and milestone dad birthday cards. Link toward the birthday card generator and the broader adult birthday card ideas page.",
+      'Create a birthday portrait of Dad with the kids, include his dog, or use a carved-number birthday layout for a milestone. You can start with separate phone photos, so the family does not need to organize a new group picture. Choose Photoshoot for a natural look or Storybook for a playful illustrated card.\n\nFor a funny greeting, try "Happy Birthday, Dad! Your jokes are getting older. We still love them." For something warmer, use "Happy Birthday, Dad! Thank you for showing up for every adventure." From the kids, try "Happy Birthday to the captain of our little team!"\n\nAdd your chosen greeting in FamilyShoot, select who appears, and preview the card. Check Dad\'s likeness and the birthday text before unlocking the download.',
     ctaLabel: "Create Dad Birthday Card",
     related: [
       "birthday-card-with-photo-and-name",
@@ -243,10 +243,10 @@ export const BIRTHDAY_CARD_SEO_PAGES = [
       "Create a birthday invitation card with a custom photo, party text, age, name, and preview-first workflow.",
     h1: "Birthday invitation card with photo",
     intro:
-      "Create a birthday invitation that starts with the birthday person's photo, not a generic template. Add party details, name, age, and message, then preview before unlocking the final invitation file.",
-    whatIsTitle: "Birthday invitations are a separate intent from birthday greeting cards",
+      "Create a birthday invitation featuring the birthday person's photo. Add a short invitation with their name, age, and key party details, then preview the image before unlocking the download.",
+    whatIsTitle: "Make the birthday person the center of the invitation",
     whatIsBody:
-      "Birthday invitation searches usually want templates, party details, boy/girl ideas, and online-free tools. FamilyShoot should not compete only on blank templates; it should offer custom photo invitations where the birthday child or adult becomes the hero image.\n\nThis page should support kids birthday invitations, first birthday invitations, adult party invitations, photo birthday invites, and printable invitation cards. It should link to birthday card ideas for kids, 1st birthday card, and the main birthday card generator.",
+      'Start in FamilyShoot with a clear photo of the birthday child or adult and choose a birthday card layout. Use the Greeting / card text field for a brief invitation such as "You are invited! Ava turns 7. Saturday 12 July, 3 pm at Willow Hall." For a first birthday, try "Join us for Leo\'s first birthday! Sunday 8 June, 2 pm."\n\nThe card text field allows up to 120 characters. Put longer directions, the full address, and RSVP instructions in the email or message you send with the image. This keeps the card readable while giving guests all the information they need.\n\nCheck the name, age, date, time, and venue carefully in the preview before sharing. After unlocking the high-resolution image, send it digitally or arrange your own printing.',
     ctaLabel: "Create Birthday Invitation",
     related: [
       "birthday-card-ideas-for-kids",

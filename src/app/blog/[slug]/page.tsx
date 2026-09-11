@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const { post } = result;
 
   return {
-    title: post.title,
+    title: /\bfamilyshoot\b/i.test(post.title) ? { absolute: post.title } : post.title,
     description: post.description,
     authors: [{ name: post.author }],
     keywords: post.tags,

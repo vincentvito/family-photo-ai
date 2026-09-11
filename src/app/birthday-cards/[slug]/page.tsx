@@ -27,7 +27,7 @@ export async function generateMetadata({
   const url = `/birthday-cards/${page.slug}`;
 
   return {
-    title: page.title,
+    title: { absolute: page.title },
     description: page.description,
     alternates: { canonical: `${SITE_URL}${url}` },
     openGraph: {

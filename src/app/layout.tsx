@@ -25,9 +25,8 @@ const fraunces = Fraunces({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 const SITE_NAME = "FamilyShoot";
-const TITLE = "AI Family Photo Generator | FamilyShoot";
-const DESCRIPTION =
-  "Turn scattered iPhone photos into a frame-worthy family portrait or holiday card in about two minutes. Pick a vibe, upload references, and keep what you love.";
+const TITLE = getMessages("en").Landing.Seo.title;
+const DESCRIPTION = getMessages("en").Landing.Seo.description;
 const OG_IMAGE_URL = process.env.NEXT_PUBLIC_OG_IMAGE_URL ?? "/og/familyshoot-share.png";
 
 const baseMetadata: Metadata = {

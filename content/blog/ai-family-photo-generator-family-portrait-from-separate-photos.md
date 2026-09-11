@@ -24,7 +24,7 @@ A traditional group photo needs everything to go right at once: faces, lighting,
 
 Separate reference photos let you choose the best image of each person. That matters when you want a portrait that actually looks like your family, not just a technically correct image.
 
-The best use cases are high-intent moments:
+Separate photos can help with:
 
 - Creating a family portrait from individual photos.
 - Combining family photos into one portrait.

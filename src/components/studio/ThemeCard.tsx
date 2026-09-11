@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { Theme } from "@/lib/themes";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 
 export default function ThemeCard({
   theme,
@@ -60,7 +61,7 @@ export default function ThemeCard({
         {/* Name overlay on bottom */}
         <div className="absolute inset-x-0 bottom-0 p-4">
           <h3 className="serif text-[1.65rem] leading-tight tracking-[-0.02em] text-white drop-shadow-sm">
-            {theme.name}
+            {getThemeDisplayName(theme)}
           </h3>
         </div>
 

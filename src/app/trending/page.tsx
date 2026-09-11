@@ -6,6 +6,7 @@ import Footer from "@/components/landing/Footer";
 import { getThemeRanking, type ThemeRankingRow } from "@/lib/admin-queries";
 import { THEMES } from "@/lib/themes";
 import { getThemeStudioHref } from "@/lib/theme-links";
+import { getThemeDisplayName } from "@/data/theme-display-names";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://familyshoot.com";
 const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
@@ -13,7 +14,7 @@ const THEME_BY_ID = new Map(THEMES.map((theme) => [theme.id, theme]));
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Trending AI Family Photo Vibes 🔥 | FamilyShoot",
+  title: { absolute: "Trending AI Family Photo Vibes 🔥 | FamilyShoot" },
   description:
     "See the FamilyShoot vibes families are using most, ranked from real in-app photoshoot data. No fake trend counts or invented usage.",
   alternates: { canonical: `${SITE_URL}/trending` },
@@ -134,7 +135,7 @@ export default async function TrendingPage() {
                       </div>
                       <div className="flex flex-col p-5">
                         <h2 className="serif text-3xl leading-tight tracking-[-0.02em] group-hover:text-[color:var(--color-coral)]">
-                          {row.name}
+                          {getThemeDisplayName({ id: row.themeId, name: row.name })}
                         </h2>
                         <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[color:var(--color-ink-muted)]">
                           {themeDescription(row)}

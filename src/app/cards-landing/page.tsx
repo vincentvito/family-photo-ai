@@ -9,9 +9,9 @@ import { InContext } from "./_components/InContext";
 import { CTABand } from "./_components/CTABand";
 
 export const metadata: Metadata = {
-  title: "FamilyShoot — AI Family Holiday Cards",
+  title: { absolute: "FamilyShoot — AI Family Holiday Cards" },
   description:
-    "Five selfies in, one printed-paper holiday card out. Drop in the photos you already have and we will turn them into a card-perfect family in about two minutes.",
+    "Create a digital family holiday card from one clear photo per person or pet. Start with a free watermarked preview and pay to unlock the high-resolution file.",
   alternates: { canonical: "https://familyshoot.ai/" },
 };
 

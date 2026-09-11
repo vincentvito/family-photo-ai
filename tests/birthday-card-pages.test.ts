@@ -97,7 +97,7 @@ test("partner birthday-card page keeps approved positioning", () => {
   assert.equal(page.h1, "A simple birthday-card add-on for your clients");
   assert.match(page.description, /cake decorators, party planners, family photographers/i);
   assert.match(page.intro, /cake order, birthday shoot, party package, or celebration gift/i);
-  assert.equal(page.ctaLabel, "Request a sample birthday-card pack");
+  assert.equal(page.ctaLabel, "Create a sample birthday card");
   assert.ok(page.sections.some((section) => /cake decorators/i.test(section.title)));
   assert.ok(page.sections.some((section) => /kids' party planners/i.test(section.title)));
   assert.ok(page.sections.some((section) => /family photographers/i.test(section.title)));

@@ -24,9 +24,7 @@ test("default email popup is mounted instead of the seasonal Father's Day popup"
 
 test("hero title is explicitly split into lines in every locale", () => {
   for (const locale of ["en", "de", "es", "ru", "uk"]) {
-    const messages = JSON.parse(
-      readFileSync(join(root, `src/messages/${locale}.json`), "utf8"),
-    );
+    const messages = JSON.parse(readFileSync(join(root, `src/messages/${locale}.json`), "utf8"));
 
     assert.ok(Array.isArray(messages.Hero.titleLines), `${locale} titleLines must be an array`);
     assert.ok(messages.Hero.titleLines.length > 0, `${locale} titleLines must not be empty`);
@@ -50,7 +48,6 @@ test("desktop storyboard hero centers the title above the image row", () => {
   assert.match(storyboardSource, /<HeroTitle className="mx-auto/);
   assert.match(storyboardSource, /w-fit max-w-full/);
   assert.match(heroSource, /titleLines\.map/);
-  assert.match(heroSource, /sm:whitespace-nowrap/);
   assert.match(storyboardSource, /lg:flex lg:flex-row lg:justify-center/);
   assert.doesNotMatch(storyboardSource, /initial=\{\{ opacity: 0/);
   assert.doesNotMatch(storyboardSource, /lg:text-left/);
