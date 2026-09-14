@@ -44,10 +44,16 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Encore tableau: subjects arranged like a polished tour-photo finale on a smoky stage, dramatic hand poses, black-and-white performance styling with one red jacket accent, bright overhead beams, premium editorial quality, no text or watermark.",
   ],
   "galactic-family-adventure": [
-    "Hangar doorway hero: subjects full-body in layered desert-traveler robes inside a sci-fi hangar arch, warm twin-sun horizon behind, pet clearly grounded when selected.",
+    "Hangar doorway hero: subjects full-body in layered desert-traveler robes inside a sci-fi hangar arch, warm twin-sun horizon behind and grounded heroic spacing.",
     "Guardian silhouette frame: subjects grouped in front of a tall original armored guardian figure, glowing blue practical panels, heroic vertical composition and readable faces.",
     "Desert-world expedition: subjects standing with capes, scarves and utility belts, distant ships and spires in haze, bronze sunset rim light, no franchise symbols or glowing weapons.",
-    "Family crew portrait: subjects arranged as an original space-adventure crew with one seated or kneeling child/pet anchor, cool hangar fill and warm backlight balanced for print.",
+    "Family crew portrait: subjects arranged as an original space-adventure crew with one seated or kneeling foreground anchor, cool hangar fill and warm backlight balanced for print.",
+  ],
+  "little-boo-pastel-halloween": [
+    "Pastel porch portrait: subjects arranged among pale pumpkins and friendly sheet-ghost decorations, cozy sweaters, bright smiles and no scary shadows.",
+    "Candy-color studio proof: subjects in matching soft layers against peach, lavender and cream seasonal decor, smiling carved-pumpkin details secondary.",
+    "Cozy pajama close crop: waist-up subject grouping with pastel pumpkins at the edges, warm window light and cute non-scary Halloween charm.",
+    "Wide cute porch scene: subjects framed by friendly fabric ghost shapes and soft pumpkin clusters, clean face sightlines and cheerful print margins.",
   ],
   "iconic-crosswalk-album-cover": [
     "Straight crosswalk walk: subjects walking left-to-right across a zebra crosswalk in a side-oriented cinematic walk, mostly side-facing bodies with slight natural face turns toward camera for readable faces, evenly spaced one behind another, stylish coats and boots, soft overcast city light, vertical album-cover framing.",
@@ -175,6 +181,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Symmetric deco proof: subjects centered within cream-black-gold arch geometry, full-to-three-quarter bodies when natural and refined studio glow.",
     "Close glamour crop: shoulder-to-knee grouping with fan lines behind, emerald or deep plum accents secondary, crisp catchlights and polished print finish.",
   ],
+  "neo-deco-holiday-portrait": [
+    "Fan-arch holiday portrait: subjects staggered beneath geometric fan arches with brass glints, winter greenery secondary and warm readable faces.",
+    "Velvet-panel celebration frame: subjects arranged near velvet texture, chrome accents and subtle garland details, vertical portrait polish and controlled shadows.",
+    "Symmetric holiday proof: subjects centered within cream-black-gold arch geometry, evergreen and cranberry accents secondary, refined studio glow.",
+    "Close deco holiday crop: shoulder-to-knee grouping with fan lines behind, deep plum or evergreen details, crisp catchlights and polished print finish.",
+  ],
   "storybook-pen-pals": [
     "Writing-desk portrait: subjects gathered near a wooden desk with letters, blank stamps and drawings secondary, soft window light and cozy paper texture.",
     "Library-letter candid: subjects leaning around shelves and stationery details, vintage knits and blazers, warm lamp glow and readable faces.",
@@ -283,6 +295,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Wide pumpkin card proof: subjects smaller in a cozy porch scene with clean sky or siding space above, playful decorations kept soft and cute.",
     "Close pumpkin-glow crop: waist-up subject grouping with peach pumpkins, lavender twilight and warm lantern highlights, clear face separation.",
   ],
+  "woodland-storybook-companions": [
+    "Woodland-path adventure: subjects walking along a curved mossy path beneath friendly oversized trees, sunbeams and wildflowers leading the eye.",
+    "Tree-arch portrait: subjects gathered under a natural root-and-branch arch with warm golden light, cozy adventure layers and readable faces.",
+    "Wide storybook clearing: subjects smaller in a luminous woodland clearing with rounded trees, wildflowers and a welcoming illustrated-card mood.",
+    "Close woodland keepsake: waist-up subject grouping with bark texture, moss, leaves and soft golden bokeh, gentle wonder without scary details.",
+  ],
   "storybook-forest-family-adventure": [
     "Forest-path adventure: subjects walking along a curved mossy path beneath friendly oversized trees, sunbeams and wildflowers leading the eye.",
     "Tree-arch portrait: subjects gathered under a natural root-and-branch arch with warm golden light, cozy adventure layers and readable faces.",
@@ -342,6 +360,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
     "Tomato accent celebration: subjects arranged in a refined vertical card layout with tomato red accent decor, controlled sparkle and readable faces.",
     "Wide deco card proof: subjects smaller within symmetrical arch geometry, elegant negative space for greeting text and no venue signage.",
+  ],
+  "poetcore-letterpress-family-card": [
+    "Letterpress desk card: subjects arranged beside blank stationery and pressed flowers, tactile paper texture visible and clean greeting space above.",
+    "Library-paper proof: subjects near warm shelves, sealed envelopes and wool textures, vertical card layout with readable faces and blank margin.",
+    "Pressed-flower candid card: subjects leaning into a quiet writing-room moment, flowers and paper secondary, greeting area held in cream stock.",
+    "Close poetcore card crop: waist-up subject grouping beside letterpress paper texture, parchment tones and soft amber light, no readable writing.",
   ],
   "crochet-raffia-picnic-card": [
     "Gingham greeting card: subjects seated near a gingham blanket edge with crochet texture accents, raffia basket detail and clean greeting space in sunlit grass.",
@@ -714,6 +738,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Pumpkin-light portrait: tighter grouping lit from below by jack-o-lanterns, clean dusk text area.",
     "Doorway-costume card: subjects framed by porch door and wheat wreath, text in foggy side space.",
     "Wide porch scene: pumpkins leading foreground, subjects off-center, spooky-soft negative space above.",
+  ],
+  "cozy-vintage-halloween-card": [
+    "Vintage porch card: subjects grouped near pumpkins and garland with amber porch glow, cream paper-border space reserved for supplied greeting text.",
+    "Pumpkin-patch postcard proof: subjects centered in a hand-tinted harvest setting with muted orange accents, blank card area and no readable marks.",
+    "Lantern doorway card: subjects framed by a cozy porch doorway, blue-hour dusk and warm lanterns, greeting space in the soft side wall.",
+    "Close vintage Halloween crop: waist-up subject grouping with pumpkin glow, sepia paper texture, gentle smiles and clear greeting margin.",
   ],
   "cozy-summerween-card": [
     "Twinkle-porch card: subjects on a cozy porch with pumpkins and warm string lights, clean greeting space above or to one side.",
