@@ -415,7 +415,7 @@ export const CARDS: readonly Card[] = [
   {
     themeId: "neo-deco-celebration-card",
     slug: "neo-deco-celebration-family-cards",
-    name: "Neo Deco Celebration",
+    name: "Neo Deco Celebration Card",
     keyword: "neo deco celebration family card",
     secondaryKeywords: [
       "art deco family card",
@@ -428,7 +428,33 @@ export const CARDS: readonly Card[] = [
     greeting: "Celebrate",
     shortDescription:
       "Geometric arches, brass and chrome accents, and cream-black-gold celebration polish.",
-    related: ["new-years-family-cards", "birthday-family-cards", "anniversary-family-cards"],
+    related: [
+      "jewel-tone-studio-family-cards",
+      "new-years-family-cards",
+      "anniversary-family-cards",
+    ],
+  },
+  {
+    themeId: "jewel-tone-studio-card",
+    slug: "jewel-tone-studio-family-cards",
+    name: "Jewel-Tone Studio Card",
+    keyword: "jewel tone studio family card",
+    secondaryKeywords: [
+      "emerald family greeting card",
+      "jewel tone family portrait card",
+      "studio family holiday card",
+    ],
+    image: "/samples/theme-jewel-tone-studio-card.webp",
+    accent: "#315f58",
+    accentSoft: "#e6f0ed",
+    greeting: "With Love",
+    shortDescription:
+      "Emerald, plum, sapphire, ruby, ivory, and warm gold studio polish with clean greeting space.",
+    related: [
+      "neo-deco-celebration-family-cards",
+      "anniversary-family-cards",
+      "christmas-family-cards",
+    ],
   },
   {
     themeId: "poetcore-letterpress-family-card",

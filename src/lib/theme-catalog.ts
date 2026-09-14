@@ -13,6 +13,12 @@ const STARTER_THEME_IDS = [
 // Editorial release order from the original homepage's WEEKLY_TREND_ITEMS.
 // Prepend each new weekly batch here; THEMES is grouped by category, not recency.
 const WEEKLY_THEME_IDS = [
+  "cozy-reset-morning",
+  "autumn-charm-portrait",
+  "fashion-week-family-editorial",
+  "jewel-tone-studio-card",
+  "neo-deco-celebration-card",
+  "pet-holiday-outtake",
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",
@@ -46,7 +52,6 @@ const WEEKLY_THEME_IDS = [
   "ocean-explorer-card",
   "cool-blue-lake-day",
   "poetcore-family-library-portrait",
-  "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
 ];
 
