@@ -88,7 +88,7 @@ test("weekly favorites are excluded from discovery and cannot return through sea
   }
   assert.deepEqual(
     filterThemeCatalog(discovery, "poetcore", "all").map((theme) => theme.id),
-    ["poetcore-porch", "poetcore-family-library-portrait"],
+    ["poetcore-porch", "poetcore-family-library-portrait", "poetcore-letterpress-family-card"],
   );
 });
 
@@ -148,7 +148,12 @@ test("discovery category filters and searches retain the curated weekly order", 
   for (const category of ["all", "photoreal"] as const) {
     assert.deepEqual(
       filterThemeCatalog(discovery, "poetcore", category).map((theme) => theme.id),
-      ["poetcore-letter-portrait", "poetcore-porch", "poetcore-family-library-portrait"],
+      [
+        "poetcore-letter-portrait",
+        "poetcore-porch",
+        "poetcore-family-library-portrait",
+        ...(category === "all" ? ["poetcore-letterpress-family-card"] : []),
+      ],
     );
   }
 });

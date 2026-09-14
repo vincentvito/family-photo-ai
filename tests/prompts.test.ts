@@ -928,7 +928,7 @@ test("deep-linked studio theme URLs preselect the requested vibe", () => {
 test("vibe detail pages offer the selected look and a clear preview CTA", () => {
   const source = readFileSync("src/app/[slug]/page.tsx", "utf8");
   assert.match(source, /"Create this look"/);
-  assert.match(source, /"Create my free preview"/);
+  assert.match(source, /"Begin a Shoot"/);
   assert.doesNotMatch(source, /Make your \$\{item\.name\} portrait/);
 });
 
