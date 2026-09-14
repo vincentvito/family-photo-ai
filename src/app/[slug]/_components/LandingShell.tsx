@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import Nav from "@/components/landing/Nav";
 import Footer from "@/components/landing/Footer";
 import PromptExampleCard from "@/components/landing/PromptExampleCard";

@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import test, { afterEach, beforeEach } from "node:test";
 import { JSDOM } from "jsdom";
 import { createElement } from "react";
+import { NextIntlClientProvider } from "next-intl";
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import PromptActions from "../src/components/landing/PromptActions";
 import { ALL_FAMILY_PHOTO_PROMPTS } from "../src/data/family-photo-prompts";
@@ -63,6 +64,26 @@ const props = {
   createHref: getPromptStudioHref(example.prompt),
 };
 
+function renderActions(locale = "en") {
+  const providerProps = {
+    locale,
+    messages: {},
+    timeZone: "UTC",
+    children: createElement(PromptActions, props),
+  };
+  return render(createElement(NextIntlClientProvider, providerProps));
+}
+
+test("prompt creation keeps the selected language and complete scene", () => {
+  const view = renderActions("de");
+  const href = view
+    .getByRole("link", { name: `Create this look: ${example.title}` })
+    .getAttribute("href");
+  const destination = new URL(href!, "https://familyshoot.com");
+  assert.equal(destination.pathname, "/de/studio/theme");
+  assert.equal(destination.searchParams.get("prompt"), example.prompt);
+});
+
 test("copy writes the complete scene prompt and announces success", async () => {
   let copied: string | undefined;
   Object.defineProperty(navigator, "clipboard", {
@@ -73,7 +94,7 @@ test("copy writes the complete scene prompt and announces success", async () => 
       },
     },
   });
-  const view = render(createElement(PromptActions, props));
+  const view = renderActions();
   fireEvent.click(view.getByRole("button", { name: `Copy prompt: ${example.title}` }));
   await waitFor(() => assert.equal(view.getByRole("status").textContent, "Prompt copied."));
   assert.equal(copied, example.prompt);
@@ -92,7 +113,7 @@ test("denied clipboard access explains manual copying and leaves Create this loo
       },
     },
   });
-  const view = render(createElement(PromptActions, props));
+  const view = renderActions();
   fireEvent.click(view.getByRole("button", { name: `Copy prompt: ${example.title}` }));
   await waitFor(() => assert.match(view.getByRole("status").textContent ?? "", /copy it manually/));
   assert.equal(
@@ -104,7 +125,7 @@ test("denied clipboard access explains manual copying and leaves Create this loo
 
 test("browsers without Clipboard API still offer a manual copy path", async () => {
   Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined });
-  const view = render(createElement(PromptActions, props));
+  const view = renderActions();
   fireEvent.click(view.getByRole("button", { name: `Copy prompt: ${example.title}` }));
   await waitFor(() => assert.match(view.getByRole("status").textContent ?? "", /copy it manually/));
 });
