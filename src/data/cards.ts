@@ -351,6 +351,28 @@ export const CARDS: readonly Card[] = [
     ],
   },
   {
+    themeId: "cozy-vintage-halloween-card",
+    slug: "cozy-vintage-halloween-family-cards",
+    name: "Cozy Vintage Halloween Card",
+    keyword: "cozy vintage halloween family card",
+    secondaryKeywords: [
+      "vintage halloween family card",
+      "pumpkin postcard family card",
+      "cozy halloween photo card",
+    ],
+    image: "/samples/theme-cozy-vintage-halloween-card.webp",
+    accent: "#9a654b",
+    accentSoft: "#f8e9df",
+    greeting: "Happy Halloween",
+    shortDescription:
+      "Hand-tinted postcard warmth, pumpkins, porch glow, friendly decorations, and greeting space.",
+    related: [
+      "halloween-family-cards",
+      "little-boo-pastel-halloween-family-photos",
+      "vintage-pumpkin-patch-postcard-family-photos",
+    ],
+  },
+  {
     themeId: "butter-yellow-summer-card",
     slug: "butter-yellow-summer-family-cards",
     name: "Butter Yellow Summer",
@@ -407,6 +429,28 @@ export const CARDS: readonly Card[] = [
     shortDescription:
       "Geometric arches, brass and chrome accents, and cream-black-gold celebration polish.",
     related: ["new-years-family-cards", "birthday-family-cards", "anniversary-family-cards"],
+  },
+  {
+    themeId: "poetcore-letterpress-family-card",
+    slug: "poetcore-letterpress-family-cards",
+    name: "Poetcore Letterpress Family Card",
+    keyword: "poetcore letterpress family card",
+    secondaryKeywords: [
+      "literary family greeting card",
+      "letterpress family portrait card",
+      "stationery family photo card",
+    ],
+    image: "/samples/theme-poetcore-letterpress-family-card.webp",
+    accent: "#6f5141",
+    accentSoft: "#f2eadf",
+    greeting: "With Love",
+    shortDescription:
+      "Letterpress paper texture, blank stationery, pressed flowers, warm shelves, and refined greeting space.",
+    related: [
+      "poetcore-letter-family-photos",
+      "poetcore-family-library-photos",
+      "save-the-date-family-cards",
+    ],
   },
   {
     themeId: "crochet-raffia-picnic-card",

@@ -91,7 +91,8 @@ test("checkout restore rejects unknown products, ambiguous parameters, and inval
 
 const panelProps = {
   generationId: "shoot-123",
-  ready: true,
+  completed: true,
+  imageCount: 4,
   checkingPayment: false,
   checkoutReturned: false,
   unlocking: false,
@@ -135,8 +136,79 @@ test("larger packs stay on the result screen and preserve the preview to unlock"
   );
 });
 
+for (const imageCount of [1, 2, 3]) {
+  test(`a completed ${imageCount}-image preview can be purchased or unlocked with credits`, async () => {
+    let body: unknown;
+    let unlocks = 0;
+    globalThis.fetch = async (_path, init) => {
+      body = JSON.parse(String(init?.body));
+      return Response.json({ error: "Test checkout unavailable" }, { status: 503 });
+    };
+    const view = render(
+      createElement(PreviewPurchasePanel, {
+        ...panelProps,
+        imageCount,
+        onUnlock: () => {
+          unlocks += 1;
+        },
+      }),
+    );
+    assert.ok(view.getByText(new RegExp(`Only ${imageCount} of 4 portraits could be completed`)));
+    assert.ok(view.getByText(/The pack price is unchanged, or you can use 1 existing credit/));
+    assert.equal(view.queryByText(/Keep all four portraits/), null);
+    const unlock = view.getByRole("button", { name: "Already have credits? Unlock this set" });
+    fireEvent.click(unlock);
+    assert.equal(unlocks, 1);
+    const buy = view.getByRole("button", {
+      name:
+        imageCount === 1 ? "Keep this portrait — $5" : `Keep these ${imageCount} portraits — $5`,
+    });
+    fireEvent.click(buy);
+    assert.equal((unlock as HTMLButtonElement).disabled, true);
+    await waitFor(() => {
+      assert.deepEqual(body, { packId: "single_keepsake", unlockGenerationId: "shoot-123" });
+      assert.equal((buy as HTMLButtonElement).disabled, false);
+    });
+    view.rerender(
+      createElement(PreviewPurchasePanel, { ...panelProps, imageCount, checkoutReturned: true }),
+    );
+    assert.equal(view.queryByRole("button", { name: /^Keep / }), null);
+    assert.equal(
+      (
+        view.getByRole("button", {
+          name: "Already have credits? Unlock this set",
+        }) as HTMLButtonElement
+      ).disabled,
+      false,
+    );
+  });
+}
+
+test("processing previews and empty completed previews cannot spend money or credits", () => {
+  const view = render(createElement(PreviewPurchasePanel, panelProps));
+  for (const props of [
+    ...[0, 1, 2, 3, 4].map((imageCount) => ({ completed: false, imageCount })),
+    { completed: true, imageCount: 0 },
+  ]) {
+    view.rerender(createElement(PreviewPurchasePanel, { ...panelProps, ...props }));
+    assert.equal(
+      (view.getByRole("button", { name: "Your portraits are developing…" }) as HTMLButtonElement)
+        .disabled,
+      true,
+    );
+    assert.equal(
+      (
+        view.getByRole("button", {
+          name: "Already have credits? Unlock this set",
+        }) as HTMLButtonElement
+      ).disabled,
+      true,
+    );
+  }
+});
+
 test("unfinished previews cannot be purchased and a payment return cannot trigger another purchase", () => {
-  const view = render(createElement(PreviewPurchasePanel, { ...panelProps, ready: false }));
+  const view = render(createElement(PreviewPurchasePanel, { ...panelProps, completed: false }));
   assert.equal(
     (view.getByRole("button", { name: "Your portraits are developing…" }) as HTMLButtonElement)
       .disabled,

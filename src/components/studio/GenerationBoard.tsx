@@ -162,7 +162,8 @@ export default function GenerationBoard({
       {isPreview && !err && (
         <PreviewPurchasePanel
           generationId={generationId}
-          ready={done && images.length >= 4}
+          completed={done}
+          imageCount={images.length}
           checkingPayment={finishingCheckoutUnlock}
           checkoutReturned={checkoutReturned}
           unlocking={unlocking}

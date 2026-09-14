@@ -196,6 +196,12 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "galactic-family-adventure",
+  "cozy-vintage-halloween-card",
+  "little-boo-pastel-halloween",
+  "neo-deco-holiday-portrait",
+  "woodland-storybook-companions",
+  "poetcore-letterpress-family-card",
   "butter-yellow-picnic",
   "neo-deco-family-portrait",
   "storybook-pen-pals",
@@ -247,6 +253,12 @@ const WEEKLY_TREND_THEME_IDS = [
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
+  "galactic-family-adventure-photos",
+  "cozy-vintage-halloween-family-cards",
+  "little-boo-pastel-halloween-family-photos",
+  "neo-deco-holiday-portrait-family-photos",
+  "woodland-storybook-companions-family-photos",
+  "poetcore-letterpress-family-cards",
   "butter-yellow-picnic-family-photos",
   "neo-deco-family-portrait-photos",
   "storybook-pen-pals-family-photos",
@@ -319,6 +331,12 @@ const NEW_WEEKLY_TREND_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
+  ["galactic-family-adventure", "galactic-family-adventure-photos"],
+  ["cozy-vintage-halloween-card", "cozy-vintage-halloween-family-cards"],
+  ["little-boo-pastel-halloween", "little-boo-pastel-halloween-family-photos"],
+  ["neo-deco-holiday-portrait", "neo-deco-holiday-portrait-family-photos"],
+  ["woodland-storybook-companions", "woodland-storybook-companions-family-photos"],
+  ["poetcore-letterpress-family-card", "poetcore-letterpress-family-cards"],
   ["butter-yellow-picnic", "butter-yellow-picnic-family-photos"],
   ["neo-deco-family-portrait", "neo-deco-family-portrait-photos"],
   ["storybook-pen-pals", "storybook-pen-pals-family-photos"],
@@ -354,10 +372,41 @@ const HALLOWEEN_THEME_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_CARD_THEME_IDS = new Set([
+  "cozy-vintage-halloween-card",
+  "poetcore-letterpress-family-card",
   "cozy-summerween-card",
   "summerween-pumpkin-glow",
   "polka-dot-porch-party",
 ]);
+
+const SELECTED_IP_SAFE_VIBE_CANDIDATES = [
+  ["galactic-family-adventure", "galactic-family-adventure-photos", "Galactic Family Adventure"],
+  [
+    "cozy-vintage-halloween-card",
+    "cozy-vintage-halloween-family-cards",
+    "Cozy Vintage Halloween Card",
+  ],
+  [
+    "little-boo-pastel-halloween",
+    "little-boo-pastel-halloween-family-photos",
+    "Little Boo Pastel Halloween",
+  ],
+  [
+    "neo-deco-holiday-portrait",
+    "neo-deco-holiday-portrait-family-photos",
+    "Neo Deco Holiday Portrait",
+  ],
+  [
+    "woodland-storybook-companions",
+    "woodland-storybook-companions-family-photos",
+    "Woodland Storybook Companions",
+  ],
+  [
+    "poetcore-letterpress-family-card",
+    "poetcore-letterpress-family-cards",
+    "Poetcore Letterpress Family Card",
+  ],
+] as const;
 
 const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
   (typeof NEW_WEEKLY_TREND_PAIRS)[number][0],
@@ -670,8 +719,29 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
   }
 });
 
+test("selected IP-safe weekly vibe candidates use exact labels and normal detail routes", () => {
+  const discoveryPages = [...VIBES, ...CARDS];
+
+  for (const [themeId, slug, label] of SELECTED_IP_SAFE_VIBE_CANDIDATES) {
+    const theme = getTheme(themeId);
+    const page = discoveryPages.find((entry) => entry.slug === slug);
+
+    assert.equal(theme.name, label);
+    assert.ok(page, `${slug} should be registered in the normal discovery catalogs`);
+    assert.equal(page.name, label);
+    assert.equal(getThemeDetailHref(theme), `/${slug}`);
+    assert.equal(page.image, theme.coverImage);
+  }
+});
+
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "galactic-family-adventure",
+    "cozy-vintage-halloween-card",
+    "little-boo-pastel-halloween",
+    "neo-deco-holiday-portrait",
+    "woodland-storybook-companions",
+    "poetcore-letterpress-family-card",
     "butter-yellow-picnic",
     "paprika-plaid-autumn",
     "summerween-pumpkin-glow",

@@ -8,7 +8,8 @@ const upgrades = [PRICING_PACKS.three_pack, PRICING_PACKS.eight_pack];
 
 export default function PreviewPurchasePanel({
   generationId,
-  ready,
+  completed,
+  imageCount,
   checkingPayment,
   checkoutReturned,
   unlocking,
@@ -17,7 +18,8 @@ export default function PreviewPurchasePanel({
   onUnlock,
 }: {
   generationId: string;
-  ready: boolean;
+  completed: boolean;
+  imageCount: number;
   checkingPayment: boolean;
   checkoutReturned: boolean;
   unlocking: boolean;
@@ -28,6 +30,8 @@ export default function PreviewPurchasePanel({
   const [showPacks, setShowPacks] = useState(false);
   const [checkoutPending, setCheckoutPending] = useState(false);
   const packsId = useId();
+  const ready = completed && imageCount > 0;
+  const selection = imageCount === 1 ? "this portrait" : `these ${imageCount} portraits`;
   const busy = checkoutPending || unlocking || checkingPayment;
   const canBuy = ready && !busy && !checkoutReturned;
 
@@ -57,7 +61,9 @@ export default function PreviewPurchasePanel({
               : checkoutReturned
                 ? "If your payment went through, use your credits below to unlock this set."
                 : ready
-                  ? "Keep all four portraits without watermarks, with high-resolution downloads and print-ready files."
+                  ? imageCount < 4
+                    ? `Only ${imageCount} of 4 portraits could be completed. You can keep ${imageCount === 1 ? "this portrait" : "these portraits"} without watermarks, with high-resolution downloads and print-ready files. The pack price is unchanged, or you can use 1 existing credit.`
+                    : "Keep all four portraits without watermarks, with high-resolution downloads and print-ready files."
                   : "Your watermarked portraits will appear below. Once the set is ready, you can unlock all four."}
           </p>
         </div>
@@ -73,7 +79,7 @@ export default function PreviewPurchasePanel({
               className="btn btn-coral btn-lg w-full !px-5 !text-base"
             >
               {ready
-                ? `Keep these 4 portraits — ${PRICING_PACKS.single_keepsake.price}`
+                ? `Keep ${selection} — ${PRICING_PACKS.single_keepsake.price}`
                 : "Your portraits are developing…"}
             </CheckoutButton>
             <span className="text-xs text-[color:var(--color-ink-muted)]">
