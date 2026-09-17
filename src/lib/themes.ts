@@ -1186,7 +1186,7 @@ export const THEMES: Theme[] = [
       "A polished holiday portrait with geometric fan arches, brass and chrome accents, velvet texture, winter greenery, and warm studio glamour.",
     category: "photoreal",
     provider: "nanobanana",
-    coverImage: "/samples/theme-neo-deco-holiday-portrait.webp",
+    coverImage: "/samples/theme-neo-deco-holiday-portrait-winter.webp",
     aspectRatio: "2:3",
     supportsPets: true,
     spec: {

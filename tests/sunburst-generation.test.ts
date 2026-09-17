@@ -8,7 +8,7 @@ import {
 } from "../src/lib/replicate/generate";
 import { GENERATION_MODEL_IDS, getModel } from "../src/lib/replicate/models";
 
-test("Flare sends all four references to each high-quality shot and supports retry/polling", async (t) => {
+test("Sunburst sends all four references to each high-quality shot and supports retry/polling", async (t) => {
   const previousToken = process.env.REPLICATE_API_TOKEN;
   const previousCdn = process.env.CLOUDFLARE_PUBLIC_URL;
   process.env.REPLICATE_API_TOKEN = "test-token";
@@ -31,8 +31,9 @@ test("Flare sends all four references to each high-quality shot and supports ret
   );
   const refs = ["a.jpg", "b.jpg", "c.jpg", "d.jpg"];
   const imageUrls = refs.map((ref) => `https://images.example.com/${ref}`);
-  const modelId = "gpt-image-2.5-flare";
+  const modelId = "gpt-image-2.5-sunburst";
   assert.ok(GENERATION_MODEL_IDS.includes(modelId));
+  assert.equal(getModel(modelId)?.priceUsd, 0.128);
   assert.equal(getModel(modelId)?.gptImageQuality, "high");
 
   const { slots } = await createGenerationPredictions({
@@ -47,7 +48,7 @@ test("Flare sends all four references to each high-quality shot and supports ret
   assert.equal(slots.length, 4);
   assert.equal(requests.length, 4);
   for (const [index, request] of requests.entries()) {
-    assert.equal(request.model, "openai/gpt-image-2.5-flare");
+    assert.equal(request.model, "openai/gpt-image-2.5-sunburst");
     assert.equal(request.input.quality, "high");
     assert.equal(request.input.number_of_images, 1);
     assert.equal(request.input.aspect_ratio, "2:3");
@@ -64,7 +65,7 @@ test("Flare sends all four references to each high-quality shot and supports ret
     aspectRatio: "1:1",
     imageUrls,
   });
-  assert.equal(requests[4].model, "openai/gpt-image-2.5-flare");
+  assert.equal(requests[4].model, "openai/gpt-image-2.5-sunburst");
   assert.equal(requests[4].input.quality, "high");
   t.mock.method(client.predictions, "get", async () => ({
     status: "succeeded",

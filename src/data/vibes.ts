@@ -602,7 +602,7 @@ export const VIBES: readonly Vibe[] = [
       "geometric holiday family portrait",
       "glam holiday family photoshoot",
     ],
-    image: "/samples/theme-neo-deco-holiday-portrait.webp",
+    image: "/samples/theme-neo-deco-holiday-portrait-winter.webp",
     shortDescription:
       "Geometric fan arches, brass and chrome, winter greenery, velvet texture, and warm studio glamour.",
     related: [

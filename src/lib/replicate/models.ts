@@ -11,8 +11,10 @@ export const MODELS = {
   nanoBananaPro: "google/nano-banana-pro",
   /** OpenAI GPT Image 2 - default photoreal model. */
   gptImage2: "openai/gpt-image-2",
-  /** OpenAI GPT Image 2.5 Flare - medium-quality family shoots. */
+  /** OpenAI GPT Image 2.5 Flare - high-quality family shoots. */
   gptImage25Flare: "openai/gpt-image-2.5-flare",
+  /** OpenAI GPT Image 2.5 Sunburst - high-quality family shoots. */
+  gptImage25Sunburst: "openai/gpt-image-2.5-sunburst",
   /** Print-ready upscaler (preferred). */
   clarityUpscaler: "philz1337x/clarity-upscaler",
   /** Fallback upscaler when Clarity is unavailable. */
@@ -32,7 +34,8 @@ export type GenerationModelId =
   | "nano-banana-pro"
   | "gpt-image-2"
   | "gpt-image-2-high"
-  | "gpt-image-2.5-flare";
+  | "gpt-image-2.5-flare"
+  | "gpt-image-2.5-sunburst";
 
 export type GptImageQuality = "low" | "medium" | "high" | "auto";
 
@@ -52,15 +55,25 @@ export type GenerationModel = {
 const SUPPORTED_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
 
 export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
+  "gpt-image-2.5-sunburst": {
+    id: "gpt-image-2.5-sunburst",
+    slug: MODELS.gptImage25Sunburst,
+    label: "GPT Image 2.5 Sunburst · Pro quality",
+    priceUsd: 0.128,
+    priceLabel: "Approx. $0.128 / image",
+    tierLabel: "High quality",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "high",
+  },
   "gpt-image-2.5-flare": {
     id: "gpt-image-2.5-flare",
     slug: MODELS.gptImage25Flare,
-    label: "GPT Image 2.5 Flare",
-    priceUsd: null,
-    priceLabel: "Usage-based pricing",
-    tierLabel: "Medium quality",
+    label: "GPT Image 2.5 Flare · FAST",
+    priceUsd: 0.13,
+    priceLabel: "Approx. $0.13 / image",
+    tierLabel: "High quality",
     supportedAspectRatios: SUPPORTED_ASPECTS,
-    gptImageQuality: "medium",
+    gptImageQuality: "high",
   },
   nanobanana: {
     id: "nanobanana",
