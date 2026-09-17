@@ -1,16 +1,37 @@
 "use client";
 
-import { useTransition } from "react";
+import { useLayoutEffect, useRef, useTransition } from "react";
 import { authClient } from "@/lib/auth-client";
 
 export default function ImpersonationBanner() {
   const { data } = authClient.useSession();
   const [pending, start] = useTransition();
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   // `impersonatedBy` is set by Better Auth's admin plugin only while an admin
   // is impersonating another user. Hidden for all normal sessions.
   const impersonatedBy = (data?.session as { impersonatedBy?: string | null } | undefined)
     ?.impersonatedBy;
+  useLayoutEffect(() => {
+    const banner = bannerRef.current;
+    if (!impersonatedBy || !banner) return;
+
+    // Keep sticky navigation below the banner, including when its text wraps.
+    const updateHeight = () => {
+      document.documentElement.style.setProperty(
+        "--impersonation-banner-height",
+        `${banner.getBoundingClientRect().height}px`,
+      );
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(banner);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--impersonation-banner-height");
+    };
+  }, [impersonatedBy]);
+
   if (!impersonatedBy) return null;
 
   function stop() {
@@ -22,8 +43,11 @@ export default function ImpersonationBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[100] flex items-center justify-center gap-3 bg-[color:var(--color-coral-deep)] px-4 py-2 text-sm font-medium text-white shadow-md">
-      <span className="truncate">
+    <div
+      ref={bannerRef}
+      className="sticky top-0 z-[100] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-[color:var(--color-coral-deep)] px-4 py-2 text-sm font-medium text-white shadow-md"
+    >
+      <span className="min-w-0 break-all text-center">
         Impersonating <strong>{data?.user?.email}</strong>
       </span>
       <button

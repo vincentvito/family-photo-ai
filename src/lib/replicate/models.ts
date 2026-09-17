@@ -11,6 +11,8 @@ export const MODELS = {
   nanoBananaPro: "google/nano-banana-pro",
   /** OpenAI GPT Image 2 - default photoreal model. */
   gptImage2: "openai/gpt-image-2",
+  /** OpenAI GPT Image 2.5 Flare - medium-quality family shoots. */
+  gptImage25Flare: "openai/gpt-image-2.5-flare",
   /** Print-ready upscaler (preferred). */
   clarityUpscaler: "philz1337x/clarity-upscaler",
   /** Fallback upscaler when Clarity is unavailable. */
@@ -29,7 +31,8 @@ export type GenerationModelId =
   | "nanobanana"
   | "nano-banana-pro"
   | "gpt-image-2"
-  | "gpt-image-2-high";
+  | "gpt-image-2-high"
+  | "gpt-image-2.5-flare";
 
 export type GptImageQuality = "low" | "medium" | "high" | "auto";
 
@@ -37,8 +40,8 @@ export type GenerationModel = {
   id: GenerationModelId;
   slug: ModelSlug;
   label: string;
-  /** Roughly USD per output image at the tier we use. */
-  priceUsd: number;
+  /** Roughly USD per output image; null when no fixed estimate is available. */
+  priceUsd: number | null;
   priceLabel: string;
   /** Configuration tier shown in the UI, such as "1K resolution" or "Medium quality". */
   tierLabel: string;
@@ -49,6 +52,16 @@ export type GenerationModel = {
 const SUPPORTED_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
 
 export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
+  "gpt-image-2.5-flare": {
+    id: "gpt-image-2.5-flare",
+    slug: MODELS.gptImage25Flare,
+    label: "GPT Image 2.5 Flare",
+    priceUsd: null,
+    priceLabel: "Usage-based pricing",
+    tierLabel: "Medium quality",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "medium",
+  },
   nanobanana: {
     id: "nanobanana",
     slug: MODELS.nanoBanana,

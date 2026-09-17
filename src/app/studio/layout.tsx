@@ -25,7 +25,7 @@ export default async function StudioLayout({ children }: { children: React.React
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
+      <header className="sticky top-[var(--impersonation-banner-height,0px)] z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 sm:gap-6 sm:px-8">
           <BrandLogo
             href={localizePath("/", locale)}

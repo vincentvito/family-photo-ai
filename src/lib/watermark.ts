@@ -31,42 +31,51 @@ function pixelTextWidth(text: string, size: number) {
   }, 0);
 }
 
-function pixelText(text: string, x: number, y: number, size: number) {
-  const gap = size;
-  let cursor = x;
-  const rects: string[] = [];
+type Color = readonly [number, number, number, number];
 
-  for (const char of text.toUpperCase()) {
-    if (char === " ") {
-      cursor += size * 4;
-      continue;
+// Next.js blocks SVG loaders in the shared Sharp instance. Draw our fixed
+// pixel lettering directly into an RGBA overlay instead of decoding an SVG.
+function watermarkCanvas(width: number, height: number) {
+  const pixels = Buffer.alloc(width * height * 4);
+  function rect(x: number, y: number, w: number, h: number, color: Color) {
+    const [r, g, b, alpha] = color;
+    for (let row = Math.max(0, Math.round(y)); row < Math.min(height, Math.round(y + h)); row++) {
+      for (let col = Math.max(0, Math.round(x)); col < Math.min(width, Math.round(x + w)); col++) {
+        const offset = (row * width + col) * 4;
+        const oldAlpha = pixels[offset + 3] / 255;
+        const outAlpha = alpha + oldAlpha * (1 - alpha);
+        for (const [channel, value] of [r, g, b].entries()) {
+          pixels[offset + channel] = Math.round(
+            (value * alpha + pixels[offset + channel] * oldAlpha * (1 - alpha)) / outAlpha,
+          );
+        }
+        pixels[offset + 3] = Math.round(outAlpha * 255);
+      }
     }
-
-    const rows = LETTERS[char];
-    if (!rows) {
-      cursor += size * 6;
-      continue;
-    }
-
-    rows.forEach((row, rowIndex) => {
-      [...row].forEach((cell, colIndex) => {
-        if (cell !== "1") return;
-        rects.push(
-          `<rect x="${cursor + colIndex * size}" y="${y + rowIndex * size}" width="${size}" height="${size}" rx="${size * 0.18}" />`,
-        );
-      });
-    });
-    cursor += size * 5 + gap;
   }
-
-  return rects.join("");
+  function text(value: string, x: number, y: number, size: number, color: Color) {
+    let cursor = x;
+    for (const char of value.toUpperCase()) {
+      if (char === " ") {
+        cursor += size * 4;
+        continue;
+      }
+      LETTERS[char]?.forEach((row, rowIndex) => {
+        [...row].forEach((cell, colIndex) => {
+          if (cell === "1") rect(cursor + colIndex * size, y + rowIndex * size, size, size, color);
+        });
+      });
+      cursor += size * 6;
+    }
+  }
+  return { pixels, rect, text };
 }
 
 export async function addPreviewWatermark(buffer: Buffer): Promise<Buffer> {
   const image = sharp(buffer, { failOn: "none" }).rotate();
   const metadata = await image.metadata();
-  const width = metadata.width ?? 1200;
-  const height = metadata.height ?? 800;
+  const width = metadata.autoOrient.width;
+  const height = metadata.autoOrient.height;
   const fontSize = Math.max(18, Math.round(Math.min(width, height) / 20));
   const watermarkPixel = Math.max(1.25, fontSize / 16);
   const badgePixel = Math.max(2, Math.round(fontSize / 16));
@@ -84,24 +93,38 @@ export async function addPreviewWatermark(buffer: Buffer): Promise<Buffer> {
   const badgeWidth = Math.min(width * 0.34, badgePixel * 86);
   const badgeHeight = fontSize * 1.35;
 
-  const svg = `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="preview-watermark" patternUnits="userSpaceOnUse" width="${fontSize * 5.6}" height="${fontSize * 2.6}">
-          <g fill="rgba(255,255,255,0.07)">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 0.9, watermarkPixel)}</g>
-          <g fill="rgba(31,26,36,0.025)" transform="translate(${watermarkPixel * 0.45}, ${watermarkPixel * 0.45})">${pixelText(WATERMARK_TEXT, fontSize * 0.5, fontSize * 0.9, watermarkPixel)}</g>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#preview-watermark)" />
-      <rect x="${width * 0.04}" y="${height * 0.04}" rx="8" ry="8" width="${badgeWidth}" height="${badgeHeight}" fill="rgba(31,26,36,0.28)" />
-      <g fill="rgba(255,255,255,0.78)">${pixelText(BADGE_TEXT, width * 0.055, height * 0.04 + fontSize * 0.33, badgePixel)}</g>
-      <rect x="${urlBoxX}" y="${urlBoxY}" rx="8" ry="8" width="${urlBoxWidth}" height="${urlBoxHeight}" fill="rgba(31,26,36,0.26)" />
-      <g fill="rgba(255,255,255,0.76)">${pixelText(URL_TEXT, urlX, urlY, urlPixel)}</g>
-    </svg>
-  `;
+  const overlay = watermarkCanvas(width, height);
+  for (let y = 0; y < height; y += fontSize * 2.6) {
+    for (let x = 0; x < width; x += fontSize * 5.6) {
+      overlay.text(
+        WATERMARK_TEXT,
+        x + fontSize * 0.5,
+        y + fontSize * 0.9,
+        watermarkPixel,
+        [255, 255, 255, 0.2],
+      );
+      overlay.text(
+        WATERMARK_TEXT,
+        x + fontSize * 0.5 + watermarkPixel * 0.45,
+        y + fontSize * 0.9 + watermarkPixel * 0.45,
+        watermarkPixel,
+        [31, 26, 36, 0.08],
+      );
+    }
+  }
+  overlay.rect(width * 0.04, height * 0.04, badgeWidth, badgeHeight, [31, 26, 36, 0.4]);
+  overlay.text(
+    BADGE_TEXT,
+    width * 0.055,
+    height * 0.04 + fontSize * 0.33,
+    badgePixel,
+    [255, 255, 255, 0.9],
+  );
+  overlay.rect(urlBoxX, urlBoxY, urlBoxWidth, urlBoxHeight, [31, 26, 36, 0.4]);
+  overlay.text(URL_TEXT, urlX, urlY, urlPixel, [255, 255, 255, 0.9]);
 
   return image
-    .composite([{ input: Buffer.from(svg), blend: "over" }])
+    .composite([{ input: overlay.pixels, raw: { width, height, channels: 4 }, blend: "over" }])
     .jpeg({ quality: 88, mozjpeg: true })
     .toBuffer();
 }
