@@ -4,6 +4,7 @@ import test from "node:test";
 import { buildGenerationPredictionPrompts } from "../src/lib/replicate/generate";
 import { buildGenerationPrompt } from "../src/lib/prompts";
 import { getTheme, withAspectRatioOverride } from "../src/lib/themes";
+import { getThemeVariationPrompts } from "../src/lib/theme-variations";
 
 test("buildGenerationPredictionPrompts uses per-slot vibe prompts", () => {
   const prompts = buildGenerationPredictionPrompts({
@@ -77,4 +78,105 @@ test("aspect overrides update theme asset type language", () => {
 
   assert.match(prompt, /A 3:2 Dutch-Golden-Age style oil painting/);
   assert.doesNotMatch(prompt, /A 2:3 Dutch-Golden-Age style oil painting/);
+});
+
+test("layout space in either prompt section does not add outer-space direction", () => {
+  for (const layout of [
+    "negative space above the subjects",
+    "greeting space on the left",
+    "blank wall space behind the subjects",
+    "enough space around the subjects",
+  ]) {
+    for (const section of ["base", "variation"]) {
+      const [prompt] = buildGenerationPredictionPrompts({
+        basePrompt: `A natural group photograph.${section === "base" ? ` Leave ${layout}.` : ""}`,
+        aspectRatio: "3:2",
+        variants: 1,
+        variationPrompts: [
+          `A close portrait.${section === "variation" ? ` Leave ${layout}.` : ""}`,
+        ],
+      });
+
+      assert.ok(prompt.includes(layout), `${section}: preserve the requested ${layout}`);
+      assert.doesNotMatch(prompt, /Subtle awe and adventurous curiosity/, `${section}: ${layout}`);
+      assert.match(prompt, /Scene pressure: low-density scene/, `${section}: ${layout}`);
+      assert.match(prompt, /Relaxed warm expressions/, `${section}: ${layout}`);
+    }
+  }
+});
+
+test("popular portrait and card variants do not get accidental space expressions", () => {
+  const subjects = [
+    { personId: "adult-1", name: "Adult 1", role: "adult" as const, referencePaths: ["a.jpg"] },
+  ];
+  for (const themeId of [
+    "golden-hour-beach",
+    "stacked-love",
+    "leibovitz-studio",
+    "vintage-polaroid",
+    "card-christmas",
+    "wes-anderson",
+    "pixar-family",
+    "kinfolk-kitchen",
+    "autumn-cabin",
+    "card-mothers-day",
+  ]) {
+    const theme = getTheme(themeId);
+    const prompts = buildGenerationPredictionPrompts({
+      basePrompt: buildGenerationPrompt(theme, subjects),
+      aspectRatio: theme.aspectRatio,
+      variationPrompts: getThemeVariationPrompts(themeId, theme.category),
+    });
+
+    prompts.forEach((prompt, index) => {
+      assert.doesNotMatch(
+        prompt,
+        /Subtle awe and adventurous curiosity/,
+        `${themeId} slot ${index + 1}`,
+      );
+      assert.doesNotMatch(prompt, /Scene pressure: complex scene/, `${themeId} slot ${index + 1}`);
+    });
+  }
+});
+
+test("explicit outer-space scenes retain adventurous expressions and scene handling", () => {
+  for (const scene of [
+    "A portrait in outer space",
+    "A portrait in deep space",
+    "A group floating in space",
+    "A portrait inside a space station",
+    "A portrait inside a space-station module",
+    "A SPACE-OPERA portrait",
+    "A space-adventure portrait",
+  ]) {
+    const [prompt] = buildGenerationPredictionPrompts({
+      basePrompt: scene,
+      aspectRatio: "3:2",
+      variants: 1,
+      variationPrompts: ["A close portrait with negative space for a greeting."],
+    });
+
+    assert.match(prompt, /Subtle awe and adventurous curiosity/, scene);
+    assert.match(prompt, /Scene pressure: complex scene/, scene);
+  }
+
+  for (const themeId of [
+    "galactic-family-adventure",
+    "galactic-glow-family-adventure",
+    "zero-gravity-family",
+  ]) {
+    const theme = getTheme(themeId);
+    const prompts = buildGenerationPredictionPrompts({
+      basePrompt: buildGenerationPrompt(theme, [
+        { personId: "adult-1", name: "Adult 1", role: "adult", referencePaths: ["a.jpg"] },
+      ]),
+      aspectRatio: theme.aspectRatio,
+      variationPrompts: getThemeVariationPrompts(themeId, theme.category),
+    });
+
+    for (const prompt of prompts) {
+      assert.match(prompt, /Subtle awe and adventurous curiosity/, themeId);
+      assert.match(prompt, /Scene pressure: complex scene/, themeId);
+    }
+  }
 });

@@ -55,6 +55,11 @@ type CompositionMode = {
 
 type ScenePressure = "low" | "medium" | "high" | "very-high";
 
+// Bare "space" also describes composition (negative, greeting, or wall space).
+// Require an explicit setting before applying outer-space scene direction.
+const SPACE_SCENE_PATTERN =
+  /\b(?:(?:outer|deep|in)[\s-]+space|space[\s-]+(?:station|opera|adventure))\b/iu;
+
 /**
  * Fan out one Replicate prediction per variant against the chosen model and
  * return the slot records (id + retries=0). Predictions run async on
@@ -387,7 +392,10 @@ function stripCompositionLanguage(prompt: string): string {
 }
 
 function getScenePressure(text: string): ScenePressure {
-  if (/\b(space|galactic|starship|hangar|royal|palace|court|guardian)\b/iu.test(text)) {
+  if (
+    SPACE_SCENE_PATTERN.test(text) ||
+    /\b(galactic|starship|hangar|royal|palace|court|guardian)\b/iu.test(text)
+  ) {
     return "very-high";
   }
   if (/\b(crosswalk|zebra|runway|fashion|stage|concert|editorial|city-office)\b/iu.test(text)) {
@@ -765,7 +773,10 @@ function getExpressionDirection(text: string, mode: CompositionMode): string {
   if (/\b(crosswalk|zebra|street-crossing|1960s|music-magazine)\b/iu.test(text)) {
     return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Calm confident expressions, natural and unforced.`;
   }
-  if (/\b(space|galactic|starship|hangar|adventure|guardian)\b/iu.test(text)) {
+  if (
+    SPACE_SCENE_PATTERN.test(text) ||
+    /\b(galactic|starship|hangar|adventure|guardian)\b/iu.test(text)
+  ) {
     return `${metadata} Expressions should emotionally match the cinematic scene, mood, lighting, and atmosphere rather than copying the expressions from the source photos. Subtle awe and adventurous curiosity without exaggerated acting.`;
   }
   if (/\b(runway|fashion|editorial|office|luxury|stage|concert)\b/iu.test(text)) {
