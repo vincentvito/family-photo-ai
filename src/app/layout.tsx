@@ -225,13 +225,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           strategy="afterInteractive"
         />
         <GoogleAnalytics measurementId="G-2QKFPB9239" />
-        <Script
-          defer
-          src="https://datafa.st/js/script.js"
-          data-website-id="dfid_YafakExfgo6HFzfRtuqvx"
-          data-domain="familyshoot.com"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
