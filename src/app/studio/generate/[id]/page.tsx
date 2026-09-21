@@ -5,7 +5,7 @@ import { resolveTheme } from "@/lib/themes";
 import { getThemeDisplayName } from "@/data/theme-display-names";
 import { studioDaysRemaining, studioRetentionDays } from "@/lib/retention";
 import GenerationBoard from "@/components/studio/GenerationBoard";
-import { getCurrentUser } from "@/lib/auth-helpers";
+import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +19,7 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
   const theme = resolveTheme(state.generation);
   const retentionDays = studioRetentionDays(state.generation.packTier);
   const daysLeft = studioDaysRemaining(state.generation.createdAt, state.generation.packTier);
+  const admin = await isAdmin();
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16">
@@ -38,6 +39,15 @@ export default async function GeneratePage({ params }: { params: Promise<{ id: s
           This shoot stays available for{" "}
           {daysLeft === 1 ? "1 more day" : `${Math.min(daysLeft, retentionDays)} days`}.
         </p>
+        {admin && (
+          <p className="mt-3 text-xs text-[color:var(--color-ink-muted)]">
+            Admin test · Method:{" "}
+            {state.generation.generationMethod === "vibe-reference"
+              ? "Vibe image reference"
+              : "Current prompts"}
+            {" · "}Model: {state.generation.model}
+          </p>
+        )}
       </div>
 
       <Suspense>

@@ -15,6 +15,7 @@ export type ConfirmDialogProps = {
   tone?: Tone;
   pending?: boolean;
   confirmDisabled?: boolean;
+  wide?: boolean;
   /** Optional content rendered between the description and the action row. */
   children?: ReactNode;
   onConfirm: () => void;
@@ -55,6 +56,7 @@ export default function ConfirmDialog({
   tone = "neutral",
   pending = false,
   confirmDisabled = false,
+  wide = false,
   children,
   onConfirm,
   onCancel,
@@ -65,7 +67,16 @@ export default function ConfirmDialog({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCancel();
-      if (e.key === "Enter" && !confirmDisabled && !pending) onConfirm();
+      if (
+        e.key === "Enter" &&
+        !confirmDisabled &&
+        !pending &&
+        !(
+          e.target instanceof HTMLElement &&
+          e.target.closest("button, input, textarea, select, [contenteditable=true]")
+        )
+      )
+        onConfirm();
     };
     window.addEventListener("keydown", onKey);
     confirmRef.current?.focus();
@@ -97,7 +108,7 @@ export default function ConfirmDialog({
             exit={{ opacity: 0 }}
           />
           <motion.div
-            className="relative max-h-[min(90vh,820px)] w-full max-w-md overflow-y-auto rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]"
+            className={`relative max-h-[min(90vh,820px)] w-full ${wide ? "max-w-3xl" : "max-w-md"} overflow-y-auto rounded-[var(--radius-xl)] bg-[color:var(--color-bg-elevated)] p-8 shadow-[var(--shadow-xl)]`}
             initial={{ y: 16, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 10, opacity: 0, scale: 0.98 }}

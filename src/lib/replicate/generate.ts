@@ -3,6 +3,8 @@ import { MODEL_CATALOG, type GenerationModelId, isAspectSupported } from "./mode
 import { publicUrl } from "@/lib/storage";
 import type { AspectRatio, Subject } from "@/lib/providers/types";
 import { CUSTOM_SCENE_COMPOSITION_DIRECTIVE } from "@/lib/themes";
+import type { ReferenceOutputInput } from "@/lib/vibe-reference";
+import { referenceInputUrls } from "@/lib/vibe-reference";
 
 export type StartPredictionsArgs = {
   prompt: string;
@@ -13,6 +15,8 @@ export type StartPredictionsArgs = {
   variants?: number;
   variationPrompts?: readonly string[];
   modelId: GenerationModelId;
+  /** Admin-edited complete prompts bypass the variant composition rules. */
+  exactPrompts?: boolean;
 };
 
 /**
@@ -23,10 +27,13 @@ export type StartPredictionsArgs = {
 export type PredictionSlot = {
   id: string;
   retries: number;
+  slotIndex?: number;
   basePrompt?: string;
+  exactPrompt?: boolean;
   variationPrompt?: string;
   themeId?: string;
   artStyleId?: string;
+  referenceInputIndex?: number;
 };
 
 export function resolvePredictionRetryContext(
@@ -67,6 +74,7 @@ const SPACE_SCENE_PATTERN =
  */
 export async function createGenerationPredictions(
   args: StartPredictionsArgs,
+  onSlotCreated?: (slot: PredictionSlot, slotIndex: number) => Promise<void>,
 ): Promise<{ slots: PredictionSlot[] }> {
   if (!isAspectSupported(args.modelId, args.aspectRatio)) {
     throw new Error(
@@ -88,16 +96,35 @@ export async function createGenerationPredictions(
   }));
 
   const results = await Promise.allSettled(
-    slotInputs.map((slot, i) =>
-      createSinglePrediction({
+    slotInputs.map(async (slot, i) => {
+      const id = await createSinglePrediction({
         modelId: args.modelId,
         basePrompt: slot.basePrompt,
         variantIndex: i,
         aspectRatio: args.aspectRatio,
         variationPrompt: slot.variationPrompt,
         imageUrls,
-      }),
-    ),
+        exactPrompt: args.exactPrompts,
+      });
+      const createdSlot: PredictionSlot = {
+        id,
+        retries: 0,
+        ...(args.exactPrompts || slot.basePrompt !== args.prompt
+          ? { basePrompt: slot.basePrompt }
+          : {}),
+        ...(!args.exactPrompts && slot.variationPrompt
+          ? { variationPrompt: slot.variationPrompt }
+          : {}),
+        ...(args.exactPrompts ? { exactPrompt: true } : {}),
+      };
+      try {
+        await onSlotCreated?.(createdSlot, i);
+      } catch (error) {
+        await Promise.allSettled([cancelPrediction(id)]);
+        throw error;
+      }
+      return createdSlot;
+    }),
   );
 
   const rejected = results.find(
@@ -105,31 +132,71 @@ export async function createGenerationPredictions(
   );
   if (rejected) {
     const createdIds = results.flatMap((result) =>
-      result.status === "fulfilled" ? [result.value] : [],
+      result.status === "fulfilled" ? [result.value.id] : [],
     );
     await Promise.allSettled(createdIds.map((id) => cancelPrediction(id)));
     throw rejected.reason;
   }
 
-  const ids = results.map((result) => (result as PromiseFulfilledResult<string>).value);
-
   return {
-    slots: ids.map((id, index) => ({
-      id,
-      retries: 0,
-      ...(slotInputs[index].basePrompt !== args.prompt
-        ? { basePrompt: slotInputs[index].basePrompt }
-        : {}),
-      ...(slotInputs[index].variationPrompt
-        ? { variationPrompt: slotInputs[index].variationPrompt }
-        : {}),
-    })),
+    slots: results.map((result) => (result as PromiseFulfilledResult<PredictionSlot>).value),
   };
 }
 
-async function cancelPrediction(predictionId: string): Promise<void> {
+export async function cancelPrediction(predictionId: string): Promise<void> {
   const client = await getReplicateClient();
   await client.predictions.cancel(predictionId);
+}
+
+export async function createReferencePredictions(
+  inputs: readonly ReferenceOutputInput[],
+  onSlotCreated?: (slot: PredictionSlot, slotIndex: number) => Promise<void>,
+): Promise<{ slots: PredictionSlot[] }> {
+  const results = await Promise.allSettled(
+    inputs.map(async (input, index) => {
+      const id = await createSavedReferencePrediction(input);
+      const slot: PredictionSlot = {
+        id,
+        retries: 0,
+        themeId: input.themeId,
+        referenceInputIndex: index,
+      };
+      try {
+        await onSlotCreated?.(slot, index);
+      } catch (error) {
+        await Promise.allSettled([cancelPrediction(id)]);
+        throw error;
+      }
+      return slot;
+    }),
+  );
+  const failure = results.find(
+    (result): result is PromiseRejectedResult => result.status === "rejected",
+  );
+  if (failure) {
+    await Promise.allSettled(
+      results.flatMap((result) =>
+        result.status === "fulfilled" ? [cancelPrediction(result.value.id)] : [],
+      ),
+    );
+    throw failure.reason;
+  }
+  return {
+    slots: results.map((result) => (result as PromiseFulfilledResult<PredictionSlot>).value),
+  };
+}
+
+export function createSavedReferencePrediction(input: ReferenceOutputInput): Promise<string> {
+  return createSinglePrediction({
+    modelId: input.modelId,
+    modelSlug: input.modelSlug,
+    basePrompt: input.prompt,
+    variantIndex: input.outputIndex,
+    aspectRatio: input.aspectRatio,
+    imageUrls: referenceInputUrls(input),
+    exactPrompt: true,
+    providerSettings: input.providerSettings,
+  });
 }
 
 /**
@@ -140,22 +207,28 @@ async function cancelPrediction(predictionId: string): Promise<void> {
  */
 export async function createSinglePrediction(args: {
   modelId: GenerationModelId;
+  modelSlug?: ReferenceOutputInput["modelSlug"];
   basePrompt: string;
   variantIndex: number;
   aspectRatio: AspectRatio;
   variationPrompt?: string;
   variationPrompts?: readonly string[];
   imageUrls: string[];
+  /** Exact saved prompt for the reference method. */
+  exactPrompt?: boolean;
+  providerSettings?: ReferenceOutputInput["providerSettings"];
 }): Promise<string> {
   const client = await getReplicateClient();
   const model = MODEL_CATALOG[args.modelId];
-  const prompt = buildVariantPrompt(
-    args.basePrompt,
-    args.variantIndex,
-    args.aspectRatio,
-    args.variationPrompt,
-    args.variationPrompts,
-  );
+  const prompt = args.exactPrompt
+    ? args.basePrompt
+    : buildVariantPrompt(
+        args.basePrompt,
+        args.variantIndex,
+        args.aspectRatio,
+        args.variationPrompt,
+        args.variationPrompts,
+      );
 
   const input =
     args.modelId === "nanobanana"
@@ -163,30 +236,30 @@ export async function createSinglePrediction(args: {
           prompt,
           image_input: args.imageUrls,
           aspect_ratio: args.aspectRatio,
-          resolution: "1K",
-          output_format: "jpg",
+          resolution: args.providerSettings?.resolution ?? "1K",
+          output_format: args.providerSettings?.outputFormat ?? "jpg",
         }
       : args.modelId === "nano-banana-pro"
         ? {
             prompt,
             image_input: args.imageUrls,
             aspect_ratio: args.aspectRatio,
-            resolution: "2K",
-            output_format: "jpg",
-            safety_filter_level: "block_only_high",
+            resolution: args.providerSettings?.resolution ?? "2K",
+            output_format: args.providerSettings?.outputFormat ?? "jpg",
+            safety_filter_level: args.providerSettings?.safetyFilterLevel ?? "block_only_high",
           }
         : {
             prompt,
             input_images: args.imageUrls,
             aspect_ratio: args.aspectRatio,
-            quality: model.gptImageQuality ?? "medium",
+            quality: args.providerSettings?.quality ?? model.gptImageQuality ?? "medium",
             number_of_images: 1,
-            output_format: "jpeg",
-            moderation: "low",
+            output_format: args.providerSettings?.outputFormat ?? "jpeg",
+            moderation: args.providerSettings?.moderation ?? "low",
           };
 
   const prediction = await client.predictions.create({
-    model: model.slug,
+    model: args.modelSlug ?? model.slug,
     input,
   });
   return prediction.id;

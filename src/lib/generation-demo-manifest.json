@@ -1,0 +1,956 @@
+{
+  "golden-hour-beach": {
+    "assetId": "golden-hour-beach",
+    "version": "v1",
+    "source": "/samples/theme-golden-hour-beach.jpg",
+    "key": "generation-demos/v1/golden-hour-beach-af7e01f57fc9.jpg",
+    "sha256": "af7e01f57fc98e0d4ea386c2153493a48704770e37f710ba8f0f9bdb347923d4",
+    "direction": "Warm, late-afternoon light on the sand.",
+    "category": "photoreal"
+  },
+  "autumn-cabin": {
+    "assetId": "autumn-cabin",
+    "version": "v1",
+    "source": "/samples/theme-autumn-cabin.jpg",
+    "key": "generation-demos/v1/autumn-cabin-86120f59c490.jpg",
+    "sha256": "86120f59c4908cb65c5e1930e59e5391e02e7f069a8a9552496ac65f28066510",
+    "direction": "A wood-sided cabin on a crisp October morning.",
+    "category": "photoreal"
+  },
+  "kinfolk-kitchen": {
+    "assetId": "kinfolk-kitchen",
+    "version": "v1",
+    "source": "/samples/theme-kinfolk-kitchen.jpg",
+    "key": "generation-demos/v1/kinfolk-kitchen-e303479ab15a.jpg",
+    "sha256": "e303479ab15a2f01ecab447c130841109881c945a670f0c30f8f2ca7ce086b6e",
+    "direction": "A quiet Sunday-morning kitchen.",
+    "category": "photoreal"
+  },
+  "vintage-polaroid": {
+    "assetId": "vintage-polaroid",
+    "version": "v1",
+    "source": "/samples/theme-vintage-polaroid.jpg",
+    "key": "generation-demos/v1/vintage-polaroid-093130de40e3.jpg",
+    "sha256": "093130de40e3ff3f4c71a05541447ad68475ad3dc57659f7b430e474c94b7f9c",
+    "direction": "Instant film, slightly faded.",
+    "category": "photoreal"
+  },
+  "leibovitz-studio": {
+    "assetId": "leibovitz-studio",
+    "version": "v1",
+    "source": "/samples/theme-leibovitz.jpg",
+    "key": "generation-demos/v1/leibovitz-studio-0e3e7538dd42.jpg",
+    "sha256": "0e3e7538dd42abb8c6ab423faa95f5e94ef65842d7e60d1e01ae32fce7848bb6",
+    "direction": "Editorial, cinematic.",
+    "category": "photoreal"
+  },
+  "stacked-love": {
+    "assetId": "stacked-love",
+    "version": "v1",
+    "source": "/samples/theme-stacked-love.jpg",
+    "key": "generation-demos/v1/stacked-love-1c4bbaaa2217.jpg",
+    "sha256": "1c4bbaaa22173435b77c107a65dcf366db26d1676a6f03f3e948071dfe34376c",
+    "direction": "A close black-and-white studio portrait with faces gently stacked together.",
+    "category": "photoreal"
+  },
+  "wes-anderson": {
+    "assetId": "wes-anderson",
+    "version": "v1",
+    "source": "/samples/theme-wes-anderson.jpg",
+    "key": "generation-demos/v1/wes-anderson-b024c59a32fc.jpg",
+    "sha256": "b024c59a32fc19efa5fc0315b53e13ddab7277f3f731572650b5cd25d4a26413",
+    "direction": "Dead-center framing, pastel wardrobe.",
+    "category": "photoreal"
+  },
+  "national-geographic": {
+    "assetId": "national-geographic",
+    "version": "v1",
+    "source": "/samples/theme-natgeo.jpg",
+    "key": "generation-demos/v1/national-geographic-328d47be0271.jpg",
+    "sha256": "328d47be0271b9753084fcffbba4af9b904a4cb3795fbfc760d80beb2ac4510f",
+    "direction": "On a windswept ridge at dawn.",
+    "category": "photoreal"
+  },
+  "film-noir": {
+    "assetId": "film-noir",
+    "version": "v1",
+    "source": "/samples/theme-film-noir.jpg",
+    "key": "generation-demos/v1/film-noir-c5cf1dc95249.jpg",
+    "sha256": "c5cf1dc95249e8a811162fdfc0ac260d36978843763efd428aa995a0ae233b25",
+    "direction": "Black-and-white, venetian-blind shadows.",
+    "category": "photoreal"
+  },
+  "christmas-morning": {
+    "assetId": "christmas-morning",
+    "version": "v1",
+    "source": "/samples/theme-christmas-morning.jpg",
+    "key": "generation-demos/v1/christmas-morning-dd5b932197e1.jpg",
+    "sha256": "dd5b932197e11e904060f388d6bde8144864841a01b891ffbcc3c7ea468b46f1",
+    "direction": "The tree in the background, pajamas, warm lamplight.",
+    "category": "photoreal"
+  },
+  "tuscan-summer": {
+    "assetId": "tuscan-summer",
+    "version": "v1",
+    "source": "/samples/theme-tuscan-summer.jpg",
+    "key": "generation-demos/v1/tuscan-summer-81b9840056ab.jpg",
+    "sha256": "81b9840056ab3cf76be7057d268303f9bab7b50e25aa49257d1785916054f41b",
+    "direction": "Late afternoon on a stone villa terrace.",
+    "category": "photoreal"
+  },
+  "cherry-blossom": {
+    "assetId": "cherry-blossom",
+    "version": "v1",
+    "source": "/samples/theme-cherry-blossom.jpg",
+    "key": "generation-demos/v1/cherry-blossom-24d5cd2eb01a.jpg",
+    "sha256": "24d5cd2eb01a37a86d956351f8a1d155314283d18ef48c1b954abe57b0656f47",
+    "direction": "Pink petals drifting in a Kyoto garden at spring's first warmth.",
+    "category": "photoreal"
+  },
+  "snowy-hygge": {
+    "assetId": "snowy-hygge",
+    "version": "v1",
+    "source": "/samples/theme-snowy-hygge.jpg",
+    "key": "generation-demos/v1/snowy-hygge-355705b97a93.jpg",
+    "sha256": "355705b97a9314a683475f1cfa2e09bfb312e6b05e48d80d0647f59da6848866",
+    "direction": "A timber cabin doorway during a Scandinavian snowfall.",
+    "category": "photoreal"
+  },
+  "desert-santa-fe": {
+    "assetId": "desert-santa-fe",
+    "version": "v1",
+    "source": "/samples/theme-desert-santa-fe.jpg",
+    "key": "generation-demos/v1/desert-santa-fe-420818a6bb18.jpg",
+    "sha256": "420818a6bb18a0401ac09a54f378c57e277539c7ed28c40bfd53c26c2dcbb37a",
+    "direction": "Adobe walls and open sky, the red earth of the American Southwest at dusk.",
+    "category": "photoreal"
+  },
+  "parisian-cafe": {
+    "assetId": "parisian-cafe",
+    "version": "v1",
+    "source": "/samples/theme-parisian-cafe.jpg",
+    "key": "generation-demos/v1/parisian-cafe-237f6fd37f7e.jpg",
+    "sha256": "237f6fd37f7e66bbb93dd60daca83d332ce889e5a0207586f650367ad49716b1",
+    "direction": "A sidewalk table on a narrow cobblestone street.",
+    "category": "photoreal"
+  },
+  "new-york-city": {
+    "assetId": "new-york-city",
+    "version": "v1",
+    "source": "/samples/theme-new-york-city.jpg",
+    "key": "generation-demos/v1/new-york-city-dcc018efd5e0.jpg",
+    "sha256": "dcc018efd5e02b18461185ca0bb44f220f0932b94fafe887447b5f5d22fc16fd",
+    "direction": "Brooklyn Bridge underfoot, Manhattan behind them.",
+    "category": "photoreal"
+  },
+  "paris-family-stroll": {
+    "assetId": "paris-family-stroll",
+    "version": "v1",
+    "source": "/samples/theme-paris-family-stroll.jpg",
+    "key": "generation-demos/v1/paris-family-stroll-f06ddf2d0238.jpg",
+    "sha256": "f06ddf2d023855f4b7276bf8ed7168a5df882d28aa705c9a509f269c69b77594",
+    "direction": "The Eiffel Tower close behind them, flowers and a baguette in hand.",
+    "category": "photoreal"
+  },
+  "backyard-picnic": {
+    "assetId": "backyard-picnic",
+    "version": "v1",
+    "source": "/samples/theme-backyard-picnic.jpg",
+    "key": "generation-demos/v1/backyard-picnic-13cb6a8d0532.jpg",
+    "sha256": "13cb6a8d0532a57de4ef2e770ee905affef4c6dd5eeed370c3d4f3a0fceea19a",
+    "direction": "A plaid blanket under the tree, lemonade, strawberries and the kind of laughter that needs no pose.",
+    "category": "photoreal"
+  },
+  "sunday-sofa": {
+    "assetId": "sunday-sofa",
+    "version": "v1",
+    "source": "/samples/theme-sunday-sofa.jpg",
+    "key": "generation-demos/v1/sunday-sofa-a83f3fcaaf1e.jpg",
+    "sha256": "a83f3fcaaf1e9df388bea82dbbf4ddc5d162b9836626a92cf70442baf9596f11",
+    "direction": "Rain on the window, blankets on the couch, a book open in someone's lap.",
+    "category": "photoreal"
+  },
+  "orchard-picking": {
+    "assetId": "orchard-picking",
+    "version": "v1",
+    "source": "/samples/theme-orchard-picking.jpg",
+    "key": "generation-demos/v1/orchard-picking-f9e2861b19b0.jpg",
+    "sha256": "f9e2861b19b04e2bc0af29a8195924e9703a885095dfc2818c9af17166bb677c",
+    "direction": "Rows of apple trees, flannel layers, a wooden basket and one kid reaching for the best apple.",
+    "category": "photoreal"
+  },
+  "lake-house": {
+    "assetId": "lake-house",
+    "version": "v1",
+    "source": "/samples/theme-lake-house.jpg",
+    "key": "generation-demos/v1/lake-house-00514d161b19.jpg",
+    "sha256": "00514d161b19d4e2878787a9ae0bc0d0d161b2568eed11629e2b412e2905dca1",
+    "direction": "The long wooden dock, warm water behind, a retriever at the edge.",
+    "category": "photoreal"
+  },
+  "slim-aarons": {
+    "assetId": "slim-aarons",
+    "version": "v1",
+    "source": "/samples/theme-slim-aarons.jpg",
+    "key": "generation-demos/v1/slim-aarons-40fcd42b72f2.jpg",
+    "sha256": "40fcd42b72f2ddb8adb21ad59f1e5f789aab890bc4f49137a5691232801cb834",
+    "direction": "Palm Springs at high noon.",
+    "category": "photoreal"
+  },
+  "y2k-disposable": {
+    "assetId": "y2k-disposable",
+    "version": "v1",
+    "source": "/samples/theme-y2k-disposable.jpg",
+    "key": "generation-demos/v1/y2k-disposable-c9758054825b.jpg",
+    "sha256": "c9758054825b595229fc26db915716527819c23725f55984ef290c5c3a617fa9",
+    "direction": "On-camera flash, hot faces, slightly off-center.",
+    "category": "photoreal"
+  },
+  "coastal-grandmother": {
+    "assetId": "coastal-grandmother",
+    "version": "v1",
+    "source": "/samples/theme-coastal-grandmother.jpg",
+    "key": "generation-demos/v1/coastal-grandmother-b5ca0610134b.jpg",
+    "sha256": "b5ca0610134b37408fc1f3e229fb56e64823f6b0577b010ff6f791222352c9c0",
+    "direction": "A linen-and-marble Hamptons kitchen, fresh hydrangeas, iced tea.",
+    "category": "photoreal"
+  },
+  "amalfi-summer": {
+    "assetId": "amalfi-summer",
+    "version": "v1",
+    "source": "/samples/theme-amalfi-summer.jpg",
+    "key": "generation-demos/v1/amalfi-summer-6dd32fd15e90.jpg",
+    "sha256": "6dd32fd15e90e5b4b4571500cceef0cf21574aea672908d0582770f38127022a",
+    "direction": "A Positano terrace at lunch — lemon prints, blue-and-white tile, the Tyrrhenian sea wide open behind.",
+    "category": "photoreal"
+  },
+  "70s-station-wagon": {
+    "assetId": "70s-station-wagon",
+    "version": "v1",
+    "source": "/samples/theme-70s-station-wagon.jpg",
+    "key": "generation-demos/v1/70s-station-wagon-a71711e72e8f.jpg",
+    "sha256": "a71711e72e8fc7fc20bc958df3cabcf39ccb47932a546d7d0a788b6ad3fd33c0",
+    "direction": "A wood-paneled wagon at a desert pull-off.",
+    "category": "photoreal"
+  },
+  "pop-icon-stage-portrait": {
+    "assetId": "pop-icon-stage-portrait",
+    "version": "v1",
+    "source": "/samples/theme-pop-icon-stage-portrait.webp",
+    "key": "generation-demos/v1/pop-icon-stage-portrait-fe65b088da3b.webp",
+    "sha256": "fe65b088da3b38fc9b8d185eb8e30089aefaabc63a28bebd52cbee100983faf8",
+    "direction": "A dramatic King of Pop Stage Portrait family shoot with glittering spotlights, sharp tailoring, moonlit floor glow, smoke, and IP-safe 1980s pop-superstar energ",
+    "category": "photoreal"
+  },
+  "galactic-family-adventure": {
+    "assetId": "galactic-family-adventure",
+    "version": "v1",
+    "source": "/samples/theme-galactic-family-adventure.webp",
+    "key": "generation-demos/v1/galactic-family-adventure-ffbaa2d7c17c.webp",
+    "sha256": "ffbaa2d7c17cf54f8ddd63bd92412992bdb162abd3f39ea9bd3d3a3c8976f1b0",
+    "direction": "A cinematic space-opera family portrait on a desert-world horizon with a starship-hangar atmosphere, twin suns, heroic rim light, and adventurous wonder.",
+    "category": "photoreal"
+  },
+  "little-boo-pastel-halloween": {
+    "assetId": "little-boo-pastel-halloween",
+    "version": "v1",
+    "source": "/samples/theme-little-boo-pastel-halloween.webp",
+    "key": "generation-demos/v1/little-boo-pastel-halloween-c2d130b2117e.webp",
+    "sha256": "c2d130b2117ebbc5cfd1deb176baf50489e9f906a436fac74260e38f39f6c705",
+    "direction": "A cute pastel Halloween portrait with pale pumpkins, friendly sheet-ghost decorations, cozy layers, and soft candy color.",
+    "category": "photoreal"
+  },
+  "iconic-crosswalk-album-cover": {
+    "assetId": "iconic-crosswalk-album-cover",
+    "version": "v1",
+    "source": "/samples/theme-iconic-crosswalk-album-cover.png",
+    "key": "generation-demos/v1/iconic-crosswalk-album-cover-f048062fc5df.png",
+    "sha256": "f048062fc5dfd681acd58ba9948e95fd9aaaa544fdb7f97ad743f1b0b2166b94",
+    "direction": "A clean editorial street-crossing portrait with classic 1960s music-magazine energy, soft overcast city light, stylish coats, and print-ready album-cover framin",
+    "category": "photoreal"
+  },
+  "runway-editor-in-chief-family-editorial": {
+    "assetId": "runway-editor-in-chief-family-editorial",
+    "version": "v1",
+    "source": "/samples/theme-runway-editorial.png",
+    "key": "generation-demos/v1/runway-editor-in-chief-family-editorial-f57eb5461d4e.png",
+    "sha256": "f57eb5461d4eaf001903b90f017e1ec57225de95c362ce50ba1f5468c4aa6fd9",
+    "direction": "A polished high-fashion magazine family shoot with sharp tailoring, glossy editorial light, city office and runway mood, confident poses, and a luxury neutral p",
+    "category": "photoreal"
+  },
+  "noughties-family-throwback": {
+    "assetId": "noughties-family-throwback",
+    "version": "v1",
+    "source": "/samples/theme-noughties-family-throwback.png",
+    "key": "generation-demos/v1/noughties-family-throwback-07001bffd4d1.png",
+    "sha256": "07001bffd4d177b6d492ebf49b7e75e7bdb2178f97cfa65490583546f130f60f",
+    "direction": "Early-2000s family-photo energy with warm compact-camera flash, denim layers, playful mall-photo nostalgia, and a premium printable finish.",
+    "category": "photoreal"
+  },
+  "dockside-family-weekend": {
+    "assetId": "dockside-family-weekend",
+    "version": "v1",
+    "source": "/samples/theme-dockside-family-weekend.webp",
+    "key": "generation-demos/v1/dockside-family-weekend-23f4d66a75d4.webp",
+    "sha256": "23f4d66a75d45b6804bf78c950faa0c12f0d9f4c3f7838fc98d92fc2bc7de45e",
+    "direction": "Weathered planks, lake light, striped towels, canvas totes, and the easy rhythm of a long summer weekend by the dock.",
+    "category": "photoreal"
+  },
+  "backyard-sports-day-portrait": {
+    "assetId": "backyard-sports-day-portrait",
+    "version": "v1",
+    "source": "/samples/theme-backyard-sports-day-portrait.webp",
+    "key": "generation-demos/v1/backyard-sports-day-portrait-49afec2b7aea.webp",
+    "sha256": "49afec2b7aea579128839031a1211f8aaaf6f6b54c83da9b7a897bed7f67ff45",
+    "direction": "A friendly backyard field day with clean jerseys, chalk lines, lawn games, ribbons, sneakers, and bright competitive joy.",
+    "category": "photoreal"
+  },
+  "slow-travel-summer-picnic": {
+    "assetId": "slow-travel-summer-picnic",
+    "version": "v1",
+    "source": "/samples/theme-slow-travel-summer-picnic.webp",
+    "key": "generation-demos/v1/slow-travel-summer-picnic-c7f438b22528.webp",
+    "sha256": "c7f438b225282995aaf7c7e38f65ca1944970a51120f7a7b4a6384511fcd614b",
+    "direction": "A checked blanket, market fruit, linen layers, paper maps, wildflowers, and unhurried travel light on a warm afternoon.",
+    "category": "photoreal"
+  },
+  "sunset-festival-family-glow": {
+    "assetId": "sunset-festival-family-glow",
+    "version": "v1",
+    "source": "/samples/theme-sunset-festival-family-glow.webp",
+    "key": "generation-demos/v1/sunset-festival-family-glow-39a056e8e3aa.webp",
+    "sha256": "39a056e8e3aa5a2a231a20f389a7e8fa41576eaba8586740d5a9da724bc0cbb8",
+    "direction": "String lights, paper lanterns, food-stall color, face-safe sparkle, and golden-hour festival warmth without the late-night edge.",
+    "category": "photoreal"
+  },
+  "summer-color-pop-studio": {
+    "assetId": "summer-color-pop-studio",
+    "version": "v1",
+    "source": "/samples/theme-summer-color-pop-studio.webp",
+    "key": "generation-demos/v1/summer-color-pop-studio-35d93ec64e6e.webp",
+    "sha256": "35d93ec64e6e265b7ace2771e282ec019b139cc28cf6ef0beb38eadbcc3c9058",
+    "direction": "A crisp studio portrait with bold summer color blocks, glossy props, bright wardrobe accents, and clean commercial polish.",
+    "category": "photoreal"
+  },
+  "whimsical-adventure-postcard": {
+    "assetId": "whimsical-adventure-postcard",
+    "version": "v1",
+    "source": "/samples/theme-whimsical-adventure-postcard.webp",
+    "key": "generation-demos/v1/whimsical-adventure-postcard-1ffee43be302.webp",
+    "sha256": "1ffee43be3025bdac542e996c2a41627974437cc208c9c528a0da99aa9bb5149",
+    "direction": "A playful original travel postcard come to life with painted skies, oversized luggage, map edges, and storybook-adventure charm.",
+    "category": "stylized"
+  },
+  "retro-summer-postcard": {
+    "assetId": "retro-summer-postcard",
+    "version": "v1",
+    "source": "/samples/theme-retro-summer-postcard.webp",
+    "key": "generation-demos/v1/retro-summer-postcard-960a231d1650.webp",
+    "sha256": "960a231d1650a0fd46d910ef9dae78dd4badc6397252fc8d946bd1b8a991ebf8",
+    "direction": "A sun-washed family vacation portrait with postcard color, retro stripes, summer linens, and soft film-camera nostalgia.",
+    "category": "photoreal"
+  },
+  "toy-box-keepsake-portrait": {
+    "assetId": "toy-box-keepsake-portrait",
+    "version": "v1",
+    "source": "/samples/theme-toy-box-keepsake-portrait.webp",
+    "key": "generation-demos/v1/toy-box-keepsake-portrait-dbf6d607a846.webp",
+    "sha256": "dbf6d607a8467d3fcfbc7df31b2accb9dcf7d5bb42922536c471f9916ece962b",
+    "direction": "A bright playroom keepsake portrait with wooden blocks, storybooks, handmade toys, soft primary color, and childlike wonder.",
+    "category": "photoreal"
+  },
+  "cool-blue-lake-day": {
+    "assetId": "cool-blue-lake-day",
+    "version": "v1",
+    "source": "/samples/theme-cool-blue-lake-day.webp",
+    "key": "generation-demos/v1/cool-blue-lake-day-aae3624bc6f4.webp",
+    "sha256": "aae3624bc6f4935c93f8bc00e5a920b5a63ede9d5dfc368ca9f7d742b1c14fa4",
+    "direction": "A crisp cool-blue lake portrait with airy dock light, linen and denim styling, glacier-blue accents, and calm editorial freshness.",
+    "category": "photoreal"
+  },
+  "poetcore-family-library-portrait": {
+    "assetId": "poetcore-family-library-portrait",
+    "version": "v1",
+    "source": "/samples/theme-poetcore-family-library-portrait.webp",
+    "key": "generation-demos/v1/poetcore-family-library-portrait-27ffa3a89b0b.webp",
+    "sha256": "27ffa3a89b0bcaed9deec7767d6af71ac02e96fcc4b945090970f8cbbabc60e6",
+    "direction": "A warm library portrait with oversized knits, vintage blazers, book props, handwritten card details, and soft literary intimacy.",
+    "category": "photoreal"
+  },
+  "burgundy-orchard-portrait": {
+    "assetId": "burgundy-orchard-portrait",
+    "version": "v1",
+    "source": "/samples/theme-burgundy-orchard-portrait.webp",
+    "key": "generation-demos/v1/burgundy-orchard-portrait-7724af26ca30.webp",
+    "sha256": "7724af26ca307a9e095498afc440611f72e79a652164ae32160f3f778b781523",
+    "direction": "Deep orchard reds, cream knits, weathered crates, and late-season countryside warmth with a polished editorial finish.",
+    "category": "photoreal"
+  },
+  "poetcore-letter-portrait": {
+    "assetId": "poetcore-letter-portrait",
+    "version": "v1",
+    "source": "/samples/theme-poetcore-letter-portrait.webp",
+    "key": "generation-demos/v1/poetcore-letter-portrait-244b32eba729.webp",
+    "sha256": "244b32eba729a07293362d42132f580a416e6369e1f9587b03b3708ac3dc92aa",
+    "direction": "A warm writing-room portrait with blank stationery, sealed envelopes, pressed flowers, tweed, wool, and quiet literary intimacy.",
+    "category": "photoreal"
+  },
+  "opalescent-future-family": {
+    "assetId": "opalescent-future-family",
+    "version": "v1",
+    "source": "/samples/theme-opalescent-future-family.webp",
+    "key": "generation-demos/v1/opalescent-future-family-767e6d9342f5.webp",
+    "sha256": "767e6d9342f5021c8dfe0c68804d78bdd7cbf82a9857f6c33825ae4af25cab07",
+    "direction": "A serene near-future family portrait with pearl light, translucent panels, sculptural wardrobe, and soft iridescent color.",
+    "category": "stylized"
+  },
+  "heirloom-brooch-studio": {
+    "assetId": "heirloom-brooch-studio",
+    "version": "v1",
+    "source": "/samples/theme-heirloom-brooch-studio.webp",
+    "key": "generation-demos/v1/heirloom-brooch-studio-6d54159dc529.webp",
+    "sha256": "6d54159dc5295d22f4095fc22965bd7acbfe3a3686d53fa299fea6c47e6fcdd7",
+    "direction": "A timeless studio portrait with velvet, pearl pins, antique-gold brooch accents, painterly light, and keepsake formality.",
+    "category": "photoreal"
+  },
+  "whimsical-big-top-family": {
+    "assetId": "whimsical-big-top-family",
+    "version": "v1",
+    "source": "/samples/theme-whimsical-big-top-family.webp",
+    "key": "generation-demos/v1/whimsical-big-top-family-a7a3c588a506.webp",
+    "sha256": "a7a3c588a506f9471bd900b582f8129b47183290bf51e38177b3f9dfd003abe2",
+    "direction": "A cheerful big-top inspired family portrait with canvas stripes, round risers, bunting, warm bulbs, and playful storybook polish.",
+    "category": "stylized"
+  },
+  "lantern-glow-gathering": {
+    "assetId": "lantern-glow-gathering",
+    "version": "v1",
+    "source": "/samples/theme-lantern-glow-gathering.webp",
+    "key": "generation-demos/v1/lantern-glow-gathering-124afa85546b.webp",
+    "sha256": "124afa85546b717b316ce5030c58c38c6ab9184dfe48b6a37515073258452fd6",
+    "direction": "A cozy early-evening gathering with paper lanterns, woven mats, blankets, garden greenery, and warm blue-hour glow.",
+    "category": "photoreal"
+  },
+  "butter-yellow-summer-portrait": {
+    "assetId": "butter-yellow-summer-portrait",
+    "version": "v1",
+    "source": "/samples/theme-butter-yellow-summer-portrait.webp",
+    "key": "generation-demos/v1/butter-yellow-summer-portrait-6e50a0bd7059.webp",
+    "sha256": "6e50a0bd7059e11be1e0dd259e69910d38db78ed1fee68e78a35ad6bcc4d5053",
+    "direction": "Soft butter-yellow wardrobe notes, pale florals, sunlit linen, and relaxed summer brightness with a polished editorial finish.",
+    "category": "photoreal"
+  },
+  "neo-deco-family-portrait": {
+    "assetId": "neo-deco-family-portrait",
+    "version": "v1",
+    "source": "/samples/theme-neo-deco-family-portrait.webp",
+    "key": "generation-demos/v1/neo-deco-family-portrait-53f6772fb1bb.webp",
+    "sha256": "53f6772fb1bb7abd79333cfbf32dcfdf9fde5d842b4ee79711bfe4e5ef5d3617",
+    "direction": "A tasteful formal portrait with geometric fan arches, brass and chrome accents, velvet texture, and warm studio glamour.",
+    "category": "photoreal"
+  },
+  "neo-deco-holiday-portrait": {
+    "assetId": "neo-deco-holiday-portrait",
+    "version": "v1",
+    "source": "/samples/theme-neo-deco-holiday-portrait-winter.webp",
+    "key": "generation-demos/v1/neo-deco-holiday-portrait-76406da0bc4d.webp",
+    "sha256": "76406da0bc4ddbe0dc3dacbabdb05eb4223cabdfcf83e101d652a8cb764b712a",
+    "direction": "A polished holiday portrait with geometric fan arches, brass and chrome accents, velvet texture, winter greenery, and warm studio glamour.",
+    "category": "photoreal"
+  },
+  "storybook-pen-pals": {
+    "assetId": "storybook-pen-pals",
+    "version": "v1",
+    "source": "/samples/theme-storybook-pen-pals.webp",
+    "key": "generation-demos/v1/storybook-pen-pals-e82c0f918995.webp",
+    "sha256": "e82c0f9189958bb285bd64e85a6f94f49246413e4ee1df874bb33c02dd04f4e8",
+    "direction": "A cozy letters-and-library portrait with vintage stationery, blank stamps, drawings, soft knits, and warm window light.",
+    "category": "photoreal"
+  },
+  "mystic-outlands-adventure": {
+    "assetId": "mystic-outlands-adventure",
+    "version": "v1",
+    "source": "/samples/theme-mystic-outlands-adventure.webp",
+    "key": "generation-demos/v1/mystic-outlands-adventure-f8663bf04325.webp",
+    "sha256": "f8663bf0432538da73e4e8487a4ce624caa81c6aadc3e549f98a2a12e8d9ee24",
+    "direction": "A misty highland or enchanted-forest adventure with moss, soft fog, earth tones, and gentle explorer styling.",
+    "category": "photoreal"
+  },
+  "galactic-glow-family-adventure": {
+    "assetId": "galactic-glow-family-adventure",
+    "version": "v1",
+    "source": "/samples/theme-galactic-glow-family-adventure.webp",
+    "key": "generation-demos/v1/galactic-glow-family-adventure-e9ed48573877.webp",
+    "sha256": "e9ed485738772976c5483b5a23146ae7cf30354ce00476616d14dd81d7098d00",
+    "direction": "A cozy cosmic adventure with opalescent glow, stargazing wonder, moon-dust shimmer, and soft holographic accents.",
+    "category": "photoreal"
+  },
+  "scarf-garden-story": {
+    "assetId": "scarf-garden-story",
+    "version": "v1",
+    "source": "/samples/theme-scarf-garden-story.webp",
+    "key": "generation-demos/v1/scarf-garden-story-f0bce3d48e52.webp",
+    "sha256": "f0bce3d48e5260c80aeda5f1511619a8cbdcb7f3f1168d0a568588a4562f792f",
+    "direction": "A breezy garden portrait with silk-scarf color, climbing greenery, dappled light, and storybook-summer ease.",
+    "category": "photoreal"
+  },
+  "joyful-photo-dump": {
+    "assetId": "joyful-photo-dump",
+    "version": "v1",
+    "source": "/samples/theme-joyful-photo-dump.webp",
+    "key": "generation-demos/v1/joyful-photo-dump-c1724f86dacc.webp",
+    "sha256": "c1724f86dacc09b0dc8bb6a3f4afed77a67652282c306bfc72fa52fff1261fb2",
+    "direction": "A polished candid family portrait with mid-laugh energy, soft flash, tiny motion, and layered snapshot-card charm.",
+    "category": "photoreal"
+  },
+  "storybook-ocean-quest": {
+    "assetId": "storybook-ocean-quest",
+    "version": "v1",
+    "source": "/samples/theme-storybook-ocean-quest.webp",
+    "key": "generation-demos/v1/storybook-ocean-quest-7c8a3eda2373.webp",
+    "sha256": "7c8a3eda2373faa775cfb13679712ca2cd69ea41a25f9ad3ec7e7f8cf60cdd11",
+    "direction": "A bright tide-pool adventure with watercolor ocean blues, seashell props, sketchbook details, and safe shoreline wonder.",
+    "category": "stylized"
+  },
+  "summer-color-hunt": {
+    "assetId": "summer-color-hunt",
+    "version": "v1",
+    "source": "/samples/theme-summer-color-hunt.webp",
+    "key": "generation-demos/v1/summer-color-hunt-ef4f0f31d2eb.webp",
+    "sha256": "ef4f0f31d2eb7b8c551440137c9367eb94f26739faa428ce3b1cec890eb334ea",
+    "direction": "A playful outdoor color-search portrait with swatches, flowers, fruit, and bright discovery energy without app or brand cues.",
+    "category": "photoreal"
+  },
+  "poetcore-porch": {
+    "assetId": "poetcore-porch",
+    "version": "v1",
+    "source": "/samples/theme-poetcore-porch.webp",
+    "key": "generation-demos/v1/poetcore-porch-fe2170196c17.webp",
+    "sha256": "fe2170196c173acabf38dc12ea7b4f26aa3e369c90c809fcc9caa7f051a622c6",
+    "direction": "A cozy porch or garden-bench portrait with vintage layers, satchel details, stationery props, and late-afternoon letter mood.",
+    "category": "photoreal"
+  },
+  "family-watch-party": {
+    "assetId": "family-watch-party",
+    "version": "v1",
+    "source": "/samples/theme-family-watch-party.webp",
+    "key": "generation-demos/v1/family-watch-party-9e2d040db663.webp",
+    "sha256": "9e2d040db66378e36ee1efe0617e416eb1bdfacf6fd45bb255978435e12fba2b",
+    "direction": "A cozy game-day living room portrait with blank banners, snacks, pillows, and team-color energy without real teams or logos.",
+    "category": "photoreal"
+  },
+  "time-travel-toy-shelf": {
+    "assetId": "time-travel-toy-shelf",
+    "version": "v1",
+    "source": "/samples/theme-time-travel-toy-shelf.webp",
+    "key": "generation-demos/v1/time-travel-toy-shelf-5866c747bfe5.webp",
+    "sha256": "5866c747bfe565952ed02ac229fd10913857a6e4a152c7d2fa9e68af42c3c4b5",
+    "direction": "A nostalgic shelf-world portrait with handmade toys, tiny eras, warm dust motes, and no branded characters.",
+    "category": "stylized"
+  },
+  "retro-jazz-porch": {
+    "assetId": "retro-jazz-porch",
+    "version": "v1",
+    "source": "/samples/theme-retro-jazz-porch.webp",
+    "key": "generation-demos/v1/retro-jazz-porch-ab0ded80f4ff.webp",
+    "sha256": "ab0ded80f4ff1f19a0cd17ba722490feab1fa1da758983a5fcabd0fcd0bcbe19",
+    "direction": "A relaxed porch portrait with vintage radio warmth, brass accents, striped shade, and family-safe backyard rhythm.",
+    "category": "photoreal"
+  },
+  "future-glow-family": {
+    "assetId": "future-glow-family",
+    "version": "v1",
+    "source": "/samples/theme-future-glow-family.webp",
+    "key": "generation-demos/v1/future-glow-family-3bd3af93581a.webp",
+    "sha256": "3bd3af93581a4fd82d3eef5e7d930488b610479f3046cc0129e74e043deb3ae8",
+    "direction": "A clean optimistic tech-family portrait with pearl highlights, opalescent accessories, subtle chrome, and cool blue-lilac light.",
+    "category": "photoreal"
+  },
+  "heirloom-pin-portrait": {
+    "assetId": "heirloom-pin-portrait",
+    "version": "v1",
+    "source": "/samples/theme-heirloom-pin-portrait.webp",
+    "key": "generation-demos/v1/heirloom-pin-portrait-72e29509a01f.webp",
+    "sha256": "72e29509a01f34814e76837e036b6ed4381c47db450d60f0bd6c45172d2bd5e9",
+    "direction": "An elegant multi-generation family portrait with heirloom pin accents, neutral tailoring, subtle gold, and warm home-studio polish.",
+    "category": "photoreal"
+  },
+  "butter-yellow-picnic": {
+    "assetId": "butter-yellow-picnic",
+    "version": "v1",
+    "source": "/samples/theme-butter-yellow-picnic.webp",
+    "key": "generation-demos/v1/butter-yellow-picnic-8422f4b4d1ed.webp",
+    "sha256": "8422f4b4d1ed6f9438f9e4214f5fc4d66c8aace927808eee04eafd44426eacc1",
+    "direction": "A warm late-summer picnic portrait with butter-yellow accents, cream linens, fresh fruit, soft flowers, and golden family light.",
+    "category": "photoreal"
+  },
+  "paprika-plaid-autumn": {
+    "assetId": "paprika-plaid-autumn",
+    "version": "v1",
+    "source": "/samples/theme-paprika-plaid-autumn.webp",
+    "key": "generation-demos/v1/paprika-plaid-autumn-6499a84c97d3.webp",
+    "sha256": "6499a84c97d38987ae59bccd8d392298d7af0d30b8ce333327af3da003e7e633",
+    "direction": "A pre-fall portrait in paprika, brick red, camel, denim, and subtle plaid layers with cozy outdoor warmth.",
+    "category": "photoreal"
+  },
+  "woodland-storybook-companions": {
+    "assetId": "woodland-storybook-companions",
+    "version": "v1",
+    "source": "/samples/theme-woodland-storybook-companions.webp",
+    "key": "generation-demos/v1/woodland-storybook-companions-275469941fa8.webp",
+    "sha256": "275469941fa8ce29c663081545cf8796d6c0bdf230a9598b6d2823b632b2f3b4",
+    "direction": "A warm woodland storybook portrait with friendly oversized trees, mossy paths, wildflowers, cozy adventure layers, and soft illustrated polish.",
+    "category": "stylized"
+  },
+  "storybook-forest-family-adventure": {
+    "assetId": "storybook-forest-family-adventure",
+    "version": "v1",
+    "source": "/samples/theme-storybook-forest-family-adventure.webp",
+    "key": "generation-demos/v1/storybook-forest-family-adventure-7a5d8e32ac2e.webp",
+    "sha256": "7a5d8e32ac2e2accb8c7c89617b808a7e92983898a68eb5f1b10b07f2e468724",
+    "direction": "A warm enchanted-forest adventure with oversized friendly trees, mossy paths, wildflowers, and original storybook polish.",
+    "category": "stylized"
+  },
+  "y3k-chrome-family-future": {
+    "assetId": "y3k-chrome-family-future",
+    "version": "v1",
+    "source": "/samples/theme-y3k-chrome-family-future.webp",
+    "key": "generation-demos/v1/y3k-chrome-family-future-d68d4ecc6c35.webp",
+    "sha256": "d68d4ecc6c35fcc66441c7e07463097e88d166fae2ba2409505c4e4415d9a681",
+    "direction": "A soft optimistic future portrait with chrome accessories, pearly white studio shapes, and gentle holographic highlights.",
+    "category": "photoreal"
+  },
+  "back-to-school-storybook-morning": {
+    "assetId": "back-to-school-storybook-morning",
+    "version": "v1",
+    "source": "/samples/theme-back-to-school-storybook-morning.webp",
+    "key": "generation-demos/v1/back-to-school-storybook-morning-7677c6db3b38.webp",
+    "sha256": "7677c6db3b38b41f61ae3768fcca617c8ff227f4e839b411234624766819175b",
+    "direction": "Warm first-day nostalgia on porch steps with blank card props, backpack details, soft morning light, and proud candid smiles.",
+    "category": "photoreal"
+  },
+  "tiny-boo-crew": {
+    "assetId": "tiny-boo-crew",
+    "version": "v1",
+    "source": "/samples/theme-tiny-boo-crew.webp",
+    "key": "generation-demos/v1/tiny-boo-crew-ef1c4f569861.webp",
+    "sha256": "ef1c4f56986120277b7d422471744672bd281d74528d667a767bb2e08ede1706",
+    "direction": "A cute non-scary seasonal portrait with pastel pumpkins, friendly sheet-ghost decor, cozy layers, and soft candy color.",
+    "category": "photoreal"
+  },
+  "vintage-pumpkin-patch-postcard": {
+    "assetId": "vintage-pumpkin-patch-postcard",
+    "version": "v1",
+    "source": "/samples/theme-vintage-pumpkin-patch-postcard.webp",
+    "key": "generation-demos/v1/vintage-pumpkin-patch-postcard-848666abcfc2.webp",
+    "sha256": "848666abcfc29743c6b699b019c69eda108e69978cda1b59a4df42ef04cce023",
+    "direction": "A nostalgic pumpkin-patch keepsake with early-postcard charm, muted orange, cream paper, sepia warmth, and gentle fall texture.",
+    "category": "photoreal"
+  },
+  "editorial-jewel-tone-fall-portrait": {
+    "assetId": "editorial-jewel-tone-fall-portrait",
+    "version": "v1",
+    "source": "/samples/theme-editorial-jewel-tone-fall-portrait.webp",
+    "key": "generation-demos/v1/editorial-jewel-tone-fall-portrait-2e4d452029a2.webp",
+    "sha256": "2e4d452029a2119cb1cae38e1aa9f9f3956c99276fb1c9eb6116a0e43b1cb031",
+    "direction": "A refined fall magazine portrait with burgundy, royal purple, butter yellow, peach, turquoise accents, layered knits, and softened tailoring.",
+    "category": "photoreal"
+  },
+  "dino-explorer-family-adventure": {
+    "assetId": "dino-explorer-family-adventure",
+    "version": "v1",
+    "source": "/samples/theme-dino-explorer-family-adventure.webp",
+    "key": "generation-demos/v1/dino-explorer-family-adventure-e08b66ca6658.webp",
+    "sha256": "e08b66ca6658107ad0d8565810a8813f1e690be9ef58926fe5bd79e560995505",
+    "direction": "A friendly discovery portrait with museum fossils, oversized ferns, canvas layers, explorer hats, and prehistoric wonder without danger.",
+    "category": "photoreal"
+  },
+  "golden-late-summer-beach-legacy": {
+    "assetId": "golden-late-summer-beach-legacy",
+    "version": "v1",
+    "source": "/samples/theme-golden-late-summer-beach-legacy.webp",
+    "key": "generation-demos/v1/golden-late-summer-beach-legacy-55ce6b941e33.webp",
+    "sha256": "55ce6b941e33e3b684d4c595accb6b4283c20b407802faade9f27645055af6cf",
+    "direction": "A fine-art beach portrait with glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and legacy calm.",
+    "category": "photoreal"
+  },
+  "royal-family-portrait": {
+    "assetId": "royal-family-portrait",
+    "version": "v1",
+    "source": "/samples/theme-royal-family-portrait.png",
+    "key": "generation-demos/v1/royal-family-portrait-d7635ecb2ae3.png",
+    "sha256": "d7635ecb2ae30c17ad5f466665bae7210d65b65181971ea7b9039554505813e5",
+    "direction": "Velvet, crowns, grand halls, and old-world ceremony.",
+    "category": "photoreal"
+  },
+  "disney-world": {
+    "assetId": "disney-world",
+    "version": "v1",
+    "source": "/samples/theme-disney-world.png",
+    "key": "generation-demos/v1/disney-world-fbe3ff28e255.png",
+    "sha256": "fbe3ff28e255a722c31954f6961e2d13ef0296b4d0970a3c0c0a9b466a259a1b",
+    "direction": "A castle plaza, vacation outfits, snack sticks, fireworks haze.",
+    "category": "photoreal"
+  },
+  "national-park": {
+    "assetId": "national-park",
+    "version": "v1",
+    "source": "/samples/theme-national-park.png",
+    "key": "generation-demos/v1/national-park-7b8d2653bfee.png",
+    "sha256": "7b8d2653bfee5bc750b528a3f1f37b4483d2bf51c635f067e3ecaff8c50188f8",
+    "direction": "Granite cliffs, pine air, trail layers, and the everyone-made-it-to-the-viewpoint feeling.",
+    "category": "photoreal"
+  },
+  "hawaii-vacation": {
+    "assetId": "hawaii-vacation",
+    "version": "v1",
+    "source": "/samples/theme-hawaii-vacation.png",
+    "key": "generation-demos/v1/hawaii-vacation-190c1844f735.png",
+    "sha256": "190c1844f735d90c8158b25533215efce6ea19ddcd18a66b58cda3266a291f59",
+    "direction": "Palms, lava rock, leis, sunset water, and the kind of family trip that deserves a frame.",
+    "category": "photoreal"
+  },
+  "cape-cod-summer": {
+    "assetId": "cape-cod-summer",
+    "version": "v1",
+    "source": "/samples/theme-cape-cod-summer.png",
+    "key": "generation-demos/v1/cape-cod-summer-5072bfb4c506.png",
+    "sha256": "5072bfb4c5068bfabb87a93379277c96ac8fd404fdb29ad94718e44cb4888ee3",
+    "direction": "Cedar shingles, hydrangeas, dune grass, navy stripes.",
+    "category": "photoreal"
+  },
+  "private-jet-family": {
+    "assetId": "private-jet-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/private-jet-family.webp",
+    "key": "generation-demos/v1/private-jet-family-dfb2be4be984.webp",
+    "sha256": "dfb2be4be984340386b9e89a31891f086875fd088b79684fd75cadef7387fff7",
+    "direction": "Cream leather seats, glowing cabin windows, designer-travel polish.",
+    "category": "photoreal"
+  },
+  "soccer-team-family": {
+    "assetId": "soccer-team-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/soccer-team-family.webp",
+    "key": "generation-demos/v1/soccer-team-family-8f6d4c6d79b0.webp",
+    "sha256": "8f6d4c6d79b0ee7cbbb611d3918f51264925e7f24f73f39b2690fda2f844f0bb",
+    "direction": "A pre-game squad photo on the pitch.",
+    "category": "photoreal"
+  },
+  "white-cyclorama-exaggerated-faces": {
+    "assetId": "white-cyclorama-exaggerated-faces",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/white-cyclorama-exaggerated-faces.webp",
+    "key": "generation-demos/v1/white-cyclorama-exaggerated-faces-e6dd3f91a6e5.webp",
+    "sha256": "e6dd3f91a6e5796fdc1fe672c9e7e6e8e862b1bbaa098cb55cbecec47ead0dee",
+    "direction": "Clean white studio, fashion-campaign light, and a different exaggerated expression on every face.",
+    "category": "photoreal"
+  },
+  "zero-gravity-family": {
+    "assetId": "zero-gravity-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/zero-gravity-family.webp",
+    "key": "generation-demos/v1/zero-gravity-family-08f406d57aa3.webp",
+    "sha256": "08f406d57aa31bc04189c55e4802802e4c89968d9fd6e13b881248698577e52f",
+    "direction": "Hair, socks, toys and snacks floating in a bright space-station portrait with Earth outside the window.",
+    "category": "photoreal"
+  },
+  "western-wanted-family": {
+    "assetId": "western-wanted-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/western-wanted-family.webp",
+    "key": "generation-demos/v1/western-wanted-family-3b48a68065f6.webp",
+    "sha256": "3b48a68065f6501e64cae300c31503f4b3a8acba9f7b5f4080a3005003e7ccaf",
+    "direction": "Sepia parchment, dusty outlaw poses, cowboy hats, saloon drama, and funny-serious wanted-poster faces.",
+    "category": "stylized"
+  },
+  "fluffy-cloud-family": {
+    "assetId": "fluffy-cloud-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/fluffy-cloud-family.webp",
+    "key": "generation-demos/v1/fluffy-cloud-family-fd6e25f46f49.webp",
+    "sha256": "fd6e25f46f49d9a9c702f88c5b788ac8d5cecb62cde4affc3a5e04a22808ba1f",
+    "direction": "A dreamy portrait on a soft cloud at blue-pink sunrise, pastel glow, pajamas, robes, and sky magic.",
+    "category": "photoreal"
+  },
+  "cereal-box-family": {
+    "assetId": "cereal-box-family",
+    "version": "v1",
+    "source": "/samples/best-family-photo-prompts/cereal-box-family.webp",
+    "key": "generation-demos/v1/cereal-box-family-75cab5abb445.webp",
+    "sha256": "75cab5abb4455036477fabc91f6091e5cb826f65c8691128c93598dfb5d49a8d",
+    "direction": "The family as the mascots on a giant colorful breakfast cereal box, glossy, loud, and supermarket-ready.",
+    "category": "stylized"
+  },
+  "pixar-family": {
+    "assetId": "pixar-family",
+    "version": "v1",
+    "source": "/samples/theme-pixar.jpg",
+    "key": "generation-demos/v1/pixar-family-b98d2c20bc53.jpg",
+    "sha256": "b98d2c20bc53554ebe6cbd1e79cabf81bf005264fdd43fc7ab5046879cbf54ad",
+    "direction": "Rendered like a Pixar short.",
+    "category": "stylized"
+  },
+  "manga-family": {
+    "assetId": "manga-family",
+    "version": "v1",
+    "source": "/samples/theme-manga.jpg",
+    "key": "generation-demos/v1/manga-family-3aa163da6a99.jpg",
+    "sha256": "3aa163da6a99d5f6e396fd3ee908c0b16b7203eca674c07f670bb1b04a85a212",
+    "direction": "Hand-drawn lines, cel-shaded color.",
+    "category": "stylized"
+  },
+  "superhero-family": {
+    "assetId": "superhero-family",
+    "version": "v1",
+    "source": "/samples/theme-superhero.jpg",
+    "key": "generation-demos/v1/superhero-family-f4f6ffb7118c.jpg",
+    "sha256": "f4f6ffb7118ca5e813534b9b1376318abeff16c2370b720491351d7081bb4f22",
+    "direction": "Costumes, capes, the whole family on a rooftop at golden hour.",
+    "category": "stylized"
+  },
+  "saturday-morning": {
+    "assetId": "saturday-morning",
+    "version": "v1",
+    "source": "/samples/theme-cartoon.jpg",
+    "key": "generation-demos/v1/saturday-morning-a3652fc26a9b.jpg",
+    "sha256": "a3652fc26a9b96da23a99981f9a987f7fa8990ff1e0c90f7e057b0f79b989dde",
+    "direction": "A hand-drawn 90s cartoon frame.",
+    "category": "stylized"
+  },
+  "ghibli-countryside": {
+    "assetId": "ghibli-countryside",
+    "version": "v1",
+    "source": "/samples/theme-ghibli-countryside.jpg",
+    "key": "generation-demos/v1/ghibli-countryside-3f0ee84b27eb.jpg",
+    "sha256": "3f0ee84b27eb237571992e70b9bff57895aa15255b753875138dca2f6bed704d",
+    "direction": "Studio-Ghibli warmth.",
+    "category": "stylized"
+  },
+  "renaissance-oil": {
+    "assetId": "renaissance-oil",
+    "version": "v1",
+    "source": "/samples/theme-renaissance-oil.jpg",
+    "key": "generation-demos/v1/renaissance-oil-840845bc27d6.jpg",
+    "sha256": "840845bc27d6596bc4e1260fa171175ca3f5ce3d6e803d5fcf138ab3371a236e",
+    "direction": "The family as a Dutch-master painting.",
+    "category": "stylized"
+  },
+  "yellow-cartoon": {
+    "assetId": "yellow-cartoon",
+    "version": "v1",
+    "source": "/samples/theme-yellow-cartoon.jpg",
+    "key": "generation-demos/v1/yellow-cartoon-9c24a5f55608.jpg",
+    "sha256": "9c24a5f5560839b20ab50f4c550fb91218ff116d55c8d154cd731a39c89e7a78",
+    "direction": "Springfield-style cartoon.",
+    "category": "stylized"
+  },
+  "lego-family": {
+    "assetId": "lego-family",
+    "version": "v1",
+    "source": "/samples/theme-lego-family.jpg",
+    "key": "generation-demos/v1/lego-family-13c3b1534197.jpg",
+    "sha256": "13c3b1534197f8fc756c7192fc23342e6447c8f7203df53010cabc011dfbb8cf",
+    "direction": "The family rebuilt in plastic bricks.",
+    "category": "stylized"
+  },
+  "watercolor-storybook": {
+    "assetId": "watercolor-storybook",
+    "version": "v1",
+    "source": "/samples/theme-watercolor-storybook.jpg",
+    "key": "generation-demos/v1/watercolor-storybook-b20076909ae2.jpg",
+    "sha256": "b20076909ae24a1a5bb998b73dc3d63e79cc46df526f5d7930c87dda28f5b7b2",
+    "direction": "A children's-book illustration of the family.",
+    "category": "stylized"
+  },
+  "spirited-away": {
+    "assetId": "spirited-away",
+    "version": "v1",
+    "source": "/samples/theme-spirited-away.jpg",
+    "key": "generation-demos/v1/spirited-away-31af3fc43735.jpg",
+    "sha256": "31af3fc437359a8a1ba59e1731d9a047b7ed2a50148593dd8e640a4f86710914",
+    "direction": "A bridge in a lantern-lit bath-house town.",
+    "category": "stylized"
+  },
+  "south-park": {
+    "assetId": "south-park",
+    "version": "v1",
+    "source": "/samples/theme-south-park.jpg",
+    "key": "generation-demos/v1/south-park-e31904e855cf.jpg",
+    "sha256": "e31904e855cf494e8c37cbca384c12d134a4d1d44328dfe0b8d50271dc2da50a",
+    "direction": "Construction-paper cutouts on a snowy mountain street.",
+    "category": "stylized"
+  },
+  "the-sims": {
+    "assetId": "the-sims",
+    "version": "v1",
+    "source": "/samples/theme-the-sims.jpg",
+    "key": "generation-demos/v1/the-sims-177c69c7face.jpg",
+    "sha256": "177c69c7faceffa4034ee58c8840e032d74b42c2d7dcbf2129fd46346f342ef8",
+    "direction": "Plumbobs floating overhead, Sim faces mid-animation, a perfectly built living room.",
+    "category": "stylized"
+  },
+  "norman-rockwell": {
+    "assetId": "norman-rockwell",
+    "version": "v1",
+    "source": "/samples/theme-norman-rockwell.jpg",
+    "key": "generation-demos/v1/norman-rockwell-aa0208553ee4.jpg",
+    "sha256": "aa0208553ee4659d3867180cd536d3b3c600a88cacdcb1ed8707eca66a9a233f",
+    "direction": "A Saturday Evening Post cover.",
+    "category": "stylized"
+  },
+  "minecraft": {
+    "assetId": "minecraft",
+    "version": "v1",
+    "source": "/samples/theme-minecraft.jpg",
+    "key": "generation-demos/v1/minecraft-8328a1ca656e.jpg",
+    "sha256": "8328a1ca656ec4fc638a540a40b1497b6d58d9a6438396c778ed8ceb2e21b6c9",
+    "direction": "The whole family in voxel form.",
+    "category": "stylized"
+  },
+  "aardman-claymation": {
+    "assetId": "aardman-claymation",
+    "version": "v1",
+    "source": "/samples/theme-aardman.jpg",
+    "key": "generation-demos/v1/aardman-claymation-cda456588324.jpg",
+    "sha256": "cda4565883248aca457480351504d33fd4c0ba56fa6a594ab878eeef64b66025",
+    "direction": "Wallace-and-Gromit warmth.",
+    "category": "stylized"
+  },
+  "halloween-night-95": {
+    "assetId": "halloween-night-95",
+    "version": "v1",
+    "source": "/samples/theme-halloween-night-95.webp",
+    "key": "generation-demos/v1/halloween-night-95-a6ecd3375e5e.webp",
+    "sha256": "a6ecd3375e5ec95ec2a46d7d01b55929c05904fff4fd88e7f5ef282ab6b9b9fd",
+    "direction": "Direct-flash film, homemade costumes, porch lights, plastic pumpkin buckets, and nostalgic suburban Halloween charm.",
+    "category": "photoreal"
+  },
+  "haunted-family-manor": {
+    "assetId": "haunted-family-manor",
+    "version": "v1",
+    "source": "/samples/theme-haunted-family-manor.webp",
+    "key": "generation-demos/v1/haunted-family-manor-c953343f3250.webp",
+    "sha256": "c953343f325099a2036e5be4e73f09052c2e4b6994a4e2ec3d389fadc03bf31f",
+    "direction": "An elegant gothic family portrait with candlelight, ancestral paintings, deep burgundy, and frame-worthy mystery.",
+    "category": "photoreal"
+  },
+  "trick-or-treat-chaos": {
+    "assetId": "trick-or-treat-chaos",
+    "version": "v1",
+    "source": "/samples/theme-trick-or-treat-chaos.webp",
+    "key": "generation-demos/v1/trick-or-treat-chaos-804c56f99f59.webp",
+    "sha256": "804c56f99f59af9b46e7320f056c9043171360237e03b5ab66ea8512876fbdc8",
+    "direction": "A joyful blue-hour Halloween documentary frame with candy spills, costumes, and lively movement.",
+    "category": "photoreal"
+  },
+  "vintage-costume-studio": {
+    "assetId": "vintage-costume-studio",
+    "version": "v1",
+    "source": "/samples/theme-vintage-costume-studio.webp",
+    "key": "generation-demos/v1/vintage-costume-studio-837d12ac41a6.webp",
+    "sha256": "837d12ac41a6965ffea763379b0e102c84b0b53b7a2cfb446d74c8ba1047ae65",
+    "direction": "A 1920s-to-1950s Halloween studio portrait with a paper moon, black-cat cutouts, painted scenery, and gentle film wear.",
+    "category": "photoreal"
+  }
+}
