@@ -227,8 +227,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <GoogleAnalytics measurementId="G-2QKFPB9239" />
         <Script
           defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="b9408822-e3cd-4610-bafd-76e23dceb731"
+          src="https://datafa.st/js/script.js"
+          data-website-id="dfid_YafakExfgo6HFzfRtuqvx"
+          data-domain="familyshoot.com"
           strategy="afterInteractive"
         />
       </body>
