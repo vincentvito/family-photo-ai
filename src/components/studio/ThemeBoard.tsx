@@ -26,6 +26,7 @@ import {
 } from "@/lib/replicate/models";
 import { uploadLocationReference } from "@/lib/upload-client";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
+import { DEFAULT_GENERATION_METHOD, type GenerationMethod } from "@/lib/generation-method";
 import {
   getThemeStudioHref,
   MAX_STUDIO_PROMPT_LENGTH,
@@ -79,6 +80,7 @@ export default function ThemeBoard({
   cards,
   isAdmin = false,
   defaultModel = "gpt-image-2",
+  defaultGenerationMethod = DEFAULT_GENERATION_METHOD,
   creditBalance,
   canStartFreePreview,
   roster,
@@ -95,6 +97,7 @@ export default function ThemeBoard({
   cards: Theme[];
   isAdmin?: boolean;
   defaultModel?: GenerationModelId;
+  defaultGenerationMethod?: GenerationMethod;
   creditBalance: number;
   canStartFreePreview: boolean;
   roster: RosterMember[];
@@ -117,6 +120,9 @@ export default function ThemeBoard({
     initialThemeId ? [initialThemeId] : [],
   );
   const [modelId, setModelId] = useState<GenerationModelId>(defaultModel);
+  const [generationMethodOverride, setGenerationMethodOverride] = useState<
+    GenerationMethod | "default"
+  >("default");
 
   const [customDescription, setCustomDescription] = useState(
     () => normalizeStudioPrompt(initialPrompt) ?? "",
@@ -136,9 +142,18 @@ export default function ThemeBoard({
     outputMode === "photoshoot" && normalizeStudioPrompt(initialPrompt) ? "custom" : "curated",
   );
   const [pendingShoot, setPendingShoot] = useState<PendingShoot | null>(null);
+  const [promptOpen, setPromptOpen] = useState(false);
+  const [promptLoading, setPromptLoading] = useState(false);
+  const [promptError, setPromptError] = useState<string | null>(null);
+  const [promptPreview, setPromptPreview] = useState<{
+    signature: string;
+    method: GenerationMethod;
+    original: string[];
+    edited: string[];
+  } | null>(null);
   const [authResume, setAuthResume] = useState<AuthResume | null>(null);
   const [generationAuthReady, setGenerationAuthReady] = useState(isAuthenticated);
-  const subjectLimit = isAdmin ? null : MAX_SHOT_SUBJECTS;
+  const subjectLimit = MAX_SHOT_SUBJECTS;
   const [selectedSubjectIds, setSelectedSubjectIds] = useState<Set<string>>(() => new Set());
   const router = useRouter();
   const selectedCardId = outputMode === "card" ? initialCardId : null;
@@ -332,7 +347,17 @@ export default function ThemeBoard({
             cardText: theme.acceptsCardText ? cardText.trim() || null : null,
             aspectOverride: explicitShape?.ratio ?? null,
             modelId: isAdmin ? modelId : undefined,
+            generationMethod:
+              isAdmin && promptOpen && promptPreview?.signature === promptSignature
+                ? promptPreview.method
+                : isAdmin && generationMethodOverride !== "default"
+                  ? generationMethodOverride
+                  : undefined,
             subjectIds,
+            adminPromptOverrides:
+              isAdmin && promptOpen && promptPreview?.signature === promptSignature
+                ? promptPreview.edited
+                : undefined,
             cardArtStyles:
               outputMode === "card"
                 ? {
@@ -379,8 +404,10 @@ export default function ThemeBoard({
 
   const confirmShoot = () => {
     if (!pendingShoot) return;
+    if (promptOpen && (!promptPreview || promptPreview.signature !== promptSignature)) return;
     const shoot = pendingShoot;
     setPendingShoot(null);
+    setPromptOpen(false);
     if (!generationAuthReady) {
       openGenerationAuth({ kind: "shoot", shoot });
       return;
@@ -503,7 +530,7 @@ export default function ThemeBoard({
     const vibeNote =
       pendingShoot.kind === "theme" && outputMode === "photoshoot"
         ? pendingShoot.themes.length === 1
-          ? " Since you picked 1 vibe, we'll generate 4 different variations of that same vibe."
+          ? " Since you picked 1 vibe, all 4 shots will use it."
           : pendingShoot.themes.length < 4
             ? ` We'll fill the remaining ${remainingVibeSlots} ${remainingVibeSlots === 1 ? "slot" : "slots"} with recommended vibes automatically.`
             : " We'll use your 4 selected vibes."
@@ -511,10 +538,117 @@ export default function ThemeBoard({
     return `We'll create 4 ${label} (${ratio}) ${noun}.${vibeNote}${previewNote} You can rate, regenerate, or try another vibe after.${styleNote}`;
   })();
 
+  const methodScopeIsCurrent = outputMode === "card" || mode === "custom";
+  const shownMethod = methodScopeIsCurrent ? "current-prompt" : generationMethodOverride;
+  const methodName = (method: GenerationMethod) =>
+    method === "vibe-reference" ? "Vibe image reference" : "Current prompts";
+  const defaultForThisShoot = methodScopeIsCurrent
+    ? DEFAULT_GENERATION_METHOD
+    : defaultGenerationMethod;
+  const effectiveMethod =
+    generationMethodOverride === "default" || methodScopeIsCurrent
+      ? defaultForThisShoot
+      : generationMethodOverride;
+  const promptSignature = JSON.stringify({
+    themes: pendingShoot?.kind === "theme" ? pendingShoot.themes.map((item) => item.id) : [],
+    subjects: Array.from(selectedSubjectIds),
+    wardrobe: wardrobe.trim(),
+    aspect: explicitShape?.ratio ?? null,
+    modelId,
+    method: generationMethodOverride,
+    defaultGenerationMethod,
+  });
+  const promptIsFresh = !!promptPreview && promptPreview.signature === promptSignature;
+  const promptIsEdited =
+    promptIsFresh &&
+    promptPreview.edited.some((value, index) => value !== promptPreview.original[index]);
+
+  const loadPromptPreview = async () => {
+    if (!isAdmin || pendingShoot?.kind !== "theme" || outputMode !== "photoshoot") return;
+    const signature = promptSignature;
+    setPromptLoading(true);
+    setPromptError(null);
+    try {
+      const response = await fetch("/api/admin/generation-prompts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          themeId: pendingShoot.themes[0].id,
+          themeIds: pendingShoot.themes.map((item) => item.id),
+          outputType: "photoshoot",
+          wardrobeNote: wardrobe.trim() || null,
+          aspectOverride: explicitShape?.ratio ?? null,
+          modelId,
+          generationMethod:
+            generationMethodOverride !== "default" ? generationMethodOverride : undefined,
+          subjectIds: buildSubjectIdsPayload(),
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not load prompts.");
+      if (!Array.isArray(result.prompts) || result.prompts.length !== 4) {
+        throw new Error("The server did not return four prompts.");
+      }
+      setPromptPreview({
+        signature,
+        method: result.generationMethod,
+        original: result.prompts,
+        edited: result.prompts,
+      });
+    } catch (error) {
+      setPromptError(error instanceof Error ? error.message : "Could not load prompts.");
+    } finally {
+      setPromptLoading(false);
+    }
+  };
+
   return (
     <>
       {isAdmin && (
         <div className="mt-10 rounded-[var(--radius-xl)] border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)]">
+          <div className="mb-6">
+            <span className="chip chip-coral">Admin · generation method</span>
+            <p className="mt-2 text-xs text-[color:var(--color-ink-muted)]">
+              Per-shoot override. Use app default resolves when the shoot starts. Vibe image
+              reference applies only to built-in photographic and illustrated portraits. Cards and
+              custom scenes use Current prompts.
+            </p>
+            {methodScopeIsCurrent && (
+              <p className="mt-2 text-xs font-medium">
+                Current prompts applies to this {outputMode === "card" ? "card" : "custom scene"}.
+              </p>
+            )}
+            <div
+              className="mt-3 flex flex-wrap gap-2"
+              role="group"
+              aria-label="Generation method override"
+            >
+              {(
+                [
+                  [
+                    "default",
+                    `Use app default (${methodName(defaultForThisShoot)}${methodScopeIsCurrent ? " for this output" : ""})`,
+                  ],
+                  ["current-prompt", "Current prompts"],
+                  ["vibe-reference", "Vibe image reference"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setGenerationMethodOverride(value)}
+                  disabled={value === "vibe-reference" && methodScopeIsCurrent}
+                  aria-pressed={shownMethod === value}
+                  className={`rounded-full border px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${shownMethod === value ? "border-[color:var(--color-coral)] bg-[color:var(--color-bg-tinted-coral)]" : "border-[color:var(--color-line-strong)]"}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-xs font-medium text-[color:var(--color-ink-muted)]">
+              This shoot will use {methodName(effectiveMethod)}.
+            </p>
+          </div>
           <div className="flex flex-wrap items-center gap-3">
             <span className="chip chip-coral">
               <span className="dot dot-coral" />
@@ -1162,24 +1296,42 @@ export default function ThemeBoard({
               </p>
             )}
           </div>
-          <button
-            type="button"
-            onClick={launchSelectedThemes}
-            disabled={pending || selectedThemes.length === 0}
-            className={`btn btn-lg mt-3 w-full sm:mt-0 sm:w-auto ${
-              canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"
-            }`}
-          >
-            {!generationAuthReady
-              ? "Sign in to generate"
-              : !canCreateShoot
-                ? "Add credits to begin"
-                : pending
-                  ? "Setting up..."
-                  : hasCredits
-                    ? "Generate 4 shots"
-                    : "Create free preview"}
-          </button>
+          <div className="mt-3 flex w-full flex-col gap-2 sm:mt-0 sm:w-auto sm:flex-row">
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPromptOpen(true);
+                  launchSelectedThemes();
+                }}
+                disabled={pending || selectedThemes.length === 0}
+                className="btn btn-ghost btn-sm"
+              >
+                Review prompts
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                setPromptOpen(false);
+                launchSelectedThemes();
+              }}
+              disabled={pending || selectedThemes.length === 0}
+              className={`btn btn-lg w-full sm:w-auto ${
+                canCreateShoot && selectedThemes.length > 0 ? "btn-coral" : "btn-ghost"
+              }`}
+            >
+              {!generationAuthReady
+                ? "Sign in to generate"
+                : !canCreateShoot
+                  ? "Add credits to begin"
+                  : pending
+                    ? "Setting up..."
+                    : hasCredits
+                      ? "Generate 4 shots"
+                      : "Create free preview"}
+            </button>
+          </div>
         </div>
       )}
 
@@ -1241,9 +1393,19 @@ export default function ThemeBoard({
         confirmLabel="Start shoot"
         tone="coral"
         pending={pending}
-        confirmDisabled={roster.length > 0 && !selectedHasReference}
+        wide={isAdmin && promptOpen}
+        confirmDisabled={
+          (roster.length > 0 && !selectedHasReference) ||
+          (promptOpen &&
+            (!promptIsFresh ||
+              promptLoading ||
+              promptPreview.edited.some((value) => !value.trim())))
+        }
         onConfirm={confirmShoot}
-        onCancel={() => setPendingShoot(null)}
+        onCancel={() => {
+          setPendingShoot(null);
+          setPromptOpen(false);
+        }}
       >
         {roster.length > 0 && (
           <SubjectPicker
@@ -1254,6 +1416,94 @@ export default function ThemeBoard({
             onClear={clearSubjects}
             maxSubjects={subjectLimit}
           />
+        )}
+        {isAdmin && pendingShoot?.kind === "theme" && outputMode === "photoshoot" && (
+          <div className="mt-5 border-t border-[color:var(--color-line-strong)] pt-5">
+            <button
+              type="button"
+              onClick={() => setPromptOpen((open) => !open)}
+              className="text-sm font-semibold text-[color:var(--color-coral-deep)]"
+            >
+              {promptOpen ? "Hide prompts" : "View and edit prompts"}
+            </button>
+            {promptOpen && (
+              <div className="mt-4 space-y-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={loadPromptPreview}
+                    disabled={promptLoading || !selectedHasReference}
+                    className="btn btn-ghost btn-sm"
+                  >
+                    {promptLoading
+                      ? "Loading prompts…"
+                      : promptIsFresh
+                        ? "Refresh prompts"
+                        : "Load prompts"}
+                  </button>
+                  {promptIsFresh && (
+                    <span className="text-xs text-[color:var(--color-ink-muted)]">
+                      Method: {methodName(promptPreview.method)}
+                    </span>
+                  )}
+                </div>
+                {promptError && (
+                  <p role="alert" className="text-sm text-[color:var(--color-coral-deep)]">
+                    {promptError}
+                  </p>
+                )}
+                {!promptIsFresh && promptPreview && (
+                  <p role="status" className="text-sm text-[color:var(--color-coral-deep)]">
+                    Shoot inputs changed. Load prompts again before you start.
+                  </p>
+                )}
+                {promptIsFresh && (
+                  <>
+                    <p className="text-xs text-[color:var(--color-ink-muted)]">
+                      With this panel open, these four prompts are sent as shown and saved for this
+                      shoot and its retries.
+                    </p>
+                    {promptPreview.edited.map((value, index) => (
+                      <label key={index} className="block text-sm font-semibold">
+                        Image {index + 1} prompt
+                        <textarea
+                          value={value}
+                          onChange={(event) =>
+                            setPromptPreview((current) =>
+                              current
+                                ? {
+                                    ...current,
+                                    edited: current.edited.map((prompt, promptIndex) =>
+                                      promptIndex === index ? event.target.value : prompt,
+                                    ),
+                                  }
+                                : current,
+                            )
+                          }
+                          maxLength={12000}
+                          rows={7}
+                          className="mt-2 w-full resize-y rounded-[var(--radius-md)] border border-[color:var(--color-line-strong)] bg-white p-3 font-mono text-xs font-normal leading-5"
+                        />
+                      </label>
+                    ))}
+                    {promptIsEdited && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPromptPreview((current) =>
+                            current ? { ...current, edited: current.original } : current,
+                          )
+                        }
+                        className="text-sm font-semibold text-[color:var(--color-coral-deep)]"
+                      >
+                        Restore generated prompts
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         )}
       </ConfirmDialog>
 

@@ -21,6 +21,7 @@ import {
 import { THEMES } from "../src/lib/themes";
 import { getThemeDisplayName } from "../src/data/theme-display-names";
 import ThemeBoard from "../src/components/studio/ThemeBoard";
+import type { GenerationMethod } from "../src/lib/generation-method";
 
 const origin = "https://familyshoot.com";
 const portraitTheme = THEMES.find((theme) => theme.category === "photoreal")!;
@@ -116,7 +117,11 @@ const router = {
   bfcacheId: "test",
 };
 
-function renderIntent(intent: StudioIntent) {
+function renderIntent(
+  intent: StudioIntent,
+  admin = false,
+  defaultGenerationMethod: GenerationMethod = "current-prompt",
+) {
   const html = renderToStaticMarkup(
     createElement(
       AppRouterContext.Provider,
@@ -126,6 +131,8 @@ function renderIntent(intent: StudioIntent) {
         photoreal: [portraitTheme],
         stylized: [],
         cards: [cardTheme],
+        isAdmin: admin,
+        defaultGenerationMethod,
         creditBalance: 1,
         canStartFreePreview: false,
         roster: [
@@ -144,6 +151,66 @@ function renderIntent(intent: StudioIntent) {
   );
   return new JSDOM(html);
 }
+
+test("admin Studio shows separate method and model controls with clear scope", () => {
+  const portrait = renderIntent(
+    { kind: "theme", output: "photoshoot", themeId: portraitTheme.id },
+    true,
+  );
+  const card = renderIntent({ kind: "theme", output: "card", themeId: cardTheme.id }, true);
+  const portraitWithReferenceDefault = renderIntent(
+    { kind: "theme", output: "photoshoot", themeId: portraitTheme.id },
+    true,
+    "vibe-reference",
+  );
+  const cardWithReferenceDefault = renderIntent(
+    { kind: "theme", output: "card", themeId: cardTheme.id },
+    true,
+    "vibe-reference",
+  );
+  const customer = renderIntent({ kind: "theme", output: "photoshoot", themeId: portraitTheme.id });
+  try {
+    const method = portrait.window.document.querySelector(
+      '[role="group"][aria-label="Generation method override"]',
+    );
+    assert.ok(method);
+    assert.match(
+      method.textContent ?? "",
+      /Use app default.*Current prompts.*Vibe image reference/,
+    );
+    assert.match(
+      portrait.window.document.body.textContent ?? "",
+      /Cards and custom scenes use Current prompts/,
+    );
+    assert.match(portrait.window.document.body.textContent ?? "", /Admin · model/);
+    assert.match(method.textContent ?? "", /Use app default \(Current prompts\)/);
+    assert.match(
+      portraitWithReferenceDefault.window.document.body.textContent ?? "",
+      /Use app default \(Vibe image reference\).*This shoot will use Vibe image reference/s,
+    );
+    assert.match(
+      cardWithReferenceDefault.window.document.body.textContent ?? "",
+      /Use app default \(Current prompts for this output\).*This shoot will use Current prompts/s,
+    );
+    assert.equal(
+      card.window.document.querySelector<HTMLButtonElement>('[role="group"] button:last-child')
+        ?.disabled,
+      true,
+    );
+    assert.equal(
+      customer.window.document.querySelector(
+        '[role="group"][aria-label="Generation method override"]',
+      ),
+      null,
+    );
+  } finally {
+    portrait.window.close();
+    card.window.close();
+    portraitWithReferenceDefault.window.close();
+    cardWithReferenceDefault.window.close();
+    customer.window.close();
+  }
+});
 
 test("studio renders the chosen custom prompt in the editable custom scene tab", () => {
   const dom = renderIntent({ kind: "prompt", output: "photoshoot", prompt });

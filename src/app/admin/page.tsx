@@ -5,6 +5,7 @@ import {
   getCreditGrantStats,
   getCustomVibeSamples,
   getDefaultModel,
+  getDefaultGenerationMethod,
   getGiftCodeSalesStats,
   getImageFeedbackStats,
   getPackageSalesStats,
@@ -22,6 +23,7 @@ import {
   TrendDelta,
 } from "@/components/admin/AnalyticsPrimitives";
 import DefaultModelPicker from "./DefaultModelPicker";
+import DefaultGenerationMethodPicker from "./DefaultGenerationMethodPicker";
 import CreditGrantForm from "./CreditGrantForm";
 import UserAdminRoleButton from "./UserAdminRoleButton";
 import ImpersonateButton from "./ImpersonateButton";
@@ -184,6 +186,14 @@ function SettingsTab() {
           <Suspense fallback={<div className="h-9 w-48 rounded bg-[color:var(--color-line)]/50" />}>
             <DefaultModelSection />
           </Suspense>
+        </div>
+        <div className="mt-8 border-t border-[color:var(--color-line)] pt-6">
+          <h2 className="serif text-2xl">Default generation method</h2>
+          <div className="mt-4">
+            <Suspense fallback={<div>Loading…</div>}>
+              <DefaultGenerationMethodSection />
+            </Suspense>
+          </div>
         </div>
       </div>
     </section>
@@ -793,6 +803,10 @@ async function DefaultModelSection() {
   return <DefaultModelPicker initial={defaultModel} />;
 }
 
+async function DefaultGenerationMethodSection() {
+  return <DefaultGenerationMethodPicker initial={await getDefaultGenerationMethod()} />;
+}
+
 async function CreditGrantsList() {
   const grants = await getCreditGrantStats(8);
   return (
@@ -940,6 +954,8 @@ async function ShootsList() {
             <div className="truncate text-sm font-medium">{g.themeId}</div>
             <div className="text-xs text-[color:var(--color-ink-muted)]">
               {g.model || "—"}
+              {" · "}
+              {g.generationMethod === "vibe-reference" ? "Vibe image reference" : "Current prompts"}
               {" · "}
               <span
                 className={

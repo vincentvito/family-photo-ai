@@ -132,6 +132,8 @@ export async function getAlbum(userId: string) {
 }
 
 export async function getRecentShoots(userId: string, limit?: number) {
+  const { recoverStaleIncompleteLaunches } = await import("@/lib/generate-queries");
+  await recoverStaleIncompleteLaunches(userId);
   const generationsQuery = db
     .select()
     .from(schema.generations)

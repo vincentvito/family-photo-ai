@@ -5,6 +5,7 @@ import {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  CopyObjectCommand,
   HeadObjectCommand,
   DeleteObjectCommand,
   DeleteObjectsCommand,
@@ -162,6 +163,16 @@ export async function saveBuffer(
   contentType = "image/jpeg",
 ): Promise<void> {
   await putObject(key, buffer, contentType);
+}
+
+export async function copyStoredImage(sourceKey: string, targetKey: string): Promise<void> {
+  await s3().send(
+    new CopyObjectCommand({
+      Bucket: bucket(),
+      Key: targetKey,
+      CopySource: `${bucket()}/${sourceKey.split("/").map(encodeURIComponent).join("/")}`,
+    }),
+  );
 }
 
 /**
