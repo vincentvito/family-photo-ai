@@ -355,11 +355,41 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close legacy crop: waist-up subject grouping with windswept fabric, sea-glass background bokeh, natural skin detail and calm fine-art mood.",
     "Wide shoreline heirloom: subjects smaller against glowing water and sky, earth-tone styling, generous negative space and gallery-print margins.",
   ],
+  "cozy-reset-morning": [
+    "Breakfast-nook reset: subjects gathered near a bright breakfast nook with folded linen, mugs and simple flowers secondary, soft morning window light and calm expressions.",
+    "Sofa-and-blanket candid: subjects leaning together on a cozy sofa with oat blankets and sage accents, relaxed mid-morning energy and clear readable faces.",
+    "Kitchen-window portrait: subjects standing near a clean kitchen window, ceramic mugs and tidy shelves softly behind, warm cream bounce and gentle negative space.",
+    "Close reset crop: waist-up subject grouping with soft knit texture, oat and blue accents, polished catchlights and peaceful home atmosphere.",
+  ],
+  "autumn-charm-portrait": [
+    "Porch-basket portrait: subjects arranged near simple baskets and amber leaves, cranberry layers and cinnamon knits secondary, warm afternoon face light.",
+    "Garden-path charm: subjects walking slowly along an early-autumn path with soft grasses and moss accents, natural hands and clear face priority.",
+    "Leaf-edge keepsake: subjects seated or standing at a quiet park edge with leaves framing the lower corners, cozy layers and polished fall color.",
+    "Close autumn texture crop: waist-up subject grouping with cranberry, denim and cream layers, soft foliage bokeh and gentle keepsake warmth.",
+  ],
+  "fashion-week-family-editorial": [
+    "Gallery corridor cover: subjects staggered along a clean gallery corridor with blank panels and tailored layers, confident posture and crisp face priority.",
+    "City-lobby editorial: subjects arranged near polished concrete and simple benches, graphite and camel wardrobe accents, bright window spill and no signage.",
+    "Walking editorial frame: subjects moving together through a bright city-studio entrance, strong vertical lines, natural hands and modest tailored silhouettes.",
+    "Close tailored crop: shoulder-to-knee subject grouping with ivory, teal and cherry accents, polished catchlights and brand-free magazine energy.",
+  ],
+  "pet-holiday-outtake": [
+    "Living-room outtake: subjects laughing together in a bright holiday living room with simple greenery and blank wrapped boxes, warm lights and safe candid motion.",
+    "Sofa card candid: subjects squeezed near a cozy sofa with evergreen and cranberry accents, funny imperfect timing, clear faces and low foreground decor.",
+    "String-light proof: subjects arranged under soft string lights with kraft-paper packages secondary, warm window mix and polished candid clarity.",
+    "Close holiday laugh crop: waist-up subject grouping with cream knits, warm wood and evergreen bokeh, joyful outtake energy and clean subject separation.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
     "Tomato accent celebration: subjects arranged in a refined vertical card layout with tomato red accent decor, controlled sparkle and readable faces.",
     "Wide deco card proof: subjects smaller within symmetrical arch geometry, elegant negative space for greeting text and no venue signage.",
+  ],
+  "jewel-tone-studio-card": [
+    "Emerald greeting portrait: subjects arranged below a matte emerald backdrop with plum velvet texture, upper blank space held for supplied greeting text.",
+    "Ruby-sapphire studio proof: subjects staggered among ruby and sapphire fabric accents, brass-toned frame shapes secondary and crisp readable faces.",
+    "Velvet bench card: subjects seated and standing near a plum velvet bench, rich jewel highlights controlled and clean card margin beside them.",
+    "Close jewel-tone crop: waist-up subject grouping against emerald and ivory studio panels, polished catchlights, warm gold accents and reserved greeting area.",
   ],
   "poetcore-letterpress-family-card": [
     "Letterpress desk card: subjects arranged beside blank stationery and pressed flowers, tactile paper texture visible and clean greeting space above.",

@@ -1044,6 +1044,78 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "cozy-reset-morning-family-photos",
+    name: "Cozy Reset Morning",
+    keyword: "cozy reset morning family photo",
+    secondaryKeywords: [
+      "cozy morning family portrait",
+      "home reset family photoshoot",
+      "September morning family photo",
+    ],
+    image: "/samples/theme-cozy-reset-morning.webp",
+    shortDescription:
+      "Soft window light, tidy home texture, folded linen, mugs, and relaxed September morning warmth.",
+    related: [
+      "sunday-sofa-family-photos",
+      "kinfolk-kitchen-family-photos",
+      "poetcore-porch-family-photos",
+    ],
+  },
+  {
+    slug: "autumn-charm-portrait-family-photos",
+    name: "Autumn Charm Portrait",
+    keyword: "autumn charm family portrait",
+    secondaryKeywords: [
+      "early autumn family photo",
+      "fall charm family photoshoot",
+      "cozy autumn family portrait",
+    ],
+    image: "/samples/theme-autumn-charm-portrait.webp",
+    shortDescription:
+      "Cranberry layers, cinnamon knits, amber leaves, porch baskets, and gentle early-autumn polish.",
+    related: [
+      "paprika-plaid-autumn-family-photos",
+      "burgundy-orchard-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "fashion-week-family-editorial-family-photos",
+    name: "Fashion-Week Family Editorial",
+    keyword: "fashion week family editorial portrait",
+    secondaryKeywords: [
+      "city editorial family photo",
+      "tailored family photoshoot",
+      "brand free fashion family portrait",
+    ],
+    image: "/samples/theme-fashion-week-family-editorial.webp",
+    shortDescription:
+      "Tailored layers, clean city-gallery lines, confident posture, and brand-free editorial polish.",
+    related: [
+      "runway-editorial-family-photos",
+      "editorial-jewel-tone-fall-portrait-family-photos",
+      "neo-deco-family-portrait-photos",
+    ],
+  },
+  {
+    slug: "pet-holiday-outtake-family-photos",
+    name: "Pet Holiday Outtake",
+    keyword: "pet holiday family outtake photo",
+    secondaryKeywords: [
+      "candid holiday family photo",
+      "funny holiday card outtake",
+      "cozy holiday family photoshoot",
+    ],
+    image: "/samples/theme-pet-holiday-outtake.webp",
+    shortDescription:
+      "A funny candid holiday-card outtake with cozy home decor, warm lights, soft motion, and joyful imperfection.",
+    related: [
+      "christmas-family-cards",
+      "cozy-reset-morning-family-photos",
+      "joyful-photo-dump-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",

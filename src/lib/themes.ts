@@ -1938,6 +1938,110 @@ export const THEMES: Theme[] = [
         "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
     },
   },
+  {
+    id: "cozy-reset-morning",
+    name: "Cozy Reset Morning",
+    blurb:
+      "A calm September morning reset with soft window light, tidy home texture, mugs, folded linen, and relaxed family warmth.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-reset-morning.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 cozy morning lifestyle family portrait",
+      scene:
+        "a bright home kitchen, breakfast nook or living room corner with folded linen, soft blankets, simple flowers, ceramic mugs, tidy shelves and calm early-fall home texture",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical editorial framing with readable faces and soft home depth",
+      composition:
+        "relaxed seated-and-standing morning arrangement, tabletop details kept secondary, open wall or window light used as gentle negative space",
+      lighting:
+        "diffused morning window light, warm cream wall bounce, soft catchlights and airy shadow detail without harsh flash",
+      style:
+        "premium cozy lifestyle photography, sage, oat, soft blue, warm cream, muted terracotta and natural wood palette, honest skin texture, print-ready calm",
+      safety:
+        "family-safe home setting only, modest cozy wardrobe, no brand labels, no readable packaging, no alcohol cues, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "autumn-charm-portrait",
+    name: "Autumn Charm Portrait",
+    blurb:
+      "Cranberry layers, cinnamon knits, soft leaves, porch baskets, and gentle early-autumn charm with polished keepsake light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-autumn-charm-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 charming early-autumn family photograph",
+      scene:
+        "a garden path, front porch or quiet park edge with amber leaves, simple baskets, soft grasses, cranberry textiles, cinnamon knit layers and warm seasonal texture",
+      camera:
+        "Contax 645 medium format with an 80mm lens, eye-level editorial portrait framing with clear faces and soft background compression",
+      composition:
+        "gentle staggered grouping with natural hand placement, leaves and baskets framing the edges, clean sightlines and print-friendly margins",
+      lighting:
+        "golden overcast afternoon light, warm leaf bounce, delicate rim highlights on hair and knitwear and balanced shadow detail",
+      style:
+        "premium fall lifestyle photography, cranberry, moss, cinnamon, denim blue, cream and warm walnut palette, subtle film grain, polished keepsake finish",
+      safety:
+        "wholesome early-autumn styling only, no scary seasonal cues, no occult symbols, no alcohol cues, no brand logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "fashion-week-family-editorial",
+    name: "Fashion-Week Family Editorial",
+    blurb:
+      "A brand-free city editorial portrait with tailored layers, gallery-corridor polish, confident posture, and refined September energy.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-fashion-week-family-editorial.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 polished city-editorial family portrait",
+      scene:
+        "a clean city gallery corridor, bright lobby or sidewalk-adjacent studio entrance with blank wall panels, polished concrete, simple benches and no venue signage",
+      camera:
+        "digital medium-format camera with a 65mm lens, vertical magazine-style framing, full-to-three-quarter bodies when natural and crisp face priority",
+      composition:
+        "confident staggered editorial spacing, strong vertical lines, visible hands, tailored silhouettes and generous clean negative space",
+      lighting:
+        "large softbox-style window spill, controlled highlight rolloff, polished catchlights and subtle floor bounce for clean skin tones",
+      style:
+        "brand-free fashion-editorial family photography, graphite, ivory, camel, deep teal and cherry accents, modest tailored wardrobe, print-ready polish",
+      safety:
+        "original editorial styling only, no designer references, no logos, no readable text, no public-figure resemblance, no revealing wardrobe, no nightlife cues, no watermark",
+    },
+  },
+  {
+    id: "pet-holiday-outtake",
+    name: "Holiday Outtake",
+    blurb:
+      "A funny, candid holiday-card outtake with cozy home decor, warm lights, soft motion, and joyful family imperfection.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-pet-holiday-outtake.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 candid holiday outtake family photograph",
+      scene:
+        "a bright holiday living room with simple greenery, wrapped blank kraft-paper boxes, soft string lights, a cozy sofa, warm wood texture and clean family-card atmosphere",
+      camera:
+        "35mm lifestyle camera at eye level, candid mid-laugh framing with crisp readable faces and a little safe motion in clothing or decor",
+      composition:
+        "organized outtake energy with subjects close together, foreground decor kept low, clear face sightlines and no extra cast members",
+      lighting:
+        "warm window light mixed with gentle holiday lights, soft practical glow, balanced skin tones and controlled cozy contrast",
+      style:
+        "premium candid holiday photography, evergreen, cranberry, cream, denim and warm wood palette, natural expressions, print-ready clarity",
+      safety:
+        "family-safe holiday styling only, no alcohol cues, no fireplace hazard, no brand labels, no readable text, no famous character costumes, no logos, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
@@ -2914,6 +3018,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "jewel-tone-studio-card",
+    name: "Jewel-Tone Studio Card",
+    blurb:
+      "A refined studio greeting card with emerald, plum, sapphire, ruby, ivory, and warm gold polish around clean greeting space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-jewel-tone-studio-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 jewel-tone studio greeting-card family portrait",
+      scene:
+        "a refined studio card set with matte emerald backdrop panels, plum velvet seating, sapphire and ruby fabric accents, brass-toned frame shapes and a clean blank greeting area",
+      camera:
+        "digital medium-format portrait camera with a 65mm lens, vertical card-ready framing with crisp faces and elegant studio depth",
+      composition:
+        "balanced greeting-card layout with upper negative space reserved for supplied text, graceful seated-and-standing portrait geometry and clear hands",
+      lighting:
+        "painterly studio softbox key, warm fill, controlled jewel highlights, polished catchlights and gentle shadow falloff",
+      style:
+        "premium studio card photography, emerald, plum, sapphire, ruby, ivory and antique gold palette, rich fabric texture, archival print finish",
+      safety:
+        "original studio-card styling only, no designer references, no logos, no readable text except user-supplied greeting, no nightlife cues, no alcohol props, no watermark",
+    },
+  },
+  {
     id: "poetcore-letterpress-family-card",
     name: "Poetcore Letterpress Family Card",
     blurb:
@@ -3158,6 +3289,7 @@ export function themesByCategory() {
       "butter-yellow-summer-card",
       "ocean-explorer-card",
       "neo-deco-celebration-card",
+      "jewel-tone-studio-card",
       "poetcore-letterpress-family-card",
       "crochet-raffia-picnic-card",
       "card-birthday",
