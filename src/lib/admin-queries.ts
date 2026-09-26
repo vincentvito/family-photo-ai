@@ -1,6 +1,11 @@
 import { db, schema } from "@/lib/db";
 import { and, desc, eq, gte, isNull, ne, sql } from "drizzle-orm";
 import { GENERATION_MODEL_IDS, type GenerationModelId } from "@/lib/replicate/models";
+import {
+  DEFAULT_GENERATION_METHOD,
+  isGenerationMethod,
+  type GenerationMethod,
+} from "@/lib/generation-method";
 import { formatGiftCode } from "@/lib/gift-code";
 import { PRICING_PACKS, getPricingPack } from "@/lib/pricing-packs";
 import { studioCutoffDate } from "@/lib/retention";
@@ -17,7 +22,7 @@ const ART_STYLE_BY_ID = new Map<string, (typeof CARD_ART_STYLES)[number]>(
 
 export async function getDefaultModel(): Promise<GenerationModelId> {
   const [row] = await db
-    .select()
+    .select({ defaultModel: schema.appSettings.defaultModel })
     .from(schema.appSettings)
     .where(eq(schema.appSettings.id, SETTINGS_ROW_ID))
     .limit(1);
@@ -35,6 +40,34 @@ export async function setDefaultModel(modelId: GenerationModelId) {
     .onConflictDoUpdate({
       target: schema.appSettings.id,
       set: { defaultModel: modelId, updatedAt: new Date() },
+    });
+}
+
+export async function getDefaultGenerationMethod(): Promise<GenerationMethod> {
+  try {
+    const [row] = await db
+      .select({ method: schema.appSettings.defaultGenerationMethod })
+      .from(schema.appSettings)
+      .where(eq(schema.appSettings.id, SETTINGS_ROW_ID))
+      .limit(1);
+    return isGenerationMethod(row?.method) ? row.method : DEFAULT_GENERATION_METHOD;
+  } catch (error) {
+    // Keep settings pages readable while an environment waits for 0017.
+    const cause = (error as { cause?: { code?: string } })?.cause;
+    if (cause?.code === "42703" && String(error).includes("default_generation_method")) {
+      return DEFAULT_GENERATION_METHOD;
+    }
+    throw error;
+  }
+}
+
+export async function setDefaultGenerationMethod(method: GenerationMethod) {
+  await db
+    .insert(schema.appSettings)
+    .values({ id: SETTINGS_ROW_ID, defaultGenerationMethod: method })
+    .onConflictDoUpdate({
+      target: schema.appSettings.id,
+      set: { defaultGenerationMethod: method, updatedAt: new Date() },
     });
 }
 
@@ -539,6 +572,7 @@ export async function getRecentGenerations(limit = 10) {
       themeId: schema.generations.themeId,
       status: schema.generations.status,
       model: schema.generations.model,
+      generationMethod: schema.generations.generationMethod,
       errorMessage: schema.generations.errorMessage,
       createdAt: schema.generations.createdAt,
     })

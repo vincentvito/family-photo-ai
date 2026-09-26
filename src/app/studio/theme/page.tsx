@@ -1,7 +1,7 @@
 import { themesByCategory } from "@/lib/themes";
 import ThemeBoard, { type RosterMember } from "@/components/studio/ThemeBoard";
 import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
-import { getDefaultModel } from "@/lib/admin-queries";
+import { getDefaultGenerationMethod, getDefaultModel } from "@/lib/admin-queries";
 import {
   getCreditBalance,
   getCurrentSubscription,
@@ -59,17 +59,25 @@ export default async function ThemePage({
     ? null
     : getTempRosterOwnerFromCookieValue(cookieStore?.get(TEMP_ROSTER_COOKIE)?.value);
   const rosterOwnerId = user?.id ?? tempOwner?.userId ?? null;
-  const [admin, defaultModel, creditBalance, canPreview, rosterRows, subscription] =
-    await Promise.all([
-      isAdmin(),
-      getDefaultModel(),
-      user ? getCreditBalance(user.id) : Promise.resolve(0),
-      user ? canStartFreePreview(user.id) : Promise.resolve(false),
-      rosterOwnerId
-        ? listRoster(rosterOwnerId)
-        : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
-      user ? getCurrentSubscription(user.id) : Promise.resolve(null),
-    ]);
+  const [
+    admin,
+    defaultModel,
+    defaultGenerationMethod,
+    creditBalance,
+    canPreview,
+    rosterRows,
+    subscription,
+  ] = await Promise.all([
+    isAdmin(),
+    getDefaultModel(),
+    getDefaultGenerationMethod(),
+    user ? getCreditBalance(user.id) : Promise.resolve(0),
+    user ? canStartFreePreview(user.id) : Promise.resolve(false),
+    rosterOwnerId
+      ? listRoster(rosterOwnerId)
+      : Promise.resolve([] as Awaited<ReturnType<typeof listRoster>>),
+    user ? getCurrentSubscription(user.id) : Promise.resolve(null),
+  ]);
   const isProSubscriber = isActiveSubscriptionStatus(subscription?.status);
 
   if (intent) {
@@ -131,6 +139,7 @@ export default async function ThemePage({
         cards={themes.card}
         isAdmin={admin}
         defaultModel={defaultModel}
+        defaultGenerationMethod={defaultGenerationMethod}
         creditBalance={creditBalance}
         canStartFreePreview={canPreview}
         roster={roster}

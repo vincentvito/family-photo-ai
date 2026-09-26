@@ -1,9 +1,9 @@
 import path from "node:path";
 import { db, schema } from "@/lib/db";
-import { and, eq, asc, inArray, ne, sql } from "drizzle-orm";
+import { and, eq, asc, inArray, lte, ne, sql } from "drizzle-orm";
 import { safeRevalidatePath as revalidatePath } from "@/lib/revalidate";
 import { z } from "zod";
-import { saveGeneratedImage } from "@/lib/storage";
+import { copyStoredImage, saveGeneratedImage } from "@/lib/storage";
 import {
   THEMES,
   buildCustomTheme,
@@ -29,7 +29,10 @@ import type { AspectRatio, Subject } from "@/lib/providers/types";
 import {
   buildGenerationPredictionPrompts,
   buildReferenceUrls,
+  cancelPrediction,
   createGenerationPredictions,
+  createReferencePredictions,
+  createSavedReferencePrediction,
   createSinglePrediction,
   fetchPredictionImage,
   reconcilePrediction,
@@ -42,7 +45,18 @@ import {
   isAspectSupported,
   type GenerationModelId,
 } from "@/lib/replicate/models";
-import { getDefaultModel } from "@/lib/admin-queries";
+import { getDefaultGenerationMethod, getDefaultModel } from "@/lib/admin-queries";
+import {
+  GENERATION_METHODS,
+  resolveGenerationMethod,
+  type GenerationMethod,
+} from "@/lib/generation-method";
+import {
+  buildReferenceOutputInputs,
+  validateReferenceInputs,
+  ReferenceInputUnavailableError,
+  type ReferenceOutputInput,
+} from "@/lib/vibe-reference";
 import { isAdmin } from "@/lib/auth-helpers";
 import { studioCutoffDate } from "@/lib/retention";
 import { packIdToTier, type PackTier } from "@/lib/pricing-packs";
@@ -64,6 +78,7 @@ import {
 const AspectSchema = z.enum(["1:1", "3:2", "2:3"]);
 const VARIANT_COUNT = 4;
 const MAX_RETRIES_PER_SLOT = 1;
+const INCOMPLETE_LAUNCH_TIMEOUT_MS = 10 * 60 * 1000;
 const FREE_PREVIEW_INELIGIBLE_MESSAGE =
   "Your free preview is one-time. Add credits before starting another one.";
 const FREE_PREVIEW_UNIQUE_INDEX = "generations_user_free_preview_once_idx";
@@ -83,6 +98,7 @@ const CustomVibeSchema = z.object({
 });
 
 const ModelIdSchema = z.enum(GENERATION_MODEL_IDS as [GenerationModelId, ...GenerationModelId[]]);
+const MethodSchema = z.enum(GENERATION_METHODS);
 const OutputTypeSchema = z.enum(["photoshoot", "card"]);
 const CardArtStyleIdSchema = z.enum([...CARD_ART_STYLE_IDS] as [
   CardArtStyleId,
@@ -119,6 +135,19 @@ const StartGenerationInput = z
     aspectOverride: AspectSchema.nullable().optional(),
     /** Admin-only override of the runtime default model. Non-admins are ignored. */
     modelId: ModelIdSchema.optional(),
+    /** Admin-only per-shoot method override. */
+    generationMethod: MethodSchema.optional(),
+    /** Admin-only complete provider prompts, one for each output. */
+    adminPromptOverrides: z
+      .array(
+        z
+          .string()
+          .min(1)
+          .max(12000)
+          .refine((value) => value.trim().length > 0),
+      )
+      .length(VARIANT_COUNT)
+      .optional(),
     /** Optional per-shoot roster filter. When omitted, the full roster is used. */
     subjectIds: z.array(z.string().min(1)).min(1).optional(),
     /** Card-only art treatment: one default plus optional per-output overrides. */
@@ -137,9 +166,12 @@ const StartGenerationInput = z
 export async function startGeneration(
   input: z.infer<typeof StartGenerationInput>,
   actor: { userId: string },
+  options?: { previewOnly?: boolean },
 ) {
   const parsed = StartGenerationInput.parse(input);
   const admin = await isAdmin();
+  if (options?.previewOnly && !admin) throw new Error("Admin only");
+  if (parsed.adminPromptOverrides && !admin) throw new Error("Admin only");
   if (
     parsed.locationReferencePath &&
     !isOwnedLocationReferencePath(parsed.locationReferencePath, actor.userId)
@@ -188,6 +220,9 @@ export async function startGeneration(
   }
 
   const roster = await loadRosterAsSubjects(actor.userId, parsed.subjectIds);
+  if (parsed.subjectIds && parsed.subjectIds.length > MAX_SHOT_SUBJECTS) {
+    throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
+  }
   if (roster.length === 0) {
     if (parsed.subjectIds && parsed.subjectIds.length > 0) {
       throw new Error("Pick at least one person or pet with a reference photo.");
@@ -198,7 +233,7 @@ export async function startGeneration(
   if (withReference.length === 0) {
     throw new Error("Pick at least one person or pet with a reference photo.");
   }
-  if (!admin && !parsed.subjectIds && roster.length > MAX_SHOT_SUBJECTS) {
+  if (!parsed.subjectIds && roster.length > MAX_SHOT_SUBJECTS) {
     throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
   }
   const missingReferences = roster.filter((subject) => subject.referencePaths.length === 0);
@@ -211,7 +246,7 @@ export async function startGeneration(
   // reference photo rather than blocking the shoot — the selector already
   // surfaces missing-reference state to them.
   const effectiveRoster = parsed.subjectIds ? withReference : roster;
-  if (!admin && effectiveRoster.length > MAX_SHOT_SUBJECTS) {
+  if (effectiveRoster.length > MAX_SHOT_SUBJECTS) {
     throw new Error(`Choose up to ${MAX_SHOT_SUBJECTS} people or pets for one shot.`);
   }
 
@@ -231,30 +266,66 @@ export async function startGeneration(
     }
   }
 
-  const prompt = buildGenerationPrompt(
-    theme,
-    effectiveRoster,
-    parsed.wardrobeNote,
-    parsed.cardText ?? null,
-  );
   const plannedThemes =
     !parsed.customVibe && outputType === "photoshoot" && vibePlan.length > 0
       ? vibePlan.map((slot) => applyThemeAspectOverride(getTheme(slot.themeId), theme.aspectRatio))
       : [theme];
-  const slotPrompts = plannedThemes.map((plannedTheme) =>
-    buildGenerationPrompt(
-      plannedTheme,
-      effectiveRoster,
-      parsed.wardrobeNote,
-      parsed.cardText ?? null,
-    ),
-  );
-  const variationPrompts = buildLaunchVariationPrompts({
-    themes: plannedThemes,
-    cardArtStyleIds,
-  });
-
   const modelId = await resolveModelId(parsed.modelId, admin);
+  const eligiblePortrait = !parsed.customVibe && outputType === "photoshoot";
+  const generationMethod: GenerationMethod = resolveGenerationMethod({
+    eligiblePortrait,
+    admin,
+    requested: parsed.generationMethod,
+    appDefault: eligiblePortrait ? await getDefaultGenerationMethod() : "current-prompt",
+  });
+  const referenceRoster =
+    generationMethod === "vibe-reference" && parsed.subjectIds
+      ? [...effectiveRoster].sort(
+          (left, right) =>
+            parsed.subjectIds!.indexOf(left.personId) - parsed.subjectIds!.indexOf(right.personId),
+        )
+      : effectiveRoster;
+  let referenceInputs =
+    generationMethod === "vibe-reference"
+      ? buildReferenceOutputInputs({
+          themeIds: plannedThemes.map((plannedTheme) => plannedTheme.id),
+          subjects: referenceRoster,
+          aspectRatio: theme.aspectRatio,
+          wardrobeNote: parsed.wardrobeNote,
+          modelId,
+        })
+      : null;
+  if (referenceInputs) {
+    // Nano Banana publishes 14. The GPT Image schemas do not publish a
+    // maxItems value, so use a smaller app limit until it is verified.
+    const maxImages = modelId === "nanobanana" || modelId === "nano-banana-pro" ? 14 : 10;
+    if (referenceInputs.some((input) => input.imageKeys.length > maxImages)) {
+      throw new Error(
+        `Vibe image reference supports up to ${maxImages - 1} selected subjects with this model (plus one demo).`,
+      );
+    }
+    await validateReferenceInputs(referenceInputs);
+  }
+  let prompt =
+    referenceInputs?.[0].prompt ??
+    buildGenerationPrompt(theme, effectiveRoster, parsed.wardrobeNote, parsed.cardText ?? null);
+  let slotPrompts =
+    referenceInputs?.map((input) => input.prompt) ??
+    plannedThemes.map((plannedTheme) =>
+      buildGenerationPrompt(
+        plannedTheme,
+        effectiveRoster,
+        parsed.wardrobeNote,
+        parsed.cardText ?? null,
+      ),
+    );
+  const variationPrompts = referenceInputs
+    ? []
+    : buildLaunchVariationPrompts({
+        themes: plannedThemes,
+        cardArtStyleIds,
+      });
+
   if (!isAspectSupported(modelId, theme.aspectRatio)) {
     const supported = MODEL_CATALOG[modelId].supportedAspectRatios.join(", ");
     throw new Error(
@@ -262,14 +333,44 @@ export async function startGeneration(
     );
   }
 
-  if (isPromptDebugOnlyModeEnabled()) {
-    const prompts = buildGenerationPredictionPrompts({
+  if ((parsed.adminPromptOverrides || options?.previewOnly) && !eligiblePortrait) {
+    throw new Error("Prompt edits apply only to built-in portrait vibes.");
+  }
+  const finalPrompts =
+    referenceInputs?.map((entry) => entry.prompt) ??
+    buildGenerationPredictionPrompts({
       basePrompt: prompt,
       slotPrompts,
       aspectRatio: theme.aspectRatio,
       variants: VARIANT_COUNT,
       variationPrompts,
     });
+  if (options?.previewOnly) {
+    return { generationId: "preview-only", prompts: finalPrompts, generationMethod };
+  }
+  if (parsed.adminPromptOverrides) {
+    const edited = parsed.adminPromptOverrides;
+    prompt = edited[0];
+    slotPrompts = edited;
+    if (referenceInputs) {
+      referenceInputs = referenceInputs.map((entry, index) => ({
+        ...entry,
+        prompt: edited[index],
+      }));
+    }
+  }
+
+  if (isPromptDebugOnlyModeEnabled()) {
+    const prompts =
+      parsed.adminPromptOverrides ??
+      referenceInputs?.map((input) => input.prompt) ??
+      buildGenerationPredictionPrompts({
+        basePrompt: prompt,
+        slotPrompts,
+        aspectRatio: theme.aspectRatio,
+        variants: VARIANT_COUNT,
+        variationPrompts,
+      });
     console.log(
       [
         "",
@@ -300,10 +401,12 @@ export async function startGeneration(
       plannedThemes,
       cardArtStyleIds,
       prompt,
-      roster: effectiveRoster,
+      roster: referenceRoster,
       input: parsed,
       actor,
       modelId,
+      generationMethod,
+      referenceInputs,
     });
   }
 
@@ -314,43 +417,95 @@ export async function startGeneration(
       providerId: modelId,
       userId: actor.userId,
       status: "pending",
-      subjectSnapshot: JSON.stringify(effectiveRoster),
+      subjectSnapshot: JSON.stringify(referenceRoster),
       wardrobeNote: parsed.wardrobeNote ?? null,
       cardText: parsed.cardText ?? null,
       aspectRatio: theme.aspectRatio,
       locationReferencePath: parsed.locationReferencePath ?? null,
       customVibeDescription: parsed.customVibe?.description ?? null,
       model: modelId,
+      generationMethod,
+      referenceInputs: referenceInputs ? JSON.stringify(referenceInputs) : null,
     },
     userId: actor.userId,
   });
 
-  const { slots } = await createGenerationPredictions({
-    prompt,
-    slotPrompts,
-    aspectRatio: theme.aspectRatio,
-    subjects: effectiveRoster,
-    locationReferencePath: parsed.locationReferencePath ?? null,
-    variants: VARIANT_COUNT,
-    variationPrompts,
-    modelId,
-  }).catch(async (error) => {
+  const persistSlot = (slot: PredictionSlot, slotIndex: number) =>
+    persistGenerationPredictionSlot(generation.id, {
+      ...slot,
+      slotIndex,
+      themeId: plannedThemes[slotIndex % plannedThemes.length]?.id ?? theme.id,
+      ...(cardArtStyleIds?.[slotIndex] ? { artStyleId: cardArtStyleIds[slotIndex] } : {}),
+    });
+
+  await (
+    referenceInputs
+      ? (async () => {
+          const preserved = await preserveReferenceSelfies(generation.id, referenceInputs);
+          await db
+            .update(schema.generations)
+            .set({ referenceInputs: JSON.stringify(preserved) })
+            .where(eq(schema.generations.id, generation.id));
+          return createReferencePredictions(preserved, persistSlot);
+        })()
+      : createGenerationPredictions(
+          {
+            prompt,
+            slotPrompts,
+            aspectRatio: theme.aspectRatio,
+            subjects: effectiveRoster,
+            locationReferencePath: parsed.locationReferencePath ?? null,
+            variants: VARIANT_COUNT,
+            variationPrompts,
+            modelId,
+            exactPrompts: Boolean(parsed.adminPromptOverrides),
+          },
+          persistSlot,
+        )
+  ).catch(async (error) => {
     await markGenerationErrorAndRefundCredit(generation.id, error);
     throw new GenerationProviderError();
   });
 
-  const trackedSlots: PredictionSlot[] = slots.map((slot, index) => ({
-    ...slot,
-    themeId: plannedThemes[index % plannedThemes.length]?.id ?? theme.id,
-    ...(cardArtStyleIds?.[index] ? { artStyleId: cardArtStyleIds[index] } : {}),
-  }));
-
-  await db
-    .update(schema.generations)
-    .set({ replicatePredictionIds: JSON.stringify(trackedSlots) })
-    .where(eq(schema.generations.id, generation.id));
-
   return { generationId: generation.id };
+}
+
+export async function previewGenerationPrompts(input: unknown, actor: { userId: string }) {
+  const result = await startGeneration(input as z.infer<typeof StartGenerationInput>, actor, {
+    previewOnly: true,
+  });
+  if (!("prompts" in result)) throw new Error("Could not preview prompts.");
+  return { prompts: result.prompts, generationMethod: result.generationMethod };
+}
+
+async function persistGenerationPredictionSlot(generationId: string, slot: PredictionSlot) {
+  const [saved] = await db
+    .update(schema.generations)
+    .set({
+      // Each provider request finishes independently. Append under PostgreSQL's
+      // row lock so concurrent replies cannot overwrite another prediction ID.
+      replicatePredictionIds: sql`(coalesce(${schema.generations.replicatePredictionIds}, '[]')::jsonb || ${JSON.stringify([slot])}::jsonb)::text`,
+    })
+    .where(and(eq(schema.generations.id, generationId), eq(schema.generations.status, "pending")))
+    .returning({ id: schema.generations.id });
+  if (!saved) throw new Error("Generation stopped before the provider job could be saved.");
+}
+
+async function preserveReferenceSelfies(
+  generationId: string,
+  inputs: readonly ReferenceOutputInput[],
+): Promise<ReferenceOutputInput[]> {
+  const first = inputs[0];
+  const selfieKeys = first.imageKeys.slice(1);
+  const copied = await Promise.all(
+    selfieKeys.map(async (key, index) => {
+      const extension = path.extname(key) || ".jpg";
+      const destination = `generations/${generationId}/references/subject-${index + 1}${extension}`;
+      await copyStoredImage(key, destination);
+      return destination;
+    }),
+  );
+  return inputs.map((input) => ({ ...input, imageKeys: [input.imageKeys[0], ...copied] }));
 }
 
 /**
@@ -491,7 +646,10 @@ function pickChainHeads(images: schema.Image[]): schema.Image[] {
  */
 async function reconcileGeneration(generation: typeof schema.generations.$inferSelect) {
   const slots = parseSlots(generation.replicatePredictionIds);
-  if (slots.length === 0) return;
+  if (slots.length < VARIANT_COUNT) {
+    await recoverIncompleteLaunch(generation);
+    return;
+  }
 
   const predictionIds = slots.map((s) => s.id);
   const existing = await db
@@ -549,6 +707,14 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
         }
         // status === "starting" | "processing": leave for next poll
       } catch (error) {
+        if (error instanceof ReferenceInputUnavailableError) {
+          finalErrors.push(error.message);
+          console.error(
+            `reconcileGeneration: saved reference is missing for slot ${slot.id}`,
+            error,
+          );
+          return;
+        }
         if (isProviderRateLimitError(error)) {
           finalErrors.push(toPublicGenerationFailure(error));
           console.error(`reconcileGeneration: provider rejected retry for slot ${slot.id}`, error);
@@ -587,11 +753,79 @@ async function reconcileGeneration(generation: typeof schema.generations.$inferS
   }
 }
 
+async function recoverIncompleteLaunch(generation: typeof schema.generations.$inferSelect) {
+  const cutoff = new Date(Date.now() - INCOMPLETE_LAUNCH_TIMEOUT_MS);
+  if (generation.createdAt > cutoff) return false;
+
+  const [stopped] = await db.transaction(async (tx) => {
+    const rows = await tx
+      .update(schema.generations)
+      .set({
+        status: "error",
+        errorMessage: toPublicGenerationFailure(new GenerationProviderError()),
+      })
+      .where(
+        and(
+          eq(schema.generations.id, generation.id),
+          eq(schema.generations.status, "pending"),
+          lte(schema.generations.createdAt, cutoff),
+          sql`jsonb_array_length(coalesce(${schema.generations.replicatePredictionIds}, '[]')::jsonb) < ${VARIANT_COUNT}`,
+        ),
+      )
+      .returning({ predictionIds: schema.generations.replicatePredictionIds });
+    if (rows.length > 0) {
+      await tx
+        .delete(schema.creditUsages)
+        .where(eq(schema.creditUsages.generationId, generation.id));
+    }
+    return rows;
+  });
+  if (!stopped) return false;
+
+  const slots = parseSlots(stopped.predictionIds);
+  await Promise.allSettled(slots.map((slot) => cancelPrediction(slot.id)));
+  console.error(
+    `Generation ${generation.id} stopped with ${slots.length} of ${VARIANT_COUNT} jobs saved; credit refunded.`,
+  );
+  revalidatePath(`/studio/generate/${generation.id}`);
+  return true;
+}
+
+/** Reconcile launch gaps when a customer returns to the album or support runs a sweep. */
+export async function listStaleIncompleteLaunches(userId?: string) {
+  const cutoff = new Date(Date.now() - INCOMPLETE_LAUNCH_TIMEOUT_MS);
+  return db
+    .select()
+    .from(schema.generations)
+    .where(
+      and(
+        userId ? eq(schema.generations.userId, userId) : undefined,
+        eq(schema.generations.status, "pending"),
+        lte(schema.generations.createdAt, cutoff),
+        sql`jsonb_array_length(coalesce(${schema.generations.replicatePredictionIds}, '[]')::jsonb) < ${VARIANT_COUNT}`,
+      ),
+    );
+}
+
+export async function recoverStaleIncompleteLaunches(userId?: string) {
+  const pending = await listStaleIncompleteLaunches(userId);
+  const recovered = await Promise.all(pending.map(recoverIncompleteLaunch));
+  return recovered.filter(Boolean).length;
+}
+
 async function retrySlot(
   generation: typeof schema.generations.$inferSelect,
   slotIndex: number,
   slot: PredictionSlot,
 ): Promise<string> {
+  if (generation.generationMethod === "vibe-reference") {
+    const inputs = JSON.parse(generation.referenceInputs ?? "[]") as ReferenceOutputInput[];
+    const saved = inputs[slot.referenceInputIndex ?? slotIndex];
+    if (!saved || saved.version !== 1)
+      throw new ReferenceInputUnavailableError("Saved reference inputs are missing.");
+    await validateReferenceInputs([saved]);
+    return createSavedReferencePrediction(saved);
+  }
   const subjects = JSON.parse(generation.subjectSnapshot) as Subject[];
   const imageUrls = buildReferenceUrls(subjects, generation.locationReferencePath);
   const modelId = (
@@ -608,6 +842,7 @@ async function retrySlot(
     variationPrompt: slot.variationPrompt,
     variationPrompts: getRetryVariationPrompts(retryContext.themeId),
     imageUrls,
+    exactPrompt: slot.exactPrompt,
   });
 }
 
@@ -629,23 +864,29 @@ function parseSlots(raw: string | null): PredictionSlot[] {
   try {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.flatMap((entry): PredictionSlot[] => {
-      if (typeof entry === "string") return [{ id: entry, retries: 0 }];
-      if (entry && typeof entry === "object" && typeof entry.id === "string") {
-        const slot: PredictionSlot = {
-          id: entry.id,
-          retries: typeof entry.retries === "number" ? entry.retries : 0,
-        };
-        if (typeof entry.variationPrompt === "string") {
-          slot.variationPrompt = entry.variationPrompt;
+    return parsed
+      .flatMap((entry): PredictionSlot[] => {
+        if (typeof entry === "string") return [{ id: entry, retries: 0 }];
+        if (entry && typeof entry === "object" && typeof entry.id === "string") {
+          const slot: PredictionSlot = {
+            id: entry.id,
+            retries: typeof entry.retries === "number" ? entry.retries : 0,
+          };
+          if (typeof entry.variationPrompt === "string") {
+            slot.variationPrompt = entry.variationPrompt;
+          }
+          if (typeof entry.basePrompt === "string") slot.basePrompt = entry.basePrompt;
+          if (entry.exactPrompt === true) slot.exactPrompt = true;
+          if (typeof entry.themeId === "string") slot.themeId = entry.themeId;
+          if (typeof entry.artStyleId === "string") slot.artStyleId = entry.artStyleId;
+          if (typeof entry.referenceInputIndex === "number")
+            slot.referenceInputIndex = entry.referenceInputIndex;
+          if (typeof entry.slotIndex === "number") slot.slotIndex = entry.slotIndex;
+          return [slot];
         }
-        if (typeof entry.basePrompt === "string") slot.basePrompt = entry.basePrompt;
-        if (typeof entry.themeId === "string") slot.themeId = entry.themeId;
-        if (typeof entry.artStyleId === "string") slot.artStyleId = entry.artStyleId;
-        return [slot];
-      }
-      return [];
-    });
+        return [];
+      })
+      .sort((left, right) => (left.slotIndex ?? 0) - (right.slotIndex ?? 0));
   } catch {
     return [];
   }
@@ -660,6 +901,8 @@ async function startMockGeneration({
   input,
   actor,
   modelId,
+  generationMethod,
+  referenceInputs,
 }: {
   theme: Theme;
   plannedThemes: readonly Theme[];
@@ -669,6 +912,8 @@ async function startMockGeneration({
   input: z.infer<typeof StartGenerationInput>;
   actor: { userId: string };
   modelId: GenerationModelId;
+  generationMethod: GenerationMethod;
+  referenceInputs: ReferenceOutputInput[] | null;
 }) {
   const { MockProvider } = await import("@/lib/providers/mock");
   const mock = new MockProvider();
@@ -678,6 +923,8 @@ async function startMockGeneration({
       themeId: theme.id,
       prompt,
       providerId: "mock",
+      generationMethod,
+      referenceInputs: referenceInputs ? JSON.stringify(referenceInputs) : null,
       userId: actor.userId,
       status: "pending",
       subjectSnapshot: JSON.stringify(roster),
