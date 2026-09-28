@@ -1625,6 +1625,136 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "cozy-kitchen-magic",
+    name: "Cozy Kitchen Magic",
+    blurb:
+      "A warm kitchen baking scene with flour in the light, copper and wood details, candle-warm glow, and subtle original sparkle.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-kitchen-magic.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cozy cinematic kitchen family photograph",
+      scene:
+        "a real home kitchen at early evening with flour dust in window light, copper cookware, wood table texture, baking ingredients, soft practical sparkle and warm lived-in details",
+      camera:
+        "digital medium-format camera with a 45mm lens, table-height documentary framing with readable faces, visible hands and warm environmental depth",
+      composition:
+        "relaxed baking-table geometry with props kept secondary, clear sightlines through steam and flour texture, gentle negative space near the window",
+      lighting:
+        "soft window light mixed with amber pendant glow, warm counter bounce, delicate highlight haze and polished natural skin detail",
+      style:
+        "premium cozy lifestyle photography, cinnamon, cream, copper, walnut, sage and soft white palette, subtle film grain, natural smiles and print-ready warmth",
+      safety:
+        "original cozy kitchen styling only, no named movie cues, no occult symbols, no spell props, no alcohol cues, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "art-deco-family-gala",
+    name: "Art Deco Family Gala",
+    blurb:
+      "A refined gala portrait with geometric fan arches, velvet, brass accents, black lacquer, and polished evening light.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-art-deco-family-gala.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 refined art-deco gala family portrait",
+      scene:
+        "an elegant studio gala set with cream geometric fan arches, black lacquer panels, brass accents, velvet texture and tasteful evening styling",
+      camera:
+        "Hasselblad medium format with an 80mm lens, vertical editorial portrait framing, symmetrical architecture and crisp face priority",
+      composition:
+        "formal gala arrangement with full-to-three-quarter bodies when natural, fan-arch geometry framing the group and uncluttered floor shadows",
+      lighting:
+        "large soft key with controlled golden rim light, velvet shadow falloff, clean catchlights and polished formal skin detail",
+      style:
+        "premium gala photography, cream, black, antique gold, deep emerald and soft champagne palette, refined art-deco geometry, gallery-print finish",
+      safety:
+        "original deco styling only, no named film cues, no celebrity likeness, no luxury brand marks, no logos, no readable text, no sacred symbols, no watermark",
+    },
+  },
+  {
+    id: "neighborhood-hero-squad",
+    name: "Neighborhood Hero Squad",
+    blurb:
+      "Original everyday-hero energy on a friendly neighborhood street with capes, bright color, confident smiles, and zero franchise cosplay.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-neighborhood-hero-squad.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original neighborhood-hero family adventure portrait",
+      scene:
+        "a friendly tree-lined neighborhood street at golden hour with stoops, soft sky, light cape movement and optimistic community color",
+      camera:
+        "cinematic adventure-poster camera with a 35mm lens, low friendly three-quarter framing, readable faces and full-body confidence",
+      composition:
+        "heroic but warm group triangle with open street depth, capes and color accents leading the eye, stable grounded stance and clear hand placement",
+      lighting:
+        "golden-hour rim light with soft front fill, gentle sky bounce, bright catchlights and cheerful color separation",
+      style:
+        "polished original family adventure poster, saturated red, blue, yellow, cream and denim accents, clean fabric texture, optimistic non-threatening finish",
+      safety:
+        "original everyday-hero styling only, no comic-book franchise cues, no official costumes, no masks covering faces, no emblems, no logos, no readable text, no weapons, no destruction, no watermark",
+    },
+  },
+  {
+    id: "storybook-forest-adventure",
+    name: "Storybook Forest Adventure",
+    blurb:
+      "A friendly watercolor forest adventure with mossy paths, glowing firefly light, cozy explorer layers, and original fairytale charm.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-storybook-forest-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original watercolor storybook forest family portrait",
+      scene:
+        "a friendly woodland trail with mossy stones, oversized ferns, soft mist, tiny firefly-like lights and a warm clearing beyond the trees",
+      camera:
+        "storybook illustration viewpoint with a gentle three-quarter trail perspective, readable faces and clear silhouettes",
+      composition:
+        "safe curving path leading through the frame, ferns and tree trunks framing the group, open warm light behind and generous print margins",
+      lighting:
+        "soft golden forest light, luminous green bounce, warm firefly-like points and cheerful face readability",
+      style:
+        "watercolor and gouache storybook illustration, moss green, amber, bark brown, cream and muted berry accents, paper texture and polished keepsake detail",
+      safety:
+        "original forest adventure only, no named book or movie cues, no official character costumes, no rhyming-book styling, no studio references, no logos, no readable text, no weapons, no scary creatures, no watermark",
+    },
+  },
+  {
+    id: "autumn-reset-morning",
+    name: "Autumn Reset Morning",
+    blurb:
+      "A calm early-autumn home morning with open windows, folded blankets, warm breakfast details, amber leaves, and reset-season ease.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-autumn-reset-morning.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 calm early-autumn family lifestyle photograph",
+      scene:
+        "a tidy home morning by open windows with folded blankets, warm breakfast bowls, tea, amber leaves outside, soft cotton layers and quiet reset-season details",
+      camera:
+        "Fuji GFX medium format with a 55mm lens, eye-level breakfast-table framing with readable faces, visible hands and natural home depth",
+      composition:
+        "uncluttered table-and-window geometry, relaxed spacing with gentle negative space, breakfast details kept below face level",
+      lighting:
+        "soft cool morning window light balanced with warm interior bounce, gentle amber leaf reflections and natural skin texture",
+      style:
+        "airy documentary family photography, sage, rust, denim, cream, oatmeal and warm wood palette, subtle film grain and calm editorial polish",
+      safety:
+        "original home-morning styling only, no brand labels, no readable text, no alcohol cues, no holiday iconography, no logos, no watermark",
+    },
+  },
+  {
     id: "paprika-plaid-autumn",
     name: "Paprika Plaid Autumn",
     blurb:
@@ -2914,6 +3044,33 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    id: "festival-of-lights-family-card",
+    name: "Festival of Lights Family Card",
+    blurb:
+      "A warm inclusive celebration card with lantern glow, jewel-tone textiles, reflective votives, and clean greeting space.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-festival-of-lights-family-card.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 2:3 warm festival-of-lights greeting-card family portrait",
+      scene:
+        "an elegant evening courtyard with warm string lights, paper lanterns, reflective brass and glass votives, marigold-orange accents, jewel-tone textiles and a clean greeting area",
+      camera:
+        "digital medium-format portrait camera with a 55mm lens, vertical card framing with face priority and generous upper negative space for supplied greeting text",
+      composition:
+        "print-friendly card layout with glowing decor framing the lower and side edges, open warm background reserved for typography and clear subject separation",
+      lighting:
+        "layered amber lantern glow, soft front fill, jewel-tone bounce, tasteful sparkle bokeh and polished skin detail",
+      style:
+        "premium seasonal card photography, amber, marigold, ruby, deep teal, cream and warm brass palette, refined glow, luxurious print finish",
+      safety:
+        "inclusive light-celebration styling only, no deity imagery, no altar setup, no ceremony scene, no sacred symbols, no logos, no readable text except user-supplied greeting, no watermark",
+    },
+  },
+  {
     id: "poetcore-letterpress-family-card",
     name: "Poetcore Letterpress Family Card",
     blurb:
@@ -3155,6 +3312,7 @@ export function themesByCategory() {
       "cozy-summerween-card",
       "summerween-pumpkin-glow",
       "polka-dot-porch-party",
+      "festival-of-lights-family-card",
       "butter-yellow-summer-card",
       "ocean-explorer-card",
       "neo-deco-celebration-card",
