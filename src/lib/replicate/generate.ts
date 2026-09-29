@@ -218,8 +218,10 @@ export async function createSinglePrediction(args: {
   exactPrompt?: boolean;
   providerSettings?: ReferenceOutputInput["providerSettings"];
 }): Promise<string> {
-  const client = await getReplicateClient();
   const model = MODEL_CATALOG[args.modelId];
+  if (model.provider === "openai")
+    throw new Error("Direct OpenAI models must use the OpenAI job worker.");
+  const client = await getReplicateClient();
   const prompt = args.exactPrompt
     ? args.basePrompt
     : buildVariantPrompt(

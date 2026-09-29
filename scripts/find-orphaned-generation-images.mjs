@@ -48,11 +48,19 @@ try {
     rows.map((row) => `generations/${row.generationId}/${row.fileName}`),
   );
   const referencedImageIds = new Set(rows.map((row) => row.id));
+  // A worker can save an output before its image row is committed. Preserve
+  // pending shoots so cleanup cannot remove files needed for job recovery.
+  const pending = await sql`
+    select id from familyphotoai.generations where status = 'pending'
+  `;
+  const pendingGenerationIds = new Set(pending.map((row) => row.id));
   const prefixes = prefix ? [prefix] : ["generations/", "cache/upscales/"];
   const storedKeys = (await Promise.all(prefixes.map(listStoredKeys))).flat();
   const imageKeys = storedKeys.filter(isGenerationImageKey);
   const upscaleKeys = storedKeys.filter(isUpscaleCacheKey);
-  const orphanedKeys = imageKeys.filter((key) => !referencedKeys.has(key));
+  const orphanedKeys = imageKeys.filter(
+    (key) => !referencedKeys.has(key) && !pendingGenerationIds.has(key.split("/")[1]),
+  );
   const orphanedUpscaleKeys = upscaleKeys.filter((key) => {
     const imageId = parseUpscaleImageId(key);
     return !imageId || !referencedImageIds.has(imageId);
@@ -76,6 +84,19 @@ try {
 
   if (deleteMode) {
     for (const key of allOrphanedKeys) {
+      if (isGenerationImageKey(key)) {
+        const [, generationId, fileName] = key.split("/");
+        // Recheck after the storage scan: a worker may have finished meanwhile.
+        const [protectedObject] = await sql`
+          select 1 from familyphotoai.generations
+          where id = ${generationId} and status = 'pending'
+          union all
+          select 1 from familyphotoai.images
+          where generation_id = ${generationId} and file_name = ${fileName}
+          limit 1
+        `;
+        if (protectedObject) continue;
+      }
       await deleteStoredImage(key);
       result.deletedKeys.push(key);
     }

@@ -40,6 +40,7 @@ test("admin can select Sunburst, confirm high quality, and save the default", as
     assert.match(view.getByRole("button", { name: /GPT Image 2.5 Sunburst/ }).className, /shadow-/);
   } finally {
     cleanup();
+    await new Promise((resolve) => setTimeout(resolve, 250));
     dom.window.close();
   }
 });

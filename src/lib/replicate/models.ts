@@ -34,6 +34,8 @@ export type GenerationModelId =
   | "nano-banana-pro"
   | "gpt-image-2"
   | "gpt-image-2-high"
+  | "openai-sunburst-medium"
+  | "openai-flare-medium"
   | "gpt-image-2.5-flare"
   | "gpt-image-2.5-sunburst";
 
@@ -50,11 +52,41 @@ export type GenerationModel = {
   tierLabel: string;
   supportedAspectRatios: readonly AspectRatio[];
   gptImageQuality?: GptImageQuality;
+  provider?: "openai";
+  openaiModel?: "gpt-image-2.5-sunburst" | "gpt-image-2.5-flare";
 };
 
 const SUPPORTED_ASPECTS: readonly AspectRatio[] = ["1:1", "3:2", "2:3"];
 
+// Official Sunburst and Flare model pages, checked 2026-09-28.
+// Both use these rates. GPT Image 2 per-image estimates do not apply to 2.5.
+const OPENAI_OUTPUT_PRICE_LABEL = "US$30 / 1M output tokens";
+
 export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
+  "openai-sunburst-medium": {
+    id: "openai-sunburst-medium",
+    slug: MODELS.gptImage25Sunburst,
+    provider: "openai",
+    openaiModel: "gpt-image-2.5-sunburst",
+    label: "Sunburst · OpenAI direct",
+    priceUsd: null,
+    priceLabel: OPENAI_OUTPUT_PRICE_LABEL,
+    tierLabel: "Medium quality",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "medium",
+  },
+  "openai-flare-medium": {
+    id: "openai-flare-medium",
+    slug: MODELS.gptImage25Flare,
+    provider: "openai",
+    openaiModel: "gpt-image-2.5-flare",
+    label: "Flare · OpenAI direct",
+    priceUsd: null,
+    priceLabel: OPENAI_OUTPUT_PRICE_LABEL,
+    tierLabel: "Medium quality",
+    supportedAspectRatios: SUPPORTED_ASPECTS,
+    gptImageQuality: "medium",
+  },
   "gpt-image-2.5-sunburst": {
     id: "gpt-image-2.5-sunburst",
     slug: MODELS.gptImage25Sunburst,
@@ -116,6 +148,10 @@ export const MODEL_CATALOG: Record<GenerationModelId, GenerationModel> = {
 };
 
 export const GENERATION_MODEL_IDS = Object.keys(MODEL_CATALOG) as GenerationModelId[];
+
+export function isOpenAIModel(id: string): boolean {
+  return getModel(id)?.provider === "openai";
+}
 
 export function getModel(id: string): GenerationModel | null {
   return id in MODEL_CATALOG ? MODEL_CATALOG[id as GenerationModelId] : null;

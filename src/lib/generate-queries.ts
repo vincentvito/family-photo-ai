@@ -68,6 +68,14 @@ import {
 } from "@/lib/billing-queries";
 import { MAX_SHOT_SUBJECTS } from "@/lib/generation-limits";
 import { isOwnedLocationReferencePath } from "@/lib/location-reference";
+import { assertOpenAIConfigured } from "@/lib/openai/images";
+import { OPENAI_IMAGE_SIZES, OpenAIImageInput } from "@/lib/openai/image-input";
+import {
+  assertOpenAIJobsReady,
+  enqueueOpenAIJobs,
+  scheduleOpenAIJobs,
+  settleOpenAIGeneration,
+} from "@/lib/openai/jobs";
 import {
   GenerationProviderError,
   isProviderRateLimitError,
@@ -410,11 +418,36 @@ export async function startGeneration(
     });
   }
 
+  const directModel = MODEL_CATALOG[modelId].openaiModel;
+  const directInputs = directModel
+    ? (parsed.adminPromptOverrides ?? finalPrompts).map((finalPrompt, index) => ({
+        themeId: plannedThemes[index % plannedThemes.length]?.id ?? theme.id,
+        artStyleId: cardArtStyleIds?.[index],
+        input: OpenAIImageInput.parse({
+          version: 1,
+          model: directModel,
+          quality: "medium",
+          size: OPENAI_IMAGE_SIZES[theme.aspectRatio],
+          outputFormat: "png",
+          moderation: "low",
+          prompt: finalPrompt,
+          imageKeys: referenceInputs?.[index].imageKeys ?? [
+            ...effectiveRoster.flatMap((subject) => subject.referencePaths),
+            ...(parsed.locationReferencePath ? [parsed.locationReferencePath] : []),
+          ],
+        }),
+      }))
+    : null;
+  if (directInputs) {
+    assertOpenAIConfigured();
+    await assertOpenAIJobsReady();
+  }
+
   const generation = await createGenerationRecord({
     values: {
       themeId: theme.id,
       prompt,
-      providerId: modelId,
+      providerId: directInputs ? "openai" : modelId,
       userId: actor.userId,
       status: "pending",
       subjectSnapshot: JSON.stringify(referenceRoster),
@@ -429,6 +462,17 @@ export async function startGeneration(
     },
     userId: actor.userId,
   });
+
+  if (directInputs) {
+    try {
+      await enqueueOpenAIJobs(generation.id, directInputs);
+    } catch (error) {
+      await markGenerationErrorAndRefundCredit(generation.id, error);
+      throw new GenerationProviderError();
+    }
+    scheduleOpenAIJobs(generation.id);
+    return { generationId: generation.id };
+  }
 
   const persistSlot = (slot: PredictionSlot, slotIndex: number) =>
     persistGenerationPredictionSlot(generation.id, {
@@ -584,7 +628,12 @@ export async function getGenerationState(generationId: string, userId: string) {
   if (generation.createdAt < studioCutoffDate(new Date(), generation.packTier)) return null;
 
   if (generation.status === "pending") {
-    await reconcileGeneration(generation);
+    if (generation.providerId === "openai") {
+      await settleOpenAIGeneration(generation.id);
+      scheduleOpenAIJobs(generation.id);
+    } else {
+      await reconcileGeneration(generation);
+    }
   }
 
   const [[refreshed], images, isUnlocked] = await Promise.all([
@@ -801,6 +850,7 @@ export async function listStaleIncompleteLaunches(userId?: string) {
       and(
         userId ? eq(schema.generations.userId, userId) : undefined,
         eq(schema.generations.status, "pending"),
+        ne(schema.generations.providerId, "openai"),
         lte(schema.generations.createdAt, cutoff),
         sql`jsonb_array_length(coalesce(${schema.generations.replicatePredictionIds}, '[]')::jsonb) < ${VARIANT_COUNT}`,
       ),

@@ -7,6 +7,7 @@ import {
   type GenerationModelId,
 } from "@/lib/replicate/models";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import OpenAIModelToggle from "@/components/studio/OpenAIModelToggle";
 
 export default function DefaultModelPicker({ initial }: { initial: GenerationModelId }) {
   const [selected, setSelected] = useState<GenerationModelId>(initial);
@@ -50,8 +51,10 @@ export default function DefaultModelPicker({ initial }: { initial: GenerationMod
 
   return (
     <>
+      <OpenAIModelToggle value={selected} onChange={requestChange} disabled={pending} />
+      <p className="mb-2 text-xs font-semibold">Replicate models</p>
       <div className="grid gap-3 sm:grid-cols-2">
-        {GENERATION_MODEL_IDS.map((id) => {
+        {GENERATION_MODEL_IDS.filter((id) => MODEL_CATALOG[id].provider !== "openai").map((id) => {
           const m = MODEL_CATALOG[id];
           const active = selected === id;
           return (
@@ -60,6 +63,7 @@ export default function DefaultModelPicker({ initial }: { initial: GenerationMod
               type="button"
               onClick={() => requestChange(id)}
               disabled={pending}
+              aria-pressed={active}
               className={`spring-press rounded-[var(--radius-lg)] border p-5 text-left transition-all ${
                 active
                   ? "border-[color:var(--color-coral)] bg-[color:var(--color-bg-tinted-coral)] shadow-[var(--shadow-ring-coral)]"
@@ -92,7 +96,7 @@ export default function DefaultModelPicker({ initial }: { initial: GenerationMod
         title={targetModel ? `Use ${targetModel.label} by default?` : "Change default model?"}
         description={
           targetModel
-            ? `This changes the app-wide default for all new generations. Existing shoots will keep their current model. ${targetModel.label} runs at ${targetModel.tierLabel} and costs ${targetModel.priceLabel}.`
+            ? `This changes the app-wide default for all new generations. Existing shoots will keep their current model. ${targetModel.label} runs at ${targetModel.tierLabel}. ${targetModel.priceLabel}.`
             : undefined
         }
         confirmLabel="Change default"
