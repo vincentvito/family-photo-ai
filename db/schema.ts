@@ -118,6 +118,37 @@ export const images = familyphotoai.table(
   ],
 );
 
+export const imageJobs = familyphotoai.table(
+  "image_jobs",
+  {
+    id: id(),
+    generationId: text("generation_id")
+      .notNull()
+      .references(() => generations.id, { onDelete: "cascade" }),
+    slotIndex: integer("slot_index").notNull(),
+    input: text("input").notNull(),
+    themeId: text("theme_id").notNull(),
+    artStyleId: text("art_style_id"),
+    status: text("status", { enum: ["queued", "running", "succeeded", "failed"] })
+      .notNull()
+      .default("queued"),
+    startedAt: timestamp("started_at"),
+    requestId: text("request_id"),
+    usage: text("usage"),
+    error: text("error"),
+    createdAt: createdAt(),
+  },
+  (table) => [
+    uniqueIndex("image_jobs_generation_slot_idx").on(table.generationId, table.slotIndex),
+    index("image_jobs_status_idx").on(table.status),
+    check("image_jobs_slot_check", sql`${table.slotIndex} between 0 and 3`),
+    check(
+      "image_jobs_status_check",
+      sql`${table.status} in ('queued', 'running', 'succeeded', 'failed')`,
+    ),
+  ],
+);
+
 export const imageShares = familyphotoai.table(
   "image_shares",
   {

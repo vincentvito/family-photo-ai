@@ -229,6 +229,9 @@ export default function GenerationBoard({
                 ) : (
                   <>
                     {images.length} of 4 images are ready. You can keep these or try another format.
+                    {generation.providerId === "openai" &&
+                      !generation.freePreview &&
+                      " Your shoot credit was returned because not all four images succeeded."}
                   </>
                 )
               ) : err ? (

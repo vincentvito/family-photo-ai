@@ -31,7 +31,7 @@ export type ReferenceOutputInput = {
   providerSettings: {
     quality?: "low" | "medium" | "high" | "auto";
     resolution?: "1K" | "2K";
-    outputFormat: "jpg" | "jpeg";
+    outputFormat: "jpg" | "jpeg" | "png";
     moderation?: "low";
     safetyFilterLevel?: "block_only_high";
   };
@@ -133,7 +133,7 @@ export function buildReferenceOutputInputs(args: {
             ? { resolution: "2K", outputFormat: "jpg", safetyFilterLevel: "block_only_high" }
             : {
                 quality: MODEL_CATALOG[args.modelId].gptImageQuality ?? "medium",
-                outputFormat: "jpeg",
+                outputFormat: MODEL_CATALOG[args.modelId].provider === "openai" ? "png" : "jpeg",
                 moderation: "low",
               },
       prompt: buildReferencePrompt({
@@ -158,7 +158,13 @@ export async function validateReferenceInputs(
     throw new ReferenceInputUnavailableError(
       `Required generation reference is unavailable: ${missing.join(", ")}.`,
     );
-  const demoKeys = [...new Set(inputs.map((input) => input.imageKeys[0]))];
+  const demoKeys = [
+    ...new Set(
+      inputs
+        .filter((input) => MODEL_CATALOG[input.modelId].provider !== "openai")
+        .map((input) => input.imageKeys[0]),
+    ),
+  ];
   const reachable = await Promise.all(demoKeys.map(isPublicDemoReachable));
   const blocked = demoKeys.filter((_, index) => !reachable[index]);
   if (blocked.length)

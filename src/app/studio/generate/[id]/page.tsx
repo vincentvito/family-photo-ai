@@ -8,6 +8,7 @@ import GenerationBoard from "@/components/studio/GenerationBoard";
 import { getCurrentUser, isAdmin } from "@/lib/auth-helpers";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 300;
 
 export default async function GeneratePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

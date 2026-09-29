@@ -14,6 +14,7 @@ import ThemeSection from "./ThemeSection";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import SubjectPicker from "./SubjectPicker";
 import CardArtStylePicker from "./CardArtStylePicker";
+import OpenAIModelToggle from "./OpenAIModelToggle";
 import {
   CARD_STYLE_SLOT_COUNT,
   DEFAULT_CARD_ART_STYLE_ID,
@@ -659,27 +660,34 @@ export default function ThemeBoard({
             </span>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            {GENERATION_MODEL_IDS.map((id) => {
-              const m = MODEL_CATALOG[id];
-              const active = modelId === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setModelId(id)}
-                  className={`spring-press rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                    active
-                      ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
-                      : "border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] text-[color:var(--color-ink-muted)] hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)]"
-                  }`}
-                >
-                  <span>{m.label}</span>
-                  <span className={`ml-2 text-[0.7rem] ${active ? "opacity-80" : "opacity-60"}`}>
-                    {m.priceLabel}
-                  </span>
-                </button>
-              );
-            })}
+            <div className="w-full">
+              <OpenAIModelToggle value={modelId} onChange={setModelId} />
+              <p className="mb-2 text-xs font-semibold">Replicate models</p>
+            </div>
+            {GENERATION_MODEL_IDS.filter((id) => MODEL_CATALOG[id].provider !== "openai").map(
+              (id) => {
+                const m = MODEL_CATALOG[id];
+                const active = modelId === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setModelId(id)}
+                    aria-pressed={active}
+                    className={`spring-press rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                      active
+                        ? "bg-[color:var(--color-ink)] text-[color:var(--color-bg)] shadow-[var(--shadow-sm)]"
+                        : "border border-[color:var(--color-line-strong)] bg-[color:var(--color-bg)] text-[color:var(--color-ink-muted)] hover:border-[color:var(--color-ink)] hover:text-[color:var(--color-ink)]"
+                    }`}
+                  >
+                    <span>{m.label}</span>
+                    <span className={`ml-2 text-[0.7rem] ${active ? "opacity-80" : "opacity-60"}`}>
+                      {m.priceLabel}
+                    </span>
+                  </button>
+                );
+              },
+            )}
           </div>
         </div>
       )}

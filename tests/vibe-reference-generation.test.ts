@@ -204,7 +204,9 @@ test("provider receives exact saved prompt and order for launch and retry", asyn
 
   // Check every selectable model against its published Replicate input fields
   // without starting a paid prediction.
-  for (const modelId of GENERATION_MODEL_IDS) {
+  for (const modelId of GENERATION_MODEL_IDS.filter(
+    (id) => MODEL_CATALOG[id].provider !== "openai",
+  )) {
     const input = buildReferenceOutputInputs({
       themeIds: ["golden-hour-beach"],
       subjects: [adult, pet],

@@ -20,7 +20,9 @@ import {
   isAspectSupported,
   type GenerationModelId,
 } from "@/lib/replicate/models";
-import { shouldUseMockProviderFallback } from "@/lib/runtime-flags";
+import { isMockModeEnabled, shouldUseMockProviderFallback } from "@/lib/runtime-flags";
+import { OpenAIImageInput } from "@/lib/openai/image-input";
+import { generateOpenAIImage } from "@/lib/openai/images";
 
 const REGENERATION_TIMEOUT_MS = 270_000;
 
@@ -182,7 +184,7 @@ async function runMockRegeneration(args: {
   return image;
 }
 
-async function runRegeneration(args: {
+export async function runRegeneration(args: {
   generation: typeof schema.generations.$inferSelect;
   subjects: Subject[];
   aspectRatio: AspectRatio;
@@ -190,13 +192,41 @@ async function runRegeneration(args: {
   history: { instruction: string }[];
   originalVariationPrompt?: string;
   variantIndex: number;
+  rootImageId: string;
 }): Promise<RegeneratedImage> {
-  if (shouldUseMockProviderFallback()) {
+  if (
+    isMockModeEnabled() ||
+    (args.generation.providerId !== "openai" && shouldUseMockProviderFallback())
+  ) {
     return runMockRegeneration({
       generation: args.generation,
       subjects: args.subjects,
       aspectRatio: args.aspectRatio,
       instruction: args.instruction,
+    });
+  }
+  if (args.generation.providerId === "openai") {
+    const [job] = await db
+      .select()
+      .from(schema.imageJobs)
+      .where(
+        and(
+          eq(schema.imageJobs.id, args.rootImageId),
+          eq(schema.imageJobs.generationId, args.generation.id),
+        ),
+      )
+      .limit(1);
+    if (!job) throw new Error("The saved OpenAI request is missing.");
+    const saved = OpenAIImageInput.parse(JSON.parse(job.input));
+    return generateOpenAIImage({
+      ...saved,
+      prompt: [
+        saved.prompt,
+        buildRegenerationGuidance({
+          instruction: args.instruction,
+          history: args.history,
+        }),
+      ].join("\n\n"),
     });
   }
 
@@ -301,6 +331,7 @@ export async function refineImage(userId: string, input: z.infer<typeof RefineIn
     history: historyRows,
     originalVariationPrompt: originalSlot.originalVariationPrompt,
     variantIndex: originalSlot.variantIndex,
+    rootImageId: sourceRoot.id,
   }).catch((error) => {
     console.error(`Regeneration failed for image ${baseImage.id}`, error);
     throw new GenerationProviderError();
