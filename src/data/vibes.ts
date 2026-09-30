@@ -1008,6 +1008,114 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "family-resemblance-portrait-family-photos",
+    name: "Family Resemblance Portrait",
+    keyword: "family resemblance portrait",
+    secondaryKeywords: [
+      "generational family portrait",
+      "black and white family photo",
+      "studio family resemblance photoshoot",
+    ],
+    image: "/samples/theme-family-resemblance-portrait.webp",
+    shortDescription:
+      "Clean monochrome studio warmth, aligned front-facing composition, and subtle generational resemblance.",
+    related: [
+      "stacked-love-family-photos",
+      "vintage-family-heirloom-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "vintage-family-heirloom-family-photos",
+    name: "Vintage Family Heirloom",
+    keyword: "vintage family heirloom portrait",
+    secondaryKeywords: [
+      "sepia family portrait",
+      "archival family photo",
+      "heirloom family photoshoot",
+    ],
+    image: "/samples/theme-vintage-family-heirloom.webp",
+    shortDescription:
+      "Sepia warmth, classic silhouettes, gentle film grain, and proud archival keepsake energy.",
+    related: [
+      "family-resemblance-portrait-family-photos",
+      "heirloom-brooch-family-photos",
+      "vintage-polaroid-family-photos",
+    ],
+  },
+  {
+    slug: "cozy-autumn-moodboard-family-photos",
+    name: "Cozy Autumn Moodboard",
+    keyword: "cozy autumn family portrait",
+    secondaryKeywords: [
+      "autumn moodboard family photo",
+      "fall home family photoshoot",
+      "cozy fall family portrait",
+    ],
+    image: "/samples/theme-cozy-autumn-moodboard.webp",
+    shortDescription:
+      "Knitwear, blankets, mugs, candles, books, leaves, and golden cinnamon-amber window light.",
+    related: [
+      "paprika-plaid-autumn-family-photos",
+      "poetcore-family-library-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "pumpkin-patch-farm-adventure-family-photos",
+    name: "Pumpkin Patch Farm Adventure",
+    keyword: "pumpkin patch family portrait",
+    secondaryKeywords: [
+      "farm pumpkin family photo",
+      "harvest family photoshoot",
+      "pumpkin patch sunset portrait",
+    ],
+    image: "/samples/theme-pumpkin-patch-farm-adventure.webp",
+    shortDescription:
+      "Hay bales, cute harvest props, pumpkin rows, and soft orange sunset in a calm family-card scene.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "paprika-plaid-autumn-family-photos",
+      "orchard-picking-family-photos",
+    ],
+  },
+  {
+    slug: "jewel-tone-fall-studio-family-photos",
+    name: "Jewel-Tone Fall Studio",
+    keyword: "jewel tone fall studio family portrait",
+    secondaryKeywords: [
+      "burgundy purple family portrait",
+      "fall studio family photoshoot",
+      "cobalt blue family photo",
+    ],
+    image: "/samples/theme-jewel-tone-fall-studio.webp",
+    shortDescription:
+      "Burgundy, royal purple, cobalt blue, butter yellow, peach, and turquoise in a polished studio portrait.",
+    related: [
+      "editorial-jewel-tone-fall-portrait-family-photos",
+      "burgundy-orchard-family-photos",
+      "scarf-garden-story-family-photos",
+    ],
+  },
+  {
+    slug: "whimsical-witchy-family-night-family-photos",
+    name: "Whimsical Witchy Family Night",
+    keyword: "whimsical witchy family portrait",
+    secondaryKeywords: [
+      "magical autumn night family photo",
+      "moonlit family photoshoot",
+      "storybook fall family portrait",
+    ],
+    image: "/samples/theme-whimsical-witchy-family-night.webp",
+    shortDescription:
+      "Moonlit garden glow, soft lanterns, velvet jewel tones, twinkling sparkles, and playful storybook warmth.",
+    related: [
+      "tiny-boo-crew-family-photos",
+      "little-boo-pastel-halloween-family-photos",
+      "lantern-glow-gathering-family-photos",
+    ],
+  },
+  {
     slug: "dino-explorer-family-adventure-family-photos",
     name: "Dino Explorer Family Adventure",
     keyword: "dino explorer family photo",

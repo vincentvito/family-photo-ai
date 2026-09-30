@@ -13,6 +13,12 @@ const STARTER_THEME_IDS = [
 // Editorial release order from the original homepage's WEEKLY_TREND_ITEMS.
 // Prepend each new weekly batch here; THEMES is grouped by category, not recency.
 const WEEKLY_THEME_IDS = [
+  "family-resemblance-portrait",
+  "vintage-family-heirloom",
+  "cozy-autumn-moodboard",
+  "pumpkin-patch-farm-adventure",
+  "jewel-tone-fall-studio",
+  "whimsical-witchy-family-night",
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",

@@ -1938,6 +1938,162 @@ export const THEMES: Theme[] = [
         "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
     },
   },
+  {
+    id: "family-resemblance-portrait",
+    name: "Family Resemblance Portrait",
+    blurb:
+      "A clean monochrome studio portrait emphasizing generational resemblance, aligned front-facing warmth, and timeless print polish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-family-resemblance-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 clean monochrome studio family portrait",
+      scene:
+        "a minimal soft neutral studio backdrop with subtle tonal depth, no props competing with faces and a refined print-ready portrait setting",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, straight-on eye-level framing, crisp facial detail and gentle compression",
+      composition:
+        "aligned front-facing composition with calm side-by-side symmetry, subtle half-light resemblance motif, clear individual face separation and natural spacing",
+      lighting:
+        "large flattering softbox front light with gentle side falloff, smooth catchlights, soft neutral fill and no harsh contrast",
+      style:
+        "black-and-white or soft neutral monochrome fine-art portraiture, smooth midtone contrast, subtle natural grain, emotionally warm gallery print finish",
+      safety:
+        "preserve each selected person's distinct identity, no merged faces, no malformed hybrid features, no uncanny distortions, no public-figure resemblance, no logos, no text, no watermark",
+    },
+  },
+  {
+    id: "vintage-family-heirloom",
+    name: "Vintage Family Heirloom",
+    blurb:
+      "An archival family keepsake with sepia warmth, classic clothing silhouettes, gentle film grain, and proud studio formality.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-vintage-family-heirloom.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 archival vintage family heirloom portrait",
+      scene:
+        "a classic portrait studio with a warm painted backdrop, restrained period-inspired clothing silhouettes, subtle old-photo paper texture and keepsake formality",
+      camera:
+        "large-format portrait camera perspective with a normal lens, straight-on dignified framing, readable faces and gentle historical studio depth",
+      composition:
+        "centered keepsake arrangement with balanced seated-and-standing levels, clean hands, proud posture and uncluttered archival margins",
+      lighting:
+        "soft broad studio key light with gentle falloff, creamy highlights, low-contrast shadows and flattering face detail",
+      style:
+        "sepia or warm black-and-white archival print finish, gentle film grain, tactile paper texture, classic portrait retouch and proud family keepsake mood",
+      safety:
+        "original vintage styling only, no ancestry claims, no real historical document cues, no celebrity-source references, no deceptive person-specific history, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "cozy-autumn-moodboard",
+    name: "Cozy Autumn Moodboard",
+    blurb:
+      "A single warm domestic fall portrait with knitwear, blankets, mugs, candles, books, golden window light, and cinnamon-amber comfort.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-autumn-moodboard.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 warm domestic autumn family photograph",
+      scene:
+        "a calm living room or reading nook with knit blankets, ceramic mugs, candles, stacked books, tasteful leaves, soft home texture and golden window light",
+      camera:
+        "digital medium-format lifestyle camera with a 50mm lens, relaxed eye-level interior portrait framing with readable faces and warm environmental depth",
+      composition:
+        "single cohesive scene with layered cozy props kept secondary, uncluttered sightlines, natural shoulder-to-shoulder spacing and family-card balance",
+      lighting:
+        "golden window light from one side, amber room bounce, subtle candle glow, soft catchlights and gentle falloff across textiles",
+      style:
+        "premium cozy lifestyle photography, cinnamon, amber, cream, walnut, muted leaf orange and soft neutral palette, tactile knits, subtle film grain, print-ready warmth",
+      safety:
+        "wholesome home styling only, no social-media collage layout, no alcohol cues, no brand labels, no readable book titles, no logos, no watermark",
+    },
+  },
+  {
+    id: "pumpkin-patch-farm-adventure",
+    name: "Pumpkin Patch Farm Adventure",
+    blurb:
+      "A playful but calm pumpkin-patch portrait with hay bales, cute harvest props, soft orange sunset, and family-card charm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-pumpkin-patch-farm-adventure.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 pumpkin patch farm family photograph",
+      scene:
+        "an outdoor pumpkin patch and farm path with hay bales, harvest crates, simple seasonal props, open rows, soft grasses and a warm sunset sky",
+      camera:
+        "lifestyle portrait camera with a 45mm lens, low eye-level environmental framing, readable faces and gentle harvest depth behind",
+      composition:
+        "calm family-card arrangement with pumpkins and hay framing the lower edges, open print margins, clean face sightlines and relaxed spacing",
+      lighting:
+        "soft orange sunset backlight, warm hay bounce, gentle face fill, glowing rim highlights and balanced shadow detail",
+      style:
+        "polished harvest lifestyle photography, pumpkin orange, golden hay, denim blue, cream, leaf green and warm brown palette, print-ready seasonal charm",
+      safety:
+        "original harvest setting only, no animated farm franchise cues, no scary monster elements, no violent Halloween elements, no sharp props, no logos, no readable signs, no watermark",
+    },
+  },
+  {
+    id: "jewel-tone-fall-studio",
+    name: "Jewel-Tone Fall Studio",
+    blurb:
+      "A polished fall studio portrait with burgundy, royal purple, cobalt blue, butter yellow, juicy peach, and turquoise accents.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-jewel-tone-fall-studio.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 polished jewel-tone fall studio family portrait",
+      scene:
+        "a refined portrait studio with seamless backdrop depth, rich fabric texture, subtle seasonal leaf accents and a high-end seasonal card look",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical studio framing, crisp faces and elegant background compression",
+      composition:
+        "approachable editorial arrangement with staggered shoulder lines, clean negative space, visible hands and balanced card-ready geometry",
+      lighting:
+        "large diffused studio key light, controlled rim highlights on fabric texture, polished catchlights and flattering warm face fill",
+      style:
+        "Fall 2026 jewel-tone studio photography, burgundy, royal purple, electric cobalt blue, butter yellow, juicy peach and turquoise accents balanced with warm neutrals, natural skin texture, print-ready finish",
+      safety:
+        "original seasonal studio styling only, no brand or designer names, no logo-like styling, no celebrity likeness, no revealing wardrobe cues, no readable text, no watermark",
+    },
+  },
+  {
+    id: "whimsical-witchy-family-night",
+    name: "Whimsical Witchy Family Night",
+    blurb:
+      "A gentle magical autumn night with moonlit garden glow, soft lanterns, velvet jewel tones, twinkling sparkles, and storybook warmth.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-whimsical-witchy-family-night.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 whimsical moonlit autumn family photograph",
+      scene:
+        "a moonlit garden or cozy porch with soft lanterns, velvet jewel-tone blankets, pumpkins, twinkling sparkles, leafy vines and friendly storybook night atmosphere",
+      camera:
+        "polished evening portrait camera with a 45mm lens, eye-level card-friendly framing, readable smiling faces and soft seasonal depth",
+      composition:
+        "gentle family-card arrangement with lanterns and sparkles framing the edges, open night-sky or porch negative space and calm subject separation",
+      lighting:
+        "soft blue moonlight mixed with warm lantern glow, flattering face fill, amber highlights, gentle sparkle bokeh and no harsh shadows",
+      style:
+        "playful storybook autumn-night photography, velvet burgundy, plum, cobalt, turquoise, pumpkin orange, amber and cream palette, magical but wholesome print-ready polish",
+      safety:
+        "gentle pretend-magic mood only, keep expressions friendly and age-appropriate, no occult realism, no sharp props, no named witch or movie cues, no revealing styling, no logos, no readable text, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
