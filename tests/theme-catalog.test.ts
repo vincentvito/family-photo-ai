@@ -11,21 +11,21 @@ import { parseStudioIntent, studioSearchParamsFromUrl } from "../src/lib/studio-
 import { THEMES } from "../src/lib/themes";
 
 const FIRST_WEEKLY_LOOKS = [
+  "cozy-reset-morning",
+  "autumn-charm-portrait",
+  "fashion-week-family-editorial",
+  "jewel-tone-studio-card",
+  "neo-deco-celebration-card",
+  "pet-holiday-outtake",
+] as const;
+
+const NEXT_WEEKLY_LOOKS = [
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",
   "heirloom-brooch-studio",
   "whimsical-big-top-family",
   "lantern-glow-gathering",
-] as const;
-
-const NEXT_WEEKLY_LOOKS = [
-  "butter-yellow-picnic",
-  "paprika-plaid-autumn",
-  "summerween-pumpkin-glow",
-  "storybook-forest-family-adventure",
-  "y3k-chrome-family-future",
-  "polka-dot-porch-party",
 ];
 
 test("featured looks retain ranking order without duplicates, unknown IDs or invented filler", () => {
@@ -88,7 +88,12 @@ test("weekly favorites are excluded from discovery and cannot return through sea
   }
   assert.deepEqual(
     filterThemeCatalog(discovery, "poetcore", "all").map((theme) => theme.id),
-    ["poetcore-porch", "poetcore-family-library-portrait", "poetcore-letterpress-family-card"],
+    [
+      "poetcore-letter-portrait",
+      "poetcore-porch",
+      "poetcore-family-library-portrait",
+      "poetcore-letterpress-family-card",
+    ],
   );
 });
 
@@ -120,12 +125,12 @@ test("discovery category filters and searches retain the curated weekly order", 
       .slice(0, 6)
       .map((theme) => theme.id),
     [
+      "cozy-reset-morning",
+      "autumn-charm-portrait",
+      "fashion-week-family-editorial",
+      "pet-holiday-outtake",
       "burgundy-orchard-portrait",
       "poetcore-letter-portrait",
-      "heirloom-brooch-studio",
-      "lantern-glow-gathering",
-      "butter-yellow-picnic",
-      "paprika-plaid-autumn",
     ],
   );
   assert.deepEqual(
@@ -136,13 +141,14 @@ test("discovery category filters and searches retain the curated weekly order", 
   );
   assert.deepEqual(
     filterThemeCatalog(discovery, "", "card")
-      .slice(0, 4)
+      .slice(0, 5)
       .map((theme) => theme.id),
     [
+      "jewel-tone-studio-card",
+      "neo-deco-celebration-card",
       "summerween-pumpkin-glow",
       "polka-dot-porch-party",
       "cozy-summerween-card",
-      "butter-yellow-summer-card",
     ],
   );
   for (const category of ["all", "photoreal"] as const) {

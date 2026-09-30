@@ -11,6 +11,7 @@ import { CARDS } from "../src/data/cards";
 import { BIRTHDAY_CARD_SEO_PAGES } from "../src/data/birthday-card-pages";
 import { OCCASION_PAGES } from "../src/data/occasion-pages";
 import { STYLES } from "../src/data/styles";
+import { getThemeDisplayName } from "../src/data/theme-display-names";
 import { VIBES } from "../src/data/vibes";
 import sharp from "sharp";
 
@@ -196,6 +197,12 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "cozy-reset-morning",
+  "autumn-charm-portrait",
+  "fashion-week-family-editorial",
+  "jewel-tone-studio-card",
+  "neo-deco-celebration-card",
+  "pet-holiday-outtake",
   "galactic-family-adventure",
   "cozy-vintage-halloween-card",
   "little-boo-pastel-halloween",
@@ -231,7 +238,6 @@ const WEEKLY_TREND_THEME_IDS = [
   "heirloom-brooch-studio",
   "whimsical-big-top-family",
   "lantern-glow-gathering",
-  "neo-deco-celebration-card",
   "crochet-raffia-picnic-card",
   "butter-yellow-summer-card",
   "joyful-photo-dump",
@@ -253,6 +259,12 @@ const WEEKLY_TREND_THEME_IDS = [
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
+  "cozy-reset-morning-family-photos",
+  "autumn-charm-portrait-family-photos",
+  "fashion-week-family-editorial-family-photos",
+  "jewel-tone-studio-family-cards",
+  "neo-deco-celebration-family-cards",
+  "pet-holiday-outtake-family-photos",
   "galactic-family-adventure-photos",
   "cozy-vintage-halloween-family-cards",
   "little-boo-pastel-halloween-family-photos",
@@ -288,7 +300,6 @@ const WEEKLY_TREND_DETAIL_SLUGS = [
   "heirloom-brooch-family-photos",
   "whimsical-big-top-family-photos",
   "lantern-glow-gathering-family-photos",
-  "neo-deco-celebration-family-cards",
   "crochet-raffia-picnic-family-cards",
   "butter-yellow-summer-family-cards",
   "joyful-photo-dump-family-photos",
@@ -356,10 +367,24 @@ const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
   ["golden-late-summer-beach-legacy", "golden-late-summer-beach-legacy-family-photos"],
 ] as const;
 
+const SEPTEMBER_2026_WEEKLY_TREND_PAIRS = [
+  ["cozy-reset-morning", "cozy-reset-morning-family-photos", "Cozy Reset Morning"],
+  ["autumn-charm-portrait", "autumn-charm-portrait-family-photos", "Autumn Charm Portrait"],
+  [
+    "fashion-week-family-editorial",
+    "fashion-week-family-editorial-family-photos",
+    "Fashion-Week Family Editorial",
+  ],
+  ["jewel-tone-studio-card", "jewel-tone-studio-family-cards", "Jewel-Tone Studio Card"],
+  ["neo-deco-celebration-card", "neo-deco-celebration-family-cards", "Neo Deco Celebration Card"],
+  ["pet-holiday-outtake", "pet-holiday-outtake-family-photos", "Pet Holiday Outtake"],
+] as const;
+
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
 
 const NEW_WEEKLY_CARD_THEME_IDS = new Set([
   "neo-deco-celebration-card",
+  "jewel-tone-studio-card",
   "crochet-raffia-picnic-card",
   "butter-yellow-summer-card",
 ]);
@@ -430,6 +455,18 @@ const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
   "poetcore-porch": ["porch", "stationery"],
   "future-glow-family": ["opalescent", "chrome"],
   "heirloom-pin-portrait": ["heirloom", "brooch"],
+};
+
+const REQUIRED_SEPTEMBER_2026_PROMPT_MARKERS: Record<
+  (typeof SEPTEMBER_2026_WEEKLY_TREND_PAIRS)[number][0],
+  readonly string[]
+> = {
+  "cozy-reset-morning": ["morning", "window light"],
+  "autumn-charm-portrait": ["autumn", "cranberry"],
+  "fashion-week-family-editorial": ["brand-free", "editorial"],
+  "jewel-tone-studio-card": ["jewel", "greeting-card"],
+  "neo-deco-celebration-card": ["neo-deco", "card"],
+  "pet-holiday-outtake": ["holiday", "outtake"],
 };
 
 const BLOCKED_PROMPT_TERMS =
@@ -696,6 +733,65 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
     }
   }
 
+  for (const [themeId, slug, label] of SEPTEMBER_2026_WEEKLY_TREND_PAIRS) {
+    const theme = getTheme(themeId);
+    const page = discoveryPages.find((entry) => entry.slug === slug)!;
+
+    assert.ok(theme.spec.safety?.trim(), `${themeId} should include a prompt safety section`);
+    assert.equal(
+      page.image,
+      theme.coverImage,
+      `${themeId} discovery image should match the selectable theme cover fallback`,
+    );
+    assert.equal(getThemeDisplayName(theme), label);
+    assert.equal(page.name, label);
+    assert.equal(getThemeDetailHref(theme), `/${slug}`);
+    assertOptimizedSampleImage(theme.coverImage);
+
+    const markerText = [
+      theme.name,
+      theme.blurb,
+      theme.spec.assetType,
+      theme.spec.scene ?? "",
+      theme.spec.camera,
+      theme.spec.composition ?? "",
+      theme.spec.lighting,
+      theme.spec.style,
+      theme.spec.safety ?? "",
+      getThemeVariationPrompts(theme.id, theme.category).join(" "),
+      page.name,
+      page.keyword,
+      page.shortDescription,
+      page.secondaryKeywords.join(" "),
+    ].join(" ");
+    for (const marker of REQUIRED_SEPTEMBER_2026_PROMPT_MARKERS[themeId]) {
+      assert.match(markerText, new RegExp(marker, "i"), `${themeId} should preserve ${marker}`);
+    }
+
+    if (themeId === "jewel-tone-studio-card" || themeId === "neo-deco-celebration-card") {
+      assert.equal(theme.category, "card");
+      assert.equal(theme.acceptsCardText, true);
+    } else {
+      assert.notEqual(theme.category, "card");
+    }
+
+    if (themeId === "pet-holiday-outtake") {
+      const promptFields = [
+        theme.name,
+        theme.blurb,
+        theme.spec.assetType,
+        theme.spec.scene ?? "",
+        theme.spec.camera,
+        theme.spec.composition ?? "",
+        theme.spec.lighting,
+        theme.spec.style,
+        theme.spec.safety ?? "",
+        getThemeVariationPrompts(theme.id, theme.category).join(" "),
+      ].join(" ");
+      assert.doesNotMatch(promptFields, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+    }
+  }
+
   const newWeeklyImagePaths = NEW_WEEKLY_TREND_PAIRS.map(
     ([themeId]) => getTheme(themeId).coverImage,
   );
@@ -736,6 +832,12 @@ test("selected IP-safe weekly vibe candidates use exact labels and normal detail
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "cozy-reset-morning",
+    "autumn-charm-portrait",
+    "fashion-week-family-editorial",
+    "jewel-tone-studio-card",
+    "neo-deco-celebration-card",
+    "pet-holiday-outtake",
     "galactic-family-adventure",
     "cozy-vintage-halloween-card",
     "little-boo-pastel-halloween",
@@ -774,7 +876,6 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
     "heirloom-brooch-studio",
     "whimsical-big-top-family",
     "lantern-glow-gathering",
-    "neo-deco-celebration-card",
     "crochet-raffia-picnic-card",
     "private-jet-family",
     "soccer-team-family",
