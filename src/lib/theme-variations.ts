@@ -283,6 +283,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Wide meadow keepsake: subjects smaller within an airy late-summer meadow picnic, blanket geometry visible and plenty of soft green negative space.",
     "Tight yellow-linen crop: waist-up subject grouping with butter-yellow wardrobe notes, cream linen texture and warm floral bokeh behind.",
   ],
+  "cozy-kitchen-magic": [
+    "Baking-table portrait: subjects gathered around a flour-dusted wood table with copper cookware, cinnamon tones and warm practical sparkle kept secondary.",
+    "Window-kitchen candid: subjects near a bright kitchen window passing a bowl or tray, soft flour haze, visible hands and cozy amber depth.",
+    "Wide kitchen keepsake: subjects smaller within a real home kitchen, pendant lights and shelves framing the scene with clean face sightlines.",
+    "Tight cinnamon-glow crop: waist-up subject grouping with cream aprons, wood texture, copper highlights and soft warm bokeh behind.",
+  ],
+  "art-deco-family-gala": [
+    "Fan-arch gala portrait: subjects staggered beneath cream geometric arches with black lacquer, brass accents and polished formal styling.",
+    "Velvet-lounge frame: subjects arranged near velvet panels and reflective floor detail, calm gala expressions and crisp catchlights.",
+    "Symmetric evening proof: subjects centered within deco geometry, full-to-three-quarter bodies when natural and refined gold rim light.",
+    "Close gala crop: shoulder-to-knee grouping with fan lines behind, emerald or champagne accents secondary and clean formal face priority.",
+  ],
+  "neighborhood-hero-squad": [
+    "Golden-street hero frame: subjects standing on a friendly neighborhood street in original cape-and-jumpsuit styling, confident smiles and no emblems.",
+    "Stoop-squad portrait: subjects staggered near simple stoops and trees, capes moving lightly, bright color accents and readable faces.",
+    "Wide everyday-adventure proof: subjects smaller within a sunny street scene, full bodies grounded and optimistic community color around them.",
+    "Close hero-family crop: waist-up grouping with bold fabric color, soft sky rim light, clean hands and cheerful non-threatening expressions.",
+  ],
+  "storybook-forest-adventure": [
+    "Mossy-trail portrait: subjects walking along a safe forest path with oversized ferns, warm clearing light and watercolor paper texture.",
+    "Fern-arch keepsake: subjects gathered under friendly branches with tiny firefly-like glow, cozy explorer layers and readable faces.",
+    "Wide forest story proof: subjects smaller in a luminous woodland clearing with mossy stones, soft mist and generous illustrated margins.",
+    "Close forest-adventure crop: waist-up subject grouping with fern texture, amber bokeh, warm smiles and original fairytale color.",
+  ],
+  "autumn-reset-morning": [
+    "Window-breakfast portrait: subjects around a tidy breakfast table near open windows, folded blankets and amber leaves outside.",
+    "Blanket-reset candid: subjects in soft knits beside a window nook, tea and oatmeal details secondary, calm morning gestures.",
+    "Wide home-morning proof: subjects smaller in an airy early-autumn room with warm wood, sage accents and uncluttered negative space.",
+    "Close quiet-morning crop: waist-up subject grouping with rust, cream and denim layers, soft window light and peaceful reset-season warmth.",
+  ],
   "paprika-plaid-autumn": [
     "Leaf-path portrait: subjects on an early autumn path in paprika, camel, denim and subtle plaid layers, warm leaves framing readable faces.",
     "Porch-layer candid: subjects gathered near rustic porch steps with soft check textures and scarves, natural hands and cozy pre-fall light.",
@@ -318,6 +348,12 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Ribbon-party candid: subjects on a bright porch with bows, ribbons and pastel dots at the edges, natural laughter and fresh open shade.",
     "Wide backyard card: subjects smaller within a porch or backyard party setup, pale negative space above and tidy dessert details below.",
     "Close dotted keepsake: waist-up subject grouping with blush, sky blue and butter-yellow polka-dot accents, soft flowers and crisp catchlights.",
+  ],
+  "festival-of-lights-family-card": [
+    "Lantern-courtyard card: subjects grouped lower in the frame beneath warm paper lanterns, jewel-tone textiles and open amber space for supplied greeting text.",
+    "Votive-glow portrait: subjects near reflective brass and glass votives with soft front fill, marigold-orange accents and readable faces.",
+    "Wide light-celebration proof: subjects smaller within an elegant courtyard of string lights and lanterns, clean typography area above.",
+    "Close golden-card crop: waist-up grouping with warm bokeh, ruby and teal fabric accents, crisp catchlights and a reserved greeting zone.",
   ],
   "back-to-school-storybook-morning": [
     "Porch-step morning proof: subjects on warm front steps with simple backpacks and one blank chalkboard-style card, soft sunrise side light and proud candid smiles.",

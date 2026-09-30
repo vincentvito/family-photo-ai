@@ -584,6 +584,51 @@
     "direction": "A warm late-summer picnic portrait with butter-yellow accents, cream linens, fresh fruit, soft flowers, and golden family light.",
     "category": "photoreal"
   },
+  "cozy-kitchen-magic": {
+    "assetId": "cozy-kitchen-magic",
+    "version": "v1",
+    "source": "/samples/theme-cozy-kitchen-magic.webp",
+    "key": "generation-demos/v1/cozy-kitchen-magic-64d2cec4e125.webp",
+    "sha256": "64d2cec4e125dccc74dc7491525ffca4db8b5ae67afc18b8a8a2e8c43f364e0f",
+    "direction": "A warm kitchen baking scene with flour in the light, copper and wood details, candle-warm glow, and subtle original sparkle.",
+    "category": "photoreal"
+  },
+  "art-deco-family-gala": {
+    "assetId": "art-deco-family-gala",
+    "version": "v1",
+    "source": "/samples/theme-art-deco-family-gala.webp",
+    "key": "generation-demos/v1/art-deco-family-gala-6c8baf242f7a.webp",
+    "sha256": "6c8baf242f7a3275bf6a2fa080036e7981063094c4e8b9dff0ed70d817fde573",
+    "direction": "A refined gala portrait with geometric fan arches, velvet, brass accents, black lacquer, and polished evening light.",
+    "category": "photoreal"
+  },
+  "neighborhood-hero-squad": {
+    "assetId": "neighborhood-hero-squad",
+    "version": "v1",
+    "source": "/samples/theme-neighborhood-hero-squad.webp",
+    "key": "generation-demos/v1/neighborhood-hero-squad-95c1787a8ebc.webp",
+    "sha256": "95c1787a8ebc9f8ed70cd88f25adbd2b1019a6b804e7d092355d9c9831d89a98",
+    "direction": "Original everyday-hero energy on a friendly neighborhood street with capes, bright color, confident smiles, and zero franchise cosplay.",
+    "category": "stylized"
+  },
+  "storybook-forest-adventure": {
+    "assetId": "storybook-forest-adventure",
+    "version": "v1",
+    "source": "/samples/theme-storybook-forest-adventure.webp",
+    "key": "generation-demos/v1/storybook-forest-adventure-fb0c7832c8f1.webp",
+    "sha256": "fb0c7832c8f13ec503c039320438e5627544d53aef61c8018d6dc8941240ca28",
+    "direction": "A friendly watercolor forest adventure with mossy paths, glowing firefly light, cozy explorer layers, and original fairytale charm.",
+    "category": "stylized"
+  },
+  "autumn-reset-morning": {
+    "assetId": "autumn-reset-morning",
+    "version": "v1",
+    "source": "/samples/theme-autumn-reset-morning.webp",
+    "key": "generation-demos/v1/autumn-reset-morning-dba90a1dbbd8.webp",
+    "sha256": "dba90a1dbbd8f320f6b06665f21dba305525132d5a9b28820427aa69bea00ae8",
+    "direction": "A calm early-autumn home morning with open windows, folded blankets, warm breakfast details, amber leaves, and reset-season ease.",
+    "category": "photoreal"
+  },
   "paprika-plaid-autumn": {
     "assetId": "paprika-plaid-autumn",
     "version": "v1",
