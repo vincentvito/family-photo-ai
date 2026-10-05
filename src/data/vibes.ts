@@ -1044,6 +1044,96 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "pumpkin-patch-reveal-family-photos",
+    name: "Pumpkin Patch Reveal",
+    keyword: "pumpkin patch reveal family portrait",
+    secondaryKeywords: [
+      "pumpkin patch family photoshoot",
+      "autumn reveal family photo",
+      "fall porch family portrait",
+    ],
+    image: "/samples/theme-pumpkin-patch-reveal.webp",
+    shortDescription:
+      "Golden pumpkin rows, cozy sweaters, warm porch glow, autumn leaves, and cheerful reveal-card polish.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "paprika-plaid-autumn-family-photos",
+      "autumn-cabin-family-photos",
+    ],
+  },
+  {
+    slug: "cozy-holiday-yearbook-family-photos",
+    name: "Cozy Holiday Yearbook",
+    keyword: "cozy holiday yearbook family portrait",
+    secondaryKeywords: [
+      "holiday yearbook family photo",
+      "scrapbook holiday family portrait",
+      "modern holiday family photoshoot",
+    ],
+    image: "/samples/theme-cozy-holiday-yearbook.webp",
+    shortDescription:
+      "Scrapbook layout energy, cozy knits, festive color blocks, abstract doodle accents, and premium print finish.",
+    related: [
+      "christmas-morning-family-photos",
+      "christmas-family-cards",
+      "neo-deco-holiday-portrait-family-photos",
+    ],
+  },
+  {
+    slug: "dark-academia-manor-family-photos",
+    name: "Dark Academia Manor",
+    keyword: "dark academia family portrait",
+    secondaryKeywords: [
+      "manor library family photo",
+      "candlelit family portrait",
+      "dark academia family photoshoot",
+    ],
+    image: "/samples/theme-dark-academia-manor.webp",
+    shortDescription:
+      "Candlelit manor library mood, tweed, wool, velvet chairs, brass lamps, burgundy, moss, and safe cinematic mystery.",
+    related: [
+      "poetcore-family-library-photos",
+      "haunted-family-manor-family-photos",
+      "film-noir-family-photos",
+    ],
+  },
+  {
+    slug: "fandom-quest-crew-family-photos",
+    name: "Fandom Quest Crew",
+    keyword: "fandom quest family portrait",
+    secondaryKeywords: [
+      "original quest crew family photo",
+      "adventure crew family photoshoot",
+      "fantasy sci fi family portrait",
+    ],
+    image: "/samples/theme-fandom-quest-crew.webp",
+    shortDescription:
+      "Original capes, explorer gear, glowing portal-like light, colorful convention-poster energy, and family-safe adventure.",
+    related: [
+      "storybook-forest-family-adventure-photos",
+      "mystic-outlands-adventure-family-photos",
+      "galactic-glow-family-adventure-photos",
+    ],
+  },
+  {
+    slug: "pink-o-ween-pets-family-photos",
+    name: "Pink-o-ween Pets",
+    keyword: "pink halloween family portrait",
+    secondaryKeywords: [
+      "pink-o-ween family photo",
+      "pastel halloween family photoshoot",
+      "cute pink pumpkin family portrait",
+    ],
+    image: "/samples/theme-pink-o-ween-pets.webp",
+    shortDescription:
+      "Bubblegum pumpkins, friendly ghost decor, sparkly bat shapes, pastel porch glow, and cute kid-safe Halloween charm.",
+    related: [
+      "tiny-boo-crew-family-photos",
+      "little-boo-pastel-halloween-family-photos",
+      "summerween-pumpkin-glow-family-cards",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",

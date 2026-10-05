@@ -674,6 +674,51 @@
     "direction": "A fine-art beach portrait with glowing horizon light, windswept fabrics, soft neutrals, warm greens, earth tones, and legacy calm.",
     "category": "photoreal"
   },
+  "pumpkin-patch-reveal": {
+    "assetId": "pumpkin-patch-reveal",
+    "version": "v1",
+    "source": "/samples/theme-pumpkin-patch-reveal.webp",
+    "key": "generation-demos/v1/pumpkin-patch-reveal-adc67c379f90.webp",
+    "sha256": "adc67c379f900e2a86c865f41a378b1c28e8594ff3c7217750f2616d14211485",
+    "direction": "A cheerful golden-hour pumpkin patch reveal with cozy sweaters, autumn leaves, warm porch glow, and print-card polish.",
+    "category": "photoreal"
+  },
+  "cozy-holiday-yearbook": {
+    "assetId": "cozy-holiday-yearbook",
+    "version": "v1",
+    "source": "/samples/theme-cozy-holiday-yearbook.webp",
+    "key": "generation-demos/v1/cozy-holiday-yearbook-2a90622d326c.webp",
+    "sha256": "2a90622d326c0b36b1b2f31ef7bd6c66d4e6cbf681bc0e931dfd2463033c193a",
+    "direction": "A polished holiday-yearbook portrait with scrapbook layout energy, cozy knits, bold festive color, illustrated accents, and premium print finish.",
+    "category": "photoreal"
+  },
+  "dark-academia-manor": {
+    "assetId": "dark-academia-manor",
+    "version": "v1",
+    "source": "/samples/theme-dark-academia-manor.webp",
+    "key": "generation-demos/v1/dark-academia-manor-63a6fb4787a0.webp",
+    "sha256": "63a6fb4787a0d6cf5805a275d7f7dc66ec6bf087adcc009185f8cf2d454c61ff",
+    "direction": "A candlelit manor-library portrait with tweed, wool, velvet chairs, brass lamps, burgundy, moss, books, and safe cinematic mystery.",
+    "category": "photoreal"
+  },
+  "fandom-quest-crew": {
+    "assetId": "fandom-quest-crew",
+    "version": "v1",
+    "source": "/samples/theme-fandom-quest-crew.webp",
+    "key": "generation-demos/v1/fandom-quest-crew-36410baa5dd1.webp",
+    "sha256": "36410baa5dd1085ef9f684a6532dd98207c8d1f60b2c5fc8f06046272f013994",
+    "direction": "An original adventure-crew portrait with capes, explorer gear, a glowing portal-like backdrop, and colorful convention-poster energy.",
+    "category": "stylized"
+  },
+  "pink-o-ween-pets": {
+    "assetId": "pink-o-ween-pets",
+    "version": "v1",
+    "source": "/samples/theme-pink-o-ween-pets.webp",
+    "key": "generation-demos/v1/pink-o-ween-pets-302e7b31e95d.webp",
+    "sha256": "302e7b31e95d0acce3306fdb4dcae5822af15918ce93cb49c356d8b6c1c5a687",
+    "direction": "A bubblegum-pink seasonal portrait with pastel pumpkins, friendly ghost decor, sparkly bat shapes, bright smiles, and kid-safe Halloween charm.",
+    "category": "photoreal"
+  },
   "royal-family-portrait": {
     "assetId": "royal-family-portrait",
     "version": "v1",

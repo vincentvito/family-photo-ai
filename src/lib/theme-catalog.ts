@@ -13,6 +13,11 @@ const STARTER_THEME_IDS = [
 // Editorial release order from the original homepage's WEEKLY_TREND_ITEMS.
 // Prepend each new weekly batch here; THEMES is grouped by category, not recency.
 const WEEKLY_THEME_IDS = [
+  "pumpkin-patch-reveal",
+  "cozy-holiday-yearbook",
+  "dark-academia-manor",
+  "fandom-quest-crew",
+  "pink-o-ween-pets",
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",

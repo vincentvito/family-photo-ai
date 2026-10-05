@@ -196,6 +196,11 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "pumpkin-patch-reveal",
+  "cozy-holiday-yearbook",
+  "dark-academia-manor",
+  "fandom-quest-crew",
+  "pink-o-ween-pets",
   "galactic-family-adventure",
   "cozy-vintage-halloween-card",
   "little-boo-pastel-halloween",
@@ -253,6 +258,11 @@ const WEEKLY_TREND_THEME_IDS = [
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
+  "pumpkin-patch-reveal-family-photos",
+  "cozy-holiday-yearbook-family-photos",
+  "dark-academia-manor-family-photos",
+  "fandom-quest-crew-family-photos",
+  "pink-o-ween-pets-family-photos",
   "galactic-family-adventure-photos",
   "cozy-vintage-halloween-family-cards",
   "little-boo-pastel-halloween-family-photos",
@@ -310,6 +320,11 @@ const WEEKLY_TREND_DETAIL_SLUGS = [
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
+  ["pumpkin-patch-reveal", "pumpkin-patch-reveal-family-photos"],
+  ["cozy-holiday-yearbook", "cozy-holiday-yearbook-family-photos"],
+  ["dark-academia-manor", "dark-academia-manor-family-photos"],
+  ["fandom-quest-crew", "fandom-quest-crew-family-photos"],
+  ["pink-o-ween-pets", "pink-o-ween-pets-family-photos"],
   ["retro-summer-postcard", "retro-summer-postcard-family-photos"],
   ["toy-box-keepsake-portrait", "toy-box-keepsake-family-photos"],
   ["cool-blue-lake-day", "cool-blue-lake-day-family-photos"],
@@ -331,6 +346,11 @@ const NEW_WEEKLY_TREND_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
+  ["pumpkin-patch-reveal", "pumpkin-patch-reveal-family-photos"],
+  ["cozy-holiday-yearbook", "cozy-holiday-yearbook-family-photos"],
+  ["dark-academia-manor", "dark-academia-manor-family-photos"],
+  ["fandom-quest-crew", "fandom-quest-crew-family-photos"],
+  ["pink-o-ween-pets", "pink-o-ween-pets-family-photos"],
   ["galactic-family-adventure", "galactic-family-adventure-photos"],
   ["cozy-vintage-halloween-card", "cozy-vintage-halloween-family-cards"],
   ["little-boo-pastel-halloween", "little-boo-pastel-halloween-family-photos"],
@@ -412,6 +432,11 @@ const REQUIRED_WEEKLY_TREND_PROMPT_MARKERS: Record<
   (typeof NEW_WEEKLY_TREND_PAIRS)[number][0],
   readonly string[]
 > = {
+  "pumpkin-patch-reveal": ["pumpkin", "reveal"],
+  "cozy-holiday-yearbook": ["holiday", "yearbook"],
+  "dark-academia-manor": ["academia", "manor"],
+  "fandom-quest-crew": ["quest", "portal"],
+  "pink-o-ween-pets": ["pink", "ween"],
   "retro-summer-postcard": ["postcard", "summer"],
   "toy-box-keepsake-portrait": ["wooden blocks", "keepsake"],
   "cool-blue-lake-day": ["cool-blue", "lake"],
@@ -562,7 +587,21 @@ test("weekly trend-led vibes are selectable, discoverable, safe, and pet-gated",
     ].join(" ");
 
     assert.doesNotMatch(promptFields, WEEKLY_BLOCKED_TERMS);
-    assert.doesNotMatch(promptFields, /\b(dog|cat|kitten|puppy|animal|pet)\b/i);
+    assert.doesNotMatch(
+      [
+        theme.blurb,
+        theme.spec.assetType,
+        theme.spec.scene ?? "",
+        theme.spec.camera,
+        theme.spec.composition ?? "",
+        theme.spec.lighting,
+        theme.spec.style,
+        theme.spec.safety ?? "",
+        getThemeVariationPrompts(theme.id, theme.category).join(" "),
+      ].join(" "),
+      /\b(dog|cat|kitten|puppy|animal|pet)\b/i,
+      `${themeId} prompt-driving fields should not hardcode pet or animal language`,
+    );
 
     const peopleOnlyPrompt = buildGenerationPrompt(
       theme,
@@ -736,6 +775,11 @@ test("selected IP-safe weekly vibe candidates use exact labels and normal detail
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "pumpkin-patch-reveal",
+    "cozy-holiday-yearbook",
+    "dark-academia-manor",
+    "fandom-quest-crew",
+    "pink-o-ween-pets",
     "galactic-family-adventure",
     "cozy-vintage-halloween-card",
     "little-boo-pastel-halloween",
