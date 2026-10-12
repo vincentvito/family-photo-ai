@@ -917,6 +917,42 @@
     "direction": "Wallace-and-Gromit warmth.",
     "category": "stylized"
   },
+  "pumpkin-patch-illusion": {
+    "assetId": "pumpkin-patch-illusion",
+    "version": "v1",
+    "source": "/samples/theme-pumpkin-patch-illusion.webp",
+    "key": "generation-demos/v1/pumpkin-patch-illusion-b7562c9bc76d.webp",
+    "sha256": "b7562c9bc76d6ecca5edfcfb1a4f31bfc7d7efe6f11ab648c814825f13612970",
+    "direction": "Golden-hour pumpkin patch warmth with a playful carved-pumpkin prop illusion, cozy knits, hay, leaves, and candid fall laughter.",
+    "category": "photoreal"
+  },
+  "celestial-ski-lodge": {
+    "assetId": "celestial-ski-lodge",
+    "version": "v1",
+    "source": "/samples/theme-celestial-ski-lodge.webp",
+    "key": "generation-demos/v1/celestial-ski-lodge-5083d1f015cf.webp",
+    "sha256": "5083d1f015cfb9089a5bb0ace368ea43bc06a60341f298a5cb059020fc341568",
+    "direction": "A cozy alpine-lodge winter portrait with fair-isle knits, snowy pine hints, vintage poster color, and twinkling celestial accents.",
+    "category": "photoreal"
+  },
+  "autumn-runway-family": {
+    "assetId": "autumn-runway-family",
+    "version": "v1",
+    "source": "/samples/theme-autumn-runway-family.webp",
+    "key": "generation-demos/v1/autumn-runway-family-760344befd23.webp",
+    "sha256": "760344befd23aee21e89f700d968fd42b5519cb334d6626b814ca4ce4353927f",
+    "direction": "A polished fall lookbook portrait with plaid, boots, coats, scarves, warm neutrals, and bold jewel-tone runway accents.",
+    "category": "photoreal"
+  },
+  "ancient-quest-portrait": {
+    "assetId": "ancient-quest-portrait",
+    "version": "v1",
+    "source": "/samples/theme-ancient-quest-portrait.webp",
+    "key": "generation-demos/v1/ancient-quest-portrait-a16c2dec17e2.webp",
+    "sha256": "a16c2dec17e25c3366dbec45370d94287b6c82356bb2d524612f75c272fd42b7",
+    "direction": "A mythic storybook adventure portrait with sunlit stone, olive-grove calm, draped linen layers, bronze light, and gentle heroic posture.",
+    "category": "photoreal"
+  },
   "halloween-night-95": {
     "assetId": "halloween-night-95",
     "version": "v1",

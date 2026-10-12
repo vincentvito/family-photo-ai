@@ -453,6 +453,28 @@ export const CARDS: readonly Card[] = [
     ],
   },
   {
+    themeId: "heirloom-holiday-stitch",
+    slug: "heirloom-holiday-stitch-family-cards",
+    name: "Heirloom Holiday Stitch",
+    keyword: "heirloom holiday stitch family card",
+    secondaryKeywords: [
+      "embroidered holiday family card",
+      "handmade holiday family photo card",
+      "stitched winter family portrait card",
+    ],
+    image: "/samples/theme-heirloom-holiday-stitch.webp",
+    accent: "#8e3345",
+    accentSoft: "#eef5fb",
+    greeting: "Warm Wishes",
+    shortDescription:
+      "Lace, embroidered borders, evergreen texture, burgundy and ice-blue color, and handmade heirloom-card warmth.",
+    related: [
+      "christmas-family-cards",
+      "neo-deco-holiday-portrait-family-photos",
+      "poetcore-letterpress-family-cards",
+    ],
+  },
+  {
     themeId: "crochet-raffia-picnic-card",
     slug: "crochet-raffia-picnic-family-cards",
     name: "Crochet & Raffia Picnic",

@@ -1938,6 +1938,137 @@ export const THEMES: Theme[] = [
         "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
     },
   },
+  {
+    id: "pumpkin-patch-illusion",
+    name: "Pumpkin Patch Illusion",
+    blurb:
+      "Golden-hour pumpkin patch warmth with a playful carved-pumpkin prop illusion, cozy knits, hay, leaves, and candid fall laughter.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-pumpkin-patch-illusion.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 golden-hour autumn pumpkin-patch family photograph",
+      scene:
+        "a cozy pumpkin patch or porch harvest setup with hay bales, fallen leaves, rustic wood texture, warm seasonal decorations and a playful carved-pumpkin prop illusion held safely as foreground decor",
+      camera:
+        "digital medium-format lifestyle camera with a 50mm lens, relaxed eye-level portrait framing, warm environmental depth and readable faces",
+      composition:
+        "candid harvest portrait geometry with pumpkin shapes and hay texture around the edges, clear face sightlines and stable print margins",
+      lighting:
+        "low golden-hour sun with soft amber rim light, leaf-bounced fill, gentle fall haze and clean natural skin detail",
+      style:
+        "warm autumn lifestyle photography, pumpkin orange, wheat, cinnamon brown, cream knitwear and faded denim palette, subtle film grain, print-ready keepsake finish",
+      safety:
+        "playful seasonal decor only, no graphic injury, no frightening masks, no jump-scare tone, no unsafe props, no sharp props, no copyrighted costumes, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "heirloom-holiday-stitch",
+    name: "Heirloom Holiday Stitch",
+    blurb:
+      "A handmade holiday-card portrait with lace, embroidered borders, soft evergreen texture, warm mantel light, and heirloom paper charm.",
+    category: "card",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-heirloom-holiday-stitch.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    acceptsCardText: true,
+    spec: {
+      assetType: "A 3:2 handmade heirloom holiday-card family portrait",
+      scene:
+        "a soft winter mantel or evergreen studio backdrop with lace trim, cross-stitch-inspired borders, embroidered texture, simple tree and star motifs, warm home details and clean greeting-card space",
+      camera:
+        "polished holiday-card camera perspective with relaxed eye-level framing, readable faces and decorative stitched details held around the border",
+      composition:
+        "print-friendly card layout with calm negative space reserved for supplied greeting text, textile borders kept decorative and secondary",
+      lighting:
+        "warm window light mixed with gentle mantel glow, soft evergreen bounce, bright catchlights and delicate paper-texture highlights",
+      style:
+        "heirloom handmade holiday-card photography, burgundy, ice blue, evergreen, cream, linen white and antique gold palette, subtle film grain and stitched paper texture",
+      safety:
+        "generic winter-holiday styling only, no copyrighted characters, no religious symbols unless user-provided, no brand logos, no readable labels, no extra text beyond supplied greeting, no watermark",
+    },
+  },
+  {
+    id: "celestial-ski-lodge",
+    name: "Celestial Ski Lodge",
+    blurb:
+      "A cozy alpine-lodge winter portrait with fair-isle knits, snowy pine hints, vintage poster color, and twinkling celestial accents.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-celestial-ski-lodge.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cozy alpine ski-lodge family photograph",
+      scene:
+        "a warm timber alpine lodge with snowy pine glimpses, gondola-inspired decor, fair-isle knit textures, vintage winter-poster accents, soft blankets and subtle starry celestial ornaments",
+      camera:
+        "digital medium-format camera with a 45mm lens, eye-level environmental portrait framing, lodge details softened behind crisp faces",
+      composition:
+        "balanced winter-card grouping near lodge seating or a window, celestial and ski-lodge details framing the edges without action-sport staging",
+      lighting:
+        "warm firelit interior glow balanced with cool ice-blue snow light from windows, tiny star-like practical highlights and clean skin tones",
+      style:
+        "vintage alpine lodge photography, burgundy, ice blue, cream, pine green, walnut and soft gold palette, fair-isle texture, subtle film grain, print-ready finish",
+      safety:
+        "cozy lodge styling only, no extreme-sport action, no dangerous slopes, no real ski brand logos, no alcohol cues, no weapons, no readable text, no watermark",
+    },
+  },
+  {
+    id: "autumn-runway-family",
+    name: "Autumn Runway Family",
+    blurb:
+      "A polished fall lookbook portrait with plaid, boots, coats, scarves, warm neutrals, and bold jewel-tone runway accents.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-autumn-runway-family.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 polished autumn lookbook family portrait",
+      scene:
+        "a refined fall studio, townhouse stoop or city-park setting with layered coats, plaid texture, boots, scarves, clean seasonal leaves and understated editorial polish",
+      camera:
+        "digital medium-format portrait camera with an 80mm lens, vertical magazine-lookbook framing, crisp faces and elegant environmental compression",
+      composition:
+        "clean lookbook geometry with staggered shoulder lines, visible hands, modest styling and refined negative space",
+      lighting:
+        "large diffused key light with warm fall bounce, subtle rim on wool and tailoring, polished catchlights and controlled contrast",
+      style:
+        "polished fall editorial photography, royal purple, burgundy, turquoise, electric blue, butter yellow and warm neutral accents, natural skin texture, print-ready finish",
+      safety:
+        "original editorial styling only, no brand names, no luxury logos, no runway references, no celebrity likeness, no revealing wardrobe cues, no glamorized posing, no readable text, no watermark",
+    },
+  },
+  {
+    id: "ancient-quest-portrait",
+    name: "Ancient Quest Portrait",
+    blurb:
+      "A mythic storybook adventure portrait with sunlit stone, olive-grove calm, draped linen layers, bronze light, and gentle heroic posture.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-ancient-quest-portrait.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 mythic storybook quest family portrait",
+      scene:
+        "a sunlit ancient-stone courtyard or olive-grove setting with linen drapery, cloak-inspired layers, ceramic texture, soft columns, bronze-gold atmosphere and whimsical adventure details",
+      camera:
+        "cinematic portrait camera with a 40mm lens, low eye-level environmental framing, readable faces with stone and olive texture held in soft depth",
+      composition:
+        "gentle heroic portrait geometry with relaxed upright posture, clear subject separation, open sky or stone negative space and no combat staging",
+      lighting:
+        "soft bronze-gold sunlight from one side, olive-leaf bounce, warm rim highlights and clean natural skin detail",
+      style:
+        "original mythic storybook adventure photography, linen white, olive green, sunlit stone, terracotta, bronze and soft gold palette, polished print-ready finish",
+      safety:
+        "original family-safe fantasy only, no movie or franchise titles, no named gods or characters, no weapons, no combat, no scary creatures, no celebrity likeness, no logos, no readable text, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {

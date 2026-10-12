@@ -355,6 +355,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close legacy crop: waist-up subject grouping with windswept fabric, sea-glass background bokeh, natural skin detail and calm fine-art mood.",
     "Wide shoreline heirloom: subjects smaller against glowing water and sky, earth-tone styling, generous negative space and gallery-print margins.",
   ],
+  "pumpkin-patch-illusion": [
+    "Golden patch candid: subjects gathered among hay bales and pumpkins, one safe carved-pumpkin prop held forward for a playful forced-perspective illusion, warm laughter and clear faces.",
+    "Porch harvest frame: subjects on a rustic porch with leaf garlands, sweater texture, stacked pumpkins and amber sunset glow, seasonal details framing the edges.",
+    "Hay-bale close crop: waist-up grouping with carved-pumpkin shapes secondary, cozy knits, cinnamon-brown shadows and crisp catchlights.",
+    "Wide leaf-strewn scene: subjects arranged in a pumpkin patch path with hay, leaves and warm orange-brown depth, playful illusion detail visible but not covering faces.",
+  ],
+  "heirloom-holiday-stitch": [
+    "Mantel stitch card: subjects grouped near a soft evergreen mantel with lace trim, embroidered border texture and clean blank greeting space.",
+    "Direct-flash keepsake: subjects in cozy winter layers against handmade paper texture, subtle cross-stitch edging, warm flash sparkle and no fake words.",
+    "Evergreen close crop: waist-up grouping with burgundy and ice-blue stitched accents around the border, clear faces and heirloom-card polish.",
+    "Pattern-play proof: subjects arranged low in frame with lace, ribbon and embroidered star motifs creating a print-friendly greeting-card margin.",
+  ],
+  "celestial-ski-lodge": [
+    "Lodge-window portrait: subjects gathered near a timber window with snowy pines outside, fair-isle knits, burgundy and ice-blue glow, tiny star ornaments secondary.",
+    "Fireside winter card: subjects around a cozy lodge seating area with blankets, vintage ski-poster color, warm firelight and cool snow fill.",
+    "Gondola-detail frame: subjects standing near simple gondola-inspired decor and pine boughs, lodge texture behind, no slope action and clean face priority.",
+    "Celestial close crop: waist-up grouping with knit texture, starry practical bokeh and walnut lodge warmth balanced by icy blue highlights.",
+  ],
+  "autumn-runway-family": [
+    "Townhouse lookbook portrait: subjects staggered on a fall stoop with plaid, coats, boots and scarves, jewel-tone accents and controlled editorial light.",
+    "City-park runway walk: subjects walking gently through leaves with polished outerwear, modest styling, full-to-three-quarter bodies and crisp faces.",
+    "Studio jewel-tone crop: waist-up grouping against warm neutral fabric with royal purple, burgundy, turquoise and electric-blue accents, clean lookbook finish.",
+    "Plaid-and-coat proof: subjects arranged in refined magazine geometry with visible hands, layered fall texture and no visible branding.",
+  ],
+  "ancient-quest-portrait": [
+    "Stone-courtyard hero: subjects grouped in a sunlit courtyard with linen and cloak-inspired layers, olive branches, bronze light and gentle upright posture.",
+    "Olive-grove path: subjects walking along a safe grove path with ceramic texture and distant stone arches, warm storybook atmosphere and readable faces.",
+    "Bronze close crop: waist-up grouping with draped linen, sunlit stone bokeh, soft gold rim light and calm adventurous expressions.",
+    "Wide quest tableau: subjects framed by columns and olive leaves with open sky negative space, whimsical adventure details and no combat staging.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",
