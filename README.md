@@ -4,6 +4,14 @@ Local prototype of a web app that turns a family's reference photos into cohesiv
 
 ## Quick start
 
+Use Node.js 24.22.1 or a newer 24.x release. This is the minimum patched
+version for the October 21, 2026 security release. `.nvmrc` selects 24.22.1
+for local development; `package.json` keeps deployments on the 24.x release line.
+Restart local servers after updating Node.js. Vercel manages the deployed patch
+version, so deploy again after a runtime security update.
+Build and server startup commands check the exact Node.js version and stop if it
+is outside the supported range.
+
 ```bash
 npm install
 cp .env.example .env
