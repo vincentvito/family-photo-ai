@@ -11,6 +11,15 @@ import { parseStudioIntent, studioSearchParamsFromUrl } from "../src/lib/studio-
 import { THEMES } from "../src/lib/themes";
 
 const FIRST_WEEKLY_LOOKS = [
+  "cozy-kitchen-magic",
+  "art-deco-family-gala",
+  "neighborhood-hero-squad",
+  "storybook-forest-adventure",
+  "festival-of-lights-family-card",
+  "autumn-reset-morning",
+] as const;
+
+const NEXT_WEEKLY_LOOKS = [
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",
@@ -19,7 +28,7 @@ const FIRST_WEEKLY_LOOKS = [
   "lantern-glow-gathering",
 ] as const;
 
-const NEXT_WEEKLY_LOOKS = [
+const THIRD_WEEKLY_LOOKS = [
   "butter-yellow-picnic",
   "paprika-plaid-autumn",
   "summerween-pumpkin-glow",
@@ -70,6 +79,10 @@ test("discovery starts with six weekly looks and keeps their priority on the nex
     discovery.slice(6, 12).map((theme) => theme.id),
     NEXT_WEEKLY_LOOKS,
   );
+  assert.deepEqual(
+    discovery.slice(12, 18).map((theme) => theme.id),
+    THIRD_WEEKLY_LOOKS,
+  );
 });
 
 test("weekly favorites are excluded from discovery and cannot return through search", () => {
@@ -88,7 +101,12 @@ test("weekly favorites are excluded from discovery and cannot return through sea
   }
   assert.deepEqual(
     filterThemeCatalog(discovery, "poetcore", "all").map((theme) => theme.id),
-    ["poetcore-porch", "poetcore-family-library-portrait", "poetcore-letterpress-family-card"],
+    [
+      "poetcore-letter-portrait",
+      "poetcore-porch",
+      "poetcore-family-library-portrait",
+      "poetcore-letterpress-family-card",
+    ],
   );
 });
 
@@ -120,29 +138,29 @@ test("discovery category filters and searches retain the curated weekly order", 
       .slice(0, 6)
       .map((theme) => theme.id),
     [
+      "cozy-kitchen-magic",
+      "art-deco-family-gala",
+      "autumn-reset-morning",
       "burgundy-orchard-portrait",
       "poetcore-letter-portrait",
       "heirloom-brooch-studio",
-      "lantern-glow-gathering",
-      "butter-yellow-picnic",
-      "paprika-plaid-autumn",
     ],
   );
   assert.deepEqual(
     filterThemeCatalog(discovery, "", "stylized")
       .slice(0, 3)
       .map((theme) => theme.id),
-    ["opalescent-future-family", "whimsical-big-top-family", "storybook-forest-family-adventure"],
+    ["neighborhood-hero-squad", "storybook-forest-adventure", "opalescent-future-family"],
   );
   assert.deepEqual(
     filterThemeCatalog(discovery, "", "card")
       .slice(0, 4)
       .map((theme) => theme.id),
     [
+      "festival-of-lights-family-card",
       "summerween-pumpkin-glow",
       "polka-dot-porch-party",
       "cozy-summerween-card",
-      "butter-yellow-summer-card",
     ],
   );
   for (const category of ["all", "photoreal"] as const) {

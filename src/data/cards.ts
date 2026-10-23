@@ -518,6 +518,28 @@ export const CARDS: readonly Card[] = [
       "crochet-raffia-picnic-family-cards",
     ],
   },
+  {
+    themeId: "festival-of-lights-family-card",
+    slug: "festival-of-lights-family-cards",
+    name: "Festival of Lights Family Card",
+    keyword: "festival of lights family card",
+    secondaryKeywords: [
+      "lantern light family card",
+      "seasonal lights family photo card",
+      "warm lights family greeting card",
+    ],
+    image: "/samples/theme-festival-of-lights-family-card.webp",
+    accent: "#a85f2a",
+    accentSoft: "#fff0dd",
+    greeting: "With Love & Light",
+    shortDescription:
+      "Lantern glow, jewel-tone textiles, reflective votives, and warm greeting-card space.",
+    related: [
+      "diwali-family-cards",
+      "new-years-family-cards",
+      "neo-deco-celebration-family-cards",
+    ],
+  },
 ] as const;
 
 export const cardBySlug = (slug: string) => CARDS.find((c) => c.slug === slug);

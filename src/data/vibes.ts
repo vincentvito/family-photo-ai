@@ -864,6 +864,96 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "cozy-kitchen-magic-family-photos",
+    name: "Cozy Kitchen Magic",
+    keyword: "cozy kitchen magic family photo",
+    secondaryKeywords: [
+      "cozy kitchen family photoshoot",
+      "baking family portrait",
+      "warm kitchen family photo",
+    ],
+    image: "/samples/theme-cozy-kitchen-magic.webp",
+    shortDescription:
+      "Flour in the light, copper and wood details, warm baking-table glow, and subtle original sparkle.",
+    related: [
+      "kinfolk-kitchen-family-photos",
+      "sunday-sofa-family-photos",
+      "autumn-reset-morning-family-photos",
+    ],
+  },
+  {
+    slug: "art-deco-family-gala-family-photos",
+    name: "Art Deco Family Gala",
+    keyword: "art deco family gala portrait",
+    secondaryKeywords: [
+      "art deco family photoshoot",
+      "gala family portrait",
+      "formal art deco family photo",
+    ],
+    image: "/samples/theme-art-deco-family-gala.webp",
+    shortDescription:
+      "Geometric fan arches, velvet, brass accents, black lacquer, and polished evening light.",
+    related: [
+      "neo-deco-family-portrait-photos",
+      "neo-deco-holiday-portrait-family-photos",
+      "annie-leibovitz-family-photos",
+    ],
+  },
+  {
+    slug: "neighborhood-hero-squad-family-photos",
+    name: "Neighborhood Hero Squad",
+    keyword: "neighborhood hero family portrait",
+    secondaryKeywords: [
+      "original hero family photoshoot",
+      "cape family portrait",
+      "everyday hero adventure photo",
+    ],
+    image: "/samples/theme-neighborhood-hero-squad.webp",
+    shortDescription:
+      "Everyday-hero energy on a friendly neighborhood street with capes, bright color, and zero franchise cosplay.",
+    related: [
+      "dino-explorer-family-adventure-family-photos",
+      "galactic-family-adventure-photos",
+      "whimsical-adventure-postcard-family-photos",
+    ],
+  },
+  {
+    slug: "storybook-forest-adventure-family-photos",
+    name: "Storybook Forest Adventure",
+    keyword: "storybook forest adventure family photo",
+    secondaryKeywords: [
+      "storybook forest family portrait",
+      "fairytale forest family photoshoot",
+      "watercolor forest family photo",
+    ],
+    image: "/samples/theme-storybook-forest-adventure.webp",
+    shortDescription:
+      "Mossy paths, glowing firefly-like light, cozy explorer layers, and original fairytale charm.",
+    related: [
+      "storybook-forest-family-adventure-photos",
+      "woodland-storybook-companions-family-photos",
+      "watercolor-storybook-family-photos",
+    ],
+  },
+  {
+    slug: "autumn-reset-morning-family-photos",
+    name: "Autumn Reset Morning",
+    keyword: "autumn reset morning family photo",
+    secondaryKeywords: [
+      "autumn morning family portrait",
+      "cozy home family photoshoot",
+      "fall breakfast family photo",
+    ],
+    image: "/samples/theme-autumn-reset-morning.webp",
+    shortDescription:
+      "Open windows, folded blankets, warm breakfast details, amber leaves, and reset-season ease.",
+    related: [
+      "autumn-cabin-family-photos",
+      "paprika-plaid-autumn-family-photos",
+      "cozy-kitchen-magic-family-photos",
+    ],
+  },
+  {
     slug: "paprika-plaid-autumn-family-photos",
     name: "Paprika Plaid Autumn",
     keyword: "paprika plaid autumn family photo",

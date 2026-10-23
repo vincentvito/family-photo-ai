@@ -196,6 +196,12 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "cozy-kitchen-magic",
+  "art-deco-family-gala",
+  "neighborhood-hero-squad",
+  "storybook-forest-adventure",
+  "festival-of-lights-family-card",
+  "autumn-reset-morning",
   "galactic-family-adventure",
   "cozy-vintage-halloween-card",
   "little-boo-pastel-halloween",
@@ -253,6 +259,12 @@ const WEEKLY_TREND_THEME_IDS = [
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
+  "cozy-kitchen-magic-family-photos",
+  "art-deco-family-gala-family-photos",
+  "neighborhood-hero-squad-family-photos",
+  "storybook-forest-adventure-family-photos",
+  "festival-of-lights-family-cards",
+  "autumn-reset-morning-family-photos",
   "galactic-family-adventure-photos",
   "cozy-vintage-halloween-family-cards",
   "little-boo-pastel-halloween-family-photos",
@@ -331,6 +343,12 @@ const NEW_WEEKLY_TREND_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
+  ["cozy-kitchen-magic", "cozy-kitchen-magic-family-photos"],
+  ["art-deco-family-gala", "art-deco-family-gala-family-photos"],
+  ["neighborhood-hero-squad", "neighborhood-hero-squad-family-photos"],
+  ["storybook-forest-adventure", "storybook-forest-adventure-family-photos"],
+  ["festival-of-lights-family-card", "festival-of-lights-family-cards"],
+  ["autumn-reset-morning", "autumn-reset-morning-family-photos"],
   ["galactic-family-adventure", "galactic-family-adventure-photos"],
   ["cozy-vintage-halloween-card", "cozy-vintage-halloween-family-cards"],
   ["little-boo-pastel-halloween", "little-boo-pastel-halloween-family-photos"],
@@ -372,6 +390,7 @@ const HALLOWEEN_THEME_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_CARD_THEME_IDS = new Set([
+  "festival-of-lights-family-card",
   "cozy-vintage-halloween-card",
   "poetcore-letterpress-family-card",
   "cozy-summerween-card",
@@ -380,6 +399,24 @@ const CURRENT_TASK_CARD_THEME_IDS = new Set([
 ]);
 
 const SELECTED_IP_SAFE_VIBE_CANDIDATES = [
+  ["cozy-kitchen-magic", "cozy-kitchen-magic-family-photos", "Cozy Kitchen Magic"],
+  ["art-deco-family-gala", "art-deco-family-gala-family-photos", "Art Deco Family Gala"],
+  [
+    "neighborhood-hero-squad",
+    "neighborhood-hero-squad-family-photos",
+    "Neighborhood Hero Squad",
+  ],
+  [
+    "storybook-forest-adventure",
+    "storybook-forest-adventure-family-photos",
+    "Storybook Forest Adventure",
+  ],
+  [
+    "festival-of-lights-family-card",
+    "festival-of-lights-family-cards",
+    "Festival of Lights Family Card",
+  ],
+  ["autumn-reset-morning", "autumn-reset-morning-family-photos", "Autumn Reset Morning"],
   ["galactic-family-adventure", "galactic-family-adventure-photos", "Galactic Family Adventure"],
   [
     "cozy-vintage-halloween-card",
@@ -736,6 +773,12 @@ test("selected IP-safe weekly vibe candidates use exact labels and normal detail
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "cozy-kitchen-magic",
+    "art-deco-family-gala",
+    "neighborhood-hero-squad",
+    "storybook-forest-adventure",
+    "festival-of-lights-family-card",
+    "autumn-reset-morning",
     "galactic-family-adventure",
     "cozy-vintage-halloween-card",
     "little-boo-pastel-halloween",
