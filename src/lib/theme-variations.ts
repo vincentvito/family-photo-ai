@@ -355,6 +355,36 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close legacy crop: waist-up subject grouping with windswept fabric, sea-glass background bokeh, natural skin detail and calm fine-art mood.",
     "Wide shoreline heirloom: subjects smaller against glowing water and sky, earth-tone styling, generous negative space and gallery-print margins.",
   ],
+  "pumpkin-patch-reveal": [
+    "Golden patch reveal: subjects gathered among pumpkin rows with cozy sweaters, warm sun flare held behind them, clear faces and cheerful card polish.",
+    "Porch-step harvest portrait: subjects on rustic steps with pumpkins and hay bales framing the lower edge, plaid accents and soft amber bounce.",
+    "Pumpkin-hold candid: subjects sharing one or two pumpkins at chest or lap height, natural hands, autumn leaves and clean face sightlines.",
+    "Wide reveal-card scene: subjects smaller within a glowing patch or porch setup, pumpkins around the edges and print-friendly warm sky space.",
+  ],
+  "cozy-holiday-yearbook": [
+    "Main yearbook portrait: subjects grouped in cozy knits inside a clean holiday layout, blank photo-card shapes and abstract doodles around the edges.",
+    "Scrapbook sofa candid: subjects leaning together near garland and warm lights, saturated festive color blocks secondary and no readable markings.",
+    "Stacked snapshot proof: one crisp main portrait with two smaller blank snapshot frames, cheerful smiles and premium holiday-card spacing.",
+    "Close keepsake crop: waist-up subject grouping with evergreen bokeh, cranberry and cobalt accents, paper texture and clean white margin.",
+  ],
+  "dark-academia-manor": [
+    "Velvet-chair manor portrait: subjects arranged around a deep velvet chair, brass lamp glow, blank book spines and readable candlelit faces.",
+    "Study-table candid: subjects gathered beside a walnut writing table with books and parchment-toned props, wool layers and safe literary mystery.",
+    "Library-aisle frame: subjects standing between tall shelves, moss and burgundy wardrobe notes, warm lamp depth and clear subject separation.",
+    "Close scholarly crop: waist-up subject grouping with tweed, brass, candle bokeh and dark wood texture, cinematic shadows but readable eyes.",
+  ],
+  "fandom-quest-crew": [
+    "Portal-crew poster: subjects posed as an original quest crew before a glowing portal, capes and satchels moving gently, faces bright and readable.",
+    "Explorer-steps portrait: subjects on broad stone steps with handmade badges and maps as blank props, jewel-color light and upbeat adventure spacing.",
+    "Convention-poster proof: subjects staggered heroically with floating-island shapes behind, colorful original banners and no recognizable symbols.",
+    "Close quest crop: waist-up subject grouping with cape texture, brass explorer details, portal bokeh and optimistic illustrated-photo polish.",
+  ],
+  "pink-o-ween-pets": [
+    "Pink porch portrait: subjects arranged among bubblegum pumpkins and friendly tiny ghost decor, bright smiles, soft sweaters and clear face priority.",
+    "Candy-color studio proof: subjects in cream, pink and lavender layers against pastel seasonal decorations, sparkly bat shapes kept secondary.",
+    "Lantern-step candid: subjects gathered on pale porch steps with pink pumpkins at the edges, warm lantern glow and cute non-scary charm.",
+    "Close pastel crop: waist-up subject grouping with soft pink pumpkins, lavender bokeh, warm catchlights and stable print-ready margins.",
+  ],
   "neo-deco-celebration-card": [
     "Arch-side greeting card: subjects placed low-right beneath geometric arches, cream-black-gold palette, brass glints and clean greeting space upper-left.",
     "Emerald accent portrait: subjects in tasteful evening attire near chrome and emerald details, polished floor reflection and balanced card typography area.",

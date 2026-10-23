@@ -1938,6 +1938,136 @@ export const THEMES: Theme[] = [
         "modest shoreline styling, no swimwear-forward posing, no revealing wardrobe, no added ceremonial props, no brands, no logos, no readable text, no watermark",
     },
   },
+  {
+    id: "pumpkin-patch-reveal",
+    name: "Pumpkin Patch Reveal",
+    blurb:
+      "A cheerful golden-hour pumpkin patch reveal with cozy sweaters, autumn leaves, warm porch glow, and print-card polish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-pumpkin-patch-reveal.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 golden-hour pumpkin-patch family photograph",
+      scene:
+        "a cozy pumpkin patch or front porch harvest setup with pumpkins, hay bales, autumn leaves, warm wood texture, soft plaid layers and cheerful reveal-card energy",
+      camera:
+        "digital medium-format camera with a 55mm lens, eye-level environmental portrait framing, readable faces with pumpkin rows or porch details held softly behind",
+      composition:
+        "warm centered reveal portrait with pumpkins framing the lower edge, clear subject separation, natural hands and print-friendly margins",
+      lighting:
+        "late golden-hour sunlight with warm orange rim highlights, soft porch or hay-bounce fill, gentle flare control and clean natural skin detail",
+      style:
+        "polished autumn lifestyle photography, pumpkin orange, cream, cinnamon, denim, muted green and warm amber palette, subtle film grain, frame-ready finish",
+      safety:
+        "cheerful harvest mood only, no frightening masks, no sharp props, no injury effects, no threatening scene, no copyrighted characters, no logos, no readable text, no watermark",
+    },
+  },
+  {
+    id: "cozy-holiday-yearbook",
+    name: "Cozy Holiday Yearbook",
+    blurb:
+      "A polished holiday-yearbook portrait with scrapbook layout energy, cozy knits, bold festive color, illustrated accents, and premium print finish.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-cozy-holiday-yearbook.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 modern holiday yearbook family portrait",
+      scene:
+        "a cozy holiday studio or living-room set with evergreen garland, warm lights, clean photo-card shapes, abstract doodle accents, cozy knit texture and tasteful white space",
+      camera:
+        "digital medium-format camera with a 50mm lens, polished yearbook-page perspective, crisp faces with secondary snapshot shapes kept decorative and text-free",
+      composition:
+        "main portrait anchored by smaller blank photo-card frames and clean white space, balanced scrapbook geometry and uncluttered face sightlines",
+      lighting:
+        "soft warm studio light mixed with gentle tree-light glow, bright catchlights, creamy fill and premium card-print contrast",
+      style:
+        "modern holiday editorial photography, saturated cranberry, evergreen, cream, cobalt and warm gold accents, subtle paper texture, polished print-ready finish",
+      safety:
+        "generic holiday styling only, no readable words, no branded ornaments, no celebrity likeness, no trademarked characters, no logos, no watermark",
+    },
+  },
+  {
+    id: "dark-academia-manor",
+    name: "Dark Academia Manor",
+    blurb:
+      "A candlelit manor-library portrait with tweed, wool, velvet chairs, brass lamps, burgundy, moss, books, and safe cinematic mystery.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-dark-academia-manor.webp",
+    aspectRatio: "2:3",
+    supportsPets: true,
+    spec: {
+      assetType: "A 2:3 candlelit dark-academia manor family portrait",
+      scene:
+        "an old manor library or study with tall bookshelves, blank book spines, velvet chairs, brass lamps, candle glow, walnut wood, tweed, wool and scholarly autumn texture",
+      camera:
+        "medium-format portrait camera with a 65mm lens, vertical editorial framing, readable faces with library depth and manor details softly compressed",
+      composition:
+        "elegant seated-and-standing portrait geometry around a velvet chair or study table, books and lamps kept secondary, clean subject separation",
+      lighting:
+        "warm candle and brass-lamp glow mixed with soft window falloff, controlled cinematic shadows, readable eyes and gentle highlights on wool and wood",
+      style:
+        "dark-academia editorial photography, burgundy, moss green, walnut, brass, ivory and charcoal palette, painterly contrast, archival print finish",
+      safety:
+        "family-safe literary mystery only, no occult ritual focus, no frightening scene, no sharp props, no injury effects, no famous-school references, no readable text, no logos, no watermark",
+    },
+  },
+  {
+    id: "fandom-quest-crew",
+    name: "Fandom Quest Crew",
+    blurb:
+      "An original adventure-crew portrait with capes, explorer gear, a glowing portal-like backdrop, and colorful convention-poster energy.",
+    category: "stylized",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-fandom-quest-crew.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 original fantasy-sci-fi quest crew family portrait",
+      scene:
+        "a fully original adventure set with a glowing portal-like backdrop, floating-island shapes, explorer satchels, capes, boots, handmade badges and colorful convention-poster atmosphere",
+      camera:
+        "polished illustrated-poster camera viewpoint with a heroic low three-quarter perspective, readable faces, clean silhouettes and bright environmental depth",
+      composition:
+        "upbeat quest-crew grouping with capes and satchels creating movement, portal glow centered behind, clear spacing and no battle-scene staging",
+      lighting:
+        "warm portal rim light mixed with bright daylight fill, jewel-color reflections, crisp catchlights and optimistic adventure contrast",
+      style:
+        "original illustrated-photo hybrid, ruby, sapphire, emerald, parchment, brass and sky-blue palette, vibrant convention-poster polish, family-safe wonder",
+      safety:
+        "original adventure styling only, no franchise names, no recognizable costumes, no actor likenesses, no logos, no symbols from existing series, no sharp props, no battle props, no readable text, no watermark",
+    },
+  },
+  {
+    id: "pink-o-ween-pets",
+    name: "Pink-o-ween Pets",
+    blurb:
+      "A bubblegum-pink seasonal portrait with pastel pumpkins, friendly ghost decor, sparkly bat shapes, bright smiles, and kid-safe Halloween charm.",
+    category: "photoreal",
+    provider: "nanobanana",
+    coverImage: "/samples/theme-pink-o-ween-pets.webp",
+    aspectRatio: "3:2",
+    supportsPets: true,
+    spec: {
+      assetType: "A 3:2 cute pink Halloween family photograph",
+      scene:
+        "a bright pastel porch or studio with bubblegum-pink pumpkins, friendly tiny ghost decorations, sparkly bat cutout shapes, soft flowers, lantern glow and candy-color seasonal styling",
+      camera:
+        "digital medium-format camera with a 50mm lens, clean lifestyle portrait perspective, decorations framing the selected roster without crowding faces",
+      composition:
+        "cheerful seated-and-standing portrait arrangement with pastel pumpkins around the edges, uncluttered sightlines and stable print margins",
+      lighting:
+        "large soft window light mixed with warm lantern glow, bright pink highlight rolloff, clear catchlights and gentle shadow detail",
+      style:
+        "polished cute seasonal photography, bubblegum pink, lavender, cream, peach, soft black and warm white palette, playful accessories and print-ready finish",
+      safety:
+        "cute and non-scary only, no frightening masks, no startling tone, no injury effects, no sharp props, no famous character costumes, no logos, no text, no watermark",
+    },
+  },
 
   // ─── Travel & Special Occasion ──────────────────────────────────────
   {
