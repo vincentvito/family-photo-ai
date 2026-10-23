@@ -1044,6 +1044,78 @@ export const VIBES: readonly Vibe[] = [
     ],
   },
   {
+    slug: "pumpkin-patch-illusion-family-photos",
+    name: "Pumpkin Patch Illusion",
+    keyword: "pumpkin patch illusion family portrait",
+    secondaryKeywords: [
+      "pumpkin patch family photoshoot",
+      "fall pumpkin family photo",
+      "autumn porch family portrait",
+    ],
+    image: "/samples/theme-pumpkin-patch-illusion.webp",
+    shortDescription:
+      "Golden-hour pumpkin patch warmth, cozy knits, hay bales, leaves, and a playful carved-pumpkin illusion.",
+    related: [
+      "vintage-pumpkin-patch-postcard-family-photos",
+      "autumn-cabin-family-photos",
+      "tiny-boo-crew-family-photos",
+    ],
+  },
+  {
+    slug: "celestial-ski-lodge-family-photos",
+    name: "Celestial Ski Lodge",
+    keyword: "celestial ski lodge family portrait",
+    secondaryKeywords: [
+      "alpine lodge family photoshoot",
+      "winter lodge family photo",
+      "cozy ski lodge family portrait",
+    ],
+    image: "/samples/theme-celestial-ski-lodge.webp",
+    shortDescription:
+      "Fair-isle knits, snowy pine hints, timber-lodge warmth, burgundy and ice-blue color, and twinkling celestial accents.",
+    related: [
+      "snowy-hygge-family-photos",
+      "christmas-morning-family-photos",
+      "neo-deco-holiday-portrait-family-photos",
+    ],
+  },
+  {
+    slug: "autumn-runway-family-photos",
+    name: "Autumn Runway Family",
+    keyword: "autumn runway family portrait",
+    secondaryKeywords: [
+      "fall lookbook family portrait",
+      "jewel tone family photoshoot",
+      "editorial fall family photo",
+    ],
+    image: "/samples/theme-autumn-runway-family.webp",
+    shortDescription:
+      "Polished fall lookbook styling with plaid, boots, coats, scarves, warm neutrals, and bold jewel-tone accents.",
+    related: [
+      "editorial-jewel-tone-fall-portrait-family-photos",
+      "runway-editorial-family-photos",
+      "paprika-plaid-autumn-family-photos",
+    ],
+  },
+  {
+    slug: "ancient-quest-portrait-family-photos",
+    name: "Ancient Quest Portrait",
+    keyword: "ancient quest family portrait",
+    secondaryKeywords: [
+      "storybook quest family portrait",
+      "mythic family adventure photo",
+      "olive grove family photoshoot",
+    ],
+    image: "/samples/theme-ancient-quest-portrait.webp",
+    shortDescription:
+      "Sunlit stone, olive-grove calm, draped linen layers, bronze-gold light, and gentle storybook adventure.",
+    related: [
+      "mystic-outlands-adventure-family-photos",
+      "storybook-forest-family-adventure-photos",
+      "tuscan-summer-family-photos",
+    ],
+  },
+  {
     slug: "national-geographic-family-photos",
     name: "National Geographic",
     keyword: "national geographic family portrait",

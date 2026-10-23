@@ -250,6 +250,11 @@ const WEEKLY_TREND_THEME_IDS = [
   "editorial-jewel-tone-fall-portrait",
   "dino-explorer-family-adventure",
   "golden-late-summer-beach-legacy",
+  "pumpkin-patch-illusion",
+  "heirloom-holiday-stitch",
+  "celestial-ski-lodge",
+  "autumn-runway-family",
+  "ancient-quest-portrait",
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
@@ -307,6 +312,11 @@ const WEEKLY_TREND_DETAIL_SLUGS = [
   "editorial-jewel-tone-fall-portrait-family-photos",
   "dino-explorer-family-adventure-family-photos",
   "golden-late-summer-beach-legacy-family-photos",
+  "pumpkin-patch-illusion-family-photos",
+  "heirloom-holiday-stitch-family-cards",
+  "celestial-ski-lodge-family-photos",
+  "autumn-runway-family-photos",
+  "ancient-quest-portrait-family-photos",
 ];
 
 const NEW_WEEKLY_TREND_PAIRS = [
@@ -354,6 +364,11 @@ const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
   ["editorial-jewel-tone-fall-portrait", "editorial-jewel-tone-fall-portrait-family-photos"],
   ["dino-explorer-family-adventure", "dino-explorer-family-adventure-family-photos"],
   ["golden-late-summer-beach-legacy", "golden-late-summer-beach-legacy-family-photos"],
+  ["pumpkin-patch-illusion", "pumpkin-patch-illusion-family-photos"],
+  ["heirloom-holiday-stitch", "heirloom-holiday-stitch-family-cards"],
+  ["celestial-ski-lodge", "celestial-ski-lodge-family-photos"],
+  ["autumn-runway-family", "autumn-runway-family-photos"],
+  ["ancient-quest-portrait", "ancient-quest-portrait-family-photos"],
 ] as const;
 
 const WEEKLY_TREND_THEME_IDS_SET = new Set(WEEKLY_TREND_THEME_IDS);
@@ -377,6 +392,7 @@ const CURRENT_TASK_CARD_THEME_IDS = new Set([
   "cozy-summerween-card",
   "summerween-pumpkin-glow",
   "polka-dot-porch-party",
+  "heirloom-holiday-stitch",
 ]);
 
 const SELECTED_IP_SAFE_VIBE_CANDIDATES = [
@@ -405,6 +421,19 @@ const SELECTED_IP_SAFE_VIBE_CANDIDATES = [
     "poetcore-letterpress-family-card",
     "poetcore-letterpress-family-cards",
     "Poetcore Letterpress Family Card",
+  ],
+  ["pumpkin-patch-illusion", "pumpkin-patch-illusion-family-photos", "Pumpkin Patch Illusion"],
+  [
+    "heirloom-holiday-stitch",
+    "heirloom-holiday-stitch-family-cards",
+    "Heirloom Holiday Stitch",
+  ],
+  ["celestial-ski-lodge", "celestial-ski-lodge-family-photos", "Celestial Ski Lodge"],
+  ["autumn-runway-family", "autumn-runway-family-photos", "Autumn Runway Family"],
+  [
+    "ancient-quest-portrait",
+    "ancient-quest-portrait-family-photos",
+    "Ancient Quest Portrait",
   ],
 ] as const;
 
@@ -786,6 +815,11 @@ test("homepage vibe cards resolve to detail pages before the studio flow", () =>
     "editorial-jewel-tone-fall-portrait",
     "dino-explorer-family-adventure",
     "golden-late-summer-beach-legacy",
+    "pumpkin-patch-illusion",
+    "heirloom-holiday-stitch",
+    "celestial-ski-lodge",
+    "autumn-runway-family",
+    "ancient-quest-portrait",
   ];
   const coverImages = new Set<string>();
 
