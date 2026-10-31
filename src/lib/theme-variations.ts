@@ -343,6 +343,42 @@ export const THEME_VARIATION_PROMPTS: Partial<Record<string, ThemeVariationPromp
     "Close texture crop: waist-up subject grouping with rich knit, velvet-like and wool textures, jewel-tone palette and natural skin detail.",
     "Wide cover composition: subjects placed with refined negative space, electric-blue accent detail, warm fall bounce and elegant print-ready geometry.",
   ],
+  "family-resemblance-portrait": [
+    "Aligned front-facing studio portrait: subjects arranged with calm side-by-side symmetry, soft monochrome light and clear individual face separation.",
+    "Generational resemblance close crop: waist-up grouping with subtle half-light across faces, natural smiles and no merged or hybrid features.",
+    "Classic neutral proof: subjects centered on a soft gray backdrop, balanced spacing, smooth midtone contrast and timeless print margins.",
+    "Side-by-side heirloom frame: subjects positioned in gentle mirrored rhythm, readable faces, warm eye contact and refined black-and-white finish.",
+  ],
+  "vintage-family-heirloom": [
+    "Sepia studio keepsake: subjects arranged in centered seated-and-standing levels with classic clothing silhouettes and warm painted backdrop.",
+    "Archival paper portrait: waist-up grouping with subtle old-photo texture, gentle grain, proud posture and soft low-contrast light.",
+    "Formal heirloom proof: subjects framed like a preserved album print, clean hands, dignified spacing and warm black-and-white finish.",
+    "Classic backdrop frame: subjects in timeless layers against a muted studio drop, creamy highlights, tactile paper edge feel and no readable marks.",
+  ],
+  "cozy-autumn-moodboard": [
+    "Window-nook portrait: subjects gathered near blankets, mugs and books, golden window light across knit textures and props kept uncluttered.",
+    "Sofa candle glow: waist-up grouping on a cozy sofa with soft candles and leaves at the edges, amber fill and readable faces.",
+    "Reading-room candid: subjects relaxed around stacked books and warm textiles, cinnamon and cream palette, single-scene lifestyle composition.",
+    "Blanket close crop: subjects nestled shoulder-to-shoulder with knit layers, mug details secondary, soft fall bokeh and print-ready warmth.",
+  ],
+  "pumpkin-patch-farm-adventure": [
+    "Hay-bale patch portrait: subjects grouped near hay bales and pumpkins at sunset, calm smiles, harvest props secondary and open card margins.",
+    "Pumpkin-row walk: subjects moving gently along pumpkin rows with golden backlight, relaxed spacing and clean face sightlines.",
+    "Crate-side harvest proof: subjects arranged by simple harvest crates and soft grasses, orange sky glow and polished seasonal color.",
+    "Close patch keepsake: waist-up grouping with pumpkins framing the lower edge, warm hay bounce, denim and cream layers and readable faces.",
+  ],
+  "jewel-tone-fall-studio": [
+    "Seamless jewel portrait: subjects staggered in burgundy, royal purple and cobalt accents with butter-yellow detail and polished studio light.",
+    "High-end fall card proof: vertical studio frame with juicy peach and turquoise notes, refined negative space and approachable expressions.",
+    "Close fabric crop: waist-up grouping with rich knit and velvet-like textures, controlled rim highlights and natural skin detail.",
+    "Wide studio composition: subjects placed with clean card-ready geometry, jewel-tone backdrop accents, visible hands and print-ready polish.",
+  ],
+  "whimsical-witchy-family-night": [
+    "Moonlit porch portrait: subjects gathered under soft lanterns with pumpkins and velvet jewel tones, gentle sparkle bokeh and friendly smiles.",
+    "Garden lantern proof: subjects in a cozy moonlit garden, amber lantern glow, leafy vines and storybook night atmosphere without scary cues.",
+    "Close magical keepsake: waist-up grouping with twinkling sparkles at the edges, warm face fill and playful autumn-night color.",
+    "Wide card-safe night frame: subjects smaller on a cozy porch with open moonlit negative space, lanterns framing the scene and calm expressions.",
+  ],
   "dino-explorer-family-adventure": [
     "Museum fossil proof: subjects in simple explorer hats near fossil props and fern shadows, warm skylight and friendly discovery energy.",
     "Fern expedition frame: subjects standing in a lush prehistoric-inspired set with oversized greenery and distant silhouette decor, no danger cues.",

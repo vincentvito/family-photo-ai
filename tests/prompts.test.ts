@@ -196,6 +196,12 @@ const TREND_LED_VIBE_SLUGS = [
 ];
 
 const WEEKLY_TREND_THEME_IDS = [
+  "family-resemblance-portrait",
+  "vintage-family-heirloom",
+  "cozy-autumn-moodboard",
+  "pumpkin-patch-farm-adventure",
+  "jewel-tone-fall-studio",
+  "whimsical-witchy-family-night",
   "galactic-family-adventure",
   "cozy-vintage-halloween-card",
   "little-boo-pastel-halloween",
@@ -253,6 +259,12 @@ const WEEKLY_TREND_THEME_IDS = [
 ];
 
 const WEEKLY_TREND_DETAIL_SLUGS = [
+  "family-resemblance-portrait-family-photos",
+  "vintage-family-heirloom-family-photos",
+  "cozy-autumn-moodboard-family-photos",
+  "pumpkin-patch-farm-adventure-family-photos",
+  "jewel-tone-fall-studio-family-photos",
+  "whimsical-witchy-family-night-family-photos",
   "galactic-family-adventure-photos",
   "cozy-vintage-halloween-family-cards",
   "little-boo-pastel-halloween-family-photos",
@@ -331,6 +343,12 @@ const NEW_WEEKLY_TREND_PAIRS = [
 ] as const;
 
 const CURRENT_TASK_WEEKLY_TREND_PAIRS = [
+  ["family-resemblance-portrait", "family-resemblance-portrait-family-photos"],
+  ["vintage-family-heirloom", "vintage-family-heirloom-family-photos"],
+  ["cozy-autumn-moodboard", "cozy-autumn-moodboard-family-photos"],
+  ["pumpkin-patch-farm-adventure", "pumpkin-patch-farm-adventure-family-photos"],
+  ["jewel-tone-fall-studio", "jewel-tone-fall-studio-family-photos"],
+  ["whimsical-witchy-family-night", "whimsical-witchy-family-night-family-photos"],
   ["galactic-family-adventure", "galactic-family-adventure-photos"],
   ["cozy-vintage-halloween-card", "cozy-vintage-halloween-family-cards"],
   ["little-boo-pastel-halloween", "little-boo-pastel-halloween-family-photos"],
@@ -380,6 +398,24 @@ const CURRENT_TASK_CARD_THEME_IDS = new Set([
 ]);
 
 const SELECTED_IP_SAFE_VIBE_CANDIDATES = [
+  [
+    "family-resemblance-portrait",
+    "family-resemblance-portrait-family-photos",
+    "Family Resemblance Portrait",
+  ],
+  ["vintage-family-heirloom", "vintage-family-heirloom-family-photos", "Vintage Family Heirloom"],
+  ["cozy-autumn-moodboard", "cozy-autumn-moodboard-family-photos", "Cozy Autumn Moodboard"],
+  [
+    "pumpkin-patch-farm-adventure",
+    "pumpkin-patch-farm-adventure-family-photos",
+    "Pumpkin Patch Farm Adventure",
+  ],
+  ["jewel-tone-fall-studio", "jewel-tone-fall-studio-family-photos", "Jewel-Tone Fall Studio"],
+  [
+    "whimsical-witchy-family-night",
+    "whimsical-witchy-family-night-family-photos",
+    "Whimsical Witchy Family Night",
+  ],
   ["galactic-family-adventure", "galactic-family-adventure-photos", "Galactic Family Adventure"],
   [
     "cozy-vintage-halloween-card",
@@ -736,6 +772,12 @@ test("selected IP-safe weekly vibe candidates use exact labels and normal detail
 
 test("homepage vibe cards resolve to detail pages before the studio flow", () => {
   const homepageThemeIds = [
+    "family-resemblance-portrait",
+    "vintage-family-heirloom",
+    "cozy-autumn-moodboard",
+    "pumpkin-patch-farm-adventure",
+    "jewel-tone-fall-studio",
+    "whimsical-witchy-family-night",
     "galactic-family-adventure",
     "cozy-vintage-halloween-card",
     "little-boo-pastel-halloween",

@@ -11,21 +11,21 @@ import { parseStudioIntent, studioSearchParamsFromUrl } from "../src/lib/studio-
 import { THEMES } from "../src/lib/themes";
 
 const FIRST_WEEKLY_LOOKS = [
+  "family-resemblance-portrait",
+  "vintage-family-heirloom",
+  "cozy-autumn-moodboard",
+  "pumpkin-patch-farm-adventure",
+  "jewel-tone-fall-studio",
+  "whimsical-witchy-family-night",
+] as const;
+
+const NEXT_WEEKLY_LOOKS = [
   "burgundy-orchard-portrait",
   "poetcore-letter-portrait",
   "opalescent-future-family",
   "heirloom-brooch-studio",
   "whimsical-big-top-family",
   "lantern-glow-gathering",
-] as const;
-
-const NEXT_WEEKLY_LOOKS = [
-  "butter-yellow-picnic",
-  "paprika-plaid-autumn",
-  "summerween-pumpkin-glow",
-  "storybook-forest-family-adventure",
-  "y3k-chrome-family-future",
-  "polka-dot-porch-party",
 ];
 
 test("featured looks retain ranking order without duplicates, unknown IDs or invented filler", () => {
@@ -88,7 +88,12 @@ test("weekly favorites are excluded from discovery and cannot return through sea
   }
   assert.deepEqual(
     filterThemeCatalog(discovery, "poetcore", "all").map((theme) => theme.id),
-    ["poetcore-porch", "poetcore-family-library-portrait", "poetcore-letterpress-family-card"],
+    [
+      "poetcore-letter-portrait",
+      "poetcore-porch",
+      "poetcore-family-library-portrait",
+      "poetcore-letterpress-family-card",
+    ],
   );
 });
 
@@ -120,19 +125,19 @@ test("discovery category filters and searches retain the curated weekly order", 
       .slice(0, 6)
       .map((theme) => theme.id),
     [
+      "family-resemblance-portrait",
+      "vintage-family-heirloom",
+      "cozy-autumn-moodboard",
+      "pumpkin-patch-farm-adventure",
+      "jewel-tone-fall-studio",
       "burgundy-orchard-portrait",
-      "poetcore-letter-portrait",
-      "heirloom-brooch-studio",
-      "lantern-glow-gathering",
-      "butter-yellow-picnic",
-      "paprika-plaid-autumn",
     ],
   );
   assert.deepEqual(
     filterThemeCatalog(discovery, "", "stylized")
       .slice(0, 3)
       .map((theme) => theme.id),
-    ["opalescent-future-family", "whimsical-big-top-family", "storybook-forest-family-adventure"],
+    ["whimsical-witchy-family-night", "opalescent-future-family", "whimsical-big-top-family"],
   );
   assert.deepEqual(
     filterThemeCatalog(discovery, "", "card")
